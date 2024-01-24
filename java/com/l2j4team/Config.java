@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.StringTokenizer;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import com.l2j4team.commons.config.ExProperties;
@@ -68,7 +67,6 @@ public final class Config
 	public static final String PVP_EVENT_FILE = "./config/custom/events/PvP.ini";
 	public static final String PARTY_ZONE_FILE = "./config/custom/events/PartyZone.ini";
 	public static final String TOURNAMENT_FILE = "./config/custom/events/Tournament.ini";
-	public static final String PHANTOM_FILE = "./config/custom/phantom/PhantomPlayers.ini";
 	public static final String PVPZONE_SYSTEM = "./config/custom/pvpzone/PvpZone.ini";
 	public static final String PROTECT_FILE = "./config/custom/Protect.ini";
 	public static final String PC_BANG_FILE = "./config/custom/events/PcBang.ini";
@@ -1529,94 +1527,6 @@ public final class Config
 	public static int monsterId;
 	public static int MONSTER_LOCS_COUNT;
 	public static int[][] MONSTER_LOCS;
-	
-	// ----------------------------------------
-	// PhantomPlayers.properties
-	// ----------------------------------------
-	public static boolean WALK_PHANTOM_TOWN = false;
-	public static boolean WALK_PHANTOM_TOWN2 = false;
-	public static boolean ALLOW_PHANTOM_PLAYERS = false;
-	public static boolean ALLOW_PHANTOM_PLAYERS_FARM = false;
-	public static boolean ALLOW_PHANTOM_PLAYERS_MASS_PVP = false;
-	public static boolean ALLOW_PHANTOM_PLAYERS_TVT = false;
-	public static boolean ALLOW_PHANTOM_PLAYERS_PVPEVENT = false;
-	public static boolean ALLOW_PHANTOM_PLAYERS_EFFECT_SHOT = false;
-	public static int PHANTOM_CHANCE_SIT;
-	
-	public static long PHANTOM_DISCONNETC_DELAY;
-	public static long FARM_DISCONNETC_DELAY;
-	public static long DISCONNETC_DELAY;
-	public static boolean PHANTOM_PLAYERS_SOULSHOT_ANIM;
-	public static boolean PHANTOM_PLAYERS_ARGUMENT_ANIM;
-	public static int PHANTOM_ATK_SPEED;
-	public static int PHANTOM_SPEED;
-	public static int PHANTOM_PLAYERS_ENCHANT_MIN;
-	public static int PHANTOM_PLAYERS_ENCHANT_MAX;
-	public static String NAME_COLOR;
-	public static String TITLE_COLOR;
-	public static String PHANTOM_NAME_CLOLORS;
-	public static String PHANTOM_TITLE_CLOLORS;
-	public static ArrayList<String> PHANTOM_PLAYERS_NAME_CLOLORS = new ArrayList<>();
-	public static ArrayList<String> PHANTOM_PLAYERS_TITLE_CLOLORS = new ArrayList<>();
-	public static boolean PHANTOM_TITLE_PHANTOM;
-	public static boolean PHANTOM_TITLE_PHANTOM_ATK;
-	public static boolean PHANTOM_TITLE_CONFIG;
-	public static String PHANTOM_TITLE_MSG;
-	public static List<String> PHANTOM_TITLE = new ArrayList<>();
-	public static boolean ALLOW_PHANTOM_FACE;
-	public static String PHANTOM_FACE;
-	public static List<Integer> LIST_PHANTOM_FACE;
-	public static boolean ALLOW_PHANTOM_HAIR;
-	public static String PHANTOM_HAIR;
-	public static List<Integer> LIST_PHANTOM_HAIR;
-	
-	public static int PHANTOM_RANDOM_WALK;
-	public static int PHANTOM_MAGE_RANDOM_WALK;
-	public static int PHANTOM_MAGE_INTERVAL_WALK;
-	public static int PHANTOM_MAGE_INTERVAL_TARGET;
-	public static int PHANTOM_MAGE_INTERVAL_CHECK_TARGET;
-	public static int PHANTOM_MAGE_RANGE;
-	public static int PHANTOM_SURRENDER_INTERVAL;
-	public static int FARM_RANGE;
-	public static int POWER_PHANTOM;
-	public static int PDEF_PHANTOM;
-	public static int MDEF_PHANTOM;
-	public static int ATKSPEED_PHANTOM;
-	public static float POWER_PHANTOM_ARCHER;
-	public static int PHANTOM_ARCHER_CRITICO_CHANCE;
-	public static int CHANCE_MOVE_ARCHER;
-	public static int PDEF_PHANTOM_ARCHER;
-	public static int MDEF_PHANTOM_ARCHER;
-	
-	public static boolean ALLOW_PHANTOM_RETAIL_ARMOR = false;
-	
-	public static int PHANTOM_ARCHMAGE_PERCENTAGE;
-	public static int PHANTOM_ARCHMAGE_DANO_INTERVAL;
-	public static int PHANTOM_ARCHMAGE_EFFECT;
-	public static int PHANTOM_SPELLSINGER_PERCENTAGE;
-	public static int PHANTOM_SPELLSINGER_DANO_INTERVAL;
-	public static int PHANTOM_SPELLSINGER_EFFECT;
-	public static int PHANTOM_SPELLHOLLER_PERCENTAGE;
-	public static int PHANTOM_SPELLHOLLER_DANO_INTERVAL;
-	public static int PHANTOM_SPELLHOLLER_EFFECT;
-	public static boolean ALLOW_PHANTOM_CREST;
-	public static int PHANTOM_PLAYERS_CREST;
-	public static boolean ALLOW_PHANTOM_CREST_ATK;
-	public static int PHANTOM_PLAYERS_CREST_ATK;
-	public static String CLAN_ID;
-	public static List<Integer> LIST_CLAN_ID;
-	public static int PHANTOM_CHANCE_MALARIA;
-	public static int PHANTOM_CHANCE_TITLE;
-	public static int COUNT_TOWN;
-	public static int COUNT_FARM_ARCHMAGE;
-	public static int COUNT_FARM_MYSTICMUSE;
-	public static int COUNT_FARM_STORMSCREAM;
-	public static int COUNT_PVP_ARCHMAGE;
-	public static int COUNT_PVP_MYSTICMUSE;
-	public static int COUNT_PVP_STORMSCREAM;
-	public static int COUNT_TVT_ARCHMAGE;
-	public static int COUNT_TVT_MYSTICMUSE;
-	public static int COUNT_TVT_STORMSCREAM;
 	
 	// ----------------------------------------
 	// PvPZone.properties
@@ -5273,152 +5183,6 @@ public final class Config
 	}
 	
 	/**
-	 * Loads Phantom settings.
-	 */
-	private static final void load_Phantom()
-	{
-		final ExProperties Phanton = initProperties(PHANTOM_FILE);
-		WALK_PHANTOM_TOWN = Boolean.parseBoolean(Phanton.getProperty("Town_PhantomWalkRandom", "False"));
-		WALK_PHANTOM_TOWN2 = Boolean.parseBoolean(Phanton.getProperty("Town_PhantomWalkNPCs", "False"));
-		ALLOW_PHANTOM_PLAYERS = Boolean.parseBoolean(Phanton.getProperty("AllowPhantom", "False"));
-		ALLOW_PHANTOM_PLAYERS_FARM = Boolean.parseBoolean(Phanton.getProperty("AllowPhantomFarm", "False"));
-		ALLOW_PHANTOM_PLAYERS_MASS_PVP = Boolean.parseBoolean(Phanton.getProperty("AllowPhantom_Mass_PvP", "False"));
-		ALLOW_PHANTOM_PLAYERS_PVPEVENT = Boolean.parseBoolean(Phanton.getProperty("AllowPhantomPvPEvent", "False"));
-		ALLOW_PHANTOM_PLAYERS_TVT = Boolean.parseBoolean(Phanton.getProperty("AllowPhantomTvT", "False"));
-		ALLOW_PHANTOM_PLAYERS_EFFECT_SHOT = Boolean.parseBoolean(Phanton.getProperty("Effect_CP_And_Shots", "False"));
-		
-		PHANTOM_CHANCE_SIT = Integer.parseInt(Phanton.getProperty("Phantom_Chance_sitDown", "10"));
-		
-		PHANTOM_DISCONNETC_DELAY = TimeUnit.MINUTES.toMillis(Integer.parseInt(Phanton.getProperty("pvp_disconect", "15")));
-		
-		DISCONNETC_DELAY = TimeUnit.MINUTES.toMillis(Integer.parseInt(Phanton.getProperty("town_disconect", "15")));
-		
-		FARM_DISCONNETC_DELAY = TimeUnit.MINUTES.toMillis(Integer.parseInt(Phanton.getProperty("farm_disconect", "15")));
-		
-		PHANTOM_PLAYERS_SOULSHOT_ANIM = Boolean.parseBoolean(Phanton.getProperty("PhantomSoulshotAnimation", "True"));
-		PHANTOM_PLAYERS_ARGUMENT_ANIM = Boolean.parseBoolean(Phanton.getProperty("PhantomArgumentAnimation", "True"));
-		
-		String[] arrayOfString1 = Phanton.getProperty("FakeEnchant", "0,14").split(",");
-		PHANTOM_PLAYERS_ENCHANT_MIN = Integer.parseInt(arrayOfString1[0]);
-		PHANTOM_PLAYERS_ENCHANT_MAX = Integer.parseInt(arrayOfString1[1]);
-		
-		PHANTOM_SPEED = Phanton.getProperty("RunSpeed", 100);
-		PHANTOM_ATK_SPEED = Phanton.getProperty("Atack_RunSpeed", 100);
-		
-		NAME_COLOR = Phanton.getProperty("NameColor", "FFFFFF");
-		TITLE_COLOR = Phanton.getProperty("TitleColor", "FFFFFF");
-		
-		PHANTOM_NAME_CLOLORS = Phanton.getProperty("FakeNameColors", "FFFFFF");
-		PHANTOM_PLAYERS_NAME_CLOLORS = new ArrayList<>();
-		for (String type : PHANTOM_NAME_CLOLORS.split(","))
-		{
-			PHANTOM_PLAYERS_NAME_CLOLORS.add(type);
-		}
-		PHANTOM_NAME_CLOLORS = null;
-		
-		PHANTOM_TITLE_CLOLORS = Phanton.getProperty("FakeTitleColors", "FFFFFF");
-		PHANTOM_PLAYERS_TITLE_CLOLORS = new ArrayList<>();
-		for (String type : PHANTOM_TITLE_CLOLORS.split(","))
-		{
-			PHANTOM_PLAYERS_TITLE_CLOLORS.add(type);
-		}
-		PHANTOM_TITLE_CLOLORS = null;
-		
-		PHANTOM_TITLE_PHANTOM = Boolean.parseBoolean(Phanton.getProperty("Town_title", "false"));
-		
-		PHANTOM_TITLE_PHANTOM_ATK = Boolean.parseBoolean(Phanton.getProperty("PvP_title", "false"));
-		
-		PHANTOM_TITLE_CONFIG = Boolean.parseBoolean(Phanton.getProperty("FakeTitleFixo", "false"));
-		
-		PHANTOM_TITLE_MSG = Phanton.getProperty("FakeTitle", "Lineage 2");
-		PHANTOM_TITLE = new ArrayList<>();
-		for (String type : PHANTOM_TITLE_MSG.split(","))
-		{
-			PHANTOM_TITLE.add(type);
-		}
-		PHANTOM_TITLE_MSG = null;
-		
-		ALLOW_PHANTOM_FACE = Boolean.parseBoolean(Phanton.getProperty("PhantomFace", "True"));
-		
-		PHANTOM_FACE = Phanton.getProperty("PhantomFaceList", "");
-		LIST_PHANTOM_FACE = new ArrayList<>();
-		for (String itemId : PHANTOM_FACE.split(","))
-		{
-			LIST_PHANTOM_FACE.add(Integer.parseInt(itemId));
-		}
-		ALLOW_PHANTOM_HAIR = Boolean.parseBoolean(Phanton.getProperty("PhantomHair", "True"));
-		
-		PHANTOM_HAIR = Phanton.getProperty("PhantomHairList", "0");
-		LIST_PHANTOM_HAIR = new ArrayList<>();
-		for (String itemId : PHANTOM_HAIR.split(","))
-		{
-			LIST_PHANTOM_HAIR.add(Integer.parseInt(itemId));
-		}
-		
-		ALLOW_PHANTOM_CREST = Boolean.parseBoolean(Phanton.getProperty("Town_Crests", "true"));
-		PHANTOM_PLAYERS_CREST = Phanton.getProperty("Town_Crests_Chance", 50);
-		
-		ALLOW_PHANTOM_CREST_ATK = Boolean.parseBoolean(Phanton.getProperty("PvP_Crests", "true"));
-		PHANTOM_PLAYERS_CREST_ATK = Phanton.getProperty("PvP_Crests_Chance", 50);
-		
-		CLAN_ID = Phanton.getProperty("ClanIDList", "");
-		LIST_CLAN_ID = new ArrayList<>();
-		for (String itemId : CLAN_ID.split(","))
-		{
-			LIST_CLAN_ID.add(Integer.parseInt(itemId));
-		}
-		
-		PHANTOM_RANDOM_WALK = Phanton.getProperty("town_Walk", 50);
-		PHANTOM_MAGE_RANDOM_WALK = Phanton.getProperty("MageRandon_Walk", 50);
-		PHANTOM_MAGE_INTERVAL_WALK = Phanton.getProperty("MageInterval_Walk", 50);
-		PHANTOM_MAGE_INTERVAL_TARGET = Phanton.getProperty("MageInterval_Target", 50);
-		PHANTOM_MAGE_INTERVAL_CHECK_TARGET = Phanton.getProperty("MageInterval_CheckTarget", 50);
-		
-		PHANTOM_MAGE_RANGE = Phanton.getProperty("MageRange", 50);
-		PHANTOM_SURRENDER_INTERVAL = Phanton.getProperty("Interval_Surrender", 50);
-		
-		FARM_RANGE = Phanton.getProperty("Distance_attack_farm", 50);
-		POWER_PHANTOM = Phanton.getProperty("PowerSkill_Phantom", 50);
-		PDEF_PHANTOM = Phanton.getProperty("Pdef_Phantom", 10);
-		MDEF_PHANTOM = Phanton.getProperty("Mdef_Phantom", 10);
-		ATKSPEED_PHANTOM = Phanton.getProperty("AtkSpeed_Archers", 10);
-		POWER_PHANTOM_ARCHER = Float.parseFloat(Phanton.getProperty("Power_Archer", "1.0"));
-		PHANTOM_ARCHER_CRITICO_CHANCE = Phanton.getProperty("Archer_Crit", 50);
-		CHANCE_MOVE_ARCHER = Phanton.getProperty("Move_Archer", 50);
-		PDEF_PHANTOM_ARCHER = Phanton.getProperty("Pdef_PhantomArcher", 10);
-		MDEF_PHANTOM_ARCHER = Phanton.getProperty("Mdef_PhantomArcher", 10);
-		
-		ALLOW_PHANTOM_RETAIL_ARMOR = Boolean.parseBoolean(Phanton.getProperty("AllowPhantom_Retail_Armor", "False"));
-		
-		PHANTOM_ARCHMAGE_PERCENTAGE = Phanton.getProperty("ArchMage_Crit", 50);
-		PHANTOM_ARCHMAGE_DANO_INTERVAL = Phanton.getProperty("ArchMage_Interval_Dano", 50);
-		PHANTOM_ARCHMAGE_EFFECT = Phanton.getProperty("ArchMage_Effect_Interval", 50);
-		
-		PHANTOM_SPELLSINGER_PERCENTAGE = Phanton.getProperty("MysticMuse_Crit", 50);
-		PHANTOM_SPELLSINGER_DANO_INTERVAL = Phanton.getProperty("MysticMuse_Interval_Dano", 50);
-		PHANTOM_SPELLSINGER_EFFECT = Phanton.getProperty("MysticMuse_Effect_Interval", 50);
-		
-		PHANTOM_SPELLHOLLER_PERCENTAGE = Phanton.getProperty("StormScream_Crit", 50);
-		PHANTOM_SPELLHOLLER_DANO_INTERVAL = Phanton.getProperty("StormScream_Interval_Dano", 50);
-		PHANTOM_SPELLHOLLER_EFFECT = Phanton.getProperty("StormScream_Effect_Interval", 50);
-		
-		PHANTOM_CHANCE_MALARIA = Phanton.getProperty("Phantom_Chance_MalariaEffect", 60);
-		PHANTOM_CHANCE_TITLE = Phanton.getProperty("Phantom_Chance_Title", 60);
-		
-		COUNT_TOWN = Phanton.getProperty("town_count", 0);
-		COUNT_FARM_ARCHMAGE = Phanton.getProperty("farm_archmage_count", 0);
-		COUNT_FARM_MYSTICMUSE = Phanton.getProperty("farm_mysticmuse_count", 0);
-		COUNT_FARM_STORMSCREAM = Phanton.getProperty("farm_stormscream_count", 0);
-		COUNT_PVP_ARCHMAGE = Phanton.getProperty("pvp_archmage_count", 0);
-		COUNT_PVP_MYSTICMUSE = Phanton.getProperty("pvp_mysticmuse_count", 0);
-		COUNT_PVP_STORMSCREAM = Phanton.getProperty("pvp_stormscream_count", 0);
-		COUNT_TVT_ARCHMAGE = Phanton.getProperty("tvt_archmage_count", 0);
-		COUNT_TVT_MYSTICMUSE = Phanton.getProperty("tvt_mysticmuse_count", 0);
-		COUNT_TVT_STORMSCREAM = Phanton.getProperty("tvt_stormscream_count", 0);
-		
-	}
-	
-	/**
 	 * Loads PvpZone settings.
 	 */
 	private static final void load_PvpZone()
@@ -7210,9 +6974,6 @@ public final class Config
 		
 		// PartyZone Settings
 		load_PartyZone();
-		
-		// Phantom Settings
-		load_Phantom();
 		
 		// PvpZone Settings
 		load_PvpZone();

@@ -26,13 +26,13 @@ public class RaidBossPointsManager
 	
 	private final Map<Integer, Map<Integer, Integer>> _list = new ConcurrentHashMap<>();
 	
-	private final Comparator<Map.Entry<Integer, Integer>> _comparator = new Comparator<Map.Entry<Integer, Integer>>()
+	private final Comparator<Map.Entry<Integer, Integer>> _comparator = new Comparator<>()
 	{
-		@Override
-		public int compare(Map.Entry<Integer, Integer> entry, Map.Entry<Integer, Integer> entry1)
-		{
-			return entry.getValue().equals(entry1.getValue()) ? 0 : entry.getValue() < entry1.getValue() ? 1 : -1;
-		}
+	    @Override
+	    public int compare(Map.Entry<Integer, Integer> entry, Map.Entry<Integer, Integer> entry1)
+	    {
+	        return entry.getValue().equals(entry1.getValue()) ? 0 : entry.getValue() < entry1.getValue() ? 1 : -1;
+	    }
 	};
 	
 	public static final RaidBossPointsManager getInstance()

@@ -1,23 +1,15 @@
 package com.l2j4team.gameserver.handler.admincommandhandlers;
 
-import com.l2j4team.commons.concurrent.ThreadPool;
-import com.l2j4team.commons.random.Rnd;
-
 import com.l2j4team.gameserver.data.SpawnTable;
 import com.l2j4team.gameserver.handler.IAdminCommandHandler;
 import com.l2j4team.gameserver.instancemanager.RaidBossSpawnManager;
 import com.l2j4team.gameserver.model.L2Spawn;
-import com.l2j4team.gameserver.model.World;
 import com.l2j4team.gameserver.model.WorldObject;
 import com.l2j4team.gameserver.model.actor.Npc;
 import com.l2j4team.gameserver.model.actor.instance.Player;
 import com.l2j4team.gameserver.network.L2GameClient;
 import com.l2j4team.gameserver.network.L2GameClient.GameClientState;
 import com.l2j4team.gameserver.network.SystemMessageId;
-
-import phantom.Phantom_Attack;
-import phantom.Phantom_Farm;
-import phantom.Phantom_Town;
 
 /**
  * This class handles following admin commands: - delete = deletes target
@@ -26,10 +18,7 @@ public class AdminDelete implements IAdminCommandHandler
 {
 	private static final String[] ADMIN_COMMANDS =
 	{
-		"admin_delete",
-		"admin_deleteallphantomtown",
-		"admin_deleteallphantompvp",
-		"admin_deleteallphantomfarm"
+		"admin_delete"
 	};
 	
 	@Override
@@ -44,11 +33,7 @@ public class AdminDelete implements IAdminCommandHandler
 			if (target != null && target instanceof Player)
 			{
 				player = (Player) target;
-				if (player.isPhantom())
-				{
-					if (player.isPhantomArchMage() || player.isPhantomMysticMuse() || player.isPhantomStormScream())
-						Phantom_Attack.removePhantom(player);
-					
+			
 					final L2GameClient client = player.getClient();
 					// detach the client from the char so that the connection isnt closed in the deleteMe
 					player.setClient(null);
@@ -62,84 +47,7 @@ public class AdminDelete implements IAdminCommandHandler
 				handleDelete(activeChar);
 			
 			handleDelete(activeChar);
-		}
-		if (command.startsWith("admin_deleteallphantomtown"))
-		{			
-			for (Player player : World.getInstance().getPlayers())
-			{
-				if (player.isPhantom() && !player.isPhantomArcher() && !player.isPhantomArchMage() && !player.isPhantomMysticMuse() && !player.isPhantomStormScream() && !player.isFarmArchMage() && !player.isFarmMysticMuse() && !player.isFarmStormScream())
-				{
-					Phantom_Town.removePhantom(player);
-				ThreadPool.schedule(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-				final L2GameClient client = player.getClient();
-				// detach the client from the char so that the connection isnt closed in the deleteMe
-				player.setClient(null);
-				// removing player from the world
-				player.deleteMe();
-				client.setActiveChar(null);
-				client.setState(GameClientState.AUTHED);
-					}
-				}, Rnd.get(10000, 30000));
-				}
-			}
-			activeChar.sendMessage("Deletando os phantom town.");
-			
-		}
-		if (command.startsWith("admin_deleteallphantompvp"))
-		{			
-			for (Player player : World.getInstance().getPlayers())
-			{
-				if (player.isPhantomArchMage() || player.isPhantomMysticMuse() || player.isPhantomStormScream())
-				{
-					Phantom_Attack.removePhantom(player);
-				ThreadPool.schedule(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-				final L2GameClient client = player.getClient();
-				// detach the client from the char so that the connection isnt closed in the deleteMe
-				player.setClient(null);
-				// removing player from the world
-				player.deleteMe();
-				client.setActiveChar(null);
-				client.setState(GameClientState.AUTHED);
-					}
-				}, Rnd.get(10000, 30000));
-				}
-			}
-			activeChar.sendMessage("Deletando os phantom pvp.");
-		}
-		if (command.startsWith("admin_deleteallphantomfarm"))
-		{			
-			for (Player player : World.getInstance().getPlayers())
-			{
-				if (player.isFarmArchMage() || player.isFarmMysticMuse() || player.isFarmStormScream())
-				{
-					Phantom_Farm.removePhantom(player);
-				ThreadPool.schedule(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-				final L2GameClient client = player.getClient();
-				// detach the client from the char so that the connection isnt closed in the deleteMe
-				player.setClient(null);
-				// removing player from the world
-				player.deleteMe();
-				client.setActiveChar(null);
-				client.setState(GameClientState.AUTHED);
-					}
-				}, Rnd.get(10000, 30000));
-				}
-			}
-			activeChar.sendMessage("Deletando os phantom farm.");
-		}
-		
+				
 		return true;
 	}
 	

@@ -304,16 +304,7 @@ public class CreatureStat
 		{
 			val += BalanceLoad.MDef[((Player) _activeChar).getClassId().getId() - 88];
 		}
-		if (_activeChar.isPhantom())
-		{
-			val += Config.MDEF_PHANTOM;
-		}
-		
-		if (_activeChar.isPhantom() && _activeChar.isPhantomArcher())
-		{
-			val += Config.MDEF_PHANTOM_ARCHER;
-		}
-		
+
 		if (val >= 0)
 			return (int) val;
 		return 0;
@@ -369,11 +360,6 @@ public class CreatureStat
 			val += BalanceLoad.PAtkSpd[((Player) _activeChar).getClassId().getId() - 88];
 		}
 		
-		if (_activeChar.isPhantom() && _activeChar.isPhantomArcher())
-		{
-			val += Config.ATKSPEED_PHANTOM;
-		}
-		
 		if (val > 0)
 			return (int) val;
 		return 0;
@@ -402,15 +388,6 @@ public class CreatureStat
 		if (_activeChar instanceof Player && ((Player) _activeChar).getClassId().getId() >= 88)
 		{
 			val += BalanceLoad.PDef[((Player) _activeChar).getClassId().getId() - 88];
-		}
-		if (_activeChar.isPhantom())
-		{
-			val += Config.PDEF_PHANTOM;
-		}
-		
-		if (_activeChar.isPhantom() && _activeChar.isPhantomArcher())
-		{
-			val += Config.PDEF_PHANTOM_ARCHER;
 		}
 		
 		if (val >= 0)

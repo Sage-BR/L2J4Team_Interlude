@@ -7,7 +7,6 @@ import com.l2j4team.gameserver.model.actor.Creature;
 import com.l2j4team.gameserver.model.actor.instance.ClassMaster;
 import com.l2j4team.gameserver.model.actor.instance.Pet;
 import com.l2j4team.gameserver.model.actor.instance.Player;
-import com.l2j4team.gameserver.model.base.ClassId;
 import com.l2j4team.gameserver.model.base.Experience;
 import com.l2j4team.gameserver.model.base.SubClass;
 import com.l2j4team.gameserver.model.pledge.Clan;

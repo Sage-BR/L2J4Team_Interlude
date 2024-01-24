@@ -47,6 +47,7 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 		}
 	}
 	
+	@SuppressWarnings("resource")
 	@Override
 	public boolean accept(SocketChannel sc)
 	{

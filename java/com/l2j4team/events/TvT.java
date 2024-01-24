@@ -55,9 +55,6 @@ import com.l2j4team.gameserver.network.serverpackets.SocialAction;
 import com.l2j4team.gameserver.network.serverpackets.TutorialCloseHtml;
 import com.l2j4team.util.CloseUtil;
 
-import phantom.PhantomOld;
-import phantom.Phantom_TvT;
-
 /**
  * The Class TvT.
  */
@@ -776,11 +773,6 @@ public class TvT implements EventTask
 		if (Config.TVT_COMMAND)
 			Announcement.AnnounceEvents(""+Config.NAME_TVT+" Commands .tvtjoin .tvtleave");
 		
-		if (Config.ALLOW_PHANTOM_PLAYERS_TVT)
-		{
-		Phantom_TvT.init();
-		}
-		
 		return true;
 	}
 	
@@ -903,20 +895,6 @@ public class TvT implements EventTask
 						
 					}
 				}, 5000);
-				
-				if (player.isPhantomMysticMuseTvT() || player.isPhantomStormScreamTvT() || player.isPhantomArchMageTvT())
-				{
-					ThreadPool.schedule(new Runnable()
-					{
-						
-						@Override
-						public void run()
-						{
-							if (!player.isDead())
-								Phantom_TvT.doCastlist(player);
-						}
-					}, Rnd.get(2100, 5200));
-				}
 			}
 		}
 		
@@ -1106,12 +1084,6 @@ public class TvT implements EventTask
 									player.teleToLocation(0, 0, 0, 50);
 								else
 									player.teleToLocation(player.getLastX(), player.getLastY(), player.getLastZ(), 50);
-								
-								if (player.isPhantom())
-								{
-									PhantomOld fakePlayer = (PhantomOld) player;
-									fakePlayer.despawnPlayer();
-								}
 							}
 							else
 							{

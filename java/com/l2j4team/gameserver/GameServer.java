@@ -135,11 +135,6 @@ import com.l2j4team.commons.util.SysUtil;
 
 import Base.Skin.DressMeData;
 import hwid.Hwid;
-import phantom.PhantomNameManager;
-import phantom.PhantomTitleManager;
-import phantom.Phantom_Farm;
-import phantom.Phantom_Town;
-
 import hopzone.eu.VDSystemManager;
 
 public class GameServer
@@ -447,28 +442,6 @@ public class GameServer
 		RaidZoneManager.getInstance();
 		SoloZoneManager.getInstance();
 		IPManager.getInstance();
-		
-		StringUtil.printSection("Phantom Players");
-		PhantomNameManager.INSTANCE.initialise();
-		PhantomTitleManager.INSTANCE.initialise();
-		
-		if (Config.ALLOW_PHANTOM_PLAYERS)
-		{
-			Phantom_Town.init();
-		}
-		else
-		{
-			LOGGER.info("Town Phantom: desativado...");
-		}
-		
-		if (Config.ALLOW_PHANTOM_PLAYERS_FARM)
-		{
-			Phantom_Farm.init();
-		}
-		else
-		{
-			LOGGER.info("Phantom Farm: desativado...");
-		}
 		
 		StringUtil.printSection("Hwid Manager");
 		Hwid.Init();

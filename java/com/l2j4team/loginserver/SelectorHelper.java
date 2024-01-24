@@ -45,6 +45,7 @@ public class SelectorHelper implements IMMOExecutor<L2LoginClient>, IClientFacto
 		return client;
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public boolean accept(final SocketChannel sc)
 	{

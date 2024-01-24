@@ -59,8 +59,6 @@ import com.l2j4team.gameserver.network.serverpackets.SkillCoolTime;
 import com.l2j4team.gameserver.network.serverpackets.SocialAction;
 import com.l2j4team.util.CloseUtil;
 
-import phantom.PhantomOld;
-
 /**
  * The Class CTF.
  */
@@ -1155,12 +1153,6 @@ public class CTF implements EventTask
 									player.teleToLocation(0, 0, 0, 50);
 								else
 									player.teleToLocation(player.getLastX(), player.getLastY(), player.getLastZ(), 50);
-								
-								if (player.isPhantom())
-								{
-									PhantomOld fakePlayer = (PhantomOld) player;
-									fakePlayer.despawnPlayer();
-								}
 								
 							}
 							else

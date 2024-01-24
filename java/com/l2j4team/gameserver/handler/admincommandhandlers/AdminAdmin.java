@@ -31,11 +31,6 @@ import com.l2j4team.gameserver.model.actor.Creature;
 import com.l2j4team.gameserver.model.actor.instance.Player;
 import com.l2j4team.gameserver.network.SystemMessageId;
 
-import phantom.PhantomNameManager;
-import phantom.PhantomTitleManager;
-import phantom.Phantom_Attack;
-import phantom.Phantom_Town;
-
 /**
  * This class handles following admin commands:
  * <ul>
@@ -192,10 +187,6 @@ public class AdminAdmin implements IAdminCommandHandler
 							PvpColorTable.getInstance().reload();
 						if (Config.ENABLE_PK_COLOR)
 							PkColorTable.getInstance().reload();
-						Phantom_Town.getInstance().reload();
-						Phantom_Attack.getInstance().reload();
-						PhantomNameManager.INSTANCE.initialise();
-						PhantomTitleManager.INSTANCE.initialise();
 					}
 					else if (type.startsWith("dress"))
 					{

@@ -20,7 +20,6 @@ import com.l2j4team.events.PartyZoneTask;
 import com.l2j4team.gameserver.NewZoneVote;
 import com.l2j4team.gameserver.data.cache.HtmCache;
 import com.l2j4team.gameserver.handler.IAdminCommandHandler;
-import com.l2j4team.gameserver.handler.voicedcommandhandlers.VoicedMenu;
 import com.l2j4team.gameserver.instancemanager.VIPINFO;
 import com.l2j4team.gameserver.instancemanager.VipManager;
 import com.l2j4team.gameserver.instancemanager.VoteZoneCommands;
@@ -40,14 +39,6 @@ import java.util.logging.Logger;
 import com.l2j4team.commons.concurrent.ThreadPool;
 import com.l2j4team.commons.random.Rnd;
 import com.l2j4team.commons.util.StringUtil;
-
-import phantom.Phantom_Archers;
-import phantom.Phantom_Attack;
-import phantom.Phantom_Farm;
-import phantom.Phantom_Town;
-import phantom.Phantom_TvT;
-
-
 
 /**
  * @author MeGaPacK
@@ -171,81 +162,6 @@ public class AdminCustom implements IAdminCommandHandler
 			VoteZone();
 			activeChar.sendMessage("SYS: Voce utilizou o comando admin_votezone..");
 		} 
-		else if (command.equals("admin_spawn_phantomtown"))
-		{
-			AdminAdmin.showMainPage(activeChar, "main_menu.htm");
-			ThreadPool.schedule(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					Phantom_Town.init();					
-					_log.info("[Phantom Town]: Starded!");
-					activeChar.sendMessage("SYS: Voce Ativou phanton town...");
-				}
-				
-			}, 1);
-		}
-		else if (command.equals("admin_spawn_phantomtvt"))
-		{
-			AdminAdmin.showMainPage(activeChar, "main_menu.htm");
-			ThreadPool.schedule(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					Phantom_TvT.init();					
-					_log.info("[Phantom TvT]: Starded!");
-					activeChar.sendMessage("SYS: Voce Ativou phanton TvT...");
-				}
-				
-			}, 1);
-		}
-		else if (command.equals("admin_spawn_phantomfarm"))
-		{
-			AdminAdmin.showMainPage(activeChar, "main_menu.htm");
-			ThreadPool.schedule(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					Phantom_Farm.init();
-					_log.info("[Phantom Farm]: Starded!");
-					activeChar.sendMessage("SYS: Voce Ativou phanton farm...");
-				}
-				
-			}, 1);
-		}
-		else if (command.equals("admin_spawn_phantom"))
-		{
-			AdminAdmin.showMainPage(activeChar, "main_menu.htm");
-			ThreadPool.schedule(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					Phantom_Attack.init();
-					_log.info("[Phantom PvP]: Starded!");
-					activeChar.sendMessage("SYS: Voce Ativou phanton PvP...");
-				}
-				
-			}, 1);	    
-		}
-		else if (command.equals("admin_spawn_archer"))
-		{
-			AdminAdmin.showMainPage(activeChar, "main_menu.htm");
-			ThreadPool.schedule(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					Phantom_Archers.init();
-					_log.info("[Phantom Archers]: Starded!");
-					activeChar.sendMessage("SYS: Voce Ativou phanton Archers...");
-				}
-				
-			}, 1);	    
-		}
 		return true;
 	}
 	

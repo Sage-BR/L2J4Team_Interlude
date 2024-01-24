@@ -46,8 +46,6 @@ import com.l2j4team.gameserver.taskmanager.PvpFlagTaskManager;
 import com.l2j4team.util.CloseUtil;
 import com.l2j4team.util.Rnd;
 
-import phantom.Phantom_Attack;
-
 /**
  * @author Computador
  */
@@ -264,11 +262,9 @@ public class VoteZone
 	          
 				for (Player bot : World.getInstance().getPlayers())
 				{
-					if (bot.isPhantom() && !bot.isFarmArchMage() && !bot.isFarmMysticMuse() && !bot.isFarmStormScream() && bot.isInsideZone(ZoneId.CUSTOM))
+					if (bot.isInsideZone(ZoneId.CUSTOM))
 					{
-						if (bot.isPhantomArchMage() || bot.isPhantomMysticMuse() || bot.isPhantomStormScream())
-						Phantom_Attack.removePhantom(bot);
-						
+					
 					final L2GameClient client = bot.getClient();
 					// detach the client from the char so that the connection isnt closed in the deleteMe
 					bot.setClient(null);
@@ -360,19 +356,7 @@ public class VoteZone
 	          }
 	        }, 2000L);
 	      }
-			if(Config.ALLOW_PHANTOM_PLAYERS_MASS_PVP)
-			{
-			ThreadPool.schedule(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					Phantom_Attack.init();
-					_log.info("[Phantom Mass PvP]: Starded!");
-				}
-				
-			}, 500);
-			}
+
 	      ThreadPool.schedule(new Runnable()
 	      {
 	        @SuppressWarnings("resource")

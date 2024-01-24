@@ -228,13 +228,8 @@ public class CharInfo extends L2GameServerPacket
 		int _swimSpd = _activeChar.getStat().getBaseSwimSpeed();
 		writeD(_runSpd); // base run speed
 		writeD(_walkSpd); // base walk speed
-		
-		if (_activeChar.isPhantom() && !_activeChar.isPhantomMysticMuse())
-			writeD(Config.PHANTOM_SPEED); // swim run speed
-		else if (_activeChar.isPhantomMysticMuse())
-			writeD(Config.PHANTOM_ATK_SPEED); // swim run speed
-		else
-			writeD(_swimSpd); // swim run speed
+
+		//writeD(_swimSpd);  swim run speed ??
 			
 		writeD(_swimSpd); // swim walk speed
 		writeD(_runSpd);

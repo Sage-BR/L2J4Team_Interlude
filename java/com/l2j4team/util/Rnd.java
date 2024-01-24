@@ -87,14 +87,12 @@ public final class Rnd {
         return chance >= 1.0 && (chance > 99.0 || rnd.nextInt() + 1 <= chance);
     }
 
-    public static final class ThreadLocalRandom
-    extends Random {
+    public static final class ThreadLocalRandom extends Random {
         private static final long serialVersionUID = 1L;
         private final ThreadLocal<Seed> _seedLocal;
 
         public ThreadLocalRandom() {
-            this._seedLocal = new ThreadLocal<Seed>(){
-
+            this._seedLocal = new ThreadLocal<>() {
                 @Override
                 public final Seed initialValue() {
                     return new Seed(++SEED_UNIQUIFIER + System.nanoTime());
@@ -103,15 +101,14 @@ public final class Rnd {
         }
 
         public ThreadLocalRandom(final long seed) {
-            this._seedLocal = new ThreadLocal<Seed>(){
-
+            this._seedLocal = new ThreadLocal<>() {
                 @Override
                 public final Seed initialValue() {
                     return new Seed(seed);
                 }
             };
         }
-
+   
         @Override
         public final int next(int bits) {
             return this._seedLocal.get().next(bits);

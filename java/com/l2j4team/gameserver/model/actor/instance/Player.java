@@ -269,11 +269,6 @@ import com.l2j4team.commons.math.MathUtil;
 import com.l2j4team.commons.random.Rnd;
 
 import Base.Skin.DressMeData;
-import phantom.Phantom_Archers;
-import phantom.Phantom_Attack;
-import phantom.Phantom_Farm;
-import phantom.Phantom_Town;
-import phantom.Phantom_TvT;
 
 /**
  * This class represents a player in the world.<br>
@@ -4230,8 +4225,7 @@ public class Player extends Playable
 						{
 							doRevive();
 							teleToLocation(TvT._teamsX.get(TvT._teams.indexOf(_teamNameTvT)), TvT._teamsY.get(TvT._teams.indexOf(_teamNameTvT)), TvT._teamsZ.get(TvT._teams.indexOf(_teamNameTvT)), 200);
-							
-							if (isPhantom())
+
 							{
 								ThreadPool.schedule(new Runnable()
 								{
@@ -4240,8 +4234,7 @@ public class Player extends Playable
 									{
 										if (isSpawnProtected())
 											setSpawnProtection(false);
-										
-										starAttack();
+
 									}
 								}, Rnd.get(3000, 4000));
 							}
@@ -4277,8 +4270,7 @@ public class Player extends Playable
 									doRevive();
 									final int offset = Config.CTF_SPAWN_OFFSET;
 									teleToLocation(CTF._teamsX.get(CTF._teams.indexOf(_teamNameCTF)) + Rnd.get(-offset, offset), CTF._teamsY.get(CTF._teams.indexOf(_teamNameCTF)) + Rnd.get(-offset, offset), CTF._teamsZ.get(CTF._teams.indexOf(_teamNameCTF)), 0);
-									
-									if (isPhantom())
+										
 									{
 										ThreadPool.schedule(new Runnable()
 										{
@@ -4287,8 +4279,6 @@ public class Player extends Playable
 											{
 												if (isSpawnProtected())
 													setSpawnProtection(false);
-												
-												starAttack();
 											}
 										}, Rnd.get(3000, 4000));
 									}
@@ -4301,56 +4291,7 @@ public class Player extends Playable
 					}, Config.CTF_REVIVE_DELAY);
 				}
 			}
-			else if (isPhantomArchMage() || isPhantomMysticMuse() || isPhantomStormScream() || isPhantomArcher())
-			{
-				setAttackP(true);
-				ThreadPool.schedule(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						doRevive();
-						starTeleport();
 						
-						ThreadPool.schedule(new Runnable()
-						{
-							@Override
-							public void run()
-							{
-								if (isSpawnProtected())
-									setSpawnProtection(false);
-								
-								starAttack();
-							}
-						}, Rnd.get(3000, 4000));
-					}
-				}, Rnd.get(5100, 10220));
-			}
-			
-			else if (isFarmArchMage() || isFarmMysticMuse() || isFarmStormScream())
-			{
-				ThreadPool.schedule(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						teleToLocation(TeleportType.TOWN);
-						doRevive();
-						ThreadPool.schedule(new Runnable()
-						{
-							@Override
-							public void run()
-							{
-								if (isSpawnProtected())
-									setSpawnProtection(false);
-								starAttack2();
-								
-							}
-						}, Rnd.get(3000, 4000));
-					}
-				}, Rnd.get(5100, 10220));
-			}
-			
 			// Effect Red on Death
 			// sendPacket(new ExRedSky(2));
 			
@@ -5423,10 +5364,9 @@ public class Player extends Playable
 	public void setStoreType(StoreType type)
 	{
 		_storeType = type;
-		if (_storeType == StoreType.NONE && isPhantom())
+		if (_storeType == StoreType.NONE)
 		{
 			standUp();
-			Phantom_Town.startWalk(this);
 		}
 	}
 	
@@ -13264,11 +13204,9 @@ public class Player extends Playable
 	
 	public void walkToNpc()
 	{
-		Location zone1 = getRandomLocToNpc();
-		
-		int x = zone1.getX() + Rnd.get(-80, 80);
-		int y = zone1.getY() + Rnd.get(-80, 80);
-		int z = zone1.getZ();
+		int x = getX() + Rnd.get(-80, 80);
+		int y = getY() + Rnd.get(-80, 80);
+		int z = getZ();
 		
 		setRunning();
 		
@@ -13575,89 +13513,6 @@ public class Player extends Playable
 		}
 		
 		setLastCords(getX(), getY(), getZ());
-	}
-	
-	public void starAttack()
-	{
-		setAttackP(false);
-		
-		if (isPhantomArchMage() || isPhantomMysticMuse() || isPhantomStormScream() || isPhantomArcher())
-		{
-			if (!isDead())
-			{
-				rndWalkMonster();
-				try
-				{
-					Thread.sleep(1000);
-				}
-				catch (InterruptedException e)
-				{
-				}
-			}
-			Phantom_Attack.doCastlist(this);
-		}
-		if (isPhantomArcher())
-		{
-			if (!isDead())
-			{
-				rndWalkMonster();
-				try
-				{
-					Thread.sleep(1000);
-				}
-				catch (InterruptedException e)
-				{
-				}
-			}
-			Phantom_Archers.doCastlist(this);
-		}
-		else if (isPhantomArchMageTvT() || isPhantomMysticMuseTvT() || isPhantomStormScreamTvT())
-		{
-			if (!isDead())
-			{
-				rndWalkMonster();
-				try
-				{
-					Thread.sleep(1000);
-				}
-				catch (InterruptedException e)
-				{
-				}
-			}
-			Phantom_TvT.doCastlist(this);
-		}
-	}
-	
-	public void starAttack2()
-	{
-		
-		if (isFarmArchMage() || isFarmMysticMuse() || isFarmStormScream())
-		{
-			if (!isDead())
-			{
-				rndWalkMonster();
-				try
-				{
-					Thread.sleep(1000);
-				}
-				catch (InterruptedException e)
-				{
-				}
-			}
-			Phantom_Farm.doCastlist(this);
-		}
-	}
-	
-	@SuppressWarnings(
-	{
-		"null"
-	})
-	public Location getRandomLocToNpc()
-	{
-		Location loc = null;
-		if (loc == null)
-			loc = Phantom_Town._zone_1_Loc.get(Rnd.get(0, Phantom_Town._zone_1_locsCount));
-		return loc;
 	}
 	
 	@SuppressWarnings(
