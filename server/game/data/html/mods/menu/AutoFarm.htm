@@ -1,0 +1,81 @@
+<html><title>AUTO-FARM</title><body><center>
+<center>
+<br>
+<table width=250>
+<tr>
+ 
+<td width=20><font color="00FF00">                    TUTORIAL AUTO-FARM</font></td>
+
+</tr>
+</table>
+</center>
+<br>
+<img src="autofarm.tutorial" width=256 height=48>
+<br>
+<img src="L2UI.SquareBlank" width=300 height=1>
+<table width=305>
+<tr>
+ <td><center><font color="FF0000">Select Skill Bar</font></td>
+  <td><combobox width="70" height="15" var="skillbar" list="F1;F2;F3;F4;F5;F6;F7;F8;F9;F10"></td>
+<td><button value="Cambiar" action="bypass voiced_skillbar $skillbar" width=75 height=22 back="L2UI_CH3.Btn1_normalDisable" fore="L2UI_CH3.Btn1_normal" over="L2UI_CH3.Btn1_normal_over"></center></td>
+</table>
+
+<br>
+<br>
+<table width=305>
+<tr>
+ <td><center><font color="FF0000">Select Radius</font></td>
+<td width=5></td>
+  <td><combobox width="70" height="15" var="range" list="200;400;600;800;1000;1200;1400"></td>
+<td><button value="Cambiar" action="bypass voiced_radius $range" width=75 height=22 back="L2UI_CH3.Btn1_normalDisable" fore="L2UI_CH3.Btn1_normal" over="L2UI_CH3.Btn1_normal_over"></center></td>
+</table>
+
+<br>
+
+<table width=305>
+<tr>
+<td><center><font color="FF0000"> Skill bar on:</font><font>%skillbar%</font></center></td></tr><br1>
+</table>
+<table width=305>
+<tr>
+<td><center><font color="FF0000"> Radius on:</font><font>%radiusfarm%</font></center></td></tr><br1>
+</table>
+
+
+<center><img src="L2UI.SquareGray" width=125 height=1></center>
+<table bgcolor="000000" width=110>
+<tr>
+<td width=90 align=right><center><font color="FF0000">Respect Hunt</font></td>
+<td width=30 align=left><button value="" action="bypass voiced_respecthunt" width="14" height="14" back="L2UI.control.checkBox_%setrespecthunt%" fore="L2UI.control.checkBox_%setrespecthunt%"></center></td>
+</table>
+<center><img src="L2UI.SquareGray" width=125 height=1></center>
+<br>
+ 
+<img src="L2UI.SquareGray" width=270 height=1>
+<table bgcolor="000000">
+<tr>
+<td width=5></td>
+<td width=100>Auto Farm:  </td>
+<td width=100>%AutoFarmActived%</td>
+<td width=50><button width=32 height=32 back="autofarm.sword1" fore="autofarm.sword1" action="bypass voiced_farm" value=""></td>
+</tr>
+</table>
+<img src="L2UI.SquareGray" width=270 height=1>
+ 
+<br><br>
+<tr>
+		                             <td><button value="Voltar" action="bypass voiced_menu" width=75 height=22 back="L2UI_CH3.Btn1_normalDisable" fore="L2UI_CH3.Btn1_normal" over="L2UI_CH3.Btn1_normal_over"></td>
+	</tr>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+</body></html>
+ 

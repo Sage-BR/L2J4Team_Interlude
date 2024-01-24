@@ -1,0 +1,23 @@
+[25-06-2023 20:07:03]	INFO	-------------------------------------------------------------=[ Project 2023 ]
+[25-06-2023 20:07:04]	INFO	      Project 2023      
+[25-06-2023 20:07:04]	INFO	----------------------------------------------------------------=[ Base aCis ]
+[25-06-2023 20:07:04]	INFO	Loading loginserver configuration files.
+[25-06-2023 20:07:04]	INFO	MLog clients using java 1.4+ standard logging.
+[25-06-2023 20:07:15]	INFO	Initializing c3p0-0.9.5-pre5 [debug? false; trace: 5]
+[25-06-2023 20:07:20]	INFO	----------------------------------------------------------=[ LoginController ]
+[25-06-2023 20:07:21]	INFO	Loading LoginController...
+[25-06-2023 20:07:27]	INFO	Cached 10 KeyPairs for RSA communication.
+[25-06-2023 20:07:27]	INFO	Stored 20 keys for Blowfish communication.
+[25-06-2023 20:07:28]	INFO	Loaded 127 server names.
+[25-06-2023 20:07:28]	INFO	Loaded 1 registered gameserver(s).
+[25-06-2023 20:07:29]	INFO	Cached 10 RSA keys for gameserver communication.
+[25-06-2023 20:07:29]	INFO	-----------------------------------------------------------------=[ Ban List ]
+[25-06-2023 20:07:29]	INFO	Loaded 0 IP(s) from Banned_ip.ini.
+[25-06-2023 20:07:29]	INFO	-------------------------------------------------=[ IP, Ports & Socket infos ]
+[25-06-2023 20:07:30]	INFO	Listening for gameservers on *:9014
+[25-06-2023 20:07:30]	INFO	Loginserver ready on *:2106
+[25-06-2023 20:07:30]	INFO	--------------------------------------------=[ Waiting for gameserver answer ]
+[25-06-2023 20:08:42]	INFO	Hooked gameserver: [1] Bartz
+[25-06-2023 20:08:42]	INFO	Internal/External IP(s): 127.0.0.1/127.0.0.1
+[25-06-2023 20:20:27]	INFO	GameServer [1] Bartz: Connection reset.
+[25-06-2023 20:20:27]	INFO	GameServer [1] Bartz is now set as disconnected.

@@ -1,0 +1,25 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+
+<!-- Jewels Boss & Tattoos -->
+
+<list maintainEnchantment="true">
+ 
+  <!-- Frintezza Necklace -->
+  <item id="1">
+    <production id="14632" count="1" enchant="15"/>
+	<ingredient id="10000" count="20" enchant="0"/>
+  </item>  
+  
+  <!-- Frintezza Necklace -->
+  <item id="2">
+    <production id="14633" count="1" enchant="15"/>
+	<ingredient id="10000" count="20" enchant="0"/>
+  </item>   
+  
+  <!-- Frintezza Necklace -->
+  <item id="3">
+    <production id="30136" count="1" enchant="15"/>
+	<ingredient id="10000" count="20" enchant="0"/>
+  </item>
+  
+</list>
