@@ -24,7 +24,7 @@ import com.l2j4team.gameserver.model.actor.instance.Monster;
 import com.l2j4team.gameserver.model.actor.instance.Player;
 import com.l2j4team.gameserver.model.zone.type.L2BossZone;
 import com.l2j4team.gameserver.network.SystemMessageId;
-import com.l2j4team.gameserver.network.serverpackets.AbstractNpcInfo;
+import com.l2j4team.gameserver.network.serverpackets.AbstractNpcInfo.NpcInfo;
 import com.l2j4team.gameserver.network.serverpackets.CreatureSay;
 import com.l2j4team.gameserver.network.serverpackets.Earthquake;
 import com.l2j4team.gameserver.network.serverpackets.MagicSkillCanceld;
@@ -1375,7 +1375,7 @@ public class Frintezza extends L2AttackableAIScript
                 }
                 else if (event.equalsIgnoreCase("camera_1"))
                 {
-                    GrandBossManager.getInstance().setBossStatus(FRINTEZZA, 2);
+                    GrandBossManager.getInstance().setBossStatus(FRINTEZZA, FIGHTING);
                     _frintezzaDummy = addSpawn(29052, 174240, -89805, -5022, 16048, false, 0L, false);
                     _frintezzaDummy.setIsInvul(false);
                     _frintezzaDummy.setIsImmobilized(false);
@@ -1383,7 +1383,7 @@ public class Frintezza extends L2AttackableAIScript
                     _overheadDummy.setIsInvul(false);
                     _overheadDummy.setIsImmobilized(false);
                     _overheadDummy.setCollisionHeight(600.0D);
-                    _Zone.broadcastPacket(new AbstractNpcInfo.NpcInfo(_overheadDummy, null));
+                    _Zone.broadcastPacket(new NpcInfo(_overheadDummy, null));
                     _portraitDummy1 = addSpawn(29052, 172450, -87890, -5110, 16048, false, 0L, false);
                     _portraitDummy1.setIsImmobilized(false);
                     _portraitDummy1.setIsInvul(false);

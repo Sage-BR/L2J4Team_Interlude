@@ -117,6 +117,8 @@ import com.l2j4team.gameserver.xmlfactory.XMLDocumentFactory;
 import com.l2j4team.util.DeadLockDetector;
 import com.l2j4team.util.IPv4Filter;
 
+import Base.datatables.AuctionTable;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -456,6 +458,7 @@ public class GameServer
 		LOGGER.info("Loaded {} skill handlers.", SkillHandler.getInstance().size());
 		LOGGER.info("Loaded {} user command handlers.", UserCommandHandler.getInstance().size());
 		LOGGER.info("Loaded {} voiced command handlers.", +VoicedCommandHandler.getInstance().size());
+		LOGGER.info("Loaded {} Auction Manager.", AuctionTable.getInstance());
 		
 		Item.LoadAllIcons();
 		
