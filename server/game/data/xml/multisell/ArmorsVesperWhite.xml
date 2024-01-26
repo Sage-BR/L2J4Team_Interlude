@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+  <!-- WEAPON GRADE-S -->
+
+<list maintainEnchantment="true">
+
+  
+    <!-- helmet -->
+  <item id="1">
+    <production id="9534" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item> 
+  
+           <item id="2">
+    <production id="9535" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item> 
+  
+  
+           <item id="3">
+    <production id="9536" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item> 
+  
+             <item id="4">
+    <production id="9537" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item> 
+  
+               <item id="5">
+    <production id="9538" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item>
+  
+                 <item id="6">
+    <production id="9539" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item> 
+  
+                   <item id="7">
+    <production id="9540" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item> 
+  
+                   <item id="8">
+    <production id="9541" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item> 
+  
+                   <item id="9">
+    <production id="9542" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item> 
+  
+     <item id="10">
+    <production id="9543" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item> 
+    
+   <item id="11">
+    <production id="9544" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item>
+  
+     <item id="12">
+    <production id="9545" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item> 
+  
+       <item id="13">
+    <production id="9546" count="1" enchant="15"/>
+<ingredient id="10000" count="45" enchant="0"/>
+  </item> 
+
+</list>

@@ -1,0 +1,542 @@
+[18-05-2023 17:17:04]	INFO	-------------------------------------------------------------=[ L2J4Team Project ]
+[18-05-2023 17:17:04]	INFO	      L2J4Team Project      
+[18-05-2023 17:17:04]	INFO	----------------------------------------------------------------=[ Base aCis ]
+[18-05-2023 17:17:04]	INFO	Loading gameserver configuration files.
+[18-05-2023 17:17:04]	INFO	Chat Filter: Loaded 9 Filter Words.
+[18-05-2023 17:17:05]	INFO	MLog clients using java 1.4+ standard logging.
+[18-05-2023 17:17:05]	INFO	Initializing c3p0-0.9.5-pre5 [debug? false; trace: 5]
+[18-05-2023 17:17:05]	INFO	Initializing ThreadPool.
+[18-05-2023 17:17:05]	INFO	----------------------------------------------------------------=[ IdFactory ]
+[18-05-2023 17:17:05]	INFO	Updated characters online status.
+[18-05-2023 17:17:05]	INFO	Cleaned 2037 elements from database.
+[18-05-2023 17:17:05]	INFO	Cleaned 0 expired timestamps from database.
+[18-05-2023 17:17:05]	INFO	IDFactory: 102912 id's available.
+[18-05-2023 17:17:05]	INFO	--------------------------------------------------------------------=[ World ]
+[18-05-2023 17:17:05]	CONFIG	GameTimeController: Started.
+[18-05-2023 17:17:05]	INFO	World: WorldRegion grid (88 by 128) is now set up.
+[18-05-2023 17:17:06]	INFO	MapRegionTable: Loaded 176 regions.
+[18-05-2023 17:17:06]	INFO	Loaded 0 announcements.
+[18-05-2023 17:17:06]	INFO	Loaded 1 server variables.
+[18-05-2023 17:17:06]	INFO	-------------------------------------------------------------------=[ Skills ]
+[18-05-2023 17:17:06]	CONFIG	FishingSkillTreeTable: Loaded 109 general skills.
+[18-05-2023 17:17:06]	CONFIG	DwarvenCraftSkillTreeTable: Loaded 8 dwarven skills.
+[18-05-2023 17:17:06]	CONFIG	EnchantSkillTreeTable: Loaded 30 enchant types and 14550 enchant skills.
+[18-05-2023 17:17:06]	CONFIG	PledgeSkillTreeTable: Loaded 64 pledge skills.
+[18-05-2023 17:17:06]	INFO	SkillTable: Loaded 29631 skills.
+[18-05-2023 17:17:06]	INFO	---------------------------------------------------------=[ Instance Manager ]
+[18-05-2023 17:17:06]	INFO	--------------------------------------------------------------------=[ Items ]
+[18-05-2023 17:17:07]	INFO	ItemTable: Highest used itemID : 20022
+[18-05-2023 17:17:07]	INFO	Loaded 14 summon items.
+[18-05-2023 17:17:07]	INFO	Loaded 180 hennas.
+[18-05-2023 17:17:07]	INFO	Loaded 701 buyLists.
+[18-05-2023 17:17:07]	INFO	Loaded 212 multisell.
+[18-05-2023 17:17:07]	INFO	RecipeTable: Loaded 871 recipes.
+[18-05-2023 17:17:07]	INFO	Loaded 57 armor sets.
+[18-05-2023 17:17:07]	INFO	Loaded 270 fish.
+[18-05-2023 17:17:07]	INFO	Loaded 334 spellbooks.
+[18-05-2023 17:17:07]	INFO	Loaded 39 Soul Crystals data and 127 NPCs data.
+[18-05-2023 17:17:07]	INFO	Loaded 4 sets of augmentation stats.
+[18-05-2023 17:17:07]	INFO	Loaded 170 blue, 1070 purple and 540 red Life-Stone skills.
+[18-05-2023 17:17:07]	INFO	CursedWeaponsManager: Loaded 2 cursed weapons.
+[18-05-2023 17:17:07]	INFO	Icon Table: Loaded 9190 icons.
+[18-05-2023 17:17:07]	INFO	-------------------------------------------------------------------=[ Admins ]
+[18-05-2023 17:17:07]	INFO	Loaded 10 access levels.
+[18-05-2023 17:17:07]	INFO	Loaded 337 admin command rights.
+[18-05-2023 17:17:07]	INFO	Loaded 0 bookmarks.
+[18-05-2023 17:17:07]	INFO	---------------------------------------------------------------=[ Characters ]
+[18-05-2023 17:17:07]	INFO	CharTemplateTable: Loaded 89 character templates.
+[18-05-2023 17:17:07]	INFO	CharTemplateTable: Loaded 89 classes skills trees.
+[18-05-2023 17:17:07]	INFO	PlayerNameTable: Loaded 3 players data.
+[18-05-2023 17:17:07]	INFO	Loaded 14 newbie buffs.
+[18-05-2023 17:17:07]	INFO	Loaded 860 teleport locations.
+[18-05-2023 17:17:07]	INFO	RaidBossPointsManager: Loaded 1 characters with Raid Points infos.
+[18-05-2023 17:17:07]	INFO	---------------------------------------------------------=[ Community server ]
+[18-05-2023 17:17:07]	INFO	Community server is disabled.
+[18-05-2023 17:17:07]	INFO	--------------------------------------------------------------------=[ Clans ]
+[18-05-2023 17:17:07]	INFO	Loaded 0 crests.
+[18-05-2023 17:17:07]	INFO	Loaded 0 clans.
+[18-05-2023 17:17:07]	INFO	AuctionManager: Loaded 38 auction(s)
+[18-05-2023 17:17:07]	INFO	ClanHallManager: Loaded 0 clan halls.
+[18-05-2023 17:17:07]	INFO	ClanHallManager: Loaded 44 free clan halls.
+[18-05-2023 17:17:07]	INFO	----------------------------------------------------=[ Geodata & Pathfinding ]
+[18-05-2023 17:17:07]	INFO	Loaded 0 L2D region files.
+[18-05-2023 17:17:07]	INFO	Loaded 32 node buffers.
+[18-05-2023 17:17:07]	INFO	--------------------------------------------------------------------=[ Zones ]
+[18-05-2023 17:17:07]	INFO	ZoneManager: Loading zones...
+[18-05-2023 17:17:09]	INFO	ZoneManager: Loaded 34 zones classes and total 1094 zones.
+[18-05-2023 17:17:09]	INFO	------------------------------------------------------------=[ Task Managers ]
+[18-05-2023 17:17:09]	INFO	Restored 0 items on ground.
+[18-05-2023 17:17:09]	INFO	ChatBanManager: Loaded 0 banned hwids.
+[18-05-2023 17:17:09]	INFO	HeroManager: Loaded 0 characters with hero privileges.
+[18-05-2023 17:17:09]	INFO	VipManager: Loaded 10 characters with vip privileges.
+[18-05-2023 17:17:09]	INFO	AioManager: Loaded 0 characters with aio privileges.
+[18-05-2023 17:17:09]	INFO	ChatGlobal_Manager: Loaded 0 characters with chat time.
+[18-05-2023 17:17:09]	INFO	ChatHero_Manager: Loaded 0 characters with chat time.
+[18-05-2023 17:17:09]	INFO	------------------------------------------------------------------=[ Castles ]
+[18-05-2023 17:17:09]	INFO	CastleManager: Loaded 9 castles.
+[18-05-2023 17:17:09]	INFO	--------------------------------------------------------------=[ Seven Signs ]
+[18-05-2023 17:17:09]	INFO	SevenSigns: Currently on Competition (Quest Event) period.
+[18-05-2023 17:17:09]	INFO	SevenSigns: The Seal of Avarice remains unclaimed.
+[18-05-2023 17:17:09]	INFO	SevenSigns: The Seal of Strife remains unclaimed.
+[18-05-2023 17:17:09]	INFO	SevenSigns: The Seal of Gnosis remains unclaimed.
+[18-05-2023 17:17:09]	INFO	SevenSigns: The competition will end in a tie this week.
+[18-05-2023 17:17:09]	INFO	SevenSigns: Next period change set to Mon May 22 18:00:00 BRT 2023
+[18-05-2023 17:17:09]	INFO	SevenSigns: Next period begins in 4 days, 0 hours and 42 mins.
+[18-05-2023 17:17:10]	INFO	SevenSignsFestival: The first Festival of Darkness cycle begins in 2 minute(s).
+[18-05-2023 17:17:10]	INFO	[Boss Event]: Next Event Time -> Thu May 18 20:55:00 BRT 2023
+[18-05-2023 17:17:10]	INFO	Boss Event loaded.
+[18-05-2023 17:17:10]	INFO	------------------------------------------------------------=[ Manor Manager ]
+[18-05-2023 17:17:10]	INFO	CastleManorManager: Loaded 256 seeds.
+[18-05-2023 17:17:10]	INFO	---------------------------------------------------------------------=[ NPCs ]
+[18-05-2023 17:17:10]	INFO	RaidBossInfoManager: Loaded 199 instances.
+[18-05-2023 17:17:10]	INFO	BufferTable: Loaded 1 players schemes and 91 available buffs.
+[18-05-2023 17:17:10]	INFO	Loaded 2 herbs groups.
+[18-05-2023 17:17:10]	INFO	NpcTable: Loaded 6512 NPC templates.
+[18-05-2023 17:17:10]	INFO	Loaded 12 Walker routes.
+[18-05-2023 17:17:10]	INFO	DoorTable: Loaded 547 doors templates.
+[18-05-2023 17:17:10]	INFO	Loaded 29 static objects.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 1004.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 1003.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 1003.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 50062.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 1009.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 1005.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 1006.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 10011.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 1008.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 1004.
+[18-05-2023 17:17:11]	WARNING	SpawnTable: Data missing in NPC table for ID: 1004.
+[18-05-2023 17:17:11]	CONFIG	SpawnTable: Loaded 41440 Npc Spawn Locations.
+[18-05-2023 17:17:11]	INFO	RaidBossSpawnManager: Loaded 186 instances.
+[18-05-2023 17:17:11]	INFO	RaidBossSpawnManager: Scheduled 0 instances.
+[18-05-2023 17:17:11]	INFO	GrandBossManager: Loaded 12 GrandBosses instances.
+[18-05-2023 17:17:11]	INFO	DimensionalRiftManager: Loaded 7 room types with 56 rooms.
+[18-05-2023 17:17:11]	INFO	DimensionalRiftManager: Loaded 462 dimensional rift spawns, 0 errors.
+[18-05-2023 17:17:11]	INFO	-------------------------------------------------------=[ Olympiads & Heroes ]
+[18-05-2023 17:17:11]	INFO	Olympiad: Loaded 21 stadiums.
+[18-05-2023 17:17:12]	INFO	Olympiad: Currently in Competition period.
+[18-05-2023 17:17:12]	INFO	Olympiad: 1122 minutes until period ends.
+[18-05-2023 17:17:12]	INFO	Olympiad: Next weekly change is in 8900 minutes.
+[18-05-2023 17:17:12]	INFO	Olympiad: Loaded 0 nobles.
+[18-05-2023 17:17:12]	INFO	Olympiad: Competition period starts in 0 days, 0 hours and 42 mins.
+[18-05-2023 17:17:12]	INFO	Olympiad: Event starts/started : Thu May 18 18:00:12 BRT 2023
+[18-05-2023 17:17:12]	INFO	Hero: Loaded 0 heroes.
+[18-05-2023 17:17:12]	INFO	Hero: Loaded 0 all time heroes.
+[18-05-2023 17:17:12]	INFO	----------------------------------------------------------=[ Four Sepulchers ]
+[18-05-2023 17:17:12]	INFO	FourSepulchersManager: loaded 20 Mysterious-Box spawns.
+[18-05-2023 17:17:12]	INFO	FourSepulchersManager: loaded 716 Physical type monsters spawns.
+[18-05-2023 17:17:12]	INFO	FourSepulchersManager: loaded 716 Magical type monsters spawns.
+[18-05-2023 17:17:12]	INFO	FourSepulchersManager: loaded 92 Church of duke monsters spawns.
+[18-05-2023 17:17:12]	INFO	FourSepulchersManager: loaded 68 Emperor's grave NPC spawns.
+[18-05-2023 17:17:12]	INFO	FourSepulchersManager: spawned Conquerors' Sepulcher Manager
+[18-05-2023 17:17:12]	INFO	FourSepulchersManager: spawned Emperors' Sepulcher Manager
+[18-05-2023 17:17:12]	INFO	FourSepulchersManager: spawned Great Sages' Sepulcher Manager
+[18-05-2023 17:17:12]	INFO	FourSepulchersManager: spawned Judges' Sepulcher Manager
+[18-05-2023 17:17:12]	INFO	FourSepulchersManager: attack time.
+[18-05-2023 17:17:12]	INFO	---------------------------------------------------------=[ Quests & Scripts ]
+[18-05-2023 17:17:12]	INFO	FourSepulchersManager: attack time announced.
+[18-05-2023 17:17:12]	INFO	ScriptManager: Loaded 385 scripts, 3 are scheduled.
+[18-05-2023 17:17:12]	INFO	-------------------------------------------------------------------=[ Events ]
+[18-05-2023 17:17:12]	INFO	CoupleManager : Loaded 0 couples.
+[18-05-2023 17:17:12]	INFO	FishingChampionshipManager : new event period start.
+[18-05-2023 17:17:12]	INFO	MonsterRace : loaded 14991 records, currently on race #14992
+[18-05-2023 17:17:12]	INFO	PcBang point event started.
+[18-05-2023 17:17:12]	INFO	TvT Event Proximo Evento: Thu May 18 18:00:00 BRT 2023
+[18-05-2023 17:17:12]	INFO	TVT Event is enabled.
+[18-05-2023 17:17:12]	INFO	CTF Event is disabled.
+[18-05-2023 17:17:12]	INFO	PartyFarm, Auto Event is enabled.
+[18-05-2023 17:17:12]	INFO	PartyFarm,: Proximo Evento: Thu May 18 18:15:00 BRT 2023
+[18-05-2023 17:17:12]	INFO	Mission Reset: Proximo Reset: Fri May 19 00:00:00 BRT 2023
+[18-05-2023 17:17:12]	INFO	Tournament Event is enabled.
+[18-05-2023 17:17:12]	INFO	Tournament: Proximo Evento: Thu May 18 19:00:00 BRT 2023
+[18-05-2023 17:17:12]	INFO	CharacterKillingManager: Started! Cycle: 32 - Next cycle in: 0s
+[18-05-2023 17:17:12]	INFO	Start Spawn PartyFarm,: Enabled
+[18-05-2023 17:17:12]	INFO	----------------------------------------------------------------=[ Vote Zone ]
+[18-05-2023 17:17:12]	INFO	PvpZone: Loading zones...
+[18-05-2023 17:17:12]	INFO	PvPEvent: Event is active.
+[18-05-2023 17:17:12]	INFO	PvP Event Proximo Evento: Thu May 18 21:00:00 BRT 2023
+[18-05-2023 17:17:12]	INFO	VoteZone: desativado...
+[18-05-2023 17:17:12]	INFO	-------------------------------------------------------------------=[ Others ]
+[18-05-2023 17:17:12]	INFO	Reset_Daily: Proximo Reset: Thu May 18 18:00:00 BRT 2023
+[18-05-2023 17:17:12]	INFO	AutoRestart: Next Restart Time: Fri May 19 05:00:00 BRT 2023
+[18-05-2023 17:17:12]	INFO	-----------------------------------------------------------=[ Balance System ]
+[18-05-2023 17:17:12]	INFO	Loaded 31 oly classes Damages configurations
+[18-05-2023 17:17:12]	INFO	---------------------------------------------------------------=[ Protection ]
+[18-05-2023 17:17:12]	INFO	PartyZoneManager - Loaded.
+[18-05-2023 17:17:12]	INFO	RaidZoneManager - Loaded.
+[18-05-2023 17:17:12]	INFO	SoloZoneManager - Loaded.
+[18-05-2023 17:17:12]	INFO	IPManager - Loaded.
+[18-05-2023 17:17:12]	INFO	----------------------------------------------------------=[ Phantom Players ]
+[18-05-2023 17:17:12]	INFO	Loaded 31025 fake player names.
+[18-05-2023 17:17:12]	INFO	Loaded 89 fake player titles.
+[18-05-2023 17:17:12]	INFO	----------------------------------------------------------=[ DressMe Manager ]
+[18-05-2023 17:17:12]	INFO	Loaded 32 dressme templates.
+[18-05-2023 17:17:12]	INFO	-------------------------------------------------------------=[ Hwid Manager ]
+[18-05-2023 17:17:12]	INFO	-----------------------------------------------------------------=[ Handlers ]
+[18-05-2023 17:17:12]	INFO	AutoSpawnHandler: Loaded 124 handlers.
+[18-05-2023 17:17:12]	INFO	Loaded 375 admin command handlers.
+[18-05-2023 17:17:12]	INFO	Loaded 13 chat handlers.
+[18-05-2023 17:17:12]	INFO	Loaded 79 item handlers.
+[18-05-2023 17:17:12]	INFO	Loaded 73 skill handlers.
+[18-05-2023 17:17:12]	INFO	Loaded 15 user command handlers.
+[18-05-2023 17:17:12]	INFO	Loaded 129 voiced command handlers.
+[18-05-2023 17:17:12]	INFO	-------------------------------------------------------------------=[ System ]
+[18-05-2023 17:17:12]	INFO	Deadlock detector is disabled.
+[18-05-2023 17:17:12]	INFO	Gameserver has started, used memory: 297 / 8192 Mo.
+[18-05-2023 17:17:12]	INFO	Maximum allowed players: 5000.
+[18-05-2023 17:17:12]	INFO	Server Loaded in 7 seconds
+[18-05-2023 17:17:12]	INFO	--------------------------------------------------------------------=[ Login ]
+[18-05-2023 17:17:12]	INFO	Connecting to login on 127.0.0.1:9014
+[18-05-2023 17:17:12]	INFO	Registered on login as server: [1] Bartz
+[18-05-2023 17:17:33]	SEVERE	Item item_id=9575 not known, object_id=268481546
+[18-05-2023 17:17:33]	SEVERE	Item item_id=9576 not known, object_id=268481549
+[18-05-2023 17:17:33]	SEVERE	Item item_id=9906 not known, object_id=268481404
+[18-05-2023 17:17:33]	SEVERE	Item item_id=9904 not known, object_id=268481402
+[18-05-2023 17:17:33]	SEVERE	Item item_id=20024 not known, object_id=268481363
+[18-05-2023 17:17:33]	SEVERE	Item item_id=9902 not known, object_id=268481400
+[18-05-2023 17:17:33]	SEVERE	Item item_id=9903 not known, object_id=268481401
+[18-05-2023 17:17:33]	SEVERE	Item item_id=9900 not known, object_id=268481398
+[18-05-2023 17:17:33]	SEVERE	Item item_id=9901 not known, object_id=268481399
+[18-05-2023 17:17:33]	SEVERE	Item item_id=20023 not known, object_id=268481362
+[18-05-2023 17:17:46]	WARNING	No handler registered for admin command 'admin_bossevent'
+[18-05-2023 17:17:57]	WARNING	No handler registered for admin command 'admin_eventstate'
+[18-05-2023 17:18:03]	WARNING	No handler registered for admin command 'admin_bossevent'
+[18-05-2023 17:18:58]	WARNING	GM: MEIRELES (268483921) issued shutdown command, restarting in 1 seconds.
+[18-05-2023 17:18:59]	INFO	-------------------------------------------------=[ Under restarting process ]
+[18-05-2023 17:19:00]	INFO	All players have been disconnected.
+[18-05-2023 17:19:00]	INFO	Seven Signs Festival, general data && status have been saved.
+[18-05-2023 17:19:00]	INFO	ZoneManager: Saved L2BossZone data.
+[18-05-2023 17:19:00]	INFO	Raid Bosses data has been saved.
+[18-05-2023 17:19:00]	INFO	World Bosses data has been saved.
+[18-05-2023 17:19:00]	INFO	Olympiad data has been saved.
+[18-05-2023 17:19:00]	INFO	Hero data has been saved.
+[18-05-2023 17:19:00]	INFO	Manors data has been saved.
+[18-05-2023 17:19:00]	INFO	Fishing Championship data has been saved.
+[18-05-2023 17:19:00]	INFO	BufferTable data has been saved.
+[18-05-2023 17:19:00]	INFO	CoupleManager data has been saved.
+[18-05-2023 17:19:00]	INFO	Stored 1 server variables.
+[18-05-2023 17:19:00]	INFO	ServerMemo data has been saved.
+[18-05-2023 17:19:00]	INFO	No items on ground to save.

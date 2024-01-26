@@ -1,0 +1,571 @@
+[20-02-2023 18:24:48]	MEIRELES [268481614] used 'admin' command on: none
+[20-02-2023 18:25:14]	MEIRELES [268481614] used 'admin' command on: none
+[20-02-2023 18:26:34]	MEIRELES [268481614] used 'setlevel 81' command on: MEIRELES
+[20-02-2023 18:27:19]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[20-02-2023 18:27:20]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[20-02-2023 18:27:22]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[20-02-2023 18:27:22]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[20-02-2023 18:27:24]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[20-02-2023 18:27:26]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[20-02-2023 18:27:27]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[20-02-2023 18:27:28]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[20-02-2023 18:27:29]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[20-02-2023 18:27:31]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[20-02-2023 18:27:32]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[20-02-2023 18:27:33]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[20-02-2023 18:27:34]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[20-02-2023 18:27:35]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[20-02-2023 18:27:42]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[20-02-2023 18:27:49]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[20-02-2023 18:27:54]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[20-02-2023 18:27:58]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[20-02-2023 18:28:10]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[20-02-2023 18:28:11]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[20-02-2023 18:28:12]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[20-02-2023 18:28:19]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[20-02-2023 18:28:20]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[20-02-2023 18:28:21]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[20-02-2023 18:28:22]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[20-02-2023 18:28:28]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[20-02-2023 18:28:29]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[20-02-2023 18:28:29]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[20-02-2023 18:28:30]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[20-02-2023 18:28:32]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[20-02-2023 18:28:33]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[20-02-2023 18:28:33]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[20-02-2023 18:28:34]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[20-02-2023 18:28:35]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[20-02-2023 18:28:35]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[20-02-2023 18:28:36]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[20-02-2023 18:28:37]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[20-02-2023 18:28:38]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[20-02-2023 18:28:43]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[20-02-2023 18:28:43]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[20-02-2023 18:28:44]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[20-02-2023 18:28:44]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[20-02-2023 18:28:45]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[20-02-2023 18:28:46]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[20-02-2023 18:28:47]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[20-02-2023 18:28:47]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[20-02-2023 18:28:48]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[20-02-2023 18:28:51]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[20-02-2023 18:28:51]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[20-02-2023 18:28:52]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[20-02-2023 18:28:54]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[20-02-2023 18:28:55]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[20-02-2023 18:28:56]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[20-02-2023 18:28:57]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[20-02-2023 18:28:57]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[20-02-2023 18:28:58]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[20-02-2023 18:28:58]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[20-02-2023 18:29:05]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[20-02-2023 18:29:06]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[20-02-2023 18:29:08]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[20-02-2023 18:32:36]	MEIRELES [268481614] used 'admin' command on: none
+[20-02-2023 18:32:39]	MEIRELES [268481614] used 'admin_admin3' command on: none
+[20-02-2023 18:32:40]	MEIRELES [268481614] used 'admin_admin4' command on: none
+[20-02-2023 18:32:45]	MEIRELES [268481614] used 'admin_reload htm' command on: none
+[20-02-2023 18:34:29]	MEIRELES [268481614] used 'admin' command on: none
+[20-02-2023 18:34:31]	MEIRELES [268481614] used 'admin_admin4' command on: none
+[20-02-2023 18:34:35]	MEIRELES [268481614] used 'admin_reload htm' command on: none
+[20-02-2023 18:35:40]	MEIRELES [268481614] used 'admin' command on: none
+[20-02-2023 18:35:42]	MEIRELES [268481614] used 'admin_admin4' command on: none
+[20-02-2023 18:35:44]	MEIRELES [268481614] used 'admin_reload htm' command on: none
+[20-02-2023 18:39:43]	MEIRELES [268481614] used 'admin' command on: none
+[20-02-2023 18:39:45]	MEIRELES [268481614] used 'admin_admin4' command on: none
+[20-02-2023 18:39:48]	MEIRELES [268481614] used 'admin_reload htm' command on: none
+[20-02-2023 18:40:56]	MEIRELES [268481614] used 'admin' command on: none
+[20-02-2023 18:40:58]	MEIRELES [268481614] used 'admin' command on: none
+[20-02-2023 18:40:59]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[20-02-2023 18:41:00]	MEIRELES [268481614] used 'admin_help tele/towns_castles.htm' command on: none
+[20-02-2023 18:41:03]	MEIRELES [268481614] used 'admin_tele' command on: none
+[20-02-2023 18:41:06]	MEIRELES [268481614] used 'admin_move_to 82080 148447 -3177' command on: none
+[20-02-2023 18:41:24]	MEIRELES [268481614] used 'admin' command on: none
+[20-02-2023 18:41:26]	MEIRELES [268481614] used 'admin_itemcreate' command on: none
+[20-02-2023 18:41:43]	MEIRELES [268481614] used 'admin' command on: Valentina
+[20-02-2023 18:41:46]	MEIRELES [268481614] used 'admin_itemcreate' command on: MEIRELES
+[20-02-2023 18:41:49]	MEIRELES [268481614] used 'admin_admin' command on: MEIRELES
+[20-02-2023 18:41:55]	MEIRELES [268481614] used 'admin_gmshop' command on: MEIRELES
+[20-02-2023 18:41:58]	MEIRELES [268481614] used 'admin_admin' command on: MEIRELES
+[20-02-2023 18:42:22]	MEIRELES [268481614] used 'admin' command on: MEIRELES
+[20-02-2023 18:42:24]	MEIRELES [268481614] used 'admin_itemcreate' command on: MEIRELES
+[20-02-2023 18:42:41]	MEIRELES [268481614] used 'admin_create_item 5556 1000000' command on: MEIRELES
+[20-02-2023 18:43:33]	MEIRELES [268481614] used 'admin' command on: Valentina
+[20-02-2023 18:43:40]	MEIRELES [268481614] used 'admin_show_characters 1' command on: none
+[20-02-2023 18:43:54]	MEIRELES [268481614] used 'admin_admin' command on: none
+[20-02-2023 18:44:02]	MEIRELES [268481614] used 'admin_show_item' command on: none
+[20-02-2023 18:44:06]	MEIRELES [268481614] used 'admin' command on: MEIRELES
+[20-02-2023 18:44:36]	MEIRELES [268481614] used 'admin_gmspeed_menu 1' command on: MEIRELES
+[20-02-2023 18:44:45]	MEIRELES [268481614] used 'admin_admin' command on: MEIRELES
+[20-02-2023 18:44:46]	MEIRELES [268481614] used 'admin_gmspeed_menu 1' command on: MEIRELES
+[20-02-2023 18:44:49]	MEIRELES [268481614] used 'admin_admin' command on: MEIRELES
+[20-02-2023 18:44:50]	MEIRELES [268481614] used 'admin_gmspeed_menu 2' command on: MEIRELES
+[20-02-2023 18:44:51]	MEIRELES [268481614] used 'admin_admin' command on: MEIRELES
+[20-02-2023 18:44:55]	MEIRELES [268481614] used 'admin_gmspeed_menu 4' command on: MEIRELES
+[20-02-2023 18:44:58]	MEIRELES [268481614] used 'admin_admin' command on: MEIRELES
+[20-02-2023 18:47:23]	MEIRELES [268481614] used 'admin' command on: MEIRELES
+[20-02-2023 18:47:24]	MEIRELES [268481614] used 'admin_itemcreate' command on: MEIRELES
+[20-02-2023 18:47:31]	MEIRELES [268481614] used 'admin_create_item 9500 1000000' command on: MEIRELES
+[20-02-2023 18:49:11]	MEIRELES [268481614] used 'admin' command on: MEIRELES
+[20-02-2023 18:49:12]	MEIRELES [268481614] used 'admin_itemcreate' command on: MEIRELES
+[20-02-2023 18:49:24]	MEIRELES [268481614] used 'admin_create_item 9501 1000000' command on: MEIRELES
+[20-02-2023 18:49:33]	MEIRELES [268481614] used 'admin_create_item 9502 1000000' command on: MEIRELES
+[20-02-2023 18:49:43]	MEIRELES [268481614] used 'admin_create_item 9503 1000000' command on: MEIRELES
+[20-02-2023 18:49:57]	MEIRELES [268481614] used 'admin_create_item 9508 1000000' command on: MEIRELES
+[20-02-2023 18:50:17]	MEIRELES [268481614] used 'admin_create_item 9510 1000000' command on: MEIRELES
+[20-02-2023 18:51:40]	MEIRELES [268481614] used 'admin' command on: MEIRELES
+[20-02-2023 18:51:42]	MEIRELES [268481614] used 'admin_itemcreate' command on: MEIRELES
+[20-02-2023 18:51:49]	MEIRELES [268481614] used 'admin_create_item 9513 1000000' command on: MEIRELES
+[20-02-2023 18:51:53]	MEIRELES [268481614] used 'admin_create_item 9514 1000000' command on: MEIRELES
+[20-02-2023 18:52:00]	MEIRELES [268481614] used 'admin_create_item 9515 1000000' command on: MEIRELES
+[20-02-2023 18:55:29]	MEIRELES [268481614] used 'admin' command on: none
+[20-02-2023 18:55:31]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[20-02-2023 18:55:32]	MEIRELES [268481614] used 'admin_move_to 82080 148447 -3177' command on: none
+[20-02-2023 20:02:57]	MEIRELES [268481614] used 'kill' command on: Fat Captain
+[20-02-2023 20:03:18]	MEIRELES [268481614] used 'kill' command on: Fat Captain
+[20-02-2023 20:03:47]	MEIRELES [268481614] used 'admin' command on: none
+[20-02-2023 20:03:48]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[20-02-2023 20:03:50]	MEIRELES [268481614] used 'admin_move_to 82080 148447 -3177' command on: none
+[20-02-2023 20:15:28]	MEIRELES [268481614] used 'kill' command on: Fat Captain
+[20-02-2023 20:17:23]	MEIRELES [268481614] used 'kill' command on: Fat Captain
+[20-02-2023 20:17:39]	MEIRELES [268481614] used 'kill' command on: Fat Captain
+[20-02-2023 20:17:41]	MEIRELES [268481614] used 'kill' command on: Fat Captain
+[20-02-2023 20:17:44]	MEIRELES [268481614] used 'kill' command on: Fat Captain
+[20-02-2023 20:17:46]	MEIRELES [268481614] used 'kill' command on: Fat Captain
+[21-02-2023 18:07:28]	MEIRELES [268481614] used 'admin' command on: none
+[21-02-2023 18:07:29]	MEIRELES [268481614] used 'admin_admin4' command on: none
+[21-02-2023 18:07:33]	MEIRELES [268481614] used 'admin_reload htm' command on: none
+[21-02-2023 18:11:26]	MEIRELES [268481614] used 'kill' command on: Fat Captain
+[21-02-2023 18:13:59]	MEIRELES [268481614] used 'admin' command on: none
+[21-02-2023 18:14:01]	MEIRELES [268481614] used 'admin_admin4' command on: none
+[21-02-2023 18:14:03]	MEIRELES [268481614] used 'admin_admin' command on: none
+[21-02-2023 18:14:04]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[21-02-2023 18:14:05]	MEIRELES [268481614] used 'admin_move_to 82080 148447 -3177' command on: none
+[21-02-2023 18:14:53]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[21-02-2023 18:14:54]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[21-02-2023 18:14:55]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[21-02-2023 18:14:55]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[21-02-2023 18:14:56]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[21-02-2023 18:14:57]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[21-02-2023 18:14:57]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[21-02-2023 18:14:58]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[21-02-2023 18:14:59]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[21-02-2023 18:15:00]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[21-02-2023 18:15:01]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[21-02-2023 18:15:04]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[21-02-2023 18:15:04]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[21-02-2023 18:15:04]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[21-02-2023 18:15:05]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[21-02-2023 18:15:06]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[21-02-2023 18:15:11]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[21-02-2023 18:15:13]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[21-02-2023 18:15:33]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[21-02-2023 18:15:34]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[21-02-2023 18:15:35]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[21-02-2023 18:15:42]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[21-02-2023 18:15:42]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[21-02-2023 18:15:43]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[21-02-2023 18:15:44]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[21-02-2023 18:15:50]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:15:50]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:15:51]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:15:51]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:15:52]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:15:52]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:15:53]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:15:53]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:15:56]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:15:57]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[21-02-2023 18:15:57]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[21-02-2023 18:15:58]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:15:58]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:15:59]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:00]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:01]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:02]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[21-02-2023 18:16:03]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[21-02-2023 18:16:05]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[21-02-2023 18:16:06]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[21-02-2023 18:16:07]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[21-02-2023 18:16:08]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[21-02-2023 18:16:08]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[21-02-2023 18:16:09]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:10]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:11]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:12]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:12]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:13]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[21-02-2023 18:16:14]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[21-02-2023 18:16:16]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:16]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[21-02-2023 18:16:17]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[21-02-2023 18:16:18]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[21-02-2023 18:16:20]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:21]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:21]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:22]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:23]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:24]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:24]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:25]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:26]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:28]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:29]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:29]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:30]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:31]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:32]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:33]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:33]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:34]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:35]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[21-02-2023 18:16:37]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[21-02-2023 18:16:37]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:38]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:39]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:39]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[21-02-2023 18:16:40]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[21-02-2023 18:16:41]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[21-02-2023 18:16:41]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:42]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:43]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[21-02-2023 18:16:44]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[21-02-2023 18:16:45]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[21-02-2023 18:16:46]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[21-02-2023 18:16:48]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[21-02-2023 18:16:48]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:49]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:50]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:50]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:51]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[21-02-2023 18:16:57]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[21-02-2023 18:16:58]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[21-02-2023 18:16:59]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[21-02-2023 18:20:13]	MEIRELES [268481614] used 'admin' command on: none
+[21-02-2023 18:20:17]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[21-02-2023 18:20:18]	MEIRELES [268481614] used 'admin_move_to 82080 148447 -3177' command on: none
+[21-02-2023 18:23:18]	MEIRELES [268481614] used 'kill' command on: Krokian
+[21-02-2023 18:24:08]	MEIRELES [268481614] used 'kill' command on: Krokian
+[21-02-2023 18:24:14]	MEIRELES [268481614] used 'kill' command on: Krokian
+[21-02-2023 18:24:23]	MEIRELES [268481614] used 'kill' command on: Krokian
+[21-02-2023 18:43:20]	MEIRELES [268481614] used 'admin' command on: none
+[21-02-2023 18:43:22]	MEIRELES [268481614] used 'admin_admin4' command on: none
+[21-02-2023 18:43:26]	MEIRELES [268481614] used 'admin_reload htm' command on: none
+[21-02-2023 18:44:19]	MEIRELES [268481614] used 'admin' command on: none
+[21-02-2023 18:44:20]	MEIRELES [268481614] used 'admin_admin4' command on: none
+[21-02-2023 18:44:22]	MEIRELES [268481614] used 'admin_reload htm' command on: none
+[21-02-2023 18:45:17]	MEIRELES [268481614] used 'admin' command on: none
+[21-02-2023 18:45:18]	MEIRELES [268481614] used 'admin_admin4' command on: none
+[21-02-2023 18:45:20]	MEIRELES [268481614] used 'admin_reload htm' command on: none
+[21-02-2023 18:46:48]	MEIRELES [268481614] used 'admin' command on: Krokian
+[21-02-2023 18:46:49]	MEIRELES [268481614] used 'admin_admin4' command on: Krokian
+[21-02-2023 18:46:51]	MEIRELES [268481614] used 'admin_reload htm' command on: Krokian
+[21-02-2023 18:47:04]	MEIRELES [268481614] used 'kill' command on: Krokian
+[21-02-2023 18:47:18]	MEIRELES [268481614] used 'kill' command on: Krokian
+[21-02-2023 18:53:01]	MEIRELES [268481614] used 'heal' command on: MEIRELES
+[21-02-2023 19:10:52]	MEIRELES [268481614] used 'admin' command on: none
+[21-02-2023 19:10:53]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[21-02-2023 19:10:54]	MEIRELES [268481614] used 'admin_move_to 82080 148447 -3177' command on: none
+[25-02-2023 14:19:32]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:19:39]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[25-02-2023 14:19:40]	MEIRELES [268481614] used 'admin_move_to 82080 148447 -3177' command on: none
+[25-02-2023 14:21:15]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:21:17]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[25-02-2023 14:21:18]	MEIRELES [268481614] used 'admin_move_to 82080 148447 -3177' command on: none
+[25-02-2023 14:22:02]	MEIRELES [268481614] used 'admin' command on: Valentina
+[25-02-2023 14:22:08]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:22:22]	MEIRELES [268481614] used 'admin_help gmshop/QuestItems.htm' command on: none
+[25-02-2023 14:22:24]	MEIRELES [268481614] used 'admin_buy 9148' command on: none
+[25-02-2023 14:25:50]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:25:52]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:26:02]	MEIRELES [268481614] used 'admin_help gmshop/recipes.htm' command on: none
+[25-02-2023 14:26:04]	MEIRELES [268481614] used 'admin_admin' command on: none
+[25-02-2023 14:26:05]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:26:06]	MEIRELES [268481614] used 'admin_help gmshop/QuestItems.htm' command on: none
+[25-02-2023 14:26:08]	MEIRELES [268481614] used 'admin_buy 9148' command on: none
+[25-02-2023 14:26:13]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:26:14]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:26:15]	MEIRELES [268481614] used 'admin_help gmshop/QuestItems.htm' command on: none
+[25-02-2023 14:26:16]	MEIRELES [268481614] used 'admin_buy 9149' command on: none
+[25-02-2023 14:26:18]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:26:20]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:26:21]	MEIRELES [268481614] used 'admin_help gmshop/QuestItems.htm' command on: none
+[25-02-2023 14:26:22]	MEIRELES [268481614] used 'admin_buy 300539' command on: none
+[25-02-2023 14:26:34]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:26:36]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:26:37]	MEIRELES [268481614] used 'admin_help gmshop/QuestItems.htm' command on: none
+[25-02-2023 14:26:38]	MEIRELES [268481614] used 'admin_buy 300530' command on: none
+[25-02-2023 14:26:46]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:26:47]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:26:48]	MEIRELES [268481614] used 'admin_help gmshop/QuestItems.htm' command on: none
+[25-02-2023 14:26:49]	MEIRELES [268481614] used 'admin_buy 300540' command on: none
+[25-02-2023 14:26:51]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:26:53]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:26:55]	MEIRELES [268481614] used 'admin_help gmshop/QuestItems.htm' command on: none
+[25-02-2023 14:26:56]	MEIRELES [268481614] used 'admin_buy 300541' command on: none
+[25-02-2023 14:27:04]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:27:06]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:27:07]	MEIRELES [268481614] used 'admin_help gmshop/QuestItems.htm' command on: none
+[25-02-2023 14:27:08]	MEIRELES [268481614] used 'admin_buy 300542' command on: none
+[25-02-2023 14:27:13]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:27:16]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:27:23]	MEIRELES [268481614] used 'admin_buy 300536' command on: none
+[25-02-2023 14:27:26]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:27:27]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:27:28]	MEIRELES [268481614] used 'admin_help gmshop/materials.htm' command on: none
+[25-02-2023 14:27:30]	MEIRELES [268481614] used 'admin_buy 300531' command on: none
+[25-02-2023 14:27:32]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:27:34]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:27:43]	MEIRELES [268481614] used 'admin_buy 3002' command on: none
+[25-02-2023 14:27:53]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:27:56]	MEIRELES [268481614] used 'admin_gmshop' command on: none
+[25-02-2023 14:34:30]	MEIRELES [268481614] used 'admin' command on: MEIRELES
+[25-02-2023 14:34:31]	MEIRELES [268481614] used 'admin_itemcreate' command on: MEIRELES
+[25-02-2023 14:34:39]	MEIRELES [268481614] used 'admin_create_item 7075 1' command on: MEIRELES
+[25-02-2023 14:39:03]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 14:39:04]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[25-02-2023 14:39:12]	MEIRELES [268481614] used 'admin_help tele/raid/raid_special.htm' command on: none
+[25-02-2023 14:39:34]	MEIRELES [268481614] used 'admin_admin' command on: none
+[25-02-2023 14:39:36]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[25-02-2023 14:39:49]	MEIRELES [268481614] used 'admin_help tele/other.htm' command on: none
+[25-02-2023 14:39:54]	MEIRELES [268481614] used 'admin_help tele/raid.htm' command on: none
+[25-02-2023 14:39:57]	MEIRELES [268481614] used 'admin_help tele/raid/raid_special.htm' command on: none
+[25-02-2023 14:40:02]	MEIRELES [268481614] used 'admin_admin' command on: none
+[25-02-2023 14:40:04]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[25-02-2023 14:40:08]	MEIRELES [268481614] used 'admin_help tele/other.htm' command on: none
+[25-02-2023 14:40:09]	MEIRELES [268481614] used 'admin_help tele/raid.htm' command on: none
+[25-02-2023 14:40:12]	MEIRELES [268481614] used 'admin_help tele/raid/raid_80.htm' command on: none
+[25-02-2023 14:40:23]	MEIRELES [268481614] used 'admin_admin' command on: none
+[25-02-2023 14:42:15]	MEIRELES [268481614] used 'admin' command on: MEIRELES
+[25-02-2023 14:42:16]	MEIRELES [268481614] used 'admin_itemcreate' command on: MEIRELES
+[25-02-2023 14:42:21]	MEIRELES [268481614] used 'admin_create_item 8073 1' command on: MEIRELES
+[25-02-2023 14:42:31]	MEIRELES [268481614] used 'admin_create_item 8073 100' command on: MEIRELES
+[25-02-2023 14:42:47]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 14:42:47]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[25-02-2023 14:42:48]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 14:42:49]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[25-02-2023 14:42:49]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 14:42:50]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 14:42:51]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 14:42:52]	MEIRELES [268481614] used 'kill' command on: wall_door_a_center_8
+[25-02-2023 14:42:53]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 14:42:55]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[25-02-2023 14:42:56]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 14:42:56]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[25-02-2023 14:42:57]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 14:42:58]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[25-02-2023 14:43:12]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 14:44:52]	MEIRELES [268481614] used 'admin' command on: wall_door_a_center_3
+[25-02-2023 14:45:01]	MEIRELES [268481614] used 'admin_open' command on: wall_door_a_center_5
+[25-02-2023 14:45:03]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[25-02-2023 14:45:06]	MEIRELES [268481614] used 'admin' command on: wall_door_a_center_1
+[25-02-2023 14:45:07]	MEIRELES [268481614] used 'admin_open' command on: wall_door_a_center_1
+[25-02-2023 14:45:10]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[25-02-2023 14:45:12]	MEIRELES [268481614] used 'admin' command on: wall_door_a_center_3
+[25-02-2023 14:45:14]	MEIRELES [268481614] used 'admin_open' command on: wall_door_a_center_3
+[25-02-2023 14:45:16]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[25-02-2023 14:45:18]	MEIRELES [268481614] used 'admin' command on: wall_door_a_center_7
+[25-02-2023 14:45:22]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[25-02-2023 14:45:52]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[25-02-2023 14:45:53]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[25-02-2023 14:45:53]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[25-02-2023 14:45:55]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[25-02-2023 14:45:58]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 14:45:59]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 14:46:00]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[25-02-2023 14:46:00]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[25-02-2023 14:46:01]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[25-02-2023 14:46:02]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[25-02-2023 14:46:02]	MEIRELES [268481614] used 'kill' command on: Dark Choir Archer
+[25-02-2023 14:46:03]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[25-02-2023 14:46:04]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[25-02-2023 14:46:04]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[25-02-2023 14:46:05]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[25-02-2023 14:46:05]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[25-02-2023 14:46:08]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:09]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:09]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:10]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:10]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:11]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:12]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:12]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:15]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:28]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:29]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:30]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 14:46:31]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 14:46:31]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:32]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:33]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:33]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:34]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:34]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:35]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:36]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:37]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:40]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 14:46:40]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[25-02-2023 14:46:41]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[25-02-2023 14:46:42]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[25-02-2023 14:46:45]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 14:46:46]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 14:46:46]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 14:46:48]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 14:46:51]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 14:55:47]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 14:55:51]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 14:55:53]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 14:55:58]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:27:20]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 15:27:22]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[25-02-2023 15:27:23]	MEIRELES [268481614] used 'admin_move_to 82080 148447 -3177' command on: none
+[25-02-2023 15:28:19]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 15:28:26]	MEIRELES [268481614] used 'admin_admin3' command on: none
+[25-02-2023 15:28:32]	MEIRELES [268481614] used 'admin_admin4' command on: none
+[25-02-2023 15:28:33]	MEIRELES [268481614] used 'admin_admin3' command on: none
+[25-02-2023 15:28:40]	MEIRELES [268481614] used 'admin_admin3' command on: none
+[25-02-2023 15:28:43]	MEIRELES [268481614] used 'admin_admin2' command on: none
+[25-02-2023 15:28:47]	MEIRELES [268481614] used 'admin_admin4' command on: none
+[25-02-2023 15:28:49]	MEIRELES [268481614] used 'admin_admin3' command on: none
+[25-02-2023 15:28:53]	MEIRELES [268481614] used 'admin_admin' command on: none
+[25-02-2023 15:29:28]	MEIRELES [268481614] used 'admin' command on: MEIRELES
+[25-02-2023 15:29:30]	MEIRELES [268481614] used 'admin_admin3' command on: MEIRELES
+[25-02-2023 15:29:34]	MEIRELES [268481614] used 'admin_hide' command on: MEIRELES
+[25-02-2023 15:29:54]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 15:30:08]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[25-02-2023 15:30:10]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[25-02-2023 15:30:11]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[25-02-2023 15:30:13]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 15:30:14]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 15:30:15]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[25-02-2023 15:30:16]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Wizard
+[25-02-2023 15:30:17]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 15:30:18]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 15:30:20]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 15:30:21]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 15:30:22]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 15:30:23]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Patrol
+[25-02-2023 15:30:48]	MEIRELES [268481614] used 'admin' command on: wall_door_a_center_5
+[25-02-2023 15:30:49]	MEIRELES [268481614] used 'admin_open' command on: wall_door_a_center_5
+[25-02-2023 15:30:52]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[25-02-2023 15:30:55]	MEIRELES [268481614] used 'admin' command on: wall_door_a_center_7
+[25-02-2023 15:30:57]	MEIRELES [268481614] used 'admin_open' command on: wall_door_a_center_7
+[25-02-2023 15:30:59]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[25-02-2023 15:31:02]	MEIRELES [268481614] used 'admin' command on: wall_door_a_center_1
+[25-02-2023 15:31:03]	MEIRELES [268481614] used 'admin_open' command on: wall_door_a_center_1
+[25-02-2023 15:31:05]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[25-02-2023 15:31:07]	MEIRELES [268481614] used 'admin' command on: wall_door_a_center_3
+[25-02-2023 15:31:10]	MEIRELES [268481614] used 'kill' command on: Hall Alarm Device
+[25-02-2023 15:31:21]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[25-02-2023 15:31:22]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[25-02-2023 15:31:25]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[25-02-2023 15:31:34]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[25-02-2023 15:31:36]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[25-02-2023 15:31:37]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[25-02-2023 15:31:39]	MEIRELES [268481614] used 'kill' command on: Dark Choir Player
+[25-02-2023 15:31:43]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 15:31:44]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 15:31:46]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 15:31:53]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 15:31:55]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 15:31:57]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 15:31:59]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 15:32:02]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 15:32:03]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 15:32:04]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 15:32:05]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[25-02-2023 15:32:07]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[25-02-2023 15:32:08]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 15:32:09]	MEIRELES [268481614] used 'kill' command on: Dark Choir Captain
+[25-02-2023 15:32:10]	MEIRELES [268481614] used 'kill' command on: Dark Choir Witch Doctor
+[25-02-2023 15:32:11]	MEIRELES [268481614] used 'kill' command on: Dark Choir Lancer
+[25-02-2023 15:32:12]	MEIRELES [268481614] used 'kill' command on: Dark Choir Prima Donna
+[25-02-2023 15:32:21]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[25-02-2023 15:32:23]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[25-02-2023 15:32:25]	MEIRELES [268481614] used 'kill' command on: Hall Keeper Suicidal Soldier
+[25-02-2023 15:39:39]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:39:41]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:39:43]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:39:47]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:39:52]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:39:53]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:39:55]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:39:57]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:39:59]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:40:01]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:40:03]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:40:06]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:40:29]	MEIRELES [268481614] used 'kill' command on: Evil Spirit
+[25-02-2023 15:40:32]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:40:34]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:40:37]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:40:40]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:40:43]	MEIRELES [268481614] used 'kill' command on: Breath of Halisha
+[25-02-2023 15:40:46]	MEIRELES [268481614] used 'kill' command on: Evil Spirit
+[25-02-2023 15:44:43]	MEIRELES [268481614] used 'heal' command on: MEIRELES
+[25-02-2023 15:44:49]	MEIRELES [268481614] used 'admin' command on: MEIRELES
+[25-02-2023 15:45:24]	MEIRELES [268481614] used 'admin_admin4' command on: MEIRELES
+[25-02-2023 15:45:27]	MEIRELES [268481614] used 'admin_admin3' command on: MEIRELES
+[25-02-2023 15:45:31]	MEIRELES [268481614] used 'admin_admin2' command on: MEIRELES
+[25-02-2023 15:45:35]	MEIRELES [268481614] used 'admin_admin' command on: MEIRELES
+[25-02-2023 15:45:36]	MEIRELES [268481614] used 'admin_find_character' command on: MEIRELES
+[25-02-2023 15:45:43]	MEIRELES [268481614] used 'admin_find_character meireles' command on: MEIRELES
+[25-02-2023 15:45:44]	MEIRELES [268481614] used 'admin_character_info MEIRELES' command on: MEIRELES
+[25-02-2023 15:45:56]	MEIRELES [268481614] used 'admin_admin' command on: MEIRELES
+[25-02-2023 15:46:00]	MEIRELES [268481614] used 'admin_enchant' command on: MEIRELES
+[25-02-2023 15:46:10]	MEIRELES [268481614] used 'admin_setew 50' command on: MEIRELES
+[25-02-2023 15:46:22]	MEIRELES [268481614] used 'admin' command on: MEIRELES
+[25-02-2023 15:46:23]	MEIRELES [268481614] used 'admin_enchant' command on: MEIRELES
+[25-02-2023 15:46:27]	MEIRELES [268481614] used 'admin_setew 1000' command on: MEIRELES
+[25-02-2023 15:47:21]	MEIRELES [268481614] used 'admin' command on: MEIRELES
+[25-02-2023 15:47:23]	MEIRELES [268481614] used 'admin_enchant' command on: MEIRELES
+[25-02-2023 15:47:29]	MEIRELES [268481614] used 'admin_setew 2000' command on: MEIRELES
+[25-02-2023 15:50:33]	MEIRELES [268481614] used 'heal' command on: MEIRELES
+[25-02-2023 15:50:36]	MEIRELES [268481614] used 'admin' command on: MEIRELES
+[25-02-2023 15:50:38]	MEIRELES [268481614] used 'admin_enchant' command on: MEIRELES
+[25-02-2023 15:50:43]	MEIRELES [268481614] used 'admin_setew 6000' command on: MEIRELES
+[25-02-2023 15:50:46]	MEIRELES [268481614] used 'admin' command on: Scarlet van Halisha
+[25-02-2023 15:53:21]	MEIRELES [268481614] used 'admin' command on: none
+[25-02-2023 15:53:22]	MEIRELES [268481614] used 'admin_move_to' command on: none
+[25-02-2023 15:53:24]	MEIRELES [268481614] used 'admin_move_to 82080 148447 -3177' command on: none
+[16-05-2023 23:58:27]	MEIRELES [268483921] used 'admin' command on: none
+[16-05-2023 23:58:27]	MEIRELES [268483921] used 'admin_admin4' command on: none
+[16-05-2023 23:58:30]	MEIRELES [268483921] used 'admin_reload htm' command on: none
+[17-05-2023 00:00:48]	MEIRELES [268483921] used 'admin' command on: none
+[17-05-2023 00:00:52]	MEIRELES [268483921] used 'admin_tvt' command on: none
+[17-05-2023 00:01:02]	MEIRELES [268483921] used 'admin_tvt_abort' command on: none
+[17-05-2023 00:01:14]	MEIRELES [268483921] used 'admin' command on: none
+[17-05-2023 00:01:16]	MEIRELES [268483921] used 'admin_admin4' command on: none
+[17-05-2023 00:01:18]	MEIRELES [268483921] used 'admin_reload config' command on: none
+[17-05-2023 00:05:42]	MEIRELES [268483921] used 'admin' command on: none
+[17-05-2023 00:05:45]	MEIRELES [268483921] used 'admin_move_to' command on: none
+[17-05-2023 00:06:05]	MEIRELES [268483921] used 'admin_move_to 174229 -88032 -5116' command on: none
+[17-05-2023 00:06:26]	MEIRELES [268483921] used 'admin' command on: Cherub Galaxia
+[17-05-2023 00:06:27]	MEIRELES [268483921] used 'admin_admin3' command on: Cherub Galaxia
+[17-05-2023 00:06:28]	MEIRELES [268483921] used 'admin_hide' command on: Cherub Galaxia
+[17-05-2023 00:08:28]	MEIRELES [268483921] used 'admin' command on: none
+[17-05-2023 00:08:30]	MEIRELES [268483921] used 'admin_move_to' command on: none
+[17-05-2023 00:08:34]	MEIRELES [268483921] used 'admin_move_to 82080 148447 -3177' command on: none
+[17-05-2023 16:54:17]	MEIRELES [268483921] used 'admin' command on: none
+[17-05-2023 16:54:18]	MEIRELES [268483921] used 'admin_move_to' command on: none
+[17-05-2023 16:55:04]	MEIRELES [268483921] used 'admin_move_to 83374 148081 -3407' command on: none
+[17-05-2023 17:01:51]	MEIRELES [268483921] used 'admin_move_to 174229 -88032 -5116' command on: none
+[17-05-2023 18:15:20]	MEIRELES [268483921] used 'admin' command on: none
+[17-05-2023 18:15:21]	MEIRELES [268483921] used 'admin_admin3' command on: none
+[17-05-2023 18:15:22]	MEIRELES [268483921] used 'admin_hide' command on: none
+[17-05-2023 22:13:05]	MEIRELES [268483921] used 'setlevel 81' command on: teste22
+[17-05-2023 22:13:20]	MEIRELES [268483921] used 'admin' command on: teste22
+[17-05-2023 22:13:21]	MEIRELES [268483921] used 'admin_admin3' command on: teste22
+[17-05-2023 22:13:23]	MEIRELES [268483921] used 'admin_hide' command on: teste22
+[17-05-2023 22:15:43]	MEIRELES [268483921] used 'setlevel 81' command on: teste22
+[17-05-2023 22:15:45]	MEIRELES [268483921] used 'admin' command on: teste22
+[17-05-2023 22:15:46]	MEIRELES [268483921] used 'admin_admin4' command on: teste22
+[17-05-2023 22:15:47]	MEIRELES [268483921] used 'admin_admin3' command on: teste22
+[17-05-2023 22:15:48]	MEIRELES [268483921] used 'admin_hide' command on: teste22
+[18-05-2023 17:18:27]	MEIRELES [268483921] used 'admin' command on: none
+[18-05-2023 17:18:29]	MEIRELES [268483921] used 'admin_admin4' command on: none
+[18-05-2023 17:18:56]	MEIRELES [268483921] used 'server' command on: none
+[18-05-2023 17:18:58]	MEIRELES [268483921] used 'admin_server_restart 1' command on: none
+[18-05-2023 17:35:24]	MEIRELES [268483921] used 'bossevent' command on: none
+[18-05-2023 17:35:42]	MEIRELES [268483921] used 'bossevent' command on: none

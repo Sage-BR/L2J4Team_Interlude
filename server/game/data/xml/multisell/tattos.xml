@@ -1,0 +1,56 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+
+<!-- Jewels Boss & Tattoos -->
+
+<list maintainEnchantment="true">
+  
+  <!-- Earring of Antharas -->
+  <item id="3">
+    <production id="20001" count="1"/>
+	<ingredient id="9503" count="5"/>
+  </item>
+  
+  <!-- Earring of Antharas -->
+  <item id="4">
+    <production id="20003" count="1"/>
+	<ingredient id="9503" count="5"/>
+  </item>
+  
+    <!-- shirt -->
+  <item id="5">
+    <production id="9441" count="1"/>
+	<ingredient id="9503" count="20"/>
+  </item>
+  
+      <!-- shirt -->
+  <item id="6">
+    <production id="9442" count="1"/>
+	<ingredient id="9503" count="20"/>
+  </item>
+  
+      <!-- shirt -->
+  <item id="7">
+    <production id="9443" count="1"/>
+	<ingredient id="9503" count="20"/>
+  </item>
+  
+      <!-- shirt -->
+  <item id="8">
+    <production id="9444" count="1"/>
+	<ingredient id="9503" count="20"/>
+  </item>
+  
+      <!-- shirt -->
+  <item id="9">
+    <production id="9445" count="1"/>
+	<ingredient id="9503" count="20"/>
+  </item>
+  
+    
+      <!-- shirt -->
+  <item id="10">
+    <production id="9446" count="1"/>
+	<ingredient id="9503" count="20"/>
+  </item>
+  
+</list>

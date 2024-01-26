@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!-- Jewels Boss -->
+
+<list maintainEnchantment="true">
+
+  <item id="1">
+	<ingredient id="9503" count="5"/>
+    <production id="6657" count="1" enchant="18"/>
+	  </item>
+	  
+	  <item id="2">
+	      <ingredient id="9503" count="5"/>
+    <production id="6660" count="1" enchant="18"/>
+	  </item>
+	  
+	  <item id="3">
+	      <ingredient id="9503" count="5"/>
+    <production id="6658" count="1" enchant="18"/>
+	  </item>
+	  
+	  <item id="4">
+	      <ingredient id="9503" count="5"/>
+    <production id="6659" count="1" enchant="18"/>
+	  </item>
+	  
+	<item id="5">
+	    <ingredient id="9503" count="5"/>
+    <production id="6656" count="1" enchant="18"/>
+  </item>
+
+  <item id="6">
+    <ingredient id="9503" count="5"/>
+    <production id="8191" count="1" enchant="18"/>
+  </item>
+  
+    <item id="7">
+    <production id="6661" count="1" enchant="18"/>
+	<ingredient id="9503" count="5"/>
+  </item>
+  
+  <!-- Earring of Antharas -->
+  <item id="8">
+    <production id="6662" count="1" enchant="18"/>
+	<ingredient id="9503" count="5"/>
+  </item>
+
+  </list>
