@@ -11,7 +11,7 @@ public interface IUserCommandHandler
 	 * @return command success
 	 */
 	public boolean useUserCommand(int id, Player activeChar);
-
+	
 	/**
 	 * this method is called at initialization to register all the item ids automatically
 	 * @return all known itemIds

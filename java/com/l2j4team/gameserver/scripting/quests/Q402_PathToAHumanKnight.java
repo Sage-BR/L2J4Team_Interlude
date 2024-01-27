@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q402_PathToAHumanKnight extends Quest
 {
 	private static final String qn = "Q402_PathToAHumanKnight";
-
+	
 	// Items
 	private static final int SWORD_OF_RITUAL = 1161;
 	private static final int COIN_OF_LORDS_1 = 1162;
@@ -32,7 +32,7 @@ public class Q402_PathToAHumanKnight extends Quest
 	private static final int EINHASAD_CHURCH_MARK_3 = 1178;
 	private static final int HORRIBLE_SKULL = 1179;
 	private static final int MARK_OF_ESQUIRE = 1271;
-
+	
 	// NPCs
 	private static final int SIR_KLAUS_VASPER = 30417;
 	private static final int BATHIS = 30332;
@@ -43,19 +43,19 @@ public class Q402_PathToAHumanKnight extends Quest
 	private static final int BIOTIN = 30031;
 	private static final int SIR_AARON_TANFORD = 30653;
 	private static final int SIR_COLLIN_WINDAWOOD = 30311;
-
+	
 	public Q402_PathToAHumanKnight()
 	{
 		super(402, "Path to a Human Knight");
-
+		
 		setItemsIds(MARK_OF_ESQUIRE, COIN_OF_LORDS_1, COIN_OF_LORDS_2, COIN_OF_LORDS_3, COIN_OF_LORDS_4, COIN_OF_LORDS_5, COIN_OF_LORDS_6, GLUDIO_GUARD_MARK_1, BUGBEAR_NECKLACE, EINHASAD_CHURCH_MARK_1, EINHASAD_CRUCIFIX, GLUDIO_GUARD_MARK_2, SPIDER_LEG, EINHASAD_CHURCH_MARK_2, LIZARDMAN_TOTEM, GLUDIO_GUARD_MARK_3, GIANT_SPIDER_HUSK, EINHASAD_CHURCH_MARK_3, LIZARDMAN_TOTEM, GLUDIO_GUARD_MARK_3, GIANT_SPIDER_HUSK, EINHASAD_CHURCH_MARK_3, HORRIBLE_SKULL);
-
+		
 		addStartNpc(SIR_KLAUS_VASPER);
 		addTalkId(SIR_KLAUS_VASPER, BATHIS, RAYMOND, BEZIQUE, LEVIAN, GILBERT, BIOTIN, SIR_AARON_TANFORD, SIR_COLLIN_WINDAWOOD);
-
+		
 		addKillId(20775, 27024, 20038, 20043, 20050, 20030, 20027, 20024, 20103, 20106, 20108, 20404);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -63,7 +63,7 @@ public class Q402_PathToAHumanKnight extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30417-05.htm"))
 		{
 			if (player.getClassId() != ClassId.HUMAN_FIGHTER)
@@ -113,7 +113,7 @@ public class Q402_PathToAHumanKnight extends Quest
 		else if (event.equalsIgnoreCase("30417-13.htm") || event.equalsIgnoreCase("30417-14.htm"))
 		{
 			final int coinCount = st.getQuestItemsCount(COIN_OF_LORDS_1) + st.getQuestItemsCount(COIN_OF_LORDS_2) + st.getQuestItemsCount(COIN_OF_LORDS_3) + st.getQuestItemsCount(COIN_OF_LORDS_4) + st.getQuestItemsCount(COIN_OF_LORDS_5) + st.getQuestItemsCount(COIN_OF_LORDS_6);
-
+			
 			st.takeItems(COIN_OF_LORDS_1, -1);
 			st.takeItems(COIN_OF_LORDS_2, -1);
 			st.takeItems(COIN_OF_LORDS_3, -1);
@@ -127,10 +127,10 @@ public class Q402_PathToAHumanKnight extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -138,13 +138,13 @@ public class Q402_PathToAHumanKnight extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "30417-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -173,7 +173,7 @@ public class Q402_PathToAHumanKnight extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case BATHIS:
 						if (st.hasQuestItems(COIN_OF_LORDS_1))
 							htmltext = "30332-05.htm";
@@ -193,7 +193,7 @@ public class Q402_PathToAHumanKnight extends Quest
 						else
 							htmltext = "30332-01.htm";
 						break;
-
+					
 					case RAYMOND:
 						if (st.hasQuestItems(COIN_OF_LORDS_2))
 							htmltext = "30289-06.htm";
@@ -213,7 +213,7 @@ public class Q402_PathToAHumanKnight extends Quest
 						else
 							htmltext = "30289-01.htm";
 						break;
-
+					
 					case BEZIQUE:
 						if (st.hasQuestItems(COIN_OF_LORDS_3))
 							htmltext = "30379-05.htm";
@@ -233,7 +233,7 @@ public class Q402_PathToAHumanKnight extends Quest
 						else
 							htmltext = "30379-01.htm";
 						break;
-
+					
 					case LEVIAN:
 						if (st.hasQuestItems(COIN_OF_LORDS_4))
 							htmltext = "30037-05.htm";
@@ -253,7 +253,7 @@ public class Q402_PathToAHumanKnight extends Quest
 						else
 							htmltext = "30037-01.htm";
 						break;
-
+					
 					case GILBERT:
 						if (st.hasQuestItems(COIN_OF_LORDS_5))
 							htmltext = "30039-05.htm";
@@ -273,7 +273,7 @@ public class Q402_PathToAHumanKnight extends Quest
 						else
 							htmltext = "30039-01.htm";
 						break;
-
+					
 					case BIOTIN:
 						if (st.hasQuestItems(COIN_OF_LORDS_6))
 							htmltext = "30031-05.htm";
@@ -293,63 +293,63 @@ public class Q402_PathToAHumanKnight extends Quest
 						else
 							htmltext = "30031-01.htm";
 						break;
-
+					
 					case SIR_AARON_TANFORD:
 						htmltext = "30653-01.htm";
 						break;
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case 20775: // Bugbear Raider
 				if (st.hasQuestItems(GLUDIO_GUARD_MARK_1))
 					st.dropItemsAlways(BUGBEAR_NECKLACE, 1, 10);
 				break;
-
+			
 			case 27024: // Undead Priest
 				if (st.hasQuestItems(EINHASAD_CHURCH_MARK_1))
 					st.dropItems(EINHASAD_CRUCIFIX, 1, 12, 500000);
 				break;
-
+			
 			case 20038: // Poison Spider
 			case 20043: // Arachnid Tracker
 			case 20050: // Arachnid Predator
 				if (st.hasQuestItems(GLUDIO_GUARD_MARK_2))
 					st.dropItemsAlways(SPIDER_LEG, 1, 20);
 				break;
-
+			
 			case 20030: // Langk Lizardman
 			case 20027: // Langk Lizardman Scout
 			case 20024: // Langk Lizardman Warrior
 				if (st.hasQuestItems(EINHASAD_CHURCH_MARK_2))
 					st.dropItems(LIZARDMAN_TOTEM, 1, 20, 500000);
 				break;
-
+			
 			case 20103: // Giant Spider
 			case 20106: // Talon Spider
 			case 20108: // Blade Spider
 				if (st.hasQuestItems(GLUDIO_GUARD_MARK_3))
 					st.dropItems(GIANT_SPIDER_HUSK, 1, 20, 400000);
 				break;
-
+			
 			case 20404: // Silent Horror
 				if (st.hasQuestItems(EINHASAD_CHURCH_MARK_3))
 					st.dropItems(HORRIBLE_SKULL, 1, 10, 400000);
 				break;
 		}
-
+		
 		return null;
 	}
 }

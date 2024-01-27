@@ -11,7 +11,7 @@ public class PlaySound extends L2GameServerPacket
 	private final int _objectId;
 	private final Location _loc;
 	private final int _duration;
-
+	
 	/**
 	 * Used for static sound.
 	 * @param soundFile : The name of the sound file.
@@ -25,7 +25,7 @@ public class PlaySound extends L2GameServerPacket
 		_loc = Location.DUMMY_LOC;
 		_duration = 0;
 	}
-
+	
 	/**
 	 * Used for static sound.
 	 * @param unknown : Unknown parameter. Seems linked to sound names with dots (.), tutorials, sieges/bosses.
@@ -40,7 +40,7 @@ public class PlaySound extends L2GameServerPacket
 		_loc = Location.DUMMY_LOC;
 		_duration = 0;
 	}
-
+	
 	/**
 	 * Play the sound file in the client. We use a {@link WorldObject} as parameter, notably to find the position of the sound.
 	 * @param unknown
@@ -56,7 +56,7 @@ public class PlaySound extends L2GameServerPacket
 		_loc = object.getPosition();
 		_duration = 0;
 	}
-
+	
 	/**
 	 * Play the sound file in the client. All parameters can be set.
 	 * @param unknown
@@ -75,7 +75,7 @@ public class PlaySound extends L2GameServerPacket
 		_loc = loc;
 		_duration = duration;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

@@ -52,61 +52,61 @@ public class SevenSignsFestival
 		MAX_53(100, "Level 53 or lower", 53),
 		MAX_64(120, "Level 64 or lower", 64),
 		MAX_NONE(150, "No Level Limit", Experience.MAX_LEVEL - 1);
-
+		
 		private final int _maxScore;
 		private final String _name;
 		private final int _maxLevel;
-
+		
 		private FestivalType(int maxScore, String name, int maxLevel)
 		{
 			_maxScore = maxScore;
 			_name = name;
 			_maxLevel = maxLevel;
 		}
-
+		
 		public int getMaxScore()
 		{
 			return _maxScore;
 		}
-
+		
 		public String getName()
 		{
 			return _name;
 		}
-
+		
 		public int getMaxLevel()
 		{
 			return _maxLevel;
 		}
-
+		
 		public static final FestivalType VALUES[] = values();
 	}
-
+	
 	protected static final Logger _log = Logger.getLogger(SevenSignsFestival.class.getName());
-
+	
 	private static final String RESTORE_FESTIVAL = "SELECT festivalId, cabal, cycle, date, score, members FROM seven_signs_festival";
 	private static final String RESTORE_FESTIVAL_2 = "SELECT festival_cycle, accumulated_bonus0, accumulated_bonus1, accumulated_bonus2, accumulated_bonus3, accumulated_bonus4 FROM seven_signs_status WHERE id=0";
 	private static final String UPDATE = "UPDATE seven_signs_festival SET date=?, score=?, members=? WHERE cycle=? AND cabal=? AND festivalId=?";
 	private static final String INSERT = "INSERT INTO seven_signs_festival (festivalId, cabal, cycle, date, score, members) VALUES (?,?,?,?,?,?)";
 	private static final String GET_CLAN_NAME = "SELECT clan_name FROM clan_data WHERE clan_id = (SELECT clanid FROM characters WHERE char_name = ?)";
-
+	
 	/**
 	 * These length settings are important! :) All times are relative to the ELAPSED time (in ms) since a festival begins. Festival manager start is the time after the server starts to begin the first festival cycle. The cycle length should ideally be at least 2x longer than the festival length.
 	 * This allows ample time for players to sign-up to participate in the festival. The intermission is the time between the festival participants being moved to the "arenas" and the spawning of the first set of mobs. The monster swarm time is the time before the monsters swarm to the center of the
 	 * arena, after they are spawned. The chest spawn time is for when the bonus festival chests spawn, usually towards the end of the festival.
 	 */
 	public static final long FESTIVAL_SIGNUP_TIME = Config.ALT_FESTIVAL_CYCLE_LENGTH - Config.ALT_FESTIVAL_LENGTH - 60000;
-
+	
 	// Key Constants \\
 	private static final int FESTIVAL_MAX_OFFSET_X = 230;
 	private static final int FESTIVAL_MAX_OFFSET_Y = 230;
 	private static final int FESTIVAL_DEFAULT_RESPAWN = 60; // Specify in seconds!
-
+	
 	public static final int FESTIVAL_COUNT = 5;
-
+	
 	public static final int FESTIVAL_OFFERING_ID = 5901;
 	public static final int FESTIVAL_OFFERING_VALUE = 5;
-
+	
 	// ////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\
 	/*
 	 * The following contains all the necessary spawn data for: - Player Start Locations - Witches - Monsters - Chests All data is given by: X, Y, Z (coords), Heading, NPC ID (if necessary) This may be moved externally in time, but the data should not change.
@@ -145,7 +145,7 @@ public class SevenSignsFestival
 		}
 		// No level limit
 	};
-
+	
 	public static final int[][] FESTIVAL_DUSK_PLAYER_SPAWNS =
 	{
 		{
@@ -180,7 +180,7 @@ public class SevenSignsFestival
 		}
 		// No level limit
 	};
-
+	
 	protected static final int[][] FESTIVAL_DAWN_WITCH_SPAWNS =
 	{
 		{
@@ -220,7 +220,7 @@ public class SevenSignsFestival
 		}
 		// No level limit
 	};
-
+	
 	protected static final int[][] FESTIVAL_DUSK_WITCH_SPAWNS =
 	{
 		{
@@ -260,7 +260,7 @@ public class SevenSignsFestival
 		}
 		// No level limit
 	};
-
+	
 	protected static final int[][][] FESTIVAL_DAWN_PRIMARY_SPAWNS =
 	{
 		{
@@ -286,7 +286,7 @@ public class SevenSignsFestival
 				-1,
 				18010
 			},
-
+			
 			{
 				-78481,
 				112557,
@@ -308,7 +308,7 @@ public class SevenSignsFestival
 				-1,
 				18010
 			},
-
+			
 			{
 				-79803,
 				112543,
@@ -330,7 +330,7 @@ public class SevenSignsFestival
 				-1,
 				18014
 			},
-
+			
 			{
 				-79821,
 				113811,
@@ -352,7 +352,7 @@ public class SevenSignsFestival
 				-1,
 				18018
 			},
-
+			
 			// Archers and Marksmen \\
 			{
 				-79190,
@@ -406,7 +406,7 @@ public class SevenSignsFestival
 				-1,
 				18020
 			},
-
+			
 			{
 				-75277,
 				110792,
@@ -428,7 +428,7 @@ public class SevenSignsFestival
 				-1,
 				18020
 			},
-
+			
 			{
 				-75249,
 				109441,
@@ -450,7 +450,7 @@ public class SevenSignsFestival
 				-1,
 				18024
 			},
-
+			
 			{
 				-76556,
 				109490,
@@ -472,7 +472,7 @@ public class SevenSignsFestival
 				-1,
 				18028
 			},
-
+			
 			// Archers and Marksmen \\
 			{
 				-76399,
@@ -526,7 +526,7 @@ public class SevenSignsFestival
 				-1,
 				18030
 			},
-
+			
 			{
 				-74477,
 				111321,
@@ -548,7 +548,7 @@ public class SevenSignsFestival
 				-1,
 				18030
 			},
-
+			
 			{
 				-74489,
 				112604,
@@ -570,7 +570,7 @@ public class SevenSignsFestival
 				-1,
 				18034
 			},
-
+			
 			{
 				-73197,
 				112621,
@@ -592,7 +592,7 @@ public class SevenSignsFestival
 				-1,
 				18038
 			},
-
+			
 			// Archers and Marksmen \\
 			{
 				-73834,
@@ -646,7 +646,7 @@ public class SevenSignsFestival
 				-1,
 				18040
 			},
-
+			
 			{
 				-75521,
 				113158,
@@ -668,7 +668,7 @@ public class SevenSignsFestival
 				-1,
 				18040
 			},
-
+			
 			{
 				-76809,
 				113143,
@@ -690,7 +690,7 @@ public class SevenSignsFestival
 				-1,
 				18044
 			},
-
+			
 			{
 				-76831,
 				114441,
@@ -712,7 +712,7 @@ public class SevenSignsFestival
 				-1,
 				18048
 			},
-
+			
 			// Archers and Marksmen \\
 			{
 				-75703,
@@ -766,7 +766,7 @@ public class SevenSignsFestival
 				-1,
 				18050
 			},
-
+			
 			{
 				-79586,
 				110171,
@@ -788,7 +788,7 @@ public class SevenSignsFestival
 				-1,
 				18050
 			},
-
+			
 			{
 				-78825,
 				110182,
@@ -810,7 +810,7 @@ public class SevenSignsFestival
 				-1,
 				18054
 			},
-
+			
 			{
 				-78275,
 				108883,
@@ -832,7 +832,7 @@ public class SevenSignsFestival
 				-1,
 				18058
 			},
-
+			
 			// Archers and Marksmen \\
 			{
 				-79394,
@@ -864,7 +864,7 @@ public class SevenSignsFestival
 			}
 		}
 	};
-
+	
 	protected static final int[][][] FESTIVAL_DUSK_PRIMARY_SPAWNS =
 	{
 		{
@@ -890,7 +890,7 @@ public class SevenSignsFestival
 				-1,
 				18010
 			},
-
+			
 			{
 				-76539,
 				88326,
@@ -912,7 +912,7 @@ public class SevenSignsFestival
 				-1,
 				18010
 			},
-
+			
 			{
 				-77879,
 				88308,
@@ -934,7 +934,7 @@ public class SevenSignsFestival
 				-1,
 				18014
 			},
-
+			
 			{
 				-77857,
 				89605,
@@ -956,7 +956,7 @@ public class SevenSignsFestival
 				-1,
 				18018
 			},
-
+			
 			// Archers and Marksmen \\
 			{
 				-76728,
@@ -1010,7 +1010,7 @@ public class SevenSignsFestival
 				-1,
 				18020
 			},
-
+			
 			{
 				-76603,
 				85946,
@@ -1032,7 +1032,7 @@ public class SevenSignsFestival
 				-1,
 				18020
 			},
-
+			
 			{
 				-76301,
 				85960,
@@ -1054,7 +1054,7 @@ public class SevenSignsFestival
 				-1,
 				18024
 			},
-
+			
 			{
 				-76281,
 				84667,
@@ -1076,7 +1076,7 @@ public class SevenSignsFestival
 				-1,
 				18028
 			},
-
+			
 			// Archers and Marksmen \\
 			{
 				-77419,
@@ -1130,7 +1130,7 @@ public class SevenSignsFestival
 				-1,
 				18030
 			},
-
+			
 			{
 				-75495,
 				86482,
@@ -1152,7 +1152,7 @@ public class SevenSignsFestival
 				-1,
 				18030
 			},
-
+			
 			{
 				-75509,
 				87775,
@@ -1174,7 +1174,7 @@ public class SevenSignsFestival
 				-1,
 				18034
 			},
-
+			
 			{
 				-74214,
 				87789,
@@ -1196,7 +1196,7 @@ public class SevenSignsFestival
 				-1,
 				18038
 			},
-
+			
 			// Archers and Marksmen \\
 			{
 				-75324,
@@ -1250,7 +1250,7 @@ public class SevenSignsFestival
 				-1,
 				18040
 			},
-
+			
 			{
 				-79552,
 				87717,
@@ -1272,7 +1272,7 @@ public class SevenSignsFestival
 				-1,
 				18040
 			},
-
+			
 			{
 				-80866,
 				87719,
@@ -1294,7 +1294,7 @@ public class SevenSignsFestival
 				-1,
 				18044
 			},
-
+			
 			{
 				-80848,
 				89013,
@@ -1316,7 +1316,7 @@ public class SevenSignsFestival
 				-1,
 				18048
 			},
-
+			
 			// Archers and Marksmen \\
 			{
 				-80205,
@@ -1370,7 +1370,7 @@ public class SevenSignsFestival
 				-1,
 				18050
 			},
-
+			
 			{
 				-80605,
 				85349,
@@ -1392,7 +1392,7 @@ public class SevenSignsFestival
 				-1,
 				18050
 			},
-
+			
 			{
 				-79311,
 				85353,
@@ -1414,7 +1414,7 @@ public class SevenSignsFestival
 				-1,
 				18054
 			},
-
+			
 			{
 				-79297,
 				84054,
@@ -1436,7 +1436,7 @@ public class SevenSignsFestival
 				-1,
 				18058
 			},
-
+			
 			// Archers and Marksmen \\
 			{
 				-79945,
@@ -1468,7 +1468,7 @@ public class SevenSignsFestival
 			}
 		}
 	};
-
+	
 	protected static final int[][][] FESTIVAL_DAWN_SECONDARY_SPAWNS =
 	{
 		{
@@ -1487,7 +1487,7 @@ public class SevenSignsFestival
 				-1,
 				18016
 			},
-
+			
 			{
 				-78822,
 				112526,
@@ -1509,7 +1509,7 @@ public class SevenSignsFestival
 				-1,
 				18011
 			},
-
+			
 			{
 				-79524,
 				113546,
@@ -1531,7 +1531,7 @@ public class SevenSignsFestival
 				-1,
 				18011
 			},
-
+			
 			{
 				-79545,
 				112757,
@@ -1563,7 +1563,7 @@ public class SevenSignsFestival
 				-1,
 				18026
 			},
-
+			
 			{
 				-75577,
 				109776,
@@ -1585,7 +1585,7 @@ public class SevenSignsFestival
 				-1,
 				18021
 			},
-
+			
 			{
 				-76274,
 				109468,
@@ -1607,7 +1607,7 @@ public class SevenSignsFestival
 				-1,
 				18021
 			},
-
+			
 			{
 				-76351,
 				110500,
@@ -1639,7 +1639,7 @@ public class SevenSignsFestival
 				-1,
 				18036
 			},
-
+			
 			{
 				-73495,
 				111611,
@@ -1661,7 +1661,7 @@ public class SevenSignsFestival
 				-1,
 				18031
 			},
-
+			
 			{
 				-73473,
 				112301,
@@ -1683,7 +1683,7 @@ public class SevenSignsFestival
 				-1,
 				18031
 			},
-
+			
 			{
 				-74270,
 				112326,
@@ -1715,7 +1715,7 @@ public class SevenSignsFestival
 				-1,
 				18046
 			},
-
+			
 			{
 				-75824,
 				114141,
@@ -1737,7 +1737,7 @@ public class SevenSignsFestival
 				-1,
 				18041
 			},
-
+			
 			{
 				-76513,
 				114158,
@@ -1759,7 +1759,7 @@ public class SevenSignsFestival
 				-1,
 				18041
 			},
-
+			
 			{
 				-76535,
 				113357,
@@ -1791,7 +1791,7 @@ public class SevenSignsFestival
 				-1,
 				18056
 			},
-
+			
 			{
 				-79285,
 				109187,
@@ -1813,7 +1813,7 @@ public class SevenSignsFestival
 				-1,
 				18051
 			},
-
+			
 			{
 				-78587,
 				109172,
@@ -1835,7 +1835,7 @@ public class SevenSignsFestival
 				-1,
 				18051
 			},
-
+			
 			{
 				-78575,
 				109961,
@@ -1852,7 +1852,7 @@ public class SevenSignsFestival
 			},
 		}
 	};
-
+	
 	protected static final int[][][] FESTIVAL_DUSK_SECONDARY_SPAWNS =
 	{
 		{
@@ -1878,7 +1878,7 @@ public class SevenSignsFestival
 				-1,
 				18011
 			},
-
+			
 			{
 				-77544,
 				89326,
@@ -1900,7 +1900,7 @@ public class SevenSignsFestival
 				-1,
 				18011
 			},
-
+			
 			{
 				-77561,
 				88530,
@@ -1915,7 +1915,7 @@ public class SevenSignsFestival
 				-1,
 				18016
 			},
-
+			
 			{
 				-76762,
 				88615,
@@ -1954,7 +1954,7 @@ public class SevenSignsFestival
 				-1,
 				18021
 			},
-
+			
 			{
 				-76614,
 				84944,
@@ -1976,7 +1976,7 @@ public class SevenSignsFestival
 				-1,
 				18021
 			},
-
+			
 			{
 				-76594,
 				85745,
@@ -1991,7 +1991,7 @@ public class SevenSignsFestival
 				-1,
 				18026
 			},
-
+			
 			{
 				-77384,
 				85660,
@@ -2030,7 +2030,7 @@ public class SevenSignsFestival
 				-1,
 				18031
 			},
-
+			
 			{
 				-74496,
 				87464,
@@ -2052,7 +2052,7 @@ public class SevenSignsFestival
 				-1,
 				18031
 			},
-
+			
 			{
 				-75298,
 				87497,
@@ -2067,7 +2067,7 @@ public class SevenSignsFestival
 				-1,
 				18036
 			},
-
+			
 			{
 				-75219,
 				86712,
@@ -2106,7 +2106,7 @@ public class SevenSignsFestival
 				-1,
 				18041
 			},
-
+			
 			{
 				-80548,
 				88722,
@@ -2128,7 +2128,7 @@ public class SevenSignsFestival
 				-1,
 				18041
 			},
-
+			
 			{
 				-80565,
 				87916,
@@ -2143,7 +2143,7 @@ public class SevenSignsFestival
 				-1,
 				18046
 			},
-
+			
 			{
 				-79779,
 				87996,
@@ -2182,7 +2182,7 @@ public class SevenSignsFestival
 				-1,
 				18051
 			},
-
+			
 			{
 				-80311,
 				84367,
@@ -2204,7 +2204,7 @@ public class SevenSignsFestival
 				-1,
 				18051
 			},
-
+			
 			{
 				-80556,
 				85049,
@@ -2219,7 +2219,7 @@ public class SevenSignsFestival
 				-1,
 				18056
 			},
-
+			
 			{
 				-79598,
 				85127,
@@ -2236,7 +2236,7 @@ public class SevenSignsFestival
 			},
 		}
 	};
-
+	
 	protected static final int[][][] FESTIVAL_DAWN_CHEST_SPAWNS =
 	{
 		{
@@ -2269,7 +2269,7 @@ public class SevenSignsFestival
 				-1,
 				18109
 			},
-
+			
 			{
 				-79481,
 				113124,
@@ -2284,7 +2284,7 @@ public class SevenSignsFestival
 				-1,
 				18109
 			},
-
+			
 			{
 				-79364,
 				113398,
@@ -2313,7 +2313,7 @@ public class SevenSignsFestival
 				-1,
 				18109
 			},
-
+			
 			{
 				-78882,
 				113235,
@@ -2359,7 +2359,7 @@ public class SevenSignsFestival
 				-1,
 				18110
 			},
-
+			
 			{
 				-75625,
 				110195,
@@ -2374,7 +2374,7 @@ public class SevenSignsFestival
 				-1,
 				18110
 			},
-
+			
 			{
 				-75722,
 				109908,
@@ -2403,7 +2403,7 @@ public class SevenSignsFestival
 				-1,
 				18110
 			},
-
+			
 			{
 				-76230,
 				110079,
@@ -2449,7 +2449,7 @@ public class SevenSignsFestival
 				-1,
 				18111
 			},
-
+			
 			{
 				-73885,
 				112289,
@@ -2464,7 +2464,7 @@ public class SevenSignsFestival
 				-1,
 				18111
 			},
-
+			
 			{
 				-73574,
 				112141,
@@ -2493,7 +2493,7 @@ public class SevenSignsFestival
 				-1,
 				18111
 			},
-
+			
 			{
 				-73767,
 				111669,
@@ -2539,7 +2539,7 @@ public class SevenSignsFestival
 				-1,
 				18112
 			},
-
+			
 			{
 				-76482,
 				113748,
@@ -2554,7 +2554,7 @@ public class SevenSignsFestival
 				-1,
 				18112
 			},
-
+			
 			{
 				-76371,
 				114029,
@@ -2583,7 +2583,7 @@ public class SevenSignsFestival
 				-1,
 				18112
 			},
-
+			
 			{
 				-75861,
 				11385 - 1,
@@ -2629,7 +2629,7 @@ public class SevenSignsFestival
 				-1,
 				18113
 			},
-
+			
 			{
 				-78615,
 				109596,
@@ -2644,7 +2644,7 @@ public class SevenSignsFestival
 				-1,
 				18113
 			},
-
+			
 			{
 				-78746,
 				109300,
@@ -2673,7 +2673,7 @@ public class SevenSignsFestival
 				-1,
 				18113
 			},
-
+			
 			{
 				-79240,
 				109480,
@@ -2690,7 +2690,7 @@ public class SevenSignsFestival
 			},
 		}
 	};
-
+	
 	protected static final int[][][] FESTIVAL_DUSK_CHEST_SPAWNS =
 	{
 		{
@@ -2723,7 +2723,7 @@ public class SevenSignsFestival
 				-1,
 				18114
 			},
-
+			
 			{
 				-77512,
 				88883,
@@ -2738,7 +2738,7 @@ public class SevenSignsFestival
 				-1,
 				18114
 			},
-
+			
 			{
 				-77378,
 				89287,
@@ -2767,7 +2767,7 @@ public class SevenSignsFestival
 				-1,
 				18114
 			},
-
+			
 			{
 				-76901,
 				89025,
@@ -2813,7 +2813,7 @@ public class SevenSignsFestival
 				-1,
 				18115
 			},
-
+			
 			{
 				-76635,
 				85392,
@@ -2828,7 +2828,7 @@ public class SevenSignsFestival
 				-1,
 				18115
 			},
-
+			
 			{
 				-76761,
 				85025,
@@ -2857,7 +2857,7 @@ public class SevenSignsFestival
 				-1,
 				18115
 			},
-
+			
 			{
 				-77268,
 				85219,
@@ -2903,7 +2903,7 @@ public class SevenSignsFestival
 				-1,
 				18116
 			},
-
+			
 			{
 				-74943,
 				87433,
@@ -2918,7 +2918,7 @@ public class SevenSignsFestival
 				-1,
 				18116
 			},
-
+			
 			{
 				-74556,
 				87306,
@@ -2947,7 +2947,7 @@ public class SevenSignsFestival
 				-1,
 				18116
 			},
-
+			
 			{
 				-74757,
 				86830,
@@ -2993,7 +2993,7 @@ public class SevenSignsFestival
 				-1,
 				18117
 			},
-
+			
 			{
 				-80467,
 				88267,
@@ -3008,7 +3008,7 @@ public class SevenSignsFestival
 				-1,
 				18117
 			},
-
+			
 			{
 				-80381,
 				88639,
@@ -3037,7 +3037,7 @@ public class SevenSignsFestival
 				-1,
 				18117
 			},
-
+			
 			{
 				-79915,
 				88466,
@@ -3083,7 +3083,7 @@ public class SevenSignsFestival
 				-1,
 				18118
 			},
-
+			
 			{
 				-79668,
 				84772,
@@ -3098,7 +3098,7 @@ public class SevenSignsFestival
 				-1,
 				18118
 			},
-
+			
 			{
 				-79772,
 				84471,
@@ -3127,7 +3127,7 @@ public class SevenSignsFestival
 				-1,
 				18118
 			},
-
+			
 			{
 				-80253,
 				84600,
@@ -3144,12 +3144,12 @@ public class SevenSignsFestival
 			},
 		}
 	};
-
+	
 	// ////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\
-
+	
 	protected FestivalManager _managerInstance;
 	protected ScheduledFuture<?> _managerScheduledTask;
-
+	
 	protected int _signsCycle = SevenSigns.getInstance().getCurrentCycle();
 	protected int _festivalCycle;
 	protected long _nextFestivalCycleStart;
@@ -3157,35 +3157,35 @@ public class SevenSignsFestival
 	protected boolean _festivalInitialized;
 	protected boolean _festivalInProgress;
 	protected List<Integer> _accumulatedBonuses = new ArrayList<>();
-
+	
 	boolean _noPartyRegister;
 	private List<L2PeaceZone> _dawnPeace;
 	private List<L2PeaceZone> _duskPeace;
-
+	
 	protected Map<Integer, List<Integer>> _dawnFestivalParticipants = new HashMap<>();
 	protected Map<Integer, List<Integer>> _duskFestivalParticipants = new HashMap<>();
-
+	
 	protected Map<Integer, List<Integer>> _dawnPreviousParticipants = new HashMap<>();
 	protected Map<Integer, List<Integer>> _duskPreviousParticipants = new HashMap<>();
-
+	
 	private final Map<Integer, Integer> _dawnFestivalScores = new HashMap<>();
 	private final Map<Integer, Integer> _duskFestivalScores = new HashMap<>();
-
+	
 	private final Map<Integer, Map<Integer, StatsSet>> _festivalData = new HashMap<>();
-
+	
 	protected SevenSignsFestival()
 	{
 		restoreFestivalData();
-
+		
 		if (SevenSigns.getInstance().isSealValidationPeriod())
 		{
 			_log.info("SevenSignsFestival: Initialization bypassed due to Seal Validation in effect.");
 			return;
 		}
-
+		
 		startFestivalManager();
 	}
-
+	
 	/**
 	 * Returns true if the monster ID given is of an archer/marksman type.
 	 * @param npcId
@@ -3195,11 +3195,11 @@ public class SevenSignsFestival
 	{
 		if (npcId < 18009 || npcId > 18108)
 			return false;
-
+		
 		int identifier = npcId % 10;
 		return (identifier == 4 || identifier == 9);
 	}
-
+	
 	/**
 	 * Returns true if the monster ID given is a festival chest.
 	 * @param npcId
@@ -3209,7 +3209,7 @@ public class SevenSignsFestival
 	{
 		return (npcId < 18109 || npcId > 18118);
 	}
-
+	
 	/**
 	 * Primarily used to terminate the Festival Manager, when the Seven Signs period changes.
 	 * @return ScheduledFuture festManagerScheduler
@@ -3218,10 +3218,10 @@ public class SevenSignsFestival
 	{
 		if (_managerScheduledTask == null)
 			startFestivalManager();
-
+		
 		return _managerScheduledTask;
 	}
-
+	
 	/**
 	 * Used to start the Festival Manager, if the current period is not Seal Validation.
 	 */
@@ -3232,10 +3232,10 @@ public class SevenSignsFestival
 		FestivalManager fm = new FestivalManager();
 		setNextFestivalStart(Config.ALT_FESTIVAL_MANAGER_START + FESTIVAL_SIGNUP_TIME);
 		_managerScheduledTask = ThreadPool.scheduleAtFixedRate(fm, Config.ALT_FESTIVAL_MANAGER_START, Config.ALT_FESTIVAL_CYCLE_LENGTH);
-
+		
 		_log.info("SevenSignsFestival: The first Festival of Darkness cycle begins in " + (Config.ALT_FESTIVAL_MANAGER_START / 60000) + " minute(s).");
 	}
-
+	
 	/**
 	 * Restores saved festival data, basic settings from the properties file and past high score data from the database.
 	 */
@@ -3245,13 +3245,13 @@ public class SevenSignsFestival
 		{
 			PreparedStatement st = con.prepareStatement(RESTORE_FESTIVAL);
 			ResultSet rset = st.executeQuery();
-
+			
 			while (rset.next())
 			{
 				int festivalCycle = rset.getInt("cycle");
 				int festivalId = rset.getInt("festivalId");
 				final String cabal = rset.getString("cabal");
-
+				
 				final StatsSet set = new StatsSet();
 				set.set("festivalId", festivalId);
 				set.set("cabal", Enum.valueOf(CabalType.class, cabal));
@@ -3259,33 +3259,33 @@ public class SevenSignsFestival
 				set.set("date", rset.getString("date"));
 				set.set("score", rset.getInt("score"));
 				set.set("members", rset.getString("members"));
-
+				
 				if (cabal.equalsIgnoreCase("dawn"))
 					festivalId += FESTIVAL_COUNT;
-
+				
 				Map<Integer, StatsSet> map = _festivalData.get(festivalCycle);
 				if (map == null)
 					map = new HashMap<>();
-
+				
 				map.put(festivalId, set);
-
+				
 				_festivalData.put(festivalCycle, map);
 			}
-
+			
 			rset.close();
 			st.close();
-
+			
 			st = con.prepareStatement(RESTORE_FESTIVAL_2);
 			rset = st.executeQuery();
-
+			
 			while (rset.next())
 			{
 				_festivalCycle = rset.getInt("festival_cycle");
-
+				
 				for (int i = 0; i < FESTIVAL_COUNT; i++)
 					_accumulatedBonuses.add(i, rset.getInt("accumulated_bonus" + String.valueOf(i)));
 			}
-
+			
 			rset.close();
 			st.close();
 		}
@@ -3294,7 +3294,7 @@ public class SevenSignsFestival
 			_log.severe("SevenSignsFestival: Failed to load configuration: " + e);
 		}
 	}
-
+	
 	/**
 	 * Stores current festival data, basic settings to the properties file and past high score data to the database.<BR>
 	 * <BR>
@@ -3307,7 +3307,7 @@ public class SevenSignsFestival
 		{
 			PreparedStatement statementUpdate = con.prepareStatement(UPDATE);
 			PreparedStatement statementInsert = con.prepareStatement(INSERT);
-
+			
 			for (Map<Integer, StatsSet> map : _festivalData.values())
 			{
 				for (StatsSet set : map.values())
@@ -3315,7 +3315,7 @@ public class SevenSignsFestival
 					final int festivalCycle = set.getInteger("cycle");
 					final int festivalId = set.getInteger("festivalId");
 					final String cabal = set.getString("cabal");
-
+					
 					// Try to update an existing record.
 					statementUpdate.setLong(1, Long.valueOf(set.getString("date")));
 					statementUpdate.setInt(2, set.getInteger("score"));
@@ -3323,11 +3323,11 @@ public class SevenSignsFestival
 					statementUpdate.setInt(4, festivalCycle);
 					statementUpdate.setString(5, cabal);
 					statementUpdate.setInt(6, festivalId);
-
+					
 					// If there was no record to update, assume it doesn't exist and add a new one, otherwise continue with the next record to store.
 					if (statementUpdate.executeUpdate() > 0)
 						continue;
-
+					
 					statementInsert.setInt(1, festivalId);
 					statementInsert.setString(2, cabal);
 					statementInsert.setInt(3, festivalCycle);
@@ -3340,7 +3340,7 @@ public class SevenSignsFestival
 			}
 			statementUpdate.close();
 			statementInsert.close();
-
+			
 			// Updates Seven Signs DB data also, so call only if really necessary.
 			if (updateSettings)
 				SevenSigns.getInstance().saveSevenSignsStatus();
@@ -3350,7 +3350,7 @@ public class SevenSignsFestival
 			_log.severe("SevenSignsFestival: Failed to save configuration: " + e);
 		}
 	}
-
+	
 	protected void rewardHighestRanked()
 	{
 		for (int i = 0; i < FESTIVAL_COUNT; i++)
@@ -3363,7 +3363,7 @@ public class SevenSignsFestival
 			}
 		}
 	}
-
+	
 	private static void addReputationPointsForPartyMemberClan(String playerName)
 	{
 		final Player player = World.getInstance().getPlayer(playerName);
@@ -3381,7 +3381,7 @@ public class SevenSignsFestival
 			{
 				PreparedStatement st = con.prepareStatement(GET_CLAN_NAME);
 				st.setString(1, playerName);
-
+				
 				ResultSet rset = st.executeQuery();
 				if (rset.next())
 				{
@@ -3396,7 +3396,7 @@ public class SevenSignsFestival
 						}
 					}
 				}
-
+				
 				rset.close();
 				st.close();
 			}
@@ -3406,7 +3406,7 @@ public class SevenSignsFestival
 			}
 		}
 	}
-
+	
 	/**
 	 * Used to reset all festival data at the beginning of a new quest event period.
 	 * @param updateSettings
@@ -3415,30 +3415,30 @@ public class SevenSignsFestival
 	{
 		_festivalCycle = 0;
 		_signsCycle = SevenSigns.getInstance().getCurrentCycle();
-
+		
 		// Set all accumulated bonuses back to 0.
 		for (int i = 0; i < FESTIVAL_COUNT; i++)
 			_accumulatedBonuses.set(i, 0);
-
+		
 		_dawnFestivalParticipants.clear();
 		_duskFestivalParticipants.clear();
-
+		
 		_dawnPreviousParticipants.clear();
 		_duskPreviousParticipants.clear();
-
+		
 		_dawnFestivalScores.clear();
 		_duskFestivalScores.clear();
-
+		
 		// Set up a new data set for the current cycle of festivals
 		Map<Integer, StatsSet> map = new HashMap<>();
-
+		
 		for (int i = 0; i < FESTIVAL_COUNT * 2; i++)
 		{
 			int festivalId = i;
-
+			
 			if (i >= FESTIVAL_COUNT)
 				festivalId -= FESTIVAL_COUNT;
-
+			
 			// Create a new StatsSet with "default" data for Dusk
 			StatsSet set = new StatsSet();
 			set.set("festivalId", festivalId);
@@ -3446,21 +3446,21 @@ public class SevenSignsFestival
 			set.set("date", "0");
 			set.set("score", 0);
 			set.set("members", "");
-
+			
 			if (i >= FESTIVAL_COUNT)
 				set.set("cabal", CabalType.DAWN);
 			else
 				set.set("cabal", CabalType.DUSK);
-
+			
 			map.put(i, set);
 		}
-
+		
 		// Add the newly created cycle data to the existing festival data, and
 		// subsequently save it to the database.
 		_festivalData.put(_signsCycle, map);
-
+		
 		saveFestivalData(updateSettings);
-
+		
 		// Remove any unused blood offerings from online players.
 		for (Player player : World.getInstance().getPlayers())
 		{
@@ -3468,59 +3468,59 @@ public class SevenSignsFestival
 			if (bloodOfferings != null)
 				player.destroyItem("SevenSigns", bloodOfferings, null, false);
 		}
-
+		
 		_log.info("SevenSignsFestival: Reinitialized engine for next competition period.");
 	}
-
+	
 	public final int getCurrentFestivalCycle()
 	{
 		return _festivalCycle;
 	}
-
+	
 	public final boolean isFestivalInitialized()
 	{
 		return _festivalInitialized;
 	}
-
+	
 	public final boolean isFestivalInProgress()
 	{
 		return _festivalInProgress;
 	}
-
+	
 	public void setNextCycleStart()
 	{
 		_nextFestivalCycleStart = System.currentTimeMillis() + Config.ALT_FESTIVAL_CYCLE_LENGTH;
 	}
-
+	
 	public void setNextFestivalStart(long milliFromNow)
 	{
 		_nextFestivalStart = System.currentTimeMillis() + milliFromNow;
 	}
-
+	
 	public final int getMinsToNextCycle()
 	{
 		if (SevenSigns.getInstance().isSealValidationPeriod())
 			return -1;
-
+		
 		return Math.round((_nextFestivalCycleStart - System.currentTimeMillis()) / 60000);
 	}
-
+	
 	public final int getMinsToNextFestival()
 	{
 		if (SevenSigns.getInstance().isSealValidationPeriod())
 			return -1;
-
+		
 		return Math.round((_nextFestivalStart - System.currentTimeMillis()) / 60000) + 1;
 	}
-
+	
 	public final String getTimeToNextFestivalStr()
 	{
 		if (SevenSigns.getInstance().isSealValidationPeriod())
 			return "<font color=\"FF0000\">This is the Seal Validation period. Festivals will resume next week.</font>";
-
+		
 		return "<font color=\"FF0000\">The next festival will begin in " + getMinsToNextFestival() + " minute(s).</font>";
 	}
-
+	
 	/**
 	 * Returns the current festival ID and oracle ID that the specified player is in, but will return the default of {-1, -1} if the player is not found as a participant.
 	 * @param player
@@ -3534,101 +3534,101 @@ public class SevenSignsFestival
 			-1
 		};
 		int festivalId = 0;
-
+		
 		while (festivalId < FESTIVAL_COUNT)
 		{
 			List<Integer> participants = _dawnFestivalParticipants.get(festivalId);
-
+			
 			// If there are no participants in this festival, move on to the next.
 			if (participants != null && participants.contains(player.getObjectId()))
 			{
 				playerFestivalInfo[0] = CabalType.DAWN.ordinal();
 				playerFestivalInfo[1] = festivalId;
-
+				
 				return playerFestivalInfo;
 			}
-
+			
 			participants = _duskFestivalParticipants.get(++festivalId);
-
+			
 			if (participants != null && participants.contains(player.getObjectId()))
 			{
 				playerFestivalInfo[0] = CabalType.DUSK.ordinal();
 				playerFestivalInfo[1] = festivalId;
-
+				
 				return playerFestivalInfo;
 			}
-
+			
 			festivalId++;
 		}
-
+		
 		// Return default data if the player is not found as a participant.
 		return playerFestivalInfo;
 	}
-
+	
 	public final boolean isParticipant(Player player)
 	{
 		if (SevenSigns.getInstance().isSealValidationPeriod() || (_managerInstance == null))
 			return false;
-
+		
 		for (List<Integer> participants : _dawnFestivalParticipants.values())
 			if (participants != null && participants.contains(player.getObjectId()))
 				return true;
-
+			
 		for (List<Integer> participants : _duskFestivalParticipants.values())
 			if (participants != null && participants.contains(player.getObjectId()))
 				return true;
-
+			
 		return false;
 	}
-
+	
 	public final List<Integer> getParticipants(CabalType oracle, int festivalId)
 	{
 		if (oracle == CabalType.DAWN)
 			return _dawnFestivalParticipants.get(festivalId);
-
+		
 		return _duskFestivalParticipants.get(festivalId);
 	}
-
+	
 	public final List<Integer> getPreviousParticipants(CabalType oracle, int festivalId)
 	{
 		if (oracle == CabalType.DAWN)
 			return _dawnPreviousParticipants.get(festivalId);
-
+		
 		return _duskPreviousParticipants.get(festivalId);
 	}
-
+	
 	public void setParticipants(CabalType oracle, int festivalId, L2Party festivalParty)
 	{
 		List<Integer> participants = null;
-
+		
 		if (festivalParty != null)
 		{
 			participants = new ArrayList<>(festivalParty.getMemberCount());
 			for (Player player : festivalParty.getPartyMembers())
 				participants.add(player.getObjectId());
 		}
-
+		
 		if (oracle == CabalType.DAWN)
 			_dawnFestivalParticipants.put(festivalId, participants);
 		else
 			_duskFestivalParticipants.put(festivalId, participants);
 	}
-
+	
 	public void updateParticipants(Player player, L2Party festivalParty)
 	{
 		if (!isParticipant(player))
 			return;
-
+		
 		final int[] playerFestInfo = getFestivalForPlayer(player);
 		final CabalType oracle = CabalType.VALUES[playerFestInfo[0]];
 		final int festivalId = playerFestInfo[1];
-
+		
 		if (festivalId > -1)
 		{
 			if (_festivalInitialized)
 			{
 				L2DarknessFestival festivalInst = _managerInstance.getFestivalInstance(oracle, festivalId);
-
+				
 				// leader has left
 				if (festivalParty == null)
 				{
@@ -3637,16 +3637,16 @@ public class SevenSignsFestival
 						Player partyMember = World.getInstance().getPlayer(partyMemberObjId);
 						if (partyMember == null)
 							continue;
-
+						
 						festivalInst.relocatePlayer(partyMember, true);
 					}
 				}
 				else
 					festivalInst.relocatePlayer(player, true);
 			}
-
+			
 			setParticipants(oracle, festivalId, festivalParty);
-
+			
 			// Check on disconnect if min player in party
 			if (festivalParty != null && festivalParty.getMemberCount() < Config.ALT_FESTIVAL_MIN_PLAYER)
 			{
@@ -3655,20 +3655,20 @@ public class SevenSignsFestival
 			}
 		}
 	}
-
+	
 	public final int getFinalScore(CabalType oracle, int festivalId)
 	{
 		if (oracle == CabalType.DAWN)
 			return _dawnFestivalScores.get(festivalId);
-
+		
 		return _duskFestivalScores.get(festivalId);
 	}
-
+	
 	public final int getHighestScore(CabalType oracle, int festivalId)
 	{
 		return getHighestScoreData(oracle, festivalId).getInteger("score");
 	}
-
+	
 	/**
 	 * Returns a stats set containing the highest score <b>this cycle</b> for the the specified cabal and associated festival ID.
 	 * @param oracle
@@ -3678,13 +3678,13 @@ public class SevenSignsFestival
 	public final StatsSet getHighestScoreData(CabalType oracle, int festivalId)
 	{
 		int offsetId = festivalId;
-
+		
 		if (oracle == CabalType.DAWN)
 			offsetId += 5;
-
+		
 		return _festivalData.get(_signsCycle).get(offsetId);
 	}
-
+	
 	/**
 	 * Returns a stats set containing the highest ever recorded score data for the specified festival.
 	 * @param festivalId
@@ -3694,17 +3694,17 @@ public class SevenSignsFestival
 	{
 		StatsSet set = null;
 		int highestScore = 0;
-
+		
 		for (Map<Integer, StatsSet> map : _festivalData.values())
 		{
 			for (StatsSet setToTest : map.values())
 			{
 				int currFestID = setToTest.getInteger("festivalId");
 				int festivalScore = setToTest.getInteger("score");
-
+				
 				if (currFestID != festivalId)
 					continue;
-
+				
 				if (festivalScore > highestScore)
 				{
 					highestScore = festivalScore;
@@ -3712,10 +3712,10 @@ public class SevenSignsFestival
 				}
 			}
 		}
-
+		
 		return set;
 	}
-
+	
 	/**
 	 * Set the final score details for the last participants of the specified festival data. Returns <b>true</b> if the score is higher than that previously recorded <b>this cycle</b>.
 	 * @param player
@@ -3727,30 +3727,30 @@ public class SevenSignsFestival
 	public boolean setFinalScore(Player player, CabalType oracle, FestivalType festival, int offeringScore)
 	{
 		final int festivalId = festival.ordinal();
-
+		
 		int currDawnHighScore = getHighestScore(CabalType.DAWN, festivalId);
 		int currDuskHighScore = getHighestScore(CabalType.DUSK, festivalId);
-
+		
 		int thisCabalHighScore = 0;
 		int otherCabalHighScore = 0;
-
+		
 		if (oracle == CabalType.DAWN)
 		{
 			thisCabalHighScore = currDawnHighScore;
 			otherCabalHighScore = currDuskHighScore;
-
+			
 			_dawnFestivalScores.put(festivalId, offeringScore);
 		}
 		else
 		{
 			thisCabalHighScore = currDuskHighScore;
 			otherCabalHighScore = currDawnHighScore;
-
+			
 			_duskFestivalScores.put(festivalId, offeringScore);
 		}
-
+		
 		StatsSet set = getHighestScoreData(oracle, festivalId);
-
+		
 		// Check if this is the highest score for this level range so far for the player's cabal.
 		if (offeringScore > thisCabalHighScore)
 		{
@@ -3758,52 +3758,52 @@ public class SevenSignsFestival
 			// then they already have the points from this festival.
 			if (thisCabalHighScore < otherCabalHighScore)
 				return false;
-
+			
 			final List<String> partyMembers = new ArrayList<>();
 			for (int partyMember : getPreviousParticipants(oracle, festivalId))
 				partyMembers.add(PlayerNameTable.getInstance().getPlayerName(partyMember));
-
+			
 			// Update the highest scores and party list.
 			set.set("date", String.valueOf(System.currentTimeMillis()));
 			set.set("score", offeringScore);
 			set.set("members", String.join(",", partyMembers));
-
+			
 			// Only add the score to the cabal's overall if it's higher than the other cabal's score.
 			if (offeringScore > otherCabalHighScore)
 			{
 				// Give this cabal the festival points, while deducting them from the other.
 				SevenSigns.getInstance().addFestivalScore(oracle, festival.getMaxScore());
-
+				
 				_log.info("SevenSignsFestival: This is the highest score overall so far for the " + festival.getName() + " festival!");
 			}
-
+			
 			saveFestivalData(true);
-
+			
 			return true;
 		}
-
+		
 		return false;
 	}
-
+	
 	public final int getAccumulatedBonus(int festivalId)
 	{
 		return _accumulatedBonuses.get(festivalId);
 	}
-
+	
 	public final int getTotalAccumulatedBonus()
 	{
 		int totalAccumBonus = 0;
-
+		
 		for (int accumBonus : _accumulatedBonuses)
 			totalAccumBonus += accumBonus;
-
+		
 		return totalAccumBonus;
 	}
-
+	
 	public void addAccumulatedBonus(int festivalId, int stoneType, int stoneAmount)
 	{
 		int eachStoneBonus = 0;
-
+		
 		switch (stoneType)
 		{
 			case SevenSigns.SEAL_STONE_BLUE_ID:
@@ -3816,11 +3816,11 @@ public class SevenSignsFestival
 				eachStoneBonus = SevenSigns.SEAL_STONE_RED_VALUE;
 				break;
 		}
-
+		
 		int newTotalBonus = _accumulatedBonuses.get(festivalId) + (stoneAmount * eachStoneBonus);
 		_accumulatedBonuses.set(festivalId, newTotalBonus);
 	}
-
+	
 	/**
 	 * Calculate and return the proportion of the accumulated bonus for the festival where the player was in the winning party, if the winning party's cabal won the event. The accumulated bonus is then updated, with the player's share deducted.
 	 * @param player
@@ -3830,13 +3830,13 @@ public class SevenSignsFestival
 	{
 		if (SevenSigns.getInstance().getPlayerCabal(player.getObjectId()) != SevenSigns.getInstance().getCabalHighestScore())
 			return 0;
-
+		
 		final Map<Integer, StatsSet> map = _festivalData.get(_signsCycle);
 		if (map == null)
 			return 0;
-
+		
 		final String playerName = player.getName();
-
+		
 		int playerBonus = 0;
 		for (StatsSet set : map.values())
 		{
@@ -3846,16 +3846,16 @@ public class SevenSignsFestival
 				final int festivalId = set.getInteger("festivalId");
 				final int numPartyMembers = members.split(",").length;
 				final int totalAccumBonus = _accumulatedBonuses.get(festivalId);
-
+				
 				playerBonus = totalAccumBonus / numPartyMembers;
 				_accumulatedBonuses.set(festivalId, totalAccumBonus - playerBonus);
 				break;
 			}
 		}
-
+		
 		return playerBonus;
 	}
-
+	
 	/**
 	 * Basically a wrapper-call to signal to increase the challenge of the specified festival.
 	 * @param oracle
@@ -3866,7 +3866,7 @@ public class SevenSignsFestival
 	{
 		return _managerInstance.getFestivalInstance(oracle, festivalId).increaseChallenge();
 	}
-
+	
 	/**
 	 * Add zone for use with announcements in the oracles.
 	 * @param zone : Zone to be added.
@@ -3878,7 +3878,7 @@ public class SevenSignsFestival
 		{
 			if (_dawnPeace == null)
 				_dawnPeace = new ArrayList<>(2);
-
+			
 			if (!_dawnPeace.contains(zone))
 				_dawnPeace.add(zone);
 		}
@@ -3886,12 +3886,12 @@ public class SevenSignsFestival
 		{
 			if (_duskPeace == null)
 				_duskPeace = new ArrayList<>(2);
-
+			
 			if (!_duskPeace.contains(zone))
 				_duskPeace.add(zone);
 		}
 	}
-
+	
 	/**
 	 * Used to send a "shout" message to all players currently present in an Oracle. Primarily used for Festival Guide and Witch related speech.
 	 * @param senderName
@@ -3900,16 +3900,16 @@ public class SevenSignsFestival
 	public void sendMessageToAll(String senderName, String message)
 	{
 		final CreatureSay cs = new CreatureSay(0, Say2.SHOUT, senderName, message);
-
+		
 		if (_dawnPeace != null)
 			for (L2PeaceZone zone : _dawnPeace)
 				zone.broadcastPacket(cs);
-
+			
 		if (_duskPeace != null)
 			for (L2PeaceZone zone : _duskPeace)
 				zone.broadcastPacket(cs);
 	}
-
+	
 	/**
 	 * The FestivalManager class is the main runner of all the festivals. It is used for easier integration and management of all running festivals.
 	 * @author Tempy
@@ -3917,20 +3917,20 @@ public class SevenSignsFestival
 	private class FestivalManager implements Runnable
 	{
 		protected Map<Integer, L2DarknessFestival> _festivalInstances;
-
+		
 		public FestivalManager()
 		{
 			_festivalInstances = new HashMap<>();
 			_managerInstance = this;
-
+			
 			// Increment the cycle counter.
 			_festivalCycle++;
-
+			
 			// Set the next start timers.
 			setNextCycleStart();
 			setNextFestivalStart(Config.ALT_FESTIVAL_CYCLE_LENGTH - FESTIVAL_SIGNUP_TIME);
 		}
-
+		
 		@Override
 		public synchronized void run()
 		{
@@ -3941,10 +3941,10 @@ public class SevenSignsFestival
 				// festival cycle, then don't run it.
 				if (SevenSigns.getInstance().isSealValidationPeriod() || (SevenSigns.getInstance().getMilliToPeriodChange() < Config.ALT_FESTIVAL_CYCLE_LENGTH))
 					return;
-
+				
 				if (getMinsToNextFestival() == 2)
 					sendMessageToAll("Festival Guide", "The main event will start in 2 minutes. Please register now.");
-
+				
 				// Stand by until the allowed signup period has elapsed.
 				try
 				{
@@ -3953,18 +3953,18 @@ public class SevenSignsFestival
 				catch (InterruptedException e)
 				{
 				}
-
+				
 				// Clear past participants, they can no longer register their score if not done so already.
 				_dawnPreviousParticipants.clear();
 				_duskPreviousParticipants.clear();
-
+				
 				// Get rid of random monsters that avoided deletion after last festival
 				for (L2DarknessFestival festivalInst : _festivalInstances.values())
 					festivalInst.unspawnMobs();
-
+				
 				// Start only if participants signed up
 				_noPartyRegister = true;
-
+				
 				while (_noPartyRegister)
 				{
 					if ((_duskFestivalParticipants.isEmpty() && _dawnFestivalParticipants.isEmpty()))
@@ -3987,28 +3987,28 @@ public class SevenSignsFestival
 					else
 						_noPartyRegister = false;
 				}
-
+				
 				/* INITIATION */
 				// Set the festival timer to 0, as it is just beginning.
 				long elapsedTime = 0;
-
+				
 				// Create the instances for the festivals in both Oracles,
 				// but only if they have participants signed up for them.
 				for (int i = 0; i < FESTIVAL_COUNT; i++)
 				{
 					if (_duskFestivalParticipants.get(i) != null)
 						_festivalInstances.put(10 + i, new L2DarknessFestival(CabalType.DUSK, i));
-
+					
 					if (_dawnFestivalParticipants.get(i) != null)
 						_festivalInstances.put(20 + i, new L2DarknessFestival(CabalType.DAWN, i));
 				}
-
+				
 				// Prevent future signups while festival is in progress.
 				_festivalInitialized = true;
-
+				
 				setNextFestivalStart(Config.ALT_FESTIVAL_CYCLE_LENGTH);
 				sendMessageToAll("Festival Guide", "The main event is now starting.");
-
+				
 				// Stand by for a short length of time before starting the festival.
 				try
 				{
@@ -4017,12 +4017,12 @@ public class SevenSignsFestival
 				catch (InterruptedException e)
 				{
 				}
-
+				
 				elapsedTime = Config.ALT_FESTIVAL_FIRST_SPAWN;
-
+				
 				// Participants can now opt to increase the challenge, if desired.
 				_festivalInProgress = true;
-
+				
 				/* PROPOGATION */
 				// Sequentially set all festivals to begin, spawn the Festival Witch and notify participants.
 				for (L2DarknessFestival festivalInst : _festivalInstances.values())
@@ -4030,7 +4030,7 @@ public class SevenSignsFestival
 					festivalInst.festivalStart();
 					festivalInst.sendMessageToParticipants("The main event is now starting.");
 				}
-
+				
 				// After a short time period, move all idle spawns to the center of the arena.
 				try
 				{
@@ -4039,12 +4039,12 @@ public class SevenSignsFestival
 				catch (InterruptedException e)
 				{
 				}
-
+				
 				elapsedTime += Config.ALT_FESTIVAL_FIRST_SWARM - Config.ALT_FESTIVAL_FIRST_SPAWN;
-
+				
 				for (L2DarknessFestival festivalInst : _festivalInstances.values())
 					festivalInst.moveMonstersToCenter();
-
+				
 				// Stand by until the time comes for the second spawn.
 				try
 				{
@@ -4053,19 +4053,19 @@ public class SevenSignsFestival
 				catch (InterruptedException e)
 				{
 				}
-
+				
 				// Spawn an extra set of monsters (archers) on the free platforms with
 				// a faster respawn when killed.
 				for (L2DarknessFestival festivalInst : _festivalInstances.values())
 				{
 					festivalInst.spawnFestivalMonsters(FESTIVAL_DEFAULT_RESPAWN / 2, 2);
-
+					
 					long end = (Config.ALT_FESTIVAL_LENGTH - Config.ALT_FESTIVAL_SECOND_SPAWN) / 60000;
 					festivalInst.sendMessageToParticipants("The Festival of Darkness will end in " + end + " minute(s).");
 				}
-
+				
 				elapsedTime += Config.ALT_FESTIVAL_SECOND_SPAWN - Config.ALT_FESTIVAL_FIRST_SWARM;
-
+				
 				// After another short time period, again move all idle spawns to the center of the arena.
 				try
 				{
@@ -4074,12 +4074,12 @@ public class SevenSignsFestival
 				catch (InterruptedException e)
 				{
 				}
-
+				
 				for (L2DarknessFestival festivalInst : _festivalInstances.values())
 					festivalInst.moveMonstersToCenter();
-
+				
 				elapsedTime += Config.ALT_FESTIVAL_SECOND_SWARM - Config.ALT_FESTIVAL_SECOND_SPAWN;
-
+				
 				// Stand by until the time comes for the chests to be spawned.
 				try
 				{
@@ -4088,7 +4088,7 @@ public class SevenSignsFestival
 				catch (InterruptedException e)
 				{
 				}
-
+				
 				// Spawn the festival chests, which enable the team to gain greater rewards
 				// for each chest they kill.
 				for (L2DarknessFestival festivalInst : _festivalInstances.values())
@@ -4096,9 +4096,9 @@ public class SevenSignsFestival
 					festivalInst.spawnFestivalMonsters(FESTIVAL_DEFAULT_RESPAWN, 3);
 					festivalInst.sendMessageToParticipants("The chests have spawned! Be quick, the festival will end soon."); // FIXME What is the correct npcString?
 				}
-
+				
 				elapsedTime += Config.ALT_FESTIVAL_CHEST_SPAWN - Config.ALT_FESTIVAL_SECOND_SWARM;
-
+				
 				// Stand by and wait until it's time to end the festival.
 				try
 				{
@@ -4107,22 +4107,22 @@ public class SevenSignsFestival
 				catch (InterruptedException e)
 				{
 				}
-
+				
 				// Participants can no longer opt to increase the challenge, as the festival will soon close.
 				_festivalInProgress = false;
-
+				
 				/* TERMINATION */
 				// Sequentially begin the ending sequence for all running festivals.
 				for (L2DarknessFestival festivalInst : _festivalInstances.values())
 					festivalInst.festivalEnd();
-
+				
 				// Clear the participants list for the next round of signups.
 				_dawnFestivalParticipants.clear();
 				_duskFestivalParticipants.clear();
-
+				
 				// Allow signups for the next festival cycle.
 				_festivalInitialized = false;
-
+				
 				sendMessageToAll("Festival Witch", "That will do! I'll move you to the outside soon.");
 			}
 			catch (Exception e)
@@ -4130,7 +4130,7 @@ public class SevenSignsFestival
 				_log.warning(e.getMessage());
 			}
 		}
-
+		
 		/**
 		 * Returns the running instance of a festival for the given Oracle and festivalID. <BR>
 		 * A <B>null</B> value is returned if there are no participants in that festival.
@@ -4142,16 +4142,16 @@ public class SevenSignsFestival
 		{
 			if (!isFestivalInitialized())
 				return null;
-
+			
 			/*
 			 * Compute the offset if a Dusk instance is required. ID: 0 1 2 3 4 Dusk 1: 10 11 12 13 14 Dawn 2: 20 21 22 23 24
 			 */
-
+			
 			festivalId += (oracle == CabalType.DUSK) ? 10 : 20;
 			return _festivalInstances.get(festivalId);
 		}
 	}
-
+	
 	/**
 	 * Each running festival is represented by an L2DarknessFestival class. It contains all the spawn information and data for the running festival. All festivals are managed by the FestivalManager class, which must be initialized first.
 	 * @author Tempy
@@ -4161,23 +4161,23 @@ public class SevenSignsFestival
 		protected final CabalType _cabal;
 		protected final int _levelRange;
 		protected boolean _challengeIncreased;
-
+		
 		private FestivalSpawn _startLocation;
 		private FestivalSpawn _witchSpawn;
-
+		
 		private Npc _witchInst;
 		protected final List<FestivalMonster> _npcInsts;
-
+		
 		private List<Integer> _participants;
 		private final Map<Integer, FestivalSpawn> _originalLocations;
-
+		
 		protected L2DarknessFestival(CabalType cabal, int levelRange)
 		{
 			_cabal = cabal;
 			_levelRange = levelRange;
 			_originalLocations = new HashMap<>();
 			_npcInsts = new ArrayList<>();
-
+			
 			if (cabal == CabalType.DAWN)
 			{
 				_participants = _dawnFestivalParticipants.get(levelRange);
@@ -4190,18 +4190,18 @@ public class SevenSignsFestival
 				_witchSpawn = new FestivalSpawn(FESTIVAL_DUSK_WITCH_SPAWNS[levelRange]);
 				_startLocation = new FestivalSpawn(FESTIVAL_DUSK_PLAYER_SPAWNS[levelRange]);
 			}
-
+			
 			// FOR TESTING!
 			if (_participants == null)
 				_participants = new ArrayList<>();
-
+			
 			festivalInit();
 		}
-
+		
 		protected void festivalInit()
 		{
 			boolean isPositive;
-
+			
 			// Teleport all players to arena and notify them.
 			if (_participants != null && !_participants.isEmpty())
 			{
@@ -4210,15 +4210,15 @@ public class SevenSignsFestival
 					Player participant = World.getInstance().getPlayer(participantObjId);
 					if (participant == null)
 						continue;
-
+					
 					_originalLocations.put(participantObjId, new FestivalSpawn(participant.getX(), participant.getY(), participant.getZ(), participant.getHeading()));
-
+					
 					// Randomize the spawn point around the specific centerpoint for each player.
 					int x = _startLocation._x;
 					int y = _startLocation._y;
-
+					
 					isPositive = (Rnd.get(2) == 1);
-
+					
 					if (isPositive)
 					{
 						x += Rnd.get(FESTIVAL_MAX_OFFSET_X);
@@ -4229,33 +4229,33 @@ public class SevenSignsFestival
 						x -= Rnd.get(FESTIVAL_MAX_OFFSET_X);
 						y -= Rnd.get(FESTIVAL_MAX_OFFSET_Y);
 					}
-
+					
 					participant.getAI().setIntention(CtrlIntention.IDLE);
 					participant.teleToLocation(x, y, _startLocation._z, 20);
-
+					
 					// Remove all buffs from all participants on entry. Works like the skill Cancel.
 					participant.stopAllEffectsExceptThoseThatLastThroughDeath();
-
+					
 					// Remove any stray blood offerings in inventory
 					ItemInstance bloodOfferings = participant.getInventory().getItemByItemId(FESTIVAL_OFFERING_ID);
 					if (bloodOfferings != null)
 						participant.destroyItem("SevenSigns", bloodOfferings, null, true);
 				}
 			}
-
+			
 			NpcTemplate witchTemplate = NpcTable.getInstance().getTemplate(_witchSpawn._npcId);
-
+			
 			// Spawn the festival witch for this arena
 			try
 			{
 				L2Spawn npcSpawn = new L2Spawn(witchTemplate);
-
+				
 				npcSpawn.setLoc(_witchSpawn._x, _witchSpawn._y, _witchSpawn._z, _witchSpawn._heading);
 				npcSpawn.setRespawnDelay(1);
-
+				
 				// Needed as doSpawn() is required to be called also for the NpcInstance it returns.
 				npcSpawn.setRespawnState(true);
-
+				
 				SpawnTable.getInstance().addNewSpawn(npcSpawn, false);
 				_witchInst = npcSpawn.doSpawn(false);
 			}
@@ -4263,40 +4263,40 @@ public class SevenSignsFestival
 			{
 				_log.warning("SevenSignsFestival: Error while spawning Festival Witch ID " + _witchSpawn._npcId + ": " + e);
 			}
-
+			
 			// Make it appear as though the Witch has apparated there.
 			MagicSkillUse msu = new MagicSkillUse(_witchInst, _witchInst, 2003, 1, 1, 0);
 			_witchInst.broadcastPacket(msu);
-
+			
 			// And another one...:D
 			msu = new MagicSkillUse(_witchInst, _witchInst, 2133, 1, 1, 0);
 			_witchInst.broadcastPacket(msu);
-
+			
 			// Send a message to all participants from the witch.
 			sendMessageToParticipants("The festival will begin in 2 minutes.");
 		}
-
+		
 		protected void festivalStart()
 		{
 			spawnFestivalMonsters(FESTIVAL_DEFAULT_RESPAWN, 0);
 		}
-
+		
 		protected void moveMonstersToCenter()
 		{
 			for (FestivalMonster festivalMob : _npcInsts)
 			{
 				if (festivalMob.isDead())
 					continue;
-
+				
 				// Only move monsters that are idle or doing their usual functions.
 				CtrlIntention currIntention = festivalMob.getAI().getIntention();
-
+				
 				if (currIntention != CtrlIntention.IDLE && currIntention != CtrlIntention.ACTIVE)
 					continue;
-
+				
 				int x = _startLocation._x;
 				int y = _startLocation._y;
-
+				
 				if (Rnd.nextBoolean())
 				{
 					x += Rnd.get(FESTIVAL_MAX_OFFSET_X);
@@ -4307,12 +4307,12 @@ public class SevenSignsFestival
 					x -= Rnd.get(FESTIVAL_MAX_OFFSET_X);
 					y -= Rnd.get(FESTIVAL_MAX_OFFSET_Y);
 				}
-
+				
 				festivalMob.setRunning();
 				festivalMob.getAI().setIntention(CtrlIntention.MOVE_TO, new Location(x, y, _startLocation._z));
 			}
 		}
-
+		
 		/**
 		 * Used to spawn monsters unique to the festival. <BR>
 		 * Valid SpawnTypes:<BR>
@@ -4326,51 +4326,51 @@ public class SevenSignsFestival
 		protected void spawnFestivalMonsters(int respawnDelay, int spawnType)
 		{
 			int[][] _npcSpawns = null;
-
+			
 			switch (spawnType)
 			{
 				case 0:
 				case 1:
 					_npcSpawns = (_cabal == CabalType.DAWN) ? FESTIVAL_DAWN_PRIMARY_SPAWNS[_levelRange] : FESTIVAL_DUSK_PRIMARY_SPAWNS[_levelRange];
 					break;
-
+				
 				case 2:
 					_npcSpawns = (_cabal == CabalType.DAWN) ? FESTIVAL_DAWN_SECONDARY_SPAWNS[_levelRange] : FESTIVAL_DUSK_SECONDARY_SPAWNS[_levelRange];
 					break;
-
+				
 				case 3:
 					_npcSpawns = (_cabal == CabalType.DAWN) ? FESTIVAL_DAWN_CHEST_SPAWNS[_levelRange] : FESTIVAL_DUSK_CHEST_SPAWNS[_levelRange];
 					break;
 			}
-
+			
 			if (_npcSpawns != null)
 			{
 				for (int[] _npcSpawn : _npcSpawns)
 				{
 					FestivalSpawn currSpawn = new FestivalSpawn(_npcSpawn);
-
+					
 					// Only spawn archers/marksmen if specified to do so.
 					if (spawnType == 1 && isFestivalArcher(currSpawn._npcId))
 						continue;
-
+					
 					NpcTemplate npcTemplate = NpcTable.getInstance().getTemplate(currSpawn._npcId);
-
+					
 					try
 					{
 						final L2Spawn npcSpawn = new L2Spawn(npcTemplate);
 						npcSpawn.setLoc(currSpawn._x, currSpawn._y, currSpawn._z, Rnd.get(65536));
 						npcSpawn.setRespawnDelay(respawnDelay);
 						npcSpawn.setRespawnState(true);
-
+						
 						SpawnTable.getInstance().addNewSpawn(npcSpawn, false);
 						FestivalMonster festivalMob = (FestivalMonster) npcSpawn.doSpawn(false);
-
+						
 						// Set the offering bonus to 2x or 5x the amount per kill, if this spawn is part of an increased challenge or is a festival chest.
 						if (spawnType == 1)
 							festivalMob.setOfferingBonus(2);
 						else if (spawnType == 3)
 							festivalMob.setOfferingBonus(5);
-
+						
 						_npcInsts.add(festivalMob);
 					}
 					catch (Exception e)
@@ -4380,26 +4380,26 @@ public class SevenSignsFestival
 				}
 			}
 		}
-
+		
 		protected boolean increaseChallenge()
 		{
 			if (_challengeIncreased)
 				return false;
-
+			
 			// Set this flag to true to make sure that this can only be done once.
 			_challengeIncreased = true;
-
+			
 			// Spawn more festival monsters, but this time with a twist.
 			spawnFestivalMonsters(FESTIVAL_DEFAULT_RESPAWN, 1);
 			return true;
 		}
-
+		
 		public void sendMessageToParticipants(String message)
 		{
 			if (_participants != null && !_participants.isEmpty())
 				_witchInst.broadcastPacket(new CreatureSay(_witchInst.getObjectId(), Say2.ALL, "Festival Witch", message));
 		}
-
+		
 		protected void festivalEnd()
 		{
 			if (_participants != null && !_participants.isEmpty())
@@ -4409,21 +4409,21 @@ public class SevenSignsFestival
 					Player participant = World.getInstance().getPlayer(participantObjId);
 					if (participant == null)
 						continue;
-
+					
 					relocatePlayer(participant, false);
 					participant.sendMessage("The festival has ended. Your party leader must now register your score before the next festival takes place.");
 				}
-
+				
 				if (_cabal == CabalType.DAWN)
 					_dawnPreviousParticipants.put(_levelRange, _participants);
 				else
 					_duskPreviousParticipants.put(_levelRange, _participants);
 			}
 			_participants = null;
-
+			
 			unspawnMobs();
 		}
-
+		
 		protected void unspawnMobs()
 		{
 			// Delete all the NPCs in the current festival arena.
@@ -4433,7 +4433,7 @@ public class SevenSignsFestival
 				_witchInst.deleteMe();
 				SpawnTable.getInstance().deleteSpawn(_witchInst.getSpawn(), false);
 			}
-
+			
 			if (_npcInsts != null)
 				for (FestivalMonster monsterInst : _npcInsts)
 					if (monsterInst != null)
@@ -4443,19 +4443,19 @@ public class SevenSignsFestival
 						SpawnTable.getInstance().deleteSpawn(monsterInst.getSpawn(), false);
 					}
 		}
-
+		
 		public void relocatePlayer(Player participant, boolean isRemoving)
 		{
 			if (participant == null)
 				return;
-
+			
 			try
 			{
 				FestivalSpawn origPosition = _originalLocations.get(participant.getObjectId());
-
+				
 				if (isRemoving)
 					_originalLocations.remove(participant.getObjectId());
-
+				
 				participant.getAI().setIntention(CtrlIntention.IDLE);
 				participant.teleToLocation(origPosition._x, origPosition._y, origPosition._z, 20);
 				participant.sendMessage("You have been removed from the festival arena.");
@@ -4468,7 +4468,7 @@ public class SevenSignsFestival
 			}
 		}
 	}
-
+	
 	private static class FestivalSpawn
 	{
 		protected final int _x;
@@ -4476,39 +4476,39 @@ public class SevenSignsFestival
 		protected final int _z;
 		protected final int _heading;
 		protected final int _npcId;
-
+		
 		protected FestivalSpawn(int x, int y, int z, int heading)
 		{
 			_x = x;
 			_y = y;
 			_z = z;
-
+			
 			// Generate a random heading if no positive one given.
 			_heading = (heading < 0) ? Rnd.get(65536) : heading;
-
+			
 			_npcId = -1;
 		}
-
+		
 		protected FestivalSpawn(int[] spawnData)
 		{
 			_x = spawnData[0];
 			_y = spawnData[1];
 			_z = spawnData[2];
-
+			
 			_heading = (spawnData[3] < 0) ? Rnd.get(65536) : spawnData[3];
-
+			
 			if (spawnData.length > 4)
 				_npcId = spawnData[4];
 			else
 				_npcId = -1;
 		}
 	}
-
+	
 	public static SevenSignsFestival getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final SevenSignsFestival INSTANCE = new SevenSignsFestival();

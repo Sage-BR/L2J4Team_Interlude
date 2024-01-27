@@ -28,28 +28,28 @@ public class StakatoNest extends L2AttackableAIScript
 	private static final int FEMALE_SPIKED_STAKATO = 22108;
 	private static final int MALE_SPIKED_STAKATO_1 = 22109;
 	private static final int MALE_SPIKED_STAKATO_2 = 22110;
-
+	
 	private static final int STAKATO_FOLLOWER = 22112;
 	private static final int CANNIBALISTIC_STAKATO_LEADER_1 = 22113;
 	private static final int CANNIBALISTIC_STAKATO_LEADER_2 = 22114;
-
+	
 	private static final int SPIKED_STAKATO_CAPTAIN = 22117;
 	private static final int SPIKED_STAKATO_NURSE_1 = 22118;
 	private static final int SPIKED_STAKATO_NURSE_2 = 22119;
 	private static final int SPIKED_STAKATO_BABY = 22120;
-
+	
 	public StakatoNest()
 	{
 		super("ai/group");
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addAttackId(CANNIBALISTIC_STAKATO_LEADER_1, CANNIBALISTIC_STAKATO_LEADER_2);
 		addKillId(MALE_SPIKED_STAKATO_1, FEMALE_SPIKED_STAKATO, SPIKED_STAKATO_NURSE_1, SPIKED_STAKATO_BABY);
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player player, int damage, boolean isPet, L2Skill skill)
 	{
@@ -68,7 +68,7 @@ public class StakatoNest extends L2AttackableAIScript
 		}
 		return super.onAttack(npc, player, damage, isPet, skill);
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player killer, boolean isPet)
 	{
@@ -87,7 +87,7 @@ public class StakatoNest extends L2AttackableAIScript
 					}
 				}
 				break;
-
+			
 			case FEMALE_SPIKED_STAKATO:
 				for (Monster morphingMale : npc.getKnownTypeInRadius(Monster.class, 400))
 				{
@@ -95,12 +95,12 @@ public class StakatoNest extends L2AttackableAIScript
 					{
 						final Npc newForm = addSpawn(MALE_SPIKED_STAKATO_2, morphingMale, true, 0, false);
 						attack(((Attackable) newForm), killer);
-
+						
 						morphingMale.deleteMe();
 					}
 				}
 				break;
-
+			
 			case SPIKED_STAKATO_NURSE_1:
 				for (Monster baby : npc.getKnownTypeInRadius(Monster.class, 400))
 				{
@@ -114,7 +114,7 @@ public class StakatoNest extends L2AttackableAIScript
 					}
 				}
 				break;
-
+			
 			case SPIKED_STAKATO_BABY:
 				for (Monster morphingNurse : npc.getKnownTypeInRadius(Monster.class, 400))
 				{
@@ -122,7 +122,7 @@ public class StakatoNest extends L2AttackableAIScript
 					{
 						final Npc newForm = addSpawn(SPIKED_STAKATO_NURSE_2, morphingNurse, true, 0, false);
 						attack(((Attackable) newForm), killer);
-
+						
 						morphingNurse.deleteMe();
 					}
 				}
@@ -130,30 +130,30 @@ public class StakatoNest extends L2AttackableAIScript
 		}
 		return super.onKill(npc, killer, isPet);
 	}
-
+	
 	private class EatTask implements Runnable
 	{
 		private final Npc _npc;
 		private final Npc _follower;
-
+		
 		public EatTask(Npc npc, Npc follower)
 		{
 			_npc = npc;
 			_follower = follower;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			if (_npc.isDead())
 				return;
-
+			
 			if (_follower == null || _follower.isDead())
 			{
 				_npc.setIsCastingNow(false);
 				return;
 			}
-
+			
 			_npc.setCurrentHp(_npc.getCurrentHp() + (_follower.getCurrentHp() / 2));
 			_follower.doDie(_follower);
 			_npc.setIsCastingNow(false);

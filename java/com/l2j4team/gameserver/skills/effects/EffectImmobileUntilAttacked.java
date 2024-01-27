@@ -14,26 +14,26 @@ public class EffectImmobileUntilAttacked extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.IMMOBILEUNTILATTACKED;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		getEffected().startImmobileUntilAttacked();
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		getEffected().stopImmobileUntilAttacked(this);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
@@ -41,7 +41,7 @@ public class EffectImmobileUntilAttacked extends L2Effect
 		// just stop this effect
 		return false;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

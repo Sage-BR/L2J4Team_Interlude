@@ -11,36 +11,36 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q114_ResurrectionOfAnOldManager extends Quest
 {
 	private static final String qn = "Q114_ResurrectionOfAnOldManager";
-
+	
 	// NPCs
 	private static final int NEWYEAR = 31961;
 	private static final int YUMI = 32041;
 	private static final int STONE = 32046;
 	private static final int WENDY = 32047;
 	private static final int BOX = 32050;
-
+	
 	// Items
 	private static final int LETTER = 8288;
 	private static final int DETECTOR = 8090;
 	private static final int DETECTOR_2 = 8091;
 	private static final int STARSTONE = 8287;
 	private static final int STARSTONE_2 = 8289;
-
+	
 	// Mobs
 	private static final int GOLEM = 27318;
-
+	
 	public Q114_ResurrectionOfAnOldManager()
 	{
 		super(114, "Resurrection of an Old Manager");
-
+		
 		setItemsIds(LETTER, DETECTOR, DETECTOR_2, STARSTONE, STARSTONE_2);
-
+		
 		addStartNpc(YUMI);
 		addTalkId(YUMI, WENDY, BOX, STONE, NEWYEAR);
-
+		
 		addKillId(GOLEM);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -48,7 +48,7 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("32041-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -68,7 +68,7 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 		else if (event.equalsIgnoreCase("32041-10.htm"))
 		{
 			final int choice = st.getInt("choice");
-
+			
 			if (choice == 1)
 				htmltext = "32041-10.htm";
 			else if (choice == 2)
@@ -127,7 +127,7 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 		{
 			final int talk = st.getInt("talk");
 			final int talk1 = st.getInt("talk1");
-
+			
 			if (talk == 1 && talk1 == 1)
 				htmltext = "32047-04.htm";
 			else if (talk == 2 && talk1 == 2 && st.getInt("talk2") == 2)
@@ -190,7 +190,7 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 				golem.broadcastNpcSay("You, " + player.getName() + ", you attacked Wendy. Prepare to die!");
 				((Attackable) golem).addDamageHate(player, 0, 999);
 				golem.getAI().setIntention(CtrlIntention.ATTACK, player);
-
+				
 				st.set("golemSpawned", "1");
 				startQuestTimer("golemDespawn", 900000, golem, player, false);
 			}
@@ -221,7 +221,7 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 		else if (event.equalsIgnoreCase("32047-33.htm"))
 		{
 			final int cond = st.getInt("cond");
-
+			
 			if (cond == 7)
 			{
 				st.set("cond", "8");
@@ -276,10 +276,10 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 			st.unset("golemSpawned");
 			return null;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -287,18 +287,18 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				QuestState pavelReq = player.getQuestState("Q121_PavelTheGiant");
 				htmltext = (pavelReq == null || !pavelReq.isCompleted() || player.getLevel() < 49) ? "32041-00.htm" : "32041-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				int talk = st.getInt("talk");
-
+				
 				switch (npc.getNpcId())
 				{
 					case YUMI:
@@ -346,7 +346,7 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 						else if (cond == 27)
 							htmltext = "32041-35.htm";
 						break;
-
+					
 					case WENDY:
 						if (cond == 2)
 						{
@@ -362,7 +362,7 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 						else if (cond == 6)
 						{
 							final int choice = st.getInt("choice");
-
+							
 							if (choice == 1)
 							{
 								if (talk == 0)
@@ -418,7 +418,7 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 						else if (cond == 26)
 							htmltext = "32047-40.htm";
 						break;
-
+					
 					case BOX:
 						if (cond == 13)
 						{
@@ -430,7 +430,7 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 						else if (cond == 14)
 							htmltext = "32050-05.htm";
 						break;
-
+					
 					case STONE:
 						if (st.getInt("cond") == 17)
 						{
@@ -448,7 +448,7 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 						else if (cond == 27)
 							htmltext = "32046-03.htm";
 						break;
-
+					
 					case NEWYEAR:
 						if (cond == 21)
 							htmltext = "31961-01.htm";
@@ -457,27 +457,27 @@ public class Q114_ResurrectionOfAnOldManager extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "10");
 		if (st == null)
 			return null;
-
+		
 		npc.broadcastNpcSay("This enemy is far too powerful for me to fight. I must withdraw!");
-
+		
 		st.set("cond", "11");
 		st.unset("golemSpawned");
 		st.playSound(QuestState.SOUND_MIDDLE);
-
+		
 		return null;
 	}
 }

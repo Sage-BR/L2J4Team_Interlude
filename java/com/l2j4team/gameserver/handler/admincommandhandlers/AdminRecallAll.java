@@ -38,7 +38,7 @@ public class AdminRecallAll implements IAdminCommandHandler
 	public static int x = 0;
 	public static int y = 0;
 	public static int z = 0;
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -48,16 +48,16 @@ public class AdminRecallAll implements IAdminCommandHandler
 			y = activeChar.getY();
 			z = activeChar.getZ();
 			isAdminSummoning = true;
-
+			
 			for (Player player : World.getInstance().getPlayers())
 			{
 				try
 				{
 					final boolean bishop = (player.getClassId() == ClassId.BISHOP || player.getClassId() == ClassId.CARDINAL || player.getClassId() == ClassId.SHILLIEN_ELDER || player.getClassId() == ClassId.SHILLIEN_SAINT || player.getClassId() == ClassId.EVAS_SAINT || player.getClassId() == ClassId.ELVEN_ELDER);
-
+					
 					if (player.isAlikeDead() || player._inEventTvT || player.isAio() || player.isAioEterno() || player._inEventCTF || player.isInArenaEvent() || player.isArenaProtection() || player.isOlympiadProtection() || player.isInsideZone(ZoneId.CUSTOM) || player.isPhantom() || player.isInStoreMode() || player.isRooted() || player.getKarma() > 0 || player.isInOlympiadMode() || player.isOlympiadProtection() || player.isFestivalParticipant() || bishop)
 						continue;
-
+					
 					if (!MathUtil.checkIfInRange(0, activeChar, player, false))
 					{
 						ThreadPool.schedule(new Restore(), 15000);
@@ -75,12 +75,12 @@ public class AdminRecallAll implements IAdminCommandHandler
 					e.printStackTrace();
 				}
 			}
-
+			
 		}
 		return false;
-
+		
 	}
-
+	
 	class Restore implements Runnable
 	{
 		@Override
@@ -91,9 +91,9 @@ public class AdminRecallAll implements IAdminCommandHandler
 			z = 0;
 			isAdminSummoning = false;
 		}
-
+		
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

@@ -9,7 +9,7 @@ public class GetOnVehicle extends L2GameServerPacket
 	private final int _x;
 	private final int _y;
 	private final int _z;
-
+	
 	public GetOnVehicle(int objectId, int boatId, int x, int y, int z)
 	{
 		_objectId = objectId;
@@ -18,7 +18,7 @@ public class GetOnVehicle extends L2GameServerPacket
 		_y = y;
 		_z = z;
 	}
-
+	
 	public GetOnVehicle(int objectId, int boatId, SpawnLocation loc)
 	{
 		_objectId = objectId;
@@ -27,7 +27,7 @@ public class GetOnVehicle extends L2GameServerPacket
 		_y = loc.getY();
 		_z = loc.getZ();
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

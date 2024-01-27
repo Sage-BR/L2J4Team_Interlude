@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class FenceManager
 {
 	private static final Logger LOG = Logger.getLogger(FenceManager.class.getName());
-
+	
 	/**
 	 * Description of each fence dimension parameters.
 	 * <ul>
@@ -24,7 +24,7 @@ public class FenceManager
 	private enum FenceSize
 	{
 		// FIXME: find better way of setting correct size to the fence, tried calculation, but didn't find any 100% valid equation
-
+		
 		SIZE_100(8, 11),
 		SIZE_200(0, 18),
 		SIZE_300(0, 24),
@@ -35,23 +35,23 @@ public class FenceManager
 		SIZE_800(8, 55),
 		SIZE_900(8, 61),
 		SIZE_1000(0, 68);
-
+		
 		final int _offset;
 		final int _geoDataSize;
-
+		
 		private FenceSize(int offset, int geoDataSize)
 		{
 			_offset = offset;
 			_geoDataSize = geoDataSize;
 		}
 	}
-
+	
 	private final List<Fence> _fences = new ArrayList<>();
-
+	
 	protected FenceManager()
 	{
 	}
-
+	
 	/**
 	 * Returns list of all fences spawned in the world.
 	 * @return List<Fence> : List of all fences.
@@ -60,7 +60,7 @@ public class FenceManager
 	{
 		return _fences;
 	}
-
+	
 	/**
 	 * Adds {@link Fence} to the world.
 	 * @param x : Spawn X world coordinate.
@@ -76,24 +76,24 @@ public class FenceManager
 	{
 		final FenceSize fsx = getFenceSize(sizeX);
 		final FenceSize fsy = getFenceSize(sizeY);
-
+		
 		if (fsx == null || fsy == null)
 		{
 			LOG.warning("Unknown dimensions for fence, x=" + sizeX + " y=" + sizeY);
 			return null;
 		}
-
+		
 		// adjust coordinates to align fence symmetrically to geodata
 		x = x & 0xFFFFFFF0 + fsx._offset;
 		y = y & 0xFFFFFFF0 + fsy._offset;
-
+		
 		final int sx = fsx._geoDataSize;
 		final int sy = fsy._geoDataSize;
-
+		
 		int geoX = GeoEngine.getGeoX(x) - sx / 2;
 		int geoY = GeoEngine.getGeoY(y) - sy / 2;
 		int geoZ = GeoEngine.getInstance().getHeight(x, y, z);
-
+		
 		// create inner description
 		final boolean[][] inside = new boolean[sx][sy];
 		for (int ix = 1; ix < sx - 1; ix++)
@@ -103,20 +103,20 @@ public class FenceManager
 				else
 					inside[ix][iy] = (ix < 3 || ix >= sx - 3) && (iy < 3 || iy >= sy - 3);
 		final byte[][] geoData = GeoEngine.calculateGeoObject(inside);
-
+		
 		// create new fence
 		Fence fence = new Fence(type, sizeX, sizeY, height, geoX, geoY, geoZ, geoData);
-
+		
 		// spawn fence to world
 		fence.spawnMe(x, y, z);
-
+		
 		// add fence to geoengine and list
 		GeoEngine.getInstance().addGeoObject(fence);
 		_fences.add(fence);
-
+		
 		return fence;
 	}
-
+	
 	/**
 	 * Remove given {@link Fence} from the world.
 	 * @param fence : {@link Fence} to be removed.
@@ -125,12 +125,12 @@ public class FenceManager
 	{
 		// remove fence from world
 		fence.decayMe();
-
+		
 		// remove fence from geoengine and list
 		GeoEngine.getInstance().removeGeoObject(fence);
 		_fences.remove(fence);
 	}
-
+	
 	/**
 	 * Returns the size template of {@link Fence} based on given size value.
 	 * @param size : Requested size.
@@ -140,42 +140,42 @@ public class FenceManager
 	{
 		if (size < 199)
 			return FenceSize.SIZE_100;
-
+		
 		if (size < 299)
 			return FenceSize.SIZE_200;
-
+		
 		if (size < 399)
 			return FenceSize.SIZE_300;
-
+		
 		if (size < 499)
 			return FenceSize.SIZE_400;
-
+		
 		if (size < 599)
 			return FenceSize.SIZE_500;
-
+		
 		if (size < 699)
 			return FenceSize.SIZE_600;
-
+		
 		if (size < 799)
 			return FenceSize.SIZE_700;
-
+		
 		if (size < 899)
 			return FenceSize.SIZE_800;
-
+		
 		if (size < 999)
 			return FenceSize.SIZE_900;
-
+		
 		if (size < 1099)
 			return FenceSize.SIZE_1000;
-
+		
 		return null;
 	}
-
+	
 	public static FenceManager getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final FenceManager INSTANCE = new FenceManager();

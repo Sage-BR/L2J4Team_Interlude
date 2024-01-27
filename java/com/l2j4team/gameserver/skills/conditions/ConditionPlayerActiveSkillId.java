@@ -11,7 +11,7 @@ public class ConditionPlayerActiveSkillId extends Condition
 {
 	private final int _skillId;
 	private final int _skillLevel;
-
+	
 	/**
 	 * Instantiates a new condition player active skill id.
 	 * @param skillId the skill id
@@ -21,7 +21,7 @@ public class ConditionPlayerActiveSkillId extends Condition
 		_skillId = skillId;
 		_skillLevel = -1;
 	}
-
+	
 	/**
 	 * Instantiates a new condition player active skill id.
 	 * @param skillId the skill id
@@ -32,7 +32,7 @@ public class ConditionPlayerActiveSkillId extends Condition
 		_skillId = skillId;
 		_skillLevel = skillLevel;
 	}
-
+	
 	@Override
 	public boolean testImpl(Env env)
 	{

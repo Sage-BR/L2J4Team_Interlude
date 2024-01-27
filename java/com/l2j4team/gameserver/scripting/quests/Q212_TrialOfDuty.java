@@ -13,7 +13,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q212_TrialOfDuty extends Quest
 {
 	private static final String qn = "Q212_TrialOfDuty";
-
+	
 	// Items
 	private static final int LETTER_OF_DUSTIN = 2634;
 	private static final int KNIGHTS_TEAR = 2635;
@@ -29,11 +29,11 @@ public class Q212_TrialOfDuty extends Quest
 	private static final int ATHEBALDT_SHIN = 2645;
 	private static final int LETTER_OF_WINDAWOOD = 2646;
 	private static final int OLD_KNIGHT_SWORD = 3027;
-
+	
 	// Rewards
 	private static final int MARK_OF_DUTY = 2633;
 	private static final int DIMENSIONAL_DIAMOND = 7562;
-
+	
 	// NPCs
 	private static final int HANNAVALT = 30109;
 	private static final int DUSTIN = 30116;
@@ -42,19 +42,19 @@ public class Q212_TrialOfDuty extends Quest
 	private static final int SIR_KIEL = 30654;
 	private static final int SILVERSHADOW = 30655;
 	private static final int SPIRIT_TALIANUS = 30656;
-
+	
 	public Q212_TrialOfDuty()
 	{
 		super(212, "Trial of Duty");
-
+		
 		setItemsIds(LETTER_OF_DUSTIN, KNIGHTS_TEAR, MIRROR_OF_ORPIC, TEAR_OF_CONFESSION, REPORT_PIECE_1, REPORT_PIECE_2, TEAR_OF_LOYALTY, MILITAS_ARTICLE, SAINTS_ASHES_URN, ATHEBALDT_SKULL, ATHEBALDT_RIBS, ATHEBALDT_SHIN, LETTER_OF_WINDAWOOD, OLD_KNIGHT_SWORD);
-
+		
 		addStartNpc(HANNAVALT);
 		addTalkId(HANNAVALT, DUSTIN, SIR_COLLIN, SIR_ARON, SIR_KIEL, SILVERSHADOW, SPIRIT_TALIANUS);
-
+		
 		addKillId(20144, 20190, 20191, 20200, 20201, 20270, 27119, 20577, 20578, 20579, 20580, 20581, 20582);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -62,13 +62,13 @@ public class Q212_TrialOfDuty extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30109-04.htm"))
 		{
 			st.setState(STATE_STARTED);
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
-
+			
 			if (!player.getMemos().getBool("secondClassChange35", false))
 			{
 				htmltext = "30109-04a.htm";
@@ -82,10 +82,10 @@ public class Q212_TrialOfDuty extends Quest
 			st.playSound(QuestState.SOUND_MIDDLE);
 			st.takeItems(TEAR_OF_LOYALTY, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -93,7 +93,7 @@ public class Q212_TrialOfDuty extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -104,7 +104,7 @@ public class Q212_TrialOfDuty extends Quest
 				else
 					htmltext = "30109-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -123,7 +123,7 @@ public class Q212_TrialOfDuty extends Quest
 						else
 							htmltext = "30109-04a.htm";
 						break;
-
+					
 					case SIR_ARON:
 						if (cond == 1)
 						{
@@ -145,7 +145,7 @@ public class Q212_TrialOfDuty extends Quest
 						else if (cond > 3)
 							htmltext = "30653-04.htm";
 						break;
-
+					
 					case SIR_KIEL:
 						if (cond == 4)
 						{
@@ -174,7 +174,7 @@ public class Q212_TrialOfDuty extends Quest
 						else if (cond > 9)
 							htmltext = "30654-06.htm";
 						break;
-
+					
 					case SPIRIT_TALIANUS:
 						if (cond == 8)
 						{
@@ -184,12 +184,12 @@ public class Q212_TrialOfDuty extends Quest
 							st.takeItems(MIRROR_OF_ORPIC, 1);
 							st.takeItems(REPORT_PIECE_2, 1);
 							st.giveItems(TEAR_OF_CONFESSION, 1);
-
+							
 							// Despawn the spirit.
 							npc.deleteMe();
 						}
 						break;
-
+					
 					case SILVERSHADOW:
 						if (cond == 10)
 						{
@@ -215,7 +215,7 @@ public class Q212_TrialOfDuty extends Quest
 						else if (cond == 13)
 							htmltext = "30655-05.htm";
 						break;
-
+					
 					case DUSTIN:
 						if (cond == 13)
 							htmltext = "30116-01.htm";
@@ -244,7 +244,7 @@ public class Q212_TrialOfDuty extends Quest
 						else if (cond == 18)
 							htmltext = "30116-10.htm";
 						break;
-
+					
 					case SIR_COLLIN:
 						if (cond == 16)
 						{
@@ -259,22 +259,22 @@ public class Q212_TrialOfDuty extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		int cond = st.getInt("cond");
 		switch (npc.getNpcId())
 		{
@@ -286,7 +286,7 @@ public class Q212_TrialOfDuty extends Quest
 					addSpawn(27119, npc, false, 120000, true);
 				}
 				break;
-
+			
 			case 27119:
 				if (cond == 2 && st.getItemEquipped(Inventory.PAPERDOLL_RHAND) == OLD_KNIGHT_SWORD)
 				{
@@ -295,7 +295,7 @@ public class Q212_TrialOfDuty extends Quest
 					st.giveItems(KNIGHTS_TEAR, 1);
 				}
 				break;
-
+			
 			case 20201:
 			case 20200:
 				if (cond == 5 && st.dropItemsAlways(REPORT_PIECE_1, 1, 10))
@@ -305,7 +305,7 @@ public class Q212_TrialOfDuty extends Quest
 					st.giveItems(REPORT_PIECE_2, 1);
 				}
 				break;
-
+			
 			case 20144:
 				if ((cond == 7 || cond == 8) && Rnd.get(100) < 33)
 				{
@@ -317,7 +317,7 @@ public class Q212_TrialOfDuty extends Quest
 					addSpawn(30656, npc, false, 300000, true);
 				}
 				break;
-
+			
 			case 20577:
 			case 20578:
 			case 20579:
@@ -327,7 +327,7 @@ public class Q212_TrialOfDuty extends Quest
 				if (cond == 11 && st.dropItemsAlways(MILITAS_ARTICLE, 1, 20))
 					st.set("cond", "12");
 				break;
-
+			
 			case 20270:
 				if (cond == 14 && Rnd.nextBoolean())
 				{
@@ -350,7 +350,7 @@ public class Q212_TrialOfDuty extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
 }

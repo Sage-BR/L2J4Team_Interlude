@@ -20,13 +20,13 @@ public final class LevelingInfo
 		FULL_PARTY,
 		PARTY_ONE_RANDOM
 	}
-
+	
 	private final AbsorbCrystalType _absorbCrystalType;
 	private final boolean _skillRequired;
 	private final int _chanceStage;
 	private final int _chanceBreak;
 	private final int[] _levelList;
-
+	
 	public LevelingInfo(StatsSet set)
 	{
 		_absorbCrystalType = set.getEnum("absorbType", AbsorbCrystalType.class);
@@ -35,27 +35,27 @@ public final class LevelingInfo
 		_chanceBreak = set.getInteger("chanceBreak");
 		_levelList = set.getIntegerArray("levelList");
 	}
-
+	
 	public AbsorbCrystalType getAbsorbCrystalType()
 	{
 		return _absorbCrystalType;
 	}
-
+	
 	public boolean isSkillRequired()
 	{
 		return _skillRequired;
 	}
-
+	
 	public int getChanceStage()
 	{
 		return _chanceStage;
 	}
-
+	
 	public int getChanceBreak()
 	{
 		return _chanceBreak;
 	}
-
+	
 	public int[] getLevelList()
 	{
 		return _levelList;

@@ -13,15 +13,15 @@ import com.l2j4team.commons.random.Rnd;
 public class Q373_SupplierOfReagents extends Quest
 {
 	private static final String qn = "Q373_SupplierOfReagents";
-
+	
 	// Variables
 	private static final String _ingredient = "ingredient";
 	private static final String _catalyst = "catalyst";
-
+	
 	// NPCs
 	private static final int WESLEY = 30166;
 	private static final int URN = 31149;
-
+	
 	// Monsters
 	private static final int CRENDION = 20813;
 	private static final int HALLATE_MAID = 20822;
@@ -30,11 +30,11 @@ public class Q373_SupplierOfReagents extends Quest
 	private static final int PLATINUM_GUARDIAN_SHAMAN = 21066;
 	private static final int LAVA_WYRM = 21111;
 	private static final int HAMES_ORC_SHAMAN = 21115;
-
+	
 	// Quest items
 	private static final int MIXING_STONE = 5904;
 	private static final int MIXING_MANUAL = 6317;
-
+	
 	// Items - pouches
 	private static final int REAGENT_POUCH_1 = 6007;
 	private static final int REAGENT_POUCH_2 = 6008;
@@ -69,7 +69,7 @@ public class Q373_SupplierOfReagents extends Quest
 	private static final int HELLFIRE_OIL = 6033;
 	private static final int NIGHTMARE_OIL = 6034;
 	private static final int PURE_SILVER = 6320;
-
+	
 	/**
 	 * This droplist defines the npcId, the item dropped and the luck.
 	 * <ul>
@@ -132,7 +132,7 @@ public class Q373_SupplierOfReagents extends Quest
 			750
 		});
 	}
-
+	
 	private static final int[][] FORMULAS =
 	{
 		{
@@ -226,7 +226,7 @@ public class Q373_SupplierOfReagents extends Quest
 			PURE_SILVER
 		}
 	};
-
+	
 	private static final int[][] TEMPERATURES =
 	{
 		{
@@ -245,19 +245,19 @@ public class Q373_SupplierOfReagents extends Quest
 			5
 		}
 	};
-
+	
 	public Q373_SupplierOfReagents()
 	{
 		super(373, "Supplier of Reagents");
-
+		
 		setItemsIds(MIXING_STONE, MIXING_MANUAL);
-
+		
 		addStartNpc(WESLEY);
 		addTalkId(WESLEY, URN);
-
+		
 		addKillId(CRENDION, HALLATE_MAID, HALLATE_GUARDIAN, PLATINUM_TRIBE_SHAMAN, PLATINUM_GUARDIAN_SHAMAN, LAVA_WYRM, HAMES_ORC_SHAMAN);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -265,14 +265,14 @@ public class Q373_SupplierOfReagents extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// Wesley
 		if (event.equalsIgnoreCase("30166-04.htm"))
 		{
 			st.setState(STATE_STARTED);
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
-
+			
 			st.giveItems(MIXING_STONE, 1);
 			st.giveItems(MIXING_MANUAL, 1);
 		}
@@ -294,11 +294,11 @@ public class Q373_SupplierOfReagents extends Quest
 			{
 				if (formula[1] != regentId)
 					continue;
-
+				
 				// Not enough items, cancel the operation.
 				if (st.getQuestItemsCount(regentId) < formula[0])
 					break;
-
+				
 				st.set(_ingredient, Integer.toString(regentId));
 				return htmltext;
 			}
@@ -307,37 +307,37 @@ public class Q373_SupplierOfReagents extends Quest
 		else if (event.startsWith("31149-06-"))
 		{
 			int catalyst = Integer.parseInt(event.substring(9, 13));
-
+			
 			// Not enough items, cancel the operation.
 			if (!st.hasQuestItems(catalyst))
 				return "31149-04.htm";
-
+			
 			st.set(_catalyst, Integer.toString(catalyst));
 		}
 		else if (event.startsWith("31149-12-"))
 		{
 			int regent = st.getInt(_ingredient);
 			int catalyst = st.getInt(_catalyst);
-
+			
 			for (int[] formula : FORMULAS)
 			{
 				if (formula[1] != regent || formula[2] != catalyst)
 					continue;
-
+					
 				// Not enough regents.
 				// Not enough catalysts.
 				if ((st.getQuestItemsCount(regent) < formula[0]) || !st.hasQuestItems(catalyst))
 					break;
-
+				
 				st.takeItems(regent, formula[0]);
 				st.takeItems(catalyst, 1);
-
+				
 				int tempIndex = Integer.parseInt(event.substring(9, 10));
 				for (int temperature[] : TEMPERATURES)
 				{
 					if (temperature[0] != tempIndex)
 						continue;
-
+					
 					if (Rnd.get(100) < temperature[1])
 					{
 						st.giveItems(formula[3], temperature[2]);
@@ -350,7 +350,7 @@ public class Q373_SupplierOfReagents extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -358,13 +358,13 @@ public class Q373_SupplierOfReagents extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 57) ? "30166-01.htm" : "30166-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				if (npc.getNpcId() == WESLEY)
 					htmltext = "30166-05.htm";
@@ -374,18 +374,18 @@ public class Q373_SupplierOfReagents extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		final int[] drop = DROPLIST.get(npc.getNpcId());
-
+		
 		if (drop[2] == 0)
 			st.dropItems(drop[0], 1, 0, drop[1]);
 		else
@@ -394,7 +394,7 @@ public class Q373_SupplierOfReagents extends Quest
 			if (random < drop[3])
 				st.dropItemsAlways((random < drop[2]) ? drop[0] : drop[1], 1, 0);
 		}
-
+		
 		return null;
 	}
 }

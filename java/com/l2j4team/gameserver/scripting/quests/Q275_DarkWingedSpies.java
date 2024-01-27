@@ -11,27 +11,27 @@ import com.l2j4team.commons.random.Rnd;
 public class Q275_DarkWingedSpies extends Quest
 {
 	private static final String qn = "Q275_DarkWingedSpies";
-
+	
 	// Monsters
 	private static final int DARKWING_BAT = 20316;
 	private static final int VARANGKA_TRACKER = 27043;
-
+	
 	// Items
 	private static final int DARKWING_BAT_FANG = 1478;
 	private static final int VARANGKA_PARASITE = 1479;
-
+	
 	public Q275_DarkWingedSpies()
 	{
 		super(275, "Dark Winged Spies");
-
+		
 		setItemsIds(DARKWING_BAT_FANG, VARANGKA_PARASITE);
-
+		
 		addStartNpc(30567); // Tantus
 		addTalkId(30567);
-
+		
 		addKillId(DARKWING_BAT, VARANGKA_TRACKER);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -39,17 +39,17 @@ public class Q275_DarkWingedSpies extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30567-03.htm"))
 		{
 			st.setState(STATE_STARTED);
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -57,7 +57,7 @@ public class Q275_DarkWingedSpies extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -68,7 +68,7 @@ public class Q275_DarkWingedSpies extends Quest
 				else
 					htmltext = "30567-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				if (st.getInt("cond") == 1)
 					htmltext = "30567-04.htm";
@@ -83,17 +83,17 @@ public class Q275_DarkWingedSpies extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "1");
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case DARKWING_BAT:
@@ -103,22 +103,22 @@ public class Q275_DarkWingedSpies extends Quest
 				{
 					// Spawn of Varangka Tracker on the npc position.
 					addSpawn(VARANGKA_TRACKER, npc, true, 0, true);
-
+					
 					st.giveItems(VARANGKA_PARASITE, 1);
 				}
 				break;
-
+			
 			case VARANGKA_TRACKER:
 				if (st.hasQuestItems(VARANGKA_PARASITE))
 				{
 					st.takeItems(VARANGKA_PARASITE, -1);
-
+					
 					if (st.dropItemsAlways(DARKWING_BAT_FANG, 5, 70))
 						st.set("cond", "2");
 				}
 				break;
 		}
-
+		
 		return null;
 	}
 }

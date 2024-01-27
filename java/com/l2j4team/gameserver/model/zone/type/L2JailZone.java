@@ -17,7 +17,7 @@ public class L2JailZone extends L2ZoneType
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
@@ -28,7 +28,7 @@ public class L2JailZone extends L2ZoneType
 			character.setInsideZone(ZoneId.NO_STORE, true);
 		}
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
@@ -37,7 +37,7 @@ public class L2JailZone extends L2ZoneType
 			character.setInsideZone(ZoneId.JAIL, false);
 			character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, false);
 			character.setInsideZone(ZoneId.NO_STORE, false);
-
+			
 			final Player player = ((Player) character);
 			if (player.isInJail() && !player.isInsideZone(ZoneId.JAIL))
 			{
@@ -47,26 +47,26 @@ public class L2JailZone extends L2ZoneType
 			}
 		}
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 	static class BackToJail implements Runnable
 	{
 		private final Player _activeChar;
-
+		
 		BackToJail(Creature character)
 		{
 			_activeChar = (Player) character;
 		}
-
+		
 		@Override
 		public void run()
 		{

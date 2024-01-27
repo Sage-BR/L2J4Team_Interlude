@@ -10,7 +10,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q345_MethodToRaiseTheDead extends Quest
 {
 	private static final String qn = "Q345_MethodToRaiseTheDead";
-
+	
 	// Items
 	private static final int VICTIM_ARM_BONE = 4274;
 	private static final int VICTIM_THIGH_BONE = 4275;
@@ -19,29 +19,29 @@ public class Q345_MethodToRaiseTheDead extends Quest
 	private static final int VICTIM_SPINE = 4278;
 	private static final int USELESS_BONE_PIECES = 4280;
 	private static final int POWDER_TO_SUMMON_DEAD_SOULS = 4281;
-
+	
 	// NPCs
 	private static final int XENOVIA = 30912;
 	private static final int DOROTHY = 30970;
 	private static final int ORPHEUS = 30971;
 	private static final int MEDIUM_JAR = 30973;
-
+	
 	// Rewards
 	private static final int BILL_OF_IASON_HEINE = 4310;
 	private static final int IMPERIAL_DIAMOND = 3456;
-
+	
 	public Q345_MethodToRaiseTheDead()
 	{
 		super(345, "Method to Raise the Dead");
-
+		
 		setItemsIds(VICTIM_ARM_BONE, VICTIM_THIGH_BONE, VICTIM_SKULL, VICTIM_RIB_BONE, VICTIM_SPINE, POWDER_TO_SUMMON_DEAD_SOULS, USELESS_BONE_PIECES);
-
+		
 		addStartNpc(DOROTHY);
 		addTalkId(DOROTHY, XENOVIA, MEDIUM_JAR, ORPHEUS);
-
+		
 		addKillId(20789, 20791);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -49,7 +49,7 @@ public class Q345_MethodToRaiseTheDead extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30970-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -92,14 +92,14 @@ public class Q345_MethodToRaiseTheDead extends Quest
 					st.set("cond", "7");
 					htmltext = "30973-02c.htm";
 				}
-
+				
 				st.takeItems(POWDER_TO_SUMMON_DEAD_SOULS, -1);
 				st.takeItems(VICTIM_ARM_BONE, -1);
 				st.takeItems(VICTIM_THIGH_BONE, -1);
 				st.takeItems(VICTIM_SKULL, -1);
 				st.takeItems(VICTIM_RIB_BONE, -1);
 				st.takeItems(VICTIM_SPINE, -1);
-
+				
 				st.playSound(QuestState.SOUND_MIDDLE);
 			}
 		}
@@ -119,10 +119,10 @@ public class Q345_MethodToRaiseTheDead extends Quest
 			else
 				htmltext = "30971-02a.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -130,13 +130,13 @@ public class Q345_MethodToRaiseTheDead extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 35) ? "30970-00.htm" : "30970-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -153,13 +153,13 @@ public class Q345_MethodToRaiseTheDead extends Quest
 							// Shared part between cond 6 and 7.
 							int amount = st.getQuestItemsCount(USELESS_BONE_PIECES) * 70;
 							st.takeItems(USELESS_BONE_PIECES, -1);
-
+							
 							// Scaried little girl
 							if (cond == 7)
 							{
 								htmltext = "30970-10.htm";
 								st.rewardItems(57, 3040 + amount);
-
+								
 								// Reward can be either an Imperial Diamond or bills.
 								if (Rnd.get(100) < 10)
 									st.giveItems(IMPERIAL_DIAMOND, 1);
@@ -177,35 +177,35 @@ public class Q345_MethodToRaiseTheDead extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case XENOVIA:
 						if (cond == 2)
 							htmltext = "30912-01.htm";
 						else if (cond > 2)
 							htmltext = "30912-06.htm";
 						break;
-
+					
 					case MEDIUM_JAR:
 						htmltext = "30973-01.htm";
 						break;
-
+					
 					case ORPHEUS:
 						htmltext = "30971-01.htm";
 						break;
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "1");
 		if (st == null)
 			return null;
-
+		
 		if (Rnd.get(4) == 0)
 		{
 			final int randomPart = Rnd.get(VICTIM_ARM_BONE, VICTIM_SPINE);
@@ -217,7 +217,7 @@ public class Q345_MethodToRaiseTheDead extends Quest
 			}
 		}
 		st.dropItemsAlways(USELESS_BONE_PIECES, 1, 0);
-
+		
 		return null;
 	}
 }

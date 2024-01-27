@@ -38,9 +38,9 @@ public class Door extends Creature implements IGeoObject
 {
 	private final Castle _castle;
 	private final ClanHall _clanHall;
-
+	
 	private boolean _open;
-
+	
 	@Override
 	public CreatureAI getAI()
 	{
@@ -51,34 +51,34 @@ public class Door extends Creature implements IGeoObject
 			{
 				if (_ai == null)
 					_ai = new DoorAI(this);
-
+				
 				return _ai;
 			}
 		}
 		return ai;
 	}
-
+	
 	public Door(int objectId, DoorTemplate template)
 	{
 		super(objectId, template);
-
+		
 		// assign door to a castle
 		_castle = CastleManager.getInstance().getCastleById(template.getCastle());
 		if (_castle != null)
 			_castle.getDoors().add(this);
-
+		
 		// assign door to a clan hall
 		_clanHall = ClanHallManager.getInstance().getNearbyClanHall(template.getPosX(), template.getPosY(), 500);
 		if (_clanHall != null)
 			_clanHall.getDoors().add(this);
-
+		
 		// temporarily set opposite state to initial state (will be set correctly by onSpawn)
 		_open = !getTemplate().isOpened();
-
+		
 		// set name
 		setName(template.getName());
 	}
-
+	
 	/**
 	 * Returns the {@link Door} ID.
 	 * @return int : Returns the ID.
@@ -87,7 +87,7 @@ public class Door extends Creature implements IGeoObject
 	{
 		return getTemplate().getId();
 	}
-
+	
 	/**
 	 * Returns true, when {@link Door} is opened.
 	 * @return boolean : True, when opened.
@@ -96,7 +96,7 @@ public class Door extends Creature implements IGeoObject
 	{
 		return _open;
 	}
-
+	
 	/**
 	 * Returns true, when {@link Door} can be unlocked and opened.
 	 * @return boolean : True, when can be unlocked and opened.
@@ -105,7 +105,7 @@ public class Door extends Creature implements IGeoObject
 	{
 		return getTemplate().getOpenType() == OpenType.SKILL;
 	}
-
+	
 	/**
 	 * Returns the actual damage of the door.
 	 * @return int : Door damage.
@@ -114,7 +114,7 @@ public class Door extends Creature implements IGeoObject
 	{
 		return Math.max(0, Math.min(6, 6 - (int) Math.ceil(getCurrentHp() / getMaxHp() * 6)));
 	}
-
+	
 	/**
 	 * Opens the {@link Door}.
 	 */
@@ -123,7 +123,7 @@ public class Door extends Creature implements IGeoObject
 		// open door using external action
 		changeState(true, false);
 	}
-
+	
 	/**
 	 * Closes the {@link Door}.
 	 */
@@ -132,7 +132,7 @@ public class Door extends Creature implements IGeoObject
 		// close door using external action
 		changeState(false, false);
 	}
-
+	
 	/**
 	 * Open/closes the {@link Door}, triggers other {@link Door} and schedules automatic open/close task.
 	 * @param open : Requested status change.
@@ -143,16 +143,16 @@ public class Door extends Creature implements IGeoObject
 		// door is dead or already in requested state, return
 		if (isDead() || _open == open)
 			return;
-
+		
 		// change door state and broadcast change
 		_open = open;
 		if (open)
 			GeoEngine.getInstance().removeGeoObject(this);
 		else
 			GeoEngine.getInstance().addGeoObject(this);
-
+		
 		broadcastStatusUpdate();
-
+		
 		// door controls another door
 		int triggerId = getTemplate().getTriggerId();
 		if (triggerId > 0)
@@ -162,7 +162,7 @@ public class Door extends Creature implements IGeoObject
 			if (door != null)
 				door.changeState(open, true);
 		}
-
+		
 		// request is not triggered
 		if (!triggered)
 		{
@@ -170,7 +170,7 @@ public class Door extends Creature implements IGeoObject
 			int time = open ? getTemplate().getCloseTime() : getTemplate().getOpenTime();
 			if (getTemplate().getRandomTime() > 0)
 				time += Rnd.get(getTemplate().getRandomTime());
-
+			
 			// try to schedule automatic state change
 			if (time > 0)
 				ThreadPool.schedule(new Runnable()
@@ -183,87 +183,87 @@ public class Door extends Creature implements IGeoObject
 				}, time * 1000);
 		}
 	}
-
+	
 	@Override
 	public void initCharStat()
 	{
 		setStat(new DoorStat(this));
 	}
-
+	
 	@Override
 	public final DoorStat getStat()
 	{
 		return (DoorStat) super.getStat();
 	}
-
+	
 	@Override
 	public void initCharStatus()
 	{
 		setStatus(new DoorStatus(this));
 	}
-
+	
 	@Override
 	public final DoorStatus getStatus()
 	{
 		return (DoorStatus) super.getStatus();
 	}
-
+	
 	@Override
 	public final DoorTemplate getTemplate()
 	{
 		return (DoorTemplate) super.getTemplate();
 	}
-
+	
 	@Override
 	public void addFuncsToNewCharacter()
 	{
 	}
-
+	
 	@Override
 	public final int getLevel()
 	{
 		return getTemplate().getLevel();
 	}
-
+	
 	@Override
 	public void updateAbnormalEffect()
 	{
 	}
-
+	
 	@Override
 	public ItemInstance getActiveWeaponInstance()
 	{
 		return null;
 	}
-
+	
 	@Override
 	public Weapon getActiveWeaponItem()
 	{
 		return null;
 	}
-
+	
 	@Override
 	public ItemInstance getSecondaryWeaponInstance()
 	{
 		return null;
 	}
-
+	
 	@Override
 	public Weapon getSecondaryWeaponItem()
 	{
 		return null;
 	}
-
+	
 	@Override
 	public boolean isAutoAttackable(Creature attacker)
 	{
 		// Doors can't be attacked by NPCs
 		if (!(attacker instanceof Playable))
 			return false;
-
+		
 		if (isUnlockable())
 			return true;
-
+		
 		// Attackable during siege by attacker only
 		final boolean isCastle = (_castle != null && _castle.getSiege().isInProgress());
 		if (isCastle)
@@ -274,7 +274,7 @@ public class Door extends Creature implements IGeoObject
 		}
 		return isCastle;
 	}
-
+	
 	@Override
 	public void onAction(Player player)
 	{
@@ -304,7 +304,7 @@ public class Door extends Creature implements IGeoObject
 				player.sendPacket(ActionFailed.STATIC_PACKET);
 		}
 	}
-
+	
 	@Override
 	public void onActionShift(Player player)
 	{
@@ -333,131 +333,131 @@ public class Door extends Creature implements IGeoObject
 			html.replace("%height%", getTemplate().getCollisionHeight());
 			player.sendPacket(html);
 		}
-
+		
 		if (player.getTarget() != this)
 		{
 			player.setTarget(this);
-
+			
 			if (isAutoAttackable(player))
 				player.sendPacket(new DoorStatusUpdate(this, player));
 		}
 		else
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	@Override
 	public void reduceCurrentHp(double damage, Creature attacker, boolean awake, boolean isDOT, L2Skill skill)
 	{
 		if ((getTemplate().getType() == DoorType.WALL && !(attacker instanceof SiegeSummon)) || !(_castle != null && _castle.getSiege().isInProgress()))
 			return;
-
+		
 		super.reduceCurrentHp(damage, attacker, awake, isDOT, skill);
 	}
-
+	
 	@Override
 	public void reduceCurrentHpByDOT(double i, Creature attacker, L2Skill skill)
 	{
 		// Doors can't be damaged by DOTs.
 	}
-
+	
 	@Override
 	public void onSpawn()
 	{
 		changeState(getTemplate().isOpened(), false);
-
+		
 		super.onSpawn();
 	}
-
+	
 	@Override
 	public boolean doDie(Creature killer)
 	{
 		if (!super.doDie(killer))
 			return false;
-
+		
 		if (!_open)
 			GeoEngine.getInstance().removeGeoObject(this);
-
+		
 		if (_castle != null && _castle.getSiege().isInProgress())
 			_castle.getSiege().announceToPlayer(SystemMessage.getSystemMessage((getTemplate().getType() == DoorType.WALL) ? SystemMessageId.CASTLE_WALL_DAMAGED : SystemMessageId.CASTLE_GATE_BROKEN_DOWN), false);
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public void doRevive()
 	{
 		_open = getTemplate().isOpened();
-
+		
 		if (!_open)
 			GeoEngine.getInstance().addGeoObject(this);
-
+		
 		super.doRevive();
 	}
-
+	
 	@Override
 	public void broadcastStatusUpdate()
 	{
 		for (Player player : getKnownType(Player.class))
 			player.sendPacket(new DoorStatusUpdate(this, player));
 	}
-
+	
 	@Override
 	public void moveToLocation(int x, int y, int z, int offset)
 	{
 	}
-
+	
 	@Override
 	public void stopMove(SpawnLocation loc)
 	{
 	}
-
+	
 	@Override
 	public synchronized void doAttack(Creature target)
 	{
 	}
-
+	
 	@Override
 	public void doCast(L2Skill skill)
 	{
 	}
-
+	
 	@Override
 	public void sendInfo(Player activeChar)
 	{
 		activeChar.sendPacket(new DoorInfo(this, activeChar));
 		activeChar.sendPacket(new DoorStatusUpdate(this, activeChar));
 	}
-
+	
 	@Override
 	public int getGeoX()
 	{
 		return getTemplate().getGeoX();
 	}
-
+	
 	@Override
 	public int getGeoY()
 	{
 		return getTemplate().getGeoY();
 	}
-
+	
 	@Override
 	public int getGeoZ()
 	{
 		return getTemplate().getGeoZ();
 	}
-
+	
 	@Override
 	public int getHeight()
 	{
 		return (int) getTemplate().getCollisionHeight();
 	}
-
+	
 	@Override
 	public byte[][] getObjectGeoData()
 	{
 		return getTemplate().getGeoData();
 	}
-
+	
 	@Override
 	public double getCollisionHeight()
 	{

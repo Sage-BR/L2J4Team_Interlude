@@ -10,13 +10,13 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q221_TestimonyOfProsperity extends Quest
 {
 	private static final String qn = "Q221_TestimonyOfProsperity";
-
+	
 	// Items
 	private static final int ADENA = 57;
 	private static final int ANIMAL_SKIN = 1867;
 	private static final int RECIPE_TITAN_KEY = 3023;
 	private static final int KEY_OF_TITAN = 3030;
-
+	
 	private static final int RING_OF_TESTIMONY_1 = 3239;
 	private static final int RING_OF_TESTIMONY_2 = 3240;
 	private static final int OLD_ACCOUNT_BOOK = 3241;
@@ -55,11 +55,11 @@ public class Q221_TestimonyOfProsperity extends Quest
 	private static final int TOAD_LORD_SAC = 3274;
 	private static final int SPIDER_THORN = 3275;
 	private static final int CRYSTAL_BROOCH = 3428;
-
+	
 	// Rewards
 	private static final int MARK_OF_PROSPERITY = 3238;
 	private static final int DIMENSIONAL_DIAMOND = 7562;
-
+	
 	// NPCs
 	private static final int WILFORD = 30005;
 	private static final int PARMAN = 30104;
@@ -81,7 +81,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 	private static final int EMILY = 30620;
 	private static final int NIKOLA = 30621;
 	private static final int BOX_OF_TITAN = 30622;
-
+	
 	// Monsters
 	private static final int MANDRAGORA_SPROUT_1 = 20223;
 	private static final int MANDRAGORA_SPROUT_2 = 20154;
@@ -94,19 +94,19 @@ public class Q221_TestimonyOfProsperity extends Quest
 	private static final int MARSH_STAKATO_SOLDIER = 20232;
 	private static final int MARSH_SPIDER = 20233;
 	private static final int MARSH_STAKATO_DRONE = 20234;
-
+	
 	public Q221_TestimonyOfProsperity()
 	{
 		super(221, "Testimony Of Prosperity");
-
+		
 		setItemsIds(RING_OF_TESTIMONY_1, RING_OF_TESTIMONY_2, OLD_ACCOUNT_BOOK, BLESSED_SEED, EMILY_RECIPE, LILITH_ELVEN_WAFER, MAPHR_TABLET_FRAGMENT, COLLECTION_LICENSE, LOCKIRIN_NOTICE_1, LOCKIRIN_NOTICE_2, LOCKIRIN_NOTICE_3, LOCKIRIN_NOTICE_4, LOCKIRIN_NOTICE_5, CONTRIBUTION_OF_SHARI, CONTRIBUTION_OF_MION, CONTRIBUTION_OF_MARYSE, MARYSE_REQUEST, CONTRIBUTION_OF_TOMA, RECEIPT_OF_BOLTER, RECEIPT_OF_CONTRIBUTION_1, RECEIPT_OF_CONTRIBUTION_2, RECEIPT_OF_CONTRIBUTION_3, RECEIPT_OF_CONTRIBUTION_4, RECEIPT_OF_CONTRIBUTION_5, PROCURATION_OF_TOROCCO, BRIGHT_LIST, MANDRAGORA_PETAL, CRIMSON_MOSS, MANDRAGORA_BOUQUET, PARMAN_INSTRUCTIONS, PARMAN_LETTER, CLAY_DOUGH, PATTERN_OF_KEYHOLE, NIKOLAS_LIST, STAKATO_SHELL, TOAD_LORD_SAC, SPIDER_THORN, CRYSTAL_BROOCH);
-
+		
 		addStartNpc(PARMAN);
 		addTalkId(WILFORD, PARMAN, LILITH, BRIGHT, SHARI, MION, LOCKIRIN, SPIRON, BALANKI, KEEF, FILAUR, ARIN, MARYSE_REDBONNET, BOLTER, TOROCCO, TOMA, PIOTUR, EMILY, NIKOLA, BOX_OF_TITAN);
-
+		
 		addKillId(MANDRAGORA_SPROUT_1, MANDRAGORA_SAPLING, MANDRAGORA_BLOSSOM, MARSH_STAKATO, MANDRAGORA_SPROUT_2, GIANT_CRIMSON_ANT, MARSH_STAKATO_WORKER, TOAD_LORD, MARSH_STAKATO_SOLDIER, MARSH_SPIDER, MARSH_STAKATO_DRONE);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -114,7 +114,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// PARMAN
 		if (event.equalsIgnoreCase("30104-04.htm"))
 		{
@@ -122,7 +122,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(RING_OF_TESTIMONY_1, 1);
-
+			
 			if (!player.getMemos().getBool("secondClassChange37", false))
 			{
 				htmltext = "30104-04e.htm";
@@ -138,7 +138,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 			st.takeItems(OLD_ACCOUNT_BOOK, 1);
 			st.takeItems(RING_OF_TESTIMONY_1, 1);
 			st.playSound(QuestState.SOUND_MIDDLE);
-
+			
 			if (player.getLevel() < 38)
 			{
 				st.set("cond", "3");
@@ -197,7 +197,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 		{
 			st.takeItems(CRYSTAL_BROOCH, 1);
 			st.giveItems(LILITH_ELVEN_WAFER, 1);
-
+			
 			if (st.hasQuestItems(BLESSED_SEED, OLD_ACCOUNT_BOOK, EMILY_RECIPE))
 			{
 				st.set("cond", "2");
@@ -210,7 +210,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 		else if (event.equalsIgnoreCase("30597-02.htm"))
 		{
 			st.giveItems(BLESSED_SEED, 1);
-
+			
 			if (st.hasQuestItems(OLD_ACCOUNT_BOOK, EMILY_RECIPE, LILITH_ELVEN_WAFER))
 			{
 				st.set("cond", "2");
@@ -224,7 +224,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 		{
 			st.takeItems(MANDRAGORA_BOUQUET, 1);
 			st.giveItems(EMILY_RECIPE, 1);
-
+			
 			if (st.hasQuestItems(BLESSED_SEED, OLD_ACCOUNT_BOOK, LILITH_ELVEN_WAFER))
 			{
 				st.set("cond", "2");
@@ -260,10 +260,10 @@ public class Q221_TestimonyOfProsperity extends Quest
 			st.takeItems(TOAD_LORD_SAC, 10);
 			st.giveItems(MAPHR_TABLET_FRAGMENT, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -271,7 +271,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -284,7 +284,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 				else
 					htmltext = "30104-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -324,7 +324,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case LOCKIRIN:
 						if (cond == 1 || cond == 2)
 						{
@@ -340,7 +340,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 									st.takeItems(RECEIPT_OF_CONTRIBUTION_4, 1);
 									st.takeItems(RECEIPT_OF_CONTRIBUTION_5, 1);
 									st.giveItems(OLD_ACCOUNT_BOOK, 1);
-
+									
 									if (st.hasQuestItems(BLESSED_SEED, EMILY_RECIPE, LILITH_ELVEN_WAFER))
 									{
 										st.set("cond", "2");
@@ -358,7 +358,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 						else if (cond >= 4)
 							htmltext = "30531-07.htm";
 						break;
-
+					
 					case SPIRON:
 						if (cond == 1 && st.hasQuestItems(COLLECTION_LICENSE))
 						{
@@ -379,7 +379,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 								htmltext = (st.hasQuestItems(RECEIPT_OF_CONTRIBUTION_1)) ? "30532-04.htm" : "30532-02.htm";
 						}
 						break;
-
+					
 					case BALANKI:
 						if (cond == 1 && st.hasQuestItems(COLLECTION_LICENSE))
 						{
@@ -401,7 +401,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 								htmltext = (st.hasQuestItems(RECEIPT_OF_CONTRIBUTION_2)) ? "30533-04.htm" : "30533-02.htm";
 						}
 						break;
-
+					
 					case KEEF:
 						if (cond == 1 && st.hasQuestItems(COLLECTION_LICENSE))
 						{
@@ -417,7 +417,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 								htmltext = (st.hasQuestItems(RECEIPT_OF_CONTRIBUTION_3)) ? "30534-04.htm" : "30534-02.htm";
 						}
 						break;
-
+					
 					case FILAUR:
 						if (cond == 1 && st.hasQuestItems(COLLECTION_LICENSE))
 						{
@@ -438,7 +438,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 								htmltext = (st.hasQuestItems(RECEIPT_OF_CONTRIBUTION_4)) ? "30535-04.htm" : "30535-02.htm";
 						}
 						break;
-
+					
 					case ARIN:
 						if (cond == 1 && st.hasQuestItems(COLLECTION_LICENSE))
 						{
@@ -459,7 +459,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 								htmltext = (st.hasQuestItems(RECEIPT_OF_CONTRIBUTION_5)) ? "30536-04.htm" : "30536-02.htm";
 						}
 						break;
-
+					
 					case SHARI:
 						if (cond == 1 && st.hasQuestItems(COLLECTION_LICENSE))
 						{
@@ -473,7 +473,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 							}
 						}
 						break;
-
+					
 					case MION:
 						if (cond == 1 && st.hasQuestItems(COLLECTION_LICENSE))
 						{
@@ -487,7 +487,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 							}
 						}
 						break;
-
+					
 					case MARYSE_REDBONNET:
 						if (cond == 1 && st.hasQuestItems(COLLECTION_LICENSE))
 						{
@@ -514,7 +514,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 							}
 						}
 						break;
-
+					
 					case TOROCCO:
 						if (cond == 1 && st.hasQuestItems(COLLECTION_LICENSE))
 						{
@@ -524,7 +524,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 								htmltext = "30555-01.htm";
 						}
 						break;
-
+					
 					case BOLTER:
 						if (cond == 1 && st.hasQuestItems(COLLECTION_LICENSE))
 						{
@@ -538,7 +538,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 							}
 						}
 						break;
-
+					
 					case TOMA:
 						if (cond == 1 && st.hasQuestItems(COLLECTION_LICENSE))
 						{
@@ -552,14 +552,14 @@ public class Q221_TestimonyOfProsperity extends Quest
 							}
 						}
 						break;
-
+					
 					case PIOTUR:
 						if (cond == 1 || cond == 2)
 							htmltext = (st.hasQuestItems(BLESSED_SEED)) ? "30597-03.htm" : "30597-01.htm";
 						else if (cond >= 4)
 							htmltext = "30597-04.htm";
 						break;
-
+					
 					case WILFORD:
 						if (cond == 1 || cond == 2)
 						{
@@ -571,7 +571,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 						else if (cond >= 4)
 							htmltext = "30005-07.htm";
 						break;
-
+					
 					case LILITH:
 						if (cond == 1 || cond == 2)
 						{
@@ -583,7 +583,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 						else if (cond >= 4)
 							htmltext = "30368-05.htm";
 						break;
-
+					
 					case BRIGHT:
 						if (cond == 1 || cond == 2)
 						{
@@ -611,7 +611,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 						else if (cond >= 4)
 							htmltext = "30466-08.htm";
 						break;
-
+					
 					case EMILY:
 						if (cond == 1 || cond == 2)
 						{
@@ -623,7 +623,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 						else if (cond >= 4)
 							htmltext = "30620-05.htm";
 						break;
-
+					
 					case NIKOLA:
 						if (cond == 4)
 						{
@@ -647,7 +647,7 @@ public class Q221_TestimonyOfProsperity extends Quest
 						else if (cond == 9)
 							htmltext = "30621-09.htm";
 						break;
-
+					
 					case BOX_OF_TITAN:
 						if (cond == 5)
 							htmltext = "30622-01.htm";
@@ -658,82 +658,82 @@ public class Q221_TestimonyOfProsperity extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int cond = st.getInt("cond");
-
+		
 		switch (npc.getNpcId())
 		{
 			case MANDRAGORA_SPROUT_1:
 				if (st.hasQuestItems(BRIGHT_LIST))
 					st.dropItems(MANDRAGORA_PETAL, 1, 20, 300000);
 				break;
-
+			
 			case MANDRAGORA_SPROUT_2:
 				if (st.hasQuestItems(BRIGHT_LIST))
 					st.dropItems(MANDRAGORA_PETAL, 1, 20, 600000);
 				break;
-
+			
 			case MANDRAGORA_SAPLING:
 				if (st.hasQuestItems(BRIGHT_LIST))
 					st.dropItems(MANDRAGORA_PETAL, 1, 20, 800000);
 				break;
-
+			
 			case MANDRAGORA_BLOSSOM:
 				if (st.hasQuestItems(BRIGHT_LIST))
 					st.dropItemsAlways(MANDRAGORA_PETAL, 1, 20);
 				break;
-
+			
 			case GIANT_CRIMSON_ANT:
 				if (st.hasQuestItems(BRIGHT_LIST))
 					st.dropItemsAlways(CRIMSON_MOSS, 1, 10);
 				break;
-
+			
 			case MARSH_STAKATO:
 				if (cond == 7 && st.dropItems(STAKATO_SHELL, 1, 20, 200000) && st.getQuestItemsCount(TOAD_LORD_SAC) + st.getQuestItemsCount(SPIDER_THORN) == 20)
 					st.set("cond", "8");
 				break;
-
+			
 			case MARSH_STAKATO_WORKER:
 				if (cond == 7 && st.dropItems(STAKATO_SHELL, 1, 20, 300000) && st.getQuestItemsCount(TOAD_LORD_SAC) + st.getQuestItemsCount(SPIDER_THORN) == 20)
 					st.set("cond", "8");
 				break;
-
+			
 			case MARSH_STAKATO_SOLDIER:
 				if (cond == 7 && st.dropItems(STAKATO_SHELL, 1, 20, 500000) && st.getQuestItemsCount(TOAD_LORD_SAC) + st.getQuestItemsCount(SPIDER_THORN) == 20)
 					st.set("cond", "8");
 				break;
-
+			
 			case MARSH_STAKATO_DRONE:
 				if (cond == 7 && st.dropItems(STAKATO_SHELL, 1, 20, 600000) && st.getQuestItemsCount(TOAD_LORD_SAC) + st.getQuestItemsCount(SPIDER_THORN) == 20)
 					st.set("cond", "8");
 				break;
-
+			
 			case TOAD_LORD:
 				if (cond == 7 && st.dropItems(TOAD_LORD_SAC, 1, 10, 200000) && st.getQuestItemsCount(STAKATO_SHELL) + st.getQuestItemsCount(SPIDER_THORN) == 30)
 					st.set("cond", "8");
 				break;
-
+			
 			case MARSH_SPIDER:
 				if (cond == 7 && st.dropItems(SPIDER_THORN, 1, 10, 200000) && st.getQuestItemsCount(STAKATO_SHELL) + st.getQuestItemsCount(TOAD_LORD_SAC) == 30)
 					st.set("cond", "8");
 				break;
 		}
-
+		
 		return null;
 	}
 }

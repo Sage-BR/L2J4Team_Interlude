@@ -11,7 +11,7 @@ public class Cube extends Square
 {
 	// cube origin coordinates
 	private final int _z;
-
+	
 	/**
 	 * Cube constructor.
 	 * @param x : Bottom left lower X coordinate.
@@ -22,40 +22,40 @@ public class Cube extends Square
 	public Cube(int x, int y, int z, int a)
 	{
 		super(x, y, a);
-
+		
 		_z = z;
 	}
-
+	
 	@Override
 	public double getArea()
 	{
 		return 6 * _a * _a;
 	}
-
+	
 	@Override
 	public double getVolume()
 	{
 		return _a * _a * _a;
 	}
-
+	
 	@Override
 	public boolean isInside(int x, int y, int z)
 	{
 		int d = z - _z;
 		if (d < 0 || d > _a)
 			return false;
-
+		
 		d = x - _x;
 		if (d < 0 || d > _a)
 			return false;
-
+		
 		d = y - _y;
 		if (d < 0 || d > _a)
 			return false;
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public Location getRandomLocation()
 	{

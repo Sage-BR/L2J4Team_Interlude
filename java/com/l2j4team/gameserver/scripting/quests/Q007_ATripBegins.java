@@ -9,29 +9,29 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q007_ATripBegins extends Quest
 {
 	private static final String qn = "Q007_ATripBegins";
-
+	
 	// NPCs
 	private static final int MIRABEL = 30146;
 	private static final int ARIEL = 30148;
 	private static final int ASTERIOS = 30154;
-
+	
 	// Items
 	private static final int ARIEL_RECO = 7572;
-
+	
 	// Rewards
 	private static final int MARK_TRAVELER = 7570;
 	private static final int SOE_GIRAN = 7559;
-
+	
 	public Q007_ATripBegins()
 	{
 		super(7, "A Trip Begins");
-
+		
 		setItemsIds(ARIEL_RECO);
-
+		
 		addStartNpc(MIRABEL);
 		addTalkId(MIRABEL, ARIEL, ASTERIOS);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -39,7 +39,7 @@ public class Q007_ATripBegins extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30146-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -65,10 +65,10 @@ public class Q007_ATripBegins extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -76,7 +76,7 @@ public class Q007_ATripBegins extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -87,7 +87,7 @@ public class Q007_ATripBegins extends Quest
 				else
 					htmltext = "30146-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -98,14 +98,14 @@ public class Q007_ATripBegins extends Quest
 						else if (cond == 3)
 							htmltext = "30146-05.htm";
 						break;
-
+					
 					case ARIEL:
 						if (cond == 1)
 							htmltext = "30148-01.htm";
 						else if (cond == 2)
 							htmltext = "30148-03.htm";
 						break;
-
+					
 					case ASTERIOS:
 						if (cond == 2)
 							htmltext = "30154-01.htm";
@@ -114,12 +114,12 @@ public class Q007_ATripBegins extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

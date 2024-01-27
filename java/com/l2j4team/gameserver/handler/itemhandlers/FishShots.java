@@ -22,30 +22,30 @@ public class FishShots implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final Player activeChar = (Player) playable;
 		final ItemInstance weaponInst = activeChar.getActiveWeaponInstance();
 		final Weapon weaponItem = activeChar.getActiveWeaponItem();
-
+		
 		// Fishshot is already active
 		if (weaponInst == null || weaponItem.getItemType() != WeaponType.FISHINGROD || activeChar.isChargedShot(ShotType.FISH_SOULSHOT))
 			return;
-
+		
 		// Wrong grade of soulshot for that fishing pole.
 		if (weaponItem.getCrystalType() != item.getItem().getCrystalType())
 		{
 			activeChar.sendPacket(SystemMessageId.WRONG_FISHINGSHOT_GRADE);
 			return;
 		}
-
+		
 		if (!activeChar.destroyItemWithoutTrace("Consume", item.getObjectId(), 1, null, false))
 		{
 			activeChar.sendPacket(SystemMessageId.NOT_ENOUGH_SOULSHOTS);
 			return;
 		}
-
+		
 		final IntIntHolder[] skills = item.getItem().getSkills();
-
+		
 		activeChar.setChargedShot(ShotType.FISH_SOULSHOT, true);
 		Broadcast.toSelfAndKnownPlayers(activeChar, new MagicSkillUse(activeChar, skills[0].getId(), 1, 0, 0));
 	}

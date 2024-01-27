@@ -29,9 +29,9 @@ public class IPLog
 	{
 		new File("log/Player Log/IPLog").mkdirs();
 	}
-
+	
 	private static final Logger _log = Logger.getLogger(IPLog.class.getName());
-
+	
 	public static void auditGMAction(String gmName, String action, String Hwid, String params)
 	{
 		final File file = new File("log/Player Log/IPLog/" + gmName + ".txt");
@@ -43,7 +43,7 @@ public class IPLog
 			catch (IOException e)
 			{
 			}
-
+		
 		try (FileWriter save = new FileWriter(file, true))
 		{
 			save.write(MathUtil.formatDate(new Date(), "dd/MM/yyyy H:mm:ss") + " >> IP: [" + action + "] >> HWID: [" + Hwid + "]\r\n");
@@ -53,7 +53,7 @@ public class IPLog
 			_log.log(Level.SEVERE, "IPLog for Player " + gmName + " could not be saved: ", e);
 		}
 	}
-
+	
 	public static void auditGMAction(String gmName, String action, String Hwid)
 	{
 		auditGMAction(gmName, action, Hwid, "");

@@ -11,7 +11,7 @@ import java.util.Map;
 public class Q385_YokeOfThePast extends Quest
 {
 	private static final String qn = "Q385_YokeOfThePast";
-
+	
 	// NPCs
 	private static final int GATEKEEPER_ZIGGURAT[] =
 	{
@@ -45,13 +45,13 @@ public class Q385_YokeOfThePast extends Quest
 		31125,
 		31126
 	};
-
+	
 	// Item
 	private static final int ANCIENT_SCROLL = 5902;
-
+	
 	// Reward
 	private static final int BLANK_SCROLL = 5965;
-
+	
 	// Drop chances
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
@@ -97,20 +97,20 @@ public class Q385_YokeOfThePast extends Quest
 		CHANCES.put(21254, 910000);
 		CHANCES.put(21255, 860000);
 	}
-
+	
 	public Q385_YokeOfThePast()
 	{
 		super(385, "Yoke of the Past");
-
+		
 		setItemsIds(ANCIENT_SCROLL);
-
+		
 		addStartNpc(GATEKEEPER_ZIGGURAT);
 		addTalkId(GATEKEEPER_ZIGGURAT);
-
+		
 		for (int npcId : CHANCES.keySet())
 			addKillId(npcId);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -118,7 +118,7 @@ public class Q385_YokeOfThePast extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("05.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -130,10 +130,10 @@ public class Q385_YokeOfThePast extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -141,13 +141,13 @@ public class Q385_YokeOfThePast extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 20) ? "02.htm" : "01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				if (!st.hasQuestItems(ANCIENT_SCROLL))
 					htmltext = "08.htm";
@@ -160,19 +160,19 @@ public class Q385_YokeOfThePast extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		partyMember.getQuestState(qn).dropItems(ANCIENT_SCROLL, 1, 0, CHANCES.get(npc.getNpcId()));
-
+		
 		return null;
 	}
 }

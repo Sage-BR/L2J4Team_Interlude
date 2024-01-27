@@ -17,9 +17,9 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class BoatInnadrilTour implements Runnable
 {
 	private static final Logger _log = Logger.getLogger(BoatInnadrilTour.class.getName());
-
+	
 	private static final Location OUST_LOC = new Location(107092, 219098, -3952);
-
+	
 	// Time: 1867s
 	private static final VehicleLocation[] TOUR =
 	{
@@ -56,51 +56,51 @@ public class BoatInnadrilTour implements Runnable
 		new VehicleLocation(111300, 226240, -3610, 150, 800),
 		new VehicleLocation(111264, 226240, -3610, 150, 800)
 	};
-
+	
 	private static final VehicleLocation DOCK = TOUR[TOUR.length - 1];
-
+	
 	private final Vehicle _boat;
 	private int _cycle = 0;
-
+	
 	private final CreatureSay ARRIVED_AT_INNADRIL;
 	private final CreatureSay LEAVE_INNADRIL5;
 	private final CreatureSay LEAVE_INNADRIL1;
 	private final CreatureSay LEAVE_INNADRIL0;
 	private final CreatureSay LEAVING_INNADRIL;
-
+	
 	private final CreatureSay ARRIVAL20;
 	private final CreatureSay ARRIVAL15;
 	private final CreatureSay ARRIVAL10;
 	private final CreatureSay ARRIVAL5;
 	private final CreatureSay ARRIVAL1;
-
+	
 	private final PlaySound INNADRIL_SOUND;
-
+	
 	private final PlaySound INNADRIL_SOUND_LEAVE_5MIN;
 	private final PlaySound INNADRIL_SOUND_LEAVE_1MIN;
-
+	
 	public BoatInnadrilTour(Vehicle boat)
 	{
 		_boat = boat;
-
+		
 		ARRIVED_AT_INNADRIL = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.INNADRIL_BOAT_ANCHOR_10_MINUTES);
 		LEAVE_INNADRIL5 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.INNADRIL_BOAT_LEAVE_IN_5_MINUTES);
 		LEAVE_INNADRIL1 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.INNADRIL_BOAT_LEAVE_IN_1_MINUTE);
 		LEAVE_INNADRIL0 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.INNADRIL_BOAT_LEAVE_SOON);
 		LEAVING_INNADRIL = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.INNADRIL_BOAT_LEAVING);
-
+		
 		ARRIVAL20 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.INNADRIL_BOAT_ARRIVE_20_MINUTES);
 		ARRIVAL15 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.INNADRIL_BOAT_ARRIVE_15_MINUTES);
 		ARRIVAL10 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.INNADRIL_BOAT_ARRIVE_10_MINUTES);
 		ARRIVAL5 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.INNADRIL_BOAT_ARRIVE_5_MINUTES);
 		ARRIVAL1 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.INNADRIL_BOAT_ARRIVE_1_MINUTE);
-
+		
 		INNADRIL_SOUND = new PlaySound(0, "itemsound.ship_arrival_departure", _boat);
-
+		
 		INNADRIL_SOUND_LEAVE_5MIN = new PlaySound(0, "itemsound.ship_5min", _boat);
 		INNADRIL_SOUND_LEAVE_1MIN = new PlaySound(0, "itemsound.ship_1min", _boat);
 	}
-
+	
 	@Override
 	public void run()
 	{
@@ -162,7 +162,7 @@ public class BoatInnadrilTour implements Runnable
 			_log.log(Level.WARNING, e.getMessage());
 		}
 	}
-
+	
 	public static void load()
 	{
 		final Vehicle boat = BoatManager.getInstance().getNewBoat(4, 111264, 226240, -3610, 32768);

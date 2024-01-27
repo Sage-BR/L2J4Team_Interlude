@@ -24,22 +24,22 @@ public class ExPCCafePointInfo extends L2GameServerPacket
 {
 	/** The Constant _S__FE_31_EXPCCAFEPOINTINFO. */
 	private static final String _S__FE_31_EXPCCAFEPOINTINFO = "[S] FE:31 ExPCCafePointInfo";
-
+	
 	/** The _character. */
 	private final Player _character;
-
+	
 	/** The m_ add point. */
 	private final int m_AddPoint;
-
+	
 	/** The m_ period type. */
 	private int m_PeriodType;
-
+	
 	/** The Remain time. */
 	private final int RemainTime;
-
+	
 	/** The Point type. */
 	private int PointType;
-
+	
 	/**
 	 * Instantiates a new ex pc cafe point info.
 	 * @param user the user
@@ -52,7 +52,7 @@ public class ExPCCafePointInfo extends L2GameServerPacket
 	{
 		_character = user;
 		m_AddPoint = modify;
-
+		
 		if (add)
 		{
 			m_PeriodType = 1;
@@ -71,10 +71,10 @@ public class ExPCCafePointInfo extends L2GameServerPacket
 				PointType = 2;
 			}
 		}
-
+		
 		RemainTime = hour;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -86,7 +86,7 @@ public class ExPCCafePointInfo extends L2GameServerPacket
 		writeD(RemainTime);
 		writeC(PointType);
 	}
-
+	
 	/**
 	 * Gets the type.
 	 * @return the type

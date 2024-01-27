@@ -8,24 +8,24 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q608_SlayTheEnemyCommander extends Quest
 {
 	private static final String qn = "Q608_SlayTheEnemyCommander";
-
+	
 	// Quest Items
 	private static final int HEAD_OF_MOS = 7236;
 	private static final int TOTEM_OF_WISDOM = 7220;
 	private static final int KETRA_ALLIANCE_4 = 7214;
-
+	
 	public Q608_SlayTheEnemyCommander()
 	{
 		super(608, "Slay the enemy commander!");
-
+		
 		setItemsIds(HEAD_OF_MOS);
-
+		
 		addStartNpc(31370); // Kadun Zu Ketra
 		addTalkId(31370);
-
+		
 		addKillId(25312); // Mos
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -33,7 +33,7 @@ public class Q608_SlayTheEnemyCommander extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31370-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -57,10 +57,10 @@ public class Q608_SlayTheEnemyCommander extends Quest
 				st.playSound(QuestState.SOUND_ACCEPT);
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -68,7 +68,7 @@ public class Q608_SlayTheEnemyCommander extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -82,15 +82,15 @@ public class Q608_SlayTheEnemyCommander extends Quest
 				else
 					htmltext = "31370-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				htmltext = (st.hasQuestItems(HEAD_OF_MOS)) ? "31370-05.htm" : "31370-06.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
@@ -107,7 +107,7 @@ public class Q608_SlayTheEnemyCommander extends Quest
 				}
 			}
 		}
-
+		
 		return null;
 	}
 }

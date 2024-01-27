@@ -14,7 +14,7 @@ public class ExFishingStart extends L2GameServerPacket
 	private final Location _loc;
 	private final int _fishType;
 	private final boolean _isNightLure;
-
+	
 	public ExFishingStart(Creature character, int fishType, Location loc, boolean isNightLure)
 	{
 		_activeChar = character;
@@ -22,7 +22,7 @@ public class ExFishingStart extends L2GameServerPacket
 		_loc = loc;
 		_isNightLure = isNightLure;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

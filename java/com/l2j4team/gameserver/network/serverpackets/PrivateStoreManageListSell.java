@@ -12,19 +12,19 @@ public class PrivateStoreManageListSell extends L2GameServerPacket
 	private final boolean _packageSale;
 	private final TradeItem[] _itemList;
 	private final List<TradeItem> _sellList;
-
+	
 	public PrivateStoreManageListSell(Player player, boolean isPackageSale)
 	{
 		_objId = player.getObjectId();
 		_playerAdena = player.getAdena();
-
+		
 		player.getSellList().updateItems();
-
+		
 		_packageSale = (player.getSellList().isPackaged()) ? true : isPackageSale;
 		_itemList = player.getInventory().getAvailableItems(player.getSellList());
 		_sellList = player.getSellList().getItems();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -32,7 +32,7 @@ public class PrivateStoreManageListSell extends L2GameServerPacket
 		writeD(_objId);
 		writeD(_packageSale ? 1 : 0);
 		writeD(_playerAdena);
-
+		
 		writeD(_itemList.length);
 		for (TradeItem item : _itemList)
 		{
@@ -46,7 +46,7 @@ public class PrivateStoreManageListSell extends L2GameServerPacket
 			writeD(item.getItem().getBodyPart());
 			writeD(item.getPrice());
 		}
-
+		
 		writeD(_sellList.size());
 		for (TradeItem item : _sellList)
 		{

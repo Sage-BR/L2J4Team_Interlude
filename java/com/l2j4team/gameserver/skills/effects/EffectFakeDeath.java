@@ -15,34 +15,34 @@ public class EffectFakeDeath extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.FAKE_DEATH;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		getEffected().startFakeDeath();
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		getEffected().stopFakeDeath(false);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		if (getEffected().isDead())
 			return false;
-
+		
 		double manaDam = calc();
-
+		
 		if (manaDam > getEffected().getCurrentMp())
 		{
 			if (getSkill().isToggle())
@@ -51,7 +51,7 @@ public class EffectFakeDeath extends L2Effect
 				return false;
 			}
 		}
-
+		
 		getEffected().reduceCurrentMp(manaDam);
 		return true;
 	}

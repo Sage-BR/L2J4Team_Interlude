@@ -17,13 +17,13 @@ final class EffectBetray extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.BETRAY;
 	}
-
+	
 	/** Notify started */
 	@Override
 	public boolean onStart()
@@ -36,20 +36,20 @@ final class EffectBetray extends L2Effect
 		}
 		return false;
 	}
-
+	
 	/** Notify exited */
 	@Override
 	public void onExit()
 	{
 		getEffected().getAI().setIntention(CtrlIntention.IDLE);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

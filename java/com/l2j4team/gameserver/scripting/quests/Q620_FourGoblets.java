@@ -13,31 +13,31 @@ import com.l2j4team.commons.util.ArraysUtil;
 public class Q620_FourGoblets extends Quest
 {
 	private static final String qn = "Q620_FourGoblets";
-
+	
 	// NPCs
 	private static final int GHOST_OF_WIGOTH_1 = 31452;
 	private static final int NAMELESS_SPIRIT = 31453;
 	private static final int GHOST_OF_WIGOTH_2 = 31454;
-
+	
 	private static final int GHOST_CHAMBERLAIN_1 = 31919;
 	private static final int GHOST_CHAMBERLAIN_2 = 31920;
-
+	
 	private static final int CONQUERORS_SEPULCHER_MANAGER = 31921;
 	private static final int EMPERORS_SEPULCHER_MANAGER = 31922;
 	private static final int GREAT_SAGES_SEPULCHER_MANAGER = 31923;
 	private static final int JUDGES_SEPULCHER_MANAGER = 31924;
-
+	
 	// Items
 	private static final int RELIC = 7254;
 	private static final int SEALED_BOX = 7255;
-
+	
 	private static final int GOBLET_OF_ALECTIA = 7256;
 	private static final int GOBLET_OF_TISHAS = 7257;
 	private static final int GOBLET_OF_MEKARA = 7258;
 	private static final int GOBLET_OF_MORIGUL = 7259;
-
+	
 	private static final int USED_GRAVE_PASS = 7261;
-
+	
 	// Rewards
 	private static final int ANTIQUE_BROOCH = 7262;
 	private static final int[] RCP_REWARDS = new int[]
@@ -53,20 +53,20 @@ public class Q620_FourGoblets extends Quest
 		6899,
 		7580
 	};
-
+	
 	public Q620_FourGoblets()
 	{
 		super(620, "Four Goblets");
-
+		
 		setItemsIds(SEALED_BOX, USED_GRAVE_PASS, GOBLET_OF_ALECTIA, GOBLET_OF_TISHAS, GOBLET_OF_MEKARA, GOBLET_OF_MORIGUL);
-
+		
 		addStartNpc(NAMELESS_SPIRIT, CONQUERORS_SEPULCHER_MANAGER, EMPERORS_SEPULCHER_MANAGER, GREAT_SAGES_SEPULCHER_MANAGER, JUDGES_SEPULCHER_MANAGER, GHOST_CHAMBERLAIN_1, GHOST_CHAMBERLAIN_2);
 		addTalkId(NAMELESS_SPIRIT, CONQUERORS_SEPULCHER_MANAGER, EMPERORS_SEPULCHER_MANAGER, GREAT_SAGES_SEPULCHER_MANAGER, JUDGES_SEPULCHER_MANAGER, GHOST_CHAMBERLAIN_1, GHOST_CHAMBERLAIN_2, GHOST_OF_WIGOTH_1, GHOST_OF_WIGOTH_2);
-
+		
 		for (int id = 18120; id <= 18256; id++)
 			addKillId(id);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -74,7 +74,7 @@ public class Q620_FourGoblets extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31452-05.htm"))
 		{
 			if (Rnd.nextBoolean())
@@ -120,7 +120,7 @@ public class Q620_FourGoblets extends Quest
 			if (st.hasQuestItems(SEALED_BOX))
 			{
 				st.takeItems(SEALED_BOX, 1);
-
+				
 				if (!calculateBoxReward(st))
 					htmltext = (Rnd.nextBoolean()) ? "31454-09.htm" : "31454-10.htm";
 				else
@@ -135,7 +135,7 @@ public class Q620_FourGoblets extends Quest
 				player.teleToLocation(178298, -84574, -7216, 0);
 				return null;
 			}
-
+			
 			if (st.hasQuestItems(USED_GRAVE_PASS))
 			{
 				st.takeItems(USED_GRAVE_PASS, 1);
@@ -152,7 +152,7 @@ public class Q620_FourGoblets extends Quest
 				player.teleToLocation(186942, -75602, -2834, 0);
 				return null;
 			}
-
+			
 			if (st.hasQuestItems(USED_GRAVE_PASS))
 			{
 				st.takeItems(USED_GRAVE_PASS, 1);
@@ -166,7 +166,7 @@ public class Q620_FourGoblets extends Quest
 			if (st.hasQuestItems(SEALED_BOX))
 			{
 				st.takeItems(SEALED_BOX, 1);
-
+				
 				if (!calculateBoxReward(st))
 					htmltext = (Rnd.nextBoolean()) ? "31919-04.htm" : "31919-05.htm";
 				else
@@ -191,7 +191,7 @@ public class Q620_FourGoblets extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -199,14 +199,14 @@ public class Q620_FourGoblets extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		int npcId = npc.getNpcId();
 		int id = st.getState();
 		int cond = st.getInt("cond");
-
+		
 		if (id == STATE_CREATED)
 			st.set("cond", "0");
-
+		
 		if (npcId == GHOST_OF_WIGOTH_1)
 		{
 			if (cond == 1)
@@ -227,39 +227,39 @@ public class Q620_FourGoblets extends Quest
 		{
 			// Possibilities : 0 = nothing, 1 = seal boxes only, 2 = relics only, 3 = both, 4/5/6/7 = "4 goblets" versions of 0/1/2/3.
 			int index = 0;
-
+			
 			if (st.hasQuestItems(GOBLET_OF_ALECTIA, GOBLET_OF_TISHAS, GOBLET_OF_MEKARA, GOBLET_OF_MORIGUL))
 				index = 4;
-
+			
 			final boolean gotSealBoxes = st.hasQuestItems(SEALED_BOX);
 			final boolean gotEnoughRelics = st.getQuestItemsCount(RELIC) >= 1000;
-
+			
 			if (gotSealBoxes && gotEnoughRelics)
 				index += 3;
 			else if (!gotSealBoxes && gotEnoughRelics)
 				index += 2;
 			else if (gotSealBoxes)
 				index += 1;
-
+			
 			htmltext = "31454-0" + index + ".htm";
 		}
 		else
 			htmltext = npcId + "-01.htm";
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		partyMember.getQuestState(qn).dropItems(SEALED_BOX, 1, 0, 300000);
 		return null;
 	}
-
+	
 	/**
 	 * Calculate boxes rewards, then return if there was a reward.
 	 * @param st the QuestState of the player, used to reward him.
@@ -269,7 +269,7 @@ public class Q620_FourGoblets extends Quest
 	{
 		boolean reward = false;
 		int rnd = Rnd.get(5);
-
+		
 		if (rnd == 0)
 		{
 			st.giveItems(57, 10000);
@@ -281,7 +281,7 @@ public class Q620_FourGoblets extends Quest
 			{
 				reward = true;
 				int i = Rnd.get(1000);
-
+				
 				if (i < 43)
 					st.giveItems(1884, 42);
 				else if (i < 66)
@@ -303,12 +303,12 @@ public class Q620_FourGoblets extends Quest
 				else
 					st.giveItems(4043, 1);
 			}
-
+			
 			if (Rnd.get(1000) < 323)
 			{
 				reward = true;
 				int i = Rnd.get(1000);
-
+				
 				if (i < 335)
 					st.giveItems(1888, 1);
 				else if (i < 556)
@@ -331,7 +331,7 @@ public class Q620_FourGoblets extends Quest
 			{
 				reward = true;
 				int i = Rnd.get(1000);
-
+				
 				if (i < 148)
 					st.giveItems(1878, 8);
 				else if (i < 175)
@@ -353,12 +353,12 @@ public class Q620_FourGoblets extends Quest
 				else
 					st.giveItems(4044, 1);
 			}
-
+			
 			if (Rnd.get(1000) < 251)
 			{
 				reward = true;
 				int i = Rnd.get(1000);
-
+				
 				if (i < 350)
 					st.giveItems(1887, 1);
 				else if (i < 587)
@@ -381,7 +381,7 @@ public class Q620_FourGoblets extends Quest
 			{
 				reward = true;
 				int i = Rnd.get(1000);
-
+				
 				if (i < 223)
 					st.giveItems(730, 1);
 				else if (i < 893)
@@ -389,12 +389,12 @@ public class Q620_FourGoblets extends Quest
 				else
 					st.giveItems(960, 1);
 			}
-
+			
 			if (Rnd.get(1000) < 5)
 			{
 				reward = true;
 				int i = Rnd.get(1000);
-
+				
 				if (i < 202)
 					st.giveItems(729, 1);
 				else if (i < 928)
@@ -409,7 +409,7 @@ public class Q620_FourGoblets extends Quest
 			{
 				reward = true;
 				int i = Rnd.get(1000);
-
+				
 				if (i < 88)
 					st.giveItems(6698, 1);
 				else if (i < 185)
@@ -445,12 +445,12 @@ public class Q620_FourGoblets extends Quest
 				else
 					st.giveItems(6714, 1);
 			}
-
+			
 			if (Rnd.get(1000) < 54)
 			{
 				reward = true;
 				int i = Rnd.get(1000);
-
+				
 				if (i < 100)
 					st.giveItems(6688, 1);
 				else if (i < 198)
@@ -473,7 +473,7 @@ public class Q620_FourGoblets extends Quest
 					st.giveItems(6697, 1);
 			}
 		}
-
+		
 		return reward;
 	}
 }

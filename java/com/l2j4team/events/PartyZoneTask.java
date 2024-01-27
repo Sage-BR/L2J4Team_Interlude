@@ -24,40 +24,40 @@ public abstract class PartyZoneTask
 	/** The _in progress. */
 	public static boolean _started = false;
 	public static boolean _aborted = false;
-
+	
 	public static void SpawnEvent()
 	{
-		// PartyFarm.spawnMonsters();
-
+		PartyFarm.spawnMonsters();
+		
 		Announcement.AnnounceEvents("" + Config.NAME_EVENT + " Special Rewards.");
 		Announcement.AnnounceEvents("" + Config.NAME_EVENT + " Teleport Now!");
 		Announcement.AnnounceEvents("" + Config.NAME_EVENT + " Duration: " + Config.PARTYZONE_TIME + " minute(s)!");
-
+		
 		_aborted = false;
 		_started = true;
-
+		
 		waiter(Config.PARTYZONE_TIME * 60 * 1000); // minutes for event time
-
+		
 		if (!_aborted)
 			finishEvent();
 	}
-
+	
 	public static void finishEvent()
 	{
 		Announcement.AnnounceEvents("" + Config.NAME_EVENT + " Event Finished!");
-		// PartyFarm.unSpawnMonsters();
-
+		PartyFarm.unSpawnMonsters();
+		
 		_started = false;
-
+		
 		if (!AdminCustom._partytask_manual)
 			PartyFarmEvent.getInstance().StartCalculationOfNextEventTime();
 		else
 			AdminCustom._partytask_manual = false;
-
+		
 		PartyFarmEvent.getInstance().getNextTime();
-
+		
 	}
-
+	
 	/**
 	 * Checks if is _started.
 	 * @return the _started
@@ -66,7 +66,7 @@ public abstract class PartyZoneTask
 	{
 		return _started;
 	}
-
+	
 	/**
 	 * Waiter.
 	 * @param interval the interval
@@ -75,15 +75,15 @@ public abstract class PartyZoneTask
 	{
 		long startWaiterTime = System.currentTimeMillis();
 		int seconds = (int) (interval / 1000);
-
+		
 		while (startWaiterTime + interval > System.currentTimeMillis() && !_aborted)
 		{
 			seconds--; // Here because we don't want to see two time announce at the same time
-
+			
 			switch (seconds)
 			{
 				case 3600: // 1 hour left
-
+					
 					if (_started)
 					{
 						Announcement.AnnounceEvents("" + Config.NAME_EVENT + " Special Rewards.");
@@ -100,7 +100,7 @@ public abstract class PartyZoneTask
 				case 120: // 2 minutes left
 				case 60: // 1 minute left
 					// removeOfflinePlayers();
-
+					
 					if (_started)
 					{
 						Announcement.AnnounceEvents("" + Config.NAME_EVENT + " Special Rewards.");
@@ -116,12 +116,12 @@ public abstract class PartyZoneTask
 				case 1: // 1 seconds left
 					if (_started)
 						Announcement.AnnounceEvents("" + Config.NAME_EVENT + " " + seconds + " second(s) till event finish!");
-
+					
 					break;
 			}
-
+			
 			long startOneSecondWaiterStartTime = System.currentTimeMillis();
-
+			
 			// Only the try catch with Thread.sleep(1000) give bad countdown on high wait times
 			while (startOneSecondWaiterStartTime + 1000 > System.currentTimeMillis())
 			{

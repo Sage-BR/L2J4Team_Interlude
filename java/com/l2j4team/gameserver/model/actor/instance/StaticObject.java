@@ -18,12 +18,12 @@ public class StaticObject extends WorldObject
 	private int _type = -1; // 0 - map signs, 1 - throne , 2 - arena signs
 	private boolean _isBusy; // True - if someone sitting on the throne
 	private ShowTownMap _map;
-
+	
 	public StaticObject(int objectId)
 	{
 		super(objectId);
 	}
-
+	
 	/**
 	 * @return the StaticObjectId.
 	 */
@@ -31,7 +31,7 @@ public class StaticObject extends WorldObject
 	{
 		return _staticObjectId;
 	}
-
+	
 	/**
 	 * @param StaticObjectId The StaticObjectId to set.
 	 */
@@ -39,37 +39,37 @@ public class StaticObject extends WorldObject
 	{
 		_staticObjectId = StaticObjectId;
 	}
-
+	
 	public int getType()
 	{
 		return _type;
 	}
-
+	
 	public void setType(int type)
 	{
 		_type = type;
 	}
-
+	
 	public boolean isBusy()
 	{
 		return _isBusy;
 	}
-
+	
 	public void setBusy(boolean busy)
 	{
 		_isBusy = busy;
 	}
-
+	
 	public void setMap(String texture, int x, int y)
 	{
 		_map = new ShowTownMap("town_map." + texture, x, y);
 	}
-
+	
 	public ShowTownMap getMap()
 	{
 		return _map;
 	}
-
+	
 	@Override
 	public void onAction(Player player)
 	{
@@ -94,13 +94,13 @@ public class StaticObject extends WorldObject
 				}
 				else if (getType() == 0)
 					player.sendPacket(getMap());
-
+				
 				// Send ActionFailed to the player in order to avoid he stucks
 				player.sendPacket(ActionFailed.STATIC_PACKET);
 			}
 		}
 	}
-
+	
 	@Override
 	public void onActionShift(Player player)
 	{
@@ -117,19 +117,19 @@ public class StaticObject extends WorldObject
 			player.sendPacket(html);
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 		}
-
+		
 		if (player.getTarget() != this)
 			player.setTarget(this);
 		else
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	@Override
 	public boolean isAutoAttackable(Creature attacker)
 	{
 		return false;
 	}
-
+	
 	@Override
 	public void sendInfo(Player activeChar)
 	{

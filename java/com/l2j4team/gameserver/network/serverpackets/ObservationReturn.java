@@ -5,12 +5,12 @@ import com.l2j4team.gameserver.model.location.Location;
 public class ObservationReturn extends L2GameServerPacket
 {
 	private final Location _location;
-
+	
 	public ObservationReturn(Location loc)
 	{
 		_location = loc;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

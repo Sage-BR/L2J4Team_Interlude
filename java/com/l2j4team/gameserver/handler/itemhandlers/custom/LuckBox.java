@@ -18,15 +18,15 @@ public class LuckBox implements IItemHandler
 		{
 			return;
 		}
-
+		
 		Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isOlympiadProtection())
 		{
 			activeChar.sendMessage("You can not do that.");
 			return;
 		}
-
+		
 		switch (Rnd.get(0, 11))
 		{
 			case 0:

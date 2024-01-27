@@ -13,14 +13,14 @@ public class RequestManorList extends L2GameClientPacket
 	protected void readImpl()
 	{
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		player.sendPacket(ExSendManorList.STATIC_PACKET);
 	}
 }

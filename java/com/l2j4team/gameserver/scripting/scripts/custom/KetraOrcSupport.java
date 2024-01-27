@@ -29,7 +29,7 @@ import com.l2j4team.commons.lang.StringUtil;
 public class KetraOrcSupport extends Quest
 {
 	private static final String qn = "KetraOrcSupport";
-
+	
 	private static final int KADUN = 31370; // Hierarch
 	private static final int WAHKAN = 31371; // Messenger
 	private static final int ASEFA = 31372; // Soul Guide
@@ -37,9 +37,9 @@ public class KetraOrcSupport extends Quest
 	private static final int JAFF = 31374; // Warehouse Keeper
 	private static final int JUMARA = 31375; // Trader
 	private static final int KURFA = 31376; // Gate Keeper
-
+	
 	private static final int HORN = 7186;
-
+	
 	private static final int[] KETRAS =
 	{
 		21324,
@@ -64,7 +64,7 @@ public class KetraOrcSupport extends Quest
 		21348,
 		21349
 	};
-
+	
 	private static final int[][] BUFF =
 	{
 		{
@@ -101,7 +101,7 @@ public class KetraOrcSupport extends Quest
 		}
 		// Haste: Requires 6 Buffalo Horns
 	};
-
+	
 	/**
 	 * Names of missions which will be automatically dropped if the alliance is broken.
 	 */
@@ -114,22 +114,22 @@ public class KetraOrcSupport extends Quest
 		"Q609_MagicalPowerOfWater_Part1",
 		"Q610_MagicalPowerOfWater_Part2"
 	};
-
+	
 	public KetraOrcSupport()
 	{
 		super(-1, "custom");
-
+		
 		addFirstTalkId(KADUN, WAHKAN, ASEFA, ATAN, JAFF, JUMARA, KURFA);
 		addTalkId(ASEFA, JAFF, KURFA);
 		addStartNpc(JAFF, KURFA);
-
+		
 		// Verify if the killer didn't kill an allied mob. Test his party aswell.
 		addKillId(KETRAS);
-
+		
 		// Verify if an allied is healing/buff an enemy. Petrify him if it's the case.
 		addSkillSeeId(KETRAS);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -137,7 +137,7 @@ public class KetraOrcSupport extends Quest
 		QuestState st = player.getQuestState(getName());
 		if (st == null)
 			return htmltext;
-
+		
 		if (StringUtil.isDigit(event))
 		{
 			final int[] buffInfo = BUFF[Integer.parseInt(event)];
@@ -173,10 +173,10 @@ public class KetraOrcSupport extends Quest
 					break;
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onFirstTalk(Npc npc, Player player)
 	{
@@ -184,9 +184,9 @@ public class KetraOrcSupport extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			st = newQuestState(player);
-
+		
 		final int allianceLevel = player.getAllianceWithVarkaKetra();
-
+		
 		switch (npc.getNpcId())
 		{
 			case KADUN:
@@ -195,14 +195,14 @@ public class KetraOrcSupport extends Quest
 				else
 					htmltext = "31370-no.htm";
 				break;
-
+			
 			case WAHKAN:
 				if (allianceLevel > 0)
 					htmltext = "31371-friend.htm";
 				else
 					htmltext = "31371-no.htm";
 				break;
-
+			
 			case ASEFA:
 				st.setState(STATE_STARTED);
 				if (allianceLevel < 1)
@@ -217,7 +217,7 @@ public class KetraOrcSupport extends Quest
 						htmltext = "31372-2.htm";
 				}
 				break;
-
+			
 			case ATAN:
 				if (player.getKarma() >= 1)
 					htmltext = "31373-pk.htm";
@@ -228,7 +228,7 @@ public class KetraOrcSupport extends Quest
 				else
 					htmltext = "31373-2.htm";
 				break;
-
+			
 			case JAFF:
 				switch (allianceLevel)
 				{
@@ -249,7 +249,7 @@ public class KetraOrcSupport extends Quest
 						break;
 				}
 				break;
-
+			
 			case JUMARA:
 				switch (allianceLevel)
 				{
@@ -268,7 +268,7 @@ public class KetraOrcSupport extends Quest
 						break;
 				}
 				break;
-
+			
 			case KURFA:
 				if (allianceLevel <= 0)
 					htmltext = "31376-no.htm";
@@ -280,10 +280,10 @@ public class KetraOrcSupport extends Quest
 					htmltext = "31376-3.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
@@ -297,10 +297,10 @@ public class KetraOrcSupport extends Quest
 		}
 		else
 			testKetraDemote(player);
-
+		
 		return null;
 	}
-
+	
 	@Override
 	public String onSkillSee(Npc npc, Player caster, L2Skill skill, WorldObject[] targets, boolean isPet)
 	{
@@ -322,10 +322,10 @@ public class KetraOrcSupport extends Quest
 						// Target isn't a summon nor a player, we drop check.
 						if (target == null || target.isDead() || target == caster || !(target instanceof Playable))
 							continue;
-
+						
 						// Retrieve the player behind that target.
 						final Player player = target.getActingPlayer();
-
+						
 						// If player is neutral or enemy, go further.
 						if (!(player.isAlliedWithKetra()))
 						{
@@ -334,11 +334,11 @@ public class KetraOrcSupport extends Quest
 							{
 								// Save current target for future use.
 								final WorldObject oldTarget = npc.getTarget();
-
+								
 								// Curse the heretic or his pet.
 								npc.setTarget((isPet && player.getPet() != null) ? caster.getPet() : caster);
 								npc.doCast(FrequentSkill.VARKA_KETRA_PETRIFICATION.getSkill());
-
+								
 								// Revert to old target && drop the loop.
 								npc.setTarget(oldTarget);
 								break;
@@ -348,11 +348,11 @@ public class KetraOrcSupport extends Quest
 					break;
 			}
 		}
-
+		
 		// Continue normal behavior.
 		return super.onSkillSee(npc, caster, skill, targets, isPet);
 	}
-
+	
 	/**
 	 * That method drops current alliance and retrograde badge.<BR>
 	 * If any Varka quest is in progress, it stops the quest (and drop all related qItems) :
@@ -364,9 +364,9 @@ public class KetraOrcSupport extends Quest
 		{
 			// Drop the alliance (old friends become aggro).
 			player.setAllianceWithVarkaKetra(0);
-
+			
 			final PcInventory inventory = player.getInventory();
-
+			
 			// Drop by 1 the level of that alliance (symbolized by a quest item).
 			for (int i = 7215; i >= 7211; i--)
 			{
@@ -375,15 +375,15 @@ public class KetraOrcSupport extends Quest
 				{
 					// Destroy the badge.
 					player.destroyItemByItemId("Quest", i, item.getCount(), player, true);
-
+					
 					// Badge lvl 1 ; no addition of badge of lower level.
 					if (i != 7211)
 						player.addItem("Quest", i - 1, 1, player, true);
-
+					
 					break;
 				}
 			}
-
+			
 			for (String mission : ketraMissions)
 			{
 				QuestState pst = player.getQuestState(mission);

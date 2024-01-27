@@ -7,7 +7,7 @@ public class Q077_SagaOfTheDominator extends SagasSuperClass
 	public Q077_SagaOfTheDominator()
 	{
 		super(77, "Saga of the Dominator");
-
+		
 		NPC = new int[]
 		{
 			31336,
@@ -23,7 +23,7 @@ public class Q077_SagaOfTheDominator extends SagasSuperClass
 			31656,
 			31290
 		};
-
+		
 		Items = new int[]
 		{
 			7080,
@@ -39,38 +39,38 @@ public class Q077_SagaOfTheDominator extends SagasSuperClass
 			7100,
 			0
 		};
-
+		
 		Mob = new int[]
 		{
 			27294,
 			27226,
 			27262
 		};
-
+		
 		classid = 115;
 		prevclass = 0x33;
-
+		
 		X = new int[]
 		{
 			164650,
 			47429,
 			47391
 		};
-
+		
 		Y = new int[]
 		{
 			-74121,
 			-56923,
 			-56929
 		};
-
+		
 		Z = new int[]
 		{
 			-2871,
 			-2383,
 			-2370
 		};
-
+		
 		registerNPCs();
 	}
 }

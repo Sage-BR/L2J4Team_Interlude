@@ -8,11 +8,11 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q306_CrystalsOfFireAndIce extends Quest
 {
 	private static final String qn = "Q306_CrystalsOfFireAndIce";
-
+	
 	// Items
 	private static final int FLAME_SHARD = 1020;
 	private static final int ICE_SHARD = 1021;
-
+	
 	// Droplist (npcId, itemId, chance)
 	private static final int[][] DROPLIST =
 	{
@@ -47,19 +47,19 @@ public class Q306_CrystalsOfFireAndIce extends Quest
 			500000
 		}
 	};
-
+	
 	public Q306_CrystalsOfFireAndIce()
 	{
 		super(306, "Crystals of Fire and Ice");
-
+		
 		setItemsIds(FLAME_SHARD, ICE_SHARD);
-
+		
 		addStartNpc(30004); // Katerina
 		addTalkId(30004);
-
+		
 		addKillId(20109, 20110, 20112, 20113, 20114, 20115);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -67,7 +67,7 @@ public class Q306_CrystalsOfFireAndIce extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30004-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -79,10 +79,10 @@ public class Q306_CrystalsOfFireAndIce extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -90,13 +90,13 @@ public class Q306_CrystalsOfFireAndIce extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 17) ? "30004-01.htm" : "30004-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int totalItems = st.getQuestItemsCount(FLAME_SHARD) + st.getQuestItemsCount(ICE_SHARD);
 				if (totalItems == 0)
@@ -110,17 +110,17 @@ public class Q306_CrystalsOfFireAndIce extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		for (int[] drop : DROPLIST)
 		{
 			if (npc.getNpcId() == drop[0])
@@ -129,7 +129,7 @@ public class Q306_CrystalsOfFireAndIce extends Quest
 				break;
 			}
 		}
-
+		
 		return null;
 	}
 }

@@ -7,7 +7,7 @@ public class PlayerLogout extends GameServerBasePacket
 		writeC(0x03);
 		writeS(player);
 	}
-
+	
 	@Override
 	public byte[] getContent()
 	{

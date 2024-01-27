@@ -30,13 +30,13 @@ public class ChannelLeave implements IUserCommandHandler
 	{
 		96
 	};
-
+	
 	@Override
 	public boolean useUserCommand(int id, Player activeChar)
 	{
 		if (id != COMMAND_IDS[0])
 			return false;
-
+		
 		final L2Party party = activeChar.getParty();
 		if (party != null)
 		{
@@ -44,7 +44,7 @@ public class ChannelLeave implements IUserCommandHandler
 			{
 				final L2CommandChannel channel = party.getCommandChannel();
 				channel.removeParty(party);
-
+				
 				party.getLeader().sendPacket(SystemMessageId.LEFT_COMMAND_CHANNEL);
 				channel.broadcastToChannelMembers(SystemMessage.getSystemMessage(SystemMessageId.S1_PARTY_LEFT_COMMAND_CHANNEL).addCharName(party.getLeader()));
 				return true;
@@ -52,7 +52,7 @@ public class ChannelLeave implements IUserCommandHandler
 		}
 		return false;
 	}
-
+	
 	@Override
 	public int[] getUserCommandList()
 	{

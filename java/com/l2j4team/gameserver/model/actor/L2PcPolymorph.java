@@ -39,63 +39,63 @@ public class L2PcPolymorph extends Folk
 	private int _nameColor = 0xFFFFFF;
 	private int _titleColor = 0xFFFF77;
 	private String _visibleTitle = "";
-
+	
 	public L2PcPolymorph(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
 		setIsInvul(true);
 	}
-
+	
 	@Override
 	public boolean hasRandomAnimation()
 	{
 		return false;
 	}
-
+	
 	public CharSelectInfoPackage getPolymorphInfo()
 	{
 		return _polymorphInfo;
 	}
-
+	
 	public void setPolymorphInfo(CharSelectInfoPackage polymorphInfo)
 	{
 		_polymorphInfo = polymorphInfo;
-
+		
 		for (WorldObject object : getKnownType(Player.class))
 			if (object instanceof Player)
 				sendInfo(object.getActingPlayer());
 	}
-
+	
 	public int getNameColor()
 	{
 		return _nameColor;
 	}
-
+	
 	public void setNameColor(int nameColor)
 	{
 		_nameColor = nameColor;
 	}
-
+	
 	public int getTitleColor()
 	{
 		return _titleColor;
 	}
-
+	
 	public void setTitleColor(int titleColor)
 	{
 		_titleColor = titleColor;
 	}
-
+	
 	public String getVisibleTitle()
 	{
 		return _visibleTitle;
 	}
-
+	
 	public void setVisibleTitle(String title)
 	{
 		_visibleTitle = title == null ? "" : title;
 	}
-
+	
 	@Override
 	public void sendInfo(Player activeChar)
 	{
@@ -104,10 +104,10 @@ public class L2PcPolymorph extends Folk
 			super.sendInfo(activeChar);
 			return;
 		}
-
+		
 		activeChar.sendPacket(new NpcInfoPolymorph(this));
 	}
-
+	
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -116,29 +116,29 @@ public class L2PcPolymorph extends Folk
 			pom += "-" + val;
 		return "data/html/mods/polymorph/" + pom + ".htm";
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player, int val)
 	{
 		String filename = getHtmlPath(getNpcId(), val);
-
+		
 		// Send a Server->Client NpcHtmlMessage containing the text of the L2Npc to the Player
 		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", getObjectId());
 		html.replace("%ownername%", getPolymorphInfo() != null ? getPolymorphInfo().getName() : "");
 		player.sendPacket(html);
-
+		
 		// Send a Server->Client ActionFailed to the Player in order to avoid that the client wait another packet
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	public static CharSelectInfoPackage loadCharInfo(int objectId)
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection(); PreparedStatement statement = con.prepareStatement("SELECT char_name, race, base_class, classid, sex, face, hairStyle, hairColor, clanid FROM characters WHERE obj_Id = ?"))
 		{
 			statement.setInt(1, objectId);
-
+			
 			try (ResultSet rs = statement.executeQuery())
 			{
 				if (rs.next())
@@ -152,7 +152,7 @@ public class L2PcPolymorph extends Folk
 					charInfo.setHairStyle(rs.getInt("hairStyle"));
 					charInfo.setHairColor(rs.getInt("hairColor"));
 					charInfo.setClanId(rs.getInt("clanid"));
-
+					
 					// Get the augmentation id for equipped weapon
 					int weaponObjId = charInfo.getPaperdollObjectId(Inventory.PAPERDOLL_RHAND);
 					if (weaponObjId > 0)
@@ -168,7 +168,7 @@ public class L2PcPolymorph extends Folk
 								}
 							}
 						}
-
+					
 					return charInfo;
 				}
 			}

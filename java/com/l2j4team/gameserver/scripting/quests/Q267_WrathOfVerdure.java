@@ -9,25 +9,25 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q267_WrathOfVerdure extends Quest
 {
 	private static final String qn = "Q267_WrathOfVerdure";
-
+	
 	// Items
 	private static final int GOBLIN_CLUB = 1335;
-
+	
 	// Reward
 	private static final int SILVERY_LEAF = 1340;
-
+	
 	public Q267_WrathOfVerdure()
 	{
 		super(267, "Wrath of Verdure");
-
+		
 		setItemsIds(GOBLIN_CLUB);
-
+		
 		addStartNpc(31853); // Bremec
 		addTalkId(31853);
-
+		
 		addKillId(20325); // Goblin
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -35,7 +35,7 @@ public class Q267_WrathOfVerdure extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31853-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -47,10 +47,10 @@ public class Q267_WrathOfVerdure extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -58,7 +58,7 @@ public class Q267_WrathOfVerdure extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -69,7 +69,7 @@ public class Q267_WrathOfVerdure extends Quest
 				else
 					htmltext = "31853-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int count = st.getQuestItemsCount(GOBLIN_CLUB);
 				if (count > 0)
@@ -82,19 +82,19 @@ public class Q267_WrathOfVerdure extends Quest
 					htmltext = "31853-04.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		st.dropItems(GOBLIN_CLUB, 1, 0, 500000);
-
+		
 		return null;
 	}
 }

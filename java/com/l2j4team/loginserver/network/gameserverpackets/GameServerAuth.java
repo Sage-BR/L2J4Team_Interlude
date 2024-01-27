@@ -15,7 +15,7 @@ public class GameServerAuth extends ClientBasePacket
 	private final int _port;
 	private final String _externalHost;
 	private final String _internalHost;
-
+	
 	public GameServerAuth(final byte[] decrypt)
 	{
 		super(decrypt);
@@ -29,47 +29,47 @@ public class GameServerAuth extends ClientBasePacket
 		final int size = readD();
 		_hexId = readB(size);
 	}
-
+	
 	public byte[] getHexID()
 	{
 		return _hexId;
 	}
-
+	
 	public boolean getHostReserved()
 	{
 		return _hostReserved;
 	}
-
+	
 	public int getDesiredID()
 	{
 		return _desiredId;
 	}
-
+	
 	public boolean acceptAlternateID()
 	{
 		return _acceptAlternativeId;
 	}
-
+	
 	public int getMaxPlayers()
 	{
 		return _maxPlayers;
 	}
-
+	
 	public String getExternalHost()
 	{
 		return _externalHost;
 	}
-
+	
 	public String getInternalHost()
 	{
 		return _internalHost;
 	}
-
+	
 	public int getPort()
 	{
 		return _port;
 	}
-
+	
 	static
 	{
 		GameServerAuth._log = Logger.getLogger(GameServerAuth.class.getName());

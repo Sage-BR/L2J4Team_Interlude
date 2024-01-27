@@ -20,7 +20,7 @@ public class AdminGeoEngine implements IAdminCommandHandler
 {
 	private final String Y = "x ";
 	private final String N = "   ";
-
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_geo_bug",
@@ -30,7 +30,7 @@ public class AdminGeoEngine implements IAdminCommandHandler
 		"admin_path_find",
 		"admin_path_info",
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -67,7 +67,7 @@ public class AdminGeoEngine implements IAdminCommandHandler
 				// Block block = GeoData.getInstance().getBlock(geoX, geoY);
 				final int geoZ = block.getHeightNearest(geoX, geoY, activeChar.getZ());
 				final byte nswe = block.getNsweNearest(geoX, geoY, geoZ);
-
+				
 				// activeChar.sendMessage("NSWE: " + block.getClass().getSimpleName());
 				activeChar.sendMessage("    " + ((nswe & GeoStructure.CELL_FLAG_NW) != 0 ? Y : N) + ((nswe & GeoStructure.CELL_FLAG_N) != 0 ? Y : N) + ((nswe & GeoStructure.CELL_FLAG_NE) != 0 ? Y : N) + "         GeoX=" + geoX);
 				activeChar.sendMessage("    " + ((nswe & GeoStructure.CELL_FLAG_W) != 0 ? Y : N) + "o " + ((nswe & GeoStructure.CELL_FLAG_E) != 0 ? Y : N) + "         GeoY=" + geoY);
@@ -130,10 +130,10 @@ public class AdminGeoEngine implements IAdminCommandHandler
 		}
 		else
 			return false;
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

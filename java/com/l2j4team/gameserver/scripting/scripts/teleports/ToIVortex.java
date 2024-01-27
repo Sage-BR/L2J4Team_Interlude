@@ -10,22 +10,22 @@ public class ToIVortex extends Quest
 	private static final int GREEN_STONE = 4401;
 	private static final int BLUE_STONE = 4402;
 	private static final int RED_STONE = 4403;
-
+	
 	public ToIVortex()
 	{
 		super(-1, "teleports");
-
+		
 		addStartNpc(30952, 30953, 30954);
 		addTalkId(30952, 30953, 30954);
 		addFirstTalkId(30952, 30953, 30954);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
 		String htmltext = "";
 		QuestState st = player.getQuestState(getName());
-
+		
 		if (event.equalsIgnoreCase("blue"))
 		{
 			if (st.hasQuestItems(BLUE_STONE))
@@ -59,14 +59,14 @@ public class ToIVortex extends Quest
 		st.exitQuest(true);
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onFirstTalk(Npc npc, Player player)
 	{
 		QuestState st = player.getQuestState(getName());
 		if (st == null)
 			st = newQuestState(player);
-
+		
 		return npc.getNpcId() + ".htm";
 	}
 }

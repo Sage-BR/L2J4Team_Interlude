@@ -10,13 +10,13 @@ public final class VillageMasterDElf extends VillageMaster
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	protected final boolean checkVillageMasterRace(ClassId pclass)
 	{
 		if (pclass == null)
 			return false;
-
+		
 		return pclass.getRace() == ClassRace.DARK_ELF;
 	}
 }

@@ -13,12 +13,12 @@ import java.util.Map;
 public class ShopPreviewInfo extends L2GameServerPacket
 {
 	private final Map<Integer, Integer> _itemlist;
-
+	
 	public ShopPreviewInfo(Map<Integer, Integer> itemlist)
 	{
 		_itemlist = itemlist;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -43,7 +43,7 @@ public class ShopPreviewInfo extends L2GameServerPacket
 		writeD(getFromList(Inventory.PAPERDOLL_HAIRALL)); // unverified
 		writeD(getFromList(Inventory.PAPERDOLL_UNDER)); // unverified
 	}
-
+	
 	private int getFromList(int key)
 	{
 		return ((_itemlist.get(key) != null) ? _itemlist.get(key) : 0);

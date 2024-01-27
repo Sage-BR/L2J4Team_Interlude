@@ -8,27 +8,27 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q036_MakeASewingKit extends Quest
 {
 	private static final String qn = "Q036_MakeASewingKit";
-
+	
 	// Items
 	private static final int REINFORCED_STEEL = 7163;
 	private static final int ARTISANS_FRAME = 1891;
 	private static final int ORIHARUKON = 1893;
-
+	
 	// Reward
 	private static final int SEWING_KIT = 7078;
-
+	
 	public Q036_MakeASewingKit()
 	{
 		super(36, "Make a Sewing Kit");
-
+		
 		setItemsIds(REINFORCED_STEEL);
-
+		
 		addStartNpc(30847); // Ferris
 		addTalkId(30847);
-
+		
 		addKillId(20566); // Iron Golem
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -36,7 +36,7 @@ public class Q036_MakeASewingKit extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30847-1.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -62,10 +62,10 @@ public class Q036_MakeASewingKit extends Quest
 			else
 				htmltext = "30847-4a.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -73,7 +73,7 @@ public class Q036_MakeASewingKit extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -88,7 +88,7 @@ public class Q036_MakeASewingKit extends Quest
 				else
 					htmltext = "30847-0b.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				if (cond == 1)
@@ -98,25 +98,25 @@ public class Q036_MakeASewingKit extends Quest
 				else if (cond == 3)
 					htmltext = (st.getQuestItemsCount(ORIHARUKON) < 10 || st.getQuestItemsCount(ARTISANS_FRAME) < 10) ? "30847-4a.htm" : "30847-4.htm";
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "1");
 		if (st == null)
 			return null;
-
+		
 		if (st.dropItems(REINFORCED_STEEL, 1, 5, 500000))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

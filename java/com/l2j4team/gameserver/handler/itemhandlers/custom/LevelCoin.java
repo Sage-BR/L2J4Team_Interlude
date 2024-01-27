@@ -28,9 +28,9 @@ public class LevelCoin implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isOlympiadProtection())
 		{
 			activeChar.sendMessage("You can not do that.");
@@ -38,10 +38,10 @@ public class LevelCoin implements IItemHandler
 		}
 		long pXp = activeChar.getExp();
 		long tXp = Experience.LEVEL[81];
-
+		
 		playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 		activeChar.addExpAndSp(tXp - pXp, 0);
 		activeChar.sendPacket(new ExShowScreenMessage("Congratulations. You become level 81..", 6000, 0x02, true));
-
+		
 	}
 }

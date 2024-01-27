@@ -7,7 +7,7 @@ public class Q087_SagaOfEvasSaint extends SagasSuperClass
 	public Q087_SagaOfEvasSaint()
 	{
 		super(87, "Saga of Eva's Saint");
-
+		
 		NPC = new int[]
 		{
 			30191,
@@ -23,7 +23,7 @@ public class Q087_SagaOfEvasSaint extends SagasSuperClass
 			31657,
 			31280
 		};
-
+		
 		Items = new int[]
 		{
 			7080,
@@ -39,38 +39,38 @@ public class Q087_SagaOfEvasSaint extends SagasSuperClass
 			7088,
 			0
 		};
-
+		
 		Mob = new int[]
 		{
 			27266,
 			27236,
 			27276
 		};
-
+		
 		classid = 105;
 		prevclass = 0x1e;
-
+		
 		X = new int[]
 		{
 			164650,
 			46087,
 			46066
 		};
-
+		
 		Y = new int[]
 		{
 			-74121,
 			-36372,
 			-36396
 		};
-
+		
 		Z = new int[]
 		{
 			-2871,
 			-1685,
 			-1685
 		};
-
+		
 		registerNPCs();
 	}
 }

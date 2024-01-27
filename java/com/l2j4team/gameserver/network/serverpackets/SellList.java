@@ -8,13 +8,13 @@ public class SellList extends L2GameServerPacket
 {
 	private final int _money;
 	private final List<ItemInstance> _items;
-
+	
 	public SellList(int adena, List<ItemInstance> items)
 	{
 		_money = adena;
 		_items = items;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -22,7 +22,7 @@ public class SellList extends L2GameServerPacket
 		writeD(_money);
 		writeD(0x00);
 		writeH(_items.size());
-
+		
 		for (ItemInstance item : _items)
 		{
 			writeH(item.getItem().getType1());

@@ -14,9 +14,9 @@ import java.util.logging.Logger;
 public final class SendBypassBuildCmd extends L2GameClientPacket
 {
 	private static final Logger GMAUDIT_LOG = Logger.getLogger("gmaudit");
-
+	
 	private String _command;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -24,22 +24,22 @@ public final class SendBypassBuildCmd extends L2GameClientPacket
 		if (_command != null)
 			_command = _command.trim();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		String command = "admin_" + _command.split(" ")[0];
-
+		
 		final IAdminCommandHandler ach = AdminCommandHandler.getInstance().getAdminCommandHandler(command);
 		if (ach == null)
 		{
 			if (activeChar.isGM())
 				activeChar.sendMessage("The command " + command.substring(6) + " doesn't exist.");
-
+			
 			_log.warning("No handler registered for admin command '" + command + "'");
 			return;
 		}
@@ -51,7 +51,7 @@ public final class SendBypassBuildCmd extends L2GameClientPacket
 		}
 		if (Config.GMAUDIT)
 			GMAUDIT_LOG.info(activeChar.getName() + " [" + activeChar.getObjectId() + "] used '" + _command + "' command on: " + ((activeChar.getTarget() != null) ? activeChar.getTarget().getName() : "none"));
-
+		
 		ach.useAdminCommand("admin_" + _command, activeChar);
 	}
 }

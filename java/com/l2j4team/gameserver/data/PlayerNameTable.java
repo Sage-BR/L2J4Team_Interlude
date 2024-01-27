@@ -21,11 +21,11 @@ import java.util.logging.Logger;
 public final class PlayerNameTable
 {
 	private static final Logger LOG = Logger.getLogger(PlayerNameTable.class.getName());
-
+	
 	private static final String LOAD_DATA = "SELECT account_name, obj_Id, char_name, accesslevel FROM characters";
-
+	
 	private final Map<Integer, DataHolder> _players = new ConcurrentHashMap<>();
-
+	
 	protected PlayerNameTable()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection(); PreparedStatement ps = con.prepareStatement(LOAD_DATA); ResultSet rs = ps.executeQuery())
@@ -37,10 +37,10 @@ public final class PlayerNameTable
 		{
 			LOG.warning("PlayerNameTable: Can't load data, error: " + e);
 		}
-
+		
 		LOG.info("PlayerNameTable: Loaded " + _players.size() + " players data.");
 	}
-
+	
 	/**
 	 * Caches player informations, but only if not already existing.
 	 * @param objectId : The player's objectId.
@@ -52,7 +52,7 @@ public final class PlayerNameTable
 	{
 		_players.putIfAbsent(objectId, new DataHolder(accountName, playerName, accessLevel));
 	}
-
+	
 	/**
 	 * Update the player data. The informations must already exist. Used for name and access level edition.
 	 * @param player : The player to update.
@@ -62,7 +62,7 @@ public final class PlayerNameTable
 	{
 		if (player == null)
 			return;
-
+		
 		final DataHolder data = _players.get(player.getObjectId());
 		if (data != null)
 		{
@@ -76,7 +76,7 @@ public final class PlayerNameTable
 			}
 		}
 	}
-
+	
 	/**
 	 * Remove a player entry.
 	 * @param objId : The objectId to check.
@@ -86,7 +86,7 @@ public final class PlayerNameTable
 		if (_players.containsKey(objId))
 			_players.remove(objId);
 	}
-
+	
 	/**
 	 * Get player objectId by name (reversing call).
 	 * @param playerName : The name to check.
@@ -96,10 +96,10 @@ public final class PlayerNameTable
 	{
 		if (playerName == null || playerName.isEmpty())
 			return -1;
-
+		
 		return _players.entrySet().stream().filter(m -> m.getValue().getPlayerName().equalsIgnoreCase(playerName)).map(Entry::getKey).findFirst().orElse(-1);
 	}
-
+	
 	/**
 	 * Get player name by object id.
 	 * @param objId : The objectId to check.
@@ -110,7 +110,7 @@ public final class PlayerNameTable
 		final DataHolder data = _players.get(objId);
 		return (data != null) ? data.getPlayerName() : null;
 	}
-
+	
 	/**
 	 * Get player access level by object id.
 	 * @param objId : The objectId to check.
@@ -121,7 +121,7 @@ public final class PlayerNameTable
 		final DataHolder data = _players.get(objId);
 		return (data != null) ? data.getAccessLevel() : 0;
 	}
-
+	
 	/**
 	 * Retrieve characters amount from any account, by account name.
 	 * @param accountName : The account name to check.
@@ -131,7 +131,7 @@ public final class PlayerNameTable
 	{
 		return (int) _players.entrySet().stream().filter(m -> m.getValue().getAccountName().equalsIgnoreCase(accountName)).count();
 	}
-
+	
 	/**
 	 * DataHolder in Map for account name / player name / access level
 	 */
@@ -140,45 +140,45 @@ public final class PlayerNameTable
 		private final String _accountName;
 		private String _playerName;
 		private int _accessLevel;
-
+		
 		public DataHolder(String accountName, String playerName, int accessLevel)
 		{
 			_accountName = accountName;
 			_playerName = playerName;
 			_accessLevel = accessLevel;
 		}
-
+		
 		public final String getAccountName()
 		{
 			return _accountName;
 		}
-
+		
 		public final String getPlayerName()
 		{
 			return _playerName;
 		}
-
+		
 		public final int getAccessLevel()
 		{
 			return _accessLevel;
 		}
-
+		
 		public final void setPlayerName(String playerName)
 		{
 			_playerName = playerName;
 		}
-
+		
 		public final void setAccessLevel(int accessLevel)
 		{
 			_accessLevel = accessLevel;
 		}
 	}
-
+	
 	public static final PlayerNameTable getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	private static final class SingletonHolder
 	{
 		protected static final PlayerNameTable INSTANCE = new PlayerNameTable();

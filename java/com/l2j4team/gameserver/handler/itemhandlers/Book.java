@@ -14,15 +14,15 @@ public class Book implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final Player activeChar = (Player) playable;
 		final int itemId = item.getItemId();
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/help/" + itemId + ".htm");
 		html.setItemId(itemId);
 		activeChar.sendPacket(html);
-
+		
 		activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 }

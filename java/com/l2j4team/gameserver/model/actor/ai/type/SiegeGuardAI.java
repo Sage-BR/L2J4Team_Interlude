@@ -28,7 +28,7 @@ public class SiegeGuardAI extends AttackableAI
 	{
 		super(guard);
 	}
-
+	
 	/**
 	 * Following conditions are checked for a siege defender :
 	 * <ul>
@@ -46,20 +46,20 @@ public class SiegeGuardAI extends AttackableAI
 	{
 		if (!(target instanceof Playable) || target.isAlikeDead())
 			return false;
-
+		
 		final Player player = target.getActingPlayer();
 		// Check if the target isn't GM on hide mode.
 		if ((player == null) || (player.isGM() && player.getAppearance().getInvisible()))
 			return false;
-
+		
 		// Check if the target isn't in silent move mode AND too far
 		if (player.isSilentMoving() && !_actor.isInsideRadius(player, 250, false, false))
 			return false;
-
+		
 		// Los Check Here
 		return (_actor.isAutoAttackable(target) && GeoEngine.getInstance().canSeeTarget(_actor, target));
 	}
-
+	
 	/**
 	 * Set the Intention of this CreatureAI and create an AI Task executed every 1s (call onEvtThink method) for this L2Attackable.<BR>
 	 * <BR>
@@ -81,33 +81,33 @@ public class SiegeGuardAI extends AttackableAI
 				if (!getActiveChar().getKnownType(Player.class).isEmpty())
 					intention = CtrlIntention.ACTIVE;
 			}
-
+			
 			if (intention == CtrlIntention.IDLE)
 			{
 				// Set the Intention of this L2AttackableAI to IDLE
 				super.changeIntention(CtrlIntention.IDLE, null, null);
-
+				
 				// Stop AI task and detach AI from NPC
 				if (_aiTask != null)
 				{
 					_aiTask.cancel(true);
 					_aiTask = null;
 				}
-
+				
 				// Cancel the AI
 				_actor.detachAI();
 				return;
 			}
 		}
-
+		
 		// Set the Intention of this L2AttackableAI to intention
 		super.changeIntention(intention, arg0, arg1);
-
+		
 		// If not idle - create an AI task (schedule onEvtThink repeatedly)
 		if (_aiTask == null)
 			_aiTask = ThreadPool.scheduleAtFixedRate(this, 1000, 1000);
 	}
-
+	
 	/**
 	 * Manage AI standard thinks of a L2Attackable (called by onEvtThink).
 	 * <ul>
@@ -127,7 +127,7 @@ public class SiegeGuardAI extends AttackableAI
 			else
 				_globalAggro--;
 		}
-
+		
 		// Add all autoAttackable Creature in L2Attackable Aggro Range to its _aggroList with 0 damage and 1 hate
 		// A L2Attackable isn't aggressive during 10s after its spawn because _globalAggro is set to -10
 		if (_globalAggro >= 0)
@@ -142,7 +142,7 @@ public class SiegeGuardAI extends AttackableAI
 						npc.addDamageHate(target, 0, 1);
 				}
 			}
-
+			
 			// Chose a target from its aggroList
 			final Creature hated = (Creature) ((_actor.isConfused()) ? getTarget() : npc.getMostHated());
 			if (hated != null)
@@ -152,7 +152,7 @@ public class SiegeGuardAI extends AttackableAI
 				{
 					// Set the Creature movement type to run and send Server->Client packet ChangeMoveType to all others Player
 					_actor.setRunning();
-
+					
 					// Set the AI Intention to ATTACK
 					setIntention(CtrlIntention.ATTACK, hated);
 				}
@@ -162,7 +162,7 @@ public class SiegeGuardAI extends AttackableAI
 		// Order to the L2SiegeGuardInstance to return to its home location because there's no target to attack
 		getActiveChar().returnHome(true);
 	}
-
+	
 	/**
 	 * Manage AI attack thinks of a L2Attackable (called by onEvtThink).
 	 * <ul>
@@ -178,7 +178,7 @@ public class SiegeGuardAI extends AttackableAI
 		final SiegeGuard actor = getActiveChar();
 		if (actor.isCastingNow())
 			return;
-
+		
 		/**
 		 * RETURN HOME<br>
 		 * Check if the siege guard isn't too far ; if yes, then move him back to home.
@@ -188,16 +188,16 @@ public class SiegeGuardAI extends AttackableAI
 			actor.returnHome(true);
 			return;
 		}
-
+		
 		// Pickup most hated character.
 		Creature attackTarget = actor.getMostHated();
-
+		
 		// If target doesn't exist, is too far or if timeout is expired.
 		if (attackTarget == null || _attackTimeout < System.currentTimeMillis() || MathUtil.calculateDistance(actor, attackTarget, true) > 2000)
 		{
 			// Stop hating this target after the attack timeout or if target is dead
 			actor.stopHating(attackTarget);
-
+			
 			// Search the nearest target. If a target is found, continue regular process, else drop angry behavior.
 			attackTarget = targetReconsider(actor.getTemplate().getClanRange(), false);
 			if (attackTarget == null)
@@ -207,53 +207,53 @@ public class SiegeGuardAI extends AttackableAI
 				return;
 			}
 		}
-
+		
 		/**
 		 * COMMON INFORMATIONS<br>
 		 * Used for range and distance check.
 		 */
-
+		
 		final int actorCollision = (int) actor.getCollisionRadius();
 		final int combinedCollision = (int) (actorCollision + attackTarget.getCollisionRadius());
 		final double dist = Math.sqrt(actor.getPlanDistanceSq(attackTarget.getX(), attackTarget.getY()));
-
+		
 		int range = combinedCollision;
 		if (attackTarget.isMoving())
 			range += 15;
-
+		
 		if (actor.isMoving())
 			range += 15;
-
+		
 		/**
 		 * Target setup.
 		 */
-
+		
 		setTarget(attackTarget);
 		actor.setTarget(attackTarget);
-
+		
 		/**
 		 * Cast a spell.
 		 */
-
+		
 		if (willCastASpell())
 		{
 			// This list is used in order to avoid multiple calls on skills lists. Tests are made one after the other, and content is replaced when needed.
 			List<L2Skill> defaultList;
-
+			
 			// -------------------------------------------------------------------------------
 			// Heal
 			defaultList = actor.getTemplate().getSkills(SkillType.HEAL);
 			if (!defaultList.isEmpty())
 			{
 				final String[] clans = actor.getTemplate().getClans();
-
+				
 				// Go through all characters around the actor that belongs to its faction.
 				for (Creature cha : actor.getKnownTypeInRadius(Creature.class, 1000))
 				{
 					// Don't bother about dead, not visible, or healthy characters.
 					if (cha.isAlikeDead() || !GeoEngine.getInstance().canSeeTarget(actor, cha) || (cha.getCurrentHp() / cha.getMaxHp() > 0.75))
 						continue;
-
+					
 					// Will affect only defenders or NPCs from same faction.
 					if (!actor.isAttackingDisabled() && (cha instanceof Player && actor.getCastle().getSiege().checkSides(((Player) cha).getClan(), SiegeSide.DEFENDER, SiegeSide.OWNER)) || (cha instanceof Npc && ArraysUtil.contains(clans, ((Npc) cha).getTemplate().getClans())))
 					{
@@ -261,9 +261,9 @@ public class SiegeGuardAI extends AttackableAI
 						{
 							if (!MathUtil.checkIfInRange(sk.getCastRange(), actor, cha, true))
 								continue;
-
+							
 							clientStopMoving(null);
-
+							
 							actor.setTarget(cha);
 							actor.doCast(sk);
 							actor.setTarget(attackTarget);
@@ -272,7 +272,7 @@ public class SiegeGuardAI extends AttackableAI
 					}
 				}
 			}
-
+			
 			// -------------------------------------------------------------------------------
 			// Buff
 			defaultList = actor.getTemplate().getSkills(SkillType.BUFF);
@@ -282,11 +282,11 @@ public class SiegeGuardAI extends AttackableAI
 				{
 					if (!checkSkillCastConditions(sk))
 						continue;
-
+					
 					if (actor.getFirstEffect(sk) == null)
 					{
 						clientStopMoving(null);
-
+						
 						actor.setTarget(actor);
 						actor.doCast(sk);
 						actor.setTarget(attackTarget);
@@ -294,7 +294,7 @@ public class SiegeGuardAI extends AttackableAI
 					}
 				}
 			}
-
+			
 			// -------------------------------------------------------------------------------
 			// Debuff - 10% luck to get debuffed.
 			defaultList = actor.getTemplate().getSkills(SkillType.DEBUFF);
@@ -304,7 +304,7 @@ public class SiegeGuardAI extends AttackableAI
 				{
 					if (!checkSkillCastConditions(sk) || (sk.getCastRange() + range <= dist && !canAura(sk)) || !GeoEngine.getInstance().canSeeTarget(actor, attackTarget))
 						continue;
-
+					
 					if (attackTarget.getFirstEffect(sk) == null)
 					{
 						clientStopMoving(null);
@@ -313,7 +313,7 @@ public class SiegeGuardAI extends AttackableAI
 					}
 				}
 			}
-
+			
 			// -------------------------------------------------------------------------------
 			// General attack skill - short range is checked, then long range.
 			defaultList = actor.getTemplate().getSkills(SkillType.SHORT_RANGE);
@@ -334,33 +334,33 @@ public class SiegeGuardAI extends AttackableAI
 				}
 			}
 		}
-
+		
 		/**
 		 * MELEE CHECK<br>
 		 * The mob failed a skill check ; make him flee if AI authorizes it, else melee attack.
 		 */
-
+		
 		// The range takes now in consideration physical attack range.
 		range += actor.getPhysicalAttackRange();
-
+		
 		if (actor.isMovementDisabled())
 		{
 			// If distance is too big, choose another target.
 			if (dist > range)
 				attackTarget = targetReconsider(range, true);
-
+			
 			// Any AI type, even healer or mage, will try to melee attack if it can't do anything else (desesperate situation).
 			if (attackTarget != null)
 				actor.doAttack(attackTarget);
-
+			
 			return;
 		}
-
+		
 		/**
 		 * MOVE AROUND CHECK<br>
 		 * In case many mobs are trying to hit from same place, move a bit, circling around the target
 		 */
-
+		
 		if (Rnd.get(100) <= 3)
 		{
 			for (Attackable nearby : actor.getKnownTypeInRadius(Attackable.class, actorCollision))
@@ -372,13 +372,13 @@ public class SiegeGuardAI extends AttackableAI
 						newX = attackTarget.getX() + newX;
 					else
 						newX = attackTarget.getX() - newX;
-
+					
 					int newY = combinedCollision + Rnd.get(40);
 					if (Rnd.nextBoolean())
 						newY = attackTarget.getY() + newY;
 					else
 						newY = attackTarget.getY() - newY;
-
+					
 					if (!actor.isInsideRadius(newX, newY, actorCollision, false))
 					{
 						int newZ = actor.getZ() + 30;
@@ -389,36 +389,36 @@ public class SiegeGuardAI extends AttackableAI
 				}
 			}
 		}
-
+		
 		/**
 		 * FLEE CHECK<br>
 		 * Test the flee possibility. Archers got 25% chance to flee.
 		 */
-
+		
 		if (actor.getTemplate().getAiType() == AIType.ARCHER && dist <= (60 + combinedCollision) && Rnd.get(4) > 1)
 		{
 			final int posX = actor.getX() + ((attackTarget.getX() < actor.getX()) ? 300 : -300);
 			final int posY = actor.getY() + ((attackTarget.getY() < actor.getY()) ? 300 : -300);
 			final int posZ = actor.getZ() + 30;
-
+			
 			if (GeoEngine.getInstance().canMoveToTarget(actor.getX(), actor.getY(), actor.getZ(), posX, posY, posZ))
 			{
 				setIntention(CtrlIntention.MOVE_TO, new Location(posX, posY, posZ));
 				return;
 			}
 		}
-
+		
 		/**
 		 * BASIC MELEE ATTACK
 		 */
-
+		
 		if (maybeMoveToPawn(getTarget(), actor.getPhysicalAttackRange()))
 			return;
-
+		
 		clientStopMoving(null);
 		_actor.doAttack((Creature) getTarget());
 	}
-
+	
 	/**
 	 * Method used when the actor can't attack his current target (immobilize state, for exemple).
 	 * <ul>
@@ -433,36 +433,36 @@ public class SiegeGuardAI extends AttackableAI
 	protected Creature targetReconsider(int range, boolean rangeCheck)
 	{
 		final Attackable actor = getActiveChar();
-
+		
 		// Verify first if aggro list is empty, if not search a victim following his aggro position.
 		if (!actor.getAggroList().isEmpty())
 		{
 			// Store aggro value && most hated, in order to add it to the random target we will choose.
 			final Creature previousMostHated = actor.getMostHated();
 			final int aggroMostHated = actor.getHating(previousMostHated);
-
+			
 			for (Creature obj : actor.getHateList())
 			{
 				if (!autoAttackCondition(obj))
 					continue;
-
+				
 				if (rangeCheck)
 				{
 					// Verify the distance, -15 if the victim is moving, -15 if the npc is moving.
 					double dist = Math.sqrt(actor.getPlanDistanceSq(obj.getX(), obj.getY())) - obj.getCollisionRadius();
 					if (actor.isMoving())
 						dist -= 15;
-
+					
 					if (obj.isMoving())
 						dist -= 15;
-
+					
 					if (dist > range)
 						continue;
 				}
-
+				
 				// Stop to hate the most hated.
 				actor.stopHating(previousMostHated);
-
+				
 				// Add previous most hated aggro to that new victim.
 				actor.addDamageHate(obj, 0, (aggroMostHated > 0) ? aggroMostHated : 2000);
 				return obj;
@@ -470,14 +470,14 @@ public class SiegeGuardAI extends AttackableAI
 		}
 		return null;
 	}
-
+	
 	@Override
 	public void stopAITask()
 	{
 		super.stopAITask();
 		_actor.detachAI();
 	}
-
+	
 	private SiegeGuard getActiveChar()
 	{
 		return (SiegeGuard) _actor;

@@ -20,19 +20,19 @@ public class AdminShop implements IAdminCommandHandler
 		"admin_buy",
 		"admin_gmshop"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (activeChar.getAccessLevel().getLevel() < 7)
 			return false;
-
+		
 		if (command.startsWith("admin_buy"))
 		{
 			try
 			{
 				final int val = Integer.parseInt(command.substring(10));
-
+				
 				final NpcBuyList list = BuyListManager.getInstance().getBuyList(val);
 				if (list == null)
 					activeChar.sendMessage("Invalid buylist id.");
@@ -46,10 +46,10 @@ public class AdminShop implements IAdminCommandHandler
 		}
 		else if (command.equals("admin_gmshop"))
 			AdminHelpPage.showHelpPage(activeChar, "gmshops.htm");
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

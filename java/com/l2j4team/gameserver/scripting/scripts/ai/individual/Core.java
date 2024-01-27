@@ -22,16 +22,16 @@ public class Core extends L2AttackableAIScript
 	private static final int DEATH_KNIGHT = 29007;
 	private static final int DOOM_WRAITH = 29008;
 	private static final int SUSCEPTOR = 29011;
-
+	
 	private static final byte ALIVE = 0; // Core is spawned.
 	private static final byte DEAD = 1; // Core has been killed.
-
+	
 	private final List<Attackable> _minions = new ArrayList<>();
-
+	
 	public Core()
 	{
 		super("ai/individual");
-
+		
 		final StatsSet info = GrandBossManager.getInstance().getStatsSet(CORE);
 		final int status = GrandBossManager.getInstance().getBossStatus(CORE);
 		if (status == DEAD)
@@ -59,25 +59,25 @@ public class Core extends L2AttackableAIScript
 			final int heading = info.getInteger("heading");
 			final int hp = info.getInteger("currentHP");
 			final int mp = info.getInteger("currentMP");
-
+			
 			final GrandBoss core = (GrandBoss) addSpawn(CORE, loc_x, loc_y, loc_z, heading, false, 0, false);
 			core.setCurrentHpMp(hp, mp);
 			spawnBoss(core);
 		}
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addAttackId(CORE);
 		addKillId(CORE, DEATH_KNIGHT, DOOM_WRAITH, SUSCEPTOR);
 	}
-
+	
 	public void spawnBoss(GrandBoss npc)
 	{
 		GrandBossManager.getInstance().addBoss(npc);
 		npc.broadcastPacket(new PlaySound(1, "BS01_A", npc));
-
+		
 		// Spawn minions
 		Attackable mob;
 		for (int i = 0; i < 5; i++)
@@ -94,7 +94,7 @@ public class Core extends L2AttackableAIScript
 			mob.setIsRaidMinion(true);
 			_minions.add(mob);
 		}
-
+		
 		for (int i = 0; i < 4; i++)
 		{
 			int x = 16800 + i * 450;
@@ -103,7 +103,7 @@ public class Core extends L2AttackableAIScript
 			_minions.add(mob);
 		}
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -130,7 +130,7 @@ public class Core extends L2AttackableAIScript
 		}
 		return super.onAdvEvent(event, npc, player);
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
@@ -147,7 +147,7 @@ public class Core extends L2AttackableAIScript
 		}
 		return super.onAttack(npc, attacker, damage, isPet, skill);
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player killer, boolean isPet)
 	{
@@ -157,11 +157,11 @@ public class Core extends L2AttackableAIScript
 			npc.broadcastNpcSay("A fatal error has occurred.");
 			npc.broadcastNpcSay("System is being shut down...");
 			npc.broadcastNpcSay("......");
-
+			
 			addSpawn(31842, 16502, 110165, -6394, 0, false, 900000, false);
 			addSpawn(31842, 18948, 110166, -6397, 0, false, 900000, false);
 			GrandBossManager.getInstance().setBossStatus(CORE, DEAD);
-
+			
 			long respawnTime;
 			if (Config.CORE_CUSTOM_SPAWN_ENABLED && Config.FindNext(Config.CORE_CUSTOM_SPAWN_TIMES) != null)
 			{
@@ -172,9 +172,9 @@ public class Core extends L2AttackableAIScript
 				respawnTime = (long) Config.SPAWN_INTERVAL_CORE + Rnd.get(-Config.RANDOM_SPAWN_TIME_CORE, Config.RANDOM_SPAWN_TIME_CORE);
 				respawnTime *= 3600000;
 			}
-
+			
 			startQuestTimer("core_unlock", respawnTime, null, null, false);
-
+			
 			final StatsSet info = GrandBossManager.getInstance().getStatsSet(CORE);
 			info.set("respawn_time", System.currentTimeMillis() + respawnTime);
 			GrandBossManager.getInstance().setStatsSet(CORE, info);

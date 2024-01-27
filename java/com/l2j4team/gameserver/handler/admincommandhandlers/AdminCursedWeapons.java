@@ -33,13 +33,13 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 		"admin_cw_add",
 		"admin_cw_info_menu"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		StringTokenizer st = new StringTokenizer(command);
 		st.nextToken();
-
+		
 		if (command.startsWith("admin_cw_info"))
 		{
 			if (!command.contains("menu"))
@@ -51,14 +51,14 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 					if (cw.isActive())
 					{
 						long milliToStart = cw.getTimeLeft();
-
+						
 						double numSecs = (milliToStart / 1000) % 60;
 						double countDown = ((milliToStart / 1000) - numSecs) / 60;
 						int numMins = (int) Math.floor(countDown % 60);
 						countDown = (countDown - numMins) / 60;
 						int numHours = (int) Math.floor(countDown % 24);
 						int numDays = (int) Math.floor((countDown - numHours) / 24);
-
+						
 						if (cw.isActivated())
 						{
 							final Player pl = cw.getPlayer();
@@ -77,7 +77,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 					}
 					else
 						activeChar.sendMessage("  Doesn't exist in the world.");
-
+					
 					activeChar.sendPacket(SystemMessageId.FRIEND_LIST_FOOTER);
 				}
 			}
@@ -87,18 +87,18 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 				for (CursedWeapon cw : CursedWeaponsManager.getInstance().getCursedWeapons())
 				{
 					StringUtil.append(sb, "<table width=280><tr><td>Name:</td><td>", cw.getName(), "</td></tr>");
-
+					
 					if (cw.isActive())
 					{
 						long milliToStart = cw.getTimeLeft();
-
+						
 						double numSecs = (milliToStart / 1000) % 60;
 						double countDown = ((milliToStart / 1000) - numSecs) / 60;
 						int numMins = (int) Math.floor(countDown % 60);
 						countDown = (countDown - numMins) / 60;
 						int numHours = (int) Math.floor(countDown % 24);
 						int numDays = (int) Math.floor((countDown - numHours) / 24);
-
+						
 						if (cw.isActivated())
 						{
 							Player pl = cw.getPlayer();
@@ -109,10 +109,10 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 					}
 					else
 						StringUtil.append(sb, "<tr><td>Position:</td><td>Doesn't exist.</td></tr><tr><td><button value=\"Give to Target\" action=\"bypass -h admin_cw_add ", cw.getItemId(), "\" width=75 height=21 back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\"></td><td></td></tr>");
-
+					
 					sb.append("</table><br>");
 				}
-
+				
 				final NpcHtmlMessage html = new NpcHtmlMessage(0);
 				html.setFile("data/html/admin/cwinfo.htm");
 				html.replace("%cwinfo%", sb.toString());
@@ -124,7 +124,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 			try
 			{
 				int id = 0;
-
+				
 				String parameter = st.nextToken();
 				if (parameter.matches("[0-9]*"))
 					id = Integer.parseInt(parameter);
@@ -140,14 +140,14 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 						}
 					}
 				}
-
+				
 				final CursedWeapon cw = CursedWeaponsManager.getInstance().getCursedWeapon(id);
 				if (cw == null)
 				{
 					activeChar.sendMessage("Unknown cursed weapon ID.");
 					return false;
 				}
-
+				
 				if (command.startsWith("admin_cw_remove "))
 					cw.endOfLife();
 				else if (command.startsWith("admin_cw_goto "))
@@ -163,7 +163,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 							((Player) target).addItem("AdminCursedWeaponAdd", id, 1, target, true);
 						else
 							activeChar.addItem("AdminCursedWeaponAdd", id, 1, activeChar, true);
-
+						
 						// Start task
 						cw.reActivate(true);
 					}
@@ -178,7 +178,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

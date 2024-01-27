@@ -19,16 +19,16 @@ public enum EventType
 	ON_SPELL_FINISHED(true), // on spell finished action when npc finish casting skill
 	ON_ENTER_ZONE(true), // on zone enter
 	ON_EXIT_ZONE(true); // on zone exit
-
+	
 	// control whether this event type is allowed for the same npc template in multiple quests
 	// or if the npc must be registered in at most one quest for the specified event
 	private boolean _allowMultipleRegistration;
-
+	
 	EventType(boolean allowMultipleRegistration)
 	{
 		_allowMultipleRegistration = allowMultipleRegistration;
 	}
-
+	
 	public boolean isMultipleRegistrationAllowed()
 	{
 		return _allowMultipleRegistration;

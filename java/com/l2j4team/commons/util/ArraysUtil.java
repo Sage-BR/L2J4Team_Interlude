@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class ArraysUtil
 {
 	public static final int[] EMPTY_INT_ARRAY = {};
-
+	
 	/**
 	 * @param <T> : The Object type.
 	 * @param array : the array to look into.
@@ -15,7 +15,7 @@ public class ArraysUtil
 	{
 		return array == null || array.length == 0;
 	}
-
+	
 	/**
 	 * @param <T> : The Object type.
 	 * @param array : the array to look into.
@@ -26,14 +26,14 @@ public class ArraysUtil
 	{
 		if (array == null || array.length == 0)
 			return false;
-
+		
 		for (T element : array)
 			if (element.equals(obj))
 				return true;
-
+			
 		return false;
 	}
-
+	
 	/**
 	 * @param <T> : The Object type.
 	 * @param array1 : the array to look into.
@@ -44,7 +44,7 @@ public class ArraysUtil
 	{
 		if (array1 == null || array1.length == 0 || array2 == null || array2.length == 0)
 			return false;
-
+		
 		for (T element1 : array1)
 		{
 			for (T element2 : array2)
@@ -53,7 +53,7 @@ public class ArraysUtil
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param array : the array to look into.
 	 * @param obj : the integer to search for.
@@ -63,14 +63,14 @@ public class ArraysUtil
 	{
 		if (array == null || array.length == 0)
 			return false;
-
+		
 		for (int element : array)
 			if (element == obj)
 				return true;
-
+			
 		return false;
 	}
-
+	
 	/**
 	 * Concat two arrays of the same type into a single array.
 	 * @param <T> : The Object type.
@@ -84,7 +84,7 @@ public class ArraysUtil
 		System.arraycopy(second, 0, result, first.length, second.length);
 		return result;
 	}
-
+	
 	/**
 	 * Concat multiple arrays of the same type into a single array.
 	 * @param <T> : The Object type.
@@ -98,7 +98,7 @@ public class ArraysUtil
 		int totalLength = first.length;
 		for (T[] array : rest)
 			totalLength += array.length;
-
+		
 		T[] result = Arrays.copyOf(first, totalLength);
 		int offset = first.length;
 		for (T[] array : rest)

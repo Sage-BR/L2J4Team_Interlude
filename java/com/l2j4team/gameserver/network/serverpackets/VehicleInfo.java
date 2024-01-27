@@ -9,7 +9,7 @@ public class VehicleInfo extends L2GameServerPacket
 	private final int _y;
 	private final int _z;
 	private final int _heading;
-
+	
 	public VehicleInfo(Vehicle boat)
 	{
 		_objectId = boat.getObjectId();
@@ -18,7 +18,7 @@ public class VehicleInfo extends L2GameServerPacket
 		_z = boat.getZ();
 		_heading = boat.getHeading();
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

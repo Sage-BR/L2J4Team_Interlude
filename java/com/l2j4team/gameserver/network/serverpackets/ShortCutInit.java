@@ -10,31 +10,31 @@ public class ShortCutInit extends L2GameServerPacket
 {
 	private final L2ShortCut[] _shortCuts;
 	private final Player _activeChar;
-
+	
 	public ShortCutInit(Player activeChar)
 	{
 		_activeChar = activeChar;
 		_shortCuts = activeChar.getAllShortCuts();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x45);
 		writeD(_shortCuts.length);
-
+		
 		for (L2ShortCut sc : _shortCuts)
 		{
 			writeD(sc.getType());
 			writeD(sc.getSlot() + sc.getPage() * 12);
-
+			
 			switch (sc.getType())
 			{
 				case L2ShortCut.TYPE_ITEM: // 1
 					writeD(sc.getId());
 					writeD(sc.getCharacterType());
 					writeD(sc.getSharedReuseGroup());
-
+					
 					if (sc.getSharedReuseGroup() < 0)
 					{
 						writeD(0x00); // Remaining time
@@ -75,17 +75,17 @@ public class ShortCutInit extends L2GameServerPacket
 							}
 						}
 					}
-
+					
 					writeD(0x00); // Augmentation
 					break;
-
+				
 				case L2ShortCut.TYPE_SKILL: // 2
 					writeD(sc.getId());
 					writeD(sc.getLevel());
 					writeC(0x00); // C5
 					writeD(0x01); // C6
 					break;
-
+				
 				default:
 					writeD(sc.getId());
 					writeD(0x01); // C6

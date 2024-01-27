@@ -6,12 +6,12 @@ package com.l2j4team.gameserver.network.serverpackets;
 public final class JoinParty extends L2GameServerPacket
 {
 	private final int _response;
-
+	
 	public JoinParty(int response)
 	{
 		_response = response;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

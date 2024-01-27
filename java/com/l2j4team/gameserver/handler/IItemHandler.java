@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public interface IItemHandler
 {
 	public static Logger _log = Logger.getLogger(IItemHandler.class.getName());
-
+	
 	/**
 	 * Launch task associated to the item.
 	 * @param playable L2Playable designating the player

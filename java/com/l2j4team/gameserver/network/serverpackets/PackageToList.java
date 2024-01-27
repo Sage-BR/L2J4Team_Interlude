@@ -9,12 +9,12 @@ import java.util.Map;
 public class PackageToList extends L2GameServerPacket
 {
 	private final Map<Integer, String> _players;
-
+	
 	public PackageToList(Map<Integer, String> players)
 	{
 		_players = players;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

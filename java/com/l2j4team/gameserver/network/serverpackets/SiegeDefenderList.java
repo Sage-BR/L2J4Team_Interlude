@@ -9,12 +9,12 @@ import java.util.List;
 public class SiegeDefenderList extends L2GameServerPacket
 {
 	private final Castle _castle;
-
+	
 	public SiegeDefenderList(Castle castle)
 	{
 		_castle = castle;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -23,16 +23,16 @@ public class SiegeDefenderList extends L2GameServerPacket
 		writeD(0x00); // 0
 		writeD(0x01); // 1
 		writeD(0x00); // 0
-
+		
 		final List<Clan> defenders = _castle.getSiege().getDefenderClans();
 		final List<Clan> pendingDefenders = _castle.getSiege().getPendingClans();
 		final int size = defenders.size() + pendingDefenders.size();
-
+		
 		if (size > 0)
 		{
 			writeD(size);
 			writeD(size);
-
+			
 			for (Clan clan : defenders)
 			{
 				writeD(clan.getClanId());
@@ -40,7 +40,7 @@ public class SiegeDefenderList extends L2GameServerPacket
 				writeS(clan.getLeaderName());
 				writeD(clan.getCrestId());
 				writeD(0x00); // signed time (seconds) (not storated by L2J)
-
+				
 				final SiegeSide side = _castle.getSiege().getSide(clan);
 				if (side == SiegeSide.OWNER)
 					writeD(0x01);
@@ -50,13 +50,13 @@ public class SiegeDefenderList extends L2GameServerPacket
 					writeD(0x03);
 				else
 					writeD(0x00);
-
+				
 				writeD(clan.getAllyId());
 				writeS(clan.getAllyName());
 				writeS(""); // AllyLeaderName
 				writeD(clan.getAllyCrestId());
 			}
-
+			
 			for (Clan clan : pendingDefenders)
 			{
 				writeD(clan.getClanId());

@@ -8,12 +8,12 @@ import com.l2j4team.gameserver.skills.Env;
 public class ConditionPlayerHp extends Condition
 {
 	private final int _hp;
-
+	
 	public ConditionPlayerHp(int hp)
 	{
 		_hp = hp;
 	}
-
+	
 	@Override
 	public boolean testImpl(Env env)
 	{

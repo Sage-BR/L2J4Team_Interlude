@@ -16,26 +16,26 @@ public class L2NoRestartZone extends L2ZoneType
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(final Creature character)
 	{
 		if (character instanceof Player)
 			character.setInsideZone(ZoneId.NO_RESTART, true);
 	}
-
+	
 	@Override
 	protected void onExit(final Creature character)
 	{
 		if (character instanceof Player)
 			character.setInsideZone(ZoneId.NO_RESTART, false);
 	}
-
+	
 	@Override
 	public void onDieInside(final Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(final Creature character)
 	{

@@ -11,26 +11,26 @@ import com.l2j4team.commons.random.Rnd;
 public class Q273_InvadersOfTheHolyLand extends Quest
 {
 	private static final String qn = "Q273_InvadersOfTheHolyLand";
-
+	
 	// Items
 	private static final int BLACK_SOULSTONE = 1475;
 	private static final int RED_SOULSTONE = 1476;
-
+	
 	// Reward
 	private static final int SOULSHOT_FOR_BEGINNERS = 5789;
-
+	
 	public Q273_InvadersOfTheHolyLand()
 	{
 		super(273, "Invaders of the Holy Land");
-
+		
 		setItemsIds(BLACK_SOULSTONE, RED_SOULSTONE);
-
+		
 		addStartNpc(30566); // Varkees
 		addTalkId(30566);
-
+		
 		addKillId(20311, 20312, 20313);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -38,7 +38,7 @@ public class Q273_InvadersOfTheHolyLand extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30566-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -50,10 +50,10 @@ public class Q273_InvadersOfTheHolyLand extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -61,7 +61,7 @@ public class Q273_InvadersOfTheHolyLand extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -72,11 +72,11 @@ public class Q273_InvadersOfTheHolyLand extends Quest
 				else
 					htmltext = "30566-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int red = st.getQuestItemsCount(RED_SOULSTONE);
 				int black = st.getQuestItemsCount(BLACK_SOULSTONE);
-
+				
 				if (red + black == 0)
 					htmltext = "30566-04.htm";
 				else
@@ -85,13 +85,13 @@ public class Q273_InvadersOfTheHolyLand extends Quest
 						htmltext = "30566-05.htm";
 					else
 						htmltext = "30566-06.htm";
-
+					
 					int reward = (black * 3) + (red * 10) + ((black >= 10) ? ((red >= 1) ? 1800 : 1500) : 0);
-
+					
 					st.takeItems(BLACK_SOULSTONE, -1);
 					st.takeItems(RED_SOULSTONE, -1);
 					st.rewardItems(57, reward);
-
+					
 					if (player.isNewbie() && st.getInt("Reward") == 0)
 					{
 						st.giveItems(SOULSHOT_FOR_BEGINNERS, 6000);
@@ -101,30 +101,30 @@ public class Q273_InvadersOfTheHolyLand extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int npcId = npc.getNpcId();
-
+		
 		int probability = 77;
 		if (npcId == 20311)
 			probability = 90;
 		else if (npcId == 20312)
 			probability = 87;
-
+		
 		if (Rnd.get(100) <= probability)
 			st.dropItemsAlways(BLACK_SOULSTONE, 1, 0);
 		else
 			st.dropItemsAlways(RED_SOULSTONE, 1, 0);
-
+		
 		return null;
 	}
 }

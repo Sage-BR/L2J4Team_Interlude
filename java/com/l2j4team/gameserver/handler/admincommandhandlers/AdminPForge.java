@@ -23,7 +23,7 @@ public class AdminPForge implements IAdminCommandHandler
 		"admin_forge3",
 		"admin_msg"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -51,13 +51,13 @@ public class AdminPForge implements IAdminCommandHandler
 				st.nextToken();
 				String format = st.nextToken();
 				boolean broadcast = false;
-
+				
 				if (format.toLowerCase().equals("broadcast"))
 				{
 					format = st.nextToken();
 					broadcast = true;
 				}
-
+				
 				AdminForgePacket sp = new AdminForgePacket();
 				for (int i = 0; i < format.length(); i++)
 				{
@@ -125,15 +125,15 @@ public class AdminPForge implements IAdminCommandHandler
 					{
 						val = String.valueOf(((Player) activeChar.getTarget()).getHeading());
 					}
-
+					
 					sp.addPart(format.getBytes()[i], val);
 				}
-
+				
 				if (broadcast)
 					activeChar.broadcastPacket(sp);
 				else
 					activeChar.sendPacket(sp);
-
+				
 				showPage3(activeChar, format, command);
 			}
 			catch (Exception ex)
@@ -156,36 +156,36 @@ public class AdminPForge implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	private static void showMainPage(Player activeChar)
 	{
 		AdminHelpPage.showHelpPage(activeChar, "pforge1.htm");
 	}
-
+	
 	private static void showPage2(Player activeChar, String format)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/admin/pforge2.htm");
 		html.replace("%format%", format);
-
+		
 		final StringBuilder sb = new StringBuilder();
-
+		
 		// First use of sb.
 		for (int i = 0; i < format.length(); i++)
 			StringUtil.append(sb, format.charAt(i), " : <edit var=\"v", i, "\" width=100><br1>");
 		html.replace("%valueditors%", sb.toString());
-
+		
 		// Cleanup sb.
 		sb.setLength(0);
-
+		
 		// Second use of sb.
 		for (int i = 0; i < format.length(); i++)
 			StringUtil.append(sb, " \\$v", i);
-
+		
 		html.basicReplace("%send%", sb.toString());
 		activeChar.sendPacket(html);
 	}
-
+	
 	private static void showPage3(Player activeChar, String format, String command)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
@@ -194,7 +194,7 @@ public class AdminPForge implements IAdminCommandHandler
 		html.replace("%command%", command);
 		activeChar.sendPacket(html);
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

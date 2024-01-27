@@ -25,24 +25,24 @@ import com.l2j4team.gameserver.network.serverpackets.SystemMessage;
 public final class RequestExAcceptJoinMPCC extends L2GameClientPacket
 {
 	private int _response;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_response = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		Player player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		Player requestor = player.getActiveRequester();
 		if (requestor == null)
 			return;
-
+		
 		if (_response == 1)
 		{
 			boolean newCc = false;
@@ -51,14 +51,14 @@ public final class RequestExAcceptJoinMPCC extends L2GameClientPacket
 				new L2CommandChannel(requestor); // Create new CC
 				newCc = true;
 			}
-
+			
 			requestor.getParty().getCommandChannel().addParty(player.getParty());
 			if (!newCc)
 				player.sendPacket(SystemMessageId.JOINED_COMMAND_CHANNEL);
 		}
 		else
 			requestor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_DECLINED_CHANNEL_INVITATION).addCharName(player));
-
+		
 		player.setActiveRequester(null);
 		requestor.onTransactionResponse();
 	}

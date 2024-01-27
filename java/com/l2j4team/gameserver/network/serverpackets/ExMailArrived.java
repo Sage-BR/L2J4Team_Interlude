@@ -7,11 +7,11 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ExMailArrived extends L2GameServerPacket
 {
 	public static final ExMailArrived STATIC_PACKET = new ExMailArrived();
-
+	
 	private ExMailArrived()
 	{
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

@@ -12,20 +12,20 @@ public class PartyInfo implements IUserCommandHandler
 	{
 		81
 	};
-
+	
 	@Override
 	public boolean useUserCommand(int id, Player activeChar)
 	{
 		if (!activeChar.isInParty())
 			return false;
-
+		
 		L2Party playerParty = activeChar.getParty();
 		int memberCount = playerParty.getMemberCount();
 		int lootDistribution = playerParty.getLootDistribution();
 		String partyLeader = playerParty.getLeader().getName();
-
+		
 		activeChar.sendPacket(SystemMessageId.PARTY_INFORMATION);
-
+		
 		switch (lootDistribution)
 		{
 			case L2Party.ITEM_LOOTER:
@@ -49,7 +49,7 @@ public class PartyInfo implements IUserCommandHandler
 		activeChar.sendPacket(SystemMessageId.FRIEND_LIST_FOOTER);
 		return true;
 	}
-
+	
 	@Override
 	public int[] getUserCommandList()
 	{

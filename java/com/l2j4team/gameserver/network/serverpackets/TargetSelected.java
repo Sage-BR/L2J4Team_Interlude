@@ -7,7 +7,7 @@ public class TargetSelected extends L2GameServerPacket
 	private final int _x;
 	private final int _y;
 	private final int _z;
-
+	
 	public TargetSelected(int objectId, int targetId, int x, int y, int z)
 	{
 		_objectId = objectId;
@@ -16,7 +16,7 @@ public class TargetSelected extends L2GameServerPacket
 		_y = y;
 		_z = z;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

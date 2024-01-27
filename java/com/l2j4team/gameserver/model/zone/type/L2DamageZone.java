@@ -21,23 +21,23 @@ public class L2DamageZone extends L2CastleZoneType
 {
 	private int _hpDps;
 	private Future<?> _task;
-
+	
 	private int _startTask;
 	private int _reuseTask;
-
+	
 	private String _target = "Playable"; // default only playable
-
+	
 	public L2DamageZone(int id)
 	{
 		super(id);
-
+		
 		_hpDps = 100; // setup default damage
-
+		
 		// Setup default start / reuse time
 		_startTask = 10;
 		_reuseTask = 5000;
 	}
-
+	
 	@Override
 	public void setParameter(String name, String value)
 	{
@@ -52,7 +52,7 @@ public class L2DamageZone extends L2CastleZoneType
 		else
 			super.setParameter(name, value);
 	}
-
+	
 	@Override
 	protected boolean isAffected(Creature character)
 	{
@@ -66,10 +66,10 @@ public class L2DamageZone extends L2CastleZoneType
 		{
 			e.printStackTrace();
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
@@ -78,27 +78,27 @@ public class L2DamageZone extends L2CastleZoneType
 			// Castle traps are active only during siege, or if they're activated.
 			if (getCastle() != null && (!isEnabled() || !getCastle().getSiege().isInProgress()))
 				return;
-
+			
 			synchronized (this)
 			{
 				if (_task == null)
 				{
 					_task = ThreadPool.scheduleAtFixedRate(new ApplyDamage(this), _startTask, _reuseTask);
-
+					
 					// Message for castle traps.
 					if (getCastle() != null)
 						getCastle().getSiege().announceToPlayer(SystemMessage.getSystemMessage(SystemMessageId.A_TRAP_DEVICE_HAS_BEEN_TRIPPED), false);
 				}
 			}
 		}
-
+		
 		if (character instanceof Player)
 		{
 			character.setInsideZone(ZoneId.DANGER_AREA, true);
 			character.sendPacket(new EtcStatusUpdate((Player) character));
 		}
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
@@ -109,12 +109,12 @@ public class L2DamageZone extends L2CastleZoneType
 				character.sendPacket(new EtcStatusUpdate((Player) character));
 		}
 	}
-
+	
 	protected int getHpDps()
 	{
 		return _hpDps;
 	}
-
+	
 	protected void stopTask()
 	{
 		if (_task != null)
@@ -123,16 +123,16 @@ public class L2DamageZone extends L2CastleZoneType
 			_task = null;
 		}
 	}
-
+	
 	class ApplyDamage implements Runnable
 	{
 		private final L2DamageZone _dmgZone;
-
+		
 		ApplyDamage(L2DamageZone zone)
 		{
 			_dmgZone = zone;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -142,14 +142,14 @@ public class L2DamageZone extends L2CastleZoneType
 				_dmgZone.stopTask();
 				return;
 			}
-
+			
 			// Cancels the task if characters list is empty.
 			if (_dmgZone.getCharactersInside().isEmpty())
 			{
 				_dmgZone.stopTask();
 				return;
 			}
-
+			
 			// Effect all people inside the zone.
 			for (Creature temp : _dmgZone.getCharactersInside())
 			{

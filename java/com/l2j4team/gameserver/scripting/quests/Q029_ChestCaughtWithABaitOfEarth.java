@@ -8,26 +8,26 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q029_ChestCaughtWithABaitOfEarth extends Quest
 {
 	private static final String qn = "Q029_ChestCaughtWithABaitOfEarth";
-
+	
 	// NPCs
 	private static final int WILLIE = 31574;
 	private static final int ANABEL = 30909;
-
+	
 	// Items
 	private static final int SMALL_PURPLE_TREASURE_CHEST = 6507;
 	private static final int SMALL_GLASS_BOX = 7627;
 	private static final int PLATED_LEATHER_GLOVES = 2455;
-
+	
 	public Q029_ChestCaughtWithABaitOfEarth()
 	{
 		super(29, "Chest caught with a bait of earth");
-
+		
 		setItemsIds(SMALL_GLASS_BOX);
-
+		
 		addStartNpc(WILLIE);
 		addTalkId(WILLIE, ANABEL);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -35,7 +35,7 @@ public class Q029_ChestCaughtWithABaitOfEarth extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31574-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -66,10 +66,10 @@ public class Q029_ChestCaughtWithABaitOfEarth extends Quest
 			else
 				htmltext = "30909-03.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -77,7 +77,7 @@ public class Q029_ChestCaughtWithABaitOfEarth extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -92,7 +92,7 @@ public class Q029_ChestCaughtWithABaitOfEarth extends Quest
 						htmltext = "31574-03.htm";
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -103,19 +103,19 @@ public class Q029_ChestCaughtWithABaitOfEarth extends Quest
 						else if (cond == 2)
 							htmltext = "31574-09.htm";
 						break;
-
+					
 					case ANABEL:
 						if (cond == 2)
 							htmltext = "30909-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

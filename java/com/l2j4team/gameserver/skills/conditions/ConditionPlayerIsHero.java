@@ -8,7 +8,7 @@ import com.l2j4team.gameserver.skills.Env;
 public class ConditionPlayerIsHero extends Condition
 {
 	private final boolean _val;
-
+	
 	/**
 	 * Instantiates a new condition player is hero.
 	 * @param val the val
@@ -17,13 +17,13 @@ public class ConditionPlayerIsHero extends Condition
 	{
 		_val = val;
 	}
-
+	
 	@Override
 	public boolean testImpl(Env env)
 	{
 		if (env.getPlayer() == null)
 			return false;
-
+		
 		return (env.getPlayer().isHero() == _val);
 	}
 }

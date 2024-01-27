@@ -16,7 +16,7 @@ public class RequestPartyMatchList extends L2GameClientPacket
 	private int _lvlmax;
 	private int _loot;
 	private String _roomtitle;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -27,14 +27,14 @@ public class RequestPartyMatchList extends L2GameClientPacket
 		_loot = readD();
 		_roomtitle = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		if (_roomid > 0)
 		{
 			PartyMatchRoom room = PartyMatchRoomList.getInstance().getRoom(_roomid);
@@ -46,12 +46,12 @@ public class RequestPartyMatchList extends L2GameClientPacket
 				room.setMaxLvl(_lvlmax);
 				room.setLootType(_loot);
 				room.setTitle(_roomtitle);
-
+				
 				for (Player member : room.getPartyMembers())
 				{
 					if (member == null)
 						continue;
-
+					
 					member.sendPacket(new PartyMatchDetail(room));
 					member.sendPacket(SystemMessageId.PARTY_ROOM_REVISED);
 				}
@@ -60,33 +60,33 @@ public class RequestPartyMatchList extends L2GameClientPacket
 		else
 		{
 			int maxid = PartyMatchRoomList.getInstance().getMaxId();
-
+			
 			PartyMatchRoom room = new PartyMatchRoom(maxid, _roomtitle, _loot, _lvlmin, _lvlmax, _membersmax, activeChar);
-
+			
 			_log.info("PartyMatchRoom #" + maxid + " created by " + activeChar.getName());
-
+			
 			// Remove from waiting list, and add to current room
 			PartyMatchWaitingList.getInstance().removePlayer(activeChar);
 			PartyMatchRoomList.getInstance().addPartyMatchRoom(maxid, room);
-
+			
 			if (activeChar.isInParty())
 			{
 				for (Player ptmember : activeChar.getParty().getPartyMembers())
 				{
 					if (ptmember == null || ptmember == activeChar)
 						continue;
-
+					
 					ptmember.setPartyRoom(maxid);
-
+					
 					room.addMember(ptmember);
 				}
 			}
-
+			
 			activeChar.sendPacket(new PartyMatchDetail(room));
 			activeChar.sendPacket(new ExPartyRoomMember(room, 1));
-
+			
 			activeChar.sendPacket(SystemMessageId.PARTY_ROOM_CREATED);
-
+			
 			activeChar.setPartyRoom(maxid);
 			activeChar.broadcastUserInfo();
 		}

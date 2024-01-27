@@ -9,14 +9,14 @@ public final class RequestShowMiniMap extends L2GameClientPacket
 	protected void readImpl()
 	{
 	}
-
+	
 	@Override
 	protected final void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		activeChar.sendPacket(ShowMiniMap.REGULAR_MAP);
 	}
 }

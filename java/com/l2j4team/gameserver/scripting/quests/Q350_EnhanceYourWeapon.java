@@ -19,21 +19,21 @@ import com.l2j4team.commons.util.ArraysUtil;
 public class Q350_EnhanceYourWeapon extends Quest
 {
 	private static final String qn = "Q350_EnhanceYourWeapon";
-
+	
 	public Q350_EnhanceYourWeapon()
 	{
 		super(350, "Enhance Your Weapon");
-
+		
 		addStartNpc(30115, 30194, 30856);
 		addTalkId(30115, 30194, 30856);
-
+		
 		for (int npcId : SoulCrystalData.getInstance().getLevelingInfos().keySet())
 			addKillId(npcId);
-
+		
 		for (int crystalId : SoulCrystalData.getInstance().getSoulCrystals().keySet())
 			addItemUse(crystalId);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -41,7 +41,7 @@ public class Q350_EnhanceYourWeapon extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// Start the quest.
 		if (event.endsWith("-04.htm"))
 		{
@@ -70,10 +70,10 @@ public class Q350_EnhanceYourWeapon extends Quest
 		// Terminate the quest.
 		else if (event.endsWith("-exit.htm"))
 			st.exitQuest(true);
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -81,7 +81,7 @@ public class Q350_EnhanceYourWeapon extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -90,7 +90,7 @@ public class Q350_EnhanceYourWeapon extends Quest
 				else
 					htmltext = npc.getNpcId() + "-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				// Check inventory for soul crystals.
 				for (ItemInstance item : player.getInventory().getItems())
@@ -103,10 +103,10 @@ public class Q350_EnhanceYourWeapon extends Quest
 				htmltext = npc.getNpcId() + "-21.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onItemUse(ItemInstance item, Player user, WorldObject target)
 	{
@@ -114,19 +114,19 @@ public class Q350_EnhanceYourWeapon extends Quest
 		// No target, or target isn't an L2Attackable.
 		if (user.isDead() || target == null || !(target instanceof Attackable))
 			return null;
-
+		
 		final Attackable mob = ((Attackable) target);
-
+		
 		// Mob is dead or not registered in _npcInfos.
 		if (mob.isDead() || !SoulCrystalData.getInstance().getLevelingInfos().containsKey(mob.getNpcId()))
 			return null;
-
+		
 		// Add user to mob's absorber list.
 		mob.addAbsorber(user, item);
-
+		
 		return null;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player killer, boolean isPet)
 	{
@@ -134,34 +134,34 @@ public class Q350_EnhanceYourWeapon extends Quest
 		final LevelingInfo npcInfo = SoulCrystalData.getInstance().getLevelingInfos().get(npc.getNpcId());
 		if (npcInfo == null)
 			return null;
-
+		
 		final int chance = Rnd.get(1000);
-
+		
 		// Handle npc leveling info type.
 		switch (npcInfo.getAbsorbCrystalType())
 		{
 			case FULL_PARTY:
 				final Attackable mob = (Attackable) npc;
-
+				
 				for (Player player : getPartyMembersState(killer, npc, Quest.STATE_STARTED))
 					tryToStageCrystal(player, mob, npcInfo, chance);
 				break;
-
+			
 			case PARTY_ONE_RANDOM:
 				final Player player = getRandomPartyMemberState(killer, npc, Quest.STATE_STARTED);
 				if (player != null)
 					tryToStageCrystal(player, (Attackable) npc, npcInfo, chance);
 				break;
-
+			
 			case LAST_HIT:
 				if (checkPlayerState(killer, npc, Quest.STATE_STARTED) != null)
 					tryToStageCrystal(killer, (Attackable) npc, npcInfo, chance);
 				break;
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * Define the Soul Crystal and try to stage it. Checks for quest enabled, crystal(s) in inventory, required usage of crystal, mob's ability to level crystal and mob vs player level gap.
 	 * @param player : The player to make checks on.
@@ -173,14 +173,14 @@ public class Q350_EnhanceYourWeapon extends Quest
 	{
 		SoulCrystal crystalData = null;
 		ItemInstance crystalItem = null;
-
+		
 		// Iterate through player's inventory to find crystal(s).
 		for (ItemInstance item : player.getInventory().getItems())
 		{
 			SoulCrystal data = SoulCrystalData.getInstance().getSoulCrystals().get(item.getItemId());
 			if (data == null)
 				continue;
-
+			
 			// More crystals found.
 			if (crystalData != null)
 			{
@@ -194,18 +194,18 @@ public class Q350_EnhanceYourWeapon extends Quest
 				}
 				else
 					player.sendPacket(SystemMessageId.SOUL_CRYSTAL_ABSORBING_FAILED_RESONATION);
-
+				
 				return;
 			}
-
+			
 			crystalData = data;
 			crystalItem = item;
 		}
-
+		
 		// No crystal found, return without any notification.
 		if (crystalData == null || crystalItem == null)
 			return;
-
+		
 		// Leveling requires soul crystal being used?
 		if (npcInfo.isSkillRequired())
 		{
@@ -213,7 +213,7 @@ public class Q350_EnhanceYourWeapon extends Quest
 			final AbsorbInfo ai = mob.getAbsorbInfo(player.getObjectId());
 			if (ai == null || !ai.isRegistered())
 				return;
-
+			
 			// Check if Absorb list contains valid crystal and whether it was used properly.
 			if (!ai.isValid(crystalItem.getObjectId()))
 			{
@@ -221,21 +221,21 @@ public class Q350_EnhanceYourWeapon extends Quest
 				return;
 			}
 		}
-
+		
 		// Check, if npc stages this type of crystal.
 		if (!ArraysUtil.contains(npcInfo.getLevelList(), crystalData.getLevel()))
 		{
 			player.sendPacket(SystemMessageId.SOUL_CRYSTAL_ABSORBING_REFUSED);
 			return;
 		}
-
+		
 		// Check level difference limitation, dark blue monsters does not stage.
 		// if (player.getLevel() - mob.getLevel() > 8)
 		// {
 		// player.sendPacket(SystemMessageId.SOUL_CRYSTAL_ABSORBING_REFUSED);
 		// return;
 		// }
-
+		
 		// Lucky, crystal successfully stages.
 		if (chance < npcInfo.getChanceStage())
 			exchangeCrystal(player, crystalData, true);
@@ -246,7 +246,7 @@ public class Q350_EnhanceYourWeapon extends Quest
 		else
 			player.sendPacket(SystemMessageId.SOUL_CRYSTAL_ABSORBING_FAILED);
 	}
-
+	
 	/**
 	 * Remove the old crystal and add new one if stage, broken crystal if break. Send messages in both cases.
 	 * @param player : The player to check on (inventory and send messages).
@@ -256,7 +256,7 @@ public class Q350_EnhanceYourWeapon extends Quest
 	private static void exchangeCrystal(Player player, SoulCrystal sc, boolean stage)
 	{
 		QuestState st = player.getQuestState(qn);
-
+		
 		st.takeItems(sc.getInitialItemId(), 1);
 		if (stage)
 		{

@@ -28,15 +28,15 @@ public class SkillCyclonicResistance implements IItemHandler
 	{
 		384
 	};
-
+	
 	@Override
 	public void useItem(Playable playable, ItemInstance item, boolean forceUse)
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isClanLeader())
 		{
 			for (int s : clanSkills)
@@ -44,7 +44,7 @@ public class SkillCyclonicResistance implements IItemHandler
 				L2Skill clanSkill = SkillTable.getInstance().getInfo(s, SkillTable.getInstance().getMaxLevel(s));
 				activeChar.getClan().addNewSkill(clanSkill);
 			}
-
+			
 			activeChar.sendSkillList();
 			activeChar.getClan().updateClanInDB();
 			playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
@@ -52,7 +52,7 @@ public class SkillCyclonicResistance implements IItemHandler
 		}
 		else
 			activeChar.sendMessage("You are not the clan leader.");
-
+		
 		return;
 	}
 }

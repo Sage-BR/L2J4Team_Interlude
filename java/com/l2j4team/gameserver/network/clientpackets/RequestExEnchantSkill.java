@@ -25,47 +25,41 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 {
 	private int _skillId;
 	private int _skillLevel;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_skillId = readD();
 		_skillLevel = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		if (_skillId <= 0 || _skillLevel <= 0)
 			return;
-
+		
 		final Player activeChar = getClient().getActiveChar();
 		if ((activeChar == null) || activeChar.getClassId().level() < 3 || activeChar.getLevel() < 76)
 			return;
-
+		
 		final Npc trainer = activeChar.getCurrentFolkNPC();
-		if (trainer == null)
+		if ((trainer == null) || (!activeChar.isInsideRadius(trainer, Npc.INTERACTION_DISTANCE, false, false) && !activeChar.isGM()) || (activeChar.getSkillLevel(_skillId) >= _skillLevel))
 			return;
-
-		if (!activeChar.isInsideRadius(trainer, Npc.INTERACTION_DISTANCE, false, false) && !activeChar.isGM())
-			return;
-
-		if (activeChar.getSkillLevel(_skillId) >= _skillLevel)
-			return;
-
+		
 		final L2Skill skill = SkillTable.getInstance().getInfo(_skillId, _skillLevel);
 		if (skill == null)
 			return;
-
+		
 		L2EnchantSkillData data = null;
 		int baseLvl = 0;
-
+		
 		// Try to find enchant skill.
 		for (L2EnchantSkillLearn esl : SkillTreeTable.getInstance().getAvailableEnchantSkills(activeChar))
 		{
 			if (esl == null)
 				continue;
-
+			
 			if (esl.getId() == _skillId && esl.getLevel() == _skillLevel)
 			{
 				data = SkillTreeTable.getInstance().getEnchantSkillData(esl.getEnchant());
@@ -73,10 +67,10 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 				break;
 			}
 		}
-
+		
 		if (data == null)
 			return;
-
+		
 		// Check exp and sp neccessary to enchant skill.
 		if (activeChar.getSp() < data.getCostSp())
 		{
@@ -88,7 +82,7 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 			activeChar.sendPacket(SystemMessageId.YOU_DONT_HAVE_ENOUGH_EXP_TO_ENCHANT_THAT_SKILL);
 			return;
 		}
-
+		
 		// Check item restriction, and try to consume item.
 		if (Config.ES_SP_BOOK_NEEDED)
 			if (data.getItemId() != 0 && data.getItemCount() != 0)
@@ -99,10 +93,10 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 					return;
 				}
 			}
-
+		
 		// All conditions fulfilled, consume exp and sp.
 		activeChar.removeExpAndSp(data.getCostExp(), data.getCostSp());
-
+		
 		// Try to enchant skill.
 		if (Rnd.get(100) <= data.getRate(activeChar.getLevel()))
 		{
@@ -120,7 +114,7 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 		}
 		activeChar.sendSkillList();
 		activeChar.sendPacket(new UserInfo(activeChar));
-
+		
 		// Update shortcuts.
 		for (L2ShortCut sc : activeChar.getAllShortCuts())
 		{
@@ -131,7 +125,7 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 				activeChar.registerShortCut(newsc);
 			}
 		}
-
+		
 		// Show enchant skill list.
 		Folk.showEnchantSkillList(activeChar, trainer, activeChar.getClassId());
 	}

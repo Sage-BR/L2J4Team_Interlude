@@ -38,7 +38,7 @@ public class CabalBuffer extends Folk
 		"The prophecy of doom has awoken!",
 		"This world will soon be annihilated!"
 	};
-
+	
 	protected static final String[] MESSAGES_WINNER =
 	{
 		"%player_cabal_winner%! I bestow on you the authority of the abyss!",
@@ -50,17 +50,17 @@ public class CabalBuffer extends Folk
 		"The prophecy of darkness has been fulfilled!",
 		"The prophecy of darkness has come to pass!"
 	};
-
+	
 	private ScheduledFuture<?> _aiTask;
 	protected int _step = 0; // Flag used to delay chat broadcast.
-
+	
 	public CabalBuffer(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
-
+		
 		_aiTask = ThreadPool.scheduleAtFixedRate(new CabaleAI(this), 5000, 5000);
 	}
-
+	
 	@Override
 	public void onAction(Player player)
 	{
@@ -79,13 +79,13 @@ public class CabalBuffer extends Folk
 			{
 				// Rotate the player to face the instance
 				player.sendPacket(new MoveToPawn(player, this, Npc.INTERACTION_DISTANCE));
-
+				
 				// Send ActionFailed to the player in order to avoid he stucks
 				player.sendPacket(ActionFailed.STATIC_PACKET);
 			}
 		}
 	}
-
+	
 	/**
 	 * For each known player in range, cast either the positive or negative buff. <BR>
 	 * The stats affected depend on the player type, either a fighter or a mystic. <BR>
@@ -101,42 +101,42 @@ public class CabalBuffer extends Folk
 	private class CabaleAI implements Runnable
 	{
 		private final CabalBuffer _caster;
-
+		
 		protected CabaleAI(CabalBuffer caster)
 		{
 			_caster = caster;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			boolean isBuffAWinner = false;
 			boolean isBuffALoser = false;
-
+			
 			final CabalType winningCabal = SevenSigns.getInstance().getCabalHighestScore();
-
+			
 			// Defines which cabal is the loser.
 			CabalType losingCabal = CabalType.NORMAL;
 			if (winningCabal == CabalType.DAWN)
 				losingCabal = CabalType.DUSK;
 			else if (winningCabal == CabalType.DUSK)
 				losingCabal = CabalType.DAWN;
-
+			
 			// Those lists store players for the shout.
 			final List<Player> playersList = new ArrayList<>();
 			final List<Player> gmsList = new ArrayList<>();
-
+			
 			for (Player player : getKnownTypeInRadius(Player.class, 900))
 			{
 				if (player.isGM())
 					gmsList.add(player);
 				else
 					playersList.add(player);
-
+				
 				final CabalType playerCabal = SevenSigns.getInstance().getPlayerCabal(player.getObjectId());
 				if (playerCabal == CabalType.NORMAL)
 					continue;
-
+				
 				if (!isBuffAWinner && playerCabal == winningCabal && _caster.getNpcId() == SevenSigns.ORATOR_NPC_ID)
 				{
 					isBuffAWinner = true;
@@ -147,12 +147,12 @@ public class CabalBuffer extends Folk
 					isBuffALoser = true;
 					handleCast(player, (!player.isMageClass() ? 4361 : 4362));
 				}
-
+				
 				// Buff / debuff only 1 ppl per round.
 				if (isBuffAWinner && isBuffALoser)
 					break;
 			}
-
+			
 			// Autochat every 60sec. The actual AI cycle is 5sec, so delay it of 12 steps.
 			if (_step >= 12)
 			{
@@ -164,7 +164,7 @@ public class CabalBuffer extends Folk
 						text = Rnd.get(MESSAGES_LOSER);
 					else
 						text = Rnd.get(MESSAGES_WINNER);
-
+					
 					if (text.indexOf("%player_cabal_winner%") > -1)
 					{
 						for (Player nearbyPlayer : playersList)
@@ -187,14 +187,14 @@ public class CabalBuffer extends Folk
 							}
 						}
 					}
-
+					
 					if (!text.contains("%player_"))
 					{
 						CreatureSay cs = new CreatureSay(getObjectId(), Say2.ALL, getName(), text);
-
+						
 						for (Player nearbyPlayer : playersList)
 							nearbyPlayer.sendPacket(cs);
-
+						
 						for (Player nearbyGM : gmsList)
 							nearbyGM.sendPacket(cs);
 					}
@@ -204,11 +204,11 @@ public class CabalBuffer extends Folk
 			else
 				_step++;
 		}
-
+		
 		private void handleCast(Player player, int skillId)
 		{
 			int skillLevel = (player.getLevel() > 40) ? 1 : 2;
-
+			
 			final L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLevel);
 			if (player.getFirstEffect(skill) == null)
 			{
@@ -218,7 +218,7 @@ public class CabalBuffer extends Folk
 			}
 		}
 	}
-
+	
 	@Override
 	public void deleteMe()
 	{

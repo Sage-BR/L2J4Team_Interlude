@@ -28,7 +28,7 @@ import com.l2j4team.commons.lang.StringUtil;
 public class VarkaSilenosSupport extends Quest
 {
 	private static final String qn = "VarkaSilenosSupport";
-
+	
 	private static final int ASHAS = 31377; // Hierarch
 	private static final int NARAN = 31378; // Messenger
 	private static final int UDAN = 31379; // Buffer
@@ -36,9 +36,9 @@ public class VarkaSilenosSupport extends Quest
 	private static final int HAGOS = 31381; // Warehouse Keeper
 	private static final int SHIKON = 31382; // Trader
 	private static final int TERANU = 31383; // Teleporter
-
+	
 	private static final int SEED = 7187;
-
+	
 	private static final int[] VARKAS =
 	{
 		21350,
@@ -63,7 +63,7 @@ public class VarkaSilenosSupport extends Quest
 		21374,
 		21375
 	};
-
+	
 	private static final int[][] BUFF =
 	{
 		{
@@ -100,7 +100,7 @@ public class VarkaSilenosSupport extends Quest
 		}
 		// Haste: Requires 6 Nepenthese Seeds
 	};
-
+	
 	/**
 	 * Names of missions which will be automatically dropped if the alliance is broken.
 	 */
@@ -113,22 +113,22 @@ public class VarkaSilenosSupport extends Quest
 		"Q615_MagicalPowerOfFire_Part1",
 		"Q616_MagicalPowerOfFire_Part2"
 	};
-
+	
 	public VarkaSilenosSupport()
 	{
 		super(-1, "custom");
-
+		
 		addFirstTalkId(ASHAS, NARAN, UDAN, DIYABU, HAGOS, SHIKON, TERANU);
 		addTalkId(UDAN, HAGOS, TERANU);
 		addStartNpc(HAGOS, TERANU);
-
+		
 		// Verify if the killer didn't kill an allied mob. Test his party aswell.
 		addKillId(VARKAS);
-
+		
 		// Verify if an allied is healing/buff an enemy. Petrify him if it's the case.
 		addSkillSeeId(VARKAS);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -136,7 +136,7 @@ public class VarkaSilenosSupport extends Quest
 		QuestState st = player.getQuestState(getName());
 		if (st == null)
 			return htmltext;
-
+		
 		if (StringUtil.isDigit(event))
 		{
 			final int[] buffInfo = BUFF[Integer.parseInt(event)];
@@ -172,10 +172,10 @@ public class VarkaSilenosSupport extends Quest
 					break;
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onFirstTalk(Npc npc, Player player)
 	{
@@ -183,9 +183,9 @@ public class VarkaSilenosSupport extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			st = newQuestState(player);
-
+		
 		final int allianceLevel = player.getAllianceWithVarkaKetra();
-
+		
 		switch (npc.getNpcId())
 		{
 			case ASHAS:
@@ -194,14 +194,14 @@ public class VarkaSilenosSupport extends Quest
 				else
 					htmltext = "31377-no.htm";
 				break;
-
+			
 			case NARAN:
 				if (allianceLevel < 0)
 					htmltext = "31378-friend.htm";
 				else
 					htmltext = "31378-no.htm";
 				break;
-
+			
 			case UDAN:
 				st.setState(STATE_STARTED);
 				if (allianceLevel > -1)
@@ -216,7 +216,7 @@ public class VarkaSilenosSupport extends Quest
 						htmltext = "31379-2.htm";
 				}
 				break;
-
+			
 			case DIYABU:
 				if (player.getKarma() >= 1)
 					htmltext = "31380-pk.htm";
@@ -227,7 +227,7 @@ public class VarkaSilenosSupport extends Quest
 				else
 					htmltext = "31380-2.htm";
 				break;
-
+			
 			case HAGOS:
 				switch (allianceLevel)
 				{
@@ -248,7 +248,7 @@ public class VarkaSilenosSupport extends Quest
 						break;
 				}
 				break;
-
+			
 			case SHIKON:
 				switch (allianceLevel)
 				{
@@ -267,7 +267,7 @@ public class VarkaSilenosSupport extends Quest
 						break;
 				}
 				break;
-
+			
 			case TERANU:
 				if (allianceLevel >= 0)
 					htmltext = "31383-no.htm";
@@ -279,10 +279,10 @@ public class VarkaSilenosSupport extends Quest
 					htmltext = "31383-3.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
@@ -296,10 +296,10 @@ public class VarkaSilenosSupport extends Quest
 		}
 		else
 			testVarkaDemote(player);
-
+		
 		return null;
 	}
-
+	
 	@Override
 	public String onSkillSee(Npc npc, Player caster, L2Skill skill, WorldObject[] targets, boolean isPet)
 	{
@@ -321,10 +321,10 @@ public class VarkaSilenosSupport extends Quest
 						// Target isn't a summon nor a player, we drop check.
 						if (target == null || target.isDead() || target == caster || !(target instanceof Playable))
 							continue;
-
+						
 						// Retrieve the player behind that target.
 						final Player player = target.getActingPlayer();
-
+						
 						// If player is neutral or enemy, go further.
 						if (!(player.isAlliedWithVarka()))
 						{
@@ -333,11 +333,11 @@ public class VarkaSilenosSupport extends Quest
 							{
 								// Save current target for future use.
 								final WorldObject oldTarget = npc.getTarget();
-
+								
 								// Curse the heretic or his pet.
 								npc.setTarget((isPet && player.getPet() != null) ? caster.getPet() : caster);
 								npc.doCast(FrequentSkill.VARKA_KETRA_PETRIFICATION.getSkill());
-
+								
 								// Revert to old target && drop the loop.
 								npc.setTarget(oldTarget);
 								break;
@@ -347,11 +347,11 @@ public class VarkaSilenosSupport extends Quest
 					break;
 			}
 		}
-
+		
 		// Continue normal behavior.
 		return super.onSkillSee(npc, caster, skill, targets, isPet);
 	}
-
+	
 	/**
 	 * That method drops current alliance and retrograde badge.<BR>
 	 * If any Varka quest is in progress, it stops the quest (and drop all related qItems) :
@@ -363,9 +363,9 @@ public class VarkaSilenosSupport extends Quest
 		{
 			// Drop the alliance (old friends become aggro).
 			player.setAllianceWithVarkaKetra(0);
-
+			
 			final PcInventory inventory = player.getInventory();
-
+			
 			// Drop by 1 the level of that alliance (symbolized by a quest item).
 			for (int i = 7225; i >= 7221; i--)
 			{
@@ -374,15 +374,15 @@ public class VarkaSilenosSupport extends Quest
 				{
 					// Destroy the badge.
 					player.destroyItemByItemId("Quest", i, item.getCount(), player, true);
-
+					
 					// Badge lvl 1 ; no addition of badge of lower level.
 					if (i != 7221)
 						player.addItem("Quest", i - 1, 1, player, true);
-
+					
 					break;
 				}
 			}
-
+			
 			for (String mission : varkaMissions)
 			{
 				QuestState pst = player.getQuestState(mission);

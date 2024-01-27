@@ -8,13 +8,13 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q037_MakeFormalWear extends Quest
 {
 	private static final String qn = "Q037_MakeFormalWear";
-
+	
 	// NPCs
 	private static final int ALEXIS = 30842;
 	private static final int LEIKAR = 31520;
 	private static final int JEREMY = 31521;
 	private static final int MIST = 31627;
-
+	
 	// Items
 	private static final int MYSTERIOUS_CLOTH = 7076;
 	private static final int JEWEL_BOX = 7077;
@@ -23,20 +23,20 @@ public class Q037_MakeFormalWear extends Quest
 	private static final int SIGNET_RING = 7164;
 	private static final int ICE_WINE = 7160;
 	private static final int BOX_OF_COOKIES = 7159;
-
+	
 	// Reward
 	private static final int FORMAL_WEAR = 6408;
-
+	
 	public Q037_MakeFormalWear()
 	{
 		super(37, "Make Formal Wear");
-
+		
 		setItemsIds(SIGNET_RING, ICE_WINE, BOX_OF_COOKIES);
-
+		
 		addStartNpc(ALEXIS);
 		addTalkId(ALEXIS, LEIKAR, JEREMY, MIST);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -44,7 +44,7 @@ public class Q037_MakeFormalWear extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30842-1.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -97,10 +97,10 @@ public class Q037_MakeFormalWear extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -108,13 +108,13 @@ public class Q037_MakeFormalWear extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 60) ? "30842-0a.htm" : "30842-0.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -123,7 +123,7 @@ public class Q037_MakeFormalWear extends Quest
 						if (cond == 1)
 							htmltext = "30842-2.htm";
 						break;
-
+					
 					case LEIKAR:
 						if (cond == 1)
 							htmltext = "31520-0.htm";
@@ -141,7 +141,7 @@ public class Q037_MakeFormalWear extends Quest
 						else if (cond == 7)
 							htmltext = (st.hasQuestItems(DRESS_SHOES_BOX)) ? "31520-6.htm" : "31520-5a.htm";
 						break;
-
+					
 					case JEREMY:
 						if (st.hasQuestItems(SIGNET_RING))
 							htmltext = "31521-0.htm";
@@ -152,7 +152,7 @@ public class Q037_MakeFormalWear extends Quest
 						else if (cond > 4)
 							htmltext = "31521-3a.htm";
 						break;
-
+					
 					case MIST:
 						if (cond == 3)
 							htmltext = "31627-0.htm";
@@ -161,12 +161,12 @@ public class Q037_MakeFormalWear extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

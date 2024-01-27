@@ -8,26 +8,26 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q028_ChestCaughtWithABaitOfIcyAir extends Quest
 {
 	private static final String qn = "Q028_ChestCaughtWithABaitOfIcyAir";
-
+	
 	// NPCs
 	private static final int OFULLE = 31572;
 	private static final int KIKI = 31442;
-
+	
 	// Items
 	private static final int BIG_YELLOW_TREASURE_CHEST = 6503;
 	private static final int KIKI_LETTER = 7626;
 	private static final int ELVEN_RING = 881;
-
+	
 	public Q028_ChestCaughtWithABaitOfIcyAir()
 	{
 		super(28, "Chest caught with a bait of icy air");
-
+		
 		setItemsIds(KIKI_LETTER);
-
+		
 		addStartNpc(OFULLE);
 		addTalkId(OFULLE, KIKI);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -35,7 +35,7 @@ public class Q028_ChestCaughtWithABaitOfIcyAir extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31572-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -66,10 +66,10 @@ public class Q028_ChestCaughtWithABaitOfIcyAir extends Quest
 			else
 				htmltext = "31442-03.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -77,7 +77,7 @@ public class Q028_ChestCaughtWithABaitOfIcyAir extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -92,7 +92,7 @@ public class Q028_ChestCaughtWithABaitOfIcyAir extends Quest
 						htmltext = "31572-03.htm";
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -103,19 +103,19 @@ public class Q028_ChestCaughtWithABaitOfIcyAir extends Quest
 						else if (cond == 2)
 							htmltext = "31572-09.htm";
 						break;
-
+					
 					case KIKI:
 						if (cond == 2)
 							htmltext = "31442-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

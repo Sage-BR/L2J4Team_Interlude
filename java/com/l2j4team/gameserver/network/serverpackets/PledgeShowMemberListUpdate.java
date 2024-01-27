@@ -16,7 +16,7 @@ public final class PledgeShowMemberListUpdate extends L2GameServerPacket
 	private final int _isOnline;
 	private final int _race;
 	private final int _sex;
-
+	
 	public PledgeShowMemberListUpdate(Player player)
 	{
 		_pledgeType = player.getPledgeType();
@@ -28,7 +28,7 @@ public final class PledgeShowMemberListUpdate extends L2GameServerPacket
 		_sex = player.getAppearance().getSex().ordinal();
 		_isOnline = (player.isOnline()) ? player.getObjectId() : 0;
 	}
-
+	
 	public PledgeShowMemberListUpdate(ClanMember player)
 	{
 		_name = player.getName();
@@ -37,7 +37,7 @@ public final class PledgeShowMemberListUpdate extends L2GameServerPacket
 		_isOnline = (player.isOnline()) ? player.getObjectId() : 0;
 		_pledgeType = player.getPledgeType();
 		_hasSponsor = (player.getSponsor() != 0 || player.getApprentice() != 0) ? 1 : 0;
-
+		
 		if (_isOnline != 0)
 		{
 			_race = player.getPlayerInstance().getRace().ordinal();
@@ -49,7 +49,7 @@ public final class PledgeShowMemberListUpdate extends L2GameServerPacket
 			_race = 0;
 		}
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

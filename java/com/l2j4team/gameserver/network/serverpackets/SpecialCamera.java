@@ -12,7 +12,7 @@ public class SpecialCamera extends L2GameServerPacket
 	private final int _rise;
 	private final int _widescreen;
 	private final int _unknown;
-
+	
 	public SpecialCamera(int id, int dist, int yaw, int pitch, int time, int duration)
 	{
 		_id = id;
@@ -26,7 +26,7 @@ public class SpecialCamera extends L2GameServerPacket
 		_widescreen = 0;
 		_unknown = 0;
 	}
-
+	
 	public SpecialCamera(int id, int dist, int yaw, int pitch, int time, int duration, int turn, int rise, int widescreen, int unk)
 	{
 		_id = id;
@@ -40,7 +40,7 @@ public class SpecialCamera extends L2GameServerPacket
 		_widescreen = widescreen;
 		_unknown = unk;
 	}
-
+	
 	@Override
 	public void writeImpl()
 	{

@@ -7,11 +7,11 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ExSendManorList extends L2GameServerPacket
 {
 	public static final ExSendManorList STATIC_PACKET = new ExSendManorList();
-
+	
 	private ExSendManorList()
 	{
 	}
-
+	
 	private static final String[] _manorList =
 	{
 		"gludio",
@@ -24,7 +24,7 @@ public class ExSendManorList extends L2GameServerPacket
 		"rune",
 		"schuttgart"
 	};
-
+	
 	@Override
 	protected void writeImpl()
 	{

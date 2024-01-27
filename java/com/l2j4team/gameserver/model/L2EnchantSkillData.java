@@ -9,7 +9,7 @@ public final class L2EnchantSkillData
 	private final int _rate76;
 	private final int _rate77;
 	private final int _rate78;
-
+	
 	public L2EnchantSkillData(int costExp, int costSp, int itemId, int itemCount, int rate76, int rate77, int rate78)
 	{
 		_costExp = costExp;
@@ -20,7 +20,7 @@ public final class L2EnchantSkillData
 		_rate77 = rate77;
 		_rate78 = rate78;
 	}
-
+	
 	/**
 	 * @return Returns the costExp.
 	 */
@@ -28,7 +28,7 @@ public final class L2EnchantSkillData
 	{
 		return _costExp;
 	}
-
+	
 	/**
 	 * @return Returns the costSp.
 	 */
@@ -36,7 +36,7 @@ public final class L2EnchantSkillData
 	{
 		return _costSp;
 	}
-
+	
 	/**
 	 * @return Returns the itemId.
 	 */
@@ -44,7 +44,7 @@ public final class L2EnchantSkillData
 	{
 		return _itemId;
 	}
-
+	
 	/**
 	 * @return Returns the itemAmount.
 	 */
@@ -52,7 +52,7 @@ public final class L2EnchantSkillData
 	{
 		return _itemCount;
 	}
-
+	
 	/**
 	 * @return Returns the rate according to level.
 	 * @param level : Level determines the rate.

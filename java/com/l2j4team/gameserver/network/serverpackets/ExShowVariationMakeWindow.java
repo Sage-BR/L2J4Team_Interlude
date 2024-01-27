@@ -7,11 +7,11 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ExShowVariationMakeWindow extends L2GameServerPacket
 {
 	public static final ExShowVariationMakeWindow STATIC_PACKET = new ExShowVariationMakeWindow();
-
+	
 	private ExShowVariationMakeWindow()
 	{
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

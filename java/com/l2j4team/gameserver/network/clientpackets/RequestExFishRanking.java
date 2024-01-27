@@ -14,14 +14,14 @@ public final class RequestExFishRanking extends L2GameClientPacket
 	protected void readImpl()
 	{
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		if (Config.ALT_FISH_CHAMPIONSHIP_ENABLED)
 			FishingChampionshipManager.getInstance().showMidResult(activeChar);
 	}

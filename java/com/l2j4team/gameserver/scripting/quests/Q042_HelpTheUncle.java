@@ -8,33 +8,33 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q042_HelpTheUncle extends Quest
 {
 	private static final String qn = "Q042_HelpTheUncle";
-
+	
 	// NPCs
 	private static final int WATERS = 30828;
 	private static final int SOPHYA = 30735;
-
+	
 	// Items
 	private static final int TRIDENT = 291;
 	private static final int MAP_PIECE = 7548;
 	private static final int MAP = 7549;
 	private static final int PET_TICKET = 7583;
-
+	
 	// Monsters
 	private static final int MONSTER_EYE_DESTROYER = 20068;
 	private static final int MONSTER_EYE_GAZER = 20266;
-
+	
 	public Q042_HelpTheUncle()
 	{
 		super(42, "Help the Uncle!");
-
+		
 		setItemsIds(MAP_PIECE, MAP);
-
+		
 		addStartNpc(WATERS);
 		addTalkId(WATERS, SOPHYA);
-
+		
 		addKillId(MONSTER_EYE_DESTROYER, MONSTER_EYE_GAZER);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -42,7 +42,7 @@ public class Q042_HelpTheUncle extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30828-01.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -74,10 +74,10 @@ public class Q042_HelpTheUncle extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -85,13 +85,13 @@ public class Q042_HelpTheUncle extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 25) ? "30828-00a.htm" : "30828-00.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -108,7 +108,7 @@ public class Q042_HelpTheUncle extends Quest
 						else if (cond == 5)
 							htmltext = "30828-06.htm";
 						break;
-
+					
 					case SOPHYA:
 						if (cond == 4)
 							htmltext = "30735-05.htm";
@@ -117,25 +117,25 @@ public class Q042_HelpTheUncle extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "2");
 		if (st == null)
 			return null;
-
+		
 		if (st.dropItemsAlways(MAP_PIECE, 1, 30))
 			st.set("cond", "3");
-
+		
 		return null;
 	}
 }

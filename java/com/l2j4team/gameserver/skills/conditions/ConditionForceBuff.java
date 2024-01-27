@@ -12,9 +12,9 @@ public class ConditionForceBuff extends Condition
 {
 	private static final short BATTLE_FORCE = 5104;
 	private static final short SPELL_FORCE = 5105;
-
+	
 	private final byte[] _forces;
-
+	
 	/**
 	 * Instantiates a new condition force buff.
 	 * @param forces the forces
@@ -23,7 +23,7 @@ public class ConditionForceBuff extends Condition
 	{
 		_forces = forces;
 	}
-
+	
 	/**
 	 * Test impl.
 	 * @param env the env
@@ -39,7 +39,7 @@ public class ConditionForceBuff extends Condition
 			if (force == null || ((EffectFusion) force)._effect < _forces[0])
 				return false;
 		}
-
+		
 		if (_forces[1] > 0)
 		{
 			L2Effect force = env.getCharacter().getFirstEffect(SPELL_FORCE);

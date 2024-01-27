@@ -45,9 +45,9 @@ import com.l2j4team.commons.random.Rnd;
 public class Zaken extends L2AttackableAIScript
 {
 	private static final L2BossZone _zakenLair = ZoneManager.getInstance().getZoneById(110000, L2BossZone.class);
-
+	
 	public static boolean _open;
-
+	
 	private WorldObject _target;// used for CallSkills
 	int _telecheck; // used for zakens self teleportings
 	private int _minionStatus = 0; // used for spawning minions cycles
@@ -106,7 +106,7 @@ public class Zaken extends L2AttackableAIScript
 		-2944,
 		-2944
 	};
-
+	
 	private static final int DRAIN = 4218;
 	private static final int HOLD = 4219;
 	private static final int DUAL_ATTACK = 4220;
@@ -114,23 +114,23 @@ public class Zaken extends L2AttackableAIScript
 	private static final int SELF_TELEPORT = 4222;
 	// Boss
 	private static final int ZAKEN = 29022;
-
+	
 	// Minions
 	private static final int DOLLBLADER = 29023;
 	private static final int VALEMASTER = 29024;
 	private static final int PIRATECAPTAIN = 29026;
 	private static final int PIRATEZOMBIE = 29027;
-
+	
 	// ZAKEN Status Tracking :
 	private static final byte ALIVE = 0; // Zaken is spawned.
 	private static final byte DEAD = 1; // Zaken has been killed.
-
+	
 	public Zaken()
 	{
 		super("ai/individual");
-
+		
 		final int status = GrandBossManager.getInstance().getBossStatus(ZAKEN);
-
+		
 		ThreadPool.scheduleAtFixedRate(new Runnable()
 		{
 			@Override
@@ -155,9 +155,9 @@ public class Zaken extends L2AttackableAIScript
 				}
 			}
 		}, 600000L, 600000L);
-
+		
 		registerNpcs();
-
+		
 		final StatsSet info = GrandBossManager.getInstance().getStatsSet(ZAKEN);
 		if (status == DEAD)
 		{
@@ -186,13 +186,13 @@ public class Zaken extends L2AttackableAIScript
 			int heading = info.getInteger("heading");
 			final int hp = info.getInteger("currentHP");
 			final int mp = info.getInteger("currentMP");
-
+			
 			GrandBoss zaken = (GrandBoss) addSpawn(ZAKEN, loc_x, loc_y, loc_z, heading, false, 0, false);
 			zaken.setCurrentHpMp(hp, mp);
 			spawnBoss(zaken);
 		}
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
@@ -201,9 +201,9 @@ public class Zaken extends L2AttackableAIScript
 		addEventIds(VALEMASTER, EventType.ON_ATTACK, EventType.ON_KILL, EventType.ON_SPAWN, EventType.ON_SPELL_FINISHED, EventType.ON_SKILL_SEE, EventType.ON_FACTION_CALL, EventType.ON_AGGRO);
 		addEventIds(PIRATECAPTAIN, EventType.ON_ATTACK, EventType.ON_KILL, EventType.ON_SPAWN, EventType.ON_SPELL_FINISHED, EventType.ON_SKILL_SEE, EventType.ON_FACTION_CALL, EventType.ON_AGGRO);
 		addEventIds(PIRATEZOMBIE, EventType.ON_ATTACK, EventType.ON_KILL, EventType.ON_SPAWN, EventType.ON_SPELL_FINISHED, EventType.ON_SKILL_SEE, EventType.ON_FACTION_CALL, EventType.ON_AGGRO);
-
+		
 	}
-
+	
 	public void spawnBoss(GrandBoss npc)
 	{
 		if (npc == null)
@@ -212,9 +212,9 @@ public class Zaken extends L2AttackableAIScript
 			return;
 		}
 		GrandBossManager.getInstance().addBoss(npc);
-
+		
 		npc.broadcastPacket(new PlaySound(1, "BS01_A", npc));
-
+		
 		hate = 0;
 		if (_zakenLair == null)
 		{
@@ -229,7 +229,7 @@ public class Zaken extends L2AttackableAIScript
 		_telecheck = 3;
 		startQuestTimer("timer", 1000, npc, null, false);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -238,7 +238,7 @@ public class Zaken extends L2AttackableAIScript
 		{
 			return super.onAdvEvent(event, npc, player);
 		}
-
+		
 		if (event.equalsIgnoreCase("timer"))
 		{
 			Creature _mostHated = null;
@@ -279,15 +279,15 @@ public class Zaken extends L2AttackableAIScript
 				}
 				hate = 0;
 			}
-
+			
 			if (!npc.isInsideRadius(54232, 220120, -3496, 800, true, false))
 			{
 				npc.doCast(SkillTable.getInstance().getInfo(SELF_TELEPORT, 1));
 			}
-
+			
 			startQuestTimer("timer", 30000, npc, null, true);
 		}
-
+		
 		if (event.equalsIgnoreCase("minion_cycle"))
 		{
 			if (_minionStatus == 1)
@@ -415,7 +415,7 @@ public class Zaken extends L2AttackableAIScript
 				cancelQuestTimer("minion_cycle", null, null);
 			}
 		}
-
+		
 		else if (event.equalsIgnoreCase("zaken_unlock"))
 		{
 			int i1 = Rnd.get(15);
@@ -429,17 +429,17 @@ public class Zaken extends L2AttackableAIScript
 		}
 		return super.onAdvEvent(event, npc, player);
 	}
-
+	
 	public String onFactionCall(Npc npc, Folk caller, Player attacker, boolean isPet)
 	{
 		if ((caller == null) || (npc == null))
 		{
 			return super.onFactionCall(npc, caller, attacker, isPet);
 		}
-
+		
 		return super.onFactionCall(npc, caller, attacker, isPet);
 	}
-
+	
 	@Override
 	public String onSpellFinished(Npc npc, Player player, L2Skill skill)
 	{
@@ -454,7 +454,7 @@ public class Zaken extends L2AttackableAIScript
 		}
 		return super.onSpellFinished(npc, player, skill);
 	}
-
+	
 	@Override
 	public String onSkillSee(Npc npc, Player caster, L2Skill skill, WorldObject[] targets, boolean isPet)
 	{
@@ -462,7 +462,7 @@ public class Zaken extends L2AttackableAIScript
 		{
 			((Attackable) npc).addDamageHate(caster, 0, ((skill.getAggroPoints() / npc.getMaxHp()) * 10 * 150));
 		}
-
+		
 		if (Rnd.get(12) < 1)
 		{
 			_target = caster;
@@ -470,13 +470,13 @@ public class Zaken extends L2AttackableAIScript
 		}
 		return super.onSkillSee(npc, caster, skill, targets, isPet);
 	}
-
+	
 	@Override
 	public String onAggro(Npc npc, Player player, boolean isPet)
 	{
 		if (npc == null)
 			return null;
-
+		
 		final boolean isMage;
 		final Playable character;
 		if (isPet)
@@ -489,10 +489,10 @@ public class Zaken extends L2AttackableAIScript
 			isMage = player.isMageClass();
 			character = player;
 		}
-
+		
 		if (character == null)
 			return null;
-
+		
 		if (!Config.RAID_DISABLE_CURSE && character.getLevel() - npc.getLevel() > 8)
 		{
 			L2Skill curse = null;
@@ -506,23 +506,23 @@ public class Zaken extends L2AttackableAIScript
 				if (!character.isParalyzed() && Rnd.get(4) == 0)
 					curse = FrequentSkill.RAID_CURSE2.getSkill();
 			}
-
+			
 			if (curse != null)
 			{
 				npc.broadcastPacket(new MagicSkillUse(npc, character, curse.getId(), curse.getLevel(), 300, 0));
 				curse.getEffects(npc, character);
 			}
-
+			
 			((Attackable) npc).stopHating(character); // for calling again
 			return null;
 		}
-
+		
 		if (_zakenLair.isInsideZone(npc))
 		{
 			Creature target = isPet ? player.getPet() : player;
 			((Attackable) npc).addDamageHate(target, 1, 200);
 		}
-
+		
 		int npcId = npc.getNpcId();
 		if (npcId == ZAKEN)
 		{
@@ -534,24 +534,24 @@ public class Zaken extends L2AttackableAIScript
 		}
 		return super.onAggro(npc, player, isPet);
 	}
-
+	
 	public void CallSkills(Npc npc)
 	{
 		if (npc.isCastingNow())
 			return;
-
+		
 		int chance = Rnd.get(225);
 		npc.setTarget(_target);
-
+		
 		if (chance < 4)
 			npc.doCast(SkillTable.getInstance().getInfo(HOLD, 1));
-
+		
 		else if (chance < 8)
 			npc.doCast(SkillTable.getInstance().getInfo(DRAIN, 1));
-
+		
 		else if (chance < 15)
 			npc.doCast(SkillTable.getInstance().getInfo(MASS_DUAL_ATTACK, 1));
-
+		
 		if (Rnd.get(2) < 1)
 		{
 			if (_target == ((Attackable) npc).getMostHated())
@@ -560,7 +560,7 @@ public class Zaken extends L2AttackableAIScript
 			}
 		}
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
@@ -579,17 +579,17 @@ public class Zaken extends L2AttackableAIScript
 			final Creature originalAttacker = isPet ? attacker.getPet() : attacker;
 			final int hating = (int) ((damage / npc.getMaxHp() / 0.05) * 20000);
 			((Attackable) npc).addDamageHate(originalAttacker, 0, hating);
-
+			
 			if (Rnd.get(10) < 1)
 			{
 				_target = attacker;
 				CallSkills(npc);
 			}
-
+			
 		}
 		return super.onAttack(npc, attacker, damage, isPet, skill);
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player killer, boolean isPet)
 	{
@@ -600,7 +600,7 @@ public class Zaken extends L2AttackableAIScript
 			cancelQuestTimer("minion_cycle", npc, null);
 			npc.broadcastPacket(new PlaySound(1, "BS02_D", npc));
 			GrandBossManager.getInstance().setBossStatus(ZAKEN, DEAD);
-
+			
 			long respawnTime;
 			if (Config.ZAKEN_CUSTOM_SPAWN_ENABLED && Config.FindNext(Config.ZAKEN_CUSTOM_SPAWN_TIMES) != null)
 			{
@@ -611,9 +611,9 @@ public class Zaken extends L2AttackableAIScript
 				respawnTime = (long) Config.SPAWN_INTERVAL_ZAKEN + Rnd.get(-Config.RANDOM_SPAWN_TIME_ZAKEN, Config.RANDOM_SPAWN_TIME_ZAKEN);
 				respawnTime *= 3600000;
 			}
-
+			
 			startQuestTimer("zaken_unlock", respawnTime, null, null, false);
-
+			
 			StatsSet info = GrandBossManager.getInstance().getStatsSet(ZAKEN);
 			info.set("respawn_time", System.currentTimeMillis() + respawnTime);
 			GrandBossManager.getInstance().setStatsSet(ZAKEN, info);
@@ -626,16 +626,16 @@ public class Zaken extends L2AttackableAIScript
 		}
 		return super.onKill(npc, killer, isPet);
 	}
-
+	
 	public static void waiter(long interval)
 	{
 		long startWaiterTime = System.currentTimeMillis();
 		int seconds = (int) (interval / 1000);
-
+		
 		while (startWaiterTime + interval > System.currentTimeMillis() && _open)
 		{
 			seconds--; // Here because we don't want to see two time announce at the same time
-
+			
 			switch (seconds)
 			{
 				case 599: // 10 minutes left
@@ -650,7 +650,7 @@ public class Zaken extends L2AttackableAIScript
 						AnnounceZaken(" will be closed in 5 minute(s) !");
 					}
 					break;
-
+				
 				case 900: // 15 minutes left
 				case 540: // 9 minutes left
 				case 480: // 8 minutes left
@@ -660,7 +660,7 @@ public class Zaken extends L2AttackableAIScript
 				case 180: // 3 minutes left
 				case 120: // 2 minutes left
 				case 60: // 1 minute left
-
+					
 					if (_open)
 					{
 						AnnounceZaken(" will be closed in " + seconds / 60 + " minute(s) !");
@@ -671,7 +671,7 @@ public class Zaken extends L2AttackableAIScript
 					if (_open)
 						AnnounceZaken(" will be closed in " + seconds + " second(s) !");
 					break;
-
+				
 				case 6: // 3 seconds left
 				case 5: // 3 seconds left
 				case 4: // 3 seconds left
@@ -680,16 +680,16 @@ public class Zaken extends L2AttackableAIScript
 					if (_open)
 						AnnounceZaken(" will be closed in " + (seconds - 1) + " second(s) !");
 					break;
-
+				
 				case 1: // 1 seconds left
 					if (_open)
 						AnnounceZaken(" closed !");
-
+					
 					break;
 			}
-
+			
 			long startOneSecondWaiterStartTime = System.currentTimeMillis();
-
+			
 			// Only the try catch with Thread.sleep(1000) give bad countdown on high wait times
 			while (startOneSecondWaiterStartTime + 1000 > System.currentTimeMillis())
 			{
@@ -703,12 +703,12 @@ public class Zaken extends L2AttackableAIScript
 			}
 		}
 	}
-
+	
 	public static void AnnounceZaken(String text)
 	{
 		// CreatureSay c1 = new CreatureSay(0, Config.ANNOUNCE_ID, "Zaken Door", "" + text);
 		CreatureSay c2 = new CreatureSay(0, Config.ANNOUNCE_ID, "Zaken Door", "" + text);
-
+		
 		for (Player player : World.getInstance().getPlayers())
 		{
 			if (player != null && player.isOnline())
@@ -716,7 +716,7 @@ public class Zaken extends L2AttackableAIScript
 				// player.sendPacket(c1);
 				// else
 				player.sendPacket(c2);
-
+			
 		}
 	}
 }

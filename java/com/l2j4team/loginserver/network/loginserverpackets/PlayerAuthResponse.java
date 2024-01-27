@@ -10,7 +10,7 @@ public class PlayerAuthResponse extends ServerBasePacket
 		writeS(account);
 		writeC(response ? 1 : 0);
 	}
-
+	
 	@Override
 	public byte[] getContent()
 	{

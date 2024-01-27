@@ -15,7 +15,7 @@ public class AuthRequest extends GameServerBasePacket
 		writeD(hexid.length);
 		writeB(hexid);
 	}
-
+	
 	@Override
 	public byte[] getContent()
 	{

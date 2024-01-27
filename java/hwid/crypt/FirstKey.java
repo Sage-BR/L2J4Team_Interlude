@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 public class FirstKey
 {
 	protected static Logger _log = Logger.getLogger(FirstKey.class.getName());
-
+	
 	private static final byte[] TKBOX =
 	{
 		-112,
@@ -543,22 +543,22 @@ public class FirstKey
 		-5,
 		12
 	};
-
+	
 	public static byte[] expandKey(byte[] key, int size)
 	{
 		byte[] P = new byte[64];
-
+		
 		for (int i = 0; i < 64; i++)
 			P[i] = key[(i % size)];
-
+		
 		for (int i = 0; i < 256; i++)
 		{
 			byte t = P[(i % 64)];
 			byte m = (byte) (MGBOX[(MGBOX[(t & 0xFF)] & 0xFF)] & 0xFF ^ TKBOX[(TKBOX[i] & 0xFF)] & 0xFF);
 			P[(i % 64)] = TKBOX[(m & 0xFF)];
 		}
-
+		
 		return P;
 	}
-
+	
 }

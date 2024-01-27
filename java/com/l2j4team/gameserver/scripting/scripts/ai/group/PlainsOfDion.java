@@ -21,7 +21,7 @@ public final class PlainsOfDion extends L2AttackableAIScript
 		21105, // Delu Lizardman Special Agent
 		21107, // Delu Lizardman Commander
 	};
-
+	
 	private static final String[] MONSTERS_MSG =
 	{
 		"$s1! How dare you interrupt our fight! Hey guys, help!",
@@ -30,32 +30,32 @@ public final class PlainsOfDion extends L2AttackableAIScript
 		"Foul! Kill the coward!",
 		"How dare you interrupt a sacred duel! You must be taught a lesson!"
 	};
-
+	
 	private static final String[] MONSTERS_ASSIST_MSG =
 	{
 		"Die, you coward!",
 		"Kill the coward!",
 		"What are you looking at?"
 	};
-
+	
 	public PlainsOfDion()
 	{
 		super("ai/group");
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addAttackId(MONSTERS);
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player player, int damage, boolean isPet, L2Skill skill)
 	{
 		if (npc.isScriptValue(0))
 		{
 			npc.broadcastNpcSay(MONSTERS_MSG[Rnd.get(5)].replace("$s1", player.getName()));
-
+			
 			for (Monster obj : npc.getKnownTypeInRadius(Monster.class, 300))
 			{
 				if (!obj.isAttackingNow() && !obj.isDead() && ArraysUtil.contains(MONSTERS, obj.getNpcId()) && GeoEngine.getInstance().canSeeTarget(npc, obj))

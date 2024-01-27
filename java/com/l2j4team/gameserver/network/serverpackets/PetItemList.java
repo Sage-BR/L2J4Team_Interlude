@@ -9,22 +9,22 @@ import java.util.Set;
 public class PetItemList extends L2GameServerPacket
 {
 	private final Set<ItemInstance> _items;
-
+	
 	public PetItemList(Pet character)
 	{
 		_items = character.getInventory().getItems();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0xB2);
 		writeH(_items.size());
-
+		
 		for (ItemInstance temp : _items)
 		{
 			Item item = temp.getItem();
-
+			
 			writeH(item.getType1());
 			writeD(temp.getObjectId());
 			writeD(temp.getItemId());

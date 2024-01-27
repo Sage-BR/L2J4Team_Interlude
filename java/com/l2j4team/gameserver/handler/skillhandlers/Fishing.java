@@ -29,15 +29,15 @@ public class Fishing implements ISkillHandler
 	{
 		L2SkillType.FISHING
 	};
-
+	
 	@Override
 	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
 	{
 		if (!(activeChar instanceof Player))
 			return;
-
+		
 		Player player = (Player) activeChar;
-
+		
 		if (player.isFishing())
 		{
 			if (player.getFishCombat() != null)
@@ -48,7 +48,7 @@ public class Fishing implements ISkillHandler
 			player.sendPacket(SystemMessageId.FISHING_ATTEMPT_CANCELLED);
 			return;
 		}
-
+		
 		// Fishing poles arent installed
 		Weapon weaponItem = player.getActiveWeaponItem();
 		if ((weaponItem == null || weaponItem.getItemType() != WeaponType.FISHINGROD))
@@ -56,7 +56,7 @@ public class Fishing implements ISkillHandler
 			player.sendPacket(SystemMessageId.FISHING_POLE_NOT_EQUIPPED);
 			return;
 		}
-
+		
 		// Baits arent equipped
 		ItemInstance lure = player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_LHAND);
 		if (lure == null)
@@ -64,37 +64,37 @@ public class Fishing implements ISkillHandler
 			player.sendPacket(SystemMessageId.BAIT_ON_HOOK_BEFORE_FISHING);
 			return;
 		}
-
+		
 		player.setLure(lure);
 		ItemInstance lure2 = player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_LHAND);
-
+		
 		// Not enough baits
 		if (lure2 == null || lure2.getCount() < 1)
 		{
 			player.sendPacket(SystemMessageId.NOT_ENOUGH_BAIT);
 			return;
 		}
-
+		
 		// You can't fish while you are on boat
 		if (player.isInBoat())
 		{
 			player.sendPacket(SystemMessageId.CANNOT_FISH_ON_BOAT);
 			return;
 		}
-
+		
 		if (player.isCrafting() || player.isInStoreMode())
 		{
 			player.sendPacket(SystemMessageId.CANNOT_FISH_WHILE_USING_RECIPE_BOOK);
 			return;
 		}
-
+		
 		// You can't fish in water
 		if (player.isInsideZone(ZoneId.WATER))
 		{
 			player.sendPacket(SystemMessageId.CANNOT_FISH_UNDER_WATER);
 			return;
 		}
-
+		
 		/*
 		 * If fishing is enabled, decide where will the hook be cast...
 		 */
@@ -119,11 +119,11 @@ public class Fishing implements ISkillHandler
 				aimingTo = (L2FishingZone) zone;
 				continue;
 			}
-
+			
 			if (zone instanceof L2WaterZone)
 				water = (L2WaterZone) zone;
 		}
-
+		
 		if (aimingTo != null)
 		{
 			// geodata enabled, checking if we can see end of the pole
@@ -152,24 +152,24 @@ public class Fishing implements ISkillHandler
 				}
 			}
 		}
-
+		
 		if (!canFish)
 		{
 			// You can't fish here
 			player.sendPacket(SystemMessageId.CANNOT_FISH_HERE);
 			return;
 		}
-
+		
 		// Has enough bait, consume 1 and update inventory. Start fishing follows.
 		lure2 = player.getInventory().destroyItem("Consume", player.getInventory().getPaperdollObjectId(Inventory.PAPERDOLL_LHAND), 1, player, null);
 		InventoryUpdate iu = new InventoryUpdate();
 		iu.addModifiedItem(lure2);
 		player.sendPacket(iu);
-
+		
 		// If everything else checks out, actually cast the hook and start fishing... :P
 		player.startFishing(new Location(x, y, z));
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

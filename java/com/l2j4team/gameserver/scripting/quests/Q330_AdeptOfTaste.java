@@ -13,7 +13,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q330_AdeptOfTaste extends Quest
 {
 	private static final String qn = "Q330_AdeptOfTaste";
-
+	
 	// NPCs
 	private static final int SONIA = 30062;
 	private static final int GLYVKA = 30067;
@@ -22,7 +22,7 @@ public class Q330_AdeptOfTaste extends Quest
 	private static final int PANO = 30078;
 	private static final int MIRIEN = 30461;
 	private static final int JONAS = 30469;
-
+	
 	// Items
 	private static final int INGREDIENT_LIST = 1420;
 	private static final int SONIA_BOTANY_BOOK = 1421;
@@ -56,12 +56,12 @@ public class Q330_AdeptOfTaste extends Quest
 	private static final int MIRIEN_REVIEW_3 = 1449;
 	private static final int MIRIEN_REVIEW_4 = 1450;
 	private static final int MIRIEN_REVIEW_5 = 1451;
-
+	
 	// Rewards
 	private static final int JONAS_SALAD_RECIPE = 1455;
 	private static final int JONAS_SAUCE_RECIPE = 1456;
 	private static final int JONAS_STEAK_RECIPE = 1457;
-
+	
 	// Drop chances
 	private static final Map<Integer, int[]> CHANCES = new HashMap<>();
 	{
@@ -96,19 +96,19 @@ public class Q330_AdeptOfTaste extends Quest
 			85
 		});
 	}
-
+	
 	public Q330_AdeptOfTaste()
 	{
 		super(330, "Adept of Taste");
-
+		
 		setItemsIds(INGREDIENT_LIST, RED_MANDRAGORA_SAP, WHITE_MANDRAGORA_SAP, HONEY, GOLDEN_HONEY, DIONIAN_POTATO, GREEN_MOSS_BUNDLE, BROWN_MOSS_BUNDLE, MONSTER_EYE_MEAT, MIRIEN_REVIEW_1, MIRIEN_REVIEW_2, MIRIEN_REVIEW_3, MIRIEN_REVIEW_4, MIRIEN_REVIEW_5, JONAS_STEAK_DISH_1, JONAS_STEAK_DISH_2, JONAS_STEAK_DISH_3, JONAS_STEAK_DISH_4, JONAS_STEAK_DISH_5, SONIA_BOTANY_BOOK, RED_MANDRAGORA_ROOT, WHITE_MANDRAGORA_ROOT, JACOB_INSECT_BOOK, NECTAR, ROYAL_JELLY, PANO_CONTRACT, HOBGOBLIN_AMULET, GLYVKA_BOTANY_BOOK, GREEN_MARSH_MOSS, BROWN_MARSH_MOSS, ROLANT_CREATURE_BOOK, MONSTER_EYE_BODY);
-
+		
 		addStartNpc(JONAS); // Jonas
 		addTalkId(JONAS, SONIA, GLYVKA, ROLLANT, JACOB, PANO, MIRIEN);
-
+		
 		addKillId(20147, 20154, 20155, 20156, 20204, 20223, 20226, 20228, 20229, 20265, 20266);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -116,7 +116,7 @@ public class Q330_AdeptOfTaste extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30469-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -131,7 +131,7 @@ public class Q330_AdeptOfTaste extends Quest
 			st.takeItems(RED_MANDRAGORA_ROOT, -1);
 			st.takeItems(WHITE_MANDRAGORA_ROOT, -1);
 			st.giveItems(RED_MANDRAGORA_SAP, 1);
-
+			
 		}
 		else if (event.equalsIgnoreCase("30073-05.htm"))
 		{
@@ -149,10 +149,10 @@ public class Q330_AdeptOfTaste extends Quest
 			st.takeItems(BROWN_MARSH_MOSS, -1);
 			st.giveItems(GREEN_MOSS_BUNDLE, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -160,13 +160,13 @@ public class Q330_AdeptOfTaste extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 24) ? "30469-01.htm" : "30469-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -178,9 +178,9 @@ public class Q330_AdeptOfTaste extends Quest
 							else
 							{
 								int dish;
-
+								
 								final int specialIngredientsNumber = st.getQuestItemsCount(WHITE_MANDRAGORA_SAP) + st.getQuestItemsCount(GOLDEN_HONEY) + st.getQuestItemsCount(BROWN_MOSS_BUNDLE);
-
+								
 								if (Rnd.nextBoolean())
 								{
 									htmltext = "30469-05t" + Integer.toString(specialIngredientsNumber + 2) + ".htm";
@@ -191,10 +191,10 @@ public class Q330_AdeptOfTaste extends Quest
 									htmltext = "30469-05t" + Integer.toString(specialIngredientsNumber + 1) + ".htm";
 									dish = 1442 + specialIngredientsNumber;
 								}
-
+								
 								// Sound according dish.
 								st.playSound((dish == JONAS_STEAK_DISH_5) ? QuestState.SOUND_JACKPOT : QuestState.SOUND_ITEMGET);
-
+								
 								st.takeItems(INGREDIENT_LIST, 1);
 								st.takeItems(RED_MANDRAGORA_SAP, 1);
 								st.takeItems(WHITE_MANDRAGORA_SAP, 1);
@@ -253,7 +253,7 @@ public class Q330_AdeptOfTaste extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case MIRIEN:
 						if (st.hasQuestItems(INGREDIENT_LIST))
 							htmltext = "30461-01.htm";
@@ -294,7 +294,7 @@ public class Q330_AdeptOfTaste extends Quest
 						else if (st.hasAtLeastOneQuestItem(MIRIEN_REVIEW_1, MIRIEN_REVIEW_2, MIRIEN_REVIEW_3, MIRIEN_REVIEW_4, MIRIEN_REVIEW_5))
 							htmltext = "30461-04.htm";
 						break;
-
+					
 					case SONIA:
 						if (!st.hasQuestItems(RED_MANDRAGORA_SAP) && !st.hasQuestItems(WHITE_MANDRAGORA_SAP))
 						{
@@ -324,7 +324,7 @@ public class Q330_AdeptOfTaste extends Quest
 						else
 							htmltext = "30062-07.htm";
 						break;
-
+					
 					case JACOB:
 						if (!st.hasQuestItems(HONEY) && !st.hasQuestItems(GOLDEN_HONEY))
 						{
@@ -357,7 +357,7 @@ public class Q330_AdeptOfTaste extends Quest
 						else
 							htmltext = "30073-07.htm";
 						break;
-
+					
 					case PANO:
 						if (!st.hasQuestItems(DIONIAN_POTATO))
 						{
@@ -384,7 +384,7 @@ public class Q330_AdeptOfTaste extends Quest
 						else
 							htmltext = "30078-04.htm";
 						break;
-
+					
 					case GLYVKA:
 						if (!st.hasQuestItems(GREEN_MOSS_BUNDLE) && !st.hasQuestItems(BROWN_MOSS_BUNDLE))
 						{
@@ -414,7 +414,7 @@ public class Q330_AdeptOfTaste extends Quest
 						else
 							htmltext = "30067-07.htm";
 						break;
-
+					
 					case ROLLANT:
 						if (!st.hasQuestItems(MONSTER_EYE_MEAT))
 						{
@@ -444,46 +444,46 @@ public class Q330_AdeptOfTaste extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int npcId = npc.getNpcId();
-
+		
 		switch (npcId)
 		{
 			case 20265:
 				if (st.hasQuestItems(ROLANT_CREATURE_BOOK))
 					st.dropItems(MONSTER_EYE_BODY, (Rnd.get(97) < 77) ? 2 : 3, 30, 970000);
 				break;
-
+			
 			case 20266:
 				if (st.hasQuestItems(ROLANT_CREATURE_BOOK))
 					st.dropItemsAlways(MONSTER_EYE_BODY, (Rnd.get(10) < 7) ? 1 : 2, 30);
 				break;
-
+			
 			case 20226:
 				if (st.hasQuestItems(GLYVKA_BOTANY_BOOK))
 					st.dropItems(((Rnd.get(96) < 87) ? GREEN_MARSH_MOSS : BROWN_MARSH_MOSS), 1, 20, 960000);
 				break;
-
+			
 			case 20228:
 				if (st.hasQuestItems(GLYVKA_BOTANY_BOOK))
 					st.dropItemsAlways(((Rnd.get(10) < 9) ? GREEN_MARSH_MOSS : BROWN_MARSH_MOSS), 1, 20);
 				break;
-
+			
 			case 20147:
 				if (st.hasQuestItems(PANO_CONTRACT))
 					st.dropItemsAlways(HOBGOBLIN_AMULET, 1, 30);
 				break;
-
+			
 			case 20204:
 			case 20229:
 				if (st.hasQuestItems(JACOB_INSECT_BOOK))
@@ -496,7 +496,7 @@ public class Q330_AdeptOfTaste extends Quest
 						st.dropItemsAlways(ROYAL_JELLY, 1, 10);
 				}
 				break;
-
+			
 			case 20223:
 			case 20154:
 			case 20155:
@@ -510,10 +510,10 @@ public class Q330_AdeptOfTaste extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
-
+	
 	private static boolean hasAllIngredients(QuestState st)
 	{
 		return st.hasQuestItems(DIONIAN_POTATO, MONSTER_EYE_MEAT) && st.hasAtLeastOneQuestItem(WHITE_MANDRAGORA_SAP, RED_MANDRAGORA_SAP) && st.hasAtLeastOneQuestItem(GOLDEN_HONEY, HONEY) && st.hasAtLeastOneQuestItem(BROWN_MOSS_BUNDLE, GREEN_MOSS_BUNDLE);

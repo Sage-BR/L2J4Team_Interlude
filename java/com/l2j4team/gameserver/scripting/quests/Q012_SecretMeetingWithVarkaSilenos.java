@@ -8,25 +8,25 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q012_SecretMeetingWithVarkaSilenos extends Quest
 {
 	private static final String qn = "Q012_SecretMeetingWithVarkaSilenos";
-
+	
 	// NPCs
 	private static final int CADMON = 31296;
 	private static final int HELMUT = 31258;
 	private static final int NARAN_ASHANUK = 31378;
-
+	
 	// Items
 	private static final int MUNITIONS_BOX = 7232;
-
+	
 	public Q012_SecretMeetingWithVarkaSilenos()
 	{
 		super(12, "Secret Meeting With Varka Silenos");
-
+		
 		setItemsIds(MUNITIONS_BOX);
-
+		
 		addStartNpc(CADMON);
 		addTalkId(CADMON, HELMUT, NARAN_ASHANUK);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -34,7 +34,7 @@ public class Q012_SecretMeetingWithVarkaSilenos extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31296-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -54,10 +54,10 @@ public class Q012_SecretMeetingWithVarkaSilenos extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -65,13 +65,13 @@ public class Q012_SecretMeetingWithVarkaSilenos extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 74) ? "31296-02.htm" : "31296-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -80,26 +80,26 @@ public class Q012_SecretMeetingWithVarkaSilenos extends Quest
 						if (cond == 1)
 							htmltext = "31296-04.htm";
 						break;
-
+					
 					case HELMUT:
 						if (cond == 1)
 							htmltext = "31258-01.htm";
 						else if (cond == 2)
 							htmltext = "31258-03.htm";
 						break;
-
+					
 					case NARAN_ASHANUK:
 						if (cond == 2)
 							htmltext = "31378-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

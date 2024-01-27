@@ -4,13 +4,13 @@ public abstract class LoginServerBasePacket
 {
 	private final byte[] _decrypt;
 	private int _off;
-
+	
 	public LoginServerBasePacket(byte[] decrypt)
 	{
 		_decrypt = decrypt;
 		_off = 1; // skip packet type id
 	}
-
+	
 	public int readD()
 	{
 		int result = _decrypt[_off++] & 0xff;
@@ -19,20 +19,20 @@ public abstract class LoginServerBasePacket
 		result |= _decrypt[_off++] << 0x18 & 0xff000000;
 		return result;
 	}
-
+	
 	public int readC()
 	{
 		int result = _decrypt[_off++] & 0xff;
 		return result;
 	}
-
+	
 	public int readH()
 	{
 		int result = _decrypt[_off++] & 0xff;
 		result |= _decrypt[_off++] << 8 & 0xff00;
 		return result;
 	}
-
+	
 	public double readF()
 	{
 		long result = _decrypt[_off++] & 0xff;
@@ -45,7 +45,7 @@ public abstract class LoginServerBasePacket
 		result |= _decrypt[_off++] << 0x38 & 0xff00000000000000l;
 		return Double.longBitsToDouble(result);
 	}
-
+	
 	public String readS()
 	{
 		String result = null;
@@ -61,7 +61,7 @@ public abstract class LoginServerBasePacket
 		}
 		return result;
 	}
-
+	
 	public final byte[] readB(int length)
 	{
 		byte[] result = new byte[length];

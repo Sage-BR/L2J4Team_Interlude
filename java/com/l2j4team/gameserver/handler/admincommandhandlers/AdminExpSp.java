@@ -22,7 +22,7 @@ public class AdminExpSp implements IAdminCommandHandler
 		"admin_add_exp_sp",
 		"admin_remove_exp_sp"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -55,13 +55,13 @@ public class AdminExpSp implements IAdminCommandHandler
 		addExpSp(activeChar);
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 	private static void addExpSp(Player activeChar)
 	{
 		WorldObject target = activeChar.getTarget();
@@ -82,7 +82,7 @@ public class AdminExpSp implements IAdminCommandHandler
 		html.replace("%class%", player.getTemplate().getClassName());
 		activeChar.sendPacket(html);
 	}
-
+	
 	private static boolean adminAddExpSp(Player activeChar, String ExpSp)
 	{
 		WorldObject target = activeChar.getTarget();
@@ -99,7 +99,7 @@ public class AdminExpSp implements IAdminCommandHandler
 		StringTokenizer st = new StringTokenizer(ExpSp);
 		if (st.countTokens() != 2)
 			return false;
-
+		
 		String exp = st.nextToken();
 		String sp = st.nextToken();
 		long expval = 0;
@@ -113,17 +113,17 @@ public class AdminExpSp implements IAdminCommandHandler
 		{
 			return false;
 		}
-
+		
 		if (expval != 0 || spval != 0)
 		{
 			player.sendMessage("Admin is adding you " + expval + " xp and " + spval + " sp.");
 			player.addExpAndSp(expval, spval);
-
+			
 			activeChar.sendMessage("Added " + expval + " xp and " + spval + " sp to " + player.getName() + ".");
 		}
 		return true;
 	}
-
+	
 	private static boolean adminRemoveExpSP(Player activeChar, String ExpSp)
 	{
 		WorldObject target = activeChar.getTarget();
@@ -140,7 +140,7 @@ public class AdminExpSp implements IAdminCommandHandler
 		StringTokenizer st = new StringTokenizer(ExpSp);
 		if (st.countTokens() != 2)
 			return false;
-
+		
 		String exp = st.nextToken();
 		String sp = st.nextToken();
 		long expval = 0;
@@ -154,12 +154,12 @@ public class AdminExpSp implements IAdminCommandHandler
 		{
 			return false;
 		}
-
+		
 		if (expval != 0 || spval != 0)
 		{
 			player.sendMessage("Admin is removing you " + expval + " xp and " + spval + " sp.");
 			player.removeExpAndSp(expval, spval);
-
+			
 			activeChar.sendMessage("Removed " + expval + " xp and " + spval + " sp from " + player.getName() + ".");
 		}
 		return true;

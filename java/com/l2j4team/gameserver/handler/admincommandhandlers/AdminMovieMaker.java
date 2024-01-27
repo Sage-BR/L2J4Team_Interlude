@@ -23,7 +23,7 @@ public class AdminMovieMaker implements IAdminCommandHandler
 		"admin_playmovie",
 		"admin_broadmovie"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -103,9 +103,9 @@ public class AdminMovieMaker implements IAdminCommandHandler
 				activeChar.sendMessage("Some arguments are missing.");
 				return false;
 			}
-
+			
 			final int targ = (activeChar.getTarget() != null) ? activeChar.getTarget().getObjectId() : activeChar.getObjectId();
-
+			
 			if (command.startsWith("admin_addsequence"))
 			{
 				MovieMakerManager.getInstance().addSequence(activeChar, Integer.parseInt(args[1]), targ, Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]), Integer.parseInt(args[8]), Integer.parseInt(args[9]));
@@ -121,7 +121,7 @@ public class AdminMovieMaker implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

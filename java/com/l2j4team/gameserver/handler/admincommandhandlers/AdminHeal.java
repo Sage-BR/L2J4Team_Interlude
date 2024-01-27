@@ -20,13 +20,13 @@ public class AdminHeal implements IAdminCommandHandler
 	{
 		"admin_heal"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (activeChar.getAccessLevel().getLevel() < 7)
 			return false;
-
+		
 		if (command.equals("admin_heal"))
 			handleRes(activeChar);
 		else if (command.startsWith("admin_heal"))
@@ -45,25 +45,25 @@ public class AdminHeal implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 	private static void handleRes(Player activeChar)
 	{
 		handleRes(activeChar, null);
 	}
-
+	
 	private static void handleRes(Player activeChar, String player)
 	{
 		WorldObject obj = activeChar.getTarget();
 		if (player != null)
 		{
 			Player plyr = World.getInstance().getPlayer(player);
-
+			
 			if (plyr != null)
 				obj = plyr;
 			else
@@ -85,18 +85,18 @@ public class AdminHeal implements IAdminCommandHandler
 				}
 			}
 		}
-
+		
 		if (obj == null)
 			obj = activeChar;
-
+		
 		if (obj instanceof Creature)
 		{
 			Creature target = (Creature) obj;
 			target.setCurrentHpMp(target.getMaxHp(), target.getMaxMp());
-
+			
 			if (target instanceof Player)
 				target.setCurrentCp(target.getMaxCp());
-
+			
 			if (Config.DEBUG)
 				_log.fine("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") healed character " + target.getName());
 		}

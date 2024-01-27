@@ -13,7 +13,7 @@ public final class RaidPointsReset extends ScheduledQuest
 	{
 		super(-1, "tasks");
 	}
-
+	
 	@Override
 	public final void onStart()
 	{
@@ -69,11 +69,11 @@ public final class RaidPointsReset extends ScheduledQuest
 				}
 			}
 		}
-
+		
 		RaidBossPointsManager.getInstance().cleanUp();
 		_log.info("RaidPointsReset: Raid boss points were added to clan reputation score.");
 	}
-
+	
 	@Override
 	public final void onEnd()
 	{

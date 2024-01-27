@@ -14,38 +14,38 @@ final class EffectSleep extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.SLEEP;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		getEffected().startSleeping();
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		getEffected().stopSleeping(false);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public boolean onSameEffect(L2Effect effect)
 	{
 		return false;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

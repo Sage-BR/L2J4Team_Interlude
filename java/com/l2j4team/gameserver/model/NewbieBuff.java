@@ -14,7 +14,7 @@ public class NewbieBuff
 	private final int _skillId;
 	private final int _skillLevel;
 	private final boolean _isMagicClass;
-
+	
 	public NewbieBuff(StatsSet set)
 	{
 		_lowerLevel = set.getInteger("lowerLevel");
@@ -23,7 +23,7 @@ public class NewbieBuff
 		_skillLevel = set.getInteger("skillLevel");
 		_isMagicClass = set.getBool("isMagicClass");
 	}
-
+	
 	/**
 	 * @return the lower level that the player must achieve in order to obtain this buff.
 	 */
@@ -31,7 +31,7 @@ public class NewbieBuff
 	{
 		return _lowerLevel;
 	}
-
+	
 	/**
 	 * @return the upper level that the player mustn't exceed in order to obtain this buff.
 	 */
@@ -39,7 +39,7 @@ public class NewbieBuff
 	{
 		return _upperLevel;
 	}
-
+	
 	/**
 	 * @return the skill id of the buff that the player will receive.
 	 */
@@ -47,7 +47,7 @@ public class NewbieBuff
 	{
 		return _skillId;
 	}
-
+	
 	/**
 	 * @return the level of the buff that the player will receive.
 	 */
@@ -55,7 +55,7 @@ public class NewbieBuff
 	{
 		return _skillLevel;
 	}
-
+	
 	/**
 	 * @return false if it's a fighter buff, true if it's a magic buff.
 	 */

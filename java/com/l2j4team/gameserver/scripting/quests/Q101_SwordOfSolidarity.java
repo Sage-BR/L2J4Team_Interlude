@@ -10,11 +10,11 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q101_SwordOfSolidarity extends Quest
 {
 	private static final String qn = "Q101_SwordOfSolidarity";
-
+	
 	// NPCs
 	private static final int ROIEN = 30008;
 	private static final int ALTRAN = 30283;
-
+	
 	// Items
 	private static final int BROKEN_SWORD_HANDLE = 739;
 	private static final int BROKEN_BLADE_BOTTOM = 740;
@@ -22,7 +22,7 @@ public class Q101_SwordOfSolidarity extends Quest
 	private static final int ROIENS_LETTER = 796;
 	private static final int DIR_TO_RUINS = 937;
 	private static final int ALTRANS_NOTE = 742;
-
+	
 	private static final int SWORD_OF_SOLIDARITY = 738;
 	private static final int SPIRITSHOT_FOR_BEGINNERS = 5790;
 	private static final int SOULSHOT_FOR_BEGINNERS = 5789;
@@ -32,19 +32,19 @@ public class Q101_SwordOfSolidarity extends Quest
 	private static final int ECHO_SOLITUDE = 4414;
 	private static final int ECHO_FEAST = 4415;
 	private static final int ECHO_CELEBRATION = 4416;
-
+	
 	public Q101_SwordOfSolidarity()
 	{
 		super(101, "Sword of Solidarity");
-
+		
 		setItemsIds(BROKEN_SWORD_HANDLE, BROKEN_BLADE_BOTTOM, BROKEN_BLADE_TOP);
-
+		
 		addStartNpc(ROIEN);
 		addTalkId(ROIEN, ALTRAN);
-
+		
 		addKillId(20361, 20362);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -52,7 +52,7 @@ public class Q101_SwordOfSolidarity extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30008-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -72,7 +72,7 @@ public class Q101_SwordOfSolidarity extends Quest
 			st.takeItems(BROKEN_SWORD_HANDLE, 1);
 			st.giveItems(SWORD_OF_SOLIDARITY, 1);
 			st.giveItems(LESSER_HEALING_POT, 100);
-
+			
 			if (player.isNewbie())
 			{
 				st.showQuestionMark(26);
@@ -87,7 +87,7 @@ public class Q101_SwordOfSolidarity extends Quest
 					st.giveItems(SOULSHOT_FOR_BEGINNERS, 7000);
 				}
 			}
-
+			
 			st.giveItems(ECHO_BATTLE, 10);
 			st.giveItems(ECHO_LOVE, 10);
 			st.giveItems(ECHO_SOLITUDE, 10);
@@ -97,10 +97,10 @@ public class Q101_SwordOfSolidarity extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -108,7 +108,7 @@ public class Q101_SwordOfSolidarity extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -119,7 +119,7 @@ public class Q101_SwordOfSolidarity extends Quest
 				else
 					htmltext = "30008-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = (st.getInt("cond"));
 				switch (npc.getNpcId())
@@ -142,7 +142,7 @@ public class Q101_SwordOfSolidarity extends Quest
 						else if (cond == 5)
 							htmltext = "30008-05a.htm";
 						break;
-
+					
 					case ALTRAN:
 						if (cond == 1)
 							htmltext = "30283-01.htm";
@@ -165,27 +165,27 @@ public class Q101_SwordOfSolidarity extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "2");
 		if (st == null)
 			return null;
-
+		
 		if (!st.hasQuestItems(BROKEN_BLADE_TOP))
 			st.dropItems(BROKEN_BLADE_TOP, 1, 1, 200000);
 		else if (st.dropItems(BROKEN_BLADE_BOTTOM, 1, 1, 200000))
 			st.set("cond", "3");
-
+		
 		return null;
 	}
 }

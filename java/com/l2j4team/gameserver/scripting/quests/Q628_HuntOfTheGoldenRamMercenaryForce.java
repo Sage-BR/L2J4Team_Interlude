@@ -11,16 +11,16 @@ import java.util.Map;
 public class Q628_HuntOfTheGoldenRamMercenaryForce extends Quest
 {
 	private static final String qn = "Q628_HuntOfTheGoldenRamMercenaryForce";
-
+	
 	// NPCs
 	private static final int KAHMAN = 31554;
-
+	
 	// Items
 	private static final int SPLINTER_STAKATO_CHITIN = 7248;
 	private static final int NEEDLE_STAKATO_CHITIN = 7249;
 	private static final int GOLDEN_RAM_BADGE_RECRUIT = 7246;
 	private static final int GOLDEN_RAM_BADGE_SOLDIER = 7247;
-
+	
 	// Drop chances
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
@@ -35,20 +35,20 @@ public class Q628_HuntOfTheGoldenRamMercenaryForce extends Quest
 		CHANCES.put(21516, 531000);
 		CHANCES.put(21517, 744000);
 	}
-
+	
 	public Q628_HuntOfTheGoldenRamMercenaryForce()
 	{
 		super(628, "Hunt of the Golden Ram Mercenary Force");
-
+		
 		setItemsIds(SPLINTER_STAKATO_CHITIN, NEEDLE_STAKATO_CHITIN, GOLDEN_RAM_BADGE_RECRUIT, GOLDEN_RAM_BADGE_SOLDIER);
-
+		
 		addStartNpc(KAHMAN);
 		addTalkId(KAHMAN);
-
+		
 		for (int npcId : CHANCES.keySet())
 			addKillId(npcId);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -56,7 +56,7 @@ public class Q628_HuntOfTheGoldenRamMercenaryForce extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31554-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -79,10 +79,10 @@ public class Q628_HuntOfTheGoldenRamMercenaryForce extends Quest
 			st.playSound(QuestState.SOUND_GIVEUP);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -90,13 +90,13 @@ public class Q628_HuntOfTheGoldenRamMercenaryForce extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 66) ? "31554-01a.htm" : "31554-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				if (cond == 1)
@@ -127,22 +127,22 @@ public class Q628_HuntOfTheGoldenRamMercenaryForce extends Quest
 					htmltext = "31554-05a.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		final int cond = st.getInt("cond");
 		final int npcId = npc.getNpcId();
-
+		
 		switch (npcId)
 		{
 			case 21508:
@@ -153,7 +153,7 @@ public class Q628_HuntOfTheGoldenRamMercenaryForce extends Quest
 				if (cond == 1 || cond == 2)
 					st.dropItems(SPLINTER_STAKATO_CHITIN, 1, 100, CHANCES.get(npcId));
 				break;
-
+			
 			case 21513:
 			case 21514:
 			case 21515:
@@ -163,7 +163,7 @@ public class Q628_HuntOfTheGoldenRamMercenaryForce extends Quest
 					st.dropItems(NEEDLE_STAKATO_CHITIN, 1, 100, CHANCES.get(npcId));
 				break;
 		}
-
+		
 		return null;
 	}
 }

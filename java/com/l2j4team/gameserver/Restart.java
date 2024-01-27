@@ -33,9 +33,9 @@ public class Restart
 	protected static final Logger _log = Logger.getLogger(Restart.class.getName());
 	private Calendar NextRestart;
 	private final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-
+	
 	protected static boolean _started = false;
-
+	
 	// Singleton
 	public static Restart getInstance()
 	{
@@ -43,20 +43,20 @@ public class Restart
 			_instance = new Restart();
 		return _instance;
 	}
-
+	
 	public String getRestartNextTime()
 	{
 		if (NextRestart != null)
 			return format.format(NextRestart.getTime());
 		return "--";
 	}
-
+	
 	// Connstrutor
 	private Restart()
 	{
 		// :D
 	}
-
+	
 	public void StartCalculationOfNextRestartTime()
 	{
 		try
@@ -65,7 +65,7 @@ public class Restart
 			Calendar testStartTime = null;
 			long flush2 = 0, timeL = 0;
 			int count = 0;
-
+			
 			for (String timeOfDay : Config.RESTART_INTERVAL_BY_TIME_OF_DAY)
 			{
 				testStartTime = Calendar.getInstance();
@@ -79,23 +79,23 @@ public class Restart
 				{
 					testStartTime.add(Calendar.DAY_OF_MONTH, 1);
 				}
-
+				
 				// TimeL Recebe o quanto falta de milisegundos para o restart
 				timeL = testStartTime.getTimeInMillis() - currentTime.getTimeInMillis();
-
+				
 				// Verifica qual horario sera o proximo restart
 				if (count == 0)
 				{
 					flush2 = timeL;
 					NextRestart = testStartTime;
 				}
-
+				
 				if (timeL < flush2)
 				{
 					flush2 = timeL;
 					NextRestart = testStartTime;
 				}
-
+				
 				count++;
 			}
 			_log.info("AutoRestart: Next Restart Time: " + NextRestart.getTime().toString());
@@ -106,7 +106,7 @@ public class Restart
 			System.out.println("[AutoRestart]: The restart automated server presented error in load restarts period config !");
 		}
 	}
-
+	
 	/**
 	 * Checks if is _started.
 	 * @return the _started
@@ -115,7 +115,7 @@ public class Restart
 	{
 		return _started;
 	}
-
+	
 	class StartRestartTask implements Runnable
 	{
 		@Override

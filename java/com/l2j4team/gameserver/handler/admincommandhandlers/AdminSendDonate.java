@@ -37,19 +37,19 @@ import java.util.logging.Logger;
 public class AdminSendDonate implements IAdminCommandHandler
 {
 	protected static final Logger _log = Logger.getLogger(AdminSendDonate.class.getName());
-
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_donate",
 		"admin_givedonate"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (activeChar.getAccessLevel().getLevel() < 7)
 			return false;
-
+		
 		if (command.equals("admin_donate"))
 		{
 			AdminHelpPage.showHelpPage(activeChar, "senddonate.htm");
@@ -58,13 +58,13 @@ public class AdminSendDonate implements IAdminCommandHandler
 		{
 			try
 			{
-
+				
 				StringTokenizer st = new StringTokenizer(command, " ");
 				st.nextToken();
-
+				
 				String playername = "";
 				Player player = null;
-
+				
 				if (st.countTokens() == 4)
 				{
 					playername = st.nextToken();
@@ -74,19 +74,19 @@ public class AdminSendDonate implements IAdminCommandHandler
 					String num = st.nextToken();
 					int numval = Integer.parseInt(num);
 					String location = st.nextToken();
-
+					
 					// Can't use on yourself
 					if (player != null && player.equals(activeChar))
 					{
 						activeChar.sendPacket(SystemMessageId.CANNOT_USE_ON_YOURSELF);
 						return false;
 					}
-
+					
 					if (player != null)
 						createItem(activeChar, player, idval, numval, getItemLocation(location));
 					else
 						giveItemToOfflinePlayer(activeChar, playername, idval, numval, getItemLocation(location));
-
+					
 				}
 				else
 				{
@@ -97,13 +97,13 @@ public class AdminSendDonate implements IAdminCommandHandler
 			{
 				activeChar.sendMessage("Usage: //donate [player] <itemId> [amount] [location]");
 			}
-
+			
 			AdminHelpPage.showHelpPage(activeChar, "senddonate.htm");
 		}
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Create item on player inventory. If player is offline, store item on database by giveItemToOfflinePlayer method.
 	 * @param activeChar
@@ -120,18 +120,18 @@ public class AdminSendDonate implements IAdminCommandHandler
 			activeChar.sendChatMessage(0, Say2.ALL, "SYS", "Unknown Item ID.");
 			return;
 		}
-
+		
 		if (count > 10 && !item.isStackable())
 		{
 			activeChar.sendChatMessage(0, Say2.ALL, "SYS", "You can't to create more than 10 non stackable items!");
 			return;
 		}
-
+		
 		if (location == ItemLocation.INVENTORY)
 			player.getInventory().addItem("Admin", id, count, player, activeChar);
 		else if (location == ItemLocation.WAREHOUSE)
 			player.getWarehouse().addItem("Admin", id, count, player, activeChar);
-
+		
 		if (activeChar != player)
 		{
 			if (count > 1)
@@ -139,10 +139,10 @@ public class AdminSendDonate implements IAdminCommandHandler
 			else
 				player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOU_PICKED_UP_S1).addItemName(id));
 		}
-
+		
 		activeChar.sendChatMessage(0, Say2.ALL, "SYS", "Spawned " + count + " " + item.getName() + " in " + player.getName() + " " + (location == ItemLocation.INVENTORY ? "inventory" : "warehouse") + ".");
 	}
-
+	
 	/**
 	 * If player is offline, store item by SQL Query
 	 * @param activeChar
@@ -155,41 +155,41 @@ public class AdminSendDonate implements IAdminCommandHandler
 	{
 		Item item = ItemTable.getInstance().getTemplate(id);
 		int objectId = IdFactory.getInstance().getNextId();
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("SELECT obj_Id FROM characters WHERE char_name=?");
 			statement.setString(1, playername);
 			ResultSet result = statement.executeQuery();
 			int objId = 0;
-
+			
 			if (result.next())
 			{
 				objId = result.getInt(1);
 			}
-
+			
 			result.close();
 			statement.close();
-
+			
 			if (objId == 0)
 			{
 				activeChar.sendChatMessage(0, Say2.ALL, "SYS", "Char \"" + playername + "\" does not exists!");
 				con.close();
 				return;
 			}
-
+			
 			if (item == null)
 			{
 				activeChar.sendChatMessage(0, Say2.ALL, "SYS", "Unknown Item ID.");
 				return;
 			}
-
+			
 			if (count > 1 && !item.isStackable())
 			{
 				activeChar.sendChatMessage(0, Say2.ALL, "SYS", "You can't to create more than 1 non stackable items!");
 				return;
 			}
-
+			
 			statement = con.prepareStatement("INSERT INTO items (owner_id,item_id,count,loc,loc_data,enchant_level,object_id,custom_type1,custom_type2,mana_left,time) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 			statement.setInt(1, objId);
 			statement.setInt(2, item.getItemId());
@@ -202,10 +202,10 @@ public class AdminSendDonate implements IAdminCommandHandler
 			statement.setInt(9, 0);
 			statement.setInt(10, -1);
 			statement.setLong(11, 0);
-
+			
 			statement.executeUpdate();
 			statement.close();
-
+			
 			activeChar.sendChatMessage(0, Say2.ALL, "SYS", "Created " + count + " " + item.getName() + " in " + playername + " " + (location == ItemLocation.INVENTORY ? "inventory" : "warehouse") + ".");
 			_log.info("Insert item: (" + objId + ", " + item.getName() + ", " + count + ", " + objectId + ")");
 		}
@@ -214,7 +214,7 @@ public class AdminSendDonate implements IAdminCommandHandler
 			_log.log(Level.SEVERE, "Could not insert item " + item.getName() + " into DB: Reason: " + e.getMessage(), e);
 		}
 	}
-
+	
 	private static ItemLocation getItemLocation(String name)
 	{
 		ItemLocation location = null;
@@ -224,7 +224,7 @@ public class AdminSendDonate implements IAdminCommandHandler
 			location = ItemLocation.WAREHOUSE;
 		return location;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

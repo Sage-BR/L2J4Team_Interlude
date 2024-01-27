@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<list>
+		<npc id="12000" idTemplate="29047" name="Scarlet van Halisha" title="L2J 4Team">
+		<set name="usingServerSideName" val="true"/>
+		<set name="usingServerSideTitle" val="true"/>	
+		<set name="level" val="85"/>
+		<set name="radius" val="45"/>
+		<set name="height" val="90.7"/>
+		<set name="rHand" val="8204"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="GrandBoss"/>
+		<set name="exp" val="0"/>
+		<set name="sp" val="2"/>
+		<set name="hp" val="504518.0975573"/>
+		<set name="mp" val="11026.9882971101"/>
+		<set name="hpRegen" val="155.43"/>
+		<set name="mpRegen" val="109"/>
+		<set name="pAtk" val="3135.90530099925"/>
+		<set name="pDef" val="1342.97453242915"/>
+		<set name="mAtk" val="1442.51644402476"/>
+		<set name="mDef" val="2089.07149518896"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="60"/>
+		<set name="int" val="76"/>
+		<set name="dex" val="73"/>
+		<set name="wit" val="43"/>
+		<set name="con" val="57"/>
+		<set name="men" val="80"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="240"/>
+		<set name="runSpd" val="111"/>
+		<set name="dropHerbGroup" val="0"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="frintessa_clan" clanRange="2000" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4416" level="9"/>
+		</skills>
+	</npc>
+
+</list>

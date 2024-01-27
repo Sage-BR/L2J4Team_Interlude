@@ -31,18 +31,18 @@ public class ResetDaily
 	private static ResetDaily _instance = null;
 	protected static final Logger _log = Logger.getLogger(ResetDaily.class.getName());
 	private Calendar NEXT;
-
+	
 	public static ResetDaily getInstance()
 	{
 		if (_instance == null)
 			_instance = new ResetDaily();
 		return _instance;
 	}
-
+	
 	private ResetDaily()
 	{
 	}
-
+	
 	public void StartReset()
 	{
 		try
@@ -51,7 +51,7 @@ public class ResetDaily
 			Calendar testStartTime = null;
 			long flush2 = 0, timeL = 0;
 			int count = 0;
-
+			
 			for (String timeOfDay : Config.RESET_DAILY_TIME)
 			{
 				testStartTime = Calendar.getInstance();
@@ -64,21 +64,21 @@ public class ResetDaily
 				{
 					testStartTime.add(Calendar.DAY_OF_MONTH, 1);
 				}
-
+				
 				timeL = testStartTime.getTimeInMillis() - currentTime.getTimeInMillis();
-
+				
 				if (count == 0)
 				{
 					flush2 = timeL;
 					NEXT = testStartTime;
 				}
-
+				
 				if (timeL < flush2)
 				{
 					flush2 = timeL;
 					NEXT = testStartTime;
 				}
-
+				
 				count++;
 			}
 			_log.info("Reset_Daily: Proximo Reset: " + NEXT.getTime().toString());
@@ -89,7 +89,7 @@ public class ResetDaily
 			System.out.println("Reset_Daily: " + e);
 		}
 	}
-
+	
 	class StartEventTask implements Runnable
 	{
 		@Override
@@ -98,7 +98,7 @@ public class ResetDaily
 			Clear();
 		}
 	}
-
+	
 	static void Clear()
 	{
 		ThreadPool.schedule(new Runnable()
@@ -124,19 +124,19 @@ public class ResetDaily
 				{
 					CloseUtil.close(con);
 				}
-
+				
 				_log.info("----------------------------------------------------------------------------");
 				_log.info("Reset_Daily: Tabela second_log Resetada.");
 				_log.info("----------------------------------------------------------------------------");
-
+				
 			}
-
+			
 		}, 1);
-
+		
 		NextReset();
-
+		
 	}
-
+	
 	public static void NextReset()
 	{
 		ThreadPool.schedule(new Runnable()
@@ -146,7 +146,7 @@ public class ResetDaily
 			{
 				ResetDaily.getInstance().StartReset();
 			}
-
+			
 		}, 1 * 1000);
 	}
 }

@@ -65,10 +65,10 @@ public class VoteCMD implements IVoicedCommandHandler
 {
 	// local variables
 	private String _IPAddress;
-	
+
 	// 12 hour reuse
 	private final Duration VOTE_REUSE = Duration.ofHours(12);
-	
+
 	// vote site list
 	public static enum VoteSite
 	{
@@ -84,10 +84,10 @@ public class VoteCMD implements IVoicedCommandHandler
 		L2RANKZONE,
 		TOP4TEAMBR,
 	}
-	
+
 	// flood protector list
 	private static final List<FloodProtectorHolder> FLOOD_PROTECTOR = Collections.synchronizedList(new ArrayList<>());
-	
+
 	// returns protector holder
 	public FloodProtectorHolder getFloodProtector(final Player player, final VoteSite site)
 	{
@@ -97,47 +97,47 @@ public class VoteCMD implements IVoicedCommandHandler
 			return holder;
 		});
 	}
-	
+
 	/**
 	 * Protector holder class
 	 */
 	private static class FloodProtectorHolder
 	{
 		public static final Duration EXTENSION = Duration.ofSeconds(60);
-		
+
 		private final VoteSite _site;
-		
+
 		private final String _IP;
-		
+
 		private long _lastAction;
-		
+
 		public FloodProtectorHolder(final VoteSite site, final Player player)
 		{
 			_site = site;
 			_IP = player.getClient().getConnection().getInetAddress().getHostName();
 		}
-		
+
 		public VoteSite getSite()
 		{
 			return _site;
 		}
-		
+
 		public String getIP()
 		{
 			return _IP;
 		}
-		
+
 		public long getLastAction()
 		{
 			return _lastAction;
 		}
-		
+
 		public void updateLastAction()
 		{
 			_lastAction = System.currentTimeMillis() + EXTENSION.toMillis();
 		}
 	}
-	
+
 	// commands
 	public final static String[] COMMANDS =
 	{
@@ -153,17 +153,15 @@ public class VoteCMD implements IVoicedCommandHandler
 		"l2rankzone",
 		"top4teambr"
 	};
-	
+
 	@Override
 	public boolean useVoicedCommand(final String command, final Player player, String params)
 	{
 		int vote_id = 0;
 		final String TOPSITE = command.replace(".", "").toUpperCase();
-		
+
 		// check if allowed the individual command to run
-		if (TOPSITE.equals("HOPZONE") && !Configurations.HOPZONE_EU_INDIVIDUAL_REWARD)
-			return false;
-		if (TOPSITE.equals("ITOPZ") && !Configurations.ITOPZ_INDIVIDUAL_REWARD)
+		if ((TOPSITE.equals("HOPZONE") && !Configurations.HOPZONE_EU_INDIVIDUAL_REWARD) || (TOPSITE.equals("ITOPZ") && !Configurations.ITOPZ_INDIVIDUAL_REWARD))
 			return false;
 		if (TOPSITE.equals("HOPZONENET") && !Configurations.HOPZONE_NET_INDIVIDUAL_REWARD)
 			return false;
@@ -181,7 +179,7 @@ public class VoteCMD implements IVoicedCommandHandler
 			return false;
 		if (TOPSITE.equals("TOP4TEAMBR") && !Configurations.TOP4TEAMBR_INDIVIDUAL_REWARD)
 			return false;
-		
+
 		// vote info
 		if (command.equalsIgnoreCase(".VOTE"))
 		{
@@ -189,7 +187,7 @@ public class VoteCMD implements IVoicedCommandHandler
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return false;
 		}
-		
+
 		// check topsite for flood actions
 		final FloodProtectorHolder holder = getFloodProtector(player, VoteSite.valueOf(TOPSITE));
 		if (holder.getLastAction() > System.currentTimeMillis())
@@ -202,11 +200,11 @@ public class VoteCMD implements IVoicedCommandHandler
 			return false;
 		}
 		holder.updateLastAction();
-		
+
 		// generate vote id
 		if (command.equalsIgnoreCase(".HOPZONE"))
 			vote_id = generateVoteURL(TOPSITE);
-		
+
 		// check player eligibility
 		if (!playerChecksFail(player, TOPSITE))
 		{
@@ -228,15 +226,15 @@ public class VoteCMD implements IVoicedCommandHandler
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return false;
 		}
-		
+
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 		return false;
 	}
-	
+
 	private static void showHtmlWindow(Player player)
 	{
 		String _IPAddress = player.getClient().getConnection().getInetAddress().getHostAddress();
-		
+
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		StringBuilder sb = new StringBuilder("<html>");
 		sb.append("<head>");
@@ -277,11 +275,11 @@ public class VoteCMD implements IVoicedCommandHandler
 		sb.append("</center>");
 		sb.append("</body>");
 		sb.append("</html>");
-		
+
 		html.setHtml(sb.toString());
 		player.sendPacket(html);
 	}
-	
+
 	/**
 	 * Validate user
 	 * @param player object
@@ -296,7 +294,7 @@ public class VoteCMD implements IVoicedCommandHandler
 			sendMsg(player, "Private networks are not allowed.");
 			return true;
 		}
-		
+
 		// check if 12 hours has pass from last vote
 		final long voteTimer = Utilities.selectIndividualVar(TOPSITE, "can_vote", Configurations.DEBUG ? Utilities.getMyIP() : player.getClient().getConnection().getInetAddress().getHostAddress());
 		if (voteTimer > System.currentTimeMillis())
@@ -305,7 +303,7 @@ public class VoteCMD implements IVoicedCommandHandler
 			sendMsg(player, "You already voted on " + TOPSITE + " try again after " + dateFormatted + ".");
 			return true;
 		}
-		
+
 		// restrict players from same IP to vote again
 		final boolean ipVoted = Utilities.selectIndividualIP(TOPSITE, "can_vote", Configurations.DEBUG ? Utilities.getMyIP() : player.getClient().getConnection().getInetAddress().getHostAddress());
 		if (ipVoted)
@@ -313,18 +311,18 @@ public class VoteCMD implements IVoicedCommandHandler
 			sendMsg(player, "Someone already voted on " + TOPSITE + " from your IP.");
 			return true;
 		}
-		
+
 		// ignore failures for debug
 		if (Configurations.DEBUG)
 		{
 			_IPAddress = Utilities.getMyIP();
 			return false;
 		}
-		
+
 		_IPAddress = player.getClient().getConnection().getInetAddress().getHostAddress();
 		return false;
 	}
-	
+
 	/**
 	 * Execute individual response and reward player on success response url depends on a vote id is given or not
 	 * @param player object
@@ -353,7 +351,7 @@ public class VoteCMD implements IVoicedCommandHandler
 			set.set("vote_time", response.getVoteTime());
 			set.set("server_time", response.getServerTime());
 			set.set("response_error", response.getError());
-			
+
 			// player can get reward?
 			if (isEligible(player, TOPSITE, set, vote_id))
 			{
@@ -365,7 +363,7 @@ public class VoteCMD implements IVoicedCommandHandler
 			}
 		});
 	}
-	
+
 	/**
 	 * generate unique vote id for player, so he can vote on it this will prevent players with IPv6 to lose their reward
 	 * @implNote not all topsites support this feature
@@ -379,25 +377,25 @@ public class VoteCMD implements IVoicedCommandHandler
 		{
 			// Specify the URL of the remote JSON resource
 			String urlString = Url.from(TOPSITE + "_INDIVIDUAL_GENERATE_VOTE").toString();
-			
+
 			// Create a URL object from the specified URL string
 			URL url = new URL(urlString);
-			
+
 			// Open a connection to the URL
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			
+
 			// Set the request method
 			connection.setRequestMethod("GET");
-			
+
 			// Get the response code
 			int responseCode = connection.getResponseCode();
-			
+
 			// Check if the request was successful (HTTP 200)
 			if (responseCode == HttpURLConnection.HTTP_OK)
 			{
 				// Create a BufferedReader to read the response
 				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				
+
 				// Read the response line by line
 				String line;
 				StringBuilder response = new StringBuilder();
@@ -406,16 +404,16 @@ public class VoteCMD implements IVoicedCommandHandler
 					response.append(line);
 				}
 				reader.close();
-				
+
 				// Convert the response to a JSON string
 				String jsonString = response.toString();
-				
+
 				String[] split;
 				for (String s : jsonString.replaceAll("[{}\"]", "").replace("result:", "").split(","))
 				{
 					if (s == null)
 						continue;
-					
+
 					split = s.split(":");
 					if (Configurations.DEBUG)
 					{
@@ -440,7 +438,7 @@ public class VoteCMD implements IVoicedCommandHandler
 		}
 		return vote_id;
 	}
-	
+
 	/**
 	 * Return true if player is eligible to get a reward
 	 * @param player object
@@ -456,7 +454,7 @@ public class VoteCMD implements IVoicedCommandHandler
 		final long _voteTime = set.getLong("vote_time");
 		final long _serverTime = set.getLong("server_time");
 		final String _responseError = set.getString("response_error");
-		
+
 		// check if response was not ok
 		if (_responseCode != 200)
 		{
@@ -465,7 +463,7 @@ public class VoteCMD implements IVoicedCommandHandler
 			sendMsg(player, TOPSITE + " server is not responding try again later.");
 			return false;
 		}
-		
+
 		// server returned error
 		if (!_responseError.equals("NONE"))
 		{
@@ -474,7 +472,7 @@ public class VoteCMD implements IVoicedCommandHandler
 			sendMsg(player, "Response error:" + _responseError + ".");
 			return false;
 		}
-		
+
 		// player has not voted
 		if (!_hasVoted)
 		{
@@ -488,7 +486,7 @@ public class VoteCMD implements IVoicedCommandHandler
 			}
 			return false;
 		}
-		
+
 		// check 12hours on server time pass
 		if ((_serverTime > 0 && _voteTime > 0) && (_voteTime + VOTE_REUSE.toMillis() < _serverTime))
 		{
@@ -500,11 +498,11 @@ public class VoteCMD implements IVoicedCommandHandler
 			sendMsg(player, "The reward has expired, vote again.");
 			return false;
 		}
-		
+
 		// the player is eligible to receive reward
 		return true;
 	}
-	
+
 	/**
 	 * reward player
 	 * @param player object
@@ -540,7 +538,7 @@ public class VoteCMD implements IVoicedCommandHandler
 			}
 		}
 	}
-	
+
 	/**
 	 * Send message to player
 	 * @param player object
@@ -551,7 +549,7 @@ public class VoteCMD implements IVoicedCommandHandler
 		player.sendPacket(new ExShowScreenMessage(s, 3000, ExShowScreenMessage.SMPOS.MIDDLE_CENTER, true));
 		player.sendMessage(s);
 	}
-	
+
 	@Override
 	public String[] getVoicedCommandList()
 	{

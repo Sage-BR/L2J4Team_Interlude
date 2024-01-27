@@ -12,25 +12,25 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q510_AClansReputation extends Quest
 {
 	private static final String qn = "Q510_AClansReputation";
-
+	
 	// NPC
 	private static final int VALDIS = 31331;
-
+	
 	// Quest Item
 	private static final int TYRANNOSAURUS_CLAW = 8767;
-
+	
 	public Q510_AClansReputation()
 	{
 		super(510, "A Clan's Reputation");
-
+		
 		setItemsIds(TYRANNOSAURUS_CLAW);
-
+		
 		addStartNpc(VALDIS);
 		addTalkId(VALDIS);
-
+		
 		addKillId(22215, 22216, 22217);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -38,7 +38,7 @@ public class Q510_AClansReputation extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31331-3.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -50,10 +50,10 @@ public class Q510_AClansReputation extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -61,22 +61,22 @@ public class Q510_AClansReputation extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (!player.isClanLeader() || player.getClan().getLevel() < 5) ? "31331-0.htm" : "31331-1.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int count = 50 * st.getQuestItemsCount(TYRANNOSAURUS_CLAW);
 				if (count > 0)
 				{
 					final Clan clan = player.getClan();
-
+					
 					htmltext = "31331-7.htm";
 					st.takeItems(TYRANNOSAURUS_CLAW, -1);
-
+					
 					clan.addReputationScore(count);
 					player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.CLAN_QUEST_COMPLETED_AND_S1_POINTS_GAINED).addNumber(count));
 					clan.broadcastToOnlineMembers(new PledgeShowInfoUpdate(clan));
@@ -85,10 +85,10 @@ public class Q510_AClansReputation extends Quest
 					htmltext = "31331-4.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
@@ -96,9 +96,9 @@ public class Q510_AClansReputation extends Quest
 		QuestState st = getClanLeaderQuestState(player, npc);
 		if (st == null || !st.isStarted())
 			return null;
-
+		
 		st.dropItemsAlways(TYRANNOSAURUS_CLAW, 1, 0);
-
+		
 		return null;
 	}
 }

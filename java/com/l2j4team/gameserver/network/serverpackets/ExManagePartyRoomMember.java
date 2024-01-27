@@ -9,14 +9,14 @@ public class ExManagePartyRoomMember extends L2GameServerPacket
 	private final Player _activeChar;
 	private final PartyMatchRoom _room;
 	private final int _mode;
-
+	
 	public ExManagePartyRoomMember(Player player, PartyMatchRoom room, int mode)
 	{
 		_activeChar = player;
 		_room = room;
 		_mode = mode;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

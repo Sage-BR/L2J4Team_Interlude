@@ -8,17 +8,17 @@ import com.l2j4team.gameserver.model.L2ShortCut;
 public class ShortCutRegister extends L2GameServerPacket
 {
 	private final L2ShortCut _shortcut;
-
+	
 	public ShortCutRegister(L2ShortCut shortcut)
 	{
 		_shortcut = shortcut;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x44);
-
+		
 		writeD(_shortcut.getType());
 		writeD(_shortcut.getSlot() + _shortcut.getPage() * 12); // C4 Client
 		switch (_shortcut.getType())

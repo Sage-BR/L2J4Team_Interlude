@@ -15,18 +15,18 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public final class DecayTaskManager implements Runnable
 {
 	private final Map<Creature, Long> _characters = new ConcurrentHashMap<>();
-
+	
 	public static final DecayTaskManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected DecayTaskManager()
 	{
 		// Run task each second.
 		ThreadPool.scheduleAtFixedRate(this, 1000, 1000);
 	}
-
+	
 	/**
 	 * Adds {@link Creature} to the DecayTask with additional interval.
 	 * @param character : {@link Creature} to be added.
@@ -38,15 +38,15 @@ public final class DecayTaskManager implements Runnable
 		if (character instanceof Attackable)
 		{
 			final Attackable monster = ((Attackable) character);
-
+			
 			// monster is spoiled or seeded, double the corpse delay
 			if (monster.getSpoilerId() != 0 || monster.isSeeded())
 				interval *= 2;
 		}
-
+		
 		_characters.put(character, System.currentTimeMillis() + interval * 1000);
 	}
-
+	
 	/**
 	 * Removes {@link Creature} from the DecayTask.
 	 * @param actor : {@link Creature} to be removed.
@@ -55,7 +55,7 @@ public final class DecayTaskManager implements Runnable
 	{
 		_characters.remove(actor);
 	}
-
+	
 	/**
 	 * Removes {@link Attackable} from the DecayTask.
 	 * @param monster : {@link Attackable} to be tested.
@@ -67,43 +67,43 @@ public final class DecayTaskManager implements Runnable
 		Long time = _characters.get(monster);
 		if (time == null)
 			return false;
-
+		
 		// get corpse action interval, is half of corpse decay
 		int corpseTime = monster.getTemplate().getCorpseTime() * 1000 / 2;
-
+		
 		// monster is spoiled or seeded, double the corpse action interval
 		if (monster.getSpoilerId() != 0 || monster.isSeeded())
 			corpseTime *= 2;
-
+		
 		// check last corpse action time
 		return System.currentTimeMillis() < time - corpseTime;
 	}
-
+	
 	@Override
 	public final void run()
 	{
 		// List is empty, skip.
 		if (_characters.isEmpty())
 			return;
-
+		
 		// Get current time.
 		final long time = System.currentTimeMillis();
-
+		
 		// Loop all characters.
 		for (Map.Entry<Creature, Long> entry : _characters.entrySet())
 		{
 			// Time hasn't passed yet, skip.
 			if (time < entry.getValue())
 				continue;
-
+			
 			final Creature character = entry.getKey();
-
+			
 			// Decay character and remove task.
 			character.onDecay();
 			_characters.remove(character);
 		}
 	}
-
+	
 	private static final class SingletonHolder
 	{
 		protected static final DecayTaskManager _instance = new DecayTaskManager();

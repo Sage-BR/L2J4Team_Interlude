@@ -29,31 +29,31 @@ public final class BabyPet extends Pet
 {
 	protected IntIntHolder _majorHeal = null;
 	protected IntIntHolder _minorHeal = null;
-
+	
 	private Future<?> _castTask;
-
+	
 	public BabyPet(int objectId, NpcTemplate template, Player owner, ItemInstance control)
 	{
 		super(objectId, template, owner, control);
 	}
-
+	
 	@Override
 	public void onSpawn()
 	{
 		super.onSpawn();
-
+		
 		double healPower = 0;
 		int skillLevel;
 		for (L2Skill skill : getTemplate().getSkills(SkillType.HEAL))
 		{
 			if (skill.getTargetType() != SkillTargetType.TARGET_OWNER_PET || skill.getSkillType() != L2SkillType.HEAL)
 				continue;
-
+			
 			// The skill level is calculated on the fly. Template got an skill level of 1.
 			skillLevel = getSkillLevel(skill.getId());
 			if (skillLevel <= 0)
 				continue;
-
+			
 			if (healPower == 0)
 			{
 				// set both heal types to the same skill
@@ -72,40 +72,40 @@ public final class BabyPet extends Pet
 		}
 		startCastTask();
 	}
-
+	
 	@Override
 	public boolean doDie(Creature killer)
 	{
 		if (!super.doDie(killer))
 			return false;
-
+		
 		stopCastTask();
 		abortCast();
 		return true;
 	}
-
+	
 	@Override
 	public synchronized void unSummon(Player owner)
 	{
 		stopCastTask();
 		abortCast();
-
+		
 		super.unSummon(owner);
 	}
-
+	
 	@Override
 	public void doRevive()
 	{
 		super.doRevive();
 		startCastTask();
 	}
-
+	
 	private final void startCastTask()
 	{
 		if (_majorHeal != null && _castTask == null && !isDead()) // cast task is not yet started and not dead (will start on revive)
 			_castTask = ThreadPool.scheduleAtFixedRate(new CastTask(this), 3000, 1000);
 	}
-
+	
 	private final void stopCastTask()
 	{
 		if (_castTask != null)
@@ -114,22 +114,22 @@ public final class BabyPet extends Pet
 			_castTask = null;
 		}
 	}
-
+	
 	protected void castSkill(L2Skill skill)
 	{
 		// casting automatically stops any other action (such as autofollow or a move-to).
 		// We need to gather the necessary info to restore the previous state.
 		final boolean previousFollowStatus = getFollowStatus();
-
+		
 		// pet not following and owner outside cast range
 		if (!previousFollowStatus && !isInsideRadius(getOwner(), skill.getCastRange(), true, true))
 			return;
-
+		
 		setTarget(getOwner());
 		useMagic(skill, false, false);
-
+		
 		getOwner().sendPacket(SystemMessage.getSystemMessage(SystemMessageId.PET_USES_S1).addSkillName(skill));
-
+		
 		// calling useMagic changes the follow status, if the babypet actually casts
 		// (as opposed to failing due some factors, such as too low MP, etc).
 		// if the status has actually been changed, revert it. Else, allow the pet to
@@ -141,27 +141,27 @@ public final class BabyPet extends Pet
 		if (previousFollowStatus != getFollowStatus())
 			setFollowStatus(previousFollowStatus);
 	}
-
+	
 	private class CastTask implements Runnable
 	{
 		private final BabyPet _baby;
-
+		
 		public CastTask(BabyPet baby)
 		{
 			_baby = baby;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			Player owner = _baby.getOwner();
-
+			
 			// if the owner is dead, merely wait for the owner to be resurrected
 			// if the pet is still casting from the previous iteration, allow the cast to complete...
 			if (owner != null && !owner.isDead() && !owner.isInvul() && !_baby.isCastingNow() && !_baby.isBetrayed() && !_baby.isMuted() && !_baby.isOutOfControl() && _baby.getAI().getIntention() != CtrlIntention.CAST)
 			{
 				L2Skill skill = null;
-
+				
 				if (_majorHeal != null)
 				{
 					final double hpPercent = owner.getCurrentHp() / owner.getMaxHp();

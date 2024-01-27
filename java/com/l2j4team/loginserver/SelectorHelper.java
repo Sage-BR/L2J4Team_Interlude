@@ -24,19 +24,19 @@ public class SelectorHelper implements IMMOExecutor<L2LoginClient>, IClientFacto
 {
 	private final ThreadPoolExecutor _generalPacketsThreadPool;
 	private final IPv4Filter _ipv4filter;
-
+	
 	public SelectorHelper()
 	{
 		_generalPacketsThreadPool = new ThreadPoolExecutor(4, 6, 15L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		_ipv4filter = new IPv4Filter();
 	}
-
+	
 	@Override
 	public void execute(final ReceivablePacket<L2LoginClient> packet)
 	{
 		_generalPacketsThreadPool.execute(packet);
 	}
-
+	
 	@Override
 	public L2LoginClient create(final MMOConnection<L2LoginClient> con)
 	{
@@ -44,7 +44,7 @@ public class SelectorHelper implements IMMOExecutor<L2LoginClient>, IClientFacto
 		client.sendPacket(new Init(client));
 		return client;
 	}
-
+	
 	@Override
 	@SuppressWarnings("resource")
 	public boolean accept(final SocketChannel sc)
@@ -57,7 +57,7 @@ public class SelectorHelper implements IMMOExecutor<L2LoginClient>, IClientFacto
 		}
 		return _ipv4filter.accept(sc) && !LoginController.getInstance().isBannedAddress(sc.socket().getInetAddress());
 	}
-
+	
 	public static synchronized boolean IPProtection(final String ip)
 	{
 		boolean result = true;

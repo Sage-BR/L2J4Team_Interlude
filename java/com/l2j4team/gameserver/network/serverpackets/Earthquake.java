@@ -7,7 +7,7 @@ public class Earthquake extends L2GameServerPacket
 	private final int _z;
 	private final int _intensity;
 	private final int _duration;
-
+	
 	public Earthquake(int x, int y, int z, int intensity, int duration)
 	{
 		_x = x;
@@ -16,7 +16,7 @@ public class Earthquake extends L2GameServerPacket
 		_intensity = intensity;
 		_duration = duration;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

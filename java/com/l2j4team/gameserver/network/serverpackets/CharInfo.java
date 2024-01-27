@@ -18,13 +18,13 @@ public class CharInfo extends L2GameServerPacket
 {
 	private final Player _activeChar;
 	private final Inventory _inv;
-
+	
 	public CharInfo(Player cha)
 	{
 		_activeChar = cha;
 		_inv = _activeChar.getInventory();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -36,10 +36,10 @@ public class CharInfo extends L2GameServerPacket
 		boolean Olympiad_start = false;
 		boolean Olympiad_observer = false;
 		boolean tournament_zone = false;
-
+		
 		boolean tvt = false;
 		boolean ctf = false;
-
+		
 		if (_activeChar._inEventTvT)
 		{
 			Player tmp = getClient().getActiveChar();
@@ -49,7 +49,7 @@ public class CharInfo extends L2GameServerPacket
 					tvt = true;
 			}
 		}
-
+		
 		if (_activeChar._inEventCTF)
 		{
 			Player tmp = getClient().getActiveChar();
@@ -59,9 +59,9 @@ public class CharInfo extends L2GameServerPacket
 					ctf = true;
 			}
 		}
-
+		
 		final L2Party party = _activeChar.getParty();
-
+		
 		if (_activeChar.getAppearance().getInvisible())
 		{
 			Player tmp = getClient().getActiveChar();
@@ -79,7 +79,7 @@ public class CharInfo extends L2GameServerPacket
 					gmSeeInvis = true;
 			}
 		}
-
+		
 		if (_activeChar.isOlympiadProtection())
 		{
 			Player tmp = getClient().getActiveChar();
@@ -91,7 +91,7 @@ public class CharInfo extends L2GameServerPacket
 					Olympiad_observer = true;
 			}
 		}
-
+		
 		writeC(0x03);
 		writeD(_activeChar.getX());
 		writeD(_activeChar.getY());
@@ -101,12 +101,12 @@ public class CharInfo extends L2GameServerPacket
 		writeS(_activeChar.getName());
 		writeD(_activeChar.getRace().ordinal());
 		writeD(_activeChar.getAppearance().getSex().ordinal());
-
+		
 		if (_activeChar.getClassIndex() == 0)
 			writeD(_activeChar.getClassId().getId());
 		else
 			writeD(_activeChar.getBaseClass());
-
+		
 		DressMe dress = _activeChar.getDress();
 		writeD(_inv.getPaperdollItemId(Inventory.PAPERDOLL_HAIRALL));
 		writeD(_inv.getPaperdollItemId(Inventory.PAPERDOLL_HEAD));
@@ -120,7 +120,7 @@ public class CharInfo extends L2GameServerPacket
 		writeD(_inv.getPaperdollItemId(Inventory.PAPERDOLL_RHAND));
 		writeD((dress == null) ? _inv.getPaperdollItemId(Inventory.PAPERDOLL_HAIR) : ((dress.getHairId() == 0) ? _inv.getPaperdollItemId(Inventory.PAPERDOLL_HAIR) : dress.getHairId()));
 		writeD(_inv.getPaperdollItemId(Inventory.PAPERDOLL_FACE));
-
+		
 		// c6 new h's
 		writeH(0x00);
 		writeH(0x00);
@@ -144,39 +144,39 @@ public class CharInfo extends L2GameServerPacket
 		writeH(0x00);
 		writeH(0x00);
 		writeH(0x00);
-
+		
 		writeD(_activeChar.getPvpFlag());
 		writeD(_activeChar.getKarma());
-
+		
 		writeD(_activeChar.getMAtkSpd());
 		writeD(_activeChar.getPAtkSpd());
-
+		
 		writeD(_activeChar.getPvpFlag());
 		writeD(_activeChar.getKarma());
-
+		
 		int _runSpd = _activeChar.getStat().getBaseRunSpeed();
 		int _walkSpd = _activeChar.getStat().getBaseWalkSpeed();
 		int _swimSpd = _activeChar.getStat().getBaseSwimSpeed();
 		writeD(_runSpd); // base run speed
 		writeD(_walkSpd); // base walk speed
-
+		
 		if (_activeChar.isPhantom() && !_activeChar.isPhantomMysticMuse())
 			writeD(Config.PHANTOM_SPEED); // swim run speed
 		else if (_activeChar.isPhantomMysticMuse())
 			writeD(Config.PHANTOM_ATK_SPEED); // swim run speed
 		else
 			writeD(_swimSpd); // swim run speed
-
+			
 		writeD(_swimSpd); // swim walk speed
 		writeD(_runSpd);
 		writeD(_walkSpd);
 		writeD(_activeChar.isFlying() ? _runSpd : 0); // fly run speed
 		writeD(_activeChar.isFlying() ? _walkSpd : 0); // fly walk speed
-
+		
 		writeF(_activeChar.getStat().getMovementSpeedMultiplier()); // run speed multiplier
-
+		
 		writeF(_activeChar.getStat().getAttackSpeedMultiplier()); // attack speed multiplier
-
+		
 		if (_activeChar.isPhantomAntBot())
 		{
 			writeF(0);
@@ -222,18 +222,18 @@ public class CharInfo extends L2GameServerPacket
 			writeF(_activeChar.getCollisionRadius());
 			writeF(_activeChar.getCollisionHeight());
 		}
-
+		
 		writeD(_activeChar.getAppearance().getHairStyle());
 		writeD(_activeChar.getAppearance().getHairColor());
 		writeD(_activeChar.getAppearance().getFace());
-
+		
 		if (tvt || ctf)
 			writeS("");
 		else if (AioManager.getInstance().hasAioPrivileges(_activeChar.getObjectId()) || _activeChar.isAio())
 			writeS(Config.AIO_TITLE);
 		else
 			writeS(_activeChar.getTitle());
-
+		
 		if (((TvT.is_started() || TvT.is_teleport()) && _activeChar._inEventTvT) || ((CTF.is_started() || CTF.is_teleport()) && _activeChar._inEventCTF))
 		{
 			writeD(0);
@@ -248,32 +248,32 @@ public class CharInfo extends L2GameServerPacket
 			writeD(_activeChar.getAllyId());
 			writeD(_activeChar.getAllyCrestId());
 		}
-
+		
 		writeD(0);
-
+		
 		if (_activeChar.isPhantomAntBot())
 			writeC(0); // standing = 1 sitting = 0
 		else
 			writeC(_activeChar.isSitting() ? 0 : 1); // standing = 1 sitting = 0
-
+			
 		writeC(_activeChar.isRunning() ? 1 : 0); // running = 1 walking = 0
 		writeC(_activeChar.isInCombat() ? 1 : 0);
 		writeC(_activeChar.isAlikeDead() ? 1 : 0);
-
+		
 		if (gmSeeInvis || tournament_pt || tournament_start || tournament_observer || Olympiad_start || Olympiad_observer || tournament_zone)
 			writeC(0);
 		else
 			writeC(_activeChar.getAppearance().getInvisible() ? 1 : 0); // invisible = 1 visible =0
-
+			
 		writeC(_activeChar.getMountType()); // 1 on strider 2 on wyvern 0 no mount
 		writeC(_activeChar.getStoreType().getId()); // 1 - sellshop
-
+		
 		writeH(_activeChar.getCubics().size());
 		for (int id : _activeChar.getCubics().keySet())
 			writeH(id);
-
+		
 		writeC(_activeChar.isInPartyMatchRoom() ? 1 : 0);
-
+		
 		if (gmSeeInvis)
 		{
 			writeD(_activeChar.getAbnormalEffect() | AbnormalEffect.STEALTH.getMask());
@@ -282,11 +282,11 @@ public class CharInfo extends L2GameServerPacket
 		{
 			writeD(_activeChar.getAbnormalEffect());
 		}
-
+		
 		writeC(_activeChar.getRecomLeft());
 		writeH(_activeChar.getRecomHave()); // Blue value for name (0 = white, 255 = pure blue)
 		writeD(_activeChar.getClassId().getId());
-
+		
 		writeD(_activeChar.getMaxCp());
 		writeD((int) _activeChar.getCurrentCp());
 		// visao do target
@@ -308,17 +308,17 @@ public class CharInfo extends L2GameServerPacket
 			writeC(0x02); // team circle around feet 1= Blue, 2 = red
 		else
 			writeC(0x00); // team circle around feet 1= Blue, 2 = red
-
+			
 		writeD(_activeChar.getClanCrestLargeId());
 		writeC(_activeChar.isNoble() ? 1 : 0); // Symbol on char menu ctrl+I
-
+		
 		if (_activeChar.isHero() && (((TvT.is_started() || TvT.is_teleport()) && _activeChar._inEventTvT) || ((CTF.is_started() || CTF.is_teleport()) && _activeChar._inEventCTF)))
 			writeC(0x00);
 		else
 			writeC((_activeChar.isHero() || (_activeChar.isGM() && Config.GM_HERO_AURA)) ? 1 : 0); // Hero Aura
-
+			
 		writeC(_activeChar.isFishing() ? 1 : 0); // 0x01: Fishing Mode (Cant be undone by setting back to 0)
-
+		
 		Location loc = _activeChar.getFishingLoc();
 		if (loc != null)
 		{
@@ -332,16 +332,16 @@ public class CharInfo extends L2GameServerPacket
 			writeD(0);
 			writeD(0);
 		}
-
+		
 		writeD(_activeChar.getAppearance().getNameColor());
-
+		
 		writeD(0x00); // isRunning() as in UserInfo?
-
+		
 		writeD(_activeChar.getPledgeClass());
 		writeD(_activeChar.getPledgeType());
-
+		
 		writeD(AioManager.getInstance().hasAioPrivileges(_activeChar.getObjectId()) ? Config.AIO_TCOLOR : _activeChar.getAppearance().getTitleColor());
-
+		
 		if (_activeChar.isCursedWeaponEquipped())
 			writeD(CursedWeaponsManager.getInstance().getCurrentStage(_activeChar.getCursedWeaponEquippedId()) - 1);
 		else

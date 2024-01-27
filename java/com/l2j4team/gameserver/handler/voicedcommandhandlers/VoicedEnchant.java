@@ -42,11 +42,11 @@ public class VoicedEnchant implements IVoicedCommandHandler
 		"setba", // 13
 		"enchant"
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
-
+		
 		if (command.equals("enchant"))
 			mainHtml(activeChar);
 		else
@@ -79,18 +79,18 @@ public class VoicedEnchant implements IVoicedCommandHandler
 				setEnchant(activeChar, Inventory.PAPERDOLL_UNDER);
 			else if (command.startsWith("setba"))
 				setEnchant(activeChar, Inventory.PAPERDOLL_BACK);
-
+			
 			// show the enchant menu after an action
 			mainHtml(activeChar);
 		}
-
+		
 		return true;
 	}
-
+	
 	private static void setEnchant(Player player, int armorType)
 	{
 		final ItemInstance item = player.getInventory().getPaperdollItem(armorType);
-
+		
 		if (item != null && item.getLocationSlot() == armorType)
 		{
 			if (item.getEnchantLevel() < Config.MIN_ENCHANT)
@@ -98,30 +98,30 @@ public class VoicedEnchant implements IVoicedCommandHandler
 				player.sendPacket(new CreatureSay(0, Say2.TELL, "SYS", "Minimum Of Enchantment +" + Config.MIN_ENCHANT + "."));
 				return;
 			}
-
+			
 			if (item.getEnchantLevel() >= Config.MAX_ENCHANT)
 			{
 				player.sendPacket(new CreatureSay(0, Say2.TELL, "SYS", "Maximum Of Enchantment +" + Config.MAX_ENCHANT + "."));
 				return;
 			}
-
+			
 			if (!player.destroyItemByItemId("Donate Coin", Config.DONATE_COIN_ID, Config.DONATE_ENCHANT_PRICE, null, true))
 			{
 				player.sendPacket(new CreatureSay(0, Say2.TELL, "SYS", "You don't have enough ticket donate!"));
 				return;
 			}
-
+			
 			final Item it = item.getItem();
 			final int oldEnchant = item.getEnchantLevel() + 1;
-
+			
 			item.setEnchantLevel(item.getEnchantLevel() + 1);
 			item.updateDatabase();
-
+			
 			// If item is equipped, verify the skill obtention/drop (+4 duals, +6 armorset).
 			if (item.isEquipped())
 			{
 				final int currentEnchant = item.getEnchantLevel() + 1;
-
+				
 				// Skill bestowed by +4 duals.
 				if (it instanceof Weapon)
 				{
@@ -197,7 +197,7 @@ public class VoicedEnchant implements IVoicedCommandHandler
 					}
 				}
 			}
-
+			
 			player.sendPacket(new ItemList(player, false));
 			player.broadcastUserInfo();
 			SystemMessage sm;
@@ -209,7 +209,7 @@ public class VoicedEnchant implements IVoicedCommandHandler
 		else
 			player.sendPacket(new CreatureSay(0, Say2.TELL, "SYS", "You are not equipped."));
 	}
-
+	
 	public static void mainHtml(Player activeChar)
 	{
 		String htmFile = "data/html/mods/donate/enchant.htm";
@@ -221,7 +221,7 @@ public class VoicedEnchant implements IVoicedCommandHandler
 		msg.replace("%max%", "<font color=\"00FF00\">" + Config.MAX_ENCHANT + "</font>");
 		activeChar.sendPacket(msg);
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

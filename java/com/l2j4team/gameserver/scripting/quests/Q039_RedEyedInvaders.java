@@ -11,23 +11,23 @@ import java.util.Map;
 public class Q039_RedEyedInvaders extends Quest
 {
 	private static final String qn = "Q039_RedEyedInvaders";
-
+	
 	// NPCs
 	private static final int BABENCO = 30334;
 	private static final int BATHIS = 30332;
-
+	
 	// Mobs
 	private static final int MAILLE_LIZARDMAN = 20919;
 	private static final int MAILLE_LIZARDMAN_SCOUT = 20920;
 	private static final int MAILLE_LIZARDMAN_GUARD = 20921;
 	private static final int ARANEID = 20925;
-
+	
 	// Items
 	private static final int BLACK_BONE_NECKLACE = 7178;
 	private static final int RED_BONE_NECKLACE = 7179;
 	private static final int INCENSE_POUCH = 7180;
 	private static final int GEM_OF_MAILLE = 7181;
-
+	
 	// First droplist
 	private static final Map<Integer, int[]> FIRST_DP = new HashMap<>();
 	{
@@ -47,7 +47,7 @@ public class Q039_RedEyedInvaders extends Quest
 			RED_BONE_NECKLACE
 		});
 	}
-
+	
 	// Second droplist
 	private static final Map<Integer, int[]> SECOND_DP = new HashMap<>();
 	{
@@ -70,24 +70,24 @@ public class Q039_RedEyedInvaders extends Quest
 			250000
 		});
 	}
-
+	
 	// Rewards
 	private static final int GREEN_COLORED_LURE_HG = 6521;
 	private static final int BABY_DUCK_RODE = 6529;
 	private static final int FISHING_SHOT_NG = 6535;
-
+	
 	public Q039_RedEyedInvaders()
 	{
 		super(39, "Red-Eyed Invaders");
-
+		
 		setItemsIds(BLACK_BONE_NECKLACE, RED_BONE_NECKLACE, INCENSE_POUCH, GEM_OF_MAILLE);
-
+		
 		addStartNpc(BABENCO);
 		addTalkId(BABENCO, BATHIS);
-
+		
 		addKillId(MAILLE_LIZARDMAN, MAILLE_LIZARDMAN_SCOUT, MAILLE_LIZARDMAN_GUARD, ARANEID);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -95,7 +95,7 @@ public class Q039_RedEyedInvaders extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30334-1.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -124,10 +124,10 @@ public class Q039_RedEyedInvaders extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -135,13 +135,13 @@ public class Q039_RedEyedInvaders extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 20) ? "30334-2.htm" : "30334-0.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -149,7 +149,7 @@ public class Q039_RedEyedInvaders extends Quest
 					case BABENCO:
 						htmltext = "30334-3.htm";
 						break;
-
+					
 					case BATHIS:
 						if (cond == 1)
 							htmltext = "30332-0.htm";
@@ -164,26 +164,26 @@ public class Q039_RedEyedInvaders extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		final int npcId = npc.getNpcId();
-
+		
 		Player partyMember = getRandomPartyMember(player, npc, "2");
 		if (partyMember != null && npcId != ARANEID)
 		{
 			final QuestState st = partyMember.getQuestState(qn);
 			final int[] list = FIRST_DP.get(npcId);
-
+			
 			if (st.dropItems(list[0], 1, 100, 500000) && st.getQuestItemsCount(list[1]) == 100)
 				st.set("cond", "3");
 		}
@@ -194,12 +194,12 @@ public class Q039_RedEyedInvaders extends Quest
 			{
 				final QuestState st = partyMember.getQuestState(qn);
 				final int[] list = SECOND_DP.get(npcId);
-
+				
 				if (st.dropItems(list[0], 1, 30, list[2]) && st.getQuestItemsCount(list[1]) == 30)
 					st.set("cond", "5");
 			}
 		}
-
+		
 		return null;
 	}
 }

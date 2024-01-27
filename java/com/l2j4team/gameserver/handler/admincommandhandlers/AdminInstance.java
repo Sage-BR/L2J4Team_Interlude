@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 
 public class AdminInstance implements IAdminCommandHandler
 {
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -22,13 +22,13 @@ public class AdminInstance implements IAdminCommandHandler
 		{
 			StringTokenizer st = new StringTokenizer(command, " ");
 			st.nextToken(); // skip command
-
+			
 			if (!st.hasMoreTokens())
 			{
 				activeChar.sendMessage("Write the name.");
 				return false;
 			}
-
+			
 			String target_name = st.nextToken();
 			Player player = World.getInstance().getPlayer(target_name);
 			if (player == null)
@@ -36,20 +36,20 @@ public class AdminInstance implements IAdminCommandHandler
 				activeChar.sendMessage("Player is offline");
 				return false;
 			}
-
+			
 			activeChar.sendMessage("" + target_name + " instance id: " + player.getInstance().getId());
 		}
 		else if (command.startsWith("admin_getinstance"))
 		{
 			StringTokenizer st = new StringTokenizer(command, " ");
 			st.nextToken(); // skip command
-
+			
 			if (!st.hasMoreTokens())
 			{
 				activeChar.sendMessage("Write the name.");
 				return false;
 			}
-
+			
 			String target_name = st.nextToken();
 			Player player = World.getInstance().getPlayer(target_name);
 			if (player == null)
@@ -57,17 +57,17 @@ public class AdminInstance implements IAdminCommandHandler
 				activeChar.sendMessage("Player is offline");
 				return false;
 			}
-
+			
 			activeChar.setInstance(player.getInstance(), false);
 			activeChar.sendMessage("You are with the same instance of player " + target_name);
 		}
 		return false;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
-
+		
 		return new String[]
 		{
 			"admin_resetmyinstance",
@@ -75,5 +75,5 @@ public class AdminInstance implements IAdminCommandHandler
 			"admin_instanceid"
 		};
 	}
-
+	
 }

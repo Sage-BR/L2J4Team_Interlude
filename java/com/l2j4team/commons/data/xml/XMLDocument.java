@@ -21,7 +21,7 @@ import org.w3c.dom.NodeList;
 public abstract class XMLDocument
 {
 	protected static final CLogger LOGGER = new CLogger(XMLDocument.class.getName());
-
+	
 	private static final DocumentBuilderFactory BUILDER;
 	static
 	{
@@ -29,16 +29,16 @@ public abstract class XMLDocument
 		BUILDER.setValidating(false);
 		BUILDER.setIgnoringComments(true);
 	}
-
+	
 	abstract protected void load();
-
+	
 	abstract protected void parseDocument(Document doc, File f);
-
+	
 	public void loadDocument(String filePath)
 	{
 		loadDocument(new File(filePath));
 	}
-
+	
 	/**
 	 * Parse an entire directory or file if found.
 	 * @param file
@@ -50,7 +50,7 @@ public abstract class XMLDocument
 			LOGGER.error("The following file or directory doesn't exist: {}.", file.getName());
 			return;
 		}
-
+		
 		if (file.isDirectory())
 		{
 			for (File f : file.listFiles())
@@ -68,7 +68,7 @@ public abstract class XMLDocument
 			}
 		}
 	}
-
+	
 	/**
 	 * This method parses the content of a NamedNodeMap and feed the given StatsSet.
 	 * @param attrs : The NamedNodeMap to parse.
@@ -82,12 +82,12 @@ public abstract class XMLDocument
 			set.set(attr.getNodeName(), attr.getNodeValue());
 		}
 	}
-
+	
 	public void forEach(Node node, Consumer<Node> action)
 	{
 		forEach(node, a -> true, action);
 	}
-
+	
 	public void forEach(Node node, String nodeName, Consumer<Node> action)
 	{
 		forEach(node, innerNode -> {
@@ -106,7 +106,7 @@ public abstract class XMLDocument
 			return nodeName.equals(innerNode.getNodeName());
 		}, action);
 	}
-
+	
 	public void forEach(Node node, Predicate<Node> filter, Consumer<Node> action)
 	{
 		final NodeList list = node.getChildNodes();
@@ -119,7 +119,7 @@ public abstract class XMLDocument
 			}
 		}
 	}
-
+	
 	public StatsSet parseAttributes(Node node)
 	{
 		final NamedNodeMap attrs = node.getAttributes();

@@ -22,15 +22,15 @@ import com.l2j4team.gameserver.model.item.instance.ItemInstance;
 public class ClanReputation implements IItemHandler
 {
 	private final int Reputation = 2000;
-
+	
 	@Override
 	public void useItem(Playable playable, ItemInstance item, boolean forceUse)
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isClanLeader())
 		{
 			activeChar.getClan().addReputationScore(Reputation);
@@ -41,7 +41,7 @@ public class ClanReputation implements IItemHandler
 		}
 		else
 			activeChar.sendMessage("You are not the clan leader.");
-
+		
 		return;
 	}
 }

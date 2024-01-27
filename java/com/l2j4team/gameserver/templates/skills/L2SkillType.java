@@ -37,7 +37,7 @@ public enum L2SkillType
 	SIGNET(L2SkillSignet.class),
 	SIGNET_CASTTIME(L2SkillSignetCasttime.class),
 	SEED(L2SkillSeed.class),
-
+	
 	// Disablers
 	BLEED,
 	POISON,
@@ -49,7 +49,7 @@ public enum L2SkillType
 	MUTE,
 	PARALYZE,
 	WEAKNESS,
-
+	
 	// hp, mp, cp
 	HEAL,
 	MANAHEAL,
@@ -62,21 +62,21 @@ public enum L2SkillType
 	MANARECHARGE,
 	HEAL_PERCENT,
 	MANAHEAL_PERCENT,
-
+	
 	GIVE_SP,
-
+	
 	// Aggro
 	AGGDAMAGE,
 	AGGREDUCE,
 	AGGREMOVE,
 	AGGREDUCE_CHAR,
 	AGGDEBUFF,
-
+	
 	// Fishing
 	FISHING,
 	PUMPING,
 	REELING,
-
+	
 	// MISC
 	UNLOCK,
 	UNLOCK_SPECIAL,
@@ -93,14 +93,14 @@ public enum L2SkillType
 	GET_PLAYER,
 	DUMMY,
 	INSTANT_JUMP,
-
+	
 	// Creation
 	COMMON_CRAFT,
 	DWARVEN_CRAFT,
 	CREATE_ITEM(L2SkillCreateItem.class),
 	EXTRACTABLE,
 	EXTRACTABLE_FISH,
-
+	
 	// Summons
 	SUMMON(L2SkillSummon.class),
 	FEED_PET,
@@ -109,20 +109,20 @@ public enum L2SkillType
 	ERASE,
 	BETRAY,
 	SPAWN(L2SkillSpawn.class),
-
+	
 	// Cancel
 	CANCEL,
 	MAGE_BANE,
 	WARRIOR_BANE,
-
+	
 	NEGATE,
 	CANCEL_DEBUFF,
-
+	
 	BUFF,
 	DEBUFF,
 	PASSIVE,
 	CONT,
-
+	
 	RESURRECT,
 	CHARGEDAM(L2SkillChargeDmg.class),
 	MHOT,
@@ -140,23 +140,23 @@ public enum L2SkillType
 	UNDEAD_DEFENSE,
 	BEAST_FEED,
 	FUSION,
-
+	
 	CHANGE_APPEARANCE(L2SkillAppearance.class),
-
+	
 	// Skill is done within the core.
 	COREDONE,
-
+	
 	// unimplemented
 	NOTDONE;
-
+	
 	private final Class<? extends L2Skill> _class;
-
+	
 	public L2Skill makeSkill(StatsSet set)
 	{
 		try
 		{
 			Constructor<? extends L2Skill> c = _class.getConstructor(StatsSet.class);
-
+			
 			return c.newInstance(set);
 		}
 		catch (Exception e)
@@ -164,12 +164,12 @@ public enum L2SkillType
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	private L2SkillType()
 	{
 		_class = L2SkillDefault.class;
 	}
-
+	
 	private L2SkillType(Class<? extends L2Skill> classType)
 	{
 		_class = classType;

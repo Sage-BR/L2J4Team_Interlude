@@ -36,7 +36,7 @@ import com.l2j4team.commons.math.MathUtil;
 public final class Config
 {
 	private static final Logger _log = Logger.getLogger(Config.class.getName());
-
+	
 	/** Main */
 	public static final String NETWORK_FILE = "./config/gameserver.ini";
 	public static final String BOSS_FILE = "./config/main/boss.ini";
@@ -56,7 +56,7 @@ public final class Config
 	public static final String FILTER_FILE = "./config/chatfilter.txt";
 	public static final String LOGIN_CONFIGURATION_FILE = "./config/loginserver.ini";
 	public static final String LOGGING = "./config/logging.ini";
-
+	
 	/** Custom */
 	public static final String L2J4TEAM_FILE = "./config/custom/L2J4Team.ini";
 	public static final String ENCHANT_FILE = "./config/custom/Enchant.ini";
@@ -78,7 +78,7 @@ public final class Config
 	public static final String D_GUARD_FILE = "./config/custom/Protect.ini";
 	public static final String AUTO_FARM = "./config/Custom/AutoFarm.ini";
 	public static final String BOSS_EVENT_INSTANCED = "./config/custom/events/BossEvent.ini";
-
+	
 	// balance por x1 by MeGaPacK
 	public static final String Duelist_FILE = "./config/custom/balance/classes/duelist_vs_class.ini";
 	public static final String DreadNought_FILE = "./config/custom/balance/classes/DreadNought_vs_class.ini";
@@ -111,15 +111,15 @@ public final class Config
 	private static final String Shillien_Saint_FILE = "./config/custom/balance/classes/mages/shillien_saint_vs_class.ini";
 	private static final String Dominator_FILE = "./config/custom/balance/classes/mages/dominator_vs_class.ini";
 	private static final String Doomcryer_FILE = "./config/custom/balance/classes/mages/doomcryer_vs_class.ini";
-
+	
 	public static String RAID_RESPAWN_IDS;
 	public static List<Integer> RAID_RESPAWN_IDS_LIST;
-
+	
 	public static int MIN_RESPAWN;
 	public static int MAX_RESPAWN;
-
+	
 	public static boolean RESPAWN_CUSTOM;
-
+	
 	public static boolean ANNOUNCE_DROP_ITEM;
 	public static boolean GM_VIEW_PL_ON;
 	public static String NAME_TVT;
@@ -127,7 +127,7 @@ public final class Config
 	public static String NAME_PVP;
 	public static String NAME_CTF;
 	public static int ANNOUNCE_ID_EVENT;
-
+	
 	public static boolean PVP_EVENT_ENABLED;
 	public static String[] PVP_EVENT_INTERVAL;
 	public static int PVP_EVENT_RUNNING_TIME;
@@ -138,14 +138,14 @@ public final class Config
 	public static int pvp_locx;
 	public static int pvp_locy;
 	public static int pvp_locz;
-
+	
 	public static int PC_1x1;
 	public static int PC_PVP;
 	public static int MISSION_PVP_REWARD_ID;
 	public static int MISSION_PVP_REWARD_AMOUNT;
 	public static int MISSION_PVP_CONT;
 	public static boolean ACTIVE_MISSION_PVP;
-
+	
 	public static int ID_RAID;
 	public static int PC_PARTYZONE;
 	public static int PC_MOBS;
@@ -154,31 +154,31 @@ public final class Config
 	public static int PC_9x9;
 	public static int PC_RAID_IND;
 	public static int PC_TVT;
-
+	
 	public static boolean REWARD_PCPOINT;
 	public static boolean ENABLE_GEODATA;
-
+	
 	public static boolean BLOCK_AIOX_PVPZONE;
 	public static boolean USE_AIOX_OUTSIDE_PEACEZONE;
 	public static boolean LEAVE_BUFF_SOLOFARM;
-
+	
 	public static boolean ENABLE_FLAGZONE;
 	public static boolean ENABLE_DWARF_ENCHANT_BONUS;
 	public static int DWARF_ENCHANT_MIN_LEVEL;
 	public static int DWARF_ENCHANT_BONUS;
-
+	
 	public static boolean ENABLE_CHAT_LEVEL;
 	public static int CHAT_LEVEL;
 	public static boolean CMD_SKIN;
 	public static int CHANCE_FAIRY_LEAF;
-
+	
 	public static int MIN_ENCHANT;
 	public static int MAX_ENCHANT;
-
+	
 	public static int MIN_MEMBERS_LV6;
 	public static int MIN_MEMBERS_LV7;
 	public static int MIN_MEMBERS_LV8;
-
+	
 	public static int MIN_FLAMESTONE_GIANT;
 	public static int MAX_FLAMESTONE_GIANT;
 	public static int MIN_THEMIS_SCALE;
@@ -191,7 +191,7 @@ public final class Config
 	public static int MAX_GLAKI;
 	public static int MIN_RAHHA;
 	public static int MAX_RAHHA;
-
+	
 	public static boolean SKILL_MAX_CHANCE;
 	public static List<Integer> SKILL_LIST_SUCCESS_IN_OLY = new ArrayList<>();
 	public static List<Integer> SKILL_LIST_SUCCESS = new ArrayList<>();
@@ -202,7 +202,7 @@ public final class Config
 	public static boolean CUSTOM_CHANCE_FOR_ALL_SKILL;
 	public static double SKILLS_MAX_CHANCE;
 	public static double SKILLS_MIN_CHANCE;
-
+	
 	public static boolean ENABLE_AIO_SYSTEM;
 	public static String AIO_TITLE;
 	public static boolean CHANGE_AIO_NAME;
@@ -215,23 +215,16 @@ public final class Config
 	public static int AIO_ITEMID;
 	public static boolean ALLOW_AIOX_SET_ITEM;
 	public static List<int[]> AIO_CHAR_ITENS = new ArrayList<>();
-
+	
 	public static String TITLE_MONSTER_SOLO;
-
+	
 	public static int TOUR_AURA_TEAM1;
 	public static int TOUR_AURA_TEAM2;
 	/** Drops enchantados */
 	public static String ID_ITEM_ENCHANT;
 	public static ArrayList<Integer> LIST_ENCHANT_ITEM = new ArrayList<>();
 	public static int ENCHANT_LEVEL;
-
-	public static String NEWS_1;
-	public static String NEWS_2;
-	public static String NEWS_3;
-	public static String NEWS_4;
-	public static String DONATE_URL;
-	public static String INFO_URL;
-
+	
 	// ----------------------------------------
 	// PvPKing24hrs.properties
 	// ----------------------------------------
@@ -268,12 +261,12 @@ public final class Config
 	public static ArrayList<Integer> MISSION_LIST_MONSTER = new ArrayList<>();
 	public static int MISSION_MOB_REWARD_ID;
 	public static int MISSION_MOB_REWARD_AMOUNT;
-
+	
 	public static boolean ACTIVE_MISSION_1X1;
 	public static int MISSION_1X1_CONT;
 	public static int MISSION_1X1_REWARD_ID;
 	public static int MISSION_1X1_REWARD_AMOUNT;
-
+	
 	public static boolean ACTIVE_MISSION_2X2;
 	public static int MISSION_2X2_CONT;
 	public static int MISSION_2X2_REWARD_ID;
@@ -287,7 +280,7 @@ public final class Config
 	public static int MISSION_9X9_REWARD_ID;
 	public static int MISSION_9X9_REWARD_AMOUNT;
 	public static String[] CLEAR_MISSION_INTERVAL_BY_TIME_OF_DAY;
-
+	
 	// ----------------------------------------
 	// boss.properties
 	// ----------------------------------------
@@ -300,14 +293,14 @@ public final class Config
 	public static int RAID_CHAOS_TIME;
 	public static int GRAND_CHAOS_TIME;
 	public static int MINION_CHAOS_TIME;
-
+	
 	/** Quest grandboss */
 	public static int QUEST_BAIUM;
 	public static int QUEST_VALAKAS;
 	public static int QUEST_ANTHARAS;
 	public static int QUEST_SAILREN;
 	public static int QUEST_FRINTEZZA;
-
+	
 	/** Grand Boss */
 	public static boolean EARTH_QUAKE;
 	public static int SPAWN_INTERVAL_AQ;
@@ -338,28 +331,28 @@ public final class Config
 	public static int SPAWN_INTERVAL_SAILREN;
 	public static int RANDOM_SPAWN_TIME_SAILREN;
 	public static int WAIT_TIME_SAILREN;
-
+	
 	/** Protection zone Raid Boss */
 	public static String RAID_BOSS_ZONE_IDS;
 	public static ArrayList<Integer> LIST_RAID_BOSS_ZONE_IDS = new ArrayList<>();
-
+	
 	public static String RAID_INFO_IDS;
 	public static List<Integer> RAID_INFO_IDS_LIST;
-
+	
 	public static String GRANDBOSS_INFO_IDS;
 	public static List<Integer> GRANDBOSS_INFO_IDS_LIST;
-
+	
 	/** Barakiel Nobless */
 	public static int BOSS_ID;
 	public static boolean ALLOW_AUTO_NOBLESS_FROM_BOSS;
 	public static int RADIUS_TO_RAID;
-
+	
 	/** Announce RB Color */
 	public static boolean ANNOUNCE_TO_ALL_SPAWN_RB;
 	public static int ANNOUNCE_ID;
 	public static String RAID_ID_ANNOUNCE;
 	public static ArrayList<Integer> LIST_RAID_ANNOUNCE = new ArrayList<>();
-
+	
 	/** GRAND BOSSES */
 	public static boolean AQ_CUSTOM_SPAWN_ENABLED;
 	public static ArrayList<Calendar> AQ_CUSTOM_SPAWN_TIMES = new ArrayList<>();
@@ -388,7 +381,7 @@ public final class Config
 	public static boolean SAILREN_CUSTOM_SPAWN_ENABLED;
 	public static ArrayList<Calendar> SAILREN_CUSTOM_SPAWN_TIMES = new ArrayList<>();
 	public static int SAILREN_CUSTOM_SPAWN_RANDOM_INTERVAL;
-
+	
 	// ----------------------------------------
 	// Clans.properties
 	// ----------------------------------------
@@ -410,7 +403,7 @@ public final class Config
 	public static int ALT_CLAN_WAR_PENALTY_WHEN_ENDED;
 	public static boolean ALT_MEMBERS_CAN_WITHDRAW_FROM_CLANWH;
 	public static boolean REMOVE_CASTLE_CIRCLETS;
-
+	
 	/** Manor */
 	public static int ALT_MANOR_REFRESH_TIME;
 	public static int ALT_MANOR_REFRESH_MIN;
@@ -418,7 +411,7 @@ public final class Config
 	public static int ALT_MANOR_APPROVE_MIN;
 	public static int ALT_MANOR_MAINTENANCE_MIN;
 	public static int ALT_MANOR_SAVE_PERIOD_RATE;
-
+	
 	/** Clan Hall function */
 	public static long CH_TELE_FEE_RATIO;
 	public static int CH_TELE1_FEE;
@@ -470,7 +463,7 @@ public final class Config
 	public static long CH_FRONT_FEE_RATIO;
 	public static int CH_FRONT1_FEE;
 	public static int CH_FRONT2_FEE;
-
+	
 	// ----------------------------------------
 	// Enchant.properties
 	// ----------------------------------------
@@ -515,7 +508,7 @@ public final class Config
 	public static String ENCHANT_ANNOUNCE_LEVEL;
 	public static ArrayList<Integer> LIST_ENCHANT_ANNOUNCE_LEVEL = new ArrayList<>();
 	public static int ALT_OLY_ENCHANT_LIMIT;
-
+	
 	/** Augmentations */
 	public static int AUGMENTATION_NG_SKILL_CHANCE;
 	public static int AUGMENTATION_NG_GLOW_CHANCE;
@@ -526,7 +519,7 @@ public final class Config
 	public static int AUGMENTATION_TOP_SKILL_CHANCE;
 	public static int AUGMENTATION_TOP_GLOW_CHANCE;
 	public static int AUGMENTATION_BASESTAT_CHANCE;
-
+	
 	// ----------------------------------------
 	// events.properties
 	// ----------------------------------------
@@ -570,7 +563,7 @@ public final class Config
 	public static int ALT_OLY_DIVIDER_CLASSED;
 	public static int ALT_OLY_DIVIDER_NON_CLASSED;
 	public static boolean ALT_OLY_ANNOUNCE_GAMES;
-
+	
 	/** SevenSigns Festival */
 	public static boolean ALT_GAME_CASTLE_DAWN;
 	public static boolean ALT_GAME_CASTLE_DUSK;
@@ -584,13 +577,13 @@ public final class Config
 	public static long ALT_FESTIVAL_SECOND_SPAWN;
 	public static long ALT_FESTIVAL_SECOND_SWARM;
 	public static long ALT_FESTIVAL_CHEST_SPAWN;
-
+	
 	/** Four Sepulchers */
 	public static int FS_TIME_ATTACK;
 	public static int FS_TIME_ENTRY;
 	public static int FS_TIME_WARMUP;
 	public static int FS_PARTY_MEMBER_COUNT;
-
+	
 	/** dimensional rift */
 	public static int RIFT_MIN_PARTY_SIZE;
 	public static int RIFT_SPAWN_DELAY;
@@ -604,13 +597,13 @@ public final class Config
 	public static int RIFT_ENTER_COST_COMMANDER;
 	public static int RIFT_ENTER_COST_HERO;
 	public static double RIFT_BOSS_ROOM_TIME_MUTIPLY;
-
+	
 	/** Wedding system */
 	public static boolean ALLOW_WEDDING;
 	public static int WEDDING_PRICE;
 	public static boolean WEDDING_SAMESEX;
 	public static boolean WEDDING_FORMALWEAR;
-
+	
 	/** Lottery */
 	public static int ALT_LOTTERY_PRIZE;
 	public static int ALT_LOTTERY_TICKET_PRICE;
@@ -618,7 +611,7 @@ public final class Config
 	public static double ALT_LOTTERY_4_NUMBER_RATE;
 	public static double ALT_LOTTERY_3_NUMBER_RATE;
 	public static int ALT_LOTTERY_2_AND_1_NUMBER_PRIZE;
-
+	
 	/** Fishing tournament */
 	public static boolean ALT_FISH_CHAMPIONSHIP_ENABLED;
 	public static int ALT_FISH_CHAMPIONSHIP_REWARD_ITEM;
@@ -627,15 +620,15 @@ public final class Config
 	public static int ALT_FISH_CHAMPIONSHIP_REWARD_3;
 	public static int ALT_FISH_CHAMPIONSHIP_REWARD_4;
 	public static int ALT_FISH_CHAMPIONSHIP_REWARD_5;
-
+	
 	/** Geodata */
 	public static String GEODATA_PATH;
 	public static int COORD_SYNCHRONIZE;
-
+	
 	/** Path checking */
 	public static int PART_OF_CHARACTER_HEIGHT;
 	public static int MAX_OBSTACLE_HEIGHT;
-
+	
 	/** Path finding */
 	public static String PATHFIND_BUFFERS;
 	public static int BASE_WEIGHT;
@@ -645,7 +638,7 @@ public final class Config
 	public static int MAX_ITERATIONS;
 	public static boolean DEBUG_PATH;
 	public static boolean DEBUG_GEO_NODE;
-
+	
 	// ----------------------------------------
 	// gm.properties
 	// ----------------------------------------
@@ -657,7 +650,7 @@ public final class Config
 	public static boolean GM_STARTUP_INVISIBLE;
 	public static boolean GM_STARTUP_SILENCE;
 	public static boolean GM_STARTUP_AUTO_LIST;
-
+	
 	// ----------------------------------------
 	// npcs.properties
 	// ----------------------------------------
@@ -675,7 +668,7 @@ public final class Config
 	public static int CHAMPION_REWARD_ID;
 	public static int CHAMPION_REWARD_QTY;
 	public static int CHAMPION_ENABLE_AURA;
-
+	
 	/** Misc */
 	public static boolean ALLOW_CLASS_MASTERS;
 	public static boolean ALTERNATE_CLASS_MASTER;
@@ -686,7 +679,7 @@ public final class Config
 	public static boolean SHOW_NPC_LVL;
 	public static boolean SHOW_NPC_CREST;
 	public static boolean SHOW_SUMMON_CREST;
-
+	
 	/** Boss Event */
 	public static boolean BOSS_EVENT_TIME_ON_SCREEN;
 	public static int BOSS_EVENT_TIME_TO_DESPAWN_BOSS;
@@ -707,12 +700,12 @@ public final class Config
 	public static int BOSS_EVENT_MIN_PLAYERS;
 	public static int BOSS_EVENT_REGISTRATION_TIME;
 	public static String[] BOSS_EVENT_BY_TIME_OF_DAY;
-
+	
 	/** Wyvern Manager */
 	public static boolean WYVERN_ALLOW_UPGRADER;
 	public static int WYVERN_REQUIRED_LEVEL;
 	public static int WYVERN_REQUIRED_CRYSTALS;
-
+	
 	/** AI */
 	public static boolean GUARD_ATTACK_AGGRO_MOB;
 	public static int MAX_DRIFT_RANGE;
@@ -720,26 +713,26 @@ public final class Config
 	public static int MAX_NPC_ANIMATION;
 	public static int MIN_MONSTER_ANIMATION;
 	public static int MAX_MONSTER_ANIMATION;
-
+	
 	public static boolean DISABLE_ATTACK_NPC_TYPE;
-
+	
 	public static String NPC_RED_AURA;
 	public static List<Integer> LIST_NPC_RED_AURA = new ArrayList<>();
 	public static String NPC_BLUE_AURA;
 	public static List<Integer> LIST_NPC_BLUE_AURA = new ArrayList<>();
-
+	
 	// ----------------------------------------
 	// options.properties
 	// ----------------------------------------
 	public static String DEFAULT_GLOBAL_CHAT;
 	public static String DEFAULT_TRADE_CHAT;
-
+	
 	public static int DELETE_DAYS;
 	/** Auto-loot */
 	public static boolean AUTO_LOOT;
 	public static boolean AUTO_LOOT_HERBS;
 	public static boolean AUTO_LOOT_RAID;
-
+	
 	/** Items Management */
 	public static boolean ALLOW_DISCARDITEM;
 	public static boolean MULTIPLE_ITEM_DROP;
@@ -748,7 +741,7 @@ public final class Config
 	public static int EQUIPABLE_ITEM_AUTO_DESTROY_TIME;
 	public static Map<Integer, Integer> SPECIAL_ITEM_DESTROY_TIME;
 	public static int PLAYER_DROPPED_ITEM_MULTIPLIER;
-
+	
 	/** Allow types */
 	public static boolean ALLOW_FREIGHT;
 	public static boolean ALLOW_WAREHOUSE;
@@ -761,7 +754,7 @@ public final class Config
 	public static boolean ALLOW_CURSED_WEAPONS;
 	public static boolean ALLOW_MANOR;
 	public static boolean ENABLE_FALLING_DAMAGE;
-
+	
 	/** Debug & Dev */
 	public static boolean ALT_DEV_NO_SPAWNS;
 	public static boolean DEBUG;
@@ -769,26 +762,26 @@ public final class Config
 	public static boolean PACKET_HANDLER_DEBUG;
 	public static String IP_PROTECTION;
 	public static boolean IP_PROTECTION_CNFG;
-
+	
 	public static boolean BRUT_PROTECTION_ENABLED;
-
+	
 	public static boolean ANTI_LOGIN_FLOOD;
 	public static int LOGIN_FLOOD_BLOCK_TIME;
-
+	
 	/** Deadlock Detector */
 	public static boolean DEADLOCK_DETECTOR;
 	public static int DEADLOCK_CHECK_INTERVAL;
 	public static boolean RESTART_ON_DEADLOCK;
-
+	
 	/** Logs */
 	public static boolean LOG_CHAT;
 	public static boolean LOG_ITEMS;
 	public static boolean GMAUDIT;
-
+	
 	/** Community Board */
 	public static boolean ENABLE_COMMUNITY_BOARD;
 	public static String BBS_DEFAULT;
-
+	
 	/** Flood Protectors */
 	public static int ROLL_DICE_TIME;
 	public static int HERO_VOICE_TIME;
@@ -803,19 +796,19 @@ public final class Config
 	public static int GLOBAL_CHAT_TIME;
 	public static int TRADE_CHAT_TIME;
 	public static int SOCIAL_TIME;
-
+	
 	/** ThreadPool */
 	public static int SCHEDULED_THREAD_POOL_COUNT;
 	public static int THREADS_PER_SCHEDULED_THREAD_POOL;
 	public static int INSTANT_THREAD_POOL_COUNT;
 	public static int THREADS_PER_INSTANT_THREAD_POOL;
-
+	
 	/** Misc */
 	public static boolean L2WALKER_PROTECTION;
 	public static boolean SERVER_NEWS;
 	public static int ZONE_TOWN;
 	public static boolean DISABLE_TUTORIAL;
-
+	
 	/** Chat Filter **/
 	public static int CHAT_FILTER_PUNISHMENT_PARAM1;
 	public static int CHAT_FILTER_PUNISHMENT_PARAM2;
@@ -824,7 +817,7 @@ public final class Config
 	public static String CHAT_FILTER_CHARS;
 	public static String CHAT_FILTER_PUNISHMENT;
 	public static ArrayList<String> FILTER_LIST = new ArrayList<>();
-
+	
 	// ----------------------------------------
 	// party.properties
 	// ----------------------------------------
@@ -835,7 +828,7 @@ public final class Config
 	public static int ALT_PARTY_RANGE;
 	public static int ALT_PARTY_RANGE2;
 	public static boolean ALT_LEAVE_PARTY_LEADER;
-
+	
 	// ----------------------------------------
 	// player.properties
 	// ----------------------------------------
@@ -853,7 +846,7 @@ public final class Config
 	public static boolean DEEPBLUE_DROP_RULES;
 	public static boolean ALT_GAME_DELEVEL;
 	public static int DEATH_PENALTY_CHANCE;
-
+	
 	/** Inventory & WH */
 	public static int INVENTORY_MAXIMUM_NO_DWARF;
 	public static int INVENTORY_MAXIMUM_DWARF;
@@ -867,18 +860,18 @@ public final class Config
 	public static int FREIGHT_SLOTS;
 	public static boolean ALT_GAME_FREIGHTS;
 	public static int ALT_GAME_FREIGHT_PRICE;
-
+	
 	/** petitions */
 	public static boolean PETITIONING_ALLOWED;
 	public static int MAX_PETITIONS_PER_PLAYER;
 	public static int MAX_PETITIONS_PENDING;
-
+	
 	/** Crafting **/
 	public static boolean IS_CRAFTING_ENABLED;
 	public static int DWARF_RECIPE_LIMIT;
 	public static int COMMON_RECIPE_LIMIT;
 	public static boolean ALT_BLACKSMITH_USE_RECIPES;
-
+	
 	// ----------------------------------------
 	// pvp.properties
 	// ----------------------------------------
@@ -929,7 +922,7 @@ public final class Config
 	public static boolean ANTI_FARM_SUMMON;
 	public static boolean LEAVE_BUFFS_ON_DIE;
 	public static boolean CUSTOM_TELEGIRAN_ON_DIE;
-
+	
 	// ----------------------------------------
 	// rates.properties
 	// ----------------------------------------
@@ -969,7 +962,7 @@ public final class Config
 	public static double RATE_DROP_HP_HERBS;
 	public static double RATE_DROP_MP_HERBS;
 	public static double RATE_DROP_SPECIAL_HERBS;
-
+	
 	// ----------------------------------------
 	// siege.properties
 	// ----------------------------------------
@@ -1001,7 +994,7 @@ public final class Config
 	public static boolean SIEGE_GODDARD;
 	public static boolean SIEGE_RUNE;
 	public static boolean SIEGE_SCHUT;
-
+	
 	public static int SIEGE_DAY_GLUDIO;
 	public static int SIEGE_DAY_DION;
 	public static int SIEGE_DAY_GIRAN;
@@ -1011,7 +1004,7 @@ public final class Config
 	public static int SIEGE_DAY_GODDARD;
 	public static int SIEGE_DAY_RUNE;
 	public static int SIEGE_DAY_SCHUT;
-
+	
 	// ----------------------------------------
 	// skills.properties
 	// ----------------------------------------
@@ -1027,11 +1020,11 @@ public final class Config
 	public static boolean ES_SP_BOOK_NEEDED;
 	public static boolean DIVINE_SP_BOOK_NEEDED;
 	public static boolean ALT_GAME_SUBCLASS_WITHOUT_QUESTS;
-
+	
 	/** Buffs */
 	public static boolean STORE_SKILL_COOLTIME;
 	public static int BUFFS_MAX_AMOUNT;
-
+	
 	/** Buffer */
 	public static int BUFFER_MAX_SCHEMES;
 	public static int BUFFER_STATIC_BUFF_COST;
@@ -1049,49 +1042,50 @@ public final class Config
 	public static boolean ADD_SKILL_NOBLES;
 	public static boolean ALT_RESTORE_EFFECTS_ON_SUBCLASS_CHANGE;
 	public static boolean ALT_GAME_SUBCLASS_EVERYWHERE;
-
+	
 	/** Check skill */
 	public static boolean CHECK_SKILLS_ON_ENTER;
 	public static String NON_CHECK_SKILLS;
 	public static List<Integer> LIST_NON_CHECK_SKILLS = new ArrayList<>();
 	public static boolean CHECK_NOBLE_SKILLS;
 	public static boolean CHECK_HERO_SKILLS;
-
+	
 	// ----------------------------------------
 	// L2J4Team.properties
 	// ----------------------------------------
-
+	
 	/** Color item */
 	public static boolean COLOR_WITH_ITEM;
 	public static int COLOR_ITEM_ID;
 	public static int COLOR_NAME_ITEM_AMOUNT;
 	public static int COLOR_TITLE_ITEM_AMOUNT;
-
+	
 	/** Bank system golg bar */
 	public static boolean BANKING_SYSTEM_ENABLED;
 	public static int BANKING_SYSTEM_GOLDBAR_ID;
 	public static int BANKING_SYSTEM_GOLDBARS;
 	public static int BANKING_SYSTEM_ADENA;
-
+	
 	/** offline trade */
 	public static boolean OFFLINE_TRADE_ENABLE;
 	public static boolean OFFLINE_CRAFT_ENABLE;
 	public static boolean OFFLINE_SET_NAME_COLOR;
 	public static int OFFLINE_NAME_COLOR;
-
+	
 	/** Infinity SS and Arrows */
 	public static boolean INFINITY_SS;
 	public static boolean INFINITY_ARROWS;
-
+	
 	/** Observation cost */
 	public static int ITEM_OBSERVER;
 	public static int ITEM_BUY_QUANT_OBSERVER;
-
+	
 	/** Start vip for all pl for 24 hr */
 	public static boolean START_VIP;
-
+	public static boolean Teleport_Effect;
+	
 	public static boolean STATUS_CMD;
-
+	
 	/** Luck Box */
 	public static int ITEM_1;
 	public static int CHANCE_ITEM_1;
@@ -1126,18 +1120,18 @@ public final class Config
 	public static int ITEM_11;
 	public static int CHANCE_ITEM_11;
 	public static int ITEM_QUANT_11;
-
+	
 	/** Msg Chat VIP */
 	public static String MSG_CHAT_TRADE;
 	public static boolean ENABLE_CHAT_VIP;
-
+	
 	/** Hero subclass */
 	public static boolean HERO_SKILL_SUB;
-
+	
 	/** server in available */
 	public static boolean ALLOW_MANUTENCAO;
 	public static String MANUTENCAO_TEXT;
-
+	
 	/** Char config */
 	public static boolean CHAR_TITLE;
 	public static String ADD_CHAR_TITLE;
@@ -1163,7 +1157,7 @@ public final class Config
 	public static boolean CUSTOM_STARTER_ITEMS_ENABLED;
 	public static List<int[]> STARTING_CUSTOM_ITEMS_F = new ArrayList<>();
 	public static List<int[]> STARTING_CUSTOM_ITEMS_M = new ArrayList<>();
-
+	
 	/** Chat config */
 	public static boolean DISABLE_CHAT;
 	public static boolean DISABLE_CAPSLOCK;
@@ -1175,21 +1169,17 @@ public final class Config
 	public static int CUSTOM_HERO_CHAT_TIME;
 	public static boolean TALK_CHAT_ALL_CONFIG;
 	public static int TALK_CHAT_ALL_TIME;
-
+	
 	/** Protect zone */
 	public static boolean WYVERN_PVPZONE;
 	public static boolean PARTY_PVPZONE;
 	public static boolean PARTY_FLAGZONE;
-
-	/** Open url client */
-	public static boolean OPEN_URL_ENABLE;
-	public static String OPEN_URL_SITE;
-
+	
 	/** Dragon protection zone */
 	public static boolean WYVERN_PROTECTION;
 	public static String ID_RESTRICT;
 	public static List<Integer> LISTID_RESTRICT;
-
+	
 	/** custom droplist */
 	public static String CUSTOM_DROP_ITEM;
 	public static List<Integer> CUSTOM_DROP_LIST;
@@ -1198,18 +1188,18 @@ public final class Config
 	public static List<int[]> CUSTOM_MONSTER_DROP = new ArrayList<>();
 	public static int DROP_PROTECTED_TIME;
 	public static boolean CUSTOM_DROP;
-
+	
 	/** Penalty config */
 	public static boolean DISABLE_GRADE_PENALTY;
 	public static boolean DISABLE_WEIGHT_PENALTY;
-
+	
 	/** CLEAN SECOND LOG */
 	public static boolean RESET_DAILY_ENABLED;
 	public static String[] RESET_DAILY_TIME;
 	public static boolean RESTART_BY_TIME_OF_DAY;
 	public static int RESTART_SECONDS;
 	public static String[] RESTART_INTERVAL_BY_TIME_OF_DAY;
-
+	
 	// ----------------------------------------
 	// announce.properties
 	// ----------------------------------------
@@ -1218,7 +1208,7 @@ public final class Config
 	public static boolean ANNOUNCE_HALL_OWNERS;
 	public static boolean ANNOUNCE_HERO_ON_ENTER;
 	public static boolean ANNOUNCE_HERO_ON_CUSTOM;
-
+	
 	// ----------------------------------------
 	// Skills_chance_modifier.properties
 	// ----------------------------------------
@@ -1271,7 +1261,7 @@ public final class Config
 	public static float MASS_MAGE_BANE;
 	public static float SHIELD_BASH;
 	public static float SHOCK_BLAST;
-
+	
 	// ----------------------------------------
 	// physics.properties
 	// ----------------------------------------
@@ -1286,14 +1276,14 @@ public final class Config
 	public static int ANTI_SS_BUG_1;
 	public static int ANTI_SS_BUG_2;
 	public static int ANTI_SS_BUG_3;
-
+	
 	/** Physics Config */
 	public static int ADD_MATKSPEED;
 	public static int ADD_ATKSPEED;
 	public static int ADD_HP;
 	public static int ADD_MP;
 	public static int ADD_CP;
-
+	
 	public static int MAX_PATK_SPEED;
 	public static int MAX_PATK_SPEED_GHOST;
 	public static int MAX_PATK_SPEED_MOONL;
@@ -1306,20 +1296,20 @@ public final class Config
 	public static boolean ENABLE_CUSTOM_ALL_DAMAGE;
 	public static float ALT_MAGES_MAGICAL_DAMAGE_MULTI;
 	public static float ALT_FIGHTERS_PHYSICAL_DAMAGE_MULTI;
-
+	
 	public static boolean ENABLE_CUSTOM_CRIT;
 	public static int MAX_PCRIT_RATE;
 	public static int PCRIT_RATE_ArcherHuman;
 	public static int PCRIT_RATE_ArcherElfo;
 	public static int PCRIT_RATE_ArcherDarkElfo;
-
+	
 	public static int MCRIT_RATE_Archmage;
 	public static int MCRIT_RATE_Soultaker;
 	public static int MCRIT_RATE_Mystic_Muse;
 	public static int MCRIT_RATE_Storm_Screamer;
 	public static int MCRIT_RATE_Dominator;
 	public static int MAX_MCRIT_RATE;
-
+	
 	public static boolean ENABLE_CUSTOM_DAMAGE_MONSTER;
 	public static float ALT_FIGHTER_TO_MONSTER;
 	public static float ALT_MAGE_TO_MONSTER;
@@ -1364,7 +1354,7 @@ public final class Config
 	public static int OLYMPIAD_SKILL_DANO;
 	public static float ALT_PETS_PHYSICAL_DAMAGE_MULTI;
 	public static float ALT_PETS_MAGICAL_DAMAGE_MULTI;
-
+	
 	// ----------------------------------------
 	// tvt.properties
 	// ----------------------------------------
@@ -1399,7 +1389,7 @@ public final class Config
 	public static int TVT_OBSERVER_X;
 	public static int TVT_OBSERVER_Y;
 	public static int TVT_OBSERVER_Z;
-
+	
 	// ----------------------------------------
 	// ctf.properties
 	// ----------------------------------------
@@ -1428,7 +1418,7 @@ public final class Config
 	public static int CTF_OBSERVER_X;
 	public static int CTF_OBSERVER_Y;
 	public static int CTF_OBSERVER_Z;
-
+	
 	// ----------------------------------------
 	// tournament.properties
 	// ----------------------------------------
@@ -1529,7 +1519,7 @@ public final class Config
 	public static int PARTY_SEARCH_5X5_TIME;
 	public static int PARTY_SEARCH_9X9_TIME;
 	public static boolean ARENA_PROTECT;
-
+	
 	// ----------------------------------------
 	// PartyZone.properties
 	// ----------------------------------------
@@ -1553,7 +1543,7 @@ public final class Config
 	public static int monsterId;
 	public static int MONSTER_LOCS_COUNT;
 	public static int[][] MONSTER_LOCS;
-
+	
 	// ----------------------------------------
 	// PhantomPlayers.properties
 	// ----------------------------------------
@@ -1566,7 +1556,7 @@ public final class Config
 	public static boolean ALLOW_PHANTOM_PLAYERS_PVPEVENT = false;
 	public static boolean ALLOW_PHANTOM_PLAYERS_EFFECT_SHOT = false;
 	public static int PHANTOM_CHANCE_SIT;
-
+	
 	public static long PHANTOM_DISCONNETC_DELAY;
 	public static long FARM_DISCONNETC_DELAY;
 	public static long DISCONNETC_DELAY;
@@ -1593,7 +1583,7 @@ public final class Config
 	public static boolean ALLOW_PHANTOM_HAIR;
 	public static String PHANTOM_HAIR;
 	public static List<Integer> LIST_PHANTOM_HAIR;
-
+	
 	public static int PHANTOM_RANDOM_WALK;
 	public static int PHANTOM_MAGE_RANDOM_WALK;
 	public static int PHANTOM_MAGE_INTERVAL_WALK;
@@ -1611,9 +1601,9 @@ public final class Config
 	public static int CHANCE_MOVE_ARCHER;
 	public static int PDEF_PHANTOM_ARCHER;
 	public static int MDEF_PHANTOM_ARCHER;
-
+	
 	public static boolean ALLOW_PHANTOM_RETAIL_ARMOR = false;
-
+	
 	public static int PHANTOM_ARCHMAGE_PERCENTAGE;
 	public static int PHANTOM_ARCHMAGE_DANO_INTERVAL;
 	public static int PHANTOM_ARCHMAGE_EFFECT;
@@ -1641,7 +1631,7 @@ public final class Config
 	public static int COUNT_TVT_ARCHMAGE;
 	public static int COUNT_TVT_MYSTICMUSE;
 	public static int COUNT_TVT_STORMSCREAM;
-
+	
 	// ----------------------------------------
 	// PvPZone.properties
 	// ----------------------------------------
@@ -1658,7 +1648,7 @@ public final class Config
 	public static int VOTEZONE_RANDOM_RANGE;
 	public static String[] VOTE_PVPZONE_INTERVAL_BY_TIME_OF_DAY;
 	public static int VOTE_PVPZONE_TIME;
-
+	
 	public static int PVPZONE_INIT;
 	public static int ZONE_1X;
 	public static int ZONE_1Y;
@@ -1684,7 +1674,7 @@ public final class Config
 	public static int ZONE_8X;
 	public static int ZONE_8Y;
 	public static int ZONE_8Z;
-
+	
 	// ----------------------------------------
 	// Protect.properties
 	// ----------------------------------------
@@ -1694,18 +1684,18 @@ public final class Config
 	public static int MAX_BOX_IN_FLAGZONE;
 	public static boolean SOLOZONE_HWID_PROTECT;
 	public static int MAX_BOX_IN_SOLOZONE;
-
+	
 	/** Auto Farm Variaveis */
 	public static Integer AUTO_FARM_BAR;
 	public static int AUTO_FARM_RADIUS;
 	public static boolean NEED_VIP;
-
+	
 	/** Variavel de nao equipar item muito rapido Inicio **/
 	public static int USER_ITEM_TIME_WEAPON;
 	/** Variavel de nao equipar item muito rapido Fim **/
-
+	
 	public static boolean ANTIZERG_RES;
-
+	
 	public static boolean ANTZERG_CHECK_PARTY_INVITE;
 	public static int MAX_HEALER_PARTY;
 	public static boolean ALLOW_HEALER_COUNT;
@@ -1717,7 +1707,7 @@ public final class Config
 	public static int PVP_KILLS_COUNTER;
 	public static int PVP_KILLS_COUNTER_EXTRA;
 	public static int VALIDATION_TIME;
-
+	
 	public static String NO_DELETE;
 	public static List<Integer> LIST_NO_DELETE_ITEM;
 	public static String NO_SELL;
@@ -1757,7 +1747,7 @@ public final class Config
 	public static List<Integer> MAGE_LISTID_RESTRICT;
 	public static String FIGHTER_ID_RESTRICT;
 	public static List<Integer> FIGHTER_LISTID_RESTRICT;
-
+	
 	/**
 	 * Loads AutoFarm Settings.<br>
 	 */
@@ -1768,12 +1758,12 @@ public final class Config
 		AUTO_FARM_BAR = farm.getProperty("AutoFarmBar", 0);
 		NEED_VIP = farm.getProperty("EnablePlayerVipAutoFarm", true);
 	}
-
+	
 	// ----------------------------------------
 	// Donate.properties
 	// ----------------------------------------
 	/** donate */
-
+	
 	public static boolean DONATESYSTEM;
 	public static boolean DONATE_HTML;
 	public static int DONATE_COIN_ID;
@@ -1793,7 +1783,7 @@ public final class Config
 	public static int HERO_60_DAYS_PRICE;
 	public static int HERO_90_DAYS_PRICE;
 	public static int HERO_ETERNAL_PRICE;
-
+	
 	public static int DONATE_ENCHANT_PRICE;
 	public static int DONATE_NOBLE_PRICE;
 	public static int DONATE_CLASS_PRICE;
@@ -1803,7 +1793,7 @@ public final class Config
 	public static int DONATE_ITEM_COUNT;
 	public static int DONATE_ITEM_SKILL;
 	public static int DONATE_ITEM_COUNT_SKILL;
-
+	
 	// ----------------------------------------
 	// PcBang.properties
 	// ----------------------------------------
@@ -1813,18 +1803,18 @@ public final class Config
 	public static int PCB_POINT_MAX;
 	public static int PCB_CHANCE_DUAL_POINT;
 	public static int PCB_INTERVAL;
-
+	
 	// --------------------------------------------------
 	// HexID
 	// --------------------------------------------------
-
+	
 	public static int SERVER_ID;
 	public static byte[] HEX_ID;
-
+	
 	// --------------------------------------------------
 	// Loginserver
 	// --------------------------------------------------
-
+	
 	public static String LOGIN_BIND_ADDRESS;
 	public static int PORT_LOGIN;
 	public static int LOGIN_TRY_BEFORE_BAN;
@@ -1838,11 +1828,11 @@ public final class Config
 	public static int NORMAL_CONNECTION_TIME;
 	public static int FAST_CONNECTION_TIME;
 	public static int MAX_CONNECTION_PER_IP;
-
+	
 	// --------------------------------------------------
 	// Server
 	// --------------------------------------------------
-
+	
 	public static String GAMESERVER_HOSTNAME;
 	public static int PORT_GAME;
 	public static String EXTERNAL_HOSTNAME;
@@ -1851,39 +1841,39 @@ public final class Config
 	public static String GAME_SERVER_LOGIN_HOST;
 	public static int REQUEST_ID;
 	public static boolean ACCEPT_ALTERNATE_ID;
-
+	
 	/** Access to database */
 	public static String DATABASE_URL;
 	public static String DATABASE_LOGIN;
 	public static String DATABASE_PASSWORD;
 	public static int DATABASE_MAX_CONNECTIONS;
-
+	
 	/** serverList & Test */
 	public static boolean SERVER_LIST_BRACKET;
 	public static boolean SERVER_LIST_CLOCK;
 	public static boolean SERVER_LIST_TESTSERVER;
 	public static boolean SERVER_GMONLY;
-
+	
 	/** clients related */
 	public static int MAXIMUM_ONLINE_USERS;
-
+	
 	public static int MIN_PROTOCOL_REVISION;
 	public static int MAX_PROTOCOL_REVISION;
-
+	
 	// --------------------------------------------------
 	// Those "hidden" settings haven't configs to avoid admins to fuck their server
 	// You still can experiment changing values here. But don't say I didn't warn you.
 	// --------------------------------------------------
-
+	
 	/** Reserve Host on LoginServerThread */
 	public static boolean RESERVE_HOST_ON_LOGIN = false; // default false
-
+	
 	/** MMO settings */
 	public static int MMO_SELECTOR_SLEEP_TIME = 20; // default 20
 	public static int MMO_MAX_SEND_PER_PASS = 80; // default 80
 	public static int MMO_MAX_READ_PER_PASS = 80; // default 80
 	public static int MMO_HELPER_BUFFER_COUNT = 20; // default 20
-
+	
 	/** Client Packets Queue settings */
 	public static int CLIENT_PACKET_QUEUE_SIZE = 80; // default MMO_MAX_READ_PER_PASS + 2
 	public static int CLIENT_PACKET_QUEUE_MAX_BURST_SIZE = 70; // default MMO_MAX_READ_PER_PASS + 1
@@ -1895,7 +1885,7 @@ public final class Config
 	public static int CLIENT_PACKET_QUEUE_MAX_UNDERFLOWS_PER_MIN = 5; // default 1
 	public static int CLIENT_PACKET_QUEUE_MAX_UNKNOWN_PER_MIN = 5; // default 5
 	// --------------------------------------------------
-
+	
 	public static float Duelist_vs_DreadNought;
 	public static float Duelist_vs_Phoenix_Knight;
 	public static float Duelist_vs_Hell_Knight;
@@ -1926,7 +1916,7 @@ public final class Config
 	public static float Duelist_vs_Shillien_Saint;
 	public static float Duelist_vs_Dominator;
 	public static float Duelist_vs_Doomcryer;
-
+	
 	public static float DreadNought_vs_Duelist;
 	public static float DreadNought_vs_Phoenix_Knight;
 	public static float DreadNought_vs_Hell_Knight;
@@ -1957,7 +1947,7 @@ public final class Config
 	public static float DreadNought_vs_Shillien_Saint;
 	public static float DreadNought_vs_Dominator;
 	public static float DreadNought_vs_Doomcryer;
-
+	
 	public static float Phoenix_Knight_vs_Duelist;
 	public static float Phoenix_Knight_vs_DreadNought;
 	public static float Phoenix_Knight_vs_Hell_Knight;
@@ -1988,7 +1978,7 @@ public final class Config
 	public static float Phoenix_Knight_vs_Shillien_Saint;
 	public static float Phoenix_Knight_vs_Dominator;
 	public static float Phoenix_Knight_vs_Doomcryer;
-
+	
 	public static float Hell_Knight_vs_Duelist;
 	public static float Hell_Knight_vs_DreadNought;
 	public static float Hell_Knight_vs_Phoenix_Knight;
@@ -2019,7 +2009,7 @@ public final class Config
 	public static float Hell_Knight_vs_Shillien_Saint;
 	public static float Hell_Knight_vs_Dominator;
 	public static float Hell_Knight_vs_Doomcryer;
-
+	
 	public static float Sagittarius_vs_Duelist;
 	public static float Sagittarius_vs_DreadNought;
 	public static float Sagittarius_vs_Phoenix_Knight;
@@ -2050,7 +2040,7 @@ public final class Config
 	public static float Sagittarius_vs_Shillien_Saint;
 	public static float Sagittarius_vs_Dominator;
 	public static float Sagittarius_vs_Doomcryer;
-
+	
 	public static float Eva_Templar_vs_Duelist;
 	public static float Eva_Templar_vs_DreadNought;
 	public static float Eva_Templar_vs_Phoenix_Knight;
@@ -2081,7 +2071,7 @@ public final class Config
 	public static float Eva_Templar_vs_Shillien_Saint;
 	public static float Eva_Templar_vs_Dominator;
 	public static float Eva_Templar_vs_Doomcryer;
-
+	
 	public static float Sword_Muse_vs_Duelist;
 	public static float Sword_Muse_vs_DreadNought;
 	public static float Sword_Muse_vs_Phoenix_Knight;
@@ -2112,7 +2102,7 @@ public final class Config
 	public static float Sword_Muse_vs_Shillien_Saint;
 	public static float Sword_Muse_vs_Dominator;
 	public static float Sword_Muse_vs_Doomcryer;
-
+	
 	public static float Moonlight_Sentinel_vs_Duelist;
 	public static float Moonlight_Sentinel_vs_DreadNought;
 	public static float Moonlight_Sentinel_vs_Phoenix_Knight;
@@ -2143,7 +2133,7 @@ public final class Config
 	public static float Moonlight_Sentinel_vs_Shillien_Saint;
 	public static float Moonlight_Sentinel_vs_Dominator;
 	public static float Moonlight_Sentinel_vs_Doomcryer;
-
+	
 	public static float Shillien_Templar_vs_Duelist;
 	public static float Shillien_Templar_vs_DreadNought;
 	public static float Shillien_Templar_vs_Phoenix_Knight;
@@ -2174,7 +2164,7 @@ public final class Config
 	public static float Shillien_Templar_vs_Shillien_Saint;
 	public static float Shillien_Templar_vs_Dominator;
 	public static float Shillien_Templar_vs_Doomcryer;
-
+	
 	public static float Spectral_Dancer_vs_Duelist;
 	public static float Spectral_Dancer_vs_DreadNought;
 	public static float Spectral_Dancer_vs_Phoenix_Knight;
@@ -2205,7 +2195,7 @@ public final class Config
 	public static float Spectral_Dancer_vs_Shillien_Saint;
 	public static float Spectral_Dancer_vs_Dominator;
 	public static float Spectral_Dancer_vs_Doomcryer;
-
+	
 	public static float Ghost_Sentinel_vs_Duelist;
 	public static float Ghost_Sentinel_vs_DreadNought;
 	public static float Ghost_Sentinel_vs_Phoenix_Knight;
@@ -2236,7 +2226,7 @@ public final class Config
 	public static float Ghost_Sentinel_vs_Shillien_Saint;
 	public static float Ghost_Sentinel_vs_Dominator;
 	public static float Ghost_Sentinel_vs_Doomcryer;
-
+	
 	public static float Titan_vs_Duelist;
 	public static float Titan_vs_DreadNought;
 	public static float Titan_vs_Phoenix_Knight;
@@ -2267,7 +2257,7 @@ public final class Config
 	public static float Titan_vs_Shillien_Saint;
 	public static float Titan_vs_Dominator;
 	public static float Titan_vs_Doomcryer;
-
+	
 	public static float Grand_Khauatari_vs_Duelist;
 	public static float Grand_Khauatari_vs_DreadNought;
 	public static float Grand_Khauatari_vs_Phoenix_Knight;
@@ -2298,7 +2288,7 @@ public final class Config
 	public static float Grand_Khauatari_vs_Shillien_Saint;
 	public static float Grand_Khauatari_vs_Dominator;
 	public static float Grand_Khauatari_vs_Doomcryer;
-
+	
 	public static float Fortune_Seeker_vs_Duelist;
 	public static float Fortune_Seeker_vs_DreadNought;
 	public static float Fortune_Seeker_vs_Phoenix_Knight;
@@ -2329,7 +2319,7 @@ public final class Config
 	public static float Fortune_Seeker_vs_Shillien_Saint;
 	public static float Fortune_Seeker_vs_Dominator;
 	public static float Fortune_Seeker_vs_Doomcryer;
-
+	
 	public static float Maestro_vs_Duelist;
 	public static float Maestro_vs_DreadNought;
 	public static float Maestro_vs_Phoenix_Knight;
@@ -2360,7 +2350,7 @@ public final class Config
 	public static float Maestro_vs_Shillien_Saint;
 	public static float Maestro_vs_Dominator;
 	public static float Maestro_vs_Doomcryer;
-
+	
 	public static float Adventurer_vs_Duelist;
 	public static float Adventurer_vs_DreadNought;
 	public static float Adventurer_vs_Phoenix_Knight;
@@ -2391,7 +2381,7 @@ public final class Config
 	public static float Adventurer_vs_Shillien_Saint;
 	public static float Adventurer_vs_Dominator;
 	public static float Adventurer_vs_Doomcryer;
-
+	
 	public static float Wind_Rider_vs_Duelist;
 	public static float Wind_Rider_vs_DreadNought;
 	public static float Wind_Rider_vs_Phoenix_Knight;
@@ -2422,7 +2412,7 @@ public final class Config
 	public static float Wind_Rider_vs_Shillien_Saint;
 	public static float Wind_Rider_vs_Dominator;
 	public static float Wind_Rider_vs_Doomcryer;
-
+	
 	public static float Ghost_Hunter_vs_Duelist;
 	public static float Ghost_Hunter_vs_DreadNought;
 	public static float Ghost_Hunter_vs_Phoenix_Knight;
@@ -2453,7 +2443,7 @@ public final class Config
 	public static float Ghost_Hunter_vs_Shillien_Saint;
 	public static float Ghost_Hunter_vs_Dominator;
 	public static float Ghost_Hunter_vs_Doomcryer;
-
+	
 	public static float Archmage_vs_Duelist;
 	public static float Archmage_vs_DreadNought;
 	public static float Archmage_vs_Phoenix_Knight;
@@ -2484,7 +2474,7 @@ public final class Config
 	public static float Archmage_vs_Shillien_Saint;
 	public static float Archmage_vs_Dominator;
 	public static float Archmage_vs_Doomcryer;
-
+	
 	public static float Soultaker_vs_Duelist;
 	public static float Soultaker_vs_DreadNought;
 	public static float Soultaker_vs_Phoenix_Knight;
@@ -2515,7 +2505,7 @@ public final class Config
 	public static float Soultaker_vs_Shillien_Saint;
 	public static float Soultaker_vs_Dominator;
 	public static float Soultaker_vs_Doomcryer;
-
+	
 	public static float Arcana_Lord_vs_Duelist;
 	public static float Arcana_Lord_vs_DreadNought;
 	public static float Arcana_Lord_vs_Phoenix_Knight;
@@ -2546,7 +2536,7 @@ public final class Config
 	public static float Arcana_Lord_vs_Shillien_Saint;
 	public static float Arcana_Lord_vs_Dominator;
 	public static float Arcana_Lord_vs_Doomcryer;
-
+	
 	public static float Cardinal_vs_Duelist;
 	public static float Cardinal_vs_DreadNought;
 	public static float Cardinal_vs_Phoenix_Knight;
@@ -2577,7 +2567,7 @@ public final class Config
 	public static float Cardinal_vs_Shillien_Saint;
 	public static float Cardinal_vs_Dominator;
 	public static float Cardinal_vs_Doomcryer;
-
+	
 	public static float Hierophant_vs_Duelist;
 	public static float Hierophant_vs_DreadNought;
 	public static float Hierophant_vs_Phoenix_Knight;
@@ -2608,7 +2598,7 @@ public final class Config
 	public static float Hierophant_vs_Shillien_Saint;
 	public static float Hierophant_vs_Dominator;
 	public static float Hierophant_vs_Doomcryer;
-
+	
 	public static float Mystic_Muse_vs_Duelist;
 	public static float Mystic_Muse_vs_DreadNought;
 	public static float Mystic_Muse_vs_Phoenix_Knight;
@@ -2639,7 +2629,7 @@ public final class Config
 	public static float Mystic_Muse_vs_Shillien_Saint;
 	public static float Mystic_Muse_vs_Dominator;
 	public static float Mystic_Muse_vs_Doomcryer;
-
+	
 	public static float Elemental_Master_vs_Duelist;
 	public static float Elemental_Master_vs_DreadNought;
 	public static float Elemental_Master_vs_Phoenix_Knight;
@@ -2670,7 +2660,7 @@ public final class Config
 	public static float Elemental_Master_vs_Shillien_Saint;
 	public static float Elemental_Master_vs_Dominator;
 	public static float Elemental_Master_vs_Doomcryer;
-
+	
 	public static float Eva_s_Saint_vs_Duelist;
 	public static float Eva_s_Saint_vs_DreadNought;
 	public static float Eva_s_Saint_vs_Phoenix_Knight;
@@ -2701,7 +2691,7 @@ public final class Config
 	public static float Eva_s_Saint_vs_Shillien_Saint;
 	public static float Eva_s_Saint_vs_Dominator;
 	public static float Eva_s_Saint_vs_Doomcryer;
-
+	
 	public static float Storm_Screamer_vs_Duelist;
 	public static float Storm_Screamer_vs_DreadNought;
 	public static float Storm_Screamer_vs_Phoenix_Knight;
@@ -2732,7 +2722,7 @@ public final class Config
 	public static float Storm_Screamer_vs_Shillien_Saint;
 	public static float Storm_Screamer_vs_Dominator;
 	public static float Storm_Screamer_vs_Doomcryer;
-
+	
 	public static float Spectral_Master_vs_Duelist;
 	public static float Spectral_Master_vs_DreadNought;
 	public static float Spectral_Master_vs_Phoenix_Knight;
@@ -2763,7 +2753,7 @@ public final class Config
 	public static float Spectral_Master_vs_Shillien_Saint;
 	public static float Spectral_Master_vs_Dominator;
 	public static float Spectral_Master_vs_Doomcryer;
-
+	
 	public static float Shillien_Saint_vs_Duelist;
 	public static float Shillien_Saint_vs_DreadNought;
 	public static float Shillien_Saint_vs_Phoenix_Knight;
@@ -2794,7 +2784,7 @@ public final class Config
 	public static float Shillien_Saint_vs_Spectral_Master;
 	public static float Shillien_Saint_vs_Dominator;
 	public static float Shillien_Saint_vs_Doomcryer;
-
+	
 	public static float Dominator_vs_Duelist;
 	public static float Dominator_vs_DreadNought;
 	public static float Dominator_vs_Phoenix_Knight;
@@ -2825,7 +2815,7 @@ public final class Config
 	public static float Dominator_vs_Spectral_Master;
 	public static float Dominator_vs_Shillien_Saint;
 	public static float Dominator_vs_Doomcryer;
-
+	
 	public static float Doomcryer_vs_Duelist;
 	public static float Doomcryer_vs_DreadNought;
 	public static float Doomcryer_vs_Phoenix_Knight;
@@ -2856,7 +2846,7 @@ public final class Config
 	public static float Doomcryer_vs_Spectral_Master;
 	public static float Doomcryer_vs_Shillien_Saint;
 	public static float Doomcryer_vs_Dominator;
-
+	
 	/**
 	 * Initialize {@link ExProperties} from specified configuration file.
 	 * @param filename : File name to be loaded.
@@ -2865,7 +2855,7 @@ public final class Config
 	public static final ExProperties initProperties(String filename)
 	{
 		final ExProperties result = new ExProperties();
-
+		
 		try
 		{
 			result.load(new File(filename));
@@ -2874,10 +2864,10 @@ public final class Config
 		{
 			_log.warning("Config: Error loading \"" + filename + "\" config.");
 		}
-
+		
 		return result;
 	}
-
+	
 	/**
 	 * itemId1,itemNumber1;itemId2,itemNumber2... to the int[n][2] = [itemId1][itemNumber1],[itemId2][itemNumber2]...
 	 * @param line
@@ -2888,7 +2878,7 @@ public final class Config
 		final String[] propertySplit = line.split(";");
 		if (propertySplit.length == 0)
 			return null;
-
+		
 		int i = 0;
 		String[] valueSplit;
 		final int[][] result = new int[propertySplit.length][];
@@ -2900,7 +2890,7 @@ public final class Config
 				_log.warning("Config: Error parsing entry -> \"" + valueSplit[0] + "\", should be itemId,itemNumber");
 				return null;
 			}
-
+			
 			result[i] = new int[2];
 			try
 			{
@@ -2911,7 +2901,7 @@ public final class Config
 				_log.warning("Config: Error parsing item ID -> \"" + valueSplit[0] + "\"");
 				return null;
 			}
-
+			
 			try
 			{
 				result[i][1] = Integer.parseInt(valueSplit[1]);
@@ -2925,7 +2915,7 @@ public final class Config
 		}
 		return result;
 	}
-
+	
 	/**
 	 * Loads boss settings.
 	 */
@@ -2936,38 +2926,38 @@ public final class Config
 		RAID_MP_REGEN_MULTIPLIER = boss.getProperty("RaidMpRegenMultiplier", 1.);
 		RAID_DEFENCE_MULTIPLIER = boss.getProperty("RaidDefenceMultiplier", 1.);
 		RAID_MINION_RESPAWN_TIMER = boss.getProperty("RaidMinionRespawnTime", 300000);
-
+		
 		RAID_DISABLE_CURSE = boss.getProperty("DisableRaidCurse", false);
 		RAID_CHAOS_TIME = boss.getProperty("RaidChaosTime", 30);
 		GRAND_CHAOS_TIME = boss.getProperty("GrandChaosTime", 30);
 		MINION_CHAOS_TIME = boss.getProperty("MinionChaosTime", 30);
-
+		
 		EARTH_QUAKE = boss.getProperty("EarthQuake", false);
-
+		
 		SPAWN_INTERVAL_AQ = boss.getProperty("AntQueenSpawnInterval", 36);
 		RANDOM_SPAWN_TIME_AQ = boss.getProperty("AntQueenRandomSpawn", 17);
-
+		
 		SPAWN_INTERVAL_ANTHARAS = boss.getProperty("AntharasSpawnInterval", 264);
 		RANDOM_SPAWN_TIME_ANTHARAS = boss.getProperty("AntharasRandomSpawn", 72);
 		WAIT_TIME_ANTHARAS = boss.getProperty("AntharasWaitTime", 30) * 60000;
-
+		
 		SPAWN_INTERVAL_BAIUM = boss.getProperty("BaiumSpawnInterval", 168);
 		RANDOM_SPAWN_TIME_BAIUM = boss.getProperty("BaiumRandomSpawn", 48);
-
+		
 		SPAWN_INTERVAL_CORE = boss.getProperty("CoreSpawnInterval", 60);
 		RANDOM_SPAWN_TIME_CORE = boss.getProperty("CoreRandomSpawn", 23);
-
+		
 		SPAWN_INTERVAL_ORFEN = boss.getProperty("OrfenSpawnInterval", 48);
 		RANDOM_SPAWN_TIME_ORFEN = boss.getProperty("OrfenRandomSpawn", 20);
-
+		
 		SPAWN_INTERVAL_VALAKAS = boss.getProperty("ValakasSpawnInterval", 264);
 		RANDOM_SPAWN_TIME_VALAKAS = boss.getProperty("ValakasRandomSpawn", 72);
 		WAIT_TIME_VALAKAS = boss.getProperty("ValakasWaitTime", 30) * 60000;
-
+		
 		SPAWN_INTERVAL_ZAKEN = boss.getProperty("ZakenSpawnInterval", 60);
 		RANDOM_SPAWN_TIME_ZAKEN = boss.getProperty("ZakenRandomSpawn", 20);
 		WAIT_TIME_ZAKEN = boss.getProperty("ZakenWaitTime", 30) * 60000;
-
+		
 		SPAWN_INTERVAL_FRINTEZZA = boss.getProperty("FrintezzaSpawnInterval", 48);
 		RANDOM_SPAWN_TIME_FRINTEZZA = boss.getProperty("FrintezzaRandomSpawn", 8);
 		BYPASS_FRINTEZZA_PARTIES_CHECK = Boolean.valueOf(boss.getProperty("BypassPartiesCheck", "true"));
@@ -2976,60 +2966,60 @@ public final class Config
 		WAIT_TIME_FRINTEZZA = boss.getProperty("FrintezzaWaitTime", 10) * 60000;
 		DESPAWN_TIME_FRINTEZZA = boss.getProperty("FrintezzaDespawnTime", 1) * 60000;
 		FRINTEZZA_TIME_CHALLENGE = boss.getProperty("FrintezzaTimeChallenge", 1) * 60000;
-
+		
 		SPAWN_INTERVAL_SAILREN = boss.getProperty("SailrenSpawnInterval", 36);
 		RANDOM_SPAWN_TIME_SAILREN = boss.getProperty("SailrenRandomSpawn", 24);
 		WAIT_TIME_SAILREN = boss.getProperty("SailrenWaitTime", 5) * 60000;
-
+		
 		QUEST_BAIUM = Integer.parseInt(boss.getProperty("QuestBaium", "4295"));
 		QUEST_VALAKAS = Integer.parseInt(boss.getProperty("QuestValakas", "7267"));
 		QUEST_ANTHARAS = Integer.parseInt(boss.getProperty("QuestAntharas", "3865"));
 		QUEST_SAILREN = Integer.parseInt(boss.getProperty("QuestSailren", "8784"));
 		QUEST_FRINTEZZA = Integer.parseInt(boss.getProperty("QuestFrintezza", "8073"));
-
+		
 		RAID_BOSS_ZONE_IDS = boss.getProperty("RaidList_Protection");
 		LIST_RAID_BOSS_ZONE_IDS = new ArrayList<>();
 		for (String id : RAID_BOSS_ZONE_IDS.trim().split(","))
 		{
 			LIST_RAID_BOSS_ZONE_IDS.add(Integer.parseInt(id.trim()));
 		}
-
+		
 		GRANDBOSS_INFO_IDS = boss.getProperty("GradBossSpawnInfoIDs");
 		GRANDBOSS_INFO_IDS_LIST = new ArrayList<>();
 		for (String id : GRANDBOSS_INFO_IDS.split(","))
 		{
 			GRANDBOSS_INFO_IDS_LIST.add(Integer.valueOf(Integer.parseInt(id)));
 		}
-
+		
 		RAID_INFO_IDS = boss.getProperty("RaidSpawnInfoIDs");
 		RAID_INFO_IDS_LIST = new ArrayList<>();
 		for (String id : RAID_INFO_IDS.split(","))
 			RAID_INFO_IDS_LIST.add(Integer.parseInt(id));
-
+		
 		RAID_RESPAWN_IDS = boss.getProperty("Respawn_Raid_IDs");
 		RAID_RESPAWN_IDS_LIST = new ArrayList<>();
 		for (String id : RAID_RESPAWN_IDS.split(","))
 			RAID_RESPAWN_IDS_LIST.add(Integer.parseInt(id));
-
+		
 		RESPAWN_CUSTOM = Boolean.parseBoolean(boss.getProperty("RespawnCustom", "false"));
 		MIN_RESPAWN = Integer.parseInt(boss.getProperty("Respawn_raidboss", "4"));
 		MAX_RESPAWN = Integer.parseInt(boss.getProperty("Respawn_random_raidboss", "4"));
-
+		
 		ALLOW_AUTO_NOBLESS_FROM_BOSS = Boolean.valueOf(boss.getProperty("AllowAutoNoblessFromBoss", "True")).booleanValue();
 		BOSS_ID = Integer.parseInt(boss.getProperty("BossId", "25325"));
 		RADIUS_TO_RAID = Integer.parseInt(boss.getProperty("RadiusToRaid", "1000"));
-
+		
 		ANNOUNCE_TO_ALL_SPAWN_RB = Boolean.parseBoolean(boss.getProperty("AnnounceToAllSpawnRb", "false"));
 		ANNOUNCE_ID = Integer.parseInt(boss.getProperty("AnnounceId", "3"));
-
+		
 		RAID_ID_ANNOUNCE = boss.getProperty("AnnounceRaidId", "");
-
+		
 		LIST_RAID_ANNOUNCE = new ArrayList<>();
 		for (String id : RAID_ID_ANNOUNCE.split(","))
 		{
 			LIST_RAID_ANNOUNCE.add(Integer.parseInt(id));
 		}
-
+		
 		AQ_CUSTOM_SPAWN_ENABLED = boss.getProperty("AntQueenCustomSpawn", false);
 		AQ_CUSTOM_SPAWN_RANDOM_INTERVAL = Integer.parseInt(boss.getProperty("AntQueenRandomSpawn", "0").trim());
 		AQ_CUSTOM_SPAWN_TIMES = ParseDates(boss.getProperty("AntQueenDaysAndHours", "").trim(), AQ_CUSTOM_SPAWN_RANDOM_INTERVAL);
@@ -3057,20 +3047,20 @@ public final class Config
 		SAILREN_CUSTOM_SPAWN_ENABLED = boss.getProperty("SailrenCustomSpawn", false);
 		SAILREN_CUSTOM_SPAWN_RANDOM_INTERVAL = Integer.parseInt(boss.getProperty("SailrenRandomSpawn", "0").trim());
 		SAILREN_CUSTOM_SPAWN_TIMES = ParseDates(boss.getProperty("SailrenDaysAndHours", "").trim(), SAILREN_CUSTOM_SPAWN_RANDOM_INTERVAL);
-
+		
 	}
-
+	
 	/**
 	 * Loads clan and clan hall settings.
 	 */
 	private static final void loadClans()
 	{
 		final ExProperties clans = initProperties(CLANS_FILE);
-
+		
 		MIN_MEMBERS_LV6 = clans.getProperty("Min_Members_Raise_the_lv6", 30);
 		MIN_MEMBERS_LV7 = clans.getProperty("Min_Members_Raise_the_lv7", 80);
 		MIN_MEMBERS_LV8 = clans.getProperty("Min_Members_Raise_the_lv8", 120);
-
+		
 		MIN_FLAMESTONE_GIANT = clans.getProperty("Min_Flamestone_Giant", 60);
 		MAX_FLAMESTONE_GIANT = clans.getProperty("Max_Flamestone_Giant", 95);
 		MIN_THEMIS_SCALE = clans.getProperty("Min_Themis_Scale", 65);
@@ -3083,14 +3073,14 @@ public final class Config
 		MAX_GLAKI = clans.getProperty("Max_Giant_Glaki", 140);
 		MIN_RAHHA = clans.getProperty("Min_Rahha", 40);
 		MAX_RAHHA = clans.getProperty("Max_Rahha", 75);
-
+		
 		ITEM_ID_BUY_CLAN_HALL = clans.getProperty("ItemIDBuyClanHall", 57);
-
+		
 		ALLOW_CLAN_FULL = Boolean.parseBoolean(clans.getProperty("LimiteFullClan", "false"));
 		DISABLE_ROYAL = Boolean.parseBoolean(clans.getProperty("DisableRoyal", "false"));
 		ALT_MAX_NUM_OF_MEMBERS_IN_CLAN = Integer.parseInt(clans.getProperty("AltMaxNumOfMembersInClan", "20"));
 		ALT_NUM_OF_MEMBERS_IN_CLAN = Integer.parseInt(clans.getProperty("AltNumOfMembersOnline", "10"));
-
+		
 		ALT_CLAN_JOIN_MINUTES = clans.getProperty("MinutesBeforeJoinAClan", 1);
 		ALT_CLAN_CREATE_DAYS = clans.getProperty("DaysBeforeCreateAClan", 10);
 		ALT_MAX_NUM_OF_CLANS_IN_ALLY = clans.getProperty("AltMaxNumOfClansInAlly", 3);
@@ -3103,14 +3093,14 @@ public final class Config
 		ALT_CREATE_ALLY_DAYS_WHEN_DISSOLVED = clans.getProperty("DaysBeforeCreateNewAllyWhenDissolved", 10);
 		ALT_MEMBERS_CAN_WITHDRAW_FROM_CLANWH = clans.getProperty("AltMembersCanWithdrawFromClanWH", false);
 		REMOVE_CASTLE_CIRCLETS = clans.getProperty("RemoveCastleCirclets", true);
-
+		
 		ALT_MANOR_REFRESH_TIME = clans.getProperty("AltManorRefreshTime", 20);
 		ALT_MANOR_REFRESH_MIN = clans.getProperty("AltManorRefreshMin", 0);
 		ALT_MANOR_APPROVE_TIME = clans.getProperty("AltManorApproveTime", 6);
 		ALT_MANOR_APPROVE_MIN = clans.getProperty("AltManorApproveMin", 0);
 		ALT_MANOR_MAINTENANCE_MIN = clans.getProperty("AltManorMaintenanceMin", 6);
 		ALT_MANOR_SAVE_PERIOD_RATE = clans.getProperty("AltManorSavePeriodRate", 2) * 3600000;
-
+		
 		CH_TELE_FEE_RATIO = clans.getProperty("ClanHallTeleportFunctionFeeRatio", 86400000);
 		CH_TELE1_FEE = clans.getProperty("ClanHallTeleportFunctionFeeLvl1", 7000);
 		CH_TELE2_FEE = clans.getProperty("ClanHallTeleportFunctionFeeLvl2", 14000);
@@ -3162,18 +3152,18 @@ public final class Config
 		CH_FRONT1_FEE = clans.getProperty("ClanHallFrontPlatformFunctionFeeLvl1", 3031);
 		CH_FRONT2_FEE = clans.getProperty("ClanHallFrontPlatformFunctionFeeLvl2", 9331);
 	}
-
+	
 	/**
 	 * Loads enchant settings.
 	 */
 	private static final void loadEnchant()
 	{
 		final ExProperties enchant = initProperties(ENCHANT_FILE);
-
+		
 		ENABLE_DWARF_ENCHANT_BONUS = Boolean.parseBoolean(enchant.getProperty("EnableDwarfEnchantBonus", "False"));
 		DWARF_ENCHANT_MIN_LEVEL = Integer.parseInt(enchant.getProperty("DwarfEnchantMinLevel", "80"));
 		DWARF_ENCHANT_BONUS = Integer.parseInt(enchant.getProperty("DwarfEnchantBonus", "15"));
-
+		
 		String[] propertySplit = enchant.getProperty("NormalWeaponEnchantLevel", "").split(";");
 		for (final String readData : propertySplit)
 		{
@@ -3199,7 +3189,7 @@ public final class Config
 				}
 			}
 		}
-
+		
 		propertySplit = enchant.getProperty("BlessWeaponEnchantLevel", "").split(";");
 		for (final String readData : propertySplit)
 		{
@@ -3225,7 +3215,7 @@ public final class Config
 				}
 			}
 		}
-
+		
 		propertySplit = enchant.getProperty("CrystalWeaponEnchantLevel", "").split(";");
 		for (final String readData : propertySplit)
 		{
@@ -3251,7 +3241,7 @@ public final class Config
 				}
 			}
 		}
-
+		
 		propertySplit = enchant.getProperty("DonatorWeaponEnchantLevel", "").split(";");
 		for (String readData : propertySplit)
 		{
@@ -3277,7 +3267,7 @@ public final class Config
 				}
 			}
 		}
-
+		
 		propertySplit = enchant.getProperty("NormalArmorEnchantLevel", "").split(";");
 		for (final String readData : propertySplit)
 		{
@@ -3303,7 +3293,7 @@ public final class Config
 				}
 			}
 		}
-
+		
 		propertySplit = enchant.getProperty("BlessArmorEnchantLevel", "").split(";");
 		for (final String readData : propertySplit)
 		{
@@ -3329,7 +3319,7 @@ public final class Config
 				}
 			}
 		}
-
+		
 		propertySplit = enchant.getProperty("CrystalArmorEnchantLevel", "").split(";");
 		for (final String readData : propertySplit)
 		{
@@ -3380,7 +3370,7 @@ public final class Config
 				}
 			}
 		}
-
+		
 		propertySplit = enchant.getProperty("NormalJewelryEnchantLevel", "").split(";");
 		for (final String readData : propertySplit)
 		{
@@ -3399,7 +3389,7 @@ public final class Config
 				{
 					if (Config.DEBUG)
 						nfe.printStackTrace();
-
+					
 					if (!readData.equals(""))
 					{
 						_log.info("invalid config property");
@@ -3407,7 +3397,7 @@ public final class Config
 				}
 			}
 		}
-
+		
 		propertySplit = enchant.getProperty("BlessJewelryEnchantLevel", "").split(";");
 		for (final String readData : propertySplit)
 		{
@@ -3426,7 +3416,7 @@ public final class Config
 				{
 					if (Config.DEBUG)
 						nfe.printStackTrace();
-
+					
 					if (!readData.equals(""))
 					{
 						_log.info("invalid config property");
@@ -3434,7 +3424,7 @@ public final class Config
 				}
 			}
 		}
-
+		
 		propertySplit = enchant.getProperty("CrystalJewelryEnchantLevel", "").split(";");
 		for (final String readData : propertySplit)
 		{
@@ -3453,7 +3443,7 @@ public final class Config
 				{
 					if (Config.DEBUG)
 						nfe.printStackTrace();
-
+					
 					if (!readData.equals(""))
 					{
 						_log.info("invalid config property");
@@ -3461,7 +3451,7 @@ public final class Config
 				}
 			}
 		}
-
+		
 		propertySplit = enchant.getProperty("DonatorJewelryEnchantLevel", "").split(";");
 		for (String readData : propertySplit)
 		{
@@ -3480,7 +3470,7 @@ public final class Config
 				{
 					if (Config.DEBUG)
 						nfe.printStackTrace();
-
+					
 					if (!readData.equals(""))
 					{
 						System.out.println("invalid config property");
@@ -3489,32 +3479,32 @@ public final class Config
 			}
 		}
 		ENCHANT_HERO_WEAPON = Boolean.parseBoolean(enchant.getProperty("EnableEnchantHeroWeapons", "False"));
-
+		
 		GOLD_WEAPON = Integer.parseInt(enchant.getProperty("IdEnchantDonatorWeapon", "10010"));
-
+		
 		GOLD_ARMOR = Integer.parseInt(enchant.getProperty("IdEnchantDonatorArmor", "10011"));
-
+		
 		ENCHANT_SAFE_MAX = Integer.parseInt(enchant.getProperty("EnchantSafeMax", "3"));
-
+		
 		ENCHANT_SAFE_MAX_FULL = Integer.parseInt(enchant.getProperty("EnchantSafeMaxFull", "4"));
-
+		
 		SCROLL_STACKABLE = Boolean.parseBoolean(enchant.getProperty("ScrollStackable", "False"));
-
+		
 		ENCHANT_WEAPON_MAX = Integer.parseInt(enchant.getProperty("EnchantWeaponMax", "25"));
 		ENCHANT_ARMOR_MAX = Integer.parseInt(enchant.getProperty("EnchantArmorMax", "25"));
 		ENCHANT_JEWELRY_MAX = Integer.parseInt(enchant.getProperty("EnchantJewelryMax", "25"));
-
+		
 		BLESSED_ENCHANT_WEAPON_MAX = Integer.parseInt(enchant.getProperty("BlessedEnchantWeaponMax", "25"));
 		BLESSED_ENCHANT_ARMOR_MAX = Integer.parseInt(enchant.getProperty("BlessedEnchantArmorMax", "25"));
 		BLESSED_ENCHANT_JEWELRY_MAX = Integer.parseInt(enchant.getProperty("BlessedEnchantJewelryMax", "25"));
-
+		
 		BREAK_ENCHANT = Integer.valueOf(enchant.getProperty("BreakEnchant", "0"));
-
+		
 		CRYSTAL_ENCHANT_MIN = Integer.parseInt(enchant.getProperty("CrystalEnchantMin", "20"));
 		CRYSTAL_ENCHANT_WEAPON_MAX = Integer.parseInt(enchant.getProperty("CrystalEnchantWeaponMax", "25"));
 		CRYSTAL_ENCHANT_ARMOR_MAX = Integer.parseInt(enchant.getProperty("CrystalEnchantArmorMax", "25"));
 		CRYSTAL_ENCHANT_JEWELRY_MAX = Integer.parseInt(enchant.getProperty("CrystalEnchantJewelryMax", "25"));
-
+		
 		DONATOR_ENCHANT_MIN = Integer.parseInt(enchant.getProperty("DonatorEnchantMin", "20"));
 		DONATOR_ENCHANT_WEAPON_MAX = Integer.parseInt(enchant.getProperty("DonatorEnchantWeaponMax", "25"));
 		DONATOR_ENCHANT_ARMOR_MAX = Integer.parseInt(enchant.getProperty("DonatorEnchantArmorMax", "25"));
@@ -3522,7 +3512,7 @@ public final class Config
 		DONATOR_DECREASE_ENCHANT = Boolean.valueOf(enchant.getProperty("DonatorDecreaseEnchant", "false"));
 		DONATOR_BREAK_ENCHANT = Integer.parseInt(enchant.getProperty("DonatorBreakEnchant", "25"));
 		DONATOR_LOST_ENCHANT = Boolean.valueOf(enchant.getProperty("DonatorLostEnchant", "false"));
-
+		
 		ENABLE_ENCHANT_ANNOUNCE = Boolean.parseBoolean(enchant.getProperty("EnableEnchantAnnounce", "False"));
 		ENCHANT_ANNOUNCE_LEVEL = enchant.getProperty("EnchantAnnounceLevels", "6,10,16,20");
 		LIST_ENCHANT_ANNOUNCE_LEVEL = new ArrayList<>();
@@ -3530,9 +3520,9 @@ public final class Config
 		{
 			LIST_ENCHANT_ANNOUNCE_LEVEL.add(Integer.parseInt(id));
 		}
-
+		
 		ALT_OLY_ENCHANT_LIMIT = Integer.parseInt(enchant.getProperty("AltOlyMaxEnchant", "-1"));
-
+		
 		AUGMENTATION_NG_SKILL_CHANCE = enchant.getProperty("AugmentationNGSkillChance", 15);
 		AUGMENTATION_NG_GLOW_CHANCE = enchant.getProperty("AugmentationNGGlowChance", 0);
 		AUGMENTATION_MID_SKILL_CHANCE = enchant.getProperty("AugmentationMidSkillChance", 30);
@@ -3543,7 +3533,7 @@ public final class Config
 		AUGMENTATION_TOP_GLOW_CHANCE = enchant.getProperty("AugmentationTopGlowChance", 100);
 		AUGMENTATION_BASESTAT_CHANCE = enchant.getProperty("AugmentationBaseStatChance", 1);
 	}
-
+	
 	/**
 	 * Loads event settings.<br>
 	 * Such as olympiad, seven signs festival, four sepulchures, dimensional rift, weddings, lottery, fishing championship.
@@ -3551,31 +3541,31 @@ public final class Config
 	private static final void loadEvents()
 	{
 		final ExProperties events = initProperties(EVENTS_FILE);
-
+		
 		OLY_SKILL_PROTECT = Boolean.parseBoolean(events.getProperty("OlySkillProtect", "True"));
 		for (String id : events.getProperty("OllySkillId", "0").split(","))
 		{
 			OLY_SKILL_LIST.add(Integer.parseInt(id));
 		}
-
+		
 		OLY_PROTECT_ITEMS = new ArrayList<>();
 		for (String id : events.getProperty("OlyRestrictedItems", "0").split(","))
 		{
 			OLY_PROTECT_ITEMS.add(Integer.parseInt(id));
 		}
-
+		
 		OLLY_GRADE_A = Boolean.parseBoolean(events.getProperty("AllowOllyGradeS", "False"));
-
+		
 		ALT_OLY_USE_CUSTOM_PERIOD_SETTINGS = Boolean.parseBoolean(events.getProperty("AltOlyUseCustomPeriodSettings", "false"));
 		ALT_OLY_PERIOD = OlympiadPeriod.valueOf(events.getProperty("AltOlyPeriod", "MONTH"));
 		ALT_OLY_PERIOD_MULTIPLIER = Integer.parseInt(events.getProperty("AltOlyPeriodMultiplier", "1"));
-
+		
 		OLYMPIAD_PERIOD = events.getProperty("OlympiadPeriod_EnterWorld", false);
-
+		
 		OLY_FIGHT = events.getProperty("AllowOlympiad", false);
-
+		
 		OLY_CLASSED_FIGHT = events.getProperty("AllowClassedFight", false);
-
+		
 		String[] property_m = events.getProperty("OlympiadBuffsMage", "1204,2").split(";");
 		CUSTOM_BUFFS_M.clear();
 		for (String buff : property_m)
@@ -3600,7 +3590,7 @@ public final class Config
 				}
 			}
 		}
-
+		
 		String[] property_f = events.getProperty("OlympiadBuffsFighter", "1204,2").split(";");
 		CUSTOM_BUFFS_F.clear();
 		for (String buff : property_f)
@@ -3652,7 +3642,7 @@ public final class Config
 		ALT_OLY_DIVIDER_CLASSED = events.getProperty("AltOlyDividerClassed", 3);
 		ALT_OLY_DIVIDER_NON_CLASSED = events.getProperty("AltOlyDividerNonClassed", 3);
 		ALT_OLY_ANNOUNCE_GAMES = events.getProperty("AltOlyAnnounceGames", true);
-
+		
 		ALT_GAME_CASTLE_DAWN = events.getProperty("AltCastleForDawn", true);
 		ALT_GAME_CASTLE_DUSK = events.getProperty("AltCastleForDusk", true);
 		ALT_FESTIVAL_MIN_PLAYER = MathUtil.limit(events.getProperty("AltFestivalMinPlayer", 5), 2, 9);
@@ -3665,12 +3655,12 @@ public final class Config
 		ALT_FESTIVAL_SECOND_SPAWN = events.getProperty("AltFestivalSecondSpawn", 540000);
 		ALT_FESTIVAL_SECOND_SWARM = events.getProperty("AltFestivalSecondSwarm", 720000);
 		ALT_FESTIVAL_CHEST_SPAWN = events.getProperty("AltFestivalChestSpawn", 900000);
-
+		
 		FS_TIME_ATTACK = events.getProperty("TimeOfAttack", 50);
 		FS_TIME_ENTRY = events.getProperty("TimeOfEntry", 3);
 		FS_TIME_WARMUP = events.getProperty("TimeOfWarmUp", 2);
 		FS_PARTY_MEMBER_COUNT = MathUtil.limit(events.getProperty("NumberOfNecessaryPartyMembers", 4), 2, 9);
-
+		
 		RIFT_MIN_PARTY_SIZE = events.getProperty("RiftMinPartySize", 2);
 		RIFT_MAX_JUMPS = events.getProperty("MaxRiftJumps", 4);
 		RIFT_SPAWN_DELAY = events.getProperty("RiftSpawnDelay", 10000);
@@ -3683,19 +3673,19 @@ public final class Config
 		RIFT_ENTER_COST_COMMANDER = events.getProperty("CommanderCost", 30);
 		RIFT_ENTER_COST_HERO = events.getProperty("HeroCost", 33);
 		RIFT_BOSS_ROOM_TIME_MUTIPLY = events.getProperty("BossRoomTimeMultiply", 1.);
-
+		
 		ALLOW_WEDDING = events.getProperty("AllowWedding", false);
 		WEDDING_PRICE = events.getProperty("WeddingPrice", 1000000);
 		WEDDING_SAMESEX = events.getProperty("WeddingAllowSameSex", false);
 		WEDDING_FORMALWEAR = events.getProperty("WeddingFormalWear", true);
-
+		
 		ALT_LOTTERY_PRIZE = events.getProperty("AltLotteryPrize", 50000);
 		ALT_LOTTERY_TICKET_PRICE = events.getProperty("AltLotteryTicketPrice", 2000);
 		ALT_LOTTERY_5_NUMBER_RATE = events.getProperty("AltLottery5NumberRate", 0.6);
 		ALT_LOTTERY_4_NUMBER_RATE = events.getProperty("AltLottery4NumberRate", 0.2);
 		ALT_LOTTERY_3_NUMBER_RATE = events.getProperty("AltLottery3NumberRate", 0.2);
 		ALT_LOTTERY_2_AND_1_NUMBER_PRIZE = events.getProperty("AltLottery2and1NumberPrize", 200);
-
+		
 		ALT_FISH_CHAMPIONSHIP_ENABLED = events.getProperty("AltFishChampionshipEnabled", true);
 		ALT_FISH_CHAMPIONSHIP_REWARD_ITEM = events.getProperty("AltFishChampionshipRewardItemId", 57);
 		ALT_FISH_CHAMPIONSHIP_REWARD_1 = events.getProperty("AltFishChampionshipReward1", 800000);
@@ -3704,7 +3694,7 @@ public final class Config
 		ALT_FISH_CHAMPIONSHIP_REWARD_4 = events.getProperty("AltFishChampionshipReward4", 200000);
 		ALT_FISH_CHAMPIONSHIP_REWARD_5 = events.getProperty("AltFishChampionshipReward5", 100000);
 	}
-
+	
 	/**
 	 * Loads geoengine settings.
 	 */
@@ -3714,10 +3704,10 @@ public final class Config
 		ENABLE_GEODATA = geoengine.getProperty("EnableGeoData", false);
 		GEODATA_PATH = geoengine.getProperty("GeoDataPath", "./data/geodata/");
 		COORD_SYNCHRONIZE = geoengine.getProperty("CoordSynchronize", -1);
-
+		
 		PART_OF_CHARACTER_HEIGHT = geoengine.getProperty("PartOfCharacterHeight", 75);
 		MAX_OBSTACLE_HEIGHT = geoengine.getProperty("MaxObstacleHeight", 32);
-
+		
 		PATHFIND_BUFFERS = geoengine.getProperty("PathFindBuffers", "100x6;128x6;192x6;256x4;320x4;384x4;500x2");
 		BASE_WEIGHT = geoengine.getProperty("BaseWeight", 10);
 		DIAGONAL_WEIGHT = geoengine.getProperty("DiagonalWeight", 14);
@@ -3727,7 +3717,7 @@ public final class Config
 		DEBUG_PATH = geoengine.getProperty("DebugPath", false);
 		DEBUG_GEO_NODE = geoengine.getProperty("DebugGeoNode", false);
 	}
-
+	
 	/**
 	 * Loads gm File settings.
 	 */
@@ -3742,7 +3732,7 @@ public final class Config
 		GM_STARTUP_SILENCE = gmfile.getProperty("GMStartupSilence", true);
 		GM_STARTUP_AUTO_LIST = gmfile.getProperty("GMStartupAutoList", true);
 	}
-
+	
 	/**
 	 * Loads NPC settings.<br>
 	 * Such as champion monsters, NPC buffer, class master, wyvern, raid bosses and grand bosses, AI.
@@ -3750,9 +3740,9 @@ public final class Config
 	private static final void loadNpcs()
 	{
 		final ExProperties npcs = initProperties(NPCS_FILE);
-
+		
 		CHANCE_FAIRY_LEAF = npcs.getProperty("Chance_Take_FairyLeaf", 0);
-
+		
 		CHAMPION_FREQUENCY = npcs.getProperty("ChampionFrequency", 0);
 		CHAMP_MIN_LVL = npcs.getProperty("ChampionMinLevel", 20);
 		CHAMP_MAX_LVL = npcs.getProperty("ChampionMaxLevel", 70);
@@ -3765,23 +3755,23 @@ public final class Config
 		CHAMPION_REWARD = npcs.getProperty("ChampionRewardItem", 0);
 		CHAMPION_REWARD_ID = npcs.getProperty("ChampionRewardItemID", 6393);
 		CHAMPION_REWARD_QTY = npcs.getProperty("ChampionRewardItemQty", 1);
-
+		
 		ALLOW_CLASS_MASTERS = npcs.getProperty("AllowClassMasters", false);
 		ALTERNATE_CLASS_MASTER = npcs.getProperty("AlternateClassMaster", false);
 		ALLOW_ENTIRE_TREE = npcs.getProperty("AllowEntireTree", false);
 		if (ALLOW_CLASS_MASTERS)
 			CLASS_MASTER_SETTINGS = new ClassMasterSettings(npcs.getProperty("ConfigClassMaster"));
-
+		
 		ANNOUNCE_MAMMON_SPAWN = npcs.getProperty("AnnounceMammonSpawn", true);
 		ALT_MOB_AGRO_IN_PEACEZONE = npcs.getProperty("AltMobAgroInPeaceZone", true);
 		SHOW_NPC_LVL = npcs.getProperty("ShowNpcLevel", false);
 		SHOW_NPC_CREST = npcs.getProperty("ShowNpcCrest", false);
 		SHOW_SUMMON_CREST = npcs.getProperty("ShowSummonCrest", false);
-
+		
 		WYVERN_ALLOW_UPGRADER = npcs.getProperty("AllowWyvernUpgrader", true);
 		WYVERN_REQUIRED_LEVEL = npcs.getProperty("RequiredStriderLevel", 55);
 		WYVERN_REQUIRED_CRYSTALS = npcs.getProperty("RequiredCrystalsNumber", 10);
-
+		
 		GUARD_ATTACK_AGGRO_MOB = npcs.getProperty("GuardAttackAggroMob", false);
 		MAX_DRIFT_RANGE = npcs.getProperty("MaxDriftRange", 300);
 		MIN_NPC_ANIMATION = npcs.getProperty("MinNPCAnimation", 20);
@@ -3794,7 +3784,7 @@ public final class Config
 			CHAMPION_ENABLE_AURA = 0;
 		}
 		DISABLE_ATTACK_NPC_TYPE = Boolean.parseBoolean(npcs.getProperty("DisableAttackToNpcs", "False"));
-
+		
 		NPC_RED_AURA = npcs.getProperty("NpcRedEffect", "100");
 		LIST_NPC_RED_AURA = new ArrayList<>();
 		for (String listid : NPC_RED_AURA.split(","))
@@ -3807,24 +3797,24 @@ public final class Config
 		{
 			LIST_NPC_BLUE_AURA.add(Integer.parseInt(listid));
 		}
-
+		
 	}
-
+	
 	/**
 	 * Loads options settings.
 	 */
 	private static final void loadOptions()
 	{
 		final ExProperties options = initProperties(OPTIONS_FILE);
-
+		
 		DEFAULT_GLOBAL_CHAT = options.getProperty("GlobalChat", "ON");
 		DEFAULT_TRADE_CHAT = options.getProperty("TradeChat", "ON");
-
+		
 		DELETE_DAYS = options.getProperty("DeleteCharAfterDays", 7);
 		AUTO_LOOT = options.getProperty("AutoLoot", false);
 		AUTO_LOOT_HERBS = options.getProperty("AutoLootHerbs", false);
 		AUTO_LOOT_RAID = options.getProperty("AutoLootRaid", false);
-
+		
 		ALLOW_DISCARDITEM = options.getProperty("AllowDiscardItem", true);
 		MULTIPLE_ITEM_DROP = options.getProperty("MultipleItemDrop", true);
 		HERB_AUTO_DESTROY_TIME = options.getProperty("AutoDestroyHerbTime", 15) * 1000;
@@ -3841,7 +3831,7 @@ public final class Config
 			}
 		}
 		PLAYER_DROPPED_ITEM_MULTIPLIER = options.getProperty("PlayerDroppedItemMultiplier", 1);
-
+		
 		ALLOW_FREIGHT = options.getProperty("AllowFreight", true);
 		ALLOW_WAREHOUSE = options.getProperty("AllowWarehouse", true);
 		ALLOW_WEAR = options.getProperty("AllowWear", true);
@@ -3852,25 +3842,25 @@ public final class Config
 		ALLOW_MANOR = options.getProperty("AllowManor", true);
 		ALLOW_BOAT = options.getProperty("AllowBoat", true);
 		ALLOW_CURSED_WEAPONS = options.getProperty("AllowCursedWeapons", true);
-
+		
 		ENABLE_FALLING_DAMAGE = options.getProperty("EnableFallingDamage", true);
-
+		
 		ALT_DEV_NO_SPAWNS = options.getProperty("NoSpawns", false);
 		DEBUG = options.getProperty("Debug", false);
 		DEVELOPER = options.getProperty("Developer", false);
 		PACKET_HANDLER_DEBUG = options.getProperty("PacketHandlerDebug", false);
-
+		
 		DEADLOCK_DETECTOR = options.getProperty("DeadLockDetector", false);
 		DEADLOCK_CHECK_INTERVAL = options.getProperty("DeadLockCheckInterval", 20);
 		RESTART_ON_DEADLOCK = options.getProperty("RestartOnDeadlock", false);
-
+		
 		LOG_CHAT = options.getProperty("LogChat", false);
 		LOG_ITEMS = options.getProperty("LogItems", false);
 		GMAUDIT = options.getProperty("GMAudit", false);
-
+		
 		ENABLE_COMMUNITY_BOARD = options.getProperty("EnableCommunityBoard", false);
 		BBS_DEFAULT = options.getProperty("BBSDefault", "_bbshome");
-
+		
 		ROLL_DICE_TIME = options.getProperty("RollDiceTime", 4200);
 		HERO_VOICE_TIME = options.getProperty("HeroVoiceTime", 10000);
 		SUBCLASS_TIME = options.getProperty("SubclassTime", 2000);
@@ -3884,34 +3874,34 @@ public final class Config
 		GLOBAL_CHAT_TIME = options.getProperty("GlobalChatTime", 0);
 		TRADE_CHAT_TIME = options.getProperty("TradeChatTime", 0);
 		SOCIAL_TIME = options.getProperty("SocialTime", 2000);
-
+		
 		SCHEDULED_THREAD_POOL_COUNT = options.getProperty("ScheduledThreadPoolCount", -1);
 		THREADS_PER_SCHEDULED_THREAD_POOL = options.getProperty("ThreadsPerScheduledThreadPool", 4);
 		INSTANT_THREAD_POOL_COUNT = options.getProperty("InstantThreadPoolCount", -1);
 		THREADS_PER_INSTANT_THREAD_POOL = options.getProperty("ThreadsPerInstantThreadPool", 2);
-
+		
 		L2WALKER_PROTECTION = options.getProperty("L2WalkerProtection", false);
 		ZONE_TOWN = options.getProperty("ZoneTown", 0);
 		SERVER_NEWS = options.getProperty("ShowServerNews", false);
 		DISABLE_TUTORIAL = options.getProperty("DisableTutorial", false);
-
+		
 		USE_SAY_FILTER = Boolean.parseBoolean(options.getProperty("UseChatFilter", "false"));
 		CHAT_FILTER_CHARS = options.getProperty("ChatFilterChars", "[I love L2JMDS]");
 		CHAT_FILTER_PUNISHMENT = options.getProperty("ChatFilterPunishment", "off");
 		CHAT_FILTER_PUNISHMENT_PARAM1 = Integer.parseInt(options.getProperty("ChatFilterPunishmentParam1", "1"));
 		CHAT_FILTER_PUNISHMENT_PARAM2 = Integer.parseInt(options.getProperty("ChatFilterPunishmentParam2", "1000"));
-
+		
 		LineNumberReader lnr = null;
 		try
 		{
 			FILTER_LIST.clear();
-
+			
 			File filter_file = new File(FILTER_FILE);
 			if (!filter_file.exists())
 			{
 				return;
 			}
-
+			
 			lnr = new LineNumberReader(new BufferedReader(new FileReader(filter_file)));
 			String line = null;
 			while ((line = lnr.readLine()) != null)
@@ -3943,9 +3933,9 @@ public final class Config
 				}
 			}
 		}
-
+		
 	}
-
+	
 	/**
 	 * Loads party settings.
 	 */
@@ -3959,7 +3949,7 @@ public final class Config
 		ALT_PARTY_RANGE2 = party.getProperty("AltPartyRange2", 1400);
 		ALT_LEAVE_PARTY_LEADER = party.getProperty("AltLeavePartyLeader", false);
 	}
-
+	
 	/**
 	 * Loads player settings.<br>
 	 * Such as stats, inventory/warehouse, enchant, augmentation, karma, party, admin, petition, skill learn.
@@ -3980,7 +3970,7 @@ public final class Config
 		DEEPBLUE_DROP_RULES = players.getProperty("UseDeepBlueDropRules", true);
 		ALT_GAME_DELEVEL = players.getProperty("Delevel", true);
 		DEATH_PENALTY_CHANCE = players.getProperty("DeathPenaltyChance", 20);
-
+		
 		INVENTORY_MAXIMUM_NO_DWARF = players.getProperty("MaximumSlotsForNoDwarf", 80);
 		INVENTORY_MAXIMUM_DWARF = players.getProperty("MaximumSlotsForDwarf", 100);
 		INVENTORY_MAXIMUM_QUEST_ITEMS = players.getProperty("MaximumSlotsForQuestItems", 100);
@@ -3993,18 +3983,18 @@ public final class Config
 		FREIGHT_SLOTS = players.getProperty("MaximumFreightSlots", 20);
 		ALT_GAME_FREIGHTS = players.getProperty("AltGameFreights", false);
 		ALT_GAME_FREIGHT_PRICE = players.getProperty("AltGameFreightPrice", 1000);
-
+		
 		PETITIONING_ALLOWED = players.getProperty("PetitioningAllowed", true);
 		MAX_PETITIONS_PER_PLAYER = players.getProperty("MaxPetitionsPerPlayer", 5);
 		MAX_PETITIONS_PENDING = players.getProperty("MaxPetitionsPending", 25);
-
+		
 		IS_CRAFTING_ENABLED = players.getProperty("CraftingEnabled", true);
 		DWARF_RECIPE_LIMIT = players.getProperty("DwarfRecipeLimit", 50);
 		COMMON_RECIPE_LIMIT = players.getProperty("CommonRecipeLimit", 50);
 		ALT_BLACKSMITH_USE_RECIPES = players.getProperty("AltBlacksmithUseRecipes", true);
-
+		
 	}
-
+	
 	/**
 	 * Loads pvp settings.
 	 */
@@ -4023,26 +4013,26 @@ public final class Config
 		KARMA_PK_LIMIT = pvp.getProperty("MinimumPKRequiredToDrop", 5);
 		KARMA_NONDROPPABLE_PET_ITEMS = pvp.getProperty("ListOfPetItems", "2375,3500,3501,3502,4422,4423,4424,4425,6648,6649,6650");
 		KARMA_NONDROPPABLE_ITEMS = pvp.getProperty("ListOfNonDroppableItemsForPK", "1147,425,1146,461,10,2368,7,6,2370,2369");
-
+		
 		String[] array = KARMA_NONDROPPABLE_PET_ITEMS.split(",");
 		KARMA_LIST_NONDROPPABLE_PET_ITEMS = new int[array.length];
-
+		
 		for (int i = 0; i < array.length; i++)
 			KARMA_LIST_NONDROPPABLE_PET_ITEMS[i] = Integer.parseInt(array[i]);
-
+		
 		array = KARMA_NONDROPPABLE_ITEMS.split(",");
 		KARMA_LIST_NONDROPPABLE_ITEMS = new int[array.length];
-
+		
 		for (int i = 0; i < array.length; i++)
 			KARMA_LIST_NONDROPPABLE_ITEMS[i] = Integer.parseInt(array[i]);
-
+		
 		// sorting so binarySearch can be used later
 		Arrays.sort(KARMA_LIST_NONDROPPABLE_PET_ITEMS);
 		Arrays.sort(KARMA_LIST_NONDROPPABLE_ITEMS);
-
+		
 		PVP_NORMAL_TIME = pvp.getProperty("PvPVsNormalTime", 15000);
 		PVP_PVP_TIME = pvp.getProperty("PvPVsPvPTime", 30000);
-
+		
 		SHOW_HP_PVP = Boolean.parseBoolean(pvp.getProperty("ShowHpPvP", "False"));
 		ANNOUNCE_PVP_KILL = Boolean.parseBoolean(pvp.getProperty("AnnouncePvPKill", "False"));
 		ANNOUNCE_PK_KILL = Boolean.parseBoolean(pvp.getProperty("AnnouncePkKill", "False"));
@@ -4053,7 +4043,7 @@ public final class Config
 			LIST_OF_TYPES_PVP.add(type);
 		}
 		ANNOUNCE_TYPE_MSG_PVP = null;
-
+		
 		ANNOUNCE_TYPE_MSG_PK = pvp.getProperty("AnnounceTypesPk", "Assassinou");
 		LIST_OF_TYPES_PK = new ArrayList<>();
 		for (String type2 : ANNOUNCE_TYPE_MSG_PK.split(","))
@@ -4061,21 +4051,21 @@ public final class Config
 			LIST_OF_TYPES_PK.add(type2);
 		}
 		ANNOUNCE_TYPE_MSG_PK = null;
-
+		
 		ENABLE_PVP_COLOR = pvp.getProperty("EnablePvpColor", false);
 		ENABLE_PK_COLOR = pvp.getProperty("EnablePkColor", false);
-
+		
 		ALLOW_QUAKE_SYSTEM = Boolean.parseBoolean(pvp.getProperty("AllowQuakeSystem", "False"));
 		PVP_COLOR_ANNOUNCE = Integer.parseInt(pvp.getProperty("ColorAnnounce", "16"));
-
+		
 		PVP_REWARD_ENABLED = Boolean.valueOf(pvp.getProperty("PvpRewardEnabled", "false"));
 		PVP_REWARD_ID = Integer.parseInt(pvp.getProperty("PvpRewardItemId", "6392"));
 		PVP_REWARD_AMOUNT = Integer.parseInt(pvp.getProperty("PvpRewardAmmount", "1"));
-
+		
 		PK_REWARD_ENABLED = Boolean.valueOf(pvp.getProperty("PKRewardEnabled", "false"));
 		PK_REWARD_ID = Integer.parseInt(pvp.getProperty("PKRewardItemId", "6392"));
 		PK_REWARD_AMOUNT = Integer.parseInt(pvp.getProperty("PKRewardAmmount", "1"));
-
+		
 		ANTI_FARM_ENABLED = Boolean.parseBoolean(pvp.getProperty("AntiFarmEnabled", "False"));
 		ANTI_FARM_CLAN_ALLY_ENABLED = Boolean.parseBoolean(pvp.getProperty("AntiFarmClanAlly", "False"));
 		ANTI_FARM_LVL_DIFF_ENABLED = Boolean.parseBoolean(pvp.getProperty("AntiFarmLvlDiff", "False"));
@@ -4087,20 +4077,20 @@ public final class Config
 		ANTI_FARM_PARTY_ENABLED = Boolean.parseBoolean(pvp.getProperty("AntiFarmParty", "False"));
 		ANTI_FARM_IP_ENABLED = Boolean.parseBoolean(pvp.getProperty("AntiFarmIP", "False"));
 		ANTI_FARM_SUMMON = Boolean.parseBoolean(pvp.getProperty("AntiFarmSummon", "False"));
-
+		
 		LEAVE_BUFFS_ON_DIE = Boolean.parseBoolean(pvp.getProperty("LeaveBuffsOnDie", "True"));
 		LEAVE_BUFF_SOLOFARM = Boolean.parseBoolean(pvp.getProperty("LeaveBuffsOnDie_inSoloFarm", "True"));
 		CUSTOM_TELEGIRAN_ON_DIE = Boolean.parseBoolean(pvp.getProperty("CustomTeleportOnDie", "false"));
-
+		
 	}
-
+	
 	/**
 	 * Loads rates settings.
 	 */
 	private static final void loadRates()
 	{
 		final ExProperties rates = initProperties(RATES_FILE);
-
+		
 		RATE_DROP_SEAL_STONES = Float.parseFloat(rates.getProperty("RateDropSealStones", "1.00"));
 		RATE_XP = rates.getProperty("RateXp", 1.);
 		RATE_SP = rates.getProperty("RateSp", 1.);
@@ -4137,26 +4127,26 @@ public final class Config
 		KARMA_RATE_DROP_EQUIP = rates.getProperty("KarmaRateDropEquip", 40);
 		KARMA_RATE_DROP_EQUIP_WEAPON = rates.getProperty("KarmaRateDropEquipWeapon", 10);
 	}
-
+	
 	/**
 	 * Loads siege settings.
 	 */
 	private static final void loadSieges()
 	{
 		final ExProperties sieges = initProperties(Config.SIEGE_FILE);
-
+		
 		ENABLE_WINNNER_REWARD_SIEGE_CLAN = sieges.getProperty("EnableRewardWinnerClan", false);
 		REWARD_WINNER_SIEGE_CLAN = parseItemsList(sieges.getProperty("PlayerRewardsID", "57,100"));
 		LEADER_REWARD_WINNER_SIEGE_CLAN = parseItemsList(sieges.getProperty("LeaderRewardsID", "57,400"));
-
+		
 		SIEGE_LENGTH = sieges.getProperty("SiegeLength", 120);
 		MINIMUM_CLAN_LEVEL = sieges.getProperty("SiegeClanMinLevel", 4);
 		MAX_ATTACKERS_NUMBER = sieges.getProperty("AttackerMaxClans", 10);
 		MAX_DEFENDERS_NUMBER = sieges.getProperty("DefenderMaxClans", 10);
 		ATTACKERS_RESPAWN_DELAY = sieges.getProperty("AttackerRespawn", 10000);
-
+		
 		DAY_TO_SIEGE = Integer.parseInt(sieges.getProperty("DayToSiege", "2"));
-
+		
 		SIEGE_HOUR_GLUDIO = Integer.parseInt(sieges.getProperty("HourToSiege_Gludio", "16"));
 		SIEGE_HOUR_DION = Integer.parseInt(sieges.getProperty("HourToSiege_Dion", "16"));
 		SIEGE_HOUR_GIRAN = Integer.parseInt(sieges.getProperty("HourToSiege_Giran", "16"));
@@ -4166,7 +4156,7 @@ public final class Config
 		SIEGE_HOUR_GODDARD = Integer.parseInt(sieges.getProperty("HourToSiege_Goddard", "16"));
 		SIEGE_HOUR_RUNE = Integer.parseInt(sieges.getProperty("HourToSiege_Rune", "16"));
 		SIEGE_HOUR_SCHUT = Integer.parseInt(sieges.getProperty("HourToSiege_Schuttgart", "16"));
-
+		
 		SIEGE_DAY_GLUDIO = Integer.parseInt(sieges.getProperty("DayOfTheWeek_Gludio", "1"));
 		SIEGE_DAY_DION = Integer.parseInt(sieges.getProperty("DayOfTheWeek_Dion", "7"));
 		SIEGE_DAY_GIRAN = Integer.parseInt(sieges.getProperty("DayOfTheWeek_Giran", "1"));
@@ -4176,7 +4166,7 @@ public final class Config
 		SIEGE_DAY_GODDARD = Integer.parseInt(sieges.getProperty("DayOfTheWeek_Goddard", "1"));
 		SIEGE_DAY_RUNE = Integer.parseInt(sieges.getProperty("DayOfTheWeek_Rune", "7"));
 		SIEGE_DAY_SCHUT = Integer.parseInt(sieges.getProperty("DayOfTheWeek_Schuttgart", "1"));
-
+		
 		SIEGE_GLUDIO = sieges.getProperty("Siege_Gludio", false);
 		SIEGE_DION = sieges.getProperty("Siege_Dion", false);
 		SIEGE_GIRAN = sieges.getProperty("Siege_Giran", false);
@@ -4186,9 +4176,9 @@ public final class Config
 		SIEGE_GODDARD = sieges.getProperty("Siege_Goddard", false);
 		SIEGE_RUNE = sieges.getProperty("Siege_Rune", false);
 		SIEGE_SCHUT = sieges.getProperty("Siege_Schuttgart", false);
-
+		
 	}
-
+	
 	/**
 	 * Loads Skills settings.
 	 */
@@ -4206,45 +4196,45 @@ public final class Config
 		ES_SP_BOOK_NEEDED = skills.getProperty("EnchantSkillSpBookNeeded", true);
 		DIVINE_SP_BOOK_NEEDED = skills.getProperty("DivineInspirationSpBookNeeded", true);
 		ALT_GAME_SUBCLASS_WITHOUT_QUESTS = skills.getProperty("AltSubClassWithoutQuests", false);
-
+		
 		BUFFS_MAX_AMOUNT = skills.getProperty("MaxBuffsAmount", 20);
 		STORE_SKILL_COOLTIME = skills.getProperty("StoreSkillCooltime", true);
-
+		
 		BUFFER_MAX_SCHEMES = skills.getProperty("BufferMaxSchemesPerChar", 4);
 		BUFFER_STATIC_BUFF_COST = skills.getProperty("BufferStaticCostPerBuff", -1);
-
+		
 		FIGHTER_BUFF = skills.getProperty("FighterBuffList", "0");
 		FIGHTER_BUFF_LIST = new ArrayList<>();
 		for (String id : FIGHTER_BUFF.trim().split(","))
 		{
 			FIGHTER_BUFF_LIST.add(Integer.parseInt(id.trim()));
 		}
-
+		
 		MAGE_BUFF = skills.getProperty("MageBuffList", "0");
 		MAGE_BUFF_LIST = new ArrayList<>();
 		for (String id : MAGE_BUFF.trim().split(","))
 		{
 			MAGE_BUFF_LIST.add(Integer.parseInt(id.trim()));
 		}
-
+		
 		PROTECT_BUFF = skills.getProperty("ProtectBuffList", "0");
 		PROTECT_BUFF_LIST = new ArrayList<>();
 		for (String id : PROTECT_BUFF.trim().split(","))
 		{
 			PROTECT_BUFF_LIST.add(Integer.parseInt(id.trim()));
 		}
-
+		
 		HEROIC_COIN_ID = skills.getProperty("HeroicCoin", 9502);
 		HEROIC_COIN_PRICE = skills.getProperty("HeroicPrice", 10);
-
+		
 		ENABLE_MODIFY_SKILL_DURATION = Boolean.parseBoolean(skills.getProperty("EnableModifySkillDuration", "false"));
 		if (ENABLE_MODIFY_SKILL_DURATION)
 		{
 			SKILL_DURATION_LIST = new HashMap<>();
-
+			
 			String[] propert;
 			propert = skills.getProperty("SkillDurationList", "").split(";");
-
+			
 			for (String skill : propert)
 			{
 				String[] skillSplit = skill.split(",");
@@ -4262,7 +4252,7 @@ public final class Config
 					{
 						if (Config.DEBUG)
 							nfe.printStackTrace();
-
+						
 						if (!skill.equals(""))
 						{
 							System.out.println("[SkillDurationList]: invalid config property -> SkillList \"" + skillSplit[0] + "\"" + skillSplit[1]);
@@ -4271,13 +4261,13 @@ public final class Config
 				}
 			}
 		}
-
+		
 		ALLOWED_SUBCLASS = Integer.parseInt(skills.getProperty("AllowedSubclass", "3"));
 		ADD_SKILL_NOBLES = Boolean.parseBoolean(skills.getProperty("Add_Skill_Noble", "False"));
-
+		
 		ALT_RESTORE_EFFECTS_ON_SUBCLASS_CHANGE = Boolean.parseBoolean(skills.getProperty("AltRestoreEffectOnSub", "False"));
 		ALT_GAME_SUBCLASS_EVERYWHERE = skills.getProperty("AltSubclassEverywhere", false);
-
+		
 		/** CHECK SKILLS ON ENTER */
 		CHECK_SKILLS_ON_ENTER = skills.getProperty("CheckSkillsOnEnter", false);
 		CHECK_HERO_SKILLS = skills.getProperty("CheckHeroSkills", true);
@@ -4288,16 +4278,16 @@ public final class Config
 		{
 			LIST_NON_CHECK_SKILLS.add(Integer.parseInt(id));
 		}
-
+		
 	}
-
+	
 	/**
 	 * Loads L2J4Team settings.
 	 */
 	private static final void loadL2J4Team()
 	{
 		final ExProperties l2j4team = initProperties(L2J4TEAM_FILE);
-
+		
 		ANNOUNCE_DROP_ITEM = Boolean.parseBoolean(l2j4team.getProperty("AnnounceDropItem", "false"));
 		GM_VIEW_PL_ON = Boolean.parseBoolean(l2j4team.getProperty("PlayersOnlineScreemMSG", "false"));
 		NAME_TVT = l2j4team.getProperty("NameTvTEvent", "TvT:");
@@ -4305,11 +4295,12 @@ public final class Config
 		NAME_CTF = l2j4team.getProperty("NameCTFEvent", "CTF:");
 		NAME_PVP = l2j4team.getProperty("NamePvPEvent", "PvPEvent:");
 		NAME_EVENT = l2j4team.getProperty("NamePartyZone", "PartyZone:");
-
+		
 		ANNOUNCE_ID_EVENT = Integer.parseInt(l2j4team.getProperty("AnnounceIdEvents", "3"));
 		BLOCK_AIOX_PVPZONE = Boolean.parseBoolean(l2j4team.getProperty("BlockAiox_inPvpZone", "false"));
 		USE_AIOX_OUTSIDE_PEACEZONE = Boolean.parseBoolean(l2j4team.getProperty("UseAioOnlyPeaceZone", "false"));
-
+		
+		Teleport_Effect = Boolean.parseBoolean(l2j4team.getProperty("TeleportEffect", "false"));
 		ENABLE_FLAGZONE = Boolean.parseBoolean(l2j4team.getProperty("EnableFlag_inRaid_inFlagZone", "false"));
 		ENABLE_CHAT_LEVEL = Boolean.parseBoolean(l2j4team.getProperty("EnableChatLevel", "True"));
 		CHAT_LEVEL = Integer.parseInt(l2j4team.getProperty("ChatLevel", "80"));
@@ -4379,12 +4370,12 @@ public final class Config
 				}
 			}
 		}
-
+		
 		DONATESYSTEM = l2j4team.getProperty("DonateSystem", false);
 		DONATE_HTML = l2j4team.getProperty("Donate_Html", false);
-
+		
 		DONATE_COIN_ID = Integer.parseInt(l2j4team.getProperty("DonateCoin_Id", "9511"));
-
+		
 		ENABLE_CHAT_VIP = l2j4team.getProperty("ChatVIP", false);
 		VIP_SKINS = l2j4team.getProperty("SkinsVIP", false);
 		VIP_SKILL = Boolean.parseBoolean(l2j4team.getProperty("Vip_Skill", "False"));
@@ -4396,59 +4387,52 @@ public final class Config
 		for (String itemId : DROP_ITEM_VIP.split(","))
 			DROP_LIST_VIP.add(Integer.parseInt(itemId));
 		RATE_DROP_VIP = l2j4team.getProperty("RateDropVIP", 1);
-
+		
 		VIP_30_DAYS_PRICE = Integer.parseInt(l2j4team.getProperty("Vip_30_Days_Price", "30"));
 		VIP_60_DAYS_PRICE = Integer.parseInt(l2j4team.getProperty("Vip_60_Days_Price", "60"));
 		VIP_90_DAYS_PRICE = Integer.parseInt(l2j4team.getProperty("Vip_90_Days_Price", "90"));
 		VIP_ETERNAL_PRICE = Integer.parseInt(l2j4team.getProperty("Vip_Eternal_Price", "120"));
-
+		
 		HERO_30_DAYS_PRICE = Integer.parseInt(l2j4team.getProperty("Hero_30_Days_Price", "30"));
 		HERO_60_DAYS_PRICE = Integer.parseInt(l2j4team.getProperty("Hero_60_Days_Price", "60"));
 		HERO_90_DAYS_PRICE = Integer.parseInt(l2j4team.getProperty("Hero_90_Days_Price", "90"));
 		HERO_ETERNAL_PRICE = Integer.parseInt(l2j4team.getProperty("Hero_Eternal_Price", "120"));
-
+		
 		MIN_ENCHANT = l2j4team.getProperty("Min_Enchant_Donate", 0);
 		MAX_ENCHANT = l2j4team.getProperty("Max_Enchant_Donate", 0);
 		DONATE_ENCHANT_PRICE = Integer.parseInt(l2j4team.getProperty("Enchant_Price", "120"));
-
+		
 		DONATE_NOBLE_PRICE = Integer.parseInt(l2j4team.getProperty("Noble_Price", "120"));
 		DONATE_CLASS_PRICE = Integer.parseInt(l2j4team.getProperty("Change_Class_Price", "15"));
 		DONATE_NAME_PRICE = Integer.parseInt(l2j4team.getProperty("Change_Name_Price", "15"));
 		DONATE_SEX_PRICE = Integer.parseInt(l2j4team.getProperty("Change_Sex_Price", "15"));
 		DONATE_ITEM = Integer.parseInt(l2j4team.getProperty("Coin_for_Status", "9511"));
 		DONATE_ITEM_COUNT = Integer.parseInt(l2j4team.getProperty("Change_Status_Price", "15"));
-
+		
 		DONATE_ITEM_SKILL = Integer.parseInt(l2j4team.getProperty("Coin_for_Skills", "9511"));
 		DONATE_ITEM_COUNT_SKILL = Integer.parseInt(l2j4team.getProperty("Change_Skills_Price", "15"));
-
+		
 		ANNOUNCE_HERO_ON_ENTER = Boolean.parseBoolean(l2j4team.getProperty("AnnounceHeroOnEnter", "false"));
 		ANNOUNCE_HERO_ON_CUSTOM = Boolean.parseBoolean(l2j4team.getProperty("AnnounceHeroOnCustom", "false"));
 		ANNOUNCE_CASTLE_LORDS = Boolean.parseBoolean(l2j4team.getProperty("AnnounceCastleLords", "false"));
 		ANNOUNCE_HALL_OWNERS = Boolean.parseBoolean(l2j4team.getProperty("AnnounceEnterLeadersHall", "False"));
-
+		
 		ID_ITEM_ENCHANT = l2j4team.getProperty("ItemList_DropEnchanted");
 		LIST_ENCHANT_ITEM = new ArrayList<>();
 		for (String id : ID_ITEM_ENCHANT.trim().split(","))
 		{
 			LIST_ENCHANT_ITEM.add(Integer.parseInt(id.trim()));
 		}
-
+		
 		ENCHANT_LEVEL = Integer.parseInt(l2j4team.getProperty("Enchant_level", "0"));
-
+		
 		START_VIP = l2j4team.getProperty("Start_vip_24hrs", false);
-
+		
 		STATUS_CMD = l2j4team.getProperty("StatusCMD", false);
-
-		NEWS_1 = l2j4team.getProperty("News_url", "");
-		NEWS_2 = l2j4team.getProperty("News2_url", "");
-		NEWS_3 = l2j4team.getProperty("News3_url", "");
-		NEWS_4 = l2j4team.getProperty("News4_url", "");
-		DONATE_URL = l2j4team.getProperty("Donate_url", "");
-		INFO_URL = l2j4team.getProperty("Info_url", "");
-
+		
 		ITEM_OBSERVER = Integer.parseInt(l2j4team.getProperty("Item_Observer", "0"));
 		ITEM_BUY_QUANT_OBSERVER = Integer.parseInt(l2j4team.getProperty("Amount_Observer", "0"));
-
+		
 		ITEM_1 = Integer.parseInt(l2j4team.getProperty("LuckBox_item_1", "0"));
 		CHANCE_ITEM_1 = Integer.parseInt(l2j4team.getProperty("Chance_LuckBox_1", "0"));
 		ITEM_QUANT_1 = Integer.parseInt(l2j4team.getProperty("Amount_1", "0"));
@@ -4482,43 +4466,43 @@ public final class Config
 		ITEM_11 = Integer.parseInt(l2j4team.getProperty("LuckBox_item_11", "0"));
 		CHANCE_ITEM_11 = Integer.parseInt(l2j4team.getProperty("Chance_LuckBox_11", "0"));
 		ITEM_QUANT_11 = Integer.parseInt(l2j4team.getProperty("Amount_11", "0"));
-
+		
 		MSG_CHAT_TRADE = l2j4team.getProperty("MsgChatVip", "");
-
+		
 		INFINITY_SS = l2j4team.getProperty("InfinitySS", false);
 		INFINITY_ARROWS = l2j4team.getProperty("InfinityArrows", false);
-
+		
 		HERO_SKILL_SUB = Boolean.parseBoolean(l2j4team.getProperty("AllowHeroSkills_inSubClas", "false"));
-
+		
 		ALLOW_MANUTENCAO = Boolean.parseBoolean(l2j4team.getProperty("AllowManutencao", "false"));
 		MANUTENCAO_TEXT = l2j4team.getProperty("ManutencaoMessageText", "Servidor em Manutencao!");
-
+		
 		CHAR_TITLE = Boolean.parseBoolean(l2j4team.getProperty("CharTitle", "false"));
 		ADD_CHAR_TITLE = l2j4team.getProperty("TitleNewChar", "Welcome");
 		ADD_NAME_COLOR = l2j4team.getProperty("NameColor", "FFFFFF");
 		ADD_TITLE_COLOR = l2j4team.getProperty("TitleColor", "FFFFFF");
 		SPAWN_CHAR = Boolean.parseBoolean(l2j4team.getProperty("CustomSpawn", "false"));
-
+		
 		SPAWN_X_1 = Integer.parseInt(l2j4team.getProperty("SpawnX_1", ""));
 		SPAWN_Y_1 = Integer.parseInt(l2j4team.getProperty("SpawnY_1", ""));
 		SPAWN_Z_1 = Integer.parseInt(l2j4team.getProperty("SpawnZ_1", ""));
-
+		
 		SPAWN_X_2 = Integer.parseInt(l2j4team.getProperty("SpawnX_2", ""));
 		SPAWN_Y_2 = Integer.parseInt(l2j4team.getProperty("SpawnY_2", ""));
 		SPAWN_Z_2 = Integer.parseInt(l2j4team.getProperty("SpawnZ_2", ""));
-
+		
 		SPAWN_X_3 = Integer.parseInt(l2j4team.getProperty("SpawnX_3", ""));
 		SPAWN_Y_3 = Integer.parseInt(l2j4team.getProperty("SpawnY_3", ""));
 		SPAWN_Z_3 = Integer.parseInt(l2j4team.getProperty("SpawnZ_3", ""));
-
+		
 		SPAWN_X_4 = Integer.parseInt(l2j4team.getProperty("SpawnX_4", ""));
 		SPAWN_Y_4 = Integer.parseInt(l2j4team.getProperty("SpawnY_4", ""));
 		SPAWN_Z_4 = Integer.parseInt(l2j4team.getProperty("SpawnZ_4", ""));
-
+		
 		ALLOW_CREATE_LVL = Boolean.parseBoolean(l2j4team.getProperty("CustomStartingLvl", "False"));
 		CHAR_CREATE_LVL = Integer.parseInt(l2j4team.getProperty("CharLvl", "80"));
 		CUSTOM_SUBCLASS_LVL = l2j4team.getProperty("CustomSubclassLvl", 40);
-
+		
 		CUSTOM_STARTER_ITEMS_ENABLED = Boolean.parseBoolean(l2j4team.getProperty("CustomStarterItemsEnabled", "False"));
 		if (Config.CUSTOM_STARTER_ITEMS_ENABLED)
 		{
@@ -4547,7 +4531,7 @@ public final class Config
 					}
 				}
 			}
-
+			
 			String[] propertySplit2 = l2j4team.getProperty("StartingCustomItemsFighter", "57,0").split(";");
 			STARTING_CUSTOM_ITEMS_F.clear();
 			for (String reward : propertySplit2)
@@ -4568,14 +4552,14 @@ public final class Config
 					catch (NumberFormatException nfe)
 					{
 						nfe.printStackTrace();
-
+						
 						if (!reward.isEmpty())
 							_log.warning("StartingCustomItemsFighter[Config.load()]: invalid config property -> StartingCustomItemsFighter \"" + reward + "\"");
 					}
 				}
 			}
 		}
-
+		
 		DISABLE_CHAT = Boolean.valueOf(l2j4team.getProperty("DisableChat", "false"));
 		DISABLE_CAPSLOCK = Boolean.valueOf(l2j4team.getProperty("DisableCapsLock", "false"));
 		TRADE_CHAT_WITH_PVP = Boolean.valueOf(l2j4team.getProperty("TradeChatWithPvP", "false"));
@@ -4584,16 +4568,14 @@ public final class Config
 		GLOBAL_PVP_AMOUNT = Integer.parseInt(l2j4team.getProperty("GlobalPvPAmount", "500"));
 		CUSTOM_GLOBAL_CHAT_TIME = Integer.parseInt(l2j4team.getProperty("interval_ChatGlobal", "18000"));
 		CUSTOM_HERO_CHAT_TIME = Integer.parseInt(l2j4team.getProperty("interval_ChatHero", "18000"));
-
+		
 		TALK_CHAT_ALL_CONFIG = Boolean.valueOf(l2j4team.getProperty("ChatAll_Protection", "false"));
 		TALK_CHAT_ALL_TIME = Integer.parseInt(l2j4team.getProperty("Talk_ChatAll_Time", "15"));
-
+		
 		WYVERN_PVPZONE = Boolean.parseBoolean(l2j4team.getProperty("WyverbPvPZone", "False"));
 		PARTY_PVPZONE = Boolean.parseBoolean(l2j4team.getProperty("DisablePartyPvPZone", "False"));
 		PARTY_FLAGZONE = Boolean.parseBoolean(l2j4team.getProperty("DisablePartyFlagZone", "False"));
-		OPEN_URL_ENABLE = l2j4team.getProperty("OpenUrlEnable", true);
-		OPEN_URL_SITE = l2j4team.getProperty("OpenUrlSite", "");
-
+		
 		WYVERN_PROTECTION = Boolean.parseBoolean(l2j4team.getProperty("WyvernProtectionEnabled", "False"));
 		ID_RESTRICT = l2j4team.getProperty("WyvernItemID", "10");
 		LISTID_RESTRICT = new ArrayList<>();
@@ -4601,25 +4583,25 @@ public final class Config
 		{
 			LISTID_RESTRICT.add(Integer.parseInt(classId));
 		}
-
+		
 		TITLE_MONSTER_SOLO = l2j4team.getProperty("Title_MonsterFarm", "");
-
+		
 		CUSTOM_DROP = Boolean.parseBoolean(l2j4team.getProperty("CustomDrop", "False"));
-
+		
 		CUSTOM_DROP_ITEM = l2j4team.getProperty("CustomDropItens", "");
 		CUSTOM_DROP_LIST = new ArrayList<>();
 		for (String itemId : CUSTOM_DROP_ITEM.split(","))
 		{
 			CUSTOM_DROP_LIST.add(Integer.parseInt(itemId));
 		}
-
+		
 		CUSTOM_MONSTER = l2j4team.getProperty("List_Monster", "0");
 		LIST_NPC_CUSTOM_MONSTER = new ArrayList<>();
 		for (String listid : CUSTOM_MONSTER.split(","))
 		{
 			LIST_NPC_CUSTOM_MONSTER.add(Integer.parseInt(listid));
 		}
-
+		
 		String[] a = l2j4team.getProperty("DropList_Monster", "57,0").split(";");
 		CUSTOM_MONSTER_DROP.clear();
 		for (String reward : a)
@@ -4643,48 +4625,48 @@ public final class Config
 				}
 			}
 		}
-
+		
 		DROP_PROTECTED_TIME = Integer.parseInt(l2j4team.getProperty("DropProtectedTime", "15"));
-
+		
 		DISABLE_GRADE_PENALTY = Boolean.parseBoolean(l2j4team.getProperty("DisableGradePenalty", "False"));
 		DISABLE_WEIGHT_PENALTY = Boolean.parseBoolean(l2j4team.getProperty("DisableWeightPenalty", "False"));
-
+		
 		RESET_DAILY_ENABLED = l2j4team.getProperty("ResetDailyEnabled", false);
 		RESET_DAILY_TIME = l2j4team.getProperty("ResetDailyStartTime", "20:00").split(",");
-
+		
 		RESTART_BY_TIME_OF_DAY = Boolean.parseBoolean(l2j4team.getProperty("EnableRestartSystem", "false"));
 		RESTART_SECONDS = Integer.parseInt(l2j4team.getProperty("RestartSeconds", "360"));
 		RESTART_INTERVAL_BY_TIME_OF_DAY = l2j4team.getProperty("RestartByTimeOfDay", "20:00").split(",");
-
+		
 		COLOR_WITH_ITEM = Boolean.parseBoolean(l2j4team.getProperty("ColorWithItem", "true"));
 		COLOR_ITEM_ID = Integer.parseInt(l2j4team.getProperty("ColorItemID", "9325"));
 		COLOR_NAME_ITEM_AMOUNT = Integer.parseInt(l2j4team.getProperty("ColorNameItemAmount", "100"));
 		COLOR_TITLE_ITEM_AMOUNT = Integer.parseInt(l2j4team.getProperty("ColorTitleItemAmount", "100"));
-
+		
 		BANKING_SYSTEM_ENABLED = Boolean.parseBoolean(l2j4team.getProperty("BankingEnabled", "false"));
 		BANKING_SYSTEM_GOLDBAR_ID = Integer.parseInt(l2j4team.getProperty("BankingGoldbar_Id", "1"));
 		BANKING_SYSTEM_GOLDBARS = Integer.parseInt(l2j4team.getProperty("BankingGoldbarCount", "1"));
 		BANKING_SYSTEM_ADENA = Integer.parseInt(l2j4team.getProperty("BankingAdenaCount", "500000000"));
-
+		
 		OFFLINE_TRADE_ENABLE = Boolean.parseBoolean(l2j4team.getProperty("OfflineTradeEnable", "false"));
 		OFFLINE_CRAFT_ENABLE = Boolean.parseBoolean(l2j4team.getProperty("OfflineCraftEnable", "false"));
 		OFFLINE_SET_NAME_COLOR = Boolean.parseBoolean(l2j4team.getProperty("OfflineSetNameColor", "false"));
 		OFFLINE_NAME_COLOR = Integer.decode("0x" + l2j4team.getProperty("OfflineNameColor", "808080"));
-
+		
 	}
-
+	
 	/**
 	 * Loads Physics settings.
 	 */
 	private static final void loadBalanceSkills()
 	{
 		final ExProperties balanceSkills = initProperties(Config.BALANCE_SKILLS_FILE);
-
+		
 		for (String id : balanceSkills.getProperty("Skill_List_Olly", "0").split(","))
 		{
 			SKILL_LIST_SUCCESS_IN_OLY.add(Integer.parseInt(id));
 		}
-
+		
 		for (String id : balanceSkills.getProperty("Skill_List", "0").split(","))
 		{
 			SKILL_LIST_SUCCESS.add(Integer.parseInt(id));
@@ -4697,7 +4679,7 @@ public final class Config
 		CUSTOM_CHANCE_FOR_ALL_SKILL = Boolean.parseBoolean(balanceSkills.getProperty("Enable_Max_chance_for_all_skills", "true"));
 		SKILLS_MAX_CHANCE = balanceSkills.getProperty("MaxChance", 90);
 		SKILLS_MIN_CHANCE = balanceSkills.getProperty("MinChance", 20);
-
+		
 		ENABLE_CUSTOM_CHANCE_SKILL = Boolean.parseBoolean(balanceSkills.getProperty("Enable_chance_skills", "true"));
 		SURRENDER_TO_FIRE = Float.parseFloat(balanceSkills.getProperty("Surrender_to_fire", "1.0"));
 		VORTEX_TO_FIRE = Float.parseFloat(balanceSkills.getProperty("Vortex_to_fire", "1.0"));
@@ -4746,95 +4728,95 @@ public final class Config
 		MASS_MAGE_BANE = Float.parseFloat(balanceSkills.getProperty("Mass_Mage_Bane", "1.0"));
 		SHIELD_BASH = Float.parseFloat(balanceSkills.getProperty("Shield_Bash", "1.0"));
 		SHOCK_BLAST = Float.parseFloat(balanceSkills.getProperty("Shock_Blast", "1.0"));
-
+		
 	}
-
+	
 	/**
 	 * Loads Physics settings.
 	 */
 	private static final void loadPhysics()
 	{
 		final ExProperties PHYSICSSetting = initProperties(Config.PHYSICS_FILE);
-
+		
 		BLOW_ATTACK_FRONT = Integer.parseInt(PHYSICSSetting.getProperty("BlowAttackFront", "50"));
 		BLOW_ATTACK_SIDE = Integer.parseInt(PHYSICSSetting.getProperty("BlowAttackSide", "60"));
 		BLOW_ATTACK_BEHIND = Integer.parseInt(PHYSICSSetting.getProperty("BlowAttackBehind", "70"));
 		BACKSTAB_ATTACK_FRONT = Integer.parseInt(PHYSICSSetting.getProperty("BackstabAttackFront", "0"));
 		BACKSTAB_ATTACK_SIDE = Integer.parseInt(PHYSICSSetting.getProperty("BackstabAttackSide", "0"));
 		BACKSTAB_ATTACK_BEHIND = Integer.parseInt(PHYSICSSetting.getProperty("BackstabAttackBehind", "70"));
-
+		
 		ANTI_SS_BUG_1 = Integer.parseInt(PHYSICSSetting.getProperty("Delay", "2700"));
 		ANTI_SS_BUG_2 = Integer.parseInt(PHYSICSSetting.getProperty("DelayBow", "1500"));
 		ANTI_SS_BUG_3 = Integer.parseInt(PHYSICSSetting.getProperty("DelayNextAttack", "470000"));
-
+		
 		ADD_MATKSPEED = Integer.parseInt(PHYSICSSetting.getProperty("Add_MPAtkSpeed", "0"));
 		ADD_ATKSPEED = Integer.parseInt(PHYSICSSetting.getProperty("Add_PAtkSpeed", "0"));
-
+		
 		ADD_HP = Integer.parseInt(PHYSICSSetting.getProperty("Add_HP", "0"));
 		ADD_MP = Integer.parseInt(PHYSICSSetting.getProperty("Add_MP", "0"));
 		ADD_CP = Integer.parseInt(PHYSICSSetting.getProperty("Add_CP", "0"));
-
+		
 		MAX_PATK_SPEED = Integer.parseInt(PHYSICSSetting.getProperty("MaxPAtkSpeed", "1500"));
 		MAX_PATK_SPEED_GHOST = Integer.parseInt(PHYSICSSetting.getProperty("MaxPAtkSpeedGhost", "1500"));
 		MAX_PATK_SPEED_MOONL = Integer.parseInt(PHYSICSSetting.getProperty("MaxPAtkSpeedMoonl", "1500"));
-
+		
 		MAX_MATK_SPEED = Integer.parseInt(PHYSICSSetting.getProperty("MaxMAtkSpeed", "1999"));
-
+		
 		RANDOM_DAMAGE = Boolean.parseBoolean(PHYSICSSetting.getProperty("RandomDamage", "true"));
-
+		
 		ENABLE_CUSTOM_CRIT_POWER = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableCustom_CriticalPower", "true"));
 		MAGIC_CRITICAL_POWER = Float.parseFloat(PHYSICSSetting.getProperty("MagicCriticalPower", "3.0"));
 		FIGHTER_CRITICAL_POWER = Float.parseFloat(PHYSICSSetting.getProperty("FighterCriticalPower", "1.0"));
 		GHOSTSENTINEL_CRITICAL_POWER = Float.parseFloat(PHYSICSSetting.getProperty("GhostSentinelCriticalPower", "1.0"));
-
+		
 		ENABLE_CUSTOM_ALL_DAMAGE = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableCustom_AllDamages", "true"));
 		ALT_MAGES_MAGICAL_DAMAGE_MULTI = Float.parseFloat(PHYSICSSetting.getProperty("AltMDamageMages", "1.00"));
 		ALT_FIGHTERS_PHYSICAL_DAMAGE_MULTI = Float.parseFloat(PHYSICSSetting.getProperty("AltPDamageFighters", "1.00"));
-
+		
 		ENABLE_CUSTOM_CRIT = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableCustom_CriticalChance", "true"));
 		MAX_PCRIT_RATE = Integer.parseInt(PHYSICSSetting.getProperty("MaxPCritRate", "500"));
 		PCRIT_RATE_ArcherHuman = Integer.parseInt(PHYSICSSetting.getProperty("PCritRate_ArcherHuman", "300"));
 		PCRIT_RATE_ArcherElfo = Integer.parseInt(PHYSICSSetting.getProperty("PCritRate_ArcherElfo", "300"));
 		PCRIT_RATE_ArcherDarkElfo = Integer.parseInt(PHYSICSSetting.getProperty("PCritRate_ArcherDarkElfo", "300"));
-
+		
 		MAX_MCRIT_RATE = Integer.parseInt(PHYSICSSetting.getProperty("MaxMCritRate", "300"));
 		MCRIT_RATE_Archmage = Integer.parseInt(PHYSICSSetting.getProperty("MCritRate_Archmage", "300"));
 		MCRIT_RATE_Soultaker = Integer.parseInt(PHYSICSSetting.getProperty("MCritRate_Soultaker", "300"));
 		MCRIT_RATE_Mystic_Muse = Integer.parseInt(PHYSICSSetting.getProperty("MCritRate_Mystic_Muse", "300"));
 		MCRIT_RATE_Storm_Screamer = Integer.parseInt(PHYSICSSetting.getProperty("MCritRate_Storm_Screamer", "300"));
 		MCRIT_RATE_Dominator = Integer.parseInt(PHYSICSSetting.getProperty("MCritRate_Dominator", "300"));
-
+		
 		ENABLE_CUSTOM_DAMAGE_MONSTER = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableCustom_Damage", "true"));
-
+		
 		ALT_FIGHTER_TO_MONSTER = Float.parseFloat(PHYSICSSetting.getProperty("FighterToMonster", "1.00"));
 		ALT_MAGE_TO_MONSTER = Float.parseFloat(PHYSICSSetting.getProperty("MageToMonster", "1.00"));
-
+		
 		MONSTER_CUSTOM_DANO = PHYSICSSetting.getProperty("MonsterDanoList");
 		LIST_MONSTER_CUSTOM_DANO_IDS = new ArrayList<>();
 		for (String id : MONSTER_CUSTOM_DANO.trim().split(","))
 		{
 			LIST_MONSTER_CUSTOM_DANO_IDS.add(Integer.parseInt(id.trim()));
 		}
-
+		
 		ALT_FIGHTER_TO_MONSTER_2 = Float.parseFloat(PHYSICSSetting.getProperty("FighterToMonster_2", "1.00"));
 		ALT_MAGE_TO_MONSTER_2 = Float.parseFloat(PHYSICSSetting.getProperty("MageToMonster_2", "1.00"));
-
+		
 		RAID_CUSTOM_DANO = PHYSICSSetting.getProperty("RaidDanoList");
 		LIST_RAID_CUSTOM_DANO_IDS = new ArrayList<>();
 		for (String id : RAID_CUSTOM_DANO.trim().split(","))
 		{
 			LIST_RAID_CUSTOM_DANO_IDS.add(Integer.parseInt(id.trim()));
 		}
-
+		
 		ALT_FIGHTER_TO_RAIDBOSS = Float.parseFloat(PHYSICSSetting.getProperty("FighterToRaidBoss", "1.00"));
 		ALT_MAGE_TO_RAIDBOSS = Float.parseFloat(PHYSICSSetting.getProperty("MageToRaidBoss", "1.00"));
-
+		
 		ALT_FIGHTER_TO_BOSS_2 = Float.parseFloat(PHYSICSSetting.getProperty("FighterToBoss_2", "1.00"));
 		ALT_MAGE_TO_BOSS_2 = Float.parseFloat(PHYSICSSetting.getProperty("MageToBoss_2", "1.00"));
-
+		
 		ALT_FIGHTER_TO_GRANDBOSS = Float.parseFloat(PHYSICSSetting.getProperty("FighterToGrandBoss", "1.00"));
 		ALT_MAGE_TO_GRANDBOSS = Float.parseFloat(PHYSICSSetting.getProperty("MageToGrandBoss", "1.00"));
-
+		
 		CUSTOM_BOSS_TASK = PHYSICSSetting.getProperty("Custom_Boss_Time", "00");
 		CUSTOM_BOSS_TASK_LIST = new ArrayList<>();
 		for (String type : CUSTOM_BOSS_TASK.split(","))
@@ -4844,16 +4826,16 @@ public final class Config
 		CUSTOM_BOSS_TASK = null;
 		ALT_FIGHTER_TO_BOSS_NIGHT = Float.parseFloat(PHYSICSSetting.getProperty("FighterToBoss_Night", "1.00"));
 		ALT_MAGE_TO_BOSS_NIGHT = Float.parseFloat(PHYSICSSetting.getProperty("MageToBoss_Night", "1.00"));
-
+		
 	}
-
+	
 	/**
 	 * Loads Physics settings.
 	 */
 	private static final void loadPvpEvent()
 	{
 		final ExProperties pvpevent = initProperties(Config.PVP_EVENT_FILE);
-
+		
 		PVP_EVENT_ENABLED = pvpevent.getProperty("PvPEventEnabled", false);
 		PVP_EVENT_INTERVAL = pvpevent.getProperty("PvPZEventInterval", "20:00").split(",");
 		PVP_EVENT_RUNNING_TIME = pvpevent.getProperty("PvPZEventRunningTime", 120);
@@ -4885,61 +4867,61 @@ public final class Config
 				}
 			}
 		}
-
+		
 		SCREN_MSG_PVP = pvpevent.getProperty("SummonToPvPEnabled", false);
 		pvp_locx = Integer.parseInt(pvpevent.getProperty("SummonToPvPLocx", "1"));
 		pvp_locy = Integer.parseInt(pvpevent.getProperty("SummonToPvPLocy", "1"));
 		pvp_locz = Integer.parseInt(pvpevent.getProperty("SummonToPvPLocz", "1"));
 	}
-
+	
 	/**
 	 * Loads Physics settings.
 	 */
 	private static final void loadOlympiadPhysics()
 	{
 		final ExProperties PHYSICSSetting = initProperties(Config.OLYMPIAD_PHYSICS_FILE);
-
+		
 		OLY_ENABLE_CUSTOM_CRIT_POWER = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableCustom_CriticalPower", "true"));
 		OLY_MAGIC_CRITICAL_POWER = Float.parseFloat(PHYSICSSetting.getProperty("MagicCriticalPower", "3.0"));
 		OLY_FIGHTER_CRITICAL_POWER = Float.parseFloat(PHYSICSSetting.getProperty("FighterCriticalPower", "1.0"));
 		OLY_GHOSTSENTINEL_CRITICAL_POWER = Float.parseFloat(PHYSICSSetting.getProperty("GhostSentinelCriticalPower", "1.0"));
-
+		
 		OLY_ENABLE_CUSTOM_ALL_DAMAGE = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableCustom_AllDamages", "true"));
 		OLY_ALT_MAGES_MAGICAL_DAMAGE_MULTI = Float.parseFloat(PHYSICSSetting.getProperty("AltMDamageMages", "1.00"));
 		OLY_ALT_FIGHTERS_PHYSICAL_DAMAGE_MULTI = Float.parseFloat(PHYSICSSetting.getProperty("AltPDamageFighters", "1.00"));
-
+		
 		OLY_ENABLE_CUSTOM_CRIT = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableCustom_CriticalChance", "true"));
 		OLY_MAX_PCRIT_RATE = Integer.parseInt(PHYSICSSetting.getProperty("MaxPCritRate", "500"));
 		OLY_PCRIT_RATE_ArcherHuman = Integer.parseInt(PHYSICSSetting.getProperty("PCritRate_ArcherHuman", "300"));
 		OLY_PCRIT_RATE_ArcherElfo = Integer.parseInt(PHYSICSSetting.getProperty("PCritRate_ArcherElfo", "300"));
 		OLY_PCRIT_RATE_ArcherDarkElfo = Integer.parseInt(PHYSICSSetting.getProperty("PCritRate_ArcherDarkElfo", "300"));
-
+		
 		OLY_MAX_MCRIT_RATE = Integer.parseInt(PHYSICSSetting.getProperty("MaxMCritRate", "300"));
 		OLY_MCRIT_RATE_Archmage = Integer.parseInt(PHYSICSSetting.getProperty("MCritRate_Archmage", "300"));
 		OLY_MCRIT_RATE_Soultaker = Integer.parseInt(PHYSICSSetting.getProperty("MCritRate_Soultaker", "300"));
 		OLY_MCRIT_RATE_Mystic_Muse = Integer.parseInt(PHYSICSSetting.getProperty("MCritRate_Mystic_Muse", "300"));
 		OLY_MCRIT_RATE_Storm_Screamer = Integer.parseInt(PHYSICSSetting.getProperty("MCritRate_Storm_Screamer", "300"));
 		OLY_MCRIT_RATE_Dominator = Integer.parseInt(PHYSICSSetting.getProperty("MCritRate_Dominator", "300"));
-
+		
 		for (String id : PHYSICSSetting.getProperty("Oly_Skill_list_config", "0").split(","))
 		{
 			OLYMPIAD_SKILL_LIST_DANO.add(Integer.parseInt(id));
 		}
 		OLYMPIAD_SKILL_DANO = Integer.parseInt(PHYSICSSetting.getProperty("Oly_Skill_dano", "2"));
-
+		
 		ALT_PETS_PHYSICAL_DAMAGE_MULTI = Float.parseFloat(PHYSICSSetting.getProperty("AltPDamagePets", "1.00"));
 		ALT_PETS_MAGICAL_DAMAGE_MULTI = Float.parseFloat(PHYSICSSetting.getProperty("AltMDamagePets", "1.00"));
 	}
-
+	
 	/**
 	 * Loads TvT settings.
 	 */
 	private static final void loadTvT()
 	{
 		final ExProperties tvt = initProperties(Config.TVT_FILE);
-
+		
 		TVT_EVENT_ENABLED = Boolean.parseBoolean(tvt.getProperty("TVTEventEnabled", "false"));
-
+		
 		TVT_SKILL_PROTECT = Boolean.parseBoolean(tvt.getProperty("TvTSkillProtect", "false"));
 		for (String id : tvt.getProperty("TvTDisableSkillList", "0").split(","))
 		{
@@ -4971,23 +4953,23 @@ public final class Config
 		TVT_AURA = Boolean.parseBoolean(tvt.getProperty("TvTAura", "False"));
 		TVT_STATS_LOGGER = Boolean.parseBoolean(tvt.getProperty("TvTStatsLogger", "true"));
 		Allow_Same_HWID_On_tvt = Boolean.parseBoolean(tvt.getProperty("SameHWIDOnTvT", "true"));
-
+		
 		SCREN_MSG = Boolean.parseBoolean(tvt.getProperty("TvTScreenMsg", "false"));
-
+		
 		TVT_OBSERVER_X = Integer.parseInt(tvt.getProperty("ObserverLocx", "83400"));
 		TVT_OBSERVER_Y = Integer.parseInt(tvt.getProperty("ObserverLocy", "-16296"));
 		TVT_OBSERVER_Z = Integer.parseInt(tvt.getProperty("ObserverLocz", "-1888"));
 	}
-
+	
 	/**
 	 * Loads CTF settings.
 	 */
 	private static final void loadCTF()
 	{
 		final ExProperties CTFSettings = initProperties(Config.CTF_FILE);
-
+		
 		CTF_EVENT_ENABLED = Boolean.parseBoolean(CTFSettings.getProperty("CTFEventEnabled", "false"));
-
+		
 		CTF_EVEN_TEAMS = CTFSettings.getProperty("CTFEvenTeams", "BALANCE");
 		CTF_ALLOW_INTERFERENCE = Boolean.parseBoolean(CTFSettings.getProperty("CTFAllowInterference", "False"));
 		CTF_ALLOW_POTIONS = Boolean.parseBoolean(CTFSettings.getProperty("CTFAllowPotions", "False"));
@@ -5002,92 +4984,92 @@ public final class Config
 		CTF_REVIVE_DELAY = Long.parseLong(CTFSettings.getProperty("CTFReviveDelay", "20000"));
 		if (CTF_REVIVE_DELAY < 1000)
 			CTF_REVIVE_DELAY = 1000; // can't be set less then 1 second
-
+			
 		CTF_AURA = Boolean.parseBoolean(CTFSettings.getProperty("CTFAura", "True"));
-
+		
 		CTF_STATS_LOGGER = Boolean.parseBoolean(CTFSettings.getProperty("CTFStatsLogger", "true"));
-
+		
 		CTF_SPAWN_OFFSET = Integer.parseInt(CTFSettings.getProperty("CTFSpawnOffset", "100"));
-
+		
 		CTF_REMOVE_BUFFS_ON_DIE = Boolean.parseBoolean(CTFSettings.getProperty("CTFRemoveBuffsOnPlayerDie", "false"));
-
+		
 		Allow_Same_HWID_On_ctf = Boolean.parseBoolean(CTFSettings.getProperty("SameHWIDOnCTF", "true"));
 		CTF_ANNOUNCE_LVL = Boolean.parseBoolean(CTFSettings.getProperty("CTFAnnounceLevel", "True"));
-
+		
 		CTF_REWARD_TIE = Integer.parseInt(CTFSettings.getProperty("CTFRewardTie_Id", "57"));
 		CTF_REWARD_TIE_AMOUNT = Integer.parseInt(CTFSettings.getProperty("CTFRewardTie_Amount", "100"));
-
+		
 		for (String id : CTFSettings.getProperty("CTFDisableSkillList", "0").split(","))
 		{
 			CTF_SKILL_LIST.add(Integer.parseInt(id));
 		}
-
+		
 		CTF_OBSERVER_X = Integer.parseInt(CTFSettings.getProperty("ObserverLocx", "83400"));
 		CTF_OBSERVER_Y = Integer.parseInt(CTFSettings.getProperty("ObserverLocy", "-16296"));
 		CTF_OBSERVER_Z = Integer.parseInt(CTFSettings.getProperty("ObserverLocz", "-1888"));
-
+		
 	}
-
+	
 	/**
 	 * Loads Tournament settings.
 	 */
 	private static final void load_Tournament()
 	{
 		final ExProperties tournament = initProperties(Config.TOURNAMENT_FILE);
-
+		
 		TOURNAMENT_EVENT_START = tournament.getProperty("TournamentStartOn", false);
 		TOURNAMENT_EVENT_TIME = tournament.getProperty("TournamentAutoEvent", false);
 		TOURNAMENT_EVENT_ANNOUNCE = tournament.getProperty("TournamenAnnounce", false);
 		TOURNAMENT_EVENT_SUMMON = tournament.getProperty("TournamentSummon", false);
-
+		
 		TOUR_GRADE_A_1X1 = tournament.getProperty("Tour_gradeS_1x1", false);
 		TOUR_GRADE_A_2X2 = tournament.getProperty("Tour_gradeS_2x2", false);
 		TOUR_GRADE_A_5X5 = tournament.getProperty("Tour_gradeS_5x5", false);
 		TOUR_GRADE_A_9X9 = tournament.getProperty("Tour_gradeS_9x9", false);
 		ALT_TOUR_ENCHANT_LIMIT = Integer.parseInt(tournament.getProperty("Tour_MaxEnchant", "-1"));
-
+		
 		TOURNAMENT_EVENT_INTERVAL_BY_TIME_OF_DAY = tournament.getProperty("TournamentStartTime", "20:00").split(",");
-
+		
 		TOURNAMENT_TIME = Integer.parseInt(tournament.getProperty("TournamentEventTime", "1"));
-
+		
 		TOUR_AURA_TEAM1 = Integer.parseInt(tournament.getProperty("Team_1_aura", "1"));
 		TOUR_AURA_TEAM2 = Integer.parseInt(tournament.getProperty("Team_2_aura", "2"));
-
+		
 		TITLE_COLOR_TEAM1 = tournament.getProperty("TitleColorTeam_1", "FFFFFF");
 		TITLE_COLOR_TEAM2 = tournament.getProperty("TitleColorTeam_2", "FFFFFF");
-
+		
 		MSG_TEAM1 = tournament.getProperty("TitleTeam_1", "Team [1]");
 		MSG_TEAM2 = tournament.getProperty("TitleTeam_2", "Team [2]");
-
+		
 		Allow_Same_HWID_On_Tournament = Boolean.parseBoolean(tournament.getProperty("Allow_Same_HWID_On_Tournament", "true"));
-
+		
 		ARENA_NPC = Integer.parseInt(tournament.getProperty("NPCRegister", "1"));
-
+		
 		NPC_locx = Integer.parseInt(tournament.getProperty("Locx", "1"));
 		NPC_locy = Integer.parseInt(tournament.getProperty("Locy", "1"));
 		NPC_locz = Integer.parseInt(tournament.getProperty("Locz", "1"));
 		NPC_Heading = Integer.parseInt(tournament.getProperty("Heading", "1"));
-
+		
 		NPC_locx2 = Integer.parseInt(tournament.getProperty("Locx2", "1"));
 		NPC_locy2 = Integer.parseInt(tournament.getProperty("Locy2", "1"));
 		NPC_locz2 = Integer.parseInt(tournament.getProperty("Locz2", "1"));
 		NPC_Heading2 = Integer.parseInt(tournament.getProperty("Heading2", "1"));
-
+		
 		Tournament_locx = Integer.parseInt(tournament.getProperty("TournamentLocx", "1"));
 		Tournament_locy = Integer.parseInt(tournament.getProperty("TournamentLocy", "1"));
 		Tournament_locz = Integer.parseInt(tournament.getProperty("TournamentLocz", "1"));
-
+		
 		ALLOW_1X1_REGISTER = Boolean.parseBoolean(tournament.getProperty("Allow1x1Register", "true"));
 		ALLOW_2X2_REGISTER = Boolean.parseBoolean(tournament.getProperty("Allow2x2Register", "true"));
 		ALLOW_5X5_REGISTER = Boolean.parseBoolean(tournament.getProperty("Allow5x5Register", "true"));
 		ALLOW_9X9_REGISTER = Boolean.parseBoolean(tournament.getProperty("Allow9x9Register", "true"));
-
+		
 		ALLOW_5X5_LOSTBUFF = Boolean.parseBoolean(tournament.getProperty("Allow5x5LostBuff", "false"));
-
+		
 		ARENA_MESSAGE_ENABLED = Boolean.parseBoolean(tournament.getProperty("ScreenArenaMessageEnable", "false"));
 		ARENA_MESSAGE_TEXT = tournament.getProperty("ScreenArenaMessageText", "Welcome to L2J server!");
 		ARENA_MESSAGE_TIME = Integer.parseInt(tournament.getProperty("ScreenArenaMessageTime", "10")) * 1000;
-
+		
 		String[] arenaLocs2 = tournament.getProperty("ArenasLoc1x1", "").split(";");
 		String[] locSplit2 = null;
 		ARENA_EVENT_COUNT_1X1 = arenaLocs2.length;
@@ -5100,7 +5082,7 @@ public final class Config
 				ARENA_EVENT_LOCS_1X1[i][j] = Integer.parseInt(locSplit2[j].trim());
 			}
 		}
-
+		
 		String[] arenaLocs = tournament.getProperty("ArenasLoc", "").split(";");
 		String[] locSplit = null;
 		ARENA_EVENT_COUNT = arenaLocs.length;
@@ -5113,7 +5095,7 @@ public final class Config
 				ARENA_EVENT_LOCS[i][j] = Integer.parseInt(locSplit[j].trim());
 			}
 		}
-
+		
 		String[] arenaLocs5x5 = tournament.getProperty("Arenas5x5Loc", "").split(";");
 		String[] locSplit5x5 = null;
 		ARENA_EVENT_COUNT_5X5 = arenaLocs5x5.length;
@@ -5126,7 +5108,7 @@ public final class Config
 				ARENA_EVENT_LOCS_5X5[i][j] = Integer.parseInt(locSplit5x5[j].trim());
 			}
 		}
-
+		
 		String[] arenaLocs9x9 = tournament.getProperty("Arenas9x9Loc", "").split(";");
 		String[] locSplit9x9 = null;
 		ARENA_EVENT_COUNT_9X9 = arenaLocs9x9.length;
@@ -5151,7 +5133,7 @@ public final class Config
 		stormScreamer_COUNT_5X5 = tournament.getProperty("stormScreamer_amount_5x5", 1);
 		titan_COUNT_5X5 = tournament.getProperty("titan_amount_5x5", 1);
 		dominator_COUNT_5X5 = tournament.getProperty("dominator_amount_5x5", 1);
-
+		
 		duelist_COUNT_9X9 = tournament.getProperty("duelist_amount_9x9", 1);
 		dreadnought_COUNT_9X9 = tournament.getProperty("dreadnought_amount_9x9", 1);
 		tanker_COUNT_9X9 = tournament.getProperty("tanker_amount_9x9", 1);
@@ -5164,91 +5146,91 @@ public final class Config
 		stormScreamer_COUNT_9X9 = tournament.getProperty("stormScreamer_amount_9x9", 1);
 		titan_COUNT_9X9 = tournament.getProperty("titan_amount_9x9", 1);
 		dominator_COUNT_9X9 = tournament.getProperty("dominator_amount_9x9", 1);
-
+		
 		ARENA_PVP_AMOUNT = tournament.getProperty("ArenaPvpJoin", 10);
-
+		
 		ARENA_REWARD_ID_1X1 = tournament.getProperty("ArenaRewardId1x1", 57);
 		ARENA_WIN_REWARD_COUNT_1X1 = tournament.getProperty("ArenaWinRewardCount1x1", 1);
 		ARENA_LOST_REWARD_COUNT_1X1 = tournament.getProperty("ArenaLostRewardCount1x1", 1);
-
+		
 		ARENA_REWARD_ID = tournament.getProperty("ArenaRewardId", 57);
 		ARENA_WIN_REWARD_COUNT = tournament.getProperty("ArenaWinRewardCount", 1);
 		ARENA_LOST_REWARD_COUNT = tournament.getProperty("ArenaLostRewardCount", 1);
-
+		
 		ARENA_WIN_REWARD_COUNT_5X5 = tournament.getProperty("ArenaWinRewardCount5x5", 1);
 		ARENA_LOST_REWARD_COUNT_5X5 = tournament.getProperty("ArenaLostRewardCount5x5", 1);
-
+		
 		ARENA_WIN_REWARD_COUNT_9X9 = tournament.getProperty("ArenaWinRewardCount9x9", 1);
 		ARENA_LOST_REWARD_COUNT_9X9 = tournament.getProperty("ArenaLostRewardCount9x9", 1);
-
+		
 		ARENA_CHECK_INTERVAL_1X1 = tournament.getProperty("ArenaBattleCheckInterval1x1", 15) * 1000;
 		ARENA_CALL_INTERVAL_1X1 = tournament.getProperty("ArenaBattleCallInterval1x1", 60);
-
+		
 		ARENA_WAIT_INTERVAL_1X1 = tournament.getProperty("ArenaBattleWaitInterval1x1", 20);
-
+		
 		ARENA_CHECK_INTERVAL = tournament.getProperty("ArenaBattleCheckInterval", 15) * 1000;
 		ARENA_CALL_INTERVAL = tournament.getProperty("ArenaBattleCallInterval", 60);
-
+		
 		ARENA_WAIT_INTERVAL = tournament.getProperty("ArenaBattleWaitInterval", 20);
 		ARENA_WAIT_INTERVAL_5X5 = tournament.getProperty("ArenaBattleWaitInterval5x5", 45);
 		ARENA_WAIT_INTERVAL_9X9 = tournament.getProperty("ArenaBattleWaitInterval9x9", 45);
-
+		
 		TOURNAMENT_ID_RESTRICT = tournament.getProperty("ItemsRestriction");
-
+		
 		TOURNAMENT_LISTID_RESTRICT = new ArrayList<>();
 		for (String id : TOURNAMENT_ID_RESTRICT.split(","))
 			TOURNAMENT_LISTID_RESTRICT.add(Integer.parseInt(id));
-
+		
 		ARENA_SKILL_PROTECT = Boolean.parseBoolean(tournament.getProperty("ArenaSkillProtect", "false"));
-
+		
 		for (String id : tournament.getProperty("ArenaDisableSkillList", "0").split(","))
 		{
 			ARENA_SKILL_LIST.add(Integer.parseInt(id));
 		}
-
+		
 		for (String id : tournament.getProperty("DisableSkillList", "0").split(","))
 		{
 			ARENA_DISABLE_SKILL_LIST_PERM.add(Integer.parseInt(id));
 		}
-
+		
 		for (String id : tournament.getProperty("ArenaDisableSkillList_noStart", "0").split(","))
 		{
 			ARENA_DISABLE_SKILL_LIST.add(Integer.parseInt(id));
 		}
-
+		
 		for (String id : tournament.getProperty("ArenaStopSkillList", "0").split(","))
 		{
 			ARENA_STOP_SKILL_LIST.add(Integer.parseInt(id));
 		}
 		PARTY_SEARCH_5X5_TIME = tournament.getProperty("PartySearch_5x5_CheckTime", 10);
 		PARTY_SEARCH_9X9_TIME = tournament.getProperty("PartySearch_9x9_CheckTime", 10);
-
+		
 		ARENA_PROTECT = Boolean.parseBoolean(tournament.getProperty("ArenaProtect", "true"));
-
+		
 	}
-
+	
 	/**
 	 * Loads Party Zone settings.
 	 */
 	private static final void load_PartyZone()
 	{
 		final ExProperties partyzone = initProperties(Config.PARTY_ZONE_FILE);
-
+		
 		PARTY_ZONE_REWARDS = parseReward(partyzone, "PartyZoneReward_normal");
 		PARTY_ZONE_REWARDS2 = parseReward(partyzone, "PartyZoneReward_event_time");
 		RADIUS_TO_PARTYZONE = Integer.parseInt(partyzone.getProperty("RadiusToPartyZone", "1000"));
-
+		
 		START_PARTY = Boolean.parseBoolean(partyzone.getProperty("StartSpawnPartyZone", "false"));
 		START_AUTO_PARTY = Boolean.parseBoolean(partyzone.getProperty("StartAutoPartyZone", "false"));
 		PARTYZONE_TIME = Integer.parseInt(partyzone.getProperty("PartyZoneEventTime", "1"));
-
+		
 		PARTYZONE_INTERVAL_BY_TIME_OF_DAY = partyzone.getProperty("PartyZoneStartTime", "20:00").split(",");
-
+		
 		PARTY_FARM_MONSTER_DALAY = Integer.parseInt(partyzone.getProperty("MonsterDelay", "10"));
-
+		
 		PARTY_FARM_MESSAGE_TEXT = partyzone.getProperty("ScreenPartyFarmMessageText", "Welcome to L2J server!");
 		PARTY_FARM_MESSAGE_TIME = Integer.parseInt(partyzone.getProperty("ScreenPartyFarmMessageTime", "10")) * 1000;
-
+		
 		OPEN_DOORS_PARTY_FARM = Boolean.parseBoolean(partyzone.getProperty("ActiveOpenDoors", "false"));
 		String open_dors = partyzone.getProperty("OpenDoors", "24190001,24190002,24190003,24190004");
 		String[] open_dors_split = open_dors.split(",");
@@ -5257,7 +5239,7 @@ public final class Config
 			int i = Integer.parseInt(s);
 			PARTY_OPEN_DOORS.add(i);
 		}
-
+		
 		CLOSE_DOORS_PARTY_FARM = Boolean.parseBoolean(partyzone.getProperty("ActiveCloseDoors", "false"));
 		String close_dors = partyzone.getProperty("CloseDoors", "24190001,24190002,24190003,24190004");
 		String[] close_dors_split = close_dors.split(",");
@@ -5266,12 +5248,12 @@ public final class Config
 			int i = Integer.parseInt(s);
 			PARTY_CLOSE_DOORS.add(i);
 		}
-
+		
 		String[] monsterLocs2 = partyzone.getProperty("MonsterLoc", "").split(";");
 		String[] locSplit3 = null;
-
+		
 		monsterId = Integer.parseInt(partyzone.getProperty("MonsterId", "1"));
-
+		
 		MONSTER_LOCS_COUNT = monsterLocs2.length;
 		MONSTER_LOCS = new int[MONSTER_LOCS_COUNT][3];
 		for (int i = 0; i < MONSTER_LOCS_COUNT; i++)
@@ -5282,13 +5264,13 @@ public final class Config
 				MONSTER_LOCS[i][j] = Integer.parseInt(locSplit3[j].trim());
 			}
 		}
-
+		
 	}
-
+	
 	private static List<RewardHolder> parseReward(ExProperties propertie, String configName)
 	{
 		List<RewardHolder> auxReturn = new ArrayList<>();
-
+		
 		String aux = propertie.getProperty(configName).trim();
 		for (String randomReward : aux.split(";"))
 		{
@@ -5300,7 +5282,7 @@ public final class Config
 		}
 		return auxReturn;
 	}
-
+	
 	/**
 	 * Loads Phantom settings.
 	 */
@@ -5315,28 +5297,28 @@ public final class Config
 		ALLOW_PHANTOM_PLAYERS_PVPEVENT = Boolean.parseBoolean(Phanton.getProperty("AllowPhantomPvPEvent", "False"));
 		ALLOW_PHANTOM_PLAYERS_TVT = Boolean.parseBoolean(Phanton.getProperty("AllowPhantomTvT", "False"));
 		ALLOW_PHANTOM_PLAYERS_EFFECT_SHOT = Boolean.parseBoolean(Phanton.getProperty("Effect_CP_And_Shots", "False"));
-
+		
 		PHANTOM_CHANCE_SIT = Integer.parseInt(Phanton.getProperty("Phantom_Chance_sitDown", "10"));
-
+		
 		PHANTOM_DISCONNETC_DELAY = TimeUnit.MINUTES.toMillis(Integer.parseInt(Phanton.getProperty("pvp_disconect", "15")));
-
+		
 		DISCONNETC_DELAY = TimeUnit.MINUTES.toMillis(Integer.parseInt(Phanton.getProperty("town_disconect", "15")));
-
+		
 		FARM_DISCONNETC_DELAY = TimeUnit.MINUTES.toMillis(Integer.parseInt(Phanton.getProperty("farm_disconect", "15")));
-
+		
 		PHANTOM_PLAYERS_SOULSHOT_ANIM = Boolean.parseBoolean(Phanton.getProperty("PhantomSoulshotAnimation", "True"));
 		PHANTOM_PLAYERS_ARGUMENT_ANIM = Boolean.parseBoolean(Phanton.getProperty("PhantomArgumentAnimation", "True"));
-
+		
 		String[] arrayOfString1 = Phanton.getProperty("FakeEnchant", "0,14").split(",");
 		PHANTOM_PLAYERS_ENCHANT_MIN = Integer.parseInt(arrayOfString1[0]);
 		PHANTOM_PLAYERS_ENCHANT_MAX = Integer.parseInt(arrayOfString1[1]);
-
+		
 		PHANTOM_SPEED = Phanton.getProperty("RunSpeed", 100);
 		PHANTOM_ATK_SPEED = Phanton.getProperty("Atack_RunSpeed", 100);
-
+		
 		NAME_COLOR = Phanton.getProperty("NameColor", "FFFFFF");
 		TITLE_COLOR = Phanton.getProperty("TitleColor", "FFFFFF");
-
+		
 		PHANTOM_NAME_CLOLORS = Phanton.getProperty("FakeNameColors", "FFFFFF");
 		PHANTOM_PLAYERS_NAME_CLOLORS = new ArrayList<>();
 		for (String type : PHANTOM_NAME_CLOLORS.split(","))
@@ -5344,7 +5326,7 @@ public final class Config
 			PHANTOM_PLAYERS_NAME_CLOLORS.add(type);
 		}
 		PHANTOM_NAME_CLOLORS = null;
-
+		
 		PHANTOM_TITLE_CLOLORS = Phanton.getProperty("FakeTitleColors", "FFFFFF");
 		PHANTOM_PLAYERS_TITLE_CLOLORS = new ArrayList<>();
 		for (String type : PHANTOM_TITLE_CLOLORS.split(","))
@@ -5352,13 +5334,13 @@ public final class Config
 			PHANTOM_PLAYERS_TITLE_CLOLORS.add(type);
 		}
 		PHANTOM_TITLE_CLOLORS = null;
-
+		
 		PHANTOM_TITLE_PHANTOM = Boolean.parseBoolean(Phanton.getProperty("Town_title", "false"));
-
+		
 		PHANTOM_TITLE_PHANTOM_ATK = Boolean.parseBoolean(Phanton.getProperty("PvP_title", "false"));
-
+		
 		PHANTOM_TITLE_CONFIG = Boolean.parseBoolean(Phanton.getProperty("FakeTitleFixo", "false"));
-
+		
 		PHANTOM_TITLE_MSG = Phanton.getProperty("FakeTitle", "Lineage 2");
 		PHANTOM_TITLE = new ArrayList<>();
 		for (String type : PHANTOM_TITLE_MSG.split(","))
@@ -5366,9 +5348,9 @@ public final class Config
 			PHANTOM_TITLE.add(type);
 		}
 		PHANTOM_TITLE_MSG = null;
-
+		
 		ALLOW_PHANTOM_FACE = Boolean.parseBoolean(Phanton.getProperty("PhantomFace", "True"));
-
+		
 		PHANTOM_FACE = Phanton.getProperty("PhantomFaceList", "");
 		LIST_PHANTOM_FACE = new ArrayList<>();
 		for (String itemId : PHANTOM_FACE.split(","))
@@ -5376,36 +5358,36 @@ public final class Config
 			LIST_PHANTOM_FACE.add(Integer.parseInt(itemId));
 		}
 		ALLOW_PHANTOM_HAIR = Boolean.parseBoolean(Phanton.getProperty("PhantomHair", "True"));
-
+		
 		PHANTOM_HAIR = Phanton.getProperty("PhantomHairList", "0");
 		LIST_PHANTOM_HAIR = new ArrayList<>();
 		for (String itemId : PHANTOM_HAIR.split(","))
 		{
 			LIST_PHANTOM_HAIR.add(Integer.parseInt(itemId));
 		}
-
+		
 		ALLOW_PHANTOM_CREST = Boolean.parseBoolean(Phanton.getProperty("Town_Crests", "true"));
 		PHANTOM_PLAYERS_CREST = Phanton.getProperty("Town_Crests_Chance", 50);
-
+		
 		ALLOW_PHANTOM_CREST_ATK = Boolean.parseBoolean(Phanton.getProperty("PvP_Crests", "true"));
 		PHANTOM_PLAYERS_CREST_ATK = Phanton.getProperty("PvP_Crests_Chance", 50);
-
+		
 		CLAN_ID = Phanton.getProperty("ClanIDList", "");
 		LIST_CLAN_ID = new ArrayList<>();
 		for (String itemId : CLAN_ID.split(","))
 		{
 			LIST_CLAN_ID.add(Integer.parseInt(itemId));
 		}
-
+		
 		PHANTOM_RANDOM_WALK = Phanton.getProperty("town_Walk", 50);
 		PHANTOM_MAGE_RANDOM_WALK = Phanton.getProperty("MageRandon_Walk", 50);
 		PHANTOM_MAGE_INTERVAL_WALK = Phanton.getProperty("MageInterval_Walk", 50);
 		PHANTOM_MAGE_INTERVAL_TARGET = Phanton.getProperty("MageInterval_Target", 50);
 		PHANTOM_MAGE_INTERVAL_CHECK_TARGET = Phanton.getProperty("MageInterval_CheckTarget", 50);
-
+		
 		PHANTOM_MAGE_RANGE = Phanton.getProperty("MageRange", 50);
 		PHANTOM_SURRENDER_INTERVAL = Phanton.getProperty("Interval_Surrender", 50);
-
+		
 		FARM_RANGE = Phanton.getProperty("Distance_attack_farm", 50);
 		POWER_PHANTOM = Phanton.getProperty("PowerSkill_Phantom", 50);
 		PDEF_PHANTOM = Phanton.getProperty("Pdef_Phantom", 10);
@@ -5416,24 +5398,24 @@ public final class Config
 		CHANCE_MOVE_ARCHER = Phanton.getProperty("Move_Archer", 50);
 		PDEF_PHANTOM_ARCHER = Phanton.getProperty("Pdef_PhantomArcher", 10);
 		MDEF_PHANTOM_ARCHER = Phanton.getProperty("Mdef_PhantomArcher", 10);
-
+		
 		ALLOW_PHANTOM_RETAIL_ARMOR = Boolean.parseBoolean(Phanton.getProperty("AllowPhantom_Retail_Armor", "False"));
-
+		
 		PHANTOM_ARCHMAGE_PERCENTAGE = Phanton.getProperty("ArchMage_Crit", 50);
 		PHANTOM_ARCHMAGE_DANO_INTERVAL = Phanton.getProperty("ArchMage_Interval_Dano", 50);
 		PHANTOM_ARCHMAGE_EFFECT = Phanton.getProperty("ArchMage_Effect_Interval", 50);
-
+		
 		PHANTOM_SPELLSINGER_PERCENTAGE = Phanton.getProperty("MysticMuse_Crit", 50);
 		PHANTOM_SPELLSINGER_DANO_INTERVAL = Phanton.getProperty("MysticMuse_Interval_Dano", 50);
 		PHANTOM_SPELLSINGER_EFFECT = Phanton.getProperty("MysticMuse_Effect_Interval", 50);
-
+		
 		PHANTOM_SPELLHOLLER_PERCENTAGE = Phanton.getProperty("StormScream_Crit", 50);
 		PHANTOM_SPELLHOLLER_DANO_INTERVAL = Phanton.getProperty("StormScream_Interval_Dano", 50);
 		PHANTOM_SPELLHOLLER_EFFECT = Phanton.getProperty("StormScream_Effect_Interval", 50);
-
+		
 		PHANTOM_CHANCE_MALARIA = Phanton.getProperty("Phantom_Chance_MalariaEffect", 60);
 		PHANTOM_CHANCE_TITLE = Phanton.getProperty("Phantom_Chance_Title", 60);
-
+		
 		COUNT_TOWN = Phanton.getProperty("town_count", 0);
 		COUNT_FARM_ARCHMAGE = Phanton.getProperty("farm_archmage_count", 0);
 		COUNT_FARM_MYSTICMUSE = Phanton.getProperty("farm_mysticmuse_count", 0);
@@ -5444,9 +5426,9 @@ public final class Config
 		COUNT_TVT_ARCHMAGE = Phanton.getProperty("tvt_archmage_count", 0);
 		COUNT_TVT_MYSTICMUSE = Phanton.getProperty("tvt_mysticmuse_count", 0);
 		COUNT_TVT_STORMSCREAM = Phanton.getProperty("tvt_stormscream_count", 0);
-
+		
 	}
-
+	
 	/**
 	 * Loads BossEvent settings.
 	 */
@@ -5497,14 +5479,14 @@ public final class Config
 		BOSS_EVENT_NPC_REGISTER_LOC = new Location(Integer.parseInt(regLoc[0]), Integer.parseInt(regLoc[1]), Integer.parseInt(regLoc[2]));
 		BOSS_EVENT_TIME_ON_SCREEN = Boolean.parseBoolean(bossEvent.getProperty("EventTimeOnScreen", "true"));
 	}
-
+	
 	/**
 	 * Loads PvpZone settings.
 	 */
 	private static final void load_PvpZone()
 	{
 		final ExProperties votezone = initProperties(Config.PVPZONE_SYSTEM);
-
+		
 		VOTEZONE_INIT = Integer.parseInt(votezone.getProperty("ZoneId", "1"));
 		VOTE_PVPZONE_ENABLED = votezone.getProperty("VotePvpZone", false);
 		ENABLED_PVPZONE_KETRA = votezone.getProperty("PvpZone_Ketra", false);
@@ -5518,117 +5500,117 @@ public final class Config
 		VOTEZONE_RANDOM_RANGE = Integer.parseInt(votezone.getProperty("RandomRange", "0"));
 		VOTE_PVPZONE_INTERVAL_BY_TIME_OF_DAY = votezone.getProperty("VotePvpZoneStartTime", "20:00").split(",");
 		VOTE_PVPZONE_TIME = Integer.parseInt(votezone.getProperty("VotePvpTime", "1"));
-
+		
 		PVPZONE_INIT = Integer.parseInt(votezone.getProperty("ZoneId", "1"));
-
+		
 		ZONE_1X = Integer.parseInt(votezone.getProperty("Zone1x", "128520"));
 		ZONE_1Y = Integer.parseInt(votezone.getProperty("Zone1y", "-73208"));
 		ZONE_1Z = Integer.parseInt(votezone.getProperty("Zone1z", "-3439"));
-
+		
 		ZONE_2X = Integer.parseInt(votezone.getProperty("Zone2x", "10488"));
 		ZONE_2Y = Integer.parseInt(votezone.getProperty("Zone2y", "-24728"));
 		ZONE_2Z = Integer.parseInt(votezone.getProperty("Zone2z", "-3651"));
-
+		
 		ZONE_3X = Integer.parseInt(votezone.getProperty("Zone3x", "111336"));
 		ZONE_3Y = Integer.parseInt(votezone.getProperty("Zone3y", "219048"));
 		ZONE_3Z = Integer.parseInt(votezone.getProperty("Zone3z", "-3543"));
-
+		
 		ZONE_4X = Integer.parseInt(votezone.getProperty("Zone4x", "53161"));
 		ZONE_4Y = Integer.parseInt(votezone.getProperty("Zone4y", "83221"));
 		ZONE_4Z = Integer.parseInt(votezone.getProperty("Zone4z", "-3467"));
-
+		
 		ZONE_5X = Integer.parseInt(votezone.getProperty("Zone5x", "115864"));
 		ZONE_5Y = Integer.parseInt(votezone.getProperty("Zone5y", "193132"));
 		ZONE_5Z = Integer.parseInt(votezone.getProperty("Zone5z", "-3592"));
-
+		
 		ZONE_6X = Integer.parseInt(votezone.getProperty("Zone6x", "115864"));
 		ZONE_6Y = Integer.parseInt(votezone.getProperty("Zone6y", "193132"));
 		ZONE_6Z = Integer.parseInt(votezone.getProperty("Zone6z", "-3592"));
-
+		
 		ZONE_7X = Integer.parseInt(votezone.getProperty("Zone7x", "115864"));
 		ZONE_7Y = Integer.parseInt(votezone.getProperty("Zone7y", "193132"));
 		ZONE_7Z = Integer.parseInt(votezone.getProperty("Zone7z", "-3592"));
-
+		
 		ZONE_8X = Integer.parseInt(votezone.getProperty("Zone8x", "115864"));
 		ZONE_8Y = Integer.parseInt(votezone.getProperty("Zone8y", "193132"));
 		ZONE_8Z = Integer.parseInt(votezone.getProperty("Zone8z", "-3592"));
-
+		
 	}
-
+	
 	/**
 	 * Load loadProtect settings.
 	 */
 	private static final void loadProtect()
 	{
 		final ExProperties protect = initProperties(PROTECT_FILE);
-
+		
 		// Sistema de nao equipar muito rapido Weapon
 		USER_ITEM_TIME_WEAPON = protect.getProperty("UserItemWeaponTime", 4200);
-
+		
 		ANTIZERG_RES = protect.getProperty("AntiZerg_resurrect", false);
-
+		
 		BOSSZONE_HWID_PROTECT = protect.getProperty("BossZoneHwidProtect", false);
 		MAX_BOX_IN_BOSSZONE = protect.getProperty("MaxPlayersPerHwid_inBossZone", 1);
-
+		
 		FLAGZONE_HWID_PROTECT = protect.getProperty("FlagZoneHwidProtect", false);
 		MAX_BOX_IN_FLAGZONE = protect.getProperty("MaxPlayersPerHwid_inFlagZone", 1);
-
+		
 		SOLOZONE_HWID_PROTECT = protect.getProperty("SoloZoneHwidProtect", false);
 		MAX_BOX_IN_SOLOZONE = protect.getProperty("MaxPlayersPerHwid_inSoloZone", 1);
-
+		
 		ANTZERG_CHECK_PARTY_INVITE = protect.getProperty("CheckPartyInvite", false);
 		ALLOW_HEALER_COUNT = protect.getProperty("AllowHealerCount", false);
 		MAX_HEALER_PARTY = protect.getProperty("MaxHealerInParty", 2);
-
+		
 		BOTS_PREVENTION = protect.getProperty("EnableBotsPrevention", false);
 		KILLS_COUNTER = protect.getProperty("KillsCounter", 60);
 		KILLS_COUNTER_EXTRA = protect.getProperty("KillsCounterExtra", 5);
-
+		
 		EXTREME_CAPTCHA = protect.getProperty("ExtremeCaptcha", 60);
-
+		
 		PVP_BOTS_PREVENTION = protect.getProperty("EnablePvPBotsPrevention", false);
 		PVP_KILLS_COUNTER = protect.getProperty("Pvp_KillsCounter", 60);
 		PVP_KILLS_COUNTER_EXTRA = protect.getProperty("Pvp_KillsCounterExtra", 5);
-
+		
 		VALIDATION_TIME = protect.getProperty("ValidationTime", 60);
-
+		
 		NO_DELETE = protect.getProperty("NoDeleteItens", "");
 		LIST_NO_DELETE_ITEM = new ArrayList<>();
 		for (String itemId : NO_DELETE.split(","))
 		{
 			LIST_NO_DELETE_ITEM.add(Integer.parseInt(itemId));
 		}
-
+		
 		NO_SELL = protect.getProperty("NoSellItens", "");
 		LIST_NO_SELL_ITEM = new ArrayList<>();
 		for (String itemId : NO_SELL.split(","))
 		{
 			LIST_NO_SELL_ITEM.add(Integer.parseInt(itemId));
 		}
-
+		
 		NO_DEPOSITE = protect.getProperty("NoDepositeItens", "");
 		LIST_NO_DEPOSITE_ITEM = new ArrayList<>();
 		for (String itemId : NO_DEPOSITE.split(","))
 		{
 			LIST_NO_DEPOSITE_ITEM.add(Integer.parseInt(itemId));
 		}
-
+		
 		NO_DROP = protect.getProperty("NoDropItens", "");
 		LIST_NO_DROP_ITEM = new ArrayList<>();
 		for (String itemId : NO_DROP.split(","))
 		{
 			LIST_NO_DROP_ITEM.add(Integer.parseInt(itemId));
 		}
-
+		
 		NO_TRADE = protect.getProperty("NoTradeItens", "");
 		LIST_NO_TRADE_ITEM = new ArrayList<>();
 		for (String itemId : NO_TRADE.split(","))
 		{
 			LIST_NO_TRADE_ITEM.add(Integer.parseInt(itemId));
 		}
-
+		
 		ENCHANT_PROTECT = protect.getProperty("Enchant", 23);
-
+		
 		ALLOW_HEAVY_USE_LIGHT = Boolean.parseBoolean(protect.getProperty("AllowHeavyUseLight", "False"));
 		NOTALLOWCLASSE = protect.getProperty("NotAllowedUseLight", "");
 		NOTALLOWEDUSELIGHT = new ArrayList<>();
@@ -5636,11 +5618,11 @@ public final class Config
 		{
 			NOTALLOWEDUSELIGHT.add(Integer.parseInt(classId));
 		}
-
+		
 		REMOVE_WEAPON = Boolean.parseBoolean(protect.getProperty("RemoveWeapon", "False"));
 		REMOVE_CHEST = Boolean.parseBoolean(protect.getProperty("RemoveChest", "False"));
 		REMOVE_LEG = Boolean.parseBoolean(protect.getProperty("RemoveLeg", "False"));
-
+		
 		ALLOW_LIGHT_USE_HEAVY = Boolean.parseBoolean(protect.getProperty("AllowLightUseHeavy", "False"));
 		NOTALLOWCLASS = protect.getProperty("NotAllowedUseHeavy", "");
 		NOTALLOWEDUSEHEAVY = new ArrayList<>();
@@ -5648,7 +5630,7 @@ public final class Config
 		{
 			NOTALLOWEDUSEHEAVY.add(Integer.parseInt(classId));
 		}
-
+		
 		ALT_DISABLE_BOW_CLASSES_OLY = Boolean.parseBoolean(protect.getProperty("AltDisableBow_Oly", "False"));
 		ALT_DISABLE_BOW_CLASSES = Boolean.parseBoolean(protect.getProperty("AltDisableBow", "False"));
 		DISABLE_BOW_CLASSES_STRING = protect.getProperty("DisableBowForClasses", "");
@@ -5658,11 +5640,11 @@ public final class Config
 			if (!class_id.equals(""))
 				DISABLE_BOW_CLASSES.add(Integer.parseInt(class_id));
 		}
-
+		
 		WARN_ITEM_ENABLED = Boolean.parseBoolean(protect.getProperty("ProtectItemEnabled", "False"));
-
+		
 		WARN_LIST_ITEM = Boolean.parseBoolean(protect.getProperty("CheckItem", "False"));
-
+		
 		if (Config.WARN_ITEM_ENABLED)
 		{
 			String[] propertySplit1 = protect.getProperty("ProtectItem", "57,0").split(";");
@@ -5690,31 +5672,31 @@ public final class Config
 				}
 			}
 		}
-
+		
 		WARN_ENCHANT_ITEM_ENABLED = Boolean.parseBoolean(protect.getProperty("CheckEnchant", "False"));
 		WARN_ENCHANT_LEVEL = protect.getProperty("EnchantLevel", 0);
-
+		
 		ALLOW_DUALBOX = Boolean.parseBoolean(protect.getProperty("AllowDualBox", "True"));
 		ALLOWED_BOXES = Integer.parseInt(protect.getProperty("AllowedBoxes", "1"));
 		ALLOW_DUALBOX_OLY = Boolean.parseBoolean(protect.getProperty("AllowDualBoxInOly", "True"));
-
+		
 		MULTIBOX_PROTECTION_ENABLED = protect.getProperty("MultiboxProtectionEnabled", false);
 		MULTIBOX_PROTECTION_CLIENTS_PER_PC = protect.getProperty("ClientsPerPc", 2);
-
+		
 		MAGE_ID_RESTRICT = protect.getProperty("MageItem");
-
+		
 		MAGE_LISTID_RESTRICT = new ArrayList<>();
 		for (String id : MAGE_ID_RESTRICT.split(","))
 			MAGE_LISTID_RESTRICT.add(Integer.parseInt(id));
-
+		
 		FIGHTER_ID_RESTRICT = protect.getProperty("FighterItem");
-
+		
 		FIGHTER_LISTID_RESTRICT = new ArrayList<>();
 		for (String id : FIGHTER_ID_RESTRICT.split(","))
 			FIGHTER_LISTID_RESTRICT.add(Integer.parseInt(id));
-
+		
 	}
-
+	
 	/**
 	 * load PvpKing
 	 */
@@ -5731,7 +5713,7 @@ public final class Config
 		CKM_PK_NPC_NAME_COLOR = Integer.decode("0x" + pvpking.getProperty("CKMPKNpcNameColor", "FFFFFF"));
 		CKM_PLAYER_REWARDS = parseItemsList(pvpking.getProperty("CKMReward", "6651,50"));
 	}
-
+	
 	/**
 	 * load class duelist
 	 */
@@ -5769,7 +5751,7 @@ public final class Config
 		Duelist_vs_Dominator = Float.parseFloat(dmg.getProperty("Duelist_vs_Dominator", "1.00"));
 		Duelist_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Duelist_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class DreadNought
 	 */
@@ -5807,7 +5789,7 @@ public final class Config
 		DreadNought_vs_Dominator = Float.parseFloat(dmg.getProperty("DreadNought_vs_Dominator", "1.00"));
 		DreadNought_vs_Doomcryer = Float.parseFloat(dmg.getProperty("DreadNought_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Phoenix_Knight
 	 */
@@ -5845,7 +5827,7 @@ public final class Config
 		Phoenix_Knight_vs_Dominator = Float.parseFloat(dmg.getProperty("Phoenix_Knight_vs_Dominator", "1.00"));
 		Phoenix_Knight_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Phoenix_Knight_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Hell_Knight
 	 */
@@ -5883,7 +5865,7 @@ public final class Config
 		Hell_Knight_vs_Dominator = Float.parseFloat(dmg.getProperty("Hell_Knight_vs_Dominator", "1.00"));
 		Hell_Knight_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Hell_Knight_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Sagittarius
 	 */
@@ -5921,7 +5903,7 @@ public final class Config
 		Sagittarius_vs_Dominator = Float.parseFloat(dmg.getProperty("Sagittarius_vs_Dominator", "1.00"));
 		Sagittarius_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Sagittarius_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Eva_Templar
 	 */
@@ -5959,7 +5941,7 @@ public final class Config
 		Eva_Templar_vs_Dominator = Float.parseFloat(dmg.getProperty("Eva_Templar_vs_Dominator", "1.00"));
 		Eva_Templar_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Eva_Templar_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Sword_Muse
 	 */
@@ -5997,7 +5979,7 @@ public final class Config
 		Sword_Muse_vs_Dominator = Float.parseFloat(dmg.getProperty("Sword_Muse_vs_Dominator", "1.00"));
 		Sword_Muse_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Sword_Muse_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Moonlight_Sentinel
 	 */
@@ -6035,7 +6017,7 @@ public final class Config
 		Moonlight_Sentinel_vs_Dominator = Float.parseFloat(dmg.getProperty("Moonlight_Sentinel_vs_Dominator", "1.00"));
 		Moonlight_Sentinel_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Moonlight_Sentinel_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Shillien_Templar
 	 */
@@ -6073,7 +6055,7 @@ public final class Config
 		Shillien_Templar_vs_Dominator = Float.parseFloat(dmg.getProperty("Shillien_Templar_vs_Dominator", "1.00"));
 		Shillien_Templar_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Shillien_Templar_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Spectral_Dancer
 	 */
@@ -6111,7 +6093,7 @@ public final class Config
 		Spectral_Dancer_vs_Dominator = Float.parseFloat(dmg.getProperty("Spectral_Dancer_vs_Dominator", "1.00"));
 		Spectral_Dancer_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Spectral_Dancer_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Ghost_Sentinel
 	 */
@@ -6149,7 +6131,7 @@ public final class Config
 		Ghost_Sentinel_vs_Dominator = Float.parseFloat(dmg.getProperty("Ghost_Sentinel_vs_Dominator", "1.00"));
 		Ghost_Sentinel_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Ghost_Sentinel_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Titan
 	 */
@@ -6187,7 +6169,7 @@ public final class Config
 		Titan_vs_Dominator = Float.parseFloat(dmg.getProperty("Titan_vs_Dominator", "1.00"));
 		Titan_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Titan_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Grand_Khauatari
 	 */
@@ -6225,7 +6207,7 @@ public final class Config
 		Grand_Khauatari_vs_Dominator = Float.parseFloat(dmg.getProperty("Grand_Khauatari_vs_Dominator", "1.00"));
 		Grand_Khauatari_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Grand_Khauatari_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Fortune_Seeker
 	 */
@@ -6263,7 +6245,7 @@ public final class Config
 		Fortune_Seeker_vs_Dominator = Float.parseFloat(dmg.getProperty("Fortune_Seeker_vs_Dominator", "1.00"));
 		Fortune_Seeker_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Fortune_Seeker_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Maestro
 	 */
@@ -6301,7 +6283,7 @@ public final class Config
 		Maestro_vs_Dominator = Float.parseFloat(dmg.getProperty("Maestro_vs_Dominator", "1.00"));
 		Maestro_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Maestro_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Adventurer
 	 */
@@ -6339,7 +6321,7 @@ public final class Config
 		Adventurer_vs_Dominator = Float.parseFloat(dmg.getProperty("Adventurer_vs_Dominator", "1.00"));
 		Adventurer_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Adventurer_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Wind_Rider
 	 */
@@ -6377,7 +6359,7 @@ public final class Config
 		Wind_Rider_vs_Dominator = Float.parseFloat(dmg.getProperty("Wind_Rider_vs_Dominator", "1.00"));
 		Wind_Rider_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Wind_Rider_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Ghost_Hunter
 	 */
@@ -6415,7 +6397,7 @@ public final class Config
 		Ghost_Hunter_vs_Dominator = Float.parseFloat(dmg.getProperty("Ghost_Hunter_vs_Dominator", "1.00"));
 		Ghost_Hunter_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Ghost_Hunter_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Archmage
 	 */
@@ -6453,7 +6435,7 @@ public final class Config
 		Archmage_vs_Dominator = Float.parseFloat(dmg.getProperty("Archmage_vs_Dominator", "1.00"));
 		Archmage_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Archmage_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Soultaker
 	 */
@@ -6491,7 +6473,7 @@ public final class Config
 		Soultaker_vs_Dominator = Float.parseFloat(dmg.getProperty("Soultaker_vs_Dominator", "1.00"));
 		Soultaker_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Soultaker_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Arcana_Lord
 	 */
@@ -6529,7 +6511,7 @@ public final class Config
 		Arcana_Lord_vs_Dominator = Float.parseFloat(dmg.getProperty("Arcana_Lord_vs_Dominator", "1.00"));
 		Arcana_Lord_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Arcana_Lord_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Cardinal
 	 */
@@ -6567,7 +6549,7 @@ public final class Config
 		Cardinal_vs_Dominator = Float.parseFloat(dmg.getProperty("Cardinal_vs_Dominator", "1.00"));
 		Cardinal_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Cardinal_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Hierophant
 	 */
@@ -6605,7 +6587,7 @@ public final class Config
 		Hierophant_vs_Dominator = Float.parseFloat(dmg.getProperty("Hierophant_vs_Dominator", "1.00"));
 		Hierophant_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Hierophant_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Mystic_Muse
 	 */
@@ -6643,7 +6625,7 @@ public final class Config
 		Mystic_Muse_vs_Dominator = Float.parseFloat(dmg.getProperty("Mystic_Muse_vs_Dominator", "1.00"));
 		Mystic_Muse_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Mystic_Muse_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Elemental_Master
 	 */
@@ -6681,7 +6663,7 @@ public final class Config
 		Elemental_Master_vs_Dominator = Float.parseFloat(dmg.getProperty("Elemental_Master_vs_Dominator", "1.00"));
 		Elemental_Master_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Elemental_Master_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Eva_s_Saint
 	 */
@@ -6719,7 +6701,7 @@ public final class Config
 		Eva_s_Saint_vs_Dominator = Float.parseFloat(dmg.getProperty("Eva_s_Saint_vs_Dominator", "1.00"));
 		Eva_s_Saint_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Eva_s_Saint_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Storm_Screamer
 	 */
@@ -6757,7 +6739,7 @@ public final class Config
 		Storm_Screamer_vs_Dominator = Float.parseFloat(dmg.getProperty("Storm_Screamer_vs_Dominator", "1.00"));
 		Storm_Screamer_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Storm_Screamer_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Spectral_Master
 	 */
@@ -6795,7 +6777,7 @@ public final class Config
 		Spectral_Master_vs_Dominator = Float.parseFloat(dmg.getProperty("Spectral_Master_vs_Dominator", "1.00"));
 		Spectral_Master_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Spectral_Master_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Shillien_Saint
 	 */
@@ -6833,7 +6815,7 @@ public final class Config
 		Shillien_Saint_vs_Dominator = Float.parseFloat(dmg.getProperty("Shillien_Saint_vs_Dominator", "1.00"));
 		Shillien_Saint_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Shillien_Saint_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Dominator
 	 */
@@ -6871,7 +6853,7 @@ public final class Config
 		Dominator_vs_Shillien_Saint = Float.parseFloat(dmg.getProperty("Dominator_vs_Shillien_Saint", "1.00"));
 		Dominator_vs_Doomcryer = Float.parseFloat(dmg.getProperty("Dominator_vs_Doomcryer", "1.00"));
 	}
-
+	
 	/**
 	 * load class Doomcryer
 	 */
@@ -6909,84 +6891,84 @@ public final class Config
 		Doomcryer_vs_Shillien_Saint = Float.parseFloat(dmg.getProperty("Doomcryer_vs_Shillien_Saint", "1.00"));
 		Doomcryer_vs_Dominator = Float.parseFloat(dmg.getProperty("Doomcryer_vs_Dominator", "1.00"));
 	}
-
+	
 	/**
 	 * load mission
 	 */
 	private static final void loadmission()
 	{
 		final ExProperties Mission = initProperties(MISSION_FILE);
-
+		
 		PC_1x1 = Integer.parseInt(Mission.getProperty("Pc_Ammount_1x1", "1"));
 		PC_PVP = Integer.parseInt(Mission.getProperty("Pc_Ammount_PvP", "1"));
-
+		
 		ACTIVE_MISSION_PVP = Boolean.parseBoolean(Mission.getProperty("ActivePvPMission", "false"));
 		MISSION_PVP_CONT = Integer.parseInt(Mission.getProperty("PvPCont", "1"));
 		MISSION_PVP_REWARD_ID = Integer.parseInt(Mission.getProperty("PvPReward", "6392"));
 		MISSION_PVP_REWARD_AMOUNT = Integer.parseInt(Mission.getProperty("PvPRewardAmmount", "1"));
-
+		
 		ID_RAID = Integer.parseInt(Mission.getProperty("RaidID", "0"));
 		PC_PARTYZONE = Integer.parseInt(Mission.getProperty("Pc_Ammount_PartyZone", "1"));
-
+		
 		PC_MOBS = Integer.parseInt(Mission.getProperty("Pc_Ammount_Mobs", "1"));
 		PC_2x2 = Integer.parseInt(Mission.getProperty("Pc_Ammount_2x2", "1"));
 		PC_5x5 = Integer.parseInt(Mission.getProperty("Pc_Ammount_5x5", "1"));
 		PC_9x9 = Integer.parseInt(Mission.getProperty("Pc_Ammount_9x9", "1"));
 		PC_RAID_IND = Integer.parseInt(Mission.getProperty("Pc_Ammount_Raid", "1"));
 		PC_TVT = Integer.parseInt(Mission.getProperty("Pc_Ammount_TvT", "1"));
-
+		
 		REWARD_PCPOINT = Boolean.parseBoolean(Mission.getProperty("Reward_PcBang", "false"));
-
+		
 		ACTIVE_MISSION = Boolean.parseBoolean(Mission.getProperty("ActiveMission", "false"));
 		ACTIVE_MISSION_TVT = Boolean.parseBoolean(Mission.getProperty("ActiveTvTMission", "false"));
 		MISSION_TVT_CONT = Integer.parseInt(Mission.getProperty("TvTCont", "1"));
 		MISSION_TVT_REWARD_ID = Integer.parseInt(Mission.getProperty("TvTReward", "6392"));
 		MISSION_TVT_REWARD_AMOUNT = Integer.parseInt(Mission.getProperty("TvTRewardAmmount", "1"));
-
+		
 		ACTIVE_MISSION_RAID = Boolean.parseBoolean(Mission.getProperty("ActiveRaidMission", "false"));
 		MISSION_RAID_CONT = Integer.parseInt(Mission.getProperty("RaidCont", "1"));
 		MISSION_RAID_REWARD_ID = Integer.parseInt(Mission.getProperty("RaidReward", "6392"));
 		MISSION_RAID_REWARD_AMOUNT = Integer.parseInt(Mission.getProperty("RaidRewardAmmount", "1"));
-
+		
 		ACTIVE_MISSION_MOB = Boolean.parseBoolean(Mission.getProperty("ActiveMobMission", "false"));
 		MISSION_MOB_CONT = Integer.parseInt(Mission.getProperty("MobCont", "1"));
-
+		
 		ACTIVE_MISSION_PARTY_MOB = Boolean.parseBoolean(Mission.getProperty("ActivePartyMobMission", "false"));
 		MISSION_PARTY_MOB_CONT = Integer.parseInt(Mission.getProperty("PartyMobCont", "1"));
 		MISSION_PARTY_MOB_REWARD_ID = Integer.parseInt(Mission.getProperty("PartyMobReward", "6392"));
 		MISSION_PARTY_MOB_REWARD_AMOUNT = Integer.parseInt(Mission.getProperty("PartyMobRewardAmmount", "1"));
-
+		
 		MISSION_LIST_MOBS = Mission.getProperty("ListMobs", "0");
 		MISSION_LIST_MONSTER = new ArrayList<>();
 		for (String id : MISSION_LIST_MOBS.split(","))
 			MISSION_LIST_MONSTER.add(Integer.valueOf(Integer.parseInt(id)));
 		MISSION_MOB_REWARD_ID = Integer.parseInt(Mission.getProperty("MobReward", "6392"));
 		MISSION_MOB_REWARD_AMOUNT = Integer.parseInt(Mission.getProperty("MobRewardAmmount", "1"));
-
+		
 		ACTIVE_MISSION_1X1 = Boolean.parseBoolean(Mission.getProperty("Active1x1Mission", "false"));
 		MISSION_1X1_CONT = Integer.parseInt(Mission.getProperty("1x1Cont", "1"));
 		MISSION_1X1_REWARD_ID = Integer.parseInt(Mission.getProperty("1x1Reward", "6392"));
 		MISSION_1X1_REWARD_AMOUNT = Integer.parseInt(Mission.getProperty("1x1RewardAmmount", "1"));
-
+		
 		ACTIVE_MISSION_2X2 = Boolean.parseBoolean(Mission.getProperty("Active2x2Mission", "false"));
 		MISSION_2X2_CONT = Integer.parseInt(Mission.getProperty("2x2Cont", "1"));
 		MISSION_2X2_REWARD_ID = Integer.parseInt(Mission.getProperty("2x2Reward", "6392"));
 		MISSION_2X2_REWARD_AMOUNT = Integer.parseInt(Mission.getProperty("2x2RewardAmmount", "1"));
-
+		
 		ACTIVE_MISSION_5X5 = Boolean.parseBoolean(Mission.getProperty("Active5x5Mission", "false"));
 		MISSION_5X5_CONT = Integer.parseInt(Mission.getProperty("5x5Cont", "1"));
 		MISSION_5X5_REWARD_ID = Integer.parseInt(Mission.getProperty("5x5Reward", "6392"));
 		MISSION_5X5_REWARD_AMOUNT = Integer.parseInt(Mission.getProperty("5x5RewardAmmount", "1"));
-
+		
 		ACTIVE_MISSION_9X9 = Boolean.parseBoolean(Mission.getProperty("Active9x9Mission", "false"));
 		MISSION_9X9_CONT = Integer.parseInt(Mission.getProperty("9x9Cont", "1"));
 		MISSION_9X9_REWARD_ID = Integer.parseInt(Mission.getProperty("9x9Reward", "6392"));
 		MISSION_9X9_REWARD_AMOUNT = Integer.parseInt(Mission.getProperty("9x9RewardAmmount", "1"));
-
+		
 		CLEAR_MISSION_INTERVAL_BY_TIME_OF_DAY = Mission.getProperty("ClearMissionStartTime", "20:00").split(",");
-
+		
 	}
-
+	
 	/**
 	 * Load PC BANG.
 	 */
@@ -6997,16 +6979,16 @@ public final class Config
 		PCB_MIN_LEVEL = Integer.parseInt(pcbpSettings.getProperty("PcBangPointMinLevel", "20"));
 		PCB_POINT_MIN = Integer.parseInt(pcbpSettings.getProperty("PcBangPointMinCount", "20"));
 		PCB_POINT_MAX = Integer.parseInt(pcbpSettings.getProperty("PcBangPointMaxCount", "1000000"));
-
+		
 		if (PCB_POINT_MAX < 1)
 		{
 			PCB_POINT_MAX = Integer.MAX_VALUE;
 		}
-
+		
 		PCB_CHANCE_DUAL_POINT = Integer.parseInt(pcbpSettings.getProperty("PcBangPointDualChance", "20"));
 		PCB_INTERVAL = Integer.parseInt(pcbpSettings.getProperty("PcBangPointTimeStamp", "900"));
 	}
-
+	
 	/**
 	 * Loads hex ID settings.
 	 */
@@ -7016,7 +6998,7 @@ public final class Config
 		SERVER_ID = Integer.parseInt(hexid.getProperty("ServerID"));
 		HEX_ID = new BigInteger(hexid.getProperty("HexID"), 16).toByteArray();
 	}
-
+	
 	/**
 	 * Saves hex ID file.
 	 * @param serverId : The ID of server.
@@ -7026,7 +7008,7 @@ public final class Config
 	{
 		saveHexid(serverId, hexId, HEXID_FILE);
 	}
-
+	
 	/**
 	 * Saves hexID file.
 	 * @param serverId : The ID of server.
@@ -7040,7 +7022,7 @@ public final class Config
 			Properties hexSetting = new Properties();
 			File file = new File(filename);
 			file.createNewFile();
-
+			
 			OutputStream out = new FileOutputStream(file);
 			hexSetting.setProperty("ServerID", String.valueOf(serverId));
 			hexSetting.setProperty("HexID", hexId);
@@ -7053,7 +7035,7 @@ public final class Config
 			e.printStackTrace();
 		}
 	}
-
+	
 	protected static final ArrayList<Calendar> ParseDates(String datesString, int randMax)
 	{
 		ArrayList<Calendar> tempList = new ArrayList<>();
@@ -7075,7 +7057,7 @@ public final class Config
 		}
 		return tempList;
 	}
-
+	
 	public static int GetDayFromString(String day)
 	{
 		day = day.toLowerCase();
@@ -7106,7 +7088,7 @@ public final class Config
 		}
 		return dayVal;
 	}
-
+	
 	public static Calendar FindNext(ArrayList<Calendar> times)
 	{
 		Calendar today = Calendar.getInstance();
@@ -7127,7 +7109,7 @@ public final class Config
 		}
 		return nextTime;
 	}
-
+	
 	/**
 	 * Loads gameserver settings.<br>
 	 * IP addresses, database, rates, feature enabled/disabled, misc.
@@ -7135,38 +7117,38 @@ public final class Config
 	private static final void loadServer()
 	{
 		final ExProperties server = initProperties(NETWORK_FILE);
-
+		
 		GAMESERVER_HOSTNAME = server.getProperty("GameserverHostname");
 		PORT_GAME = server.getProperty("GameserverPort", 7777);
-
+		
 		EXTERNAL_HOSTNAME = server.getProperty("ExternalHostname", "*");
 		INTERNAL_HOSTNAME = server.getProperty("InternalHostname", "*");
-
+		
 		GAME_SERVER_LOGIN_PORT = server.getProperty("LoginPort", 9014);
 		GAME_SERVER_LOGIN_HOST = server.getProperty("LoginHost", "127.0.0.1");
-
+		
 		REQUEST_ID = server.getProperty("RequestServerID", 0);
 		ACCEPT_ALTERNATE_ID = server.getProperty("AcceptAlternateID", true);
-
+		
 		DATABASE_URL = server.getProperty("URL", "jdbc:mysql://localhost/acis");
 		DATABASE_LOGIN = server.getProperty("Login", "root");
 		DATABASE_PASSWORD = server.getProperty("Password", "");
 		DATABASE_MAX_CONNECTIONS = server.getProperty("MaximumDbConnections", 10);
-
+		
 		SERVER_LIST_BRACKET = server.getProperty("ServerListBrackets", false);
 		SERVER_LIST_CLOCK = server.getProperty("ServerListClock", false);
 		SERVER_GMONLY = server.getProperty("ServerGMOnly", false);
 		SERVER_LIST_TESTSERVER = server.getProperty("TestServer", false);
-
+		
 		MAXIMUM_ONLINE_USERS = server.getProperty("MaximumOnlineUsers", 100);
-
+		
 		MIN_PROTOCOL_REVISION = server.getProperty("MinProtocolRevision", 730);
 		MAX_PROTOCOL_REVISION = server.getProperty("MaxProtocolRevision", 746);
 		if (MIN_PROTOCOL_REVISION > MAX_PROTOCOL_REVISION)
 			throw new Error("MinProtocolRevision is bigger than MaxProtocolRevision in gameserver.properties.");
-
+		
 	}
-
+	
 	/**
 	 * Loads loginserver settings.<br>
 	 * IP addresses, database, account, misc.
@@ -7174,141 +7156,141 @@ public final class Config
 	private static final void loadLogin()
 	{
 		final ExProperties server = initProperties(LOGIN_CONFIGURATION_FILE);
-
+		
 		EXTERNAL_HOSTNAME = server.getProperty("ExternalHostname", "*");
 		INTERNAL_HOSTNAME = server.getProperty("InternalHostname", "*");
-
+		
 		LOGIN_BIND_ADDRESS = server.getProperty("LoginserverHostname", "*");
 		PORT_LOGIN = server.getProperty("LoginserverPort", 2106);
-
+		
 		GAME_SERVER_LOGIN_HOST = server.getProperty("LoginHostname", "*");
 		GAME_SERVER_LOGIN_PORT = server.getProperty("LoginPort", 9014);
-
+		
 		LOGIN_TRY_BEFORE_BAN = server.getProperty("LoginTryBeforeBan", 3);
 		LOGIN_BLOCK_AFTER_BAN = server.getProperty("LoginBlockAfterBan", 600);
 		ACCEPT_NEW_GAMESERVER = server.getProperty("AcceptNewGameServer", false);
-
+		
 		SHOW_LICENCE = server.getProperty("ShowLicence", true);
-
+		
 		DATABASE_URL = server.getProperty("URL", "jdbc:mysql://localhost/acis");
 		DATABASE_LOGIN = server.getProperty("Login", "root");
 		DATABASE_PASSWORD = server.getProperty("Password", "");
 		DATABASE_MAX_CONNECTIONS = server.getProperty("MaximumDbConnections", 10);
-
+		
 		AUTO_CREATE_ACCOUNTS = server.getProperty("AutoCreateAccounts", true);
-
+		
 		LOG_LOGIN_CONTROLLER = server.getProperty("LogLoginController", false);
-
+		
 		FLOOD_PROTECTION = server.getProperty("EnableFloodProtection", true);
 		FAST_CONNECTION_LIMIT = server.getProperty("FastConnectionLimit", 15);
 		NORMAL_CONNECTION_TIME = server.getProperty("NormalConnectionTime", 700);
 		FAST_CONNECTION_TIME = server.getProperty("FastConnectionTime", 350);
 		MAX_CONNECTION_PER_IP = server.getProperty("MaxConnectionPerIP", 50);
-
+		
 		DEBUG = server.getProperty("Debug", false);
 		DEVELOPER = server.getProperty("Developer", false);
 		PACKET_HANDLER_DEBUG = server.getProperty("PacketHandlerDebug", false);
-
+		
 		IP_PROTECTION_CNFG = server.getProperty("IpProtection_Config", false);
 		IP_PROTECTION = server.getProperty("IpProtection", "*");
 		BRUT_PROTECTION_ENABLED = Boolean.parseBoolean(server.getProperty("BrutProtection", "true"));
-
+		
 		ANTI_LOGIN_FLOOD = server.getProperty("Anti_login_flood", false);
 		LOGIN_FLOOD_BLOCK_TIME = server.getProperty("Login_Flood_Block_Time", 600);
-
+		
 	}
-
+	
 	public static final void loadGameServer()
 	{
-
+		
 		_log.info("Loading gameserver configuration files.");
-
+		
 		// boss settings
 		loadBoss();
-
+		
 		// clans settings
 		loadClans();
-
+		
 		// enchant settings
 		loadEnchant();
-
+		
 		// events settings
 		loadEvents();
-
+		
 		// geoengine settings
 		loadGeoengine();
-
+		
 		// gm settings
 		loadGmFile();
-
+		
 		// NPCs/monsters settings
 		loadNpcs();
-
+		
 		// Options settings
 		loadOptions();
-
+		
 		// Party settings
 		loadParty();
-
+		
 		// players settings
 		loadPlayers();
-
+		
 		// Auto Farm Settings
 		loadAutoFarm();
-
+		
 		// pvp settings
 		loadPvP();
-
+		
 		// rates settings
 		loadRates();
-
+		
 		// siege settings
 		loadSieges();
-
+		
 		// skills settings
 		loadSkills();
-
+		
 		// L2J4Team settings
 		loadL2J4Team();
-
+		
 		// Physics settings
 		loadPhysics();
 		loadOlympiadPhysics();
 		loadBalanceSkills();
-
+		
 		// TvT Settings
 		loadTvT();
-
+		
 		// CTF Settings
 		loadCTF();
-
+		
 		// PvP Settings
 		loadPvpEvent();
-
+		
 		// Tournament Settings
 		load_Tournament();
-
+		
 		// PartyZone Settings
 		load_PartyZone();
-
+		
 		// Phantom Settings
 		load_Phantom();
-
+		
 		// BossEvent Settings
 		loadBossEvent();
-
+		
 		// PvpZone Settings
 		load_PvpZone();
-
+		
 		// Protect Settings
 		loadProtect();
-
+		
 		loadpcbp();
-
+		
 		loadmission();
-
+		
 		loadPvpKing();
-
+		
 		loadDuelist();
 		loadDreadNought();
 		loadPhoenix_Knight();
@@ -7340,63 +7322,63 @@ public final class Config
 		loadShillien_Saint();
 		loadDominator();
 		loadDoomcryer();
-
+		
 		// hexID
 		loadHexID();
-
+		
 		// server settings
 		loadServer();
-
+		
 	}
-
+	
 	public static final void loadLoginServer()
 	{
 		_log.info("Loading loginserver configuration files.");
-
+		
 		// login settings
 		loadLogin();
 	}
-
+	
 	public static final void loadAccountManager()
 	{
 		_log.info("Loading account manager configuration files.");
-
+		
 		// login settings
 		loadLogin();
 	}
-
+	
 	public static final void loadGameServerRegistration()
 	{
 		_log.info("Loading gameserver registration configuration files.");
-
+		
 		// login settings
 		loadLogin();
 	}
-
+	
 	public static final void loadGeodataConverter()
 	{
 		_log.info("Loading geodata converter configuration files.");
-
+		
 		// geoengine settings
 		loadGeoengine();
 	}
-
+	
 	public static final class ClassMasterSettings
 	{
 		private final Map<Integer, Boolean> _allowedClassChange;
 		private final Map<Integer, List<IntIntHolder>> _claimItems;
 		private final Map<Integer, List<IntIntHolder>> _rewardItems;
-
+		
 		public ClassMasterSettings(String configLine)
 		{
 			_allowedClassChange = new HashMap<>(3);
 			_claimItems = new HashMap<>(3);
 			_rewardItems = new HashMap<>(3);
-
+			
 			if (configLine != null)
 				parseConfigLine(configLine.trim());
 		}
-
+		
 		private void parseConfigLine(String configLine)
 		{
 			StringTokenizer st = new StringTokenizer(configLine, ";");
@@ -7404,11 +7386,11 @@ public final class Config
 			{
 				// Get allowed class change.
 				int job = Integer.parseInt(st.nextToken());
-
+				
 				_allowedClassChange.put(job, true);
-
+				
 				List<IntIntHolder> items = new ArrayList<>();
-
+				
 				// Parse items needed for class change.
 				if (st.hasMoreTokens())
 				{
@@ -7419,11 +7401,11 @@ public final class Config
 						items.add(new IntIntHolder(Integer.parseInt(st3.nextToken()), Integer.parseInt(st3.nextToken())));
 					}
 				}
-
+				
 				// Feed the map, and clean the list.
 				_claimItems.put(job, items);
 				items = new ArrayList<>();
-
+				
 				// Parse gifts after class change.
 				if (st.hasMoreTokens())
 				{
@@ -7434,27 +7416,27 @@ public final class Config
 						items.add(new IntIntHolder(Integer.parseInt(st3.nextToken()), Integer.parseInt(st3.nextToken())));
 					}
 				}
-
+				
 				_rewardItems.put(job, items);
 			}
 		}
-
+		
 		public boolean isAllowed(int job)
 		{
 			if (_allowedClassChange == null)
 				return false;
-
+			
 			if (_allowedClassChange.containsKey(job))
 				return _allowedClassChange.get(job);
-
+			
 			return false;
 		}
-
+		
 		public List<IntIntHolder> getRewardItems(int job)
 		{
 			return _rewardItems.get(job);
 		}
-
+		
 		public List<IntIntHolder> getRequiredItems(int job)
 		{
 			return _claimItems.get(job);

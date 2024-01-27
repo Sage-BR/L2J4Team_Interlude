@@ -12,25 +12,25 @@ public class NpcMemo extends AbstractMemo
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	public int getInteger(String key)
 	{
 		return super.getInteger(key, 0);
 	}
-
+	
 	@Override
 	public boolean restoreMe()
 	{
 		return true;
 	}
-
+	
 	@Override
 	public boolean storeMe()
 	{
 		return true;
 	}
-
+	
 	/**
 	 * Gets the stored player.
 	 * @param name the name of the variable
@@ -40,7 +40,7 @@ public class NpcMemo extends AbstractMemo
 	{
 		return getObject(name, Player.class);
 	}
-
+	
 	/**
 	 * Gets the stored summon.
 	 * @param name the name of the variable

@@ -5,14 +5,14 @@ import com.l2j4team.gameserver.instancemanager.SevenSigns;
 public class ShowMiniMap extends L2GameServerPacket
 {
 	public static final ShowMiniMap REGULAR_MAP = new ShowMiniMap(1665);
-
+	
 	private final int _mapId;
-
+	
 	public ShowMiniMap(int mapId)
 	{
 		_mapId = mapId;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

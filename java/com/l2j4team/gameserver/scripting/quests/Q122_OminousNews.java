@@ -8,19 +8,19 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q122_OminousNews extends Quest
 {
 	private static final String qn = "Q122_OminousNews";
-
+	
 	// NPCs
 	private static final int MOIRA = 31979;
 	private static final int KARUDA = 32017;
-
+	
 	public Q122_OminousNews()
 	{
 		super(122, "Ominous News");
-
+		
 		addStartNpc(MOIRA);
 		addTalkId(MOIRA, KARUDA);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -28,7 +28,7 @@ public class Q122_OminousNews extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31979-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -41,10 +41,10 @@ public class Q122_OminousNews extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -52,31 +52,31 @@ public class Q122_OminousNews extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 20) ? "31979-01.htm" : "31979-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
 					case MOIRA:
 						htmltext = "31979-03.htm";
 						break;
-
+					
 					case KARUDA:
 						htmltext = "32017-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

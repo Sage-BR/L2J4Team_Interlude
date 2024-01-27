@@ -69,16 +69,16 @@ import org.w3c.dom.Node;
 abstract class DocumentBase
 {
 	static Logger _log = Logger.getLogger(DocumentBase.class.getName());
-
+	
 	private final File _file;
 	protected Map<String, String[]> _tables;
-
+	
 	DocumentBase(File pFile)
 	{
 		_file = pFile;
 		_tables = new HashMap<>();
 	}
-
+	
 	public Document parse()
 	{
 		Document doc;
@@ -91,7 +91,7 @@ abstract class DocumentBase
 			_log.log(Level.SEVERE, "Error loading file " + _file, e);
 			return null;
 		}
-
+		
 		try
 		{
 			parseDocument(doc);
@@ -103,32 +103,32 @@ abstract class DocumentBase
 		}
 		return doc;
 	}
-
+	
 	protected abstract void parseDocument(Document doc);
-
+	
 	protected abstract StatsSet getStatsSet();
-
+	
 	protected abstract String getTableValue(String name);
-
+	
 	protected abstract String getTableValue(String name, int idx);
-
+	
 	protected void resetTable()
 	{
 		_tables = new HashMap<>();
 	}
-
+	
 	protected void setTable(String name, String[] table)
 	{
 		_tables.put(name, table);
 	}
-
+	
 	protected void parseTemplate(Node n, Object template)
 	{
 		Condition condition = null;
 		n = n.getFirstChild();
 		if (n == null)
 			return;
-
+		
 		if ("cond".equalsIgnoreCase(n.getNodeName()))
 		{
 			condition = parseCondition(n.getFirstChild(), template);
@@ -145,7 +145,7 @@ abstract class DocumentBase
 			}
 			n = n.getNextSibling();
 		}
-
+		
 		for (; n != null; n = n.getNextSibling())
 		{
 			if ("add".equalsIgnoreCase(n.getNodeName()))
@@ -170,12 +170,12 @@ abstract class DocumentBase
 			{
 				if (template instanceof EffectTemplate)
 					throw new RuntimeException("Nested effects");
-
+				
 				attachEffect(n, template, condition);
 			}
 		}
 	}
-
+	
 	protected void attachFunc(Node n, Object template, String name, Condition attachCond)
 	{
 		Stats stat = Stats.valueOfXml(n.getAttributes().getNamedItem("stat").getNodeValue());
@@ -184,7 +184,7 @@ abstract class DocumentBase
 		int ord = Integer.decode(getValue(order, template));
 		Condition applayCond = parseCondition(n.getFirstChild(), template);
 		FuncTemplate ft = new FuncTemplate(attachCond, applayCond, name, stat, ord, lambda);
-
+		
 		if (template instanceof Item)
 			((Item) template).attach(ft);
 		else if (template instanceof L2Skill)
@@ -192,7 +192,7 @@ abstract class DocumentBase
 		else if (template instanceof EffectTemplate)
 			((EffectTemplate) template).attach(ft);
 	}
-
+	
 	protected void attachLambdaFunc(Node n, Object template, LambdaCalc calc)
 	{
 		String name = n.getNodeName();
@@ -203,23 +203,23 @@ abstract class DocumentBase
 		FuncTemplate ft = new FuncTemplate(null, null, name, null, calc.getFuncs().size(), lambda);
 		calc.addFunc(ft.getFunc(new Env(), calc));
 	}
-
+	
 	protected void attachEffect(Node n, Object template, Condition attachCond)
 	{
 		NamedNodeMap attrs = n.getAttributes();
 		String name = getValue(attrs.getNamedItem("name").getNodeValue().intern(), template);
-
+		
 		// Keep this values as default ones, DP needs it
 		int time = 1;
 		int count = 1;
-
+		
 		if (attrs.getNamedItem("count") != null)
 			count = Integer.decode(getValue(attrs.getNamedItem("count").getNodeValue(), template));
-
+		
 		if (attrs.getNamedItem("time") != null)
 		{
 			time = Integer.decode(getValue(attrs.getNamedItem("time").getNodeValue(), template));
-
+			
 			if (Config.ENABLE_MODIFY_SKILL_DURATION)
 			{
 				if (Config.SKILL_DURATION_LIST.containsKey(((L2Skill) template).getId()))
@@ -243,48 +243,48 @@ abstract class DocumentBase
 		{
 			time = ((L2Skill) template).getBuffDuration() / 1000 / count;
 		}
-
+		
 		boolean self = false;
 		if (attrs.getNamedItem("self") != null)
 		{
 			if (Integer.decode(getValue(attrs.getNamedItem("self").getNodeValue(), template)) == 1)
 				self = true;
 		}
-
+		
 		boolean icon = true;
 		if (attrs.getNamedItem("noicon") != null)
 		{
 			if (Integer.decode(getValue(attrs.getNamedItem("noicon").getNodeValue(), template)) == 1)
 				icon = false;
 		}
-
+		
 		Lambda lambda = getLambda(n, template);
 		Condition applayCond = parseCondition(n.getFirstChild(), template);
 		AbnormalEffect abnormal = AbnormalEffect.NULL;
-
+		
 		if (attrs.getNamedItem("abnormal") != null)
 		{
 			String abn = attrs.getNamedItem("abnormal").getNodeValue();
 			abnormal = AbnormalEffect.getByName(abn);
 		}
-
+		
 		String stackType = "none";
 		if (attrs.getNamedItem("stackType") != null)
 			stackType = attrs.getNamedItem("stackType").getNodeValue();
-
+		
 		float stackOrder = 0;
 		if (attrs.getNamedItem("stackOrder") != null)
 			stackOrder = Float.parseFloat(getValue(attrs.getNamedItem("stackOrder").getNodeValue(), template));
-
+		
 		double effectPower = -1;
 		if (attrs.getNamedItem("effectPower") != null)
 			effectPower = Double.parseDouble(getValue(attrs.getNamedItem("effectPower").getNodeValue(), template));
-
+		
 		L2SkillType type = null;
 		if (attrs.getNamedItem("effectType") != null)
 		{
 			String typeName = getValue(attrs.getNamedItem("effectType").getNodeValue(), template);
-
+			
 			try
 			{
 				type = Enum.valueOf(L2SkillType.class, typeName);
@@ -294,37 +294,37 @@ abstract class DocumentBase
 				throw new IllegalArgumentException("Not skilltype found for: " + typeName);
 			}
 		}
-
+		
 		EffectTemplate lt;
-
+		
 		final boolean isChanceSkillTrigger = (name == EffectChanceSkillTrigger.class.getName());
 		int trigId = 0;
 		if (attrs.getNamedItem("triggeredId") != null)
 			trigId = Integer.parseInt(getValue(attrs.getNamedItem("triggeredId").getNodeValue(), template));
 		else if (isChanceSkillTrigger)
 			throw new NoSuchElementException(name + " requires triggerId");
-
+		
 		int trigLvl = 1;
 		if (attrs.getNamedItem("triggeredLevel") != null)
 			trigLvl = Integer.parseInt(getValue(attrs.getNamedItem("triggeredLevel").getNodeValue(), template));
-
+		
 		String chanceCond = null;
 		if (attrs.getNamedItem("chanceType") != null)
 			chanceCond = getValue(attrs.getNamedItem("chanceType").getNodeValue(), template);
 		else if (isChanceSkillTrigger)
 			throw new NoSuchElementException(name + " requires chanceType");
-
+		
 		int activationChance = -1;
 		if (attrs.getNamedItem("activationChance") != null)
 			activationChance = Integer.parseInt(getValue(attrs.getNamedItem("activationChance").getNodeValue(), template));
-
+		
 		ChanceCondition chance = ChanceCondition.parse(chanceCond, activationChance);
-
+		
 		if (chance == null && isChanceSkillTrigger)
 			throw new NoSuchElementException("Invalid chance condition: " + chanceCond + " " + activationChance);
-
+		
 		lt = new EffectTemplate(attachCond, applayCond, name, lambda, count, time, abnormal, stackType, stackOrder, icon, effectPower, type, trigId, trigLvl, chance);
-
+		
 		parseTemplate(n, lt);
 		if (template instanceof L2Skill)
 		{
@@ -334,85 +334,85 @@ abstract class DocumentBase
 				((L2Skill) template).attach(lt);
 		}
 	}
-
+	
 	protected Condition parseCondition(Node n, Object template)
 	{
 		while (n != null && n.getNodeType() != Node.ELEMENT_NODE)
 			n = n.getNextSibling();
-
+		
 		if (n == null)
 			return null;
-
+		
 		if ("and".equalsIgnoreCase(n.getNodeName()))
 			return parseLogicAnd(n, template);
-
+		
 		if ("or".equalsIgnoreCase(n.getNodeName()))
 			return parseLogicOr(n, template);
-
+		
 		if ("not".equalsIgnoreCase(n.getNodeName()))
 			return parseLogicNot(n, template);
-
+		
 		if ("player".equalsIgnoreCase(n.getNodeName()))
 			return parsePlayerCondition(n, template);
-
+		
 		if ("target".equalsIgnoreCase(n.getNodeName()))
 			return parseTargetCondition(n, template);
-
+		
 		if ("skill".equalsIgnoreCase(n.getNodeName()))
 			return parseSkillCondition(n);
-
+		
 		if ("using".equalsIgnoreCase(n.getNodeName()))
 			return parseUsingCondition(n);
-
+		
 		if ("game".equalsIgnoreCase(n.getNodeName()))
 			return parseGameCondition(n);
-
+		
 		return null;
 	}
-
+	
 	protected Condition parseLogicAnd(Node n, Object template)
 	{
 		ConditionLogicAnd cond = new ConditionLogicAnd();
 		for (n = n.getFirstChild(); n != null; n = n.getNextSibling())
 			if (n.getNodeType() == Node.ELEMENT_NODE)
 				cond.add(parseCondition(n, template));
-
+			
 		if (cond.conditions == null || cond.conditions.length == 0)
 			_log.severe("Empty <and> condition in " + _file);
-
+		
 		return cond;
 	}
-
+	
 	protected Condition parseLogicOr(Node n, Object template)
 	{
 		ConditionLogicOr cond = new ConditionLogicOr();
 		for (n = n.getFirstChild(); n != null; n = n.getNextSibling())
 			if (n.getNodeType() == Node.ELEMENT_NODE)
 				cond.add(parseCondition(n, template));
-
+			
 		if (cond.conditions == null || cond.conditions.length == 0)
 			_log.severe("Empty <or> condition in " + _file);
-
+		
 		return cond;
 	}
-
+	
 	protected Condition parseLogicNot(Node n, Object template)
 	{
 		for (n = n.getFirstChild(); n != null; n = n.getNextSibling())
 			if (n.getNodeType() == Node.ELEMENT_NODE)
 				return new ConditionLogicNot(parseCondition(n, template));
-
+			
 		_log.severe("Empty <not> condition in " + _file);
 		return null;
 	}
-
+	
 	protected Condition parsePlayerCondition(Node n, Object template)
 	{
 		Condition cond = null;
 		int[] ElementSeeds = new int[5];
 		byte[] forces = new byte[2];
 		NamedNodeMap attrs = n.getAttributes();
-
+		
 		for (int i = 0; i < attrs.getLength(); i++)
 		{
 			Node a = attrs.item(i);
@@ -585,7 +585,7 @@ abstract class DocumentBase
 				ElementSeeds[4] = Integer.decode(getValue(a.getNodeValue(), null));
 			}
 		}
-
+		
 		// Elemental seed condition processing
 		for (int elementSeed : ElementSeeds)
 		{
@@ -595,16 +595,16 @@ abstract class DocumentBase
 				break;
 			}
 		}
-
+		
 		if (forces[0] + forces[1] > 0)
 			cond = joinAnd(cond, new ConditionForceBuff(forces));
-
+		
 		if (cond == null)
 			_log.severe("Unrecognized <player> condition in " + _file);
-
+		
 		return cond;
 	}
-
+	
 	protected Condition parseTargetCondition(Node n, Object template)
 	{
 		Condition cond = null;
@@ -647,20 +647,20 @@ abstract class DocumentBase
 				cond = joinAnd(cond, new ConditionTargetNpcId(array));
 			}
 		}
-
+		
 		if (cond == null)
 			_log.severe("Unrecognized <target> condition in " + _file);
-
+		
 		return cond;
 	}
-
+	
 	protected Condition parseSkillCondition(Node n)
 	{
 		NamedNodeMap attrs = n.getAttributes();
 		Stats stat = Stats.valueOfXml(attrs.getNamedItem("stat").getNodeValue());
 		return new ConditionSkillStats(stat);
 	}
-
+	
 	protected Condition parseUsingCondition(Node n)
 	{
 		Condition cond = null;
@@ -684,7 +684,7 @@ abstract class DocumentBase
 							break;
 						}
 					}
-
+					
 					for (ArmorType at : ArmorType.values())
 					{
 						if (at.name().equals(item))
@@ -693,20 +693,20 @@ abstract class DocumentBase
 							break;
 						}
 					}
-
+					
 					if (old == mask)
 						_log.info("[parseUsingCondition=\"kind\"] Unknown item type name: " + item);
 				}
 				cond = joinAnd(cond, new ConditionUsingItemType(mask));
 			}
 		}
-
+		
 		if (cond == null)
 			_log.severe("Unrecognized <using> condition in " + _file);
-
+		
 		return cond;
 	}
-
+	
 	protected Condition parseGameCondition(Node n)
 	{
 		Condition cond = null;
@@ -720,42 +720,42 @@ abstract class DocumentBase
 				cond = joinAnd(cond, new ConditionGameTime(val));
 			}
 		}
-
+		
 		if (cond == null)
 			_log.severe("Unrecognized <game> condition in " + _file);
-
+		
 		return cond;
 	}
-
+	
 	protected void parseTable(Node n)
 	{
 		NamedNodeMap attrs = n.getAttributes();
 		String name = attrs.getNamedItem("name").getNodeValue();
-
+		
 		if (name.charAt(0) != '#')
 			throw new IllegalArgumentException("Table name must start with #");
-
+		
 		StringTokenizer data = new StringTokenizer(n.getFirstChild().getNodeValue());
 		List<String> array = new ArrayList<>(data.countTokens());
-
+		
 		while (data.hasMoreTokens())
 			array.add(data.nextToken());
-
+		
 		setTable(name, array.toArray(new String[array.size()]));
 	}
-
+	
 	protected void parseBeanSet(Node n, StatsSet set, Integer level)
 	{
 		String name = n.getAttributes().getNamedItem("name").getNodeValue().trim();
 		String value = n.getAttributes().getNamedItem("val").getNodeValue().trim();
 		char ch = value.length() == 0 ? ' ' : value.charAt(0);
-
+		
 		if (ch == '#' || ch == '-' || Character.isDigit(ch))
 			set.set(name, String.valueOf(getValue(value, level)));
 		else
 			set.set(name, value);
 	}
-
+	
 	protected Lambda getLambda(Node n, Object template)
 	{
 		Node nval = n.getAttributes().getNamedItem("val");
@@ -779,10 +779,10 @@ abstract class DocumentBase
 				// try to find value out of item fields
 				StatsSet set = getStatsSet();
 				String field = set.getString(val.substring(1));
-
+				
 				if (field != null)
 					return new LambdaConst(Double.parseDouble(getValue(field, template)));
-
+				
 				// failed
 				throw new IllegalArgumentException("Unknown value " + val);
 			}
@@ -793,20 +793,20 @@ abstract class DocumentBase
 		n = n.getFirstChild();
 		while (n != null && n.getNodeType() != Node.ELEMENT_NODE)
 			n = n.getNextSibling();
-
+		
 		if (n == null || !"val".equals(n.getNodeName()))
 			throw new IllegalArgumentException("Value not specified");
-
+		
 		for (n = n.getFirstChild(); n != null; n = n.getNextSibling())
 		{
 			if (n.getNodeType() != Node.ELEMENT_NODE)
 				continue;
-
+			
 			attachLambdaFunc(n, template, calc);
 		}
 		return calc;
 	}
-
+	
 	protected String getValue(String value, Object template)
 	{
 		// is it a table?
@@ -821,12 +821,12 @@ abstract class DocumentBase
 		}
 		return value;
 	}
-
+	
 	protected Condition joinAnd(Condition cond, Condition c)
 	{
 		if (cond == null)
 			return c;
-
+		
 		if (cond instanceof ConditionLogicAnd)
 		{
 			((ConditionLogicAnd) cond).add(c);

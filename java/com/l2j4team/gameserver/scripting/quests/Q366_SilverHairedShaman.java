@@ -11,13 +11,13 @@ import java.util.Map;
 public class Q366_SilverHairedShaman extends Quest
 {
 	private static final String qn = "Q366_SilverHairedShaman";
-
+	
 	// NPC
 	private static final int DIETER = 30111;
-
+	
 	// Item
 	private static final int HAIR = 5874;
-
+	
 	// Drop chances
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
@@ -25,19 +25,19 @@ public class Q366_SilverHairedShaman extends Quest
 		CHANCES.put(20987, 660000);
 		CHANCES.put(20988, 620000);
 	}
-
+	
 	public Q366_SilverHairedShaman()
 	{
 		super(366, "Silver Haired Shaman");
-
+		
 		setItemsIds(HAIR);
-
+		
 		addStartNpc(DIETER);
 		addTalkId(DIETER);
-
+		
 		addKillId(20986, 20987, 20988);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -45,7 +45,7 @@ public class Q366_SilverHairedShaman extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30111-2.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -57,10 +57,10 @@ public class Q366_SilverHairedShaman extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -68,13 +68,13 @@ public class Q366_SilverHairedShaman extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 48) ? "30111-0.htm" : "30111-1.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int count = st.getQuestItemsCount(HAIR);
 				if (count == 0)
@@ -87,19 +87,19 @@ public class Q366_SilverHairedShaman extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		partyMember.getQuestState(qn).dropItems(HAIR, 1, 0, CHANCES.get(npc.getNpcId()));
-
+		
 		return null;
 	}
 }

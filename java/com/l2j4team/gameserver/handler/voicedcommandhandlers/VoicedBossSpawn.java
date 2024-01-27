@@ -32,7 +32,7 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 		"raidinfo",
 		"checkZone"
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -58,11 +58,11 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 			{
 				e.printStackTrace();
 			}
-
+			
 		}
 		return true;
 	}
-
+	
 	public String generateZoneCheckHtml(int bossId, String type)
 	{
 		try
@@ -79,7 +79,7 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 			{
 				StatsSet stats = GrandBossManager.getInstance().getStatsSet(bossId);
 				if (stats != null)
-
+				
 				{
 					x = stats.getInteger("loc_x");
 					y = stats.getInteger("loc_y");
@@ -88,13 +88,13 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 				{
 					return "Grand Boss is Waiting!";
 				}
-
+				
 			}
-
+			
 			List<Player> insideRadius = new ArrayList<>();
 			StringBuilder sb = new StringBuilder();
 			Map<String, List<Player>> cInsideRadius = new HashMap<>();
-
+			
 			for (Player player : World.getInstance().getPlayers())
 			{
 				if (player.isInsideRadius(x, y, 10000, false))
@@ -106,7 +106,7 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 			{
 				if (player.getClan() != null)
 				{
-
+					
 					if (player.getClan().getAllyId() != 0 && !cInsideRadius.containsKey(player.getClan().getAllyName()))
 					{
 						cInsideRadius.put(player.getClan().getAllyName(), new ArrayList<Player>());
@@ -125,7 +125,7 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 					{
 						cInsideRadius.get(player.getClan().getName()).add(player);
 					}
-
+					
 				}
 			}
 			for (Map.Entry<String, List<Player>> entry : cInsideRadius.entrySet())
@@ -144,19 +144,19 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 				sb.append("</td>");
 				sb.append("</tr>");
 				sb.append("</table>");
-
+				
 			}
 			return sb.toString();
-
+			
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 			return "Can't Show Html, please contact and Admin!";
 		}
-
+		
 	}
-
+	
 	private static void showInfoPage(Player activeChar)
 	{
 		StringBuilder tb = new StringBuilder();
@@ -168,7 +168,7 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 		tb.append("</tr>");
 		tb.append("</table><center>");
 		tb.append("<img src=\"L2UI.SquareGray\" width=300 height=1>");
-
+		
 		tb.append("<table width=\"300\" bgcolor=\"000000\">");
 		tb.append("<tr>");
 		tb.append("<td><center>SVR Data: <font color=\"ff4d4d\">" + (new SimpleDateFormat("dd/MM/yyyy")).format(new Date(System.currentTimeMillis())) + "</font></center></td>");
@@ -177,30 +177,30 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 		tb.append("</tr>");
 		tb.append("</table>");
 		tb.append("<center><img src=\"L2UI.SquareGray\" width=300 height=1></center>");
-
+		
 		tb.append("<center><table width=\"260\">");
-
+		
 		for (Iterator<Integer> i$ = Config.RAID_INFO_IDS_LIST.iterator(); i$.hasNext();)
 		{
-
+			
 			int boss = i$.next().intValue();
-
+			
 			String name = "";
 			NpcTemplate template = null;
 			if ((template = NpcTable.getInstance().getTemplate(boss)) != null)
 			{
-
+				
 				name = template.getName();
-
+				
 				if (name.length() > 18)
 					name = name.substring(0, 18) + "...";
-
+				
 			}
 			else
 			{
-
+				
 				_log.warning("Raid Info: Raid Boss with ID " + boss + " is not defined into NpcXml");
-
+				
 				continue;
 			}
 			long delay = 0L;
@@ -225,7 +225,7 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 			}
 			tb.append("<tr>");
 			tb.append("<td width=\"146\" align=\"left\"><font color=\"00FFFF\">" + name + "</font></td>");
-
+			
 			int hours = (int) ((delay - System.currentTimeMillis()) / 1000L / 60L / 60L);
 			int mins = (int) ((delay - (hours * 60 * 60 * 1000) - System.currentTimeMillis()) / 1000L / 60L);
 			int seconts = (int) ((delay - (hours * 60 * 60 * 1000 + mins * 60 * 1000) - System.currentTimeMillis()) / 1000L);
@@ -233,32 +233,32 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 			tb.append("<td width=\"110\" align=\"right\"><font color=\"FB5858\"> " + hours + ":" + mins + ":" + seconts + "</font></td>");
 			tb.append("</tr>");
 		}
-
+		
 		tb.append("</table>");
 		tb.append("<br>");
-
+		
 		tb.append("<center>");
 		tb.append("<img src=\"L2UI.SquareGray\" width=270 height=1>");
 		tb.append("<br>");
 		tb.append("<center><table width=\"260\">");
-
+		
 		for (Iterator<Integer> i$ = Config.GRANDBOSS_INFO_IDS_LIST.iterator(); i$.hasNext();)
 		{
-
+			
 			int boss = i$.next().intValue();
-
+			
 			String name = "";
 			NpcTemplate template = null;
 			if ((template = NpcTable.getInstance().getTemplate(boss)) != null)
 			{
-
+				
 				name = template.getName();
 			}
 			else
 			{
-
+				
 				_log.warning("Grad Boss Info: Raid Boss with ID " + boss + " is not defined into NpcXml");
-
+				
 				continue;
 			}
 			StatsSet actual_boss_stat = null;
@@ -267,7 +267,7 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 			String type = null;
 			if (NpcTable.getInstance().getTemplate(boss).isType("GrandBoss"))
 			{
-
+				
 				actual_boss_stat = GrandBossManager.getInstance().getStatsSet(boss);
 				if (actual_boss_stat != null)
 				{
@@ -281,7 +281,7 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 			}
 			if (delay <= System.currentTimeMillis())
 			{
-
+				
 				tb.append("<tr>");
 				tb.append("<td width=\"146\" align=\"left\"><font color=\"FFFFFF\">" + name + "</font></td>");
 				tb.append("<td width=\"55\" align=\"right\"><font color=\"00FF00\">Alive</font></td>");
@@ -291,30 +291,30 @@ public class VoicedBossSpawn implements IVoicedCommandHandler
 			}
 			tb.append("<tr>");
 			tb.append("<td width=\"146\" align=\"left\"><font color=\"00FFFF\">" + name + "</font></td>");
-
+			
 			int hours = (int) ((delay - System.currentTimeMillis()) / 1000L / 60L / 60L);
 			int mins = (int) ((delay - (hours * 60 * 60 * 1000) - System.currentTimeMillis()) / 1000L / 60L);
 			int seconts = (int) ((delay - (hours * 60 * 60 * 1000 + mins * 60 * 1000) - System.currentTimeMillis()) / 1000L);
 			// tb.append("<td width=\"110\" align=\"right\"><font color=\"FB5858\"> " + (new SimpleDateFormat("MMM dd, HH:mm")).format(new Date(delay)) + "</font></td>");
 			tb.append("<td width=\"110\" align=\"right\"><font color=\"FB5858\"> " + hours + ":" + mins + ":" + seconts + "</font></td>");
 			tb.append("</tr>");
-
+			
 		}
-
+		
 		tb.append("</table>");
 		tb.append("<img src=\"L2UI.SquareGray\" width=270 height=1>");
 		tb.append("</body></html>");
-
+		
 		NpcHtmlMessage msg = new NpcHtmlMessage(1);
 		msg.setHtml(tb.toString());
-
+		
 		activeChar.sendPacket(msg);
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;
 	}
-
+	
 }

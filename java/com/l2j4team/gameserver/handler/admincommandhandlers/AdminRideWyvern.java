@@ -12,9 +12,9 @@ public class AdminRideWyvern implements IAdminCommandHandler
 		"admin_ride",
 		"admin_unride",
 	};
-
+	
 	private int _petRideId;
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -26,14 +26,14 @@ public class AdminRideWyvern implements IAdminCommandHandler
 				activeChar.sendMessage("You can't use //ride owning a Cursed Weapon.");
 				return false;
 			}
-
+			
 			StringTokenizer st = new StringTokenizer(command, " ");
 			st.nextToken(); // skip command
-
+			
 			if (st.hasMoreTokens())
 			{
 				String mount = st.nextToken();
-
+				
 				if (mount.equals("wyvern") || mount.equals("2"))
 					_petRideId = 12621;
 				else if (mount.equals("strider") || mount.equals("1"))
@@ -49,21 +49,21 @@ public class AdminRideWyvern implements IAdminCommandHandler
 				activeChar.sendMessage("You must enter a parameter for that command.");
 				return false;
 			}
-
+			
 			// If code reached that place, it means _petRideId has been filled.
 			if (activeChar.isMounted())
 				activeChar.dismount();
 			else if (activeChar.getPet() != null)
 				activeChar.getPet().unSummon(activeChar);
-
+			
 			activeChar.mount(_petRideId, 0, false);
 		}
 		else if (command.equals("admin_unride"))
 			activeChar.dismount();
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

@@ -8,22 +8,22 @@ public class RequestServerList extends L2LoginClientPacket
 	private int _skey1;
 	private int _skey2;
 	private int _data3;
-
+	
 	public int getSessionKey1()
 	{
 		return _skey1;
 	}
-
+	
 	public int getSessionKey2()
 	{
 		return _skey2;
 	}
-
+	
 	public int getData3()
 	{
 		return _data3;
 	}
-
+	
 	@Override
 	public boolean readImpl()
 	{
@@ -35,7 +35,7 @@ public class RequestServerList extends L2LoginClientPacket
 		}
 		return false;
 	}
-
+	
 	@Override
 	public void run()
 	{

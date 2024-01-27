@@ -10,10 +10,10 @@ import com.l2j4team.commons.random.Rnd;
 public class Q601_WatchingEyes extends Quest
 {
 	private static final String qn = "Q601_WatchingEyes";
-
+	
 	// Items
 	private static final int PROOF_OF_AVENGER = 7188;
-
+	
 	// Rewards
 	private static final int[][] REWARDS =
 	{
@@ -38,19 +38,19 @@ public class Q601_WatchingEyes extends Quest
 			100
 		}
 	};
-
+	
 	public Q601_WatchingEyes()
 	{
 		super(601, "Watching Eyes");
-
+		
 		setItemsIds(PROOF_OF_AVENGER);
-
+		
 		addStartNpc(31683); // Eye of Argos
 		addTalkId(31683);
-
+		
 		addKillId(21306, 21308, 21309, 21310, 21311);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -58,7 +58,7 @@ public class Q601_WatchingEyes extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31683-03.htm"))
 		{
 			if (player.getLevel() < 71)
@@ -73,14 +73,14 @@ public class Q601_WatchingEyes extends Quest
 		else if (event.equalsIgnoreCase("31683-07.htm"))
 		{
 			st.takeItems(PROOF_OF_AVENGER, -1);
-
+			
 			final int random = Rnd.get(100);
 			for (int[] element : REWARDS)
 			{
 				if (random < element[2])
 				{
 					st.rewardItems(57, element[1]);
-
+					
 					if (element[0] != 0)
 					{
 						st.giveItems(element[0], 5);
@@ -92,10 +92,10 @@ public class Q601_WatchingEyes extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -103,13 +103,13 @@ public class Q601_WatchingEyes extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "31683-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				if (cond == 1)
@@ -118,22 +118,22 @@ public class Q601_WatchingEyes extends Quest
 					htmltext = "31683-06.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMember(player, npc, "cond", "1");
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		if (st.dropItems(PROOF_OF_AVENGER, 1, 100, 500000))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

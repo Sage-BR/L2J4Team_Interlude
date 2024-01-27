@@ -19,35 +19,35 @@ import java.util.logging.Logger;
 public class SpawnTable
 {
 	private static Logger _log = Logger.getLogger(SpawnTable.class.getName());
-
+	
 	private final Set<L2Spawn> _spawntable = ConcurrentHashMap.newKeySet();
-
+	
 	public static SpawnTable getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected SpawnTable()
 	{
 		if (!Config.ALT_DEV_NO_SPAWNS)
 			fillSpawnTable();
 	}
-
+	
 	public Set<L2Spawn> getSpawnTable()
 	{
 		return _spawntable;
 	}
-
+	
 	private void fillSpawnTable()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("SELECT * FROM spawnlist");
 			ResultSet rset = statement.executeQuery();
-
+			
 			L2Spawn spawnDat;
 			NpcTemplate template1;
-
+			
 			while (rset.next())
 			{
 				template1 = NpcTable.getInstance().getTemplate(rset.getInt("npc_templateid"));
@@ -76,23 +76,23 @@ public class SpawnTable
 						spawnDat.setLoc(rset.getInt("locx"), rset.getInt("locy"), rset.getInt("locz"), rset.getInt("heading"));
 						spawnDat.setRespawnDelay(rset.getInt("respawn_delay"));
 						spawnDat.setRespawnRandom(rset.getInt("respawn_rand"));
-
+						
 						switch (rset.getInt("periodOfDay"))
 						{
 							case 0: // default
 								spawnDat.setRespawnState(true);
 								spawnDat.doSpawn(false);
 								break;
-
+							
 							case 1: // Day
 								DayNightSpawnManager.getInstance().addDayCreature(spawnDat);
 								break;
-
+							
 							case 2: // Night
 								DayNightSpawnManager.getInstance().addNightCreature(spawnDat);
 								break;
 						}
-
+						
 						_spawntable.add(spawnDat);
 					}
 				}
@@ -109,14 +109,14 @@ public class SpawnTable
 			// problem with initializing spawn, go to next one
 			_log.warning("SpawnTable: Spawn could not be initialized: " + e);
 		}
-
+		
 		_log.config("SpawnTable: Loaded " + _spawntable.size() + " Npc Spawn Locations.");
 	}
-
+	
 	public void addNewSpawn(L2Spawn spawn, boolean storeInDb)
 	{
 		_spawntable.add(spawn);
-
+		
 		if (storeInDb)
 		{
 			try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -138,12 +138,12 @@ public class SpawnTable
 			}
 		}
 	}
-
+	
 	public void deleteSpawn(L2Spawn spawn, boolean updateDb)
 	{
 		if (!_spawntable.remove(spawn))
 			return;
-
+		
 		if (updateDb)
 		{
 			try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -164,19 +164,19 @@ public class SpawnTable
 			}
 		}
 	}
-
+	
 	// just wrapper
 	public void reloadAll()
 	{
 		_spawntable.clear();
 		fillSpawnTable();
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final SpawnTable _instance = new SpawnTable();
 	}
-
+	
 	/**
 	 * @param bossSpawn
 	 * @param b
@@ -184,6 +184,6 @@ public class SpawnTable
 	public void addSpawn(L2Spawn bossSpawn, boolean b)
 	{
 		// TODO Auto-generated method stub
-
+		
 	}
 }

@@ -17,21 +17,21 @@ public final class Env
 	private Creature _target;
 	private ItemInstance _item;
 	private L2Skill _skill;
-
+	
 	private double _value;
 	private double _baseValue;
-
+	
 	private boolean _skillMastery = false;
 	private byte _shield = 0;
-
+	
 	private boolean _soulShot = false;
 	private boolean _spiritShot = false;
 	private boolean _blessedSpiritShot = false;
-
+	
 	public Env()
 	{
 	}
-
+	
 	public Env(byte shield, boolean soulShot, boolean spiritShot, boolean blessedSpiritShot)
 	{
 		_shield = shield;
@@ -39,7 +39,7 @@ public final class Env
 		_spiritShot = spiritShot;
 		_blessedSpiritShot = blessedSpiritShot;
 	}
-
+	
 	/**
 	 * @return the _character
 	 */
@@ -47,7 +47,7 @@ public final class Env
 	{
 		return _character;
 	}
-
+	
 	/**
 	 * @return the _cubic
 	 */
@@ -55,7 +55,7 @@ public final class Env
 	{
 		return _cubic;
 	}
-
+	
 	/**
 	 * @return the _target
 	 */
@@ -63,7 +63,7 @@ public final class Env
 	{
 		return _target;
 	}
-
+	
 	/**
 	 * @return the _item
 	 */
@@ -71,7 +71,7 @@ public final class Env
 	{
 		return _item;
 	}
-
+	
 	/**
 	 * @return the _skill
 	 */
@@ -79,7 +79,7 @@ public final class Env
 	{
 		return _skill;
 	}
-
+	
 	/**
 	 * @return the acting player.
 	 */
@@ -87,7 +87,7 @@ public final class Env
 	{
 		return _character == null ? null : _character.getActingPlayer();
 	}
-
+	
 	/**
 	 * @return the _value
 	 */
@@ -95,7 +95,7 @@ public final class Env
 	{
 		return _value;
 	}
-
+	
 	/**
 	 * @return the _baseValue
 	 */
@@ -103,7 +103,7 @@ public final class Env
 	{
 		return _baseValue;
 	}
-
+	
 	/**
 	 * @return the _skillMastery
 	 */
@@ -111,7 +111,7 @@ public final class Env
 	{
 		return _skillMastery;
 	}
-
+	
 	/**
 	 * @return the _shield
 	 */
@@ -119,7 +119,7 @@ public final class Env
 	{
 		return _shield;
 	}
-
+	
 	/**
 	 * @return the _soulShot
 	 */
@@ -127,7 +127,7 @@ public final class Env
 	{
 		return _soulShot;
 	}
-
+	
 	/**
 	 * @return the _spiritShot
 	 */
@@ -135,7 +135,7 @@ public final class Env
 	{
 		return _spiritShot;
 	}
-
+	
 	/**
 	 * @return the _blessedSpiritShot
 	 */
@@ -143,7 +143,7 @@ public final class Env
 	{
 		return _blessedSpiritShot;
 	}
-
+	
 	/**
 	 * @param character the _character to set
 	 */
@@ -151,7 +151,7 @@ public final class Env
 	{
 		_character = character;
 	}
-
+	
 	/**
 	 * @param cubic the _cubic to set
 	 */
@@ -159,7 +159,7 @@ public final class Env
 	{
 		_cubic = cubic;
 	}
-
+	
 	/**
 	 * @param target the _target to set
 	 */
@@ -167,7 +167,7 @@ public final class Env
 	{
 		_target = target;
 	}
-
+	
 	/**
 	 * @param item the _item to set
 	 */
@@ -175,7 +175,7 @@ public final class Env
 	{
 		_item = item;
 	}
-
+	
 	/**
 	 * @param skill the _skill to set
 	 */
@@ -183,7 +183,7 @@ public final class Env
 	{
 		_skill = skill;
 	}
-
+	
 	/**
 	 * @param value the _value to set
 	 */
@@ -191,7 +191,7 @@ public final class Env
 	{
 		_value = value;
 	}
-
+	
 	/**
 	 * @param baseValue the _baseValue to set
 	 */
@@ -199,7 +199,7 @@ public final class Env
 	{
 		_baseValue = baseValue;
 	}
-
+	
 	/**
 	 * @param skillMastery the _skillMastery to set
 	 */
@@ -207,7 +207,7 @@ public final class Env
 	{
 		_skillMastery = skillMastery;
 	}
-
+	
 	/**
 	 * @param shield the _shield to set
 	 */
@@ -215,7 +215,7 @@ public final class Env
 	{
 		_shield = shield;
 	}
-
+	
 	/**
 	 * @param soulShot the _soulShot to set
 	 */
@@ -223,7 +223,7 @@ public final class Env
 	{
 		_soulShot = soulShot;
 	}
-
+	
 	/**
 	 * @param spiritShot the _spiritShot to set
 	 */
@@ -231,7 +231,7 @@ public final class Env
 	{
 		_spiritShot = spiritShot;
 	}
-
+	
 	/**
 	 * @param blessedSpiritShot the _blessedSpiritShot to set
 	 */
@@ -239,22 +239,22 @@ public final class Env
 	{
 		_blessedSpiritShot = blessedSpiritShot;
 	}
-
+	
 	public void addValue(double value)
 	{
 		_value += value;
 	}
-
+	
 	public void subValue(double value)
 	{
 		_value -= value;
 	}
-
+	
 	public void mulValue(double value)
 	{
 		_value *= value;
 	}
-
+	
 	public void divValue(double value)
 	{
 		_value /= value;

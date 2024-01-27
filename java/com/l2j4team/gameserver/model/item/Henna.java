@@ -21,7 +21,7 @@ public final class Henna
 	private final int _DEX;
 	private final int _WIT;
 	private final int[] _classes;
-
+	
 	public Henna(StatsSet set)
 	{
 		_symbolId = set.getInteger("symbolId");
@@ -35,57 +35,57 @@ public final class Henna
 		_WIT = set.getInteger("WIT");
 		_classes = set.getIntegerArray("classes");
 	}
-
+	
 	public int getSymbolId()
 	{
 		return _symbolId;
 	}
-
+	
 	public int getDyeId()
 	{
 		return _dyeId;
 	}
-
+	
 	public int getPrice()
 	{
 		return _price;
 	}
-
+	
 	public static final int getRequiredDyeAmount()
 	{
 		return 10;
 	}
-
+	
 	public int getINT()
 	{
 		return _INT;
 	}
-
+	
 	public int getSTR()
 	{
 		return _STR;
 	}
-
+	
 	public int getCON()
 	{
 		return _CON;
 	}
-
+	
 	public int getMEN()
 	{
 		return _MEN;
 	}
-
+	
 	public int getDEX()
 	{
 		return _DEX;
 	}
-
+	
 	public int getWIT()
 	{
 		return _WIT;
 	}
-
+	
 	/**
 	 * Seek if this {@link Henna} can be used by a {@link Player}, based on his classId.
 	 * @param player : The Player to check.

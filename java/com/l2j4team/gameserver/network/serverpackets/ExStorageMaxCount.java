@@ -11,7 +11,7 @@ public class ExStorageMaxCount extends L2GameServerPacket
 	private final int _privateBuyLimit;
 	private final int _dwarfRecipeLimit;
 	private final int _commonRecipeLimit;
-
+	
 	public ExStorageMaxCount(Player player)
 	{
 		_inventoryLimit = player.getInventoryLimit();
@@ -22,7 +22,7 @@ public class ExStorageMaxCount extends L2GameServerPacket
 		_dwarfRecipeLimit = player.getDwarfRecipeLimit();
 		_commonRecipeLimit = player.getCommonRecipeLimit();
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

@@ -9,28 +9,28 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q316_DestroyPlagueCarriers extends Quest
 {
 	private static final String qn = "Q316_DestroyPlagueCarriers";
-
+	
 	// Items
 	private static final int WERERAT_FANG = 1042;
 	private static final int VAROOL_FOULCLAW_FANG = 1043;
-
+	
 	// Monsters
 	private static final int SUKAR_WERERAT = 20040;
 	private static final int SUKAR_WERERAT_LEADER = 20047;
 	private static final int VAROOL_FOULCLAW = 27020;
-
+	
 	public Q316_DestroyPlagueCarriers()
 	{
 		super(316, "Destroy Plague Carriers");
-
+		
 		setItemsIds(WERERAT_FANG, VAROOL_FOULCLAW_FANG);
-
+		
 		addStartNpc(30155); // Ellenia
 		addTalkId(30155);
-
+		
 		addKillId(SUKAR_WERERAT, SUKAR_WERERAT_LEADER, VAROOL_FOULCLAW);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -38,7 +38,7 @@ public class Q316_DestroyPlagueCarriers extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30155-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -50,10 +50,10 @@ public class Q316_DestroyPlagueCarriers extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -61,7 +61,7 @@ public class Q316_DestroyPlagueCarriers extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -72,11 +72,11 @@ public class Q316_DestroyPlagueCarriers extends Quest
 				else
 					htmltext = "30155-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int ratFangs = st.getQuestItemsCount(WERERAT_FANG);
 				final int varoolFangs = st.getQuestItemsCount(VAROOL_FOULCLAW_FANG);
-
+				
 				if (ratFangs + varoolFangs == 0)
 					htmltext = "30155-05.htm";
 				else
@@ -88,29 +88,29 @@ public class Q316_DestroyPlagueCarriers extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case SUKAR_WERERAT:
 			case SUKAR_WERERAT_LEADER:
 				st.dropItems(WERERAT_FANG, 1, 0, 400000);
 				break;
-
+			
 			case VAROOL_FOULCLAW:
 				st.dropItems(VAROOL_FOULCLAW_FANG, 1, 1, 200000);
 				break;
 		}
-
+		
 		return null;
 	}
 }

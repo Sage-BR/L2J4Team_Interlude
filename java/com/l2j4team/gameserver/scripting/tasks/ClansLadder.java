@@ -9,13 +9,13 @@ public final class ClansLadder extends ScheduledQuest
 	{
 		super(-1, "tasks");
 	}
-
+	
 	@Override
 	public final void onStart()
 	{
 		ClanTable.getInstance().refreshClansLadder(true);
 	}
-
+	
 	@Override
 	public final void onEnd()
 	{

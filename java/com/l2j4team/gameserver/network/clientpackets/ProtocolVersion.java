@@ -16,13 +16,13 @@ public final class ProtocolVersion extends L2GameClientPacket
 	private String _hwidMac = "NoHWID-MAC";
 	private String _hwidCPU = "NoHWID-CPU";
 	Player player;
-
+	
 	@Override
 	protected void readImpl()
 	{
-
+		
 		_version = readD();
-
+		
 		if (Hwid.isProtectionOn())
 		{
 			if (_buf.remaining() > 260)
@@ -42,7 +42,7 @@ public final class ProtocolVersion extends L2GameClientPacket
 			getClient().close(new KeyPacket(getClient().enableCrypt()));
 		}
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
@@ -55,9 +55,9 @@ public final class ProtocolVersion extends L2GameClientPacket
 		}
 		else
 			getClient().sendPacket(new KeyPacket(getClient().enableCrypt()));
-
+		
 		getClient().setRevision(_version);
-
+		
 		if (Hwid.isProtectionOn())
 		{
 			if (_hwidHdd.equals("NoGuard") && _hwidMac.equals("NoGuard") && _hwidCPU.equals("NoGuard"))
@@ -65,7 +65,7 @@ public final class ProtocolVersion extends L2GameClientPacket
 				_log.info("HWID Status: No Client side dlls");
 				getClient().close(new KeyPacket(getClient().enableCrypt()));
 			}
-
+			
 			switch (HwidConfig.GET_CLIENT_HWID)
 			{
 				case 1:
@@ -79,6 +79,6 @@ public final class ProtocolVersion extends L2GameClientPacket
 					break;
 			}
 		}
-
+		
 	}
 }

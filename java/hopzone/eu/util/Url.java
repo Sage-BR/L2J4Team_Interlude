@@ -75,10 +75,10 @@ public enum Url
 	DENART_DESIGNS_VOTE_PANEL("https://shop.denart-designs.com/product/l2off-l2java-vote-panel-v2/"),
 	DENART_DESIGNS_REFERRAL_PANEL("https://shop.denart-designs.com/product/referral-panel/"),
 	GITHUB_URL("https://github.com/nightw0lv/VDSystem");
-	
+
 	private final String _text;
 	private static final Url[] _urls = values();
-	
+
 	/**
 	 * @param text String
 	 */
@@ -86,7 +86,7 @@ public enum Url
 	{
 		_text = text;
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see Enum#toString()
@@ -96,7 +96,7 @@ public enum Url
 	{
 		return _text;
 	}
-	
+
 	/**
 	 * returns enum from string
 	 * @param TOPSITE string

@@ -23,28 +23,28 @@ public class HeroWeapon extends Quest
 		6620,
 		6621
 	};
-
+	
 	public HeroWeapon()
 	{
 		super(-1, "custom");
-
+		
 		addStartNpc(31690, 31769, 31770, 31771, 31772, 31773);
 		addTalkId(31690, 31769, 31770, 31771, 31772, 31773);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
 		QuestState st = player.getQuestState(getName());
-
+		
 		int weaponId = Integer.valueOf(event);
 		if (ArraysUtil.contains(WEAPON_IDS, weaponId))
 			st.giveItems(weaponId, 1);
-
+		
 		st.exitQuest(true);
 		return null;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -52,7 +52,7 @@ public class HeroWeapon extends Quest
 		QuestState st = player.getQuestState(getName());
 		if (st == null)
 			newQuestState(player);
-
+		
 		if (st != null)
 		{
 			if (player.isHero())
@@ -71,10 +71,10 @@ public class HeroWeapon extends Quest
 				st.exitQuest(true);
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	private static boolean hasHeroWeapon(Player player)
 	{
 		for (int i : WEAPON_IDS)
@@ -82,7 +82,7 @@ public class HeroWeapon extends Quest
 			if (player.getInventory().getItemByItemId(i) != null)
 				return true;
 		}
-
+		
 		return false;
 	}
 }

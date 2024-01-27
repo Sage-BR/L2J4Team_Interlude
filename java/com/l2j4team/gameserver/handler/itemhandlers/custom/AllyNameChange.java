@@ -31,29 +31,29 @@ public class AllyNameChange implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isOlympiadProtection())
 		{
 			activeChar.sendMessage("You can not do that.");
 			return;
 		}
-
+		
 		if (!activeChar.isClanLeader())
 		{
 			activeChar.sendMessage("You are not the clan leader.");
 			return;
 		}
-
+		
 		if (!(activeChar.getAllyId() != 0))
 		{
 			activeChar.sendMessage("you don't have Alliance.");
 			return;
 		}
-
+		
 		activeChar.setAllyNameChangeItemId(item.getItemId());
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/Coin Custom/AllyNameChange.htm");
 		activeChar.sendPacket(html);

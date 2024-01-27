@@ -20,20 +20,20 @@ public class Fisherman extends Merchant
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
 		String filename = "";
-
+		
 		if (val == 0)
 			filename = "" + npcId;
 		else
 			filename = npcId + "-" + val;
-
+		
 		return "data/html/fisherman/" + filename + ".htm";
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
@@ -64,26 +64,26 @@ public class Fisherman extends Merchant
 		else
 			super.onBypassFeedback(player, command);
 	}
-
+	
 	public static void showFishSkillList(Player player)
 	{
 		AcquireSkillList asl = new AcquireSkillList(AcquireSkillList.SkillType.Fishing);
 		boolean empty = true;
-
+		
 		for (L2SkillLearn sl : SkillTreeTable.getInstance().getAvailableFishingDwarvenCraftSkills(player))
 		{
 			L2Skill sk = SkillTable.getInstance().getInfo(sl.getId(), sl.getLevel());
 			if (sk == null)
 				continue;
-
+			
 			asl.addSkill(sl.getId(), sl.getLevel(), sl.getLevel(), sl.getSpCost(), 1);
 			empty = false;
 		}
-
+		
 		if (empty)
 		{
 			int minlevel = SkillTreeTable.getInstance().getMinLevelForNewFishingDwarvenCraftSkill(player);
-
+			
 			if (minlevel > 0)
 				player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DO_NOT_HAVE_FURTHER_SKILLS_TO_LEARN_S1).addNumber(minlevel));
 			else
@@ -91,10 +91,10 @@ public class Fisherman extends Merchant
 		}
 		else
 			player.sendPacket(asl);
-
+		
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	private static void sendHtml(Player player, Npc npc, String htmlName)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(npc.getObjectId());

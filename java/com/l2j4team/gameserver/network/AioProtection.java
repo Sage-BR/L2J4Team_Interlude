@@ -7,12 +7,12 @@ import com.l2j4team.gameserver.network.serverpackets.ExShowScreenMessage;
 public class AioProtection implements Runnable
 {
 	private final Player _activeChar;
-
+	
 	public AioProtection(Player activeChar)
 	{
 		_activeChar = activeChar;
 	}
-
+	
 	@Override
 	public void run()
 	{

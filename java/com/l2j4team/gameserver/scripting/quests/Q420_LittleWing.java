@@ -11,7 +11,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q420_LittleWing extends Quest
 {
 	private static final String qn = "Q420_LittleWing";
-
+	
 	// Needed items
 	private static final int COAL = 1870;
 	private static final int CHARCOAL = 1871;
@@ -19,10 +19,10 @@ public class Q420_LittleWing extends Quest
 	private static final int STONE_OF_PURITY = 1875;
 	private static final int GEMSTONE_D = 2130;
 	private static final int GEMSTONE_C = 2131;
-
+	
 	// Items
 	private static final int FAIRY_DUST = 3499;
-
+	
 	private static final int FAIRY_STONE = 3816;
 	private static final int DELUXE_FAIRY_STONE = 3817;
 	private static final int FAIRY_STONE_LIST = 3818;
@@ -39,14 +39,14 @@ public class Q420_LittleWing extends Quest
 	private static final int EGG_OF_WYVERN_SUZET = 3829;
 	private static final int SCALE_OF_WYVERN_SHAMHAI = 3830;
 	private static final int EGG_OF_WYVERN_SHAMHAI = 3831;
-
+	
 	// Rewards
 	private static final int DRAGONFLUTE_OF_WIND = 3500;
 	private static final int DRAGONFLUTE_OF_STAR = 3501;
 	private static final int DRAGONFLUTE_OF_TWILIGHT = 3502;
 	private static final int HATCHLING_SOFT_LEATHER = 3912;
 	private static final int FOOD_FOR_HATCHLING = 4038;
-
+	
 	// NPCs
 	private static final int MARIA = 30608;
 	private static final int CRONOS = 30610;
@@ -58,7 +58,7 @@ public class Q420_LittleWing extends Quest
 	private static final int SUZET = 30751;
 	private static final int SHAMHAI = 30752;
 	private static final int COOPER = 30829;
-
+	
 	// Spawn Points
 	private static final SpawnLocation[] LOCATIONS =
 	{
@@ -66,21 +66,21 @@ public class Q420_LittleWing extends Quest
 		new SpawnLocation(108940, 41615, -4643, 0),
 		new SpawnLocation(110395, 41625, -4642, 0)
 	};
-
+	
 	private static int _counter = 0;
-
+	
 	public Q420_LittleWing()
 	{
 		super(420, "Little Wing");
-
+		
 		setItemsIds(FAIRY_STONE, DELUXE_FAIRY_STONE, FAIRY_STONE_LIST, DELUXE_FAIRY_STONE_LIST, TOAD_LORD_BACK_SKIN, JUICE_OF_MONKSHOOD, SCALE_OF_DRAKE_EXARION, EGG_OF_DRAKE_EXARION, SCALE_OF_DRAKE_ZWOV, EGG_OF_DRAKE_ZWOV, SCALE_OF_DRAKE_KALIBRAN, EGG_OF_DRAKE_KALIBRAN, SCALE_OF_WYVERN_SUZET, EGG_OF_WYVERN_SUZET, SCALE_OF_WYVERN_SHAMHAI, EGG_OF_WYVERN_SHAMHAI);
-
+		
 		addStartNpc(COOPER, MIMYU);
 		addTalkId(MARIA, CRONOS, BYRON, MIMYU, EXARION, ZWOV, KALIBRAN, SUZET, SHAMHAI, COOPER);
-
+		
 		addKillId(20202, 20231, 20233, 20270, 20551, 20580, 20589, 20590, 20591, 20592, 20593, 20594, 20595, 20596, 20597, 20598, 20599);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -88,7 +88,7 @@ public class Q420_LittleWing extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// COOPER
 		if (event.equalsIgnoreCase("30829-02.htm"))
 		{
@@ -260,10 +260,10 @@ public class Q420_LittleWing extends Quest
 			st.takeItems(JUICE_OF_MONKSHOOD, 1);
 			st.giveItems(SCALE_OF_WYVERN_SHAMHAI, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -271,7 +271,7 @@ public class Q420_LittleWing extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -280,14 +280,14 @@ public class Q420_LittleWing extends Quest
 					case COOPER:
 						htmltext = (player.getLevel() >= 35) ? "30829-01.htm" : "30829-03.htm";
 						break;
-
+					
 					case MIMYU:
 						_counter += 1;
 						npc.teleToLocation(LOCATIONS[_counter % 3], 0);
 						return null;
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -295,7 +295,7 @@ public class Q420_LittleWing extends Quest
 					case COOPER:
 						htmltext = "30829-04.htm";
 						break;
-
+					
 					case CRONOS:
 						if (cond == 1)
 							htmltext = "30610-01.htm";
@@ -322,7 +322,7 @@ public class Q420_LittleWing extends Quest
 						else if (cond == 4 && st.hasAtLeastOneQuestItem(FAIRY_STONE, DELUXE_FAIRY_STONE))
 							htmltext = "30610-11.htm";
 						break;
-
+					
 					case MARIA:
 						if (st.hasAtLeastOneQuestItem(FAIRY_STONE, DELUXE_FAIRY_STONE))
 							htmltext = "30608-06.htm";
@@ -334,7 +334,7 @@ public class Q420_LittleWing extends Quest
 								htmltext = (checkItems(st, true)) ? "30608-04.htm" : "30608-01.htm";
 						}
 						break;
-
+					
 					case BYRON:
 						final int deluxestone = st.getInt("deluxestone");
 						if (deluxestone == 1)
@@ -368,7 +368,7 @@ public class Q420_LittleWing extends Quest
 								htmltext = "30711-08.htm";
 						}
 						break;
-
+					
 					case MIMYU:
 						if (cond == 4)
 						{
@@ -398,7 +398,7 @@ public class Q420_LittleWing extends Quest
 							return null;
 						}
 						break;
-
+					
 					case EXARION:
 						if (cond == 5)
 							htmltext = "30748-01.htm";
@@ -418,7 +418,7 @@ public class Q420_LittleWing extends Quest
 						else if (cond == 7)
 							htmltext = "30748-05.htm";
 						break;
-
+					
 					case ZWOV:
 						if (cond == 5)
 							htmltext = "30749-01.htm";
@@ -438,7 +438,7 @@ public class Q420_LittleWing extends Quest
 						else if (cond == 7)
 							htmltext = "30749-05.htm";
 						break;
-
+					
 					case KALIBRAN:
 						if (cond == 5)
 							htmltext = "30750-01.htm";
@@ -447,7 +447,7 @@ public class Q420_LittleWing extends Quest
 						else if (cond == 7)
 							htmltext = "30750-06.htm";
 						break;
-
+					
 					case SUZET:
 						if (cond == 5)
 							htmltext = "30751-01.htm";
@@ -467,7 +467,7 @@ public class Q420_LittleWing extends Quest
 						else if (cond == 7)
 							htmltext = "30751-06.htm";
 						break;
-
+					
 					case SHAMHAI:
 						if (cond == 5)
 							htmltext = "30752-01.htm";
@@ -490,17 +490,17 @@ public class Q420_LittleWing extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case 20231:
@@ -509,32 +509,32 @@ public class Q420_LittleWing extends Quest
 				else if (st.hasQuestItems(DELUXE_FAIRY_STONE_LIST))
 					st.dropItems(TOAD_LORD_BACK_SKIN, 1, 20, 300000);
 				break;
-
+			
 			case 20580:
 				if (st.hasQuestItems(SCALE_OF_DRAKE_EXARION) && !st.dropItems(EGG_OF_DRAKE_EXARION, 1, 20, 500000))
 					npc.broadcastNpcSay("If the eggs get taken, we're dead!");
 				break;
-
+			
 			case 20233:
 				if (st.hasQuestItems(SCALE_OF_DRAKE_ZWOV))
 					st.dropItems(EGG_OF_DRAKE_ZWOV, 1, 20, 500000);
 				break;
-
+			
 			case 20551:
 				if (st.hasQuestItems(SCALE_OF_DRAKE_KALIBRAN) && !st.dropItems(EGG_OF_DRAKE_KALIBRAN, 1, 20, 500000))
 					npc.broadcastNpcSay("Hey! Everybody watch the eggs!");
 				break;
-
+			
 			case 20270:
 				if (st.hasQuestItems(SCALE_OF_WYVERN_SUZET) && !st.dropItems(EGG_OF_WYVERN_SUZET, 1, 20, 500000))
 					npc.broadcastNpcSay("I thought I'd caught one share... Whew!");
 				break;
-
+			
 			case 20202:
 				if (st.hasQuestItems(SCALE_OF_WYVERN_SHAMHAI))
 					st.dropItems(EGG_OF_WYVERN_SHAMHAI, 1, 20, 500000);
 				break;
-
+			
 			case 20589:
 			case 20590:
 			case 20591:
@@ -557,13 +557,13 @@ public class Q420_LittleWing extends Quest
 		}
 		return null;
 	}
-
+	
 	private static boolean checkItems(QuestState st, boolean isDeluxe)
 	{
 		// Conditions required for both cases.
 		if (st.getQuestItemsCount(COAL) < 10 || st.getQuestItemsCount(CHARCOAL) < 10)
 			return false;
-
+		
 		if (isDeluxe)
 		{
 			if (st.getQuestItemsCount(GEMSTONE_C) >= 1 && st.getQuestItemsCount(SILVER_NUGGET) >= 5 && st.getQuestItemsCount(STONE_OF_PURITY) >= 1 && st.getQuestItemsCount(TOAD_LORD_BACK_SKIN) >= 20)
@@ -576,7 +576,7 @@ public class Q420_LittleWing extends Quest
 		}
 		return false;
 	}
-
+	
 	private static void giveRandomPet(QuestState st, boolean hasFairyDust)
 	{
 		int pet = DRAGONFLUTE_OF_TWILIGHT;
@@ -654,7 +654,7 @@ public class Q420_LittleWing extends Quest
 			else
 				pet = DRAGONFLUTE_OF_WIND;
 		}
-
+		
 		st.giveItems(pet, 1);
 	}
 }

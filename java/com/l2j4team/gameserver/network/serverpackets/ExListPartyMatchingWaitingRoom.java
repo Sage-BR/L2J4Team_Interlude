@@ -15,7 +15,7 @@ public class ExListPartyMatchingWaitingRoom extends L2GameServerPacket
 	private final int _maxlvl;
 	private final int _mode;
 	private final List<Player> _members;
-
+	
 	public ExListPartyMatchingWaitingRoom(Player player, int page, int minlvl, int maxlvl, int mode)
 	{
 		_activeChar = player;
@@ -24,13 +24,13 @@ public class ExListPartyMatchingWaitingRoom extends L2GameServerPacket
 		_mode = mode;
 		_members = new ArrayList<>();
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
 		writeC(0xfe);
 		writeH(0x35);
-
+		
 		// If the mode is 0 and the activeChar isn't the PartyRoom leader, return an empty list.
 		if (_mode == 0)
 		{
@@ -43,16 +43,16 @@ public class ExListPartyMatchingWaitingRoom extends L2GameServerPacket
 				return;
 			}
 		}
-
+		
 		for (Player cha : PartyMatchWaitingList.getInstance().getPlayers())
 		{
 			// Don't add yourself in the list
 			if (cha == null || cha == _activeChar || cha.getLevel() < _minlvl || cha.getLevel() > _maxlvl)
 				continue;
-
+			
 			_members.add(cha);
 		}
-
+		
 		writeD(1);
 		writeD(_members.size());
 		for (Player member : _members)

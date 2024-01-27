@@ -23,7 +23,7 @@ public class VoicedPlayersCont implements IVoicedCommandHandler
 	{
 		"playerscont"
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -31,7 +31,7 @@ public class VoicedPlayersCont implements IVoicedCommandHandler
 		{
 			if (!activeChar.isGM() || (activeChar.getAccessLevel().getLevel() < 7))
 				return false;
-
+			
 			if (activeChar.isPlayerCont())
 			{
 				activeChar.setPlayerCont(false);
@@ -46,11 +46,11 @@ public class VoicedPlayersCont implements IVoicedCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;
 	}
-
+	
 }

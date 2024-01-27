@@ -7,7 +7,7 @@ public class Q100_SagaOfTheMaestro extends SagasSuperClass
 	public Q100_SagaOfTheMaestro()
 	{
 		super(100, "Saga of the Maestro");
-
+		
 		NPC = new int[]
 		{
 			31592,
@@ -23,7 +23,7 @@ public class Q100_SagaOfTheMaestro extends SagasSuperClass
 			31656,
 			31597
 		};
-
+		
 		Items = new int[]
 		{
 			7080,
@@ -39,38 +39,38 @@ public class Q100_SagaOfTheMaestro extends SagasSuperClass
 			7108,
 			0
 		};
-
+		
 		Mob = new int[]
 		{
 			27260,
 			27249,
 			27308
 		};
-
+		
 		classid = 118;
 		prevclass = 0x39;
-
+		
 		X = new int[]
 		{
 			164650,
 			47429,
 			47391
 		};
-
+		
 		Y = new int[]
 		{
 			-74121,
 			-56923,
 			-56929
 		};
-
+		
 		Z = new int[]
 		{
 			-2871,
 			-2383,
 			-2370
 		};
-
+		
 		registerNPCs();
 	}
 }

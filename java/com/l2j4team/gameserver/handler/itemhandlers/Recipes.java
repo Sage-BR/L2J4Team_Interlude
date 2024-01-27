@@ -17,25 +17,25 @@ public class Recipes implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isCrafting())
 		{
 			activeChar.sendPacket(SystemMessageId.CANT_ALTER_RECIPEBOOK_WHILE_CRAFTING);
 			return;
 		}
-
+		
 		final RecipeList rp = RecipeTable.getInstance().getRecipeByItemId(item.getItemId());
 		if (rp == null)
 			return;
-
+		
 		if (activeChar.hasRecipeList(rp.getId()))
 		{
 			activeChar.sendPacket(SystemMessageId.RECIPE_ALREADY_REGISTERED);
 			return;
 		}
-
+		
 		if (rp.isDwarvenRecipe())
 		{
 			if (activeChar.hasDwarvenCraft())

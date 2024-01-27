@@ -27,11 +27,11 @@ import java.sql.ResultSet;
 public class BalanceLoad
 {
 	public static int[] Evasion = new int[31], Accuracy = new int[31], PAtk = new int[31], MAtk = new int[31], PDef = new int[31], MDef = new int[31], HP = new int[31], MP = new int[31], MAtkSpd = new int[31], PAtkSpd = new int[31];
-
+	
 	public static void LoadEm()
 	{
 		int z;
-
+		
 		for (z = 0; z < 31; z++)
 		{
 			Evasion[z] = loadEvasion(88 + z);
@@ -44,24 +44,24 @@ public class BalanceLoad
 			MAtkSpd[z] = loadMAtkSpd(z + 88);
 			PAtkSpd[z] = loadPAtkSpd(z + 88);
 		}
-
+		
 	}
-
+	
 	@SuppressWarnings("resource")
 	public static int loadEvasion(int classId)
 	{
 		int i = 0;
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement stm = con.prepareStatement("SELECT ev FROM balance WHERE class_id=" + classId);
 			ResultSet rset = stm.executeQuery();
-
+			
 			if (rset.next())
 			{
 				i = rset.getInt("ev");
 			}
-
+			
 			stm.close();
 		}
 		catch (Exception e)
@@ -71,22 +71,22 @@ public class BalanceLoad
 		}
 		return i;
 	}
-
+	
 	@SuppressWarnings("resource")
 	public static int loadAccuracy(int classId)
 	{
 		int i = 0;
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement stm = con.prepareStatement("SELECT acc FROM balance WHERE class_id=" + classId);
 			ResultSet rset = stm.executeQuery();
-
+			
 			if (rset.next())
 			{
 				i = rset.getInt("acc");
 			}
-
+			
 			stm.close();
 		}
 		catch (Exception e)
@@ -96,7 +96,7 @@ public class BalanceLoad
 		}
 		return i;
 	}
-
+	
 	@SuppressWarnings("resource")
 	public static int loadPAtk(int classId)
 	{
@@ -105,12 +105,12 @@ public class BalanceLoad
 		{
 			PreparedStatement stm = con.prepareStatement("SELECT patk FROM balance WHERE class_id=" + classId);
 			ResultSet rset = stm.executeQuery();
-
+			
 			if (rset.next())
 			{
 				i = rset.getInt("patk");
 			}
-
+			
 			stm.close();
 		}
 		catch (Exception e)
@@ -120,22 +120,22 @@ public class BalanceLoad
 		}
 		return i;
 	}
-
+	
 	@SuppressWarnings("resource")
 	public static int loadMAtk(int classId)
 	{
 		int i = 0;
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement stm = con.prepareStatement("SELECT matk FROM balance WHERE class_id=" + classId);
 			ResultSet rset = stm.executeQuery();
-
+			
 			if (rset.next())
 			{
 				i = rset.getInt("matk");
 			}
-
+			
 			stm.close();
 		}
 		catch (Exception e)
@@ -145,22 +145,22 @@ public class BalanceLoad
 		}
 		return i;
 	}
-
+	
 	@SuppressWarnings("resource")
 	public static int loadPDef(int classId)
 	{
 		int i = 0;
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement stm = con.prepareStatement("SELECT pdef FROM balance WHERE class_id=" + classId);
 			ResultSet rset = stm.executeQuery();
-
+			
 			if (rset.next())
 			{
 				i = rset.getInt("pdef");
 			}
-
+			
 			stm.close();
 		}
 		catch (Exception e)
@@ -168,25 +168,25 @@ public class BalanceLoad
 			System.err.println("Error while loading balance stats from database.");
 			e.printStackTrace();
 		}
-
+		
 		return i;
 	}
-
+	
 	@SuppressWarnings("resource")
 	public static int loadMDef(int classId)
 	{
 		int i = 0;
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement stm = con.prepareStatement("SELECT mdef FROM balance WHERE class_id=" + classId);
 			ResultSet rset = stm.executeQuery();
-
+			
 			if (rset.next())
 			{
 				i = rset.getInt("mdef");
 			}
-
+			
 			stm.close();
 		}
 		catch (Exception e)
@@ -194,25 +194,25 @@ public class BalanceLoad
 			System.err.println("Error while loading balance stats from database.");
 			e.printStackTrace();
 		}
-
+		
 		return i;
 	}
-
+	
 	@SuppressWarnings("resource")
 	public static int loadHP(int classId)
 	{
 		int i = 0;
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement stm = con.prepareStatement("SELECT hp FROM balance WHERE class_id=" + classId);
 			ResultSet rset = stm.executeQuery();
-
+			
 			if (rset.next())
 			{
 				i = rset.getInt("hp");
 			}
-
+			
 			stm.close();
 		}
 		catch (Exception e)
@@ -220,25 +220,25 @@ public class BalanceLoad
 			System.err.println("Error while loading balance stats from database.");
 			e.printStackTrace();
 		}
-
+		
 		return i;
 	}
-
+	
 	@SuppressWarnings("resource")
 	public static int loadMP(int classId)
 	{
 		int i = 0;
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement stm = con.prepareStatement("SELECT mp FROM balance WHERE class_id=" + classId);
 			ResultSet rset = stm.executeQuery();
-
+			
 			if (rset.next())
 			{
 				i = rset.getInt("mp");
 			}
-
+			
 			stm.close();
 		}
 		catch (Exception e)
@@ -246,25 +246,25 @@ public class BalanceLoad
 			System.err.println("Error while loading balance stats from database.");
 			e.printStackTrace();
 		}
-
+		
 		return i;
 	}
-
+	
 	@SuppressWarnings("resource")
 	public static int loadMAtkSpd(int classId)
 	{
 		int i = 0;
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement stm = con.prepareStatement("SELECT matksp FROM balance WHERE class_id=" + classId);
 			ResultSet rset = stm.executeQuery();
-
+			
 			if (rset.next())
 			{
 				i = rset.getInt("matksp");
 			}
-
+			
 			stm.close();
 		}
 		catch (Exception e)
@@ -272,25 +272,25 @@ public class BalanceLoad
 			System.err.println("Error while loading balance stats from database.");
 			e.printStackTrace();
 		}
-
+		
 		return i;
 	}
-
+	
 	@SuppressWarnings("resource")
 	public static int loadPAtkSpd(int classId)
 	{
 		int i = 0;
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement stm = con.prepareStatement("SELECT patksp FROM balance WHERE class_id=" + classId);
 			ResultSet rset = stm.executeQuery();
-
+			
 			if (rset.next())
 			{
 				i = rset.getInt("patksp");
 			}
-
+			
 			stm.close();
 		}
 		catch (Exception e)
@@ -298,7 +298,7 @@ public class BalanceLoad
 			System.err.println("Error while loading balance stats from database.");
 			e.printStackTrace();
 		}
-
+		
 		return i;
 	}
 }

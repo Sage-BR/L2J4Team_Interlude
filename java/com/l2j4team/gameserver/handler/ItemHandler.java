@@ -87,15 +87,15 @@ import java.util.Map;
 public class ItemHandler
 {
 	private final Map<Integer, IItemHandler> _datatable = new HashMap<>();
-
+	
 	public static ItemHandler getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected ItemHandler()
 	{
-
+		
 		registerItemHandler(new BeastSoulShot());
 		registerItemHandler(new BeastSpice());
 		registerItemHandler(new BeastSpiritShot());
@@ -177,27 +177,27 @@ public class ItemHandler
 		registerItemHandler(new SkillVigilance());
 		registerItemHandler(new SkillVitality());
 		registerItemHandler(new SkillWithstandAttack());
-
+		
 	}
-
+	
 	public void registerItemHandler(IItemHandler handler)
 	{
 		_datatable.put(handler.getClass().getSimpleName().intern().hashCode(), handler);
 	}
-
+	
 	public IItemHandler getItemHandler(EtcItem item)
 	{
 		if (item == null || item.getHandlerName() == null)
 			return null;
-
+		
 		return _datatable.get(item.getHandlerName().hashCode());
 	}
-
+	
 	public int size()
 	{
 		return _datatable.size();
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final ItemHandler _instance = new ItemHandler();

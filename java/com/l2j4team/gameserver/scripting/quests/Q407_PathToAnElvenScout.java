@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q407_PathToAnElvenScout extends Quest
 {
 	private static final String qn = "Q407_PathToAnElvenScout";
-
+	
 	// Items
 	private static final int REISA_LETTER = 1207;
 	private static final int PRIAS_TORN_LETTER_1 = 1208;
@@ -23,25 +23,25 @@ public class Q407_PathToAnElvenScout extends Quest
 	private static final int HONORARY_GUARD = 1216;
 	private static final int REISA_RECOMMENDATION = 1217;
 	private static final int RUSTED_KEY = 1293;
-
+	
 	// NPCs
 	private static final int REISA = 30328;
 	private static final int BABENCO = 30334;
 	private static final int MORETTI = 30337;
 	private static final int PRIAS = 30426;
-
+	
 	public Q407_PathToAnElvenScout()
 	{
 		super(407, "Path to an Elven Scout");
-
+		
 		setItemsIds(REISA_LETTER, PRIAS_TORN_LETTER_1, PRIAS_TORN_LETTER_2, PRIAS_TORN_LETTER_3, PRIAS_TORN_LETTER_4, MORETTI_HERB, MORETTI_LETTER, PRIAS_LETTER, HONORARY_GUARD, RUSTED_KEY);
-
+		
 		addStartNpc(REISA);
 		addTalkId(REISA, MORETTI, BABENCO, PRIAS);
-
+		
 		addKillId(20053, 27031);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -49,7 +49,7 @@ public class Q407_PathToAnElvenScout extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30328-05.htm"))
 		{
 			if (player.getClassId() != ClassId.ELVEN_FIGHTER)
@@ -72,10 +72,10 @@ public class Q407_PathToAnElvenScout extends Quest
 			st.playSound(QuestState.SOUND_MIDDLE);
 			st.takeItems(REISA_LETTER, -1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -83,13 +83,13 @@ public class Q407_PathToAnElvenScout extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "30328-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -110,7 +110,7 @@ public class Q407_PathToAnElvenScout extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case MORETTI:
 						if (cond == 1)
 							htmltext = "30337-01.htm";
@@ -141,12 +141,12 @@ public class Q407_PathToAnElvenScout extends Quest
 						else if (cond == 8)
 							htmltext = "30337-08.htm";
 						break;
-
+					
 					case BABENCO:
 						if (cond == 2)
 							htmltext = "30334-01.htm";
 						break;
-
+					
 					case PRIAS:
 						if (cond == 4)
 						{
@@ -172,17 +172,17 @@ public class Q407_PathToAnElvenScout extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int cond = st.getInt("cond");
 		if (npc.getNpcId() == 20053)
 		{
@@ -213,7 +213,7 @@ public class Q407_PathToAnElvenScout extends Quest
 		}
 		else if ((cond == 4 || cond == 5) && st.dropItems(RUSTED_KEY, 1, 1, 600000))
 			st.set("cond", "6");
-
+		
 		return null;
 	}
 }

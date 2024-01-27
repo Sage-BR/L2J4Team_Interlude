@@ -25,7 +25,7 @@ public class AdminDoorControl implements IAdminCommandHandler
 		"admin_openall",
 		"admin_closeall"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -49,7 +49,7 @@ public class AdminDoorControl implements IAdminCommandHandler
 				catch (Exception e)
 				{
 					final WorldObject target = activeChar.getTarget();
-
+					
 					if (target instanceof Door)
 						((Door) target).openMe();
 					else
@@ -77,7 +77,7 @@ public class AdminDoorControl implements IAdminCommandHandler
 				catch (Exception e)
 				{
 					final WorldObject target = activeChar.getTarget();
-
+					
 					if (target instanceof Door)
 						((Door) target).closeMe();
 					else
@@ -85,10 +85,10 @@ public class AdminDoorControl implements IAdminCommandHandler
 				}
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

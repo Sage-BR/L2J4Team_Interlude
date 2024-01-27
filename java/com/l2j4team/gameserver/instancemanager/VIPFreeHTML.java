@@ -6,12 +6,12 @@ import com.l2j4team.gameserver.model.actor.instance.Player;
 public class VIPFreeHTML implements Runnable
 {
 	private final Player _activeChar;
-
+	
 	public VIPFreeHTML(Player activeChar)
 	{
 		_activeChar = activeChar;
 	}
-
+	
 	@Override
 	public void run()
 	{

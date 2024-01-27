@@ -26,7 +26,7 @@ public class VoicedRanking implements IVoicedCommandHandler
 		"5x5",
 		"9x9"
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -93,7 +93,7 @@ public class VoicedRanking implements IVoicedCommandHandler
 			catch (Exception exception)
 			{
 			}
-
+			
 			tb.append("</table>");
 			tb.append("<br>");
 			tb.append("<br>");
@@ -103,7 +103,7 @@ public class VoicedRanking implements IVoicedCommandHandler
 			tb.append("</html>");
 			htm.setHtml(tb.toString());
 			activeChar.sendPacket(htm);
-
+			
 		}
 		else if (command.equals("pks"))
 		{
@@ -397,14 +397,14 @@ public class VoicedRanking implements IVoicedCommandHandler
 		}
 		return true;
 	}
-
+	
 	private static void showRankingHtml(Player activeChar)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/menu/Ranking.htm");
 		activeChar.sendPacket(html);
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

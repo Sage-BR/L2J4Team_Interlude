@@ -16,23 +16,23 @@ public class AdminLevel implements IAdminCommandHandler
 		"admin_addlevel",
 		"admin_setlevel"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
-
+		
 		if ((activeChar == null) || (activeChar.getAccessLevel().getLevel() < 7))
 			return false;
-
+		
 		WorldObject targetChar = activeChar.getTarget();
-
+		
 		StringTokenizer st = new StringTokenizer(command, " ");
 		String actualCommand = st.nextToken(); // Get actual command
-
+		
 		String val = "";
 		if (st.countTokens() >= 1)
 			val = st.nextToken();
-
+		
 		if (actualCommand.equalsIgnoreCase("admin_addlevel"))
 		{
 			try
@@ -56,13 +56,13 @@ public class AdminLevel implements IAdminCommandHandler
 					return false;
 				}
 				Player targetPlayer = (Player) targetChar;
-
+				
 				byte lvl = Byte.parseByte(val);
 				if (lvl >= 1 && lvl <= Experience.MAX_LEVEL)
 				{
 					long pXp = targetPlayer.getExp();
 					long tXp = Experience.LEVEL[lvl];
-
+					
 					if (pXp > tXp)
 						targetPlayer.removeExpAndSp(pXp - tXp, 0);
 					else if (pXp < tXp)
@@ -82,7 +82,7 @@ public class AdminLevel implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

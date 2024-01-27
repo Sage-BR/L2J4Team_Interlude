@@ -8,32 +8,32 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q381_LetsBecomeARoyalMember extends Quest
 {
 	private static final String qn = "Q381_LetsBecomeARoyalMember";
-
+	
 	// NPCs
 	private static final int SORINT = 30232;
 	private static final int SANDRA = 30090;
-
+	
 	// Items
 	private static final int KAIL_COIN = 5899;
 	private static final int COIN_ALBUM = 5900;
 	private static final int GOLDEN_CLOVER_COIN = 7569;
 	private static final int COIN_COLLECTOR_MEMBERSHIP = 3813;
-
+	
 	// Reward
 	private static final int ROYAL_MEMBERSHIP = 5898;
-
+	
 	public Q381_LetsBecomeARoyalMember()
 	{
 		super(381, "Lets Become a Royal Member!");
-
+		
 		setItemsIds(KAIL_COIN, GOLDEN_CLOVER_COIN);
-
+		
 		addStartNpc(SORINT);
 		addTalkId(SORINT, SANDRA);
-
+		
 		addKillId(21018, 27316);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -41,7 +41,7 @@ public class Q381_LetsBecomeARoyalMember extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30090-02.htm"))
 			st.set("aCond", "1"); // Alternative cond used for Sandra.
 		else if (event.equalsIgnoreCase("30232-03.htm"))
@@ -50,10 +50,10 @@ public class Q381_LetsBecomeARoyalMember extends Quest
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -61,13 +61,13 @@ public class Q381_LetsBecomeARoyalMember extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 55 || !st.hasQuestItems(COIN_COLLECTOR_MEMBERSHIP)) ? "30232-02.htm" : "30232-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -86,7 +86,7 @@ public class Q381_LetsBecomeARoyalMember extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case SANDRA:
 						if (!st.hasQuestItems(COIN_ALBUM))
 						{
@@ -110,22 +110,22 @@ public class Q381_LetsBecomeARoyalMember extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		if (npc.getNpcId() == 21018)
 			st.dropItems(KAIL_COIN, 1, 1, 50000);
 		else if (st.getInt("aCond") == 1)
 			st.dropItemsAlways(GOLDEN_CLOVER_COIN, 1, 1);
-
+		
 		return null;
 	}
 }

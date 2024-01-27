@@ -8,7 +8,7 @@ public class SummonStat extends PlayableStat
 	{
 		super(activeChar);
 	}
-
+	
 	@Override
 	public Summon getActiveChar()
 	{

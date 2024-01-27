@@ -9,12 +9,12 @@ public class TopBBSManager extends BaseBBSManager
 	protected TopBBSManager()
 	{
 	}
-
+	
 	public static TopBBSManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	@Override
 	public void parseCmd(String command, Player activeChar)
 	{
@@ -26,19 +26,19 @@ public class TopBBSManager extends BaseBBSManager
 		{
 			StringTokenizer st = new StringTokenizer(command, ";");
 			st.nextToken();
-
+			
 			loadStaticHtm(st.nextToken(), activeChar);
 		}
 		else
 			super.parseCmd(command, activeChar);
 	}
-
+	
 	@Override
 	protected String getFolder()
 	{
 		return "top/";
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final TopBBSManager _instance = new TopBBSManager();

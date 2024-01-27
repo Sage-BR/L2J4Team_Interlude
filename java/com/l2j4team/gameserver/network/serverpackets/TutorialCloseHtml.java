@@ -3,11 +3,11 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class TutorialCloseHtml extends L2GameServerPacket
 {
 	public static final TutorialCloseHtml STATIC_PACKET = new TutorialCloseHtml();
-
+	
 	private TutorialCloseHtml()
 	{
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

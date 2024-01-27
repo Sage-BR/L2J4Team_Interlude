@@ -12,7 +12,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q108_JumbleTumbleDiamondFuss extends Quest
 {
 	private static final String qn = "Q108_JumbleTumbleDiamondFuss";
-
+	
 	// NPCs
 	private static final int GOUPH = 30523;
 	private static final int REEP = 30516;
@@ -21,7 +21,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 	private static final int BRUNON = 30526;
 	private static final int MARON = 30529;
 	private static final int TOROCCO = 30555;
-
+	
 	// Items
 	private static final int GOUPH_CONTRACT = 1559;
 	private static final int REEP_CONTRACT = 1560;
@@ -36,12 +36,12 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 	private static final int BERRY_TART = 1569;
 	private static final int BAT_DIAGRAM = 1570;
 	private static final int STAR_DIAMOND = 1571;
-
+	
 	// Monsters
 	private static final int GOBLIN_BRIGAND_LEADER = 20323;
 	private static final int GOBLIN_BRIGAND_LIEUTENANT = 20324;
 	private static final int BLADE_BAT = 20480;
-
+	
 	// Rewards
 	private static final int SILVERSMITH_HAMMER = 1511;
 	private static final int SPIRITSHOT_FOR_BEGINNERS = 5790;
@@ -52,7 +52,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 	private static final int ECHO_FEAST = 4415;
 	private static final int ECHO_CELEBRATION = 4416;
 	private static final int LESSER_HEALING_POTION = 1060;
-
+	
 	private static final int[][] LEADER_DROPLIST =
 	{
 		{
@@ -68,7 +68,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 			800000
 		}
 	};
-
+	
 	private static final int[][] LIEUTENANT_DROPLIST =
 	{
 		{
@@ -84,19 +84,19 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 			600000
 		}
 	};
-
+	
 	public Q108_JumbleTumbleDiamondFuss()
 	{
 		super(108, "Jumble, Tumble, Diamond Fuss");
-
+		
 		setItemsIds(GOUPH_CONTRACT, REEP_CONTRACT, ELVEN_WINE, BRUNON_DICE, BRUNON_CONTRACT, AQUAMARINE, CHRYSOBERYL, GEM_BOX, COAL_PIECE, BRUNON_LETTER, BERRY_TART, BAT_DIAGRAM, STAR_DIAMOND);
-
+		
 		addStartNpc(GOUPH);
 		addTalkId(GOUPH, REEP, MURDOC, AIRY, BRUNON, MARON, TOROCCO);
-
+		
 		addKillId(GOBLIN_BRIGAND_LEADER, GOBLIN_BRIGAND_LIEUTENANT, BLADE_BAT);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -104,7 +104,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 		String htmltext = event;
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30523-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -126,10 +126,10 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 			st.takeItems(BRUNON_DICE, 1);
 			st.giveItems(BRUNON_CONTRACT, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -137,7 +137,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -148,7 +148,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 				else
 					htmltext = "30523-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -174,7 +174,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 							st.takeItems(STAR_DIAMOND, -1);
 							st.giveItems(SILVERSMITH_HAMMER, 1);
 							st.giveItems(LESSER_HEALING_POTION, 100);
-
+							
 							if (player.isNewbie())
 							{
 								st.showQuestionMark(26);
@@ -189,7 +189,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 									st.giveItems(SOULSHOT_FOR_BEGINNERS, 6000);
 								}
 							}
-
+							
 							st.giveItems(ECHO_BATTLE, 10);
 							st.giveItems(ECHO_LOVE, 10);
 							st.giveItems(ECHO_SOLITUDE, 10);
@@ -200,7 +200,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case REEP:
 						if (cond == 1)
 						{
@@ -213,7 +213,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 						else if (cond > 1)
 							htmltext = "30516-02.htm";
 						break;
-
+					
 					case TOROCCO:
 						if (cond == 2)
 							htmltext = "30555-01.htm";
@@ -224,7 +224,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 						else if (cond > 7)
 							htmltext = "30555-05.htm";
 						break;
-
+					
 					case MARON:
 						if (cond == 3)
 						{
@@ -239,7 +239,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 						else if (cond > 4)
 							htmltext = "30529-03.htm";
 						break;
-
+					
 					case BRUNON:
 						if (cond == 4)
 							htmltext = "30526-01.htm";
@@ -270,7 +270,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 						else if (cond > 9)
 							htmltext = "30526-08.htm";
 						break;
-
+					
 					case MURDOC:
 						if (cond == 9)
 						{
@@ -285,7 +285,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 						else if (cond > 10)
 							htmltext = "30521-03.htm";
 						break;
-
+					
 					case AIRY:
 						if (cond == 10)
 						{
@@ -302,33 +302,33 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case GOBLIN_BRIGAND_LEADER:
 				if (st.getInt("cond") == 5 && st.dropMultipleItems(LEADER_DROPLIST))
 					st.set("cond", "6");
 				break;
-
+			
 			case GOBLIN_BRIGAND_LIEUTENANT:
 				if (st.getInt("cond") == 5 && st.dropMultipleItems(LIEUTENANT_DROPLIST))
 					st.set("cond", "6");
 				break;
-
+			
 			case BLADE_BAT:
 				if (st.getInt("cond") == 11 && st.dropItems(STAR_DIAMOND, 1, 1, 200000))
 				{

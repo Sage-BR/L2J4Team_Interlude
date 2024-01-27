@@ -11,22 +11,22 @@ public final class VillageMasterPriest extends VillageMaster
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	protected final boolean checkVillageMasterRace(ClassId pclass)
 	{
 		if (pclass == null)
 			return false;
-
+		
 		return pclass.getRace() == ClassRace.HUMAN || pclass.getRace() == ClassRace.ELF;
 	}
-
+	
 	@Override
 	protected final boolean checkVillageMasterTeachType(ClassId pclass)
 	{
 		if (pclass == null)
 			return false;
-
+		
 		return pclass.getType() == ClassType.PRIEST;
 	}
 }

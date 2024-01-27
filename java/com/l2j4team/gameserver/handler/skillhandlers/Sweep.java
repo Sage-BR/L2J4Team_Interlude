@@ -20,28 +20,28 @@ public class Sweep implements ISkillHandler
 	{
 		L2SkillType.SWEEP
 	};
-
+	
 	@Override
 	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
 	{
 		if (!(activeChar instanceof Player))
 			return;
-
+		
 		final Player player = (Player) activeChar;
-
+		
 		for (WorldObject target : targets)
 		{
 			if (!(target instanceof Attackable))
 				continue;
-
+			
 			final Attackable monster = ((Attackable) target);
 			if (!monster.isSpoiled())
 				continue;
-
+			
 			final List<IntIntHolder> items = monster.getSweepItems();
 			if (items.isEmpty())
 				continue;
-
+			
 			for (IntIntHolder item : items)
 			{
 				if (player.isInParty())
@@ -52,7 +52,7 @@ public class Sweep implements ISkillHandler
 			items.clear();
 		}
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

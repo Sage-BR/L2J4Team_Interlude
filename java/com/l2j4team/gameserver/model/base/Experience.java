@@ -87,7 +87,7 @@ public class Experience
 		4200000000L, // level 80
 		6299994999L
 	};
-
+	
 	/**
 	 * This is the first UNREACHABLE level.<BR>
 	 * ex: If you want a max at 80 & 99.99%, you have to put 81.<BR>

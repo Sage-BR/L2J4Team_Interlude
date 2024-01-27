@@ -9,24 +9,24 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q159_ProtectTheWaterSource extends Quest
 {
 	private static final String qn = "Q159_ProtectTheWaterSource";
-
+	
 	// Items
 	private static final int PLAGUE_DUST = 1035;
 	private static final int HYACINTH_CHARM_1 = 1071;
 	private static final int HYACINTH_CHARM_2 = 1072;
-
+	
 	public Q159_ProtectTheWaterSource()
 	{
 		super(159, "Protect the Water Source");
-
+		
 		setItemsIds(PLAGUE_DUST, HYACINTH_CHARM_1, HYACINTH_CHARM_2);
-
+		
 		addStartNpc(30154); // Asterios
 		addTalkId(30154);
-
+		
 		addKillId(27017); // Plague Zombie
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -34,7 +34,7 @@ public class Q159_ProtectTheWaterSource extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30154-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -42,10 +42,10 @@ public class Q159_ProtectTheWaterSource extends Quest
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(HYACINTH_CHARM_1, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -53,7 +53,7 @@ public class Q159_ProtectTheWaterSource extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -64,7 +64,7 @@ public class Q159_ProtectTheWaterSource extends Quest
 				else
 					htmltext = "30154-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				if (cond == 1)
@@ -90,27 +90,27 @@ public class Q159_ProtectTheWaterSource extends Quest
 					st.exitQuest(false);
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		if (st.getInt("cond") == 1 && st.dropItems(PLAGUE_DUST, 1, 1, 400000))
 			st.set("cond", "2");
 		else if (st.getInt("cond") == 3 && st.dropItems(PLAGUE_DUST, 1, 5, 400000))
 			st.set("cond", "4");
-
+		
 		return null;
 	}
 }

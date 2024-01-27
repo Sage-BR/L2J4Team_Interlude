@@ -13,27 +13,27 @@ public class L2FishingZone extends L2ZoneType
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 	/*
 	 * getWaterZ() this added function returns the Z value for the water surface. In effect this simply returns the upper Z value of the zone. This required some modification of L2ZoneForm, and zone form extentions.
 	 */

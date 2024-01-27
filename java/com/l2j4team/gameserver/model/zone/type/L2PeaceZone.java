@@ -14,24 +14,24 @@ public class L2PeaceZone extends L2ZoneType
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		character.setInsideZone(ZoneId.PEACE, true);
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.PEACE, false);
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{

@@ -23,17 +23,17 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class L2OlympiadStadiumZone extends L2SpawnZone
 {
 	OlympiadGameTask _task = null;
-
+	
 	public L2OlympiadStadiumZone(int id)
 	{
 		super(id);
 	}
-
+	
 	public final void registerTask(OlympiadGameTask task)
 	{
 		_task = task;
 	}
-
+	
 	public final void broadcastStatusUpdate(Player player)
 	{
 		final ExOlympiadUserInfo packet = new ExOlympiadUserInfo(player);
@@ -43,7 +43,7 @@ public class L2OlympiadStadiumZone extends L2SpawnZone
 				plyr.sendPacket(packet);
 		}
 	}
-
+	
 	public final void broadcastPacketToObservers(L2GameServerPacket packet)
 	{
 		for (Player player : getKnownTypeInside(Player.class))
@@ -52,7 +52,7 @@ public class L2OlympiadStadiumZone extends L2SpawnZone
 				player.sendPacket(packet);
 		}
 	}
-
+	
 	@Override
 	protected final void onEnter(Creature character)
 	{
@@ -84,7 +84,7 @@ public class L2OlympiadStadiumZone extends L2SpawnZone
 										}
 									}
 								}
-
+								
 								if (character instanceof Playable)
 								{
 									// only participants, observers and GMs allowed
@@ -94,19 +94,19 @@ public class L2OlympiadStadiumZone extends L2SpawnZone
 							}
 						}
 					}, 2000);
-
+					
 				}
 			}
 		}
 	}
-
+	
 	@Override
 	protected final void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, false);
 		character.setInsideZone(ZoneId.NO_RESTART, false);
 		character.setInsideZone(ZoneId.OLYMPIAD, false);
-
+		
 		if (character instanceof Player)
 		{
 			final Player player = character.getActingPlayer();
@@ -128,21 +128,21 @@ public class L2OlympiadStadiumZone extends L2SpawnZone
 				}
 			}
 		}
-
+		
 	}
-
+	
 	public final void updateZoneStatusForCharactersInside()
 	{
 		if (_task == null)
 			return;
-
+		
 		final boolean battleStarted = _task.isBattleStarted();
 		final SystemMessage sm;
 		if (battleStarted)
 			sm = SystemMessage.getSystemMessage(SystemMessageId.ENTERED_COMBAT_ZONE);
 		else
 			sm = SystemMessage.getSystemMessage(SystemMessageId.LEFT_COMBAT_ZONE);
-
+		
 		for (Creature character : _characterList.values())
 		{
 			if (battleStarted)
@@ -162,26 +162,26 @@ public class L2OlympiadStadiumZone extends L2SpawnZone
 			}
 		}
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 	public class KickPlayer implements Runnable
 	{
 		private Player _player;
-
+		
 		public KickPlayer(Player player)
 		{
 			_player = player;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -190,7 +190,7 @@ public class L2OlympiadStadiumZone extends L2SpawnZone
 				final Summon summon = _player.getPet();
 				if (summon != null)
 					summon.unSummon(_player);
-
+				
 				_player.teleToLocation(TeleportType.TOWN);
 				_player = null;
 			}

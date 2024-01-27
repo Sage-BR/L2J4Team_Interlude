@@ -14,13 +14,13 @@ public class FriendlyMonster extends Attackable
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public boolean isAutoAttackable(Creature attacker)
 	{
 		return attacker instanceof Player && ((Player) attacker).getKarma() > 0;
 	}
-
+	
 	@Override
 	public boolean isAggressive()
 	{

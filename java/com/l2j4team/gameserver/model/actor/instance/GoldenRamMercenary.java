@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
 public class GoldenRamMercenary extends Folk
 {
 	private static final String qn = "Q628_HuntOfTheGoldenRamMercenaryForce";
-
+	
 	private static final int[][] data =
 	{
 		{
@@ -61,25 +61,25 @@ public class GoldenRamMercenary extends Folk
 			6
 		}
 	};
-
+	
 	private static final int GOLDEN_RAM = 7251;
-
+	
 	public GoldenRamMercenary(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player, int val)
 	{
 		int npcId = getNpcId();
 		String filename = "data/html/default/" + npcId + ".htm";
-
+		
 		final QuestState st = player.getQuestState(qn);
 		if (st != null)
 		{
 			int cond = st.getInt("cond");
-
+			
 			switch (npcId)
 			{
 				case 31553:
@@ -88,7 +88,7 @@ public class GoldenRamMercenary extends Folk
 					if (cond >= 2)
 						filename = "data/html/default/" + npcId + "-1.htm";
 					break;
-
+				
 				case 31555:
 				case 31556:
 					// Abercrombie and Selina
@@ -99,31 +99,31 @@ public class GoldenRamMercenary extends Folk
 					break;
 			}
 		}
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", getObjectId());
 		player.sendPacket(html);
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
 		final QuestState qs = player.getQuestState(qn);
 		StringTokenizer st = new StringTokenizer(command, " ");
 		String actualCommand = st.nextToken(); // Get actual command
-
+		
 		if (actualCommand.contains("buff"))
 		{
 			if (qs != null && qs.getInt("cond") == 3)
 			{
 				// Search the next token, which is a number between 0 and 7.
 				int[] buffData = data[Integer.valueOf(st.nextToken())];
-
+				
 				int coins = buffData[2];
 				int val = 3;
-
+				
 				if (qs.getQuestItemsCount(GOLDEN_RAM) >= coins)
 				{
 					qs.takeItems(GOLDEN_RAM, coins);
@@ -131,7 +131,7 @@ public class GoldenRamMercenary extends Folk
 					doCast(SkillTable.getInstance().getInfo(buffData[0], buffData[1]));
 					val = 4;
 				}
-
+				
 				final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 				html.setFile("data/html/default/31556-" + val + ".htm");
 				player.sendPacket(html);

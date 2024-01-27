@@ -8,30 +8,30 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q659_IdRatherBeCollectingFairyBreath extends Quest
 {
 	private static final String qn = "Q659_IdRatherBeCollectingFairyBreath";
-
+	
 	// NPCs
 	private static final int GALATEA = 30634;
-
+	
 	// Item
 	private static final int FAIRY_BREATH = 8286;
-
+	
 	// Monsters
 	private static final int SOBBING_WIND = 21023;
 	private static final int BABBLING_WIND = 21024;
 	private static final int GIGGLING_WIND = 21025;
-
+	
 	public Q659_IdRatherBeCollectingFairyBreath()
 	{
 		super(659, "I'd Rather Be Collecting Fairy Breath");
-
+		
 		setItemsIds(FAIRY_BREATH);
-
+		
 		addStartNpc(GALATEA);
 		addTalkId(GALATEA);
-
+		
 		addKillId(GIGGLING_WIND, BABBLING_WIND, SOBBING_WIND);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -39,7 +39,7 @@ public class Q659_IdRatherBeCollectingFairyBreath extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30634-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -60,10 +60,10 @@ public class Q659_IdRatherBeCollectingFairyBreath extends Quest
 		}
 		else if (event.equalsIgnoreCase("30634-08.htm"))
 			st.exitQuest(true);
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -71,30 +71,30 @@ public class Q659_IdRatherBeCollectingFairyBreath extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 26) ? "30634-01.htm" : "30634-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				htmltext = (!st.hasQuestItems(FAIRY_BREATH)) ? "30634-04.htm" : "30634-05.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		st.dropItems(FAIRY_BREATH, 1, 0, 900000);
-
+		
 		return null;
 	}
 }

@@ -8,25 +8,25 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q156_MillenniumLove extends Quest
 {
 	private static final String qn = "Q156_MillenniumLove";
-
+	
 	// Items
 	private static final int LILITH_LETTER = 1022;
 	private static final int THEON_DIARY = 1023;
-
+	
 	// NPCs
 	private static final int LILITH = 30368;
 	private static final int BAENEDES = 30369;
-
+	
 	public Q156_MillenniumLove()
 	{
 		super(156, "Millennium Love");
-
+		
 		setItemsIds(LILITH_LETTER, THEON_DIARY);
-
+		
 		addStartNpc(LILITH);
 		addTalkId(LILITH, BAENEDES);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -34,7 +34,7 @@ public class Q156_MillenniumLove extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30368-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -56,10 +56,10 @@ public class Q156_MillenniumLove extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -67,13 +67,13 @@ public class Q156_MillenniumLove extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 15) ? "30368-00.htm" : "30368-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -90,7 +90,7 @@ public class Q156_MillenniumLove extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case BAENEDES:
 						if (st.hasQuestItems(LILITH_LETTER))
 							htmltext = "30369-01.htm";
@@ -99,12 +99,12 @@ public class Q156_MillenniumLove extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

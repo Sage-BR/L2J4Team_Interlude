@@ -14,7 +14,7 @@ public class L2DerbyTrackZone extends L2PeaceZone
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
@@ -25,7 +25,7 @@ public class L2DerbyTrackZone extends L2PeaceZone
 			character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, true);
 		}
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
@@ -36,12 +36,12 @@ public class L2DerbyTrackZone extends L2PeaceZone
 			character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, false);
 		}
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{

@@ -16,19 +16,19 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class SepulcherMonster extends Monster
 {
 	private static final String QUEST_ID = "Q620_FourGoblets";
-
+	
 	public int mysteriousBoxId = 0;
-
+	
 	protected Future<?> _victimSpawnKeyBoxTask = null;
 	protected Future<?> _victimShout = null;
 	protected Future<?> _changeImmortalTask = null;
 	protected Future<?> _onDeadEventTask = null;
-
+	
 	public SepulcherMonster(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
 		setShowSummonAnimation(true);
-
+		
 		switch (template.getNpcId())
 		{
 			case 25339:
@@ -38,7 +38,7 @@ public class SepulcherMonster extends Monster
 				setIsRaid(true);
 		}
 	}
-
+	
 	@Override
 	public void onSpawn()
 	{
@@ -60,7 +60,7 @@ public class SepulcherMonster extends Monster
 					_victimShout.cancel(true);
 				_victimShout = ThreadPool.schedule(new VictimShout(this), 5000);
 				break;
-
+			
 			case 18196:
 			case 18197:
 			case 18198:
@@ -78,7 +78,7 @@ public class SepulcherMonster extends Monster
 			case 18210:
 			case 18211:
 				break;
-
+			
 			case 18231:
 			case 18232:
 			case 18233:
@@ -96,10 +96,10 @@ public class SepulcherMonster extends Monster
 					_changeImmortalTask.cancel(true);
 				_changeImmortalTask = ThreadPool.schedule(new ChangeImmortal(this), 1600);
 				break;
-
+			
 			case 18256:
 				break;
-
+			
 			case 25339:
 			case 25342:
 			case 25346:
@@ -109,13 +109,13 @@ public class SepulcherMonster extends Monster
 		}
 		super.onSpawn();
 	}
-
+	
 	@Override
 	public boolean doDie(Creature killer)
 	{
 		if (!super.doDie(killer))
 			return false;
-
+		
 		switch (getNpcId())
 		{
 			case 18120:
@@ -153,7 +153,7 @@ public class SepulcherMonster extends Monster
 					_onDeadEventTask.cancel(true);
 				_onDeadEventTask = ThreadPool.schedule(new OnDeadEvent(this), 3500);
 				break;
-
+			
 			case 18150:
 			case 18151:
 			case 18152:
@@ -176,7 +176,7 @@ public class SepulcherMonster extends Monster
 					_onDeadEventTask.cancel(true);
 				_onDeadEventTask = ThreadPool.schedule(new OnDeadEvent(this), 3500);
 				break;
-
+			
 			case 18141:
 			case 18142:
 			case 18143:
@@ -192,7 +192,7 @@ public class SepulcherMonster extends Monster
 					_onDeadEventTask = ThreadPool.schedule(new OnDeadEvent(this), 3500);
 				}
 				break;
-
+			
 			case 18220:
 			case 18221:
 			case 18222:
@@ -221,7 +221,7 @@ public class SepulcherMonster extends Monster
 					_onDeadEventTask = ThreadPool.schedule(new OnDeadEvent(this), 3500);
 				}
 				break;
-
+			
 			case 25339:
 			case 25342:
 			case 25346:
@@ -234,7 +234,7 @@ public class SepulcherMonster extends Monster
 		}
 		return true;
 	}
-
+	
 	@Override
 	public void deleteMe()
 	{
@@ -250,11 +250,11 @@ public class SepulcherMonster extends Monster
 		}
 		super.deleteMe();
 	}
-
+	
 	private void giveCup(Creature killer)
 	{
 		int cupId = 0;
-
+		
 		switch (getNpcId())
 		{
 			case 25339:
@@ -270,11 +270,11 @@ public class SepulcherMonster extends Monster
 				cupId = 7259;
 				break;
 		}
-
+		
 		final Player player = killer.getActingPlayer();
 		if (player == null)
 			return;
-
+		
 		final L2Party party = player.getParty();
 		if (party != null)
 		{
@@ -292,57 +292,57 @@ public class SepulcherMonster extends Monster
 				player.addItem("Quest", cupId, 1, player, true);
 		}
 	}
-
+	
 	private class VictimShout implements Runnable
 	{
 		private final SepulcherMonster _activeChar;
-
+		
 		public VictimShout(SepulcherMonster activeChar)
 		{
 			_activeChar = activeChar;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			if (_activeChar.isDead() || !_activeChar.isVisible())
 				return;
-
+			
 			broadcastPacket(new NpcSay(getObjectId(), 0, getNpcId(), "forgive me!!"));
 		}
 	}
-
+	
 	private class VictimSpawnKeyBox implements Runnable
 	{
 		private final SepulcherMonster _activeChar;
-
+		
 		public VictimSpawnKeyBox(SepulcherMonster activeChar)
 		{
 			_activeChar = activeChar;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			if (_activeChar.isDead() || !_activeChar.isVisible())
 				return;
-
+			
 			FourSepulchersManager.getInstance().spawnKeyBox(_activeChar);
 			broadcastPacket(new NpcSay(getObjectId(), 0, getNpcId(), "Many thanks for rescue me."));
 			if (_victimShout != null)
 				_victimShout.cancel(true);
 		}
 	}
-
+	
 	private static class OnDeadEvent implements Runnable
 	{
 		SepulcherMonster _activeChar;
-
+		
 		public OnDeadEvent(SepulcherMonster activeChar)
 		{
 			_activeChar = activeChar;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -381,7 +381,7 @@ public class SepulcherMonster extends Monster
 				case 18219:
 					FourSepulchersManager.getInstance().spawnKeyBox(_activeChar);
 					break;
-
+				
 				case 18150:
 				case 18151:
 				case 18152:
@@ -392,7 +392,7 @@ public class SepulcherMonster extends Monster
 				case 18157:
 					FourSepulchersManager.getInstance().spawnExecutionerOfHalisha(_activeChar);
 					break;
-
+				
 				case 18141:
 				case 18142:
 				case 18143:
@@ -403,7 +403,7 @@ public class SepulcherMonster extends Monster
 				case 18148:
 					FourSepulchersManager.getInstance().spawnMonster(_activeChar.mysteriousBoxId);
 					break;
-
+				
 				case 18220:
 				case 18221:
 				case 18222:
@@ -427,7 +427,7 @@ public class SepulcherMonster extends Monster
 				case 18240:
 					FourSepulchersManager.getInstance().spawnArchonOfHalisha(_activeChar.mysteriousBoxId);
 					break;
-
+				
 				case 25339:
 				case 25342:
 				case 25346:
@@ -437,16 +437,16 @@ public class SepulcherMonster extends Monster
 			}
 		}
 	}
-
+	
 	private static class ChangeImmortal implements Runnable
 	{
 		SepulcherMonster activeChar;
-
+		
 		public ChangeImmortal(SepulcherMonster mob)
 		{
 			activeChar = mob;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -454,7 +454,7 @@ public class SepulcherMonster extends Monster
 			fp.getEffects(activeChar, activeChar);
 		}
 	}
-
+	
 	@Override
 	public boolean isAutoAttackable(Creature attacker)
 	{

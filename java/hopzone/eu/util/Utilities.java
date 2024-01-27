@@ -67,7 +67,7 @@ public class Utilities
 	private static final String INDIVIDUAL_IP_SELECT = "SELECT topsite,var,value,ip FROM vds_individual WHERE topsite=? AND var=? AND ip=? AND value > (UNIX_TIMESTAMP() * 1000);";
 	private static final String GLOBAL_VAR_SELECT = "SELECT value FROM vds_global WHERE topsite=? AND var=?";
 	private static final String GLOBAL_VAR_REPLACE = "INSERT INTO vds_global (topsite,var,value) VALUES (?,?,?) ON DUPLICATE KEY UPDATE value=VALUES(value)";
-	
+
 	/**
 	 * announce to all players
 	 * @param topsite
@@ -77,7 +77,7 @@ public class Utilities
 	{
 		World.announceToOnlinePlayers("[" + topsite + "]" + message, true);
 	}
-	
+
 	/**
 	 * open new url on browser
 	 * @param URL string
@@ -85,7 +85,7 @@ public class Utilities
 	public static void openUrl(String URL)
 	{
 		final Desktop desktop = Desktop.getDesktop();
-		
+
 		try
 		{
 			desktop.browse(new URI(URL));
@@ -95,7 +95,7 @@ public class Utilities
 			error.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Delete Delivery Table
 	 * @param QUERY
@@ -111,10 +111,10 @@ public class Utilities
 		{
 			Gui.getInstance().ConsoleWrite("Delete " + TABLE + " Table Failed: " + e.getMessage());
 		}
-		
+
 		Gui.getInstance().ConsoleWrite("Delete " + TABLE + " Table successfully!");
 	}
-	
+
 	/**
 	 * Create Delivery Table
 	 * @param QUERY
@@ -130,10 +130,10 @@ public class Utilities
 		{
 			Gui.getInstance().ConsoleWrite("Installed " + TABLE + " Table Failed: " + e.getMessage());
 		}
-		
+
 		Gui.getInstance().ConsoleWrite("Installed " + TABLE + " Table successfully!");
 	}
-	
+
 	/**
 	 * create individual variable in database
 	 * @param topsite string
@@ -157,7 +157,7 @@ public class Utilities
 			if (error != null)
 			{
 				Gui.getInstance().ConsoleWrite("could not insert char var: " + error);
-				
+
 				if (error.contains("doesn't exist") && error.contains("vds_individual"))
 				{
 					deleteTable(DELETE_INDIVIDUAL_TABLE, "vds_individual");
@@ -166,7 +166,7 @@ public class Utilities
 			}
 		}
 	}
-	
+
 	/**
 	 * select individual variable from database
 	 * @param topsite string
@@ -197,7 +197,7 @@ public class Utilities
 			if (error != null)
 			{
 				Gui.getInstance().ConsoleWrite("could not select char var: " + error);
-				
+
 				if (error.contains("doesn't exist") && error.contains("vds_individual"))
 				{
 					deleteTable(DELETE_INDIVIDUAL_TABLE, "vds_individual");
@@ -207,7 +207,7 @@ public class Utilities
 		}
 		return value;
 	}
-	
+
 	/**
 	 * select individual ip from database
 	 * @param topsite string
@@ -238,7 +238,7 @@ public class Utilities
 			if (error != null)
 			{
 				Gui.getInstance().ConsoleWrite("could not select char var: " + error);
-				
+
 				if ((error.contains("doesn't exist") && error.contains("vds_individual")) || error.contains("Unknown column 'ip'"))
 				{
 					deleteTable(DELETE_INDIVIDUAL_TABLE, "vds_individual");
@@ -248,7 +248,7 @@ public class Utilities
 		}
 		return found;
 	}
-	
+
 	/**
 	 * save global variable
 	 * @param topsite string
@@ -270,7 +270,7 @@ public class Utilities
 			if (error != null)
 			{
 				Gui.getInstance().ConsoleWrite("could not insert global variable:" + error);
-				
+
 				if (error.contains("doesn't exist") && error.contains("vds_global"))
 				{
 					deleteTable(DELETE_GLOBAL_TABLE, "vds_global");
@@ -279,7 +279,7 @@ public class Utilities
 			}
 		}
 	}
-	
+
 	/**
 	 * select global variable
 	 * @param topsite string
@@ -305,7 +305,7 @@ public class Utilities
 			if (error != null)
 			{
 				Gui.getInstance().ConsoleWrite("could not load global variable:" + error);
-				
+
 				if (error.contains("doesn't exist") && error.contains("vds_global"))
 				{
 					deleteTable(DELETE_GLOBAL_TABLE, "vds_global");
@@ -315,7 +315,7 @@ public class Utilities
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Return date time thanks Rationale for pm/am fix
 	 * @param millisecond long
@@ -325,7 +325,7 @@ public class Utilities
 	{
 		return new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH).format(new Date(millisecond));
 	}
-	
+
 	/**
 	 * Check if the address given is local
 	 * @param address string
@@ -335,7 +335,7 @@ public class Utilities
 	{
 		return address == null || address.isLinkLocalAddress() || address.isLoopbackAddress() || address.isAnyLocalAddress() || address.isSiteLocalAddress();
 	}
-	
+
 	/**
 	 * Convert string datetime to long milliseconds
 	 * @param ServerTime string
@@ -347,7 +347,7 @@ public class Utilities
 		Gui.getInstance().ConsoleWrite("ServerTime: " + ServerTime + " TimeZone: " + TimeZone);
 		if (ServerTime == null || TimeZone == null || ServerTime == "NONE")
 			return -4;
-		
+
 		try
 		{
 			LocalDateTime localDateTime = LocalDateTime.parse(ServerTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -359,7 +359,7 @@ public class Utilities
 		}
 		return -3;
 	}
-	
+
 	/**
 	 * get external ip for vote debugging
 	 * @return ip string

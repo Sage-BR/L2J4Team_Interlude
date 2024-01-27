@@ -38,65 +38,65 @@ public class SummonItems implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isSitting())
 		{
 			activeChar.sendPacket(SystemMessageId.CANT_MOVE_SITTING);
 			return;
 		}
-
+		
 		if (activeChar.isInObserverMode())
 			return;
-
+		
 		if (activeChar.isArenaProtection() || activeChar.isInsideZone(ZoneId.TOURNAMENT))
 		{
 			activeChar.sendMessage("You can not do this in Tournament Event");
 			return;
 		}
-
+		
 		if (activeChar.isAllSkillsDisabled() || activeChar.isCastingNow())
 			return;
-
+		
 		final IntIntHolder sitem = SummonItemData.getInstance().getSummonItem(item.getItemId());
-
+		
 		if ((activeChar.getPet() != null || activeChar.isMounted()) && sitem.getValue() > 0)
 		{
 			activeChar.sendPacket(SystemMessageId.SUMMON_ONLY_ONE);
 			return;
 		}
-
+		
 		if (TvT.is_started() && activeChar._inEventTvT && !Config.TVT_ALLOW_SUMMON)
 		{
 			final ActionFailed af = ActionFailed.STATIC_PACKET;
 			activeChar.sendPacket(af);
 			return;
 		}
-
+		
 		if (CTF.is_started() && activeChar._inEventCTF && !Config.CTF_ALLOW_SUMMON)
 		{
 			final ActionFailed af = ActionFailed.STATIC_PACKET;
 			activeChar.sendPacket(af);
 			return;
 		}
-
+		
 		if (activeChar.isAttackingNow())
 		{
 			activeChar.sendPacket(SystemMessageId.YOU_CANNOT_SUMMON_IN_COMBAT);
 			return;
 		}
-
+		
 		final int npcId = sitem.getId();
 		if (npcId == 0)
 			return;
-
+		
 		final NpcTemplate npcTemplate = NpcTable.getInstance().getTemplate(npcId);
 		if (npcTemplate == null)
 			return;
-
+		
 		activeChar.stopMove(null);
-
+		
 		switch (sitem.getValue())
 		{
 			case 0: // static summons (like Christmas tree)
@@ -110,13 +110,13 @@ public class SummonItems implements IItemHandler
 							return;
 						}
 					}
-
+					
 					if (activeChar.destroyItem("Summon", item.getObjectId(), 1, null, false))
 					{
 						final L2Spawn spawn = new L2Spawn(npcTemplate);
 						spawn.setLoc(activeChar.getPosition());
 						spawn.setRespawnState(false);
-
+						
 						final Npc npc = spawn.doSpawn(true);
 						npc.setTitle(activeChar.getName());
 						npc.setIsRunning(false); // broadcast info
@@ -135,7 +135,7 @@ public class SummonItems implements IItemHandler
 				activeChar.sendPacket(new SetupGauge(GaugeColor.BLUE, 5000));
 				activeChar.sendPacket(SystemMessageId.SUMMON_A_PET);
 				activeChar.setIsCastingNow(true);
-
+				
 				ThreadPool.schedule(new PetSummonFinalizer(activeChar, npcTemplate, item), 5000);
 				break;
 			case 2: // wyvern
@@ -143,21 +143,21 @@ public class SummonItems implements IItemHandler
 				break;
 		}
 	}
-
+	
 	// TODO: this should be inside skill handler
 	static class PetSummonFinalizer implements Runnable
 	{
 		private final Player _activeChar;
 		private final ItemInstance _item;
 		private final NpcTemplate _npcTemplate;
-
+		
 		PetSummonFinalizer(Player activeChar, NpcTemplate npcTemplate, ItemInstance item)
 		{
 			_activeChar = activeChar;
 			_npcTemplate = npcTemplate;
 			_item = item;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -165,21 +165,21 @@ public class SummonItems implements IItemHandler
 			{
 				_activeChar.sendPacket(new MagicSkillLaunched(_activeChar, 2046, 1));
 				_activeChar.setIsCastingNow(false);
-
+				
 				// check for summon item validity
 				// Owner has a pet listed in world.
 				if (_item == null || _item.getOwnerId() != _activeChar.getObjectId() || _item.getLocation() != ItemInstance.ItemLocation.INVENTORY || (World.getInstance().getPet(_activeChar.getObjectId()) != null))
 					return;
-
+				
 				// Add the pet instance to world.
 				final Pet pet = Pet.restore(_item, _npcTemplate, _activeChar);
 				if (pet == null)
 					return;
-
+				
 				World.getInstance().addPet(_activeChar.getObjectId(), pet);
-
+				
 				_activeChar.setPet(pet);
-
+				
 				pet.setRunning();
 				pet.setTitle(_activeChar.getName());
 				pet.spawnMe();

@@ -15,16 +15,16 @@ public class AdminKick implements IAdminCommandHandler
 		"admin_kick",
 		"admin_kick_non_gm"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (activeChar.getAccessLevel().getLevel() < 7)
 			return false;
-
+		
 		if (command.equals("admin_character_disconnect") || command.equals("admin_kick"))
 			disconnectCharacter(activeChar);
-
+		
 		if (command.startsWith("admin_kick"))
 		{
 			StringTokenizer st = new StringTokenizer(command);
@@ -40,16 +40,16 @@ public class AdminKick implements IAdminCommandHandler
 				}
 			}
 		}
-
+		
 		if (command.startsWith("admin_kick_non_gm"))
 		{
 			int counter = 0;
-
+			
 			for (Player player : World.getInstance().getPlayers())
 			{
 				if (player.isGM())
 					continue;
-
+				
 				counter++;
 				player.logout();
 			}
@@ -57,17 +57,17 @@ public class AdminKick implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	private static void disconnectCharacter(Player activeChar)
 	{
 		WorldObject target = activeChar.getTarget();
 		Player player = null;
-
+		
 		if (target instanceof Player)
 			player = (Player) target;
 		else
 			return;
-
+		
 		if (player == activeChar)
 			activeChar.sendMessage("You cannot disconnect your own character.");
 		else
@@ -76,7 +76,7 @@ public class AdminKick implements IAdminCommandHandler
 			player.logout();
 		}
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

@@ -9,30 +9,30 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q168_DeliverSupplies extends Quest
 {
 	private static final String qn = "Q168_DeliverSupplies";
-
+	
 	// Items
 	private static final int JENNA_LETTER = 1153;
 	private static final int SENTRY_BLADE_1 = 1154;
 	private static final int SENTRY_BLADE_2 = 1155;
 	private static final int SENTRY_BLADE_3 = 1156;
 	private static final int OLD_BRONZE_SWORD = 1157;
-
+	
 	// NPCs
 	private static final int JENNA = 30349;
 	private static final int ROSELYN = 30355;
 	private static final int KRISTIN = 30357;
 	private static final int HARANT = 30360;
-
+	
 	public Q168_DeliverSupplies()
 	{
 		super(168, "Deliver Supplies");
-
+		
 		setItemsIds(JENNA_LETTER, SENTRY_BLADE_1, SENTRY_BLADE_2, SENTRY_BLADE_3, OLD_BRONZE_SWORD);
-
+		
 		addStartNpc(JENNA);
 		addTalkId(JENNA, ROSELYN, KRISTIN, HARANT);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -40,7 +40,7 @@ public class Q168_DeliverSupplies extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30349-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -48,10 +48,10 @@ public class Q168_DeliverSupplies extends Quest
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(JENNA_LETTER, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -59,7 +59,7 @@ public class Q168_DeliverSupplies extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -70,7 +70,7 @@ public class Q168_DeliverSupplies extends Quest
 				else
 					htmltext = "30349-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -96,7 +96,7 @@ public class Q168_DeliverSupplies extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case HARANT:
 						if (cond == 1)
 						{
@@ -111,7 +111,7 @@ public class Q168_DeliverSupplies extends Quest
 						else if (cond == 2)
 							htmltext = "30360-02.htm";
 						break;
-
+					
 					case ROSELYN:
 						if (cond == 3)
 						{
@@ -132,7 +132,7 @@ public class Q168_DeliverSupplies extends Quest
 						else if (cond == 4)
 							htmltext = "30355-02.htm";
 						break;
-
+					
 					case KRISTIN:
 						if (cond == 3)
 						{
@@ -155,12 +155,12 @@ public class Q168_DeliverSupplies extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

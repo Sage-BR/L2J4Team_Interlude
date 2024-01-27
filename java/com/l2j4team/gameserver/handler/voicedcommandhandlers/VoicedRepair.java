@@ -32,7 +32,7 @@ public class VoicedRepair implements IVoicedCommandHandler
 		"showrepair",
 		"repair"
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -47,7 +47,7 @@ public class VoicedRepair implements IVoicedCommandHandler
 				activeChar.sendMessage("Please first select character to be repaired.");
 				return false;
 			}
-
+			
 			StringTokenizer st = new StringTokenizer(command);
 			st.nextToken();
 			String repairChar = st.nextToken();
@@ -56,7 +56,7 @@ public class VoicedRepair implements IVoicedCommandHandler
 				activeChar.sendMessage("Please first select character to be repaired.");
 				return false;
 			}
-
+			
 			if (checkAcc(activeChar, repairChar))
 			{
 				if (checkChar(activeChar, repairChar))
@@ -64,13 +64,13 @@ public class VoicedRepair implements IVoicedCommandHandler
 					activeChar.sendMessage("You cannot repair your self.");
 					return false;
 				}
-
+				
 				repairBadCharacter(repairChar);
-
+				
 				NpcHtmlMessage html = new NpcHtmlMessage(0);
 				html.setFile("data/html/mods/menu/repaired.htm");
 				activeChar.sendPacket(html);
-
+				
 			}
 			else
 			{
@@ -78,10 +78,10 @@ public class VoicedRepair implements IVoicedCommandHandler
 				return false;
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	private static void showRepairWindow(Player activeChar)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
@@ -89,7 +89,7 @@ public class VoicedRepair implements IVoicedCommandHandler
 		html.replace("%acc_chars%", getCharList(activeChar));
 		activeChar.sendPacket(html);
 	}
-
+	
 	@SuppressWarnings("resource")
 	private static String getCharList(Player activeChar)
 	{
@@ -123,7 +123,7 @@ public class VoicedRepair implements IVoicedCommandHandler
 		}
 		return result;
 	}
-
+	
 	@SuppressWarnings("null")
 	private static boolean checkAcc(Player activeChar, String repairChar)
 	{
@@ -180,7 +180,7 @@ public class VoicedRepair implements IVoicedCommandHandler
 		result = true;
 		return result;
 	}
-
+	
 	private static boolean checkChar(Player activeChar, String repairChar)
 	{
 		boolean result = false;
@@ -190,18 +190,18 @@ public class VoicedRepair implements IVoicedCommandHandler
 		}
 		return result;
 	}
-
+	
 	private static void repairBadCharacter(String charName)
 	{
 		Connection con = null;
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-
+			
 			PreparedStatement statement = con.prepareStatement("SELECT obj_Id FROM characters WHERE char_name=?");
 			statement.setString(1, charName);
 			ResultSet rset = statement.executeQuery();
-
+			
 			int objId = 0;
 			if (rset.next())
 			{
@@ -214,7 +214,7 @@ public class VoicedRepair implements IVoicedCommandHandler
 				con.close();
 				return;
 			}
-
+			
 			statement = con.prepareStatement("UPDATE characters SET x=-114356, y=-249645, z=-2984, punish_level=2, punish_timer=15000, curHp=3500 WHERE obj_Id=?");
 			statement.setInt(1, objId);
 			statement.execute();
@@ -231,7 +231,7 @@ public class VoicedRepair implements IVoicedCommandHandler
 		}
 		finally
 		{
-
+			
 			try
 			{
 				if (con != null)
@@ -245,11 +245,11 @@ public class VoicedRepair implements IVoicedCommandHandler
 			}
 		}
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;
 	}
-
+	
 }

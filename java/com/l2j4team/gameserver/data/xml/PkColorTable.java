@@ -32,38 +32,38 @@ import org.w3c.dom.Node;
 public class PkColorTable
 {
 	private static final Logger _log = Logger.getLogger(PkColorTable.class.getName());
-
+	
 	private static List<PkColor> _pkColors;
-
+	
 	public static PkColorTable getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final PkColorTable _instance = new PkColorTable();
 	}
-
+	
 	protected PkColorTable()
 	{
 		_pkColors = new ArrayList<>();
 		load();
 	}
-
+	
 	public void reload()
 	{
 		_pkColors.clear();
 		load();
 	}
-
+	
 	private void load()
 	{
 		try
 		{
 			File f = new File("./data/xml/pk_color.xml");
 			Document doc = XMLDocumentFactory.getInstance().loadDocument(f);
-
+			
 			Node n = doc.getFirstChild();
 			for (Node d = n.getFirstChild(); d != null; d = d.getNextSibling())
 			{
@@ -81,31 +81,31 @@ public class PkColorTable
 		{
 			_log.warning("Exception: pkColorTable load: " + e);
 		}
-
+		
 		_log.info("pkColorTable: Loaded " + _pkColors.size() + " template(s).");
 	}
-
+	
 	public List<PkColor> getPkColorTable()
 	{
 		return _pkColors;
 	}
-
+	
 	public class PkColor
 	{
 		private final int _pkAmount;
 		private final int _titleColor;
-
+		
 		public PkColor(StatsSet set)
 		{
 			_pkAmount = set.getInteger("pkAmount");
 			_titleColor = set.getInteger("titleColor");
 		}
-
+		
 		public int getPkAmount()
 		{
 			return _pkAmount;
 		}
-
+		
 		public int getTitleColor()
 		{
 			return _titleColor;

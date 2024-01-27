@@ -8,26 +8,26 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q030_ChestCaughtWithABaitOfFire extends Quest
 {
 	private static final String qn = "Q030_ChestCaughtWithABaitOfFire";
-
+	
 	// NPCs
 	private static final int LINNAEUS = 31577;
 	private static final int RUKAL = 30629;
-
+	
 	// Items
 	private static final int RED_TREASURE_BOX = 6511;
 	private static final int MUSICAL_SCORE = 7628;
 	private static final int NECKLACE_OF_PROTECTION = 916;
-
+	
 	public Q030_ChestCaughtWithABaitOfFire()
 	{
 		super(30, "Chest caught with a bait of fire");
-
+		
 		setItemsIds(MUSICAL_SCORE);
-
+		
 		addStartNpc(LINNAEUS);
 		addTalkId(LINNAEUS, RUKAL);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -35,7 +35,7 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31577-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -66,10 +66,10 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest
 			else
 				htmltext = "30629-03.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -77,7 +77,7 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -92,7 +92,7 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest
 						htmltext = "31577-03.htm";
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -103,19 +103,19 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest
 						else if (cond == 2)
 							htmltext = "31577-09.htm";
 						break;
-
+					
 					case RUKAL:
 						if (cond == 2)
 							htmltext = "30629-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

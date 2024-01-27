@@ -12,32 +12,32 @@ public final class RequestSetAllyCrest extends L2GameClientPacket
 {
 	private int _length;
 	private byte[] _data;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_length = readD();
 		if (_length > 192)
 			return;
-
+		
 		_data = new byte[_length];
 		readB(_data);
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		if (_length < 0 || _length > 192)
 			return;
-
+		
 		final Player player = getClient().getActiveChar();
 		if (player == null || player.getAllyId() == 0)
 			return;
-
+		
 		final Clan clan = ClanTable.getInstance().getClan(player.getAllyId());
 		if (player.getClanId() != clan.getClanId() || !player.isClanLeader())
 			return;
-
+		
 		if (_length == 0 || _data.length == 0)
 		{
 			if (clan.getAllyCrestId() != 0)
@@ -55,6 +55,6 @@ public final class RequestSetAllyCrest extends L2GameClientPacket
 				player.sendPacket(SystemMessageId.CLAN_EMBLEM_WAS_SUCCESSFULLY_REGISTERED);
 			}
 		}
-
+		
 	}
 }

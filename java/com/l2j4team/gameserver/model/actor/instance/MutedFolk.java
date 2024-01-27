@@ -18,7 +18,7 @@ public final class MutedFolk extends Folk
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onAction(Player player)
 	{
@@ -54,7 +54,7 @@ public final class MutedFolk extends Folk
 				{
 					// Rotate the player to face the instance
 					player.sendPacket(new MoveToPawn(player, this, Npc.INTERACTION_DISTANCE));
-
+					
 					// Send ActionFailed to the player in order to avoid he stucks
 					player.sendPacket(ActionFailed.STATIC_PACKET);
 				}

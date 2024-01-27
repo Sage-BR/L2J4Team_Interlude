@@ -7,13 +7,13 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class RequestTutorialQuestionMark extends L2GameClientPacket
 {
 	int _number;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_number = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{

@@ -19,7 +19,7 @@ public class Doorman extends Folk
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
@@ -57,7 +57,7 @@ public class Doorman extends Folk
 		else
 			super.onBypassFeedback(player, command);
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player)
 	{
@@ -65,37 +65,37 @@ public class Doorman extends Folk
 		html.setFile("data/html/doormen/" + getTemplate().getNpcId() + ((!isOwnerClan(player)) ? "-no.htm" : ".htm"));
 		html.replace("%objectId%", getObjectId());
 		player.sendPacket(html);
-
+		
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	protected void openDoors(Player player, String command)
 	{
 		StringTokenizer st = new StringTokenizer(command.substring(10), ", ");
 		st.nextToken();
-
+		
 		while (st.hasMoreTokens())
 			DoorTable.getInstance().getDoor(Integer.parseInt(st.nextToken())).openMe();
 	}
-
+	
 	protected void closeDoors(Player player, String command)
 	{
 		StringTokenizer st = new StringTokenizer(command.substring(11), ", ");
 		st.nextToken();
-
+		
 		while (st.hasMoreTokens())
 			DoorTable.getInstance().getDoor(Integer.parseInt(st.nextToken())).closeMe();
 	}
-
+	
 	protected void cannotManageDoors(Player player)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile("data/html/doormen/busy.htm");
 		player.sendPacket(html);
-
+		
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	protected void doTeleport(Player player, String command)
 	{
 		final int whereTo = Integer.parseInt(command.substring(5).trim());
@@ -107,15 +107,15 @@ public class Doorman extends Folk
 		}
 		else
 			_log.warning("No teleport destination with id: " + whereTo);
-
+		
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	protected boolean isOwnerClan(Player player)
 	{
 		return true;
 	}
-
+	
 	protected boolean isUnderSiege()
 	{
 		return false;

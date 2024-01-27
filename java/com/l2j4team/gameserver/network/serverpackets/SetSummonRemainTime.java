@@ -7,13 +7,13 @@ public class SetSummonRemainTime extends L2GameServerPacket
 {
 	private final int _maxTime;
 	private final int _remainingTime;
-
+	
 	public SetSummonRemainTime(int maxTime, int remainingTime)
 	{
 		_remainingTime = remainingTime;
 		_maxTime = maxTime;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

@@ -8,28 +8,28 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q688_DefeatTheElrokianRaiders extends Quest
 {
 	private static final String qn = "Q688_DefeatTheElrokianRaiders";
-
+	
 	// Item
 	private static final int DINOSAUR_FANG_NECKLACE = 8785;
-
+	
 	// NPC
 	private static final int DINN = 32105;
-
+	
 	// Monster
 	private static final int ELROKI = 22214;
-
+	
 	public Q688_DefeatTheElrokianRaiders()
 	{
 		super(688, "Defeat the Elrokian Raiders!");
-
+		
 		setItemsIds(DINOSAUR_FANG_NECKLACE);
-
+		
 		addStartNpc(DINN);
 		addTalkId(DINN);
-
+		
 		addKillId(ELROKI);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -37,7 +37,7 @@ public class Q688_DefeatTheElrokianRaiders extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("32105-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -58,7 +58,7 @@ public class Q688_DefeatTheElrokianRaiders extends Quest
 		else if (event.equalsIgnoreCase("32105-06.htm"))
 		{
 			final int count = st.getQuestItemsCount(DINOSAUR_FANG_NECKLACE);
-
+			
 			st.takeItems(DINOSAUR_FANG_NECKLACE, -1);
 			st.rewardItems(57, count * 3000);
 		}
@@ -73,10 +73,10 @@ public class Q688_DefeatTheElrokianRaiders extends Quest
 			else
 				htmltext = "32105-04.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -84,32 +84,32 @@ public class Q688_DefeatTheElrokianRaiders extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 75) ? "32105-00.htm" : "32105-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				htmltext = (!st.hasQuestItems(DINOSAUR_FANG_NECKLACE)) ? "32105-04.htm" : "32105-05.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		st.dropItems(DINOSAUR_FANG_NECKLACE, 1, 0, 500000);
-
+		
 		return null;
 	}
 }

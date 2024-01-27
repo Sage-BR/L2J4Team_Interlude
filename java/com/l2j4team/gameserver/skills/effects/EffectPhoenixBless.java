@@ -15,32 +15,32 @@ public class EffectPhoenixBless extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.PHOENIX_BLESSING;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		if (getEffected() instanceof Playable)
 			((Playable) getEffected()).stopPhoenixBlessing(this);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

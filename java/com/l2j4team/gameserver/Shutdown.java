@@ -38,10 +38,10 @@ public class Shutdown extends Thread
 {
 	private static Logger _log = Logger.getLogger(Shutdown.class.getName());
 	private static Shutdown _counterInstance = null;
-
+	
 	private int _secondsShut;
 	private int _shutdownMode;
-
+	
 	public static final int SIGTERM = 0;
 	public static final int GM_SHUTDOWN = 1;
 	public static final int GM_RESTART = 2;
@@ -53,14 +53,14 @@ public class Shutdown extends Thread
 		"restarting",
 		"aborting"
 	};
-
+	
 	private static void SendServerQuit(int seconds)
 	{
 		SystemMessage sysm = SystemMessage.getSystemMessage(SystemMessageId.THE_SERVER_WILL_BE_COMING_DOWN_IN_S1_SECONDS);
 		sysm.addNumber(seconds);
 		Broadcast.toAllOnlinePlayers(sysm);
 	}
-
+	
 	/**
 	 * Default constucter is only used internal to create the shutdown-hook instance
 	 */
@@ -69,7 +69,7 @@ public class Shutdown extends Thread
 		_secondsShut = -1;
 		_shutdownMode = SIGTERM;
 	}
-
+	
 	/**
 	 * This creates a countdown instance of Shutdown.
 	 * @param seconds how many seconds until shutdown
@@ -79,15 +79,15 @@ public class Shutdown extends Thread
 	{
 		if (seconds < 0)
 			seconds = 0;
-
+		
 		_secondsShut = seconds;
-
+		
 		if (restart)
 			_shutdownMode = GM_RESTART;
 		else
 			_shutdownMode = GM_SHUTDOWN;
 	}
-
+	
 	/**
 	 * this function is called, when a new thread starts if this thread is the thread of getInstance, then this is the shutdown hook and we save all data and disconnect all clients. after this thread ends, the server will completely exit if this is not the thread of getInstance, then this is a
 	 * countdown thread. we start the countdown, and when we finished it, and it was not aborted, we tell the shutdown-hook why we call exit, and then call exit when the exit status of the server is 1, startServer.sh / startServer.bat will restart the server.
@@ -98,7 +98,7 @@ public class Shutdown extends Thread
 		if (this == SingletonHolder._instance)
 		{
 			StringUtil.printSection("Under " + MODE_TEXT[_shutdownMode] + " process");
-
+			
 			// disconnect players
 			try
 			{
@@ -108,10 +108,10 @@ public class Shutdown extends Thread
 			catch (Throwable t)
 			{
 			}
-
+			
 			// stop all threadpolls
 			ThreadPool.shutdown();
-
+			
 			try
 			{
 				LoginServerThread.getInstance().interrupt();
@@ -119,64 +119,64 @@ public class Shutdown extends Thread
 			catch (Throwable t)
 			{
 			}
-
+			
 			// Seven Signs data is now saved along with Festival data.
 			if (!SevenSigns.getInstance().isSealValidationPeriod())
 				SevenSignsFestival.getInstance().saveFestivalData(false);
-
+			
 			// Save Seven Signs data && status.
 			SevenSigns.getInstance().saveSevenSignsData();
 			SevenSigns.getInstance().saveSevenSignsStatus();
 			_log.info("Seven Signs Festival, general data && status have been saved.");
-
+			
 			// Four Sepulchers, stop any working task.
 			FourSepulchersManager.getInstance().stop();
-
+			
 			// Save zones (grandbosses status)
 			ZoneManager.getInstance().save();
-
+			
 			// Save raidbosses status
 			RaidBossSpawnManager.getInstance().cleanUp();
 			_log.info("Raid Bosses data has been saved.");
-
+			
 			// Save grandbosses status
 			GrandBossManager.getInstance().cleanUp();
 			_log.info("World Bosses data has been saved.");
-
+			
 			// Save olympiads
 			Olympiad.getInstance().saveOlympiadStatus();
 			_log.info("Olympiad data has been saved.");
-
+			
 			// Save Hero data
 			Hero.getInstance().shutdown();
 			_log.info("Hero data has been saved.");
-
+			
 			// Save all manor data
 			CastleManorManager.getInstance().storeMe();
 			_log.info("Manors data has been saved.");
-
+			
 			// Save Fishing tournament data
 			FishingChampionshipManager.getInstance().shutdown();
 			_log.info("Fishing Championship data has been saved.");
-
+			
 			// Schemes save.
 			BufferTable.getInstance().saveSchemes();
 			_log.info("BufferTable data has been saved.");
-
+			
 			// Couples save.
 			if (Config.ALLOW_WEDDING)
 			{
 				CoupleManager.getInstance().save();
 				_log.info("CoupleManager data has been saved.");
 			}
-
+			
 			// Save server memos.
 			ServerMemoTable.getInstance().storeMe();
 			_log.info("ServerMemo data has been saved.");
-
+			
 			// Save items on ground before closing
 			ItemsOnGroundTaskManager.getInstance().save();
-
+			
 			try
 			{
 				Thread.sleep(5000);
@@ -184,7 +184,7 @@ public class Shutdown extends Thread
 			catch (InterruptedException e)
 			{
 			}
-
+			
 			try
 			{
 				GameServer.getInstance().getSelectorThread().shutdown();
@@ -192,7 +192,7 @@ public class Shutdown extends Thread
 			catch (Throwable t)
 			{
 			}
-
+			
 			try
 			{
 				L2DatabaseFactory.getInstance().shutdown();
@@ -200,7 +200,7 @@ public class Shutdown extends Thread
 			catch (Throwable t)
 			{
 			}
-
+			
 			// server will quit, when this function ends.
 			if (SingletonHolder._instance._shutdownMode == GM_RESTART)
 				Runtime.getRuntime().halt(2);
@@ -211,7 +211,7 @@ public class Shutdown extends Thread
 		{
 			// shutdown: send warnings and then call exit to start shutdown sequence
 			countdown();
-
+			
 			switch (_shutdownMode)
 			{
 				case GM_SHUTDOWN:
@@ -227,7 +227,7 @@ public class Shutdown extends Thread
 			}
 		}
 	}
-
+	
 	/**
 	 * This functions starts a shutdown countdown.<br>
 	 * A choice must be made between activeChar or ghostEntity.
@@ -242,12 +242,12 @@ public class Shutdown extends Thread
 			_shutdownMode = GM_RESTART;
 		else
 			_shutdownMode = GM_SHUTDOWN;
-
+		
 		if (activeChar != null)
 			_log.warning("GM: " + activeChar.getName() + " (" + activeChar.getObjectId() + ") issued shutdown command, " + MODE_TEXT[_shutdownMode] + " in " + seconds + " seconds.");
 		else if (!ghostEntity.isEmpty())
 			_log.warning("Entity: " + ghostEntity + " issued shutdown command, " + MODE_TEXT[_shutdownMode] + " in " + seconds + " seconds.");
-
+		
 		if (_shutdownMode > 0)
 		{
 			switch (seconds)
@@ -273,15 +273,15 @@ public class Shutdown extends Thread
 					SendServerQuit(seconds);
 			}
 		}
-
+		
 		if (_counterInstance != null)
 			_counterInstance._abort();
-
+		
 		// the main instance should only run for shutdown hook, so we start a new instance
 		_counterInstance = new Shutdown(seconds, restart);
 		_counterInstance.start();
 	}
-
+	
 	/**
 	 * This function aborts a running countdown
 	 * @param activeChar GM who issued the abort command
@@ -292,11 +292,11 @@ public class Shutdown extends Thread
 		{
 			_log.warning("GM: " + activeChar.getName() + " (" + activeChar.getObjectId() + ") issued shutdown abort, " + MODE_TEXT[_shutdownMode] + " has been stopped.");
 			_counterInstance._abort();
-
+			
 			Broadcast.announceToOnlinePlayers("Server aborts " + MODE_TEXT[_shutdownMode] + " and continues normal operation.");
 		}
 	}
-
+	
 	/**
 	 * set the shutdown mode
 	 * @param mode what mode shall be set
@@ -305,7 +305,7 @@ public class Shutdown extends Thread
 	{
 		_shutdownMode = mode;
 	}
-
+	
 	/**
 	 * set shutdown mode to ABORT
 	 */
@@ -313,7 +313,7 @@ public class Shutdown extends Thread
 	{
 		_shutdownMode = ABORT;
 	}
-
+	
 	/**
 	 * this counts the countdown and reports it to all players countdown is aborted if mode changes to ABORT
 	 */
@@ -376,17 +376,17 @@ public class Shutdown extends Thread
 						SendServerQuit(1);
 						break;
 				}
-
+				
 				_secondsShut--;
-
+				
 				Thread.sleep(1000);
-
+				
 				if (_shutdownMode == ABORT)
 				{
 					// Rehabilitate previous server status if shutdown is aborted.
 					if (LoginServerThread.getInstance().getServerStatus() == ServerStatus.STATUS_DOWN)
 						LoginServerThread.getInstance().setServerStatus((Config.SERVER_GMONLY) ? ServerStatus.STATUS_GM_ONLY : ServerStatus.STATUS_AUTO);
-
+					
 					break;
 				}
 			}
@@ -395,7 +395,7 @@ public class Shutdown extends Thread
 		{
 		}
 	}
-
+	
 	/**
 	 * Disconnects all clients from the server
 	 */
@@ -420,7 +420,7 @@ public class Shutdown extends Thread
 			}
 		}
 	}
-
+	
 	/**
 	 * get the shutdown-hook instance the shutdown-hook instance is created by the first call of this function, but it has to be registrered externaly.
 	 * @return instance of Shutdown, to be used as shutdown hook
@@ -429,16 +429,16 @@ public class Shutdown extends Thread
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final Shutdown _instance = new Shutdown();
 	}
-
+	
 	public void autoRestart(int time)
 	{
 		_shutdownMode = GM_RESTART;
-
+		
 		if (_shutdownMode > 0)
 		{
 			switch (time)
@@ -464,14 +464,14 @@ public class Shutdown extends Thread
 					SendServerQuit(time);
 			}
 		}
-
+		
 		if (_counterInstance != null)
 			_counterInstance._abort();
-
+		
 		// the main instance should only run for shutdown hook, so we start a new instance
 		_counterInstance = new Shutdown(time, true);
 		_counterInstance.start();
-
+		
 	}
-
+	
 }

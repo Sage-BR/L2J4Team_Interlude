@@ -3,12 +3,12 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class SendTradeDone extends L2GameServerPacket
 {
 	private final int _num;
-
+	
 	public SendTradeDone(int num)
 	{
 		_num = num;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

@@ -11,17 +11,17 @@ import java.util.Map;
 public class Q369_CollectorOfJewels extends Quest
 {
 	private static final String qn = "Q369_CollectorOfJewels";
-
+	
 	// NPC
 	private static final int NELL = 30376;
-
+	
 	// Items
 	private static final int FLARE_SHARD = 5882;
 	private static final int FREEZING_SHARD = 5883;
-
+	
 	// Reward
 	private static final int ADENA = 57;
-
+	
 	// Droplist
 	private static final Map<Integer, int[]> DROPLIST = new HashMap<>();
 	{
@@ -56,20 +56,20 @@ public class Q369_CollectorOfJewels extends Quest
 			850000
 		});
 	}
-
+	
 	public Q369_CollectorOfJewels()
 	{
 		super(369, "Collector of Jewels");
-
+		
 		setItemsIds(FLARE_SHARD, FREEZING_SHARD);
-
+		
 		addStartNpc(NELL);
 		addTalkId(NELL);
-
+		
 		for (int mob : DROPLIST.keySet())
 			addKillId(mob);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -77,7 +77,7 @@ public class Q369_CollectorOfJewels extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30376-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -91,10 +91,10 @@ public class Q369_CollectorOfJewels extends Quest
 			st.exitQuest(true);
 			st.playSound(QuestState.SOUND_FINISH);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -102,18 +102,18 @@ public class Q369_CollectorOfJewels extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 25) ? "30376-01.htm" : "30376-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				final int flare = st.getQuestItemsCount(FLARE_SHARD);
 				final int freezing = st.getQuestItemsCount(FREEZING_SHARD);
-
+				
 				if (cond == 1)
 					htmltext = "30376-04.htm";
 				else if (cond == 2 && flare >= 50 && freezing >= 50)
@@ -138,22 +138,22 @@ public class Q369_CollectorOfJewels extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		final int cond = st.getInt("cond");
 		final int[] drop = DROPLIST.get(npc.getNpcId());
-
+		
 		if (cond == 1)
 		{
 			if (st.dropItems(drop[0], 1, 50, drop[1]) && st.getQuestItemsCount((drop[0] == FLARE_SHARD) ? FREEZING_SHARD : FLARE_SHARD) >= 50)
@@ -161,7 +161,7 @@ public class Q369_CollectorOfJewels extends Quest
 		}
 		else if (cond == 3 && st.dropItems(drop[0], 1, 200, drop[1]) && st.getQuestItemsCount((drop[0] == FLARE_SHARD) ? FREEZING_SHARD : FLARE_SHARD) >= 200)
 			st.set("cond", "4");
-
+		
 		return null;
 	}
 }

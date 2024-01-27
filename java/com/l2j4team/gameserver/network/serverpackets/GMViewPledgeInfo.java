@@ -11,13 +11,13 @@ public class GMViewPledgeInfo extends L2GameServerPacket
 {
 	private final Clan _clan;
 	private final Player _activeChar;
-
+	
 	public GMViewPledgeInfo(Clan clan, Player activeChar)
 	{
 		_clan = clan;
 		_activeChar = activeChar;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -35,13 +35,13 @@ public class GMViewPledgeInfo extends L2GameServerPacket
 		writeD(_clan.getReputationScore());
 		writeD(0);
 		writeD(0);
-
+		
 		writeD(_clan.getAllyId()); // c2
 		writeS(_clan.getAllyName()); // c2
 		writeD(_clan.getAllyCrestId()); // c2
 		writeD(_clan.isAtWar() ? 1 : 0); // c3
 		writeD(_clan.getMembersCount());
-
+		
 		for (ClanMember member : _clan.getMembers())
 		{
 			if (member != null)

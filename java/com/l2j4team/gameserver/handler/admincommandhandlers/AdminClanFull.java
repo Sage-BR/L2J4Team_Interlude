@@ -29,31 +29,31 @@ public class AdminClanFull implements IAdminCommandHandler
 	{
 		"admin_clanfull"
 	};
-
+	
 	private static final int reputation = 30000000;
 	private static final byte level = 8;
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		WorldObject target = activeChar.getTarget();
 		Player player = null;
-
+		
 		if (target != null && target instanceof Player)
 			player = (Player) target;
 		else
 			return false;
-
+		
 		if (player.isClanLeader())
 		{
 			player.getClan().changeLevel(level);
 			player.getClan().addReputationScore(reputation);
-
+			
 			for (int i = 370; i <= 391; i++)
 			{
 				player.getClan().addNewSkill(SkillTable.getInstance().getInfo(i, SkillTable.getInstance().getMaxLevel(i)));
 			}
-
+			
 			player.getClan().updateClanInDB();
 			player.sendSkillList();
 			player.sendPacket(new ExShowScreenMessage("Seu Clan esta Full! Aproveite!", 8000));
@@ -61,10 +61,10 @@ public class AdminClanFull implements IAdminCommandHandler
 		}
 		else
 			activeChar.sendMessage("O target precisa ser Lider de clan.");
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

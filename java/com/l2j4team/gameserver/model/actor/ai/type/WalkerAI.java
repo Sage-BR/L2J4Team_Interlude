@@ -20,40 +20,40 @@ import java.util.List;
 public class WalkerAI extends CreatureAI
 {
 	private final List<WalkerLocation> _route;
-
+	
 	private int _index = 1;
-
+	
 	public WalkerAI(Creature creature)
 	{
 		super(creature);
-
+		
 		_route = WalkerRouteData.getInstance().getWalkerRoute(getActor().getNpcId());
 		if (!_route.isEmpty())
 			setIntention(CtrlIntention.MOVE_TO, _route.get(_index));
 	}
-
+	
 	@Override
 	public Walker getActor()
 	{
 		return (Walker) super.getActor();
 	}
-
+	
 	@Override
 	protected void onEvtArrived()
 	{
 		// Retrieve current node.
 		WalkerLocation node = _route.get(_index);
-
+		
 		if (node.getChat() != null)
 			getActor().broadcastNpcSay(node.getChat());
-
+		
 		// We freeze the NPC and store it on WalkerTaskManager, which will release it in the future.
 		if (node.getDelay() > 0)
 			WalkerTaskManager.getInstance().add(getActor(), node.getDelay());
 		else
 			moveToNextPoint();
 	}
-
+	
 	/**
 	 * Move the {@link Walker} to the next {@link WalkerLocation} of his route.
 	 */
@@ -64,16 +64,16 @@ public class WalkerAI extends CreatureAI
 			_index++;
 		else
 			_index = 0;
-
+		
 		// Retrieve next node.
 		WalkerLocation node = _route.get(_index);
-
+		
 		// Running state.
 		if (node.doesNpcMustRun())
 			getActor().setRunning();
 		else
 			getActor().setWalking();
-
+		
 		setIntention(CtrlIntention.MOVE_TO, node);
 	}
 }

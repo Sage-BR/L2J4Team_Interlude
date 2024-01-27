@@ -26,7 +26,7 @@ public class AdminOlympiad implements IAdminCommandHandler
 		"admin_setolypoints",
 		"admin_getolypoints"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -42,7 +42,7 @@ public class AdminOlympiad implements IAdminCommandHandler
 				target = (Player) activeChar.getTarget();
 			else
 				target = activeChar;
-
+			
 			target.setHero(!target.isHero());
 			target.broadcastUserInfo();
 			activeChar.sendMessage("You have modified " + target.getName() + "'s hero status.");
@@ -54,11 +54,11 @@ public class AdminOlympiad implements IAdminCommandHandler
 				target = (Player) activeChar.getTarget();
 			else
 				target = activeChar;
-
+			
 			target.setNoble(!target.isNoble(), true);
 			activeChar.sendMessage("You have modified " + target.getName() + "'s noble status.");
 		}
-
+		
 		else if (command.startsWith("admin_addolypoints"))
 		{
 			try
@@ -85,7 +85,7 @@ public class AdminOlympiad implements IAdminCommandHandler
 							return false;
 						}
 						playerStat.set("olympiad_points", points);
-
+						
 						activeChar.sendMessage("Player " + player.getName() + " now has " + points + " Olympiad points.");
 					}
 					else
@@ -225,10 +225,10 @@ public class AdminOlympiad implements IAdminCommandHandler
 				activeChar.sendMessage("Usage: //getolypoints");
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

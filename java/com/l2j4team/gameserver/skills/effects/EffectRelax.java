@@ -15,13 +15,13 @@ public class EffectRelax extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.RELAXING;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
@@ -29,28 +29,28 @@ public class EffectRelax extends L2Effect
 			((Player) getEffected()).sitDown(false);
 		else
 			getEffected().getAI().setIntention(CtrlIntention.REST);
-
+		
 		return super.onStart();
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		super.onExit();
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		if (getEffected().isDead())
 			return false;
-
+		
 		if (getEffected() instanceof Player)
 		{
 			if (!((Player) getEffected()).isSitting())
 				return false;
 		}
-
+		
 		if (getEffected().getCurrentHp() + 1 > getEffected().getMaxHp())
 		{
 			if (getSkill().isToggle())
@@ -59,9 +59,9 @@ public class EffectRelax extends L2Effect
 				return false;
 			}
 		}
-
+		
 		double manaDam = calc();
-
+		
 		if (manaDam > getEffected().getCurrentMp())
 		{
 			if (getSkill().isToggle())
@@ -70,11 +70,11 @@ public class EffectRelax extends L2Effect
 				return false;
 			}
 		}
-
+		
 		getEffected().reduceCurrentMp(manaDam);
 		return true;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

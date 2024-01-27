@@ -18,27 +18,27 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class MissionReset
 {
 	private static MissionReset _instance = null;
-
+	
 	protected static final Logger _log = Logger.getLogger(MissionReset.class.getName());
-
+	
 	private Calendar NextEvent;
-
+	
 	private final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-
+	
 	public static MissionReset getInstance()
 	{
 		if (_instance == null)
 			_instance = new MissionReset();
 		return _instance;
 	}
-
+	
 	public String getNextTime()
 	{
 		if (NextEvent.getTime() != null)
 			return format.format(NextEvent.getTime());
 		return "Erro";
 	}
-
+	
 	public void StartNextEventTime()
 	{
 		try
@@ -78,7 +78,7 @@ public class MissionReset
 			System.out.println("Mission Reset: " + e);
 		}
 	}
-
+	
 	class StartEventTask implements Runnable
 	{
 		@Override
@@ -87,7 +87,7 @@ public class MissionReset
 			MissionReset.Clear();
 		}
 	}
-
+	
 	static void Clear()
 	{
 		ThreadPool.schedule(new Runnable()
@@ -200,7 +200,7 @@ public class MissionReset
 					e.printStackTrace();
 					MissionReset._log.log(Level.SEVERE, "[characters_mission: - tournament_2x2_completed]:  ", e);
 				}
-
+				
 				try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 				{
 					PreparedStatement stmt = con.prepareStatement("UPDATE characters_mission SET tournament_5x5_event=?,tournament_5x5_completed=?,tournament_5x5_hwid=? WHERE tournament_5x5_completed like '1'");
@@ -235,36 +235,36 @@ public class MissionReset
 				{
 					if (player != null && player.isOnline())
 					{
-
+						
 						player._tvt_cont = 0;
 						player.setTvTCompleted(false);
-
+						
 						player._pvp_cont = 0;
 						player.setPvPCompleted(false);
-
+						
 						player._raid_cont = 0;
 						player.setRaidCompleted(false);
-
+						
 						player._monsterKills = 0;
 						player.setMobCompleted(false);
-
+						
 						player._partyKills = 0;
 						player.setPartyMobCompleted(false);
-
+						
 						player._tournament_1x1_cont = 0;
 						player.set1x1Completed(false);
-
+						
 						player._tournament_2x2_cont = 0;
 						player.set2x2Completed(false);
-
+						
 						player._tournament_5x5_cont = 0;
 						player.set5x5Completed(false);
-
+						
 						player._tournament_9x9_cont = 0;
 						player.set9x9Completed(false);
-
+						
 						player.ReloadMission();
-
+						
 						CreatureSay cs = new CreatureSay(player.getObjectId(), 2, "SYS", "Daily activities were restarted!");
 						player.sendPacket(cs);
 					}
@@ -276,7 +276,7 @@ public class MissionReset
 		}, 1L);
 		NextEvent();
 	}
-
+	
 	public static void NextEvent()
 	{
 		ThreadPool.schedule(new Runnable()

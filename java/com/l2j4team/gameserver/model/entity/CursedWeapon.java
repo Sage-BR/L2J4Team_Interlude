@@ -32,49 +32,49 @@ import com.l2j4team.commons.random.Rnd;
 public class CursedWeapon
 {
 	private static final Logger _log = Logger.getLogger(CursedWeapon.class.getName());
-
+	
 	private final String _name;
-
+	
 	private final int _itemId;
 	private ItemInstance _item = null;
-
+	
 	private int _playerId = 0;
 	protected Player _player = null;
-
+	
 	// Skill id and max level. Max level is took from skillid (allow custom skills).
 	private final int _skillId;
 	private final int _skillMaxLevel;
-
+	
 	// Drop rate (when a mob is killed) and chance of dissapear (when a CW owner dies).
 	private int _dropRate;
 	private int _disapearChance;
-
+	
 	// Overall duration (in hours) and hungry - used for daily task - duration (in hours)
 	private int _duration;
 	private int _durationLost;
-
+	
 	// Basic number used to calculate next number of needed victims for a stage (50% to 150% the given value).
 	private int _stageKills;
-
+	
 	private boolean _isDropped = false;
 	private boolean _isActivated = false;
-
+	
 	private ScheduledFuture<?> _overallTimerTask;
 	private ScheduledFuture<?> _dailyTimerTask;
 	private ScheduledFuture<?> _dropTimerTask;
-
+	
 	private int _playerKarma = 0;
 	private int _playerPkKills = 0;
-
+	
 	// Number of current killed, current stage of weapon (1 by default, max is _skillMaxLevel), and number of victims needed for next stage.
 	private int _nbKills = 0;
 	private int _currentStage = 1;
 	private int _numberBeforeNextStage = 0;
-
+	
 	// Hungry timer (in minutes) and overall end timer (in ms).
 	protected int _hungryTime = 0;
 	protected long _endTime = 0;
-
+	
 	public CursedWeapon(int itemId, int skillId, String name)
 	{
 		_name = name;
@@ -82,7 +82,7 @@ public class CursedWeapon
 		_skillId = skillId;
 		_skillMaxLevel = SkillTable.getInstance().getMaxLevel(_skillId);
 	}
-
+	
 	/**
 	 * This method is used to destroy a CW.<br>
 	 * It manages following states :
@@ -101,27 +101,27 @@ public class CursedWeapon
 			if (_player != null && _player.isOnline())
 			{
 				_log.info(_name + " being removed online.");
-
+				
 				_player.abortAttack();
-
+				
 				_player.setKarma(_playerKarma);
 				_player.setPkKills(_playerPkKills);
 				_player.setCursedWeaponEquippedId(0);
 				removeDemonicSkills();
-
+				
 				// Unequip && remove.
 				_player.useEquippableItem(_item, true);
 				_player.destroyItemByItemId("CW", _itemId, 1, _player, false);
-
+				
 				_player.broadcastUserInfo();
-
+				
 				_player.store();
 			}
 			// Player is offline ; make only SQL operations.
 			else
 			{
 				_log.info(_name + " being removed offline.");
-
+				
 				try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 				{
 					// Delete the item
@@ -130,9 +130,9 @@ public class CursedWeapon
 					statement.setInt(2, _itemId);
 					if (statement.executeUpdate() != 1)
 						_log.warning("Error while deleting itemId " + _itemId + " from userId " + _playerId);
-
+					
 					statement.close();
-
+					
 					// Restore the karma and PK kills.
 					statement = con.prepareStatement("UPDATE characters SET karma=?, pkkills=? WHERE obj_id=?");
 					statement.setInt(1, _playerKarma);
@@ -140,7 +140,7 @@ public class CursedWeapon
 					statement.setInt(3, _playerId);
 					if (statement.executeUpdate() != 1)
 						_log.warning("Error while updating karma & pkkills for userId " + _playerId);
-
+					
 					statement.close();
 				}
 				catch (Exception e)
@@ -164,37 +164,37 @@ public class CursedWeapon
 				_log.info(_name + " item has been removed from world.");
 			}
 		}
-
+		
 		// Drop tasks.
 		cancelDailyTimerTask();
 		cancelOverallTimerTask();
 		cancelDropTimerTask();
-
+		
 		// Delete infos from table, if any.
 		removeFromDb();
-
+		
 		// Inform all ppl.
 		Broadcast.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.S1_HAS_DISAPPEARED).addItemName(_itemId));
-
+		
 		// Reset state.
 		_player = null;
 		_item = null;
-
+		
 		_isActivated = false;
 		_isDropped = false;
-
+		
 		_nbKills = 0;
 		_currentStage = 1;
 		_numberBeforeNextStage = 0;
-
+		
 		_hungryTime = 0;
 		_endTime = 0;
-
+		
 		_playerId = 0;
 		_playerKarma = 0;
 		_playerPkKills = 0;
 	}
-
+	
 	private void cancelDailyTimerTask()
 	{
 		if (_dailyTimerTask != null)
@@ -203,7 +203,7 @@ public class CursedWeapon
 			_dailyTimerTask = null;
 		}
 	}
-
+	
 	private void cancelOverallTimerTask()
 	{
 		if (_overallTimerTask != null)
@@ -212,7 +212,7 @@ public class CursedWeapon
 			_overallTimerTask = null;
 		}
 	}
-
+	
 	private void cancelDropTimerTask()
 	{
 		if (_dropTimerTask != null)
@@ -221,22 +221,22 @@ public class CursedWeapon
 			_dropTimerTask = null;
 		}
 	}
-
+	
 	private class DailyTimerTask implements Runnable
 	{
 		// Internal timer to delay messages to the next hour, instead of every minute.
 		private int _timer = 0;
-
+		
 		protected DailyTimerTask()
 		{
 		}
-
+		
 		@Override
 		public void run()
 		{
 			_hungryTime--;
 			_timer++;
-
+			
 			if (_hungryTime <= 0)
 				endOfLife();
 			else if (_player != null && _player.isOnline() && _timer % 60 == 0)
@@ -259,13 +259,13 @@ public class CursedWeapon
 			}
 		}
 	}
-
+	
 	private class OverallTimerTask implements Runnable
 	{
 		protected OverallTimerTask()
 		{
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -277,13 +277,13 @@ public class CursedWeapon
 				updateData();
 		}
 	}
-
+	
 	private class DropTimerTask implements Runnable
 	{
 		protected DropTimerTask()
 		{
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -291,7 +291,7 @@ public class CursedWeapon
 				endOfLife();
 		}
 	}
-
+	
 	/**
 	 * This method is used to drop the CW from player.<br>
 	 * It drops the item on ground, and reset player stats.
@@ -300,38 +300,38 @@ public class CursedWeapon
 	private void dropFromPlayer(Creature killer)
 	{
 		_player.abortAttack();
-
+		
 		// Prevent item from being removed by ItemsAutoDestroy
 		_item.setDestroyProtected(true);
 		_player.dropItem("DieDrop", _item, killer, true);
-
+		
 		_isActivated = false;
 		_isDropped = true;
-
+		
 		_player.setKarma(_playerKarma);
 		_player.setPkKills(_playerPkKills);
 		_player.setCursedWeaponEquippedId(0);
 		removeDemonicSkills();
-
+		
 		// Cancel the daily timer. It will be reactivated when someone will pickup the weapon.
 		cancelDailyTimerTask();
-
+		
 		// Activate the "1h dropped CW" timer.
 		_dropTimerTask = ThreadPool.schedule(new DropTimerTask(), 3600000L);
-
+		
 		// Reset current stage to 1.
 		_currentStage = 1;
-
+		
 		// Drop infos from database.
 		removeFromDb();
-
+		
 		SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.S2_WAS_DROPPED_IN_THE_S1_REGION);
 		sm.addZoneName(_player.getPosition());
 		sm.addItemName(_itemId);
-
+		
 		Broadcast.toAllOnlinePlayers(sm);
 	}
-
+	
 	/**
 	 * This method is used to drop the CW from a monster.<br>
 	 * It drops the item on ground, and broadcast earthquake && red sky animations.
@@ -341,30 +341,30 @@ public class CursedWeapon
 	private void dropFromMob(Attackable attackable, Player player)
 	{
 		_isActivated = false;
-
+		
 		// get position
 		int x = attackable.getX() + Rnd.get(-70, 70);
 		int y = attackable.getY() + Rnd.get(-70, 70);
 		int z = GeoEngine.getInstance().getHeight(x, y, attackable.getZ());
-
+		
 		// create item and drop it
 		_item = ItemTable.getInstance().createItem("CursedWeapon", _itemId, 1, player, attackable);
 		_item.setDestroyProtected(true);
 		_item.dropMe(attackable, x, y, z);
-
+		
 		// RedSky and Earthquake
 		Broadcast.toAllOnlinePlayers(new ExRedSky(10));
 		Broadcast.toAllOnlinePlayers(new Earthquake(x, y, z, 14, 3));
-
+		
 		_isDropped = true;
-
+		
 		SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.S2_WAS_DROPPED_IN_THE_S1_REGION);
 		sm.addZoneName(player.getPosition());
 		sm.addItemName(_itemId);
-
+		
 		Broadcast.toAllOnlinePlayers(sm);
 	}
-
+	
 	/**
 	 * Method used to send messages.<br>
 	 * <ul>
@@ -378,7 +378,7 @@ public class CursedWeapon
 		msg.addZoneName(_player.getPosition());
 		msg.addItemName(_player.getCursedWeaponEquippedId());
 		Broadcast.toAllOnlinePlayers(msg);
-
+		
 		int timeLeft = (int) (getTimeLeft() / 60000);
 		if (timeLeft > 60)
 		{
@@ -394,7 +394,7 @@ public class CursedWeapon
 		}
 		_player.sendPacket(msg);
 	}
-
+	
 	/**
 	 * Rebind the passive skill belonging to the CursedWeapon. Invoke this method if the weapon owner switches to a subclass.
 	 */
@@ -403,13 +403,13 @@ public class CursedWeapon
 		_player.addSkill(SkillTable.getInstance().getInfo(_skillId, _currentStage), false);
 		_player.sendSkillList();
 	}
-
+	
 	private void removeDemonicSkills()
 	{
 		_player.removeSkill(_skillId);
 		_player.sendSkillList();
 	}
-
+	
 	/**
 	 * Reactivate the CW. It can be either coming from a player login, or a GM command.
 	 * @param fromZero : if set to true, both _hungryTime and _endTime will be reseted to their default values.
@@ -420,7 +420,7 @@ public class CursedWeapon
 		{
 			_hungryTime = _durationLost * 60;
 			_endTime = (System.currentTimeMillis() + _duration * 3600000L);
-
+			
 			_overallTimerTask = ThreadPool.scheduleAtFixedRate(new OverallTimerTask(), 60000L, 60000L);
 		}
 		else
@@ -435,24 +435,24 @@ public class CursedWeapon
 			}
 		}
 	}
-
+	
 	public boolean checkDrop(Attackable attackable, Player player)
 	{
 		if (Rnd.get(1000000) < _dropRate)
 		{
 			// Drop the item.
 			dropFromMob(attackable, player);
-
+			
 			// Start timers.
 			_endTime = System.currentTimeMillis() + _duration * 3600000L;
 			_overallTimerTask = ThreadPool.scheduleAtFixedRate(new OverallTimerTask(), 60000L, 60000L);
 			_dropTimerTask = ThreadPool.schedule(new DropTimerTask(), 3600000L);
-
+			
 			return true;
 		}
 		return false;
 	}
-
+	
 	public void activate(Player player, ItemInstance item)
 	{
 		// if the player is mounted, attempt to unmount first and pick it if successful.
@@ -463,63 +463,63 @@ public class CursedWeapon
 			player.dropItem("InvDrop", item, null, true);
 			return;
 		}
-
+		
 		_isActivated = true;
-
+		
 		// Hold player data.
 		_player = player;
 		_playerId = _player.getObjectId();
 		_playerKarma = _player.getKarma();
 		_playerPkKills = _player.getPkKills();
-
+		
 		_item = item;
-
+		
 		// Generate a random number for next stage.
 		_numberBeforeNextStage = Rnd.get((int) Math.round(_stageKills * 0.5), (int) Math.round(_stageKills * 1.5));
-
+		
 		// Renew hungry time.
 		_hungryTime = _durationLost * 60;
-
+		
 		// Activate the daily timer.
 		_dailyTimerTask = ThreadPool.scheduleAtFixedRate(new DailyTimerTask(), 60000L, 60000L);
-
+		
 		// Cancel the "1h dropped CW" timer.
 		cancelDropTimerTask();
-
+		
 		insertData();
-
+		
 		// Change player stats
 		_player.setCursedWeaponEquippedId(_itemId);
 		_player.setKarma(9999999);
 		_player.setPkKills(0);
-
+		
 		if (_player.isInParty())
 			_player.getParty().removePartyMember(_player, MessageType.Expelled);
-
+		
 		// Disable active toggles
 		for (L2Effect effect : _player.getAllEffects())
 		{
 			if (effect.getSkill().isToggle())
 				effect.exit();
 		}
-
+		
 		// Add CW skills
 		giveDemonicSkills();
-
+		
 		// Equip the weapon
 		_player.useEquippableItem(_item, true);
-
+		
 		// Fully heal player
 		_player.setCurrentHpMp(_player.getMaxHp(), _player.getMaxMp());
 		_player.setCurrentCp(_player.getMaxCp());
-
+		
 		// Refresh player stats
 		_player.broadcastUserInfo();
-
+		
 		// _player.broadcastPacket(new SocialAction(_player, 17));
 		Broadcast.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.THE_OWNER_OF_S2_HAS_APPEARED_IN_THE_S1_REGION).addZoneName(_player.getPosition()).addItemName(_item.getItemId()));
 	}
-
+	
 	public void loadData()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -527,7 +527,7 @@ public class CursedWeapon
 			PreparedStatement statement = con.prepareStatement("SELECT * FROM cursed_weapons WHERE itemId=?");
 			statement.setInt(1, _itemId);
 			ResultSet rset = statement.executeQuery();
-
+			
 			while (rset.next())
 			{
 				_playerId = rset.getInt("playerId");
@@ -538,10 +538,10 @@ public class CursedWeapon
 				_numberBeforeNextStage = rset.getInt("numberBeforeNextStage");
 				_hungryTime = rset.getInt("hungryTime");
 				_endTime = rset.getLong("endTime");
-
+				
 				reActivate(false);
 			}
-
+			
 			rset.close();
 			statement.close();
 		}
@@ -550,7 +550,7 @@ public class CursedWeapon
 			_log.log(Level.WARNING, "Could not restore CursedWeapons data: " + e.getMessage(), e);
 		}
 	}
-
+	
 	/**
 	 * Insert a new line with fresh informations.<br>
 	 * Use : activate() method.
@@ -577,7 +577,7 @@ public class CursedWeapon
 			_log.log(Level.SEVERE, "CursedWeapon: Failed to insert data.", e);
 		}
 	}
-
+	
 	/**
 	 * Update && save dynamic data (a CW must have been already inserted).<br>
 	 * Use : in the 1min overall task.
@@ -601,7 +601,7 @@ public class CursedWeapon
 			_log.log(Level.SEVERE, "CursedWeapon: Failed to update data.", e);
 		}
 	}
-
+	
 	/**
 	 * Drop dynamic infos regarding CW for the given itemId.<br>
 	 * Use : in endOfLife() method.
@@ -621,7 +621,7 @@ public class CursedWeapon
 			_log.log(Level.SEVERE, "CursedWeapon: Failed to remove data: " + e.getMessage(), e);
 		}
 	}
-
+	
 	/**
 	 * This method checks if the CW is dropped or simply dissapears.
 	 * @param killer : The killer of CW's owner.
@@ -635,7 +635,7 @@ public class CursedWeapon
 		else
 			dropFromPlayer(killer);
 	}
-
+	
 	/**
 	 * Increase the number of kills.<br>
 	 * In case actual counter reaches the number generated to reach next stage, than rank up the CW.
@@ -646,25 +646,25 @@ public class CursedWeapon
 		{
 			_nbKills++;
 			_hungryTime = _durationLost * 60;
-
+			
 			_player.setPkKills(_player.getPkKills() + 1);
 			_player.sendPacket(new UserInfo(_player));
-
+			
 			// If current number of kills is >= to the given number, than rankUp the weapon.
 			if (_nbKills >= _numberBeforeNextStage)
 			{
 				// Reset the number of kills to 0.
 				_nbKills = 0;
-
+				
 				// Setup the new random number.
 				_numberBeforeNextStage = Rnd.get((int) Math.round(_stageKills * 0.5), (int) Math.round(_stageKills * 1.5));
-
+				
 				// Rank up the CW.
 				rankUp();
 			}
 		}
 	}
-
+	
 	/**
 	 * This method is used to rank up a CW.
 	 */
@@ -672,149 +672,149 @@ public class CursedWeapon
 	{
 		if (_currentStage >= _skillMaxLevel)
 			return;
-
+		
 		// Rank up current stage.
 		_currentStage++;
-
+		
 		// Reward skills for that CW.
 		giveDemonicSkills();
 	}
-
+	
 	public void setDisapearChance(int disapearChance)
 	{
 		_disapearChance = disapearChance;
 	}
-
+	
 	public void setDropRate(int dropRate)
 	{
 		_dropRate = dropRate;
 	}
-
+	
 	public void setDuration(int duration)
 	{
 		_duration = duration;
 	}
-
+	
 	public void setDurationLost(int durationLost)
 	{
 		_durationLost = durationLost;
 	}
-
+	
 	public void setStageKills(int stageKills)
 	{
 		_stageKills = stageKills;
 	}
-
+	
 	public void setPlayer(Player player)
 	{
 		_player = player;
 	}
-
+	
 	public void setItem(ItemInstance item)
 	{
 		_item = item;
 	}
-
+	
 	public boolean isActivated()
 	{
 		return _isActivated;
 	}
-
+	
 	public boolean isDropped()
 	{
 		return _isDropped;
 	}
-
+	
 	public long getEndTime()
 	{
 		return _endTime;
 	}
-
+	
 	public long getDuration()
 	{
 		return _duration;
 	}
-
+	
 	public int getDurationLost()
 	{
 		return _durationLost;
 	}
-
+	
 	public String getName()
 	{
 		return _name;
 	}
-
+	
 	public int getItemId()
 	{
 		return _itemId;
 	}
-
+	
 	public int getSkillId()
 	{
 		return _skillId;
 	}
-
+	
 	public int getPlayerId()
 	{
 		return _playerId;
 	}
-
+	
 	public Player getPlayer()
 	{
 		return _player;
 	}
-
+	
 	public int getPlayerKarma()
 	{
 		return _playerKarma;
 	}
-
+	
 	public int getPlayerPkKills()
 	{
 		return _playerPkKills;
 	}
-
+	
 	public int getNbKills()
 	{
 		return _nbKills;
 	}
-
+	
 	public int getStageKills()
 	{
 		return _stageKills;
 	}
-
+	
 	public boolean isActive()
 	{
 		return _isActivated || _isDropped;
 	}
-
+	
 	public long getTimeLeft()
 	{
 		return _endTime - System.currentTimeMillis();
 	}
-
+	
 	public int getCurrentStage()
 	{
 		return _currentStage;
 	}
-
+	
 	public int getNumberBeforeNextStage()
 	{
 		return _numberBeforeNextStage;
 	}
-
+	
 	public int getHungryTime()
 	{
 		return _hungryTime;
 	}
-
+	
 	public void goTo(Player player)
 	{
 		if (player == null)
 			return;
-
+		
 		// Go to player holding the weapon
 		if (_isActivated)
 			player.teleToLocation(_player.getX(), _player.getY(), _player.getZ(), 0);
@@ -824,15 +824,15 @@ public class CursedWeapon
 		else
 			player.sendMessage(_name + " isn't in the world.");
 	}
-
+	
 	public Location getWorldPosition()
 	{
 		if (_isActivated && _player != null)
 			return _player.getPosition();
-
+		
 		if (_isDropped && _item != null)
 			return _item.getPosition();
-
+		
 		return null;
 	}
 }

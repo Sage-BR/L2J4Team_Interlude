@@ -19,7 +19,7 @@ public class Hwid
 	private static byte[] _key = new byte[16];
 	static byte version = 11;
 	protected static ConcurrentHashMap<String, Manager.InfoSet> _objects = new ConcurrentHashMap<>();
-
+	
 	public static void Init()
 	{
 		HwidConfig.load();
@@ -28,14 +28,14 @@ public class Hwid
 			Manager.getInstance();
 		}
 	}
-
+	
 	public static boolean isProtectionOn()
 	{
 		if (HwidConfig.ALLOW_GUARD_SYSTEM)
 			return true;
 		return false;
 	}
-
+	
 	public static byte[] getKey(byte[] key)
 	{
 		byte[] bfkey =
@@ -70,22 +70,22 @@ public class Hwid
 		}
 		return _key;
 	}
-
+	
 	public static void addPlayer(L2GameClient client)
 	{
 		if (isProtectionOn() && (client != null))
 		{
 			Manager.getInstance().addPlayer(client);
 		}
-
+		
 	}
-
+	
 	public static void removePlayer(L2GameClient client)
 	{
 		if (isProtectionOn() && (client != null))
 			Manager.removePlayer(client.getPlayerName());
 	}
-
+	
 	public static boolean checkVerfiFlag(L2GameClient client, int flag)
 	{
 		boolean result = true;
@@ -107,24 +107,24 @@ public class Hwid
 				// Log.add("Sniffer detect |" + client.toString() + "|DEBUG INFO:" + fl, _logFile);
 				result = false;
 			}
-
+			
 			// Console CMD
 			if ((fl & 16) != 0)
 			{
 				// Log.add("Sniffer detect2 |" + client.toString() + "|DEBUG INFO:" + fl, _logFile);
 				result = false;
 			}
-
+			
 			if ((fl & 268435456) != 0)
 			{
 				// Log.add("L2ext detect |" + client.toString() + "|DEBUG INFO:" + fl, _logFile);
 				result = false;
 			}
-
+			
 			return result;
 		}
 	}
-
+	
 	public static int dumpData(int _id, int position, L2GameClient pi)
 	{
 		int value = 0;
@@ -181,7 +181,7 @@ public class Hwid
 		}
 		return value;
 	}
-
+	
 	public static int calcPenalty(byte[] data, L2GameClient pi)
 	{
 		int sum = -1;
@@ -197,7 +197,7 @@ public class Hwid
 		}
 		return sum;
 	}
-
+	
 	public static boolean CheckHWIDs(L2GameClient client, int LastError1, int LastError2)
 	{
 		boolean resultHWID = false;
@@ -211,7 +211,7 @@ public class Hwid
 				resultHWID = true;
 			}
 		}
-
+		
 		if (LastError1 != 0)
 		{
 			// Log.add("LastError(HWID):" + LastError1 + "|" + Util.LastErrorConvertion(Integer.valueOf(LastError1)) + "|isn\'t empty, " + client.toString(), _logFile);
@@ -220,45 +220,45 @@ public class Hwid
 				resultLastError = true;
 			}
 		}
-
+		
 		return resultHWID || resultLastError;
 	}
-
+	
 	public static String fillHex(int data, int digits)
 	{
 		String number = Integer.toHexString(data);
-
+		
 		for (int i = number.length(); i < digits; ++i)
 		{
 			number = "0" + number;
 		}
-
+		
 		return number;
 	}
-
+	
 	public static String ExtractHWID(byte[] _data)
 	{
 		if (!Util.verifyChecksum(_data, 0, _data.length))
 			return null;
-
+		
 		StringBuilder resultHWID = new StringBuilder();
-
+		
 		for (int i = 0; i < (_data.length - 8); ++i)
 		{
 			resultHWID.append(fillHex(_data[i] & 255, 2));
 		}
-
+		
 		return resultHWID.toString();
 	}
-
+	
 	public static boolean doAuthLogin(L2GameClient client, byte[] data, String loginName)
 	{
 		if (!isProtectionOn())
 			return true;
-
+		
 		client.setLoginName(loginName);
 		String fullHWID = ExtractHWID(data);
-
+		
 		if (fullHWID == null)
 		{
 			_log.info("AuthLogin CRC Check Fail! May be BOT or unprotected client! Client IP: " + client.toString());
@@ -273,32 +273,32 @@ public class Hwid
 			client.close(ServerClose.STATIC_PACKET);
 			return false;
 		}
-
+		
 		int VerfiFlag = ByteBuffer.wrap(data, 40, 4).getInt();
 		if (!checkVerfiFlag(client, VerfiFlag))
 			return false;
-
+		
 		return true;
 	}
-
+	
 	public static void doDisconection(L2GameClient client)
 	{
 		removePlayer(client);
 	}
-
+	
 	public static boolean checkPlayerWithHWID(L2GameClient client, int playerID, String playerName)
 	{
 		if (!isProtectionOn())
 			return true;
-
+		
 		client.setPlayerName(playerName);
 		client.setPlayerId(playerID);
-
+		
 		addPlayer(client);
 		return true;
-
+		
 	}
-
+	
 	public int getCountByHWID(final String HWID)
 	{
 		int result = 0;
@@ -309,19 +309,19 @@ public class Hwid
 		}
 		return result;
 	}
-
+	
 	public static void nopath(L2GameClient client)
 	{
 		_log.info("Client " + client + " is no have path kick: " + client.getHWID() + " IP: " + client.toString());
 		client.close(ServerClose.STATIC_PACKET);
 	}
-
+	
 	public static void enterlog(Player player, L2GameClient client)
 	{
 		if (HwidConfig.ALLOW_GUARD_SYSTEM && HwidConfig.ENABLE_CONSOLE_LOG)
 			_log.info("HWID : [" + client.getHWID() + "], character: [" + player.getName() + "] PlayerId: [" + player.getObjectId() + " ]");
 	}
-
+	
 	public static void waitSecs(int i)
 	{
 		try
@@ -332,5 +332,5 @@ public class Hwid
 		{
 		}
 	}
-
+	
 }

@@ -8,22 +8,22 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q303_CollectArrowheads extends Quest
 {
 	private static final String qn = "Q303_CollectArrowheads";
-
+	
 	// Item
 	private static final int ORCISH_ARROWHEAD = 963;
-
+	
 	public Q303_CollectArrowheads()
 	{
 		super(303, "Collect Arrowheads");
-
+		
 		setItemsIds(ORCISH_ARROWHEAD);
-
+		
 		addStartNpc(30029); // Minia
 		addTalkId(30029);
-
+		
 		addKillId(20361);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -31,17 +31,17 @@ public class Q303_CollectArrowheads extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30029-03.htm"))
 		{
 			st.setState(STATE_STARTED);
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -49,13 +49,13 @@ public class Q303_CollectArrowheads extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 10) ? "30029-01.htm" : "30029-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				if (st.getInt("cond") == 1)
 					htmltext = "30029-04.htm";
@@ -70,20 +70,20 @@ public class Q303_CollectArrowheads extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "1");
 		if (st == null)
 			return null;
-
+		
 		if (st.dropItems(ORCISH_ARROWHEAD, 1, 10, 400000))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

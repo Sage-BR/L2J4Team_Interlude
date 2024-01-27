@@ -28,7 +28,7 @@ public final class TamedBeast extends FeedableBeast
 {
 	private static final int MAX_DISTANCE_FROM_HOME = 13000;
 	private static final int TASK_INTERVAL = 5000;
-
+	
 	// Messages used every minute by the tamed beast when he automatically eats food.
 	protected static final String[] FOOD_CHAT =
 	{
@@ -43,52 +43,52 @@ public final class TamedBeast extends FeedableBeast
 		"I am not here only for food!",
 		"Yam, yam, yam, yam, yam!"
 	};
-
+	
 	protected int _foodId;
 	protected Player _owner;
-
+	
 	private Future<?> _aiTask = null;
-
+	
 	public TamedBeast(int objectId, NpcTemplate template, Player owner, int foodId, int x, int y, int z)
 	{
 		super(objectId, template);
-
+		
 		disableCoreAI(true);
 		setCurrentHp(getMaxHp());
 		setCurrentMp(getMaxMp());
 		setTitle(owner.getName());
-
+		
 		_owner = owner;
 		owner.setTrainedBeast(this);
-
+		
 		_foodId = foodId;
-
+		
 		// Generate AI task.
 		_aiTask = ThreadPool.scheduleAtFixedRate(new AiTask(), TASK_INTERVAL, TASK_INTERVAL);
-
+		
 		spawnMe(x, y, z);
 	}
-
+	
 	@Override
 	public boolean doDie(Creature killer)
 	{
 		if (!super.doDie(killer))
 			return false;
-
+		
 		// Stop AI task.
 		if (_aiTask != null)
 		{
 			_aiTask.cancel(true);
 			_aiTask = null;
 		}
-
+		
 		// Clean up actual trained beast.
 		if (_owner != null)
 			_owner.setTrainedBeast(null);
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public void deleteMe()
 	{
@@ -98,17 +98,17 @@ public final class TamedBeast extends FeedableBeast
 			_aiTask.cancel(true);
 			_aiTask = null;
 		}
-
+		
 		stopHpMpRegeneration();
 		getAI().stopFollow();
-
+		
 		// Clean up actual trained beast.
 		if (_owner != null)
 			_owner.setTrainedBeast(null);
-
+		
 		super.deleteMe();
 	}
-
+	
 	/**
 	 * Notification triggered by the owner when the owner is attacked.<br>
 	 * Tamed mobs will heal/recharge or debuff the enemy according to their skills.
@@ -122,13 +122,13 @@ public final class TamedBeast extends FeedableBeast
 			deleteMe();
 			return;
 		}
-
+		
 		// If the owner is dead or if the tamed beast is currently casting a spell,do nothing.
 		if (_owner.isDead() || isCastingNow())
 			return;
-
+		
 		final int proba = Rnd.get(3);
-
+		
 		// Heal, 33% luck.
 		if (proba == 0)
 		{
@@ -184,7 +184,7 @@ public final class TamedBeast extends FeedableBeast
 			}
 		}
 	}
-
+	
 	/**
 	 * Prepare and cast a skill:
 	 * <ul>
@@ -199,32 +199,32 @@ public final class TamedBeast extends FeedableBeast
 	{
 		stopMove(null);
 		getAI().setIntention(CtrlIntention.IDLE);
-
+		
 		setTarget(target);
 		doCast(skill);
 		getAI().setIntention(CtrlIntention.FOLLOW, _owner);
 	}
-
+	
 	private class AiTask implements Runnable
 	{
 		private int _step;
-
+		
 		public AiTask()
 		{
 		}
-
+		
 		@Override
 		public void run()
 		{
 			final Player owner = _owner;
-
+			
 			// Check if the owner is no longer around. If so, despawn.
 			if (owner == null || !owner.isOnline())
 			{
 				deleteMe();
 				return;
 			}
-
+			
 			// Happens every 60s.
 			if (++_step > 12)
 			{
@@ -235,36 +235,36 @@ public final class TamedBeast extends FeedableBeast
 					deleteMe();
 					return;
 				}
-
+				
 				broadcastPacket(new SocialAction(TamedBeast.this, 2));
 				broadcastPacket(new NpcSay(getObjectId(), 0, getNpcId(), Rnd.get(FOOD_CHAT)));
-
+				
 				_step = 0;
 			}
-
+			
 			// If the owner is dead or if the tamed beast is currently casting a spell,do nothing.
 			if (owner.isDead() || isCastingNow())
 				return;
-
+			
 			int totalBuffsOnOwner = 0;
 			int i = 0;
 			L2Skill buffToGive = null;
-
+			
 			final List<L2Skill> skills = getTemplate().getSkills(SkillType.BUFF);
 			final int rand = Rnd.get(skills.size());
-
+			
 			// Retrieve the random buff, and check how much tamed beast buffs the player has.
 			for (L2Skill skill : skills)
 			{
 				if (i == rand)
 					buffToGive = skill;
-
+				
 				i++;
-
+				
 				if (owner.getFirstEffect(skill) != null)
 					totalBuffsOnOwner++;
 			}
-
+			
 			// If the owner has less than 2 buffs, cast the chosen buff.
 			if (totalBuffsOnOwner < 2 && owner.getFirstEffect(buffToGive) == null)
 				sitCastAndFollow(buffToGive, owner);

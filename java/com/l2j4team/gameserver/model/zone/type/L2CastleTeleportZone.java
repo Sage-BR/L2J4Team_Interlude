@@ -14,14 +14,14 @@ public class L2CastleTeleportZone extends L2ZoneType
 {
 	private final int[] _spawnLoc;
 	private int _castleId;
-
+	
 	public L2CastleTeleportZone(int id)
 	{
 		super(id);
-
+		
 		_spawnLoc = new int[5];
 	}
-
+	
 	@Override
 	public void setParameter(String name, String value)
 	{
@@ -40,38 +40,38 @@ public class L2CastleTeleportZone extends L2ZoneType
 		else
 			super.setParameter(name, value);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, true);
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, false);
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 	public void oustAllPlayers()
 	{
 		if (_characterList.isEmpty())
 			return;
-
+		
 		for (Player player : getKnownTypeInside(Player.class))
 			player.teleToLocation(Rnd.get(_spawnLoc[0], _spawnLoc[1]), Rnd.get(_spawnLoc[2], _spawnLoc[3]), _spawnLoc[4], 0);
 	}
-
+	
 	public int getCastleId()
 	{
 		return _castleId;

@@ -13,19 +13,19 @@ import com.l2j4team.commons.random.Rnd;
 public class Q038_DragonFangs extends Quest
 {
 	private static final String qn = "Q038_DragonFangs";
-
+	
 	// Items
 	private static final int FEATHER_ORNAMENT = 7173;
 	private static final int TOOTH_OF_TOTEM = 7174;
 	private static final int TOOTH_OF_DRAGON = 7175;
 	private static final int LETTER_OF_IRIS = 7176;
 	private static final int LETTER_OF_ROHMER = 7177;
-
+	
 	// NPCs
 	private static final int LUIS = 30386;
 	private static final int IRIS = 30034;
 	private static final int ROHMER = 30344;
-
+	
 	// Reward { item, adena }
 	private static final int REWARD[][] =
 	{
@@ -46,7 +46,7 @@ public class Q038_DragonFangs extends Quest
 			3200
 		}
 	};
-
+	
 	// Droplist
 	private static final Map<Integer, int[]> DROPLIST = new HashMap<>();
 	{
@@ -79,20 +79,20 @@ public class Q038_DragonFangs extends Quest
 			500000
 		});
 	}
-
+	
 	public Q038_DragonFangs()
 	{
 		super(38, "Dragon Fangs");
-
+		
 		setItemsIds(FEATHER_ORNAMENT, TOOTH_OF_TOTEM, TOOTH_OF_DRAGON, LETTER_OF_IRIS, LETTER_OF_ROHMER);
-
+		
 		addStartNpc(LUIS);
 		addTalkId(LUIS, IRIS, ROHMER);
-
+		
 		for (int mob : DROPLIST.keySet())
 			addKillId(mob);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -100,7 +100,7 @@ public class Q038_DragonFangs extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30386-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -151,7 +151,7 @@ public class Q038_DragonFangs extends Quest
 			if (st.getQuestItemsCount(TOOTH_OF_DRAGON) >= 50)
 			{
 				int position = Rnd.get(REWARD.length);
-
+				
 				htmltext = "30034-06.htm";
 				st.takeItems(TOOTH_OF_DRAGON, 50);
 				st.giveItems(REWARD[position][0], 1);
@@ -160,10 +160,10 @@ public class Q038_DragonFangs extends Quest
 				st.exitQuest(false);
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -171,13 +171,13 @@ public class Q038_DragonFangs extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 19) ? "30386-01a.htm" : "30386-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -190,7 +190,7 @@ public class Q038_DragonFangs extends Quest
 						else if (cond > 2)
 							htmltext = "30386-03a.htm";
 						break;
-
+					
 					case IRIS:
 						if (cond == 3)
 							htmltext = "30034-01.htm";
@@ -203,7 +203,7 @@ public class Q038_DragonFangs extends Quest
 						else if (cond == 7)
 							htmltext = "30034-05.htm";
 						break;
-
+					
 					case ROHMER:
 						if (cond == 4)
 							htmltext = "30344-01.htm";
@@ -212,27 +212,27 @@ public class Q038_DragonFangs extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int droplist[] = DROPLIST.get(npc.getNpcId());
-
+		
 		if (st.getInt("cond") == droplist[0] && st.dropItems(droplist[1], 1, droplist[2], droplist[3]))
 			st.set("cond", String.valueOf(droplist[0] + 1));
-
+		
 		return null;
 	}
 }

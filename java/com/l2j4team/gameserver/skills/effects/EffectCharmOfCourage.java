@@ -16,13 +16,13 @@ public class EffectCharmOfCourage extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.CHARMOFCOURAGE;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
@@ -33,20 +33,20 @@ public class EffectCharmOfCourage extends L2Effect
 		}
 		return false;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		if (getEffected() instanceof Player)
 			getEffected().broadcastPacket(new EtcStatusUpdate((Player) getEffected()));
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

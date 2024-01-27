@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q213_TrialOfTheSeeker extends Quest
 {
 	private static final String qn = "Q213_TrialOfTheSeeker";
-
+	
 	// Items
 	private static final int DUFNER_LETTER = 2647;
 	private static final int TERRY_ORDER_1 = 2648;
@@ -38,18 +38,18 @@ public class Q213_TrialOfTheSeeker extends Quest
 	private static final int ABYSS_RUNESTONE_3 = 2670;
 	private static final int ABYSS_RUNESTONE_4 = 2671;
 	private static final int TERRY_REPORT = 2672;
-
+	
 	// Rewards
 	private static final int MARK_OF_SEEKER = 2673;
 	private static final int DIMENSIONAL_DIAMOND = 7562;
-
+	
 	// NPCs
 	private static final int TERRY = 30064;
 	private static final int DUFNER = 30106;
 	private static final int BRUNON = 30526;
 	private static final int VIKTOR = 30684;
 	private static final int MARINA = 30715;
-
+	
 	// Monsters
 	private static final int NEER_GHOUL_BERSERKER = 20198;
 	private static final int ANT_CAPTAIN = 20080;
@@ -61,19 +61,19 @@ public class Q213_TrialOfTheSeeker extends Quest
 	private static final int MARSH_STAKATO_DRONE = 20234;
 	private static final int BREKA_ORC_OVERLORD = 20270;
 	private static final int LETO_LIZARDMAN_WARRIOR = 20580;
-
+	
 	public Q213_TrialOfTheSeeker()
 	{
 		super(213, "Trial of the Seeker");
-
+		
 		setItemsIds(DUFNER_LETTER, TERRY_ORDER_1, TERRY_ORDER_2, TERRY_LETTER, VIKTOR_LETTER, HAWKEYE_LETTER, MYSTERIOUS_RUNESTONE, OL_MAHUM_RUNESTONE, TUREK_RUNESTONE, ANT_RUNESTONE, TURAK_BUGBEAR_RUNESTONE, TERRY_BOX, VIKTOR_REQUEST, MEDUSA_SCALES, SHILEN_RUNESTONE, ANALYSIS_REQUEST, MARINA_LETTER, EXPERIMENT_TOOLS, ANALYSIS_RESULT, TERRY_ORDER_3, LIST_OF_HOST, ABYSS_RUNESTONE_1, ABYSS_RUNESTONE_2, ABYSS_RUNESTONE_3, ABYSS_RUNESTONE_4, TERRY_REPORT);
-
+		
 		addStartNpc(DUFNER);
 		addTalkId(TERRY, DUFNER, BRUNON, VIKTOR, MARINA);
-
+		
 		addKillId(NEER_GHOUL_BERSERKER, ANT_CAPTAIN, OL_MAHUM_CAPTAIN, TURAK_BUGBEAR_WARRIOR, TUREK_ORC_WARLORD, ANT_WARRIOR_CAPTAIN, MARSH_STAKATO_DRONE, BREKA_ORC_OVERLORD, LETO_LIZARDMAN_WARRIOR, MEDUSA);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -81,7 +81,7 @@ public class Q213_TrialOfTheSeeker extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// DUFNER
 		if (event.equalsIgnoreCase("30106-05.htm"))
 		{
@@ -89,7 +89,7 @@ public class Q213_TrialOfTheSeeker extends Quest
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(DUFNER_LETTER, 1);
-
+			
 			if (!player.getMemos().getBool("secondClassChange35", false))
 			{
 				htmltext = "30106-05a.htm";
@@ -185,10 +185,10 @@ public class Q213_TrialOfTheSeeker extends Quest
 			st.takeItems(EXPERIMENT_TOOLS, 1);
 			st.giveItems(ANALYSIS_RESULT, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -196,7 +196,7 @@ public class Q213_TrialOfTheSeeker extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -205,7 +205,7 @@ public class Q213_TrialOfTheSeeker extends Quest
 				else
 					htmltext = "30106-00.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -229,7 +229,7 @@ public class Q213_TrialOfTheSeeker extends Quest
 							}
 						}
 						break;
-
+					
 					case TERRY:
 						if (cond == 1)
 							htmltext = "30064-01.htm";
@@ -289,7 +289,7 @@ public class Q213_TrialOfTheSeeker extends Quest
 								htmltext = "30064-24.htm";
 						}
 						break;
-
+					
 					case VIKTOR:
 						if (cond == 6)
 							htmltext = "30684-01.htm";
@@ -306,7 +306,7 @@ public class Q213_TrialOfTheSeeker extends Quest
 						else if (cond > 11)
 							htmltext = "30684-17.htm";
 						break;
-
+					
 					case MARINA:
 						if (cond == 11)
 							htmltext = "30715-01.htm";
@@ -317,7 +317,7 @@ public class Q213_TrialOfTheSeeker extends Quest
 						else if (st.hasQuestItems(ANALYSIS_RESULT))
 							htmltext = "30715-06.htm";
 						break;
-
+					
 					case BRUNON:
 						if (cond == 12)
 						{
@@ -332,77 +332,77 @@ public class Q213_TrialOfTheSeeker extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int cond = st.getInt("cond");
-
+		
 		switch (npc.getNpcId())
 		{
 			case NEER_GHOUL_BERSERKER:
 				if (cond == 2 && st.dropItems(MYSTERIOUS_RUNESTONE, 1, 1, 100000))
 					st.set("cond", "3");
 				break;
-
+			
 			case ANT_CAPTAIN:
 				if (cond == 4 && st.dropItems(ANT_RUNESTONE, 1, 1, 250000) && st.hasQuestItems(OL_MAHUM_RUNESTONE, TURAK_BUGBEAR_RUNESTONE, TUREK_RUNESTONE))
 					st.set("cond", "5");
 				break;
-
+			
 			case OL_MAHUM_CAPTAIN:
 				if (cond == 4 && st.dropItems(OL_MAHUM_RUNESTONE, 1, 1, 250000) && st.hasQuestItems(ANT_RUNESTONE, TURAK_BUGBEAR_RUNESTONE, TUREK_RUNESTONE))
 					st.set("cond", "5");
 				break;
-
+			
 			case TURAK_BUGBEAR_WARRIOR:
 				if (cond == 4 && st.dropItems(TURAK_BUGBEAR_RUNESTONE, 1, 1, 250000) && st.hasQuestItems(ANT_RUNESTONE, OL_MAHUM_RUNESTONE, TUREK_RUNESTONE))
 					st.set("cond", "5");
 				break;
-
+			
 			case TUREK_ORC_WARLORD:
 				if (cond == 4 && st.dropItems(TUREK_RUNESTONE, 1, 1, 250000) && st.hasQuestItems(ANT_RUNESTONE, OL_MAHUM_RUNESTONE, TURAK_BUGBEAR_RUNESTONE))
 					st.set("cond", "5");
 				break;
-
+			
 			case MEDUSA:
 				if (cond == 9 && st.dropItems(MEDUSA_SCALES, 1, 10, 300000))
 					st.set("cond", "10");
 				break;
-
+			
 			case MARSH_STAKATO_DRONE:
 				if ((cond == 15 || cond == 16) && st.dropItems(ABYSS_RUNESTONE_1, 1, 1, 250000) && st.hasQuestItems(ABYSS_RUNESTONE_2, ABYSS_RUNESTONE_3, ABYSS_RUNESTONE_4))
 					st.set("cond", "17");
 				break;
-
+			
 			case BREKA_ORC_OVERLORD:
 				if ((cond == 15 || cond == 16) && st.dropItems(ABYSS_RUNESTONE_2, 1, 1, 250000) && st.hasQuestItems(ABYSS_RUNESTONE_1, ABYSS_RUNESTONE_3, ABYSS_RUNESTONE_4))
 					st.set("cond", "17");
 				break;
-
+			
 			case ANT_WARRIOR_CAPTAIN:
 				if ((cond == 15 || cond == 16) && st.dropItems(ABYSS_RUNESTONE_3, 1, 1, 250000) && st.hasQuestItems(ABYSS_RUNESTONE_1, ABYSS_RUNESTONE_2, ABYSS_RUNESTONE_4))
 					st.set("cond", "17");
 				break;
-
+			
 			case LETO_LIZARDMAN_WARRIOR:
 				if ((cond == 15 || cond == 16) && st.dropItems(ABYSS_RUNESTONE_4, 1, 1, 250000) && st.hasQuestItems(ABYSS_RUNESTONE_1, ABYSS_RUNESTONE_2, ABYSS_RUNESTONE_3))
 					st.set("cond", "17");
 				break;
 		}
-
+		
 		return null;
 	}
 }

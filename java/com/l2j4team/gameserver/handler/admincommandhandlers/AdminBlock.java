@@ -35,9 +35,9 @@ public class AdminBlock implements IAdminCommandHandler
 		"admin_chat_hwid",
 		"admin_chat_today"
 	};
-
+	
 	protected static final Logger _log = Logger.getLogger(AdminBlock.class.getName());
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -69,14 +69,14 @@ public class AdminBlock implements IAdminCommandHandler
 				}
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	private static void addBlockChat(Player activeChar, Player targetChar, int duration)
 	{
 		String hwid = targetChar.getHWID();
-
+		
 		if (duration <= 0)
 		{
 			activeChar.sendMessage("The value you have entered is incorrect.");
@@ -87,7 +87,7 @@ public class AdminBlock implements IAdminCommandHandler
 			for (Player player : World.getInstance().getPlayers())
 			{
 				String hwidz = player.getHWID();
-
+				
 				if (player.isOnline() && !player.isPhantom())
 				{
 					if (hwidz.equals(hwid))
@@ -95,24 +95,24 @@ public class AdminBlock implements IAdminCommandHandler
 						player.setChatBlock(false);
 						player.sendChatMessage(0, Say2.ALL, "SYS", "A restricao de Chat foi removida do seu Computador");
 					}
-
+					
 				}
 			}
-
+			
 			ChatBanManager.getInstance().removeBlock(targetChar.getObjectId());
 			activeChar.sendMessage("SYS: Voce removeu a restricao Chat Block HWID do Jogador " + targetChar.getName());
 			listCharacters(activeChar, 0);
 			return;
 		}
-
+		
 		ChatBanManager.getInstance().addBlock(targetChar.getObjectId(), System.currentTimeMillis() + duration * 3600000, hwid, targetChar.getAccountName(), targetChar.getName());
-
+		
 		activeChar.sendMessage("SYS: Voce bloqueou o Chat HWID do Jogador " + targetChar.getName() + ".");
-
+		
 		for (Player player : World.getInstance().getPlayers())
 		{
 			String hwidz = player.getHWID();
-
+			
 			if (player.isOnline() && !player.isPhantom())
 			{
 				if (hwidz.equals(hwid))
@@ -123,38 +123,38 @@ public class AdminBlock implements IAdminCommandHandler
 				}
 			}
 		}
-
+		
 		listCharacters(activeChar, 0);
-
+		
 	}
-
+	
 	private static void listCharacters(Player activeChar, int page)
 	{
 		final Collection<Player> allPlayers = World.getInstance().getPlayers();
 		final int playersCount = allPlayers.size();
-
+		
 		final Player[] players = allPlayers.toArray(new Player[playersCount]);
-
+		
 		final int maxCharactersPerPage = 20;
-
+		
 		int maxPages = playersCount / maxCharactersPerPage;
 		if (playersCount > maxCharactersPerPage * maxPages)
 			maxPages++;
-
+		
 		// Check if number of users changed
 		if (page > maxPages)
 			page = maxPages;
-
+		
 		int charactersStart = maxCharactersPerPage * page;
 		int charactersEnd = playersCount;
-
+		
 		if (charactersEnd - charactersStart > maxCharactersPerPage)
 			charactersEnd = charactersStart + maxCharactersPerPage;
-
+		
 		NpcHtmlMessage adminReply = new NpcHtmlMessage(0);
 		adminReply.setFile("data/html/admin/charlist.htm");
 		StringBuilder replyMSG = new StringBuilder();
-
+		
 		for (int x = 0; x < maxPages; x++)
 		{
 			int pagenr = x + 1;
@@ -162,7 +162,7 @@ public class AdminBlock implements IAdminCommandHandler
 		}
 		adminReply.replace("%pages%", replyMSG.toString());
 		replyMSG.setLength(0);
-
+		
 		// Add player info into new Table row
 		for (int i = charactersStart; i < charactersEnd; i++)
 		{
@@ -171,7 +171,7 @@ public class AdminBlock implements IAdminCommandHandler
 		adminReply.replace("%players%", replyMSG.toString());
 		activeChar.sendPacket(adminReply);
 	}
-
+	
 	/**
 	 * @return
 	 */

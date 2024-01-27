@@ -8,7 +8,7 @@ public class DoorStatus extends CreatureStatus
 	{
 		super(activeChar);
 	}
-
+	
 	@Override
 	public Door getActiveChar()
 	{

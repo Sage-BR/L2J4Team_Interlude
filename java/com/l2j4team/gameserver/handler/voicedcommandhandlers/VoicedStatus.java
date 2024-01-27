@@ -18,7 +18,7 @@ public class VoicedStatus implements IVoicedCommandHandler
 		"inventory",
 		"skills"
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -29,10 +29,10 @@ public class VoicedStatus implements IVoicedCommandHandler
 				activeChar.sendPacket(SystemMessageId.INCORRECT_TARGET);
 				return false;
 			}
-
+			
 			Creature targetCharacter = (Creature) activeChar.getTarget();
 			Player targetPlayer = targetCharacter.getActingPlayer();
-
+			
 			activeChar.sendPacket(new GMViewCharacterInfo(targetPlayer));
 			activeChar.sendPacket(new GMViewHennaInfo(targetPlayer));
 			return true;
@@ -44,10 +44,10 @@ public class VoicedStatus implements IVoicedCommandHandler
 				activeChar.sendPacket(SystemMessageId.INCORRECT_TARGET);
 				return false;
 			}
-
+			
 			Creature targetCharacter = (Creature) activeChar.getTarget();
 			Player targetPlayer = targetCharacter.getActingPlayer();
-
+			
 			activeChar.sendPacket(new GMViewItemList(targetPlayer));
 			return true;
 		}
@@ -58,16 +58,16 @@ public class VoicedStatus implements IVoicedCommandHandler
 				activeChar.sendPacket(SystemMessageId.INCORRECT_TARGET);
 				return false;
 			}
-
+			
 			Creature targetCharacter = (Creature) activeChar.getTarget();
 			Player targetPlayer = targetCharacter.getActingPlayer();
-
+			
 			activeChar.sendPacket(new GMViewSkillInfo(targetPlayer));
 			return true;
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

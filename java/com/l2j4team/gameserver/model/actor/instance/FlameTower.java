@@ -22,32 +22,32 @@ public class FlameTower extends Npc
 {
 	private int _upgradeLevel;
 	private List<Integer> _zoneList;
-
+	
 	public FlameTower(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public boolean isAttackable()
 	{
 		// Attackable during siege by attacker only
 		return getCastle() != null && getCastle().getSiege().isInProgress();
 	}
-
+	
 	@Override
 	public boolean isAutoAttackable(Creature attacker)
 	{
 		// Attackable during siege by attacker only
 		return attacker instanceof Player && getCastle() != null && getCastle().getSiege().isInProgress() && getCastle().getSiege().checkSide(((Player) attacker).getClan(), SiegeSide.ATTACKER);
 	}
-
+	
 	@Override
 	public void onForcedAttack(Player player)
 	{
 		onAction(player);
 	}
-
+	
 	@Override
 	public void onAction(Player player)
 	{
@@ -65,33 +65,33 @@ public class FlameTower extends Npc
 			{
 				// Rotate the player to face the instance
 				player.sendPacket(new MoveToPawn(player, this, Npc.INTERACTION_DISTANCE));
-
+				
 				// Send ActionFailed to the player in order to avoid he stucks
 				player.sendPacket(ActionFailed.STATIC_PACKET);
 			}
 		}
 	}
-
+	
 	@Override
 	public boolean doDie(Creature killer)
 	{
 		enableZones(false);
-
+		
 		if (getCastle() != null)
 		{
 			// Message occurs only if the trap was triggered first.
 			if (_zoneList != null && _upgradeLevel != 0)
 				getCastle().getSiege().announceToPlayer(SystemMessage.getSystemMessage(SystemMessageId.A_TRAP_DEVICE_HAS_BEEN_STOPPED), false);
-
+			
 			// Spawn a little version of it. This version is a simple NPC, cleaned on siege end.
 			try
 			{
 				final L2Spawn spawn = new L2Spawn(NpcTable.getInstance().getTemplate(13005));
 				spawn.setLoc(getPosition());
-
+				
 				final Npc tower = spawn.doSpawn(false);
 				tower.setCastle(getCastle());
-
+				
 				getCastle().getSiege().getDestroyedTowers().add(tower);
 			}
 			catch (Exception e)
@@ -99,17 +99,17 @@ public class FlameTower extends Npc
 				_log.warning(getClass().getName() + ": Cannot spawn control tower! " + e);
 			}
 		}
-
+		
 		return super.doDie(killer);
 	}
-
+	
 	@Override
 	public void deleteMe()
 	{
 		enableZones(false);
 		super.deleteMe();
 	}
-
+	
 	public final void enableZones(boolean state)
 	{
 		if (_zoneList != null && _upgradeLevel != 0)
@@ -123,12 +123,12 @@ public class FlameTower extends Npc
 			}
 		}
 	}
-
+	
 	public final void setUpgradeLevel(int level)
 	{
 		_upgradeLevel = level;
 	}
-
+	
 	public final void setZoneList(List<Integer> list)
 	{
 		_zoneList = list;

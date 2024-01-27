@@ -10,12 +10,12 @@ public final class NewCharacter extends L2GameClientPacket
 	protected void readImpl()
 	{
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		CharTemplates ct = new CharTemplates();
-
+		
 		ct.addChar(CharTemplateTable.getInstance().getTemplate(0));
 		ct.addChar(CharTemplateTable.getInstance().getTemplate(ClassId.HUMAN_FIGHTER));
 		ct.addChar(CharTemplateTable.getInstance().getTemplate(ClassId.HUMAN_MYSTIC));
@@ -26,7 +26,7 @@ public final class NewCharacter extends L2GameClientPacket
 		ct.addChar(CharTemplateTable.getInstance().getTemplate(ClassId.ORC_FIGHTER));
 		ct.addChar(CharTemplateTable.getInstance().getTemplate(ClassId.ORC_MYSTIC));
 		ct.addChar(CharTemplateTable.getInstance().getTemplate(ClassId.DWARVEN_FIGHTER));
-
+		
 		sendPacket(ct);
 	}
 }

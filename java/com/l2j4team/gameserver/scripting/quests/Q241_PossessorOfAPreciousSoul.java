@@ -9,7 +9,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q241_PossessorOfAPreciousSoul extends Quest
 {
 	private static final String qn = "Q241_PossessorOfAPreciousSoul";
-
+	
 	// NPCs
 	private static final int TALIEN = 31739;
 	private static final int GABRIELLE = 30753;
@@ -22,7 +22,7 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 	private static final int KASSANDRA = 31743;
 	private static final int CARADINE = 31740;
 	private static final int NOEL = 31272;
-
+	
 	// Monsters
 	private static final int BARAHAM = 27113;
 	private static final int MALRUK_SUCCUBUS_1 = 20244;
@@ -34,7 +34,7 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 	private static final int SPLINTER_STAKATO_SOLDIER = 21510;
 	private static final int SPLINTER_STAKATO_DRONE_1 = 21511;
 	private static final int SPLINTER_STAKATO_DRONE_2 = 21512;
-
+	
 	// Items
 	private static final int LEGEND_OF_SEVENTEEN = 7587;
 	private static final int MALRUK_SUCCUBUS_CLAW = 7597;
@@ -45,19 +45,19 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 	private static final int LUNARGENT = 6029;
 	private static final int HELLFIRE_OIL = 6033;
 	private static final int VIRGIL_LETTER = 7677;
-
+	
 	public Q241_PossessorOfAPreciousSoul()
 	{
 		super(241, "Possessor of a Precious Soul - 1");
-
+		
 		setItemsIds(LEGEND_OF_SEVENTEEN, MALRUK_SUCCUBUS_CLAW, ECHO_CRYSTAL, POETRY_BOOK, CRIMSON_MOSS, RAHORAKTI_MEDICINE);
-
+		
 		addStartNpc(TALIEN);
 		addTalkId(TALIEN, GABRIELLE, GILMORE, KANTABILON, STEDMIEL, VIRGIL, OGMAR, RAHORAKTI, KASSANDRA, CARADINE, NOEL);
-
+		
 		addKillId(BARAHAM, MALRUK_SUCCUBUS_1, MALRUK_SUCCUBUS_2, MALRUK_SUCCUBUS_TUREN_1, MALRUK_SUCCUBUS_TUREN_2, SPLINTER_STAKATO, SPLINTER_STAKATO_WALKER, SPLINTER_STAKATO_SOLDIER, SPLINTER_STAKATO_DRONE_1, SPLINTER_STAKATO_DRONE_2);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -65,7 +65,7 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// Talien
 		if (event.equalsIgnoreCase("31739-03.htm"))
 		{
@@ -194,7 +194,7 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -202,17 +202,17 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (!player.isSubClassActive() || player.getLevel() < 50) ? "31739-02.htm" : "31739-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				if (!player.isSubClassActive())
 					break;
-
+				
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
 				{
@@ -234,21 +234,21 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 						else if (cond == 11)
 							htmltext = "31739-14.htm";
 						break;
-
+					
 					case GABRIELLE:
 						if (cond == 1)
 							htmltext = "30753-01.htm";
 						else if (cond == 2)
 							htmltext = "30753-03.htm";
 						break;
-
+					
 					case GILMORE:
 						if (cond == 2)
 							htmltext = "30754-01.htm";
 						else if (cond == 3)
 							htmltext = "30754-03.htm";
 						break;
-
+					
 					case KANTABILON:
 						if (cond == 5)
 							htmltext = "31042-01.htm";
@@ -259,14 +259,14 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 						else if (cond == 8)
 							htmltext = "31042-06.htm";
 						break;
-
+					
 					case STEDMIEL:
 						if (cond == 9)
 							htmltext = "30692-01.htm";
 						else if (cond == 10)
 							htmltext = "30692-03.htm";
 						break;
-
+					
 					case VIRGIL:
 						if (cond == 11)
 							htmltext = "31742-01.htm";
@@ -277,14 +277,14 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 						else if (cond == 18)
 							htmltext = "31742-06.htm";
 						break;
-
+					
 					case OGMAR:
 						if (cond == 12)
 							htmltext = "31744-01.htm";
 						else if (cond == 13)
 							htmltext = "31744-03.htm";
 						break;
-
+					
 					case RAHORAKTI:
 						if (cond == 13)
 							htmltext = "31336-01.htm";
@@ -295,14 +295,14 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 						else if (cond == 16)
 							htmltext = "31336-06.htm";
 						break;
-
+					
 					case KASSANDRA:
 						if (cond == 16)
 							htmltext = "31743-01.htm";
 						else if (cond == 17)
 							htmltext = "31743-03.htm";
 						break;
-
+					
 					case CARADINE:
 						if (cond == 18)
 							htmltext = "31740-01.htm";
@@ -311,7 +311,7 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 						else if (cond == 21)
 							htmltext = "31740-04.htm";
 						break;
-
+					
 					case NOEL:
 						if (cond == 19)
 							htmltext = "31272-01.htm";
@@ -327,21 +327,21 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null || !player.isSubClassActive())
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case BARAHAM:
@@ -352,19 +352,19 @@ public class Q241_PossessorOfAPreciousSoul extends Quest
 					st.playSound(QuestState.SOUND_MIDDLE);
 				}
 				break;
-
+			
 			case MALRUK_SUCCUBUS_1:
 			case MALRUK_SUCCUBUS_2:
 				if (st.getInt("cond") == 6 && st.dropItems(MALRUK_SUCCUBUS_CLAW, 1, 10, 100000))
 					st.set("cond", "7");
 				break;
-
+			
 			case MALRUK_SUCCUBUS_TUREN_1:
 			case MALRUK_SUCCUBUS_TUREN_2:
 				if (st.getInt("cond") == 6 && st.dropItems(MALRUK_SUCCUBUS_CLAW, 1, 10, 120000))
 					st.set("cond", "7");
 				break;
-
+			
 			case SPLINTER_STAKATO:
 			case SPLINTER_STAKATO_WALKER:
 			case SPLINTER_STAKATO_SOLDIER:

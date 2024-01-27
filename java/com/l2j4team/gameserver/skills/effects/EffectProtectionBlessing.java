@@ -15,31 +15,31 @@ public class EffectProtectionBlessing extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.PROTECTION_BLESSING;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		((Playable) getEffected()).stopProtectionBlessing(this);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

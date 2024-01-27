@@ -21,20 +21,20 @@ public class ChatAll implements IChatHandler
 	{
 		0
 	};
-
+	
 	@Override
 	public void handleChat(int type, Player activeChar, String params, String text)
 	{
 		if (!FloodProtectors.performAction(activeChar.getClient(), Action.GLOBAL_CHAT))
 			return;
-
+		
 		boolean vcd_used = false;
 		if (text.startsWith("."))
 		{
 			StringTokenizer st = new StringTokenizer(text);
 			IVoicedCommandHandler vch;
 			String command = "";
-
+			
 			if (st.countTokens() > 1)
 			{
 				command = st.nextToken().substring(1);
@@ -46,15 +46,15 @@ public class ChatAll implements IChatHandler
 				command = text.substring(1);
 				vch = VoicedCommandHandler.getInstance().getHandler(command);
 			}
-
+			
 			if (vch != null)
 				vch.useVoicedCommand(command, activeChar, params);
 			else
 				activeChar.sendMessage("Command not found.");
-
+			
 			vcd_used = true;
 		}
-
+		
 		if (!vcd_used)
 		{
 			if (activeChar.ChatProtection(activeChar.getHWID()) && activeChar.isChatBlocked() && ((activeChar.getChatBanTimer() - 1500) > System.currentTimeMillis()))
@@ -63,7 +63,7 @@ public class ChatAll implements IChatHandler
 					activeChar.sendChatMessage(0, Say2.TELL, "SYS", "Your chat was suspended for " + (activeChar.getChatBanTimer() - System.currentTimeMillis()) / (1000 * 60) + " minute(s).");
 				else
 					activeChar.sendChatMessage(0, Say2.TELL, "SYS", "Your chat was suspended for " + (activeChar.getChatBanTimer() - System.currentTimeMillis()) / 1000 + " second(s).");
-
+				
 				activeChar.sendPacket(SystemMessageId.YOU_ARE_NOT_AUTHORIZED_TO_DO_THAT);
 				return;
 			}
@@ -98,25 +98,25 @@ public class ChatAll implements IChatHandler
 				}
 				return;
 			}
-
+			
 			CreatureSay cs = new CreatureSay(activeChar.getObjectId(), type, activeChar.getName(), text);
-
+			
 			for (Player player : activeChar.getKnownTypeInRadius(Player.class, 1250))
 			{
 				player.sendPacket(cs);
 			}
-
+			
 			activeChar.sendPacket(cs);
 		}
 	}
-
+	
 	@SuppressWarnings("deprecation")
 	public static double arredondaValor(int casasDecimais, double valor)
 	{
 		BigDecimal decimal = new BigDecimal(valor);
 		return decimal.setScale(casasDecimais, 3).doubleValue();
 	}
-
+	
 	@Override
 	public int[] getChatTypeList()
 	{

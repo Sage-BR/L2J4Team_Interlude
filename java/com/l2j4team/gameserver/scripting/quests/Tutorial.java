@@ -25,12 +25,12 @@ import com.l2j4team.util.Util;
 public final class Tutorial extends Quest
 {
 	private static final String qn = "Tutorial";
-
+	
 	public Tutorial()
 	{
 		super(1, qn);
 	}
-
+	
 	private static final int[] FIRST_CLASSES_ID =
 	{
 		0,
@@ -43,7 +43,7 @@ public final class Tutorial extends Quest
 		49,
 		52
 	};
-
+	
 	private static final int[] SECOND_CLASSES_ID =
 	{
 		1,
@@ -65,7 +65,7 @@ public final class Tutorial extends Quest
 		54,
 		56
 	};
-
+	
 	private static final String[][] QTEXMTWO =
 	{
 		{
@@ -114,7 +114,7 @@ public final class Tutorial extends Quest
 			"tutorial_dwarven_fighter001.htm"
 		}
 	};
-
+	
 	private static final String[][] CEE_A =
 	{
 		{
@@ -181,7 +181,7 @@ public final class Tutorial extends Quest
 			"-406"
 		}
 	};
-
+	
 	// table for Question Mark Clicked (9 & 11) learning skills [raceId, html, x, y, z]
 	private static final String[][] QMC_A =
 	{
@@ -249,7 +249,7 @@ public final class Tutorial extends Quest
 			"-1440"
 		}
 	};
-
+	
 	// table for Question Mark Clicked (24) newbie lvl [html]
 	private static final String[][] QMC_B =
 	{
@@ -290,7 +290,7 @@ public final class Tutorial extends Quest
 			"tutorial_dwarven009.htm"
 		}
 	};
-
+	
 	// table for Question Mark Clicked (35) 1st class transfer [html]
 	private static final String[][] QMC_C =
 	{
@@ -331,7 +331,7 @@ public final class Tutorial extends Quest
 			"tutorial_21f.htm"
 		}
 	};
-
+	
 	// table for Tutorial Close Link (26) 2nd class transfer [html]
 	private static final String[][] TCL_A =
 	{
@@ -408,7 +408,7 @@ public final class Tutorial extends Quest
 			"tutorial_22m.htm"
 		}
 	};
-
+	
 	// table for Tutorial Close Link (23) 2nd class transfer [html]
 	private static final String[][] TCL_B =
 	{
@@ -457,7 +457,7 @@ public final class Tutorial extends Quest
 			"tutorial_22ka.htm"
 		}
 	};
-
+	
 	// table for Tutorial Close Link (24) 2nd class transfer [html]
 	private static final String[][] TCL_C =
 	{
@@ -506,7 +506,7 @@ public final class Tutorial extends Quest
 			"tutorial_22kb.htm"
 		}
 	};
-
+	
 	@Override
 	public final String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -514,19 +514,19 @@ public final class Tutorial extends Quest
 		{
 			return "";
 		}
-
+		
 		QuestState st = player.getQuestState(qn);
 		String htmltext = "";
 		final int classId = player.getClassId().getId();
 		final int playerLevel = player.getLevel();
 		final int Ex = st.getInt("Ex");
-
+		
 		if (event.startsWith("UC"))
 		{
 			if ((playerLevel < 6) && (st.getInt("onlyone") == 0))
 			{
 				final int uc = st.getInt("ucMemo");
-
+				
 				switch (uc)
 				{
 					case 0:
@@ -546,7 +546,7 @@ public final class Tutorial extends Quest
 							st.showQuestionMark(3);
 							st.playSound("ItemSound.quest_tutorial");
 						}
-
+						
 						if (st.getQuestItemsCount(6353) == 1)
 						{
 							st.showQuestionMark(5);
@@ -598,7 +598,7 @@ public final class Tutorial extends Quest
 		else if (event.startsWith("TE"))
 		{
 			final int eventId = Integer.valueOf(event.substring(2));
-
+			
 			switch (eventId)
 			{
 				case 0:
@@ -682,7 +682,7 @@ public final class Tutorial extends Quest
 		else if (event.startsWith("CE"))
 		{
 			final int eventId = Integer.valueOf(event.substring(2));
-
+			
 			switch (eventId)
 			{
 				case 1:
@@ -921,14 +921,14 @@ public final class Tutorial extends Quest
 		else if (event.startsWith("QM"))
 		{
 			final int eventId = Integer.valueOf(event.substring(2));
-
+			
 			int x = 0;
 			int y = 0;
 			int z = 0;
-
+			
 			switch (eventId)
 			{
-
+				
 				case 1:
 					st.playTutorialVoice("tutorial_voice_007");
 					st.set("Ex", "-5");
@@ -1046,14 +1046,14 @@ public final class Tutorial extends Quest
 					break;
 			}
 		}
-
+		
 		if (htmltext.isEmpty())
 		{
 			return "";
 		}
-
+		
 		st.showTutorialHTML(htmltext);
-
+		
 		return "";
 	}
 }

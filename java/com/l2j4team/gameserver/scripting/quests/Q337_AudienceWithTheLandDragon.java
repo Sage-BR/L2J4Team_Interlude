@@ -13,12 +13,12 @@ import com.l2j4team.commons.random.Rnd;
 public class Q337_AudienceWithTheLandDragon extends Quest
 {
 	private static final String qn = "Q337_AudienceWithTheLandDragon";
-
+	
 	// Variables
 	private static boolean _jewel1 = false;
 	private static boolean _jewel2 = false;
 	private static boolean _jewel3 = false;
-
+	
 	// NPCs
 	private static final int GABRIELLE = 30753;
 	private static final int ORVEN = 30857; // 1
@@ -29,7 +29,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 	private static final int HELTON = 30678; // 2nd abyssal
 	private static final int GILMORE = 30754; // 3rd abyssal
 	private static final int THEODRIC = 30755;
-
+	
 	// Mobs
 	private static final int BLOOD_QUEEN = 18001; // 1
 	private static final int SACRIFICE_OF_THE_SACRIFICED = 27171; // 1
@@ -50,7 +50,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 	private static final int CAVE_KEEPER_2 = 20277;
 	private static final int ABYSSAL_JEWEL_3 = 27167;
 	private static final int JEWEL_GUARDIAN_PYTON = 27170;
-
+	
 	// Items
 	private static final int FEATHER_OF_GABRIELLE = 3852;
 	private static final int MARK_OF_WATCHMAN = 3864;
@@ -67,7 +67,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 	private static final int HERALD_OF_SLAYER = 3890;
 	private static final int THIRD_FRAGMENT_OF_ABYSS_JEWEL = 3861; // 3rd abyssal
 	private static final int PORTAL_STONE = 3865;
-
+	
 	/**
 	 * 0..npcId, 1..cond, 2..cond2, 3..chance, 4..itemId
 	 */
@@ -122,7 +122,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 			MUSFEL_FANG
 		}
 	};
-
+	
 	/**
 	 * 0..npcId, 1..cond, 2..cond2, 3..itemId, 4..amount of mobs, 5..mob
 	 */
@@ -153,20 +153,20 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 			JEWEL_GUARDIAN_PYTON
 		},
 	};
-
+	
 	public Q337_AudienceWithTheLandDragon()
 	{
 		super(337, "Audience with the Land Dragon");
-
+		
 		setItemsIds(FEATHER_OF_GABRIELLE, MARK_OF_WATCHMAN, REMAINS_OF_SACRIFIED, TOTEM_OF_LAND_DRAGON, KRANROT_SKIN, HAMRUT_LEG, MARSH_DRAKE_TALONS, MARSH_STALKER_HORN, FIRST_FRAGMENT_OF_ABYSS_JEWEL, MARA_FANG, SECOND_FRAGMENT_OF_ABYSS_JEWEL, MUSFEL_FANG, HERALD_OF_SLAYER, THIRD_FRAGMENT_OF_ABYSS_JEWEL);
-
+		
 		addStartNpc(GABRIELLE);
 		addTalkId(GABRIELLE, ORVEN, KENDRA, CHAKIRIS, KAIENA, MOKE, HELTON, GILMORE, THEODRIC);
-
+		
 		addAttackId(ABYSSAL_JEWEL_1, ABYSSAL_JEWEL_2, ABYSSAL_JEWEL_3);
 		addKillId(BLOOD_QUEEN, SACRIFICE_OF_THE_SACRIFICED, HARIT_LIZARDMAN_SHAMAN, HARIT_LIZARDMAN_MATRIARCH, HARIT_LIZARDMAN_ZEALOT, KRANROT, HAMRUT, MARSH_DRAKE, MARSH_STALKER, JEWEL_GUARDIAN_MARA, JEWEL_GUARDIAN_MUSFEL, CAVE_MAIDEN_1, CAVE_MAIDEN_2, CAVE_KEEPER_1, CAVE_KEEPER_2, JEWEL_GUARDIAN_PYTON);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -174,7 +174,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// Gabrielle
 		if (event.equalsIgnoreCase("30753-05.htm"))
 		{
@@ -214,10 +214,10 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 			else
 				htmltext = null;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -225,13 +225,13 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 50) ? "30753-02.htm" : "30753-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -258,7 +258,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 						else if (cond == 4)
 							htmltext = "30753-13.htm";
 						break;
-
+					
 					case ORVEN:
 						if (cond == 1)
 						{
@@ -281,7 +281,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 								htmltext = "30857-04.htm";
 						}
 						break;
-
+					
 					case KENDRA:
 						if (cond == 1)
 						{
@@ -304,7 +304,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 								htmltext = "30851-04.htm";
 						}
 						break;
-
+					
 					case CHAKIRIS:
 						if (cond == 1)
 						{
@@ -328,7 +328,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 								htmltext = "30705-04.htm";
 						}
 						break;
-
+					
 					case KAIENA:
 						if (cond == 1)
 						{
@@ -352,7 +352,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 								htmltext = "30720-04.htm";
 						}
 						break;
-
+					
 					case MOKE:
 						if (cond == 2)
 						{
@@ -362,7 +362,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 									htmltext = "30498-01.htm";
 									st.set("drop5", "1");
 									break;
-
+								
 								case 1:
 									if (st.hasQuestItems(FIRST_FRAGMENT_OF_ABYSS_JEWEL, MARA_FANG))
 									{
@@ -376,7 +376,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 									else
 										htmltext = "30498-02.htm";
 									break;
-
+								
 								case 0:
 									if (st.getQuestItemsCount(MARK_OF_WATCHMAN) < 2)
 										htmltext = "30498-04.htm";
@@ -386,7 +386,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 							}
 						}
 						break;
-
+					
 					case HELTON:
 						if (cond == 2)
 						{
@@ -396,7 +396,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 									htmltext = "30678-01.htm";
 									st.set("drop6", "1");
 									break;
-
+								
 								case 1:
 									if (st.hasQuestItems(SECOND_FRAGMENT_OF_ABYSS_JEWEL, MUSFEL_FANG))
 									{
@@ -410,7 +410,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 									else
 										htmltext = "30678-02.htm";
 									break;
-
+								
 								case 0:
 									if (st.getQuestItemsCount(MARK_OF_WATCHMAN) < 2)
 										htmltext = "30678-04.htm";
@@ -420,7 +420,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 							}
 						}
 						break;
-
+					
 					case GILMORE:
 						if (cond == 1 || cond == 2)
 							htmltext = "30754-01.htm";
@@ -434,7 +434,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 						else if (cond == 4)
 							htmltext = (!st.hasQuestItems(THIRD_FRAGMENT_OF_ABYSS_JEWEL)) ? "30754-04.htm" : "30754-05.htm";
 						break;
-
+					
 					case THEODRIC:
 						if (cond == 1 || cond == 2)
 							htmltext = "30755-01.htm";
@@ -446,29 +446,29 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
 		QuestState st = checkPlayerState(attacker, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int npcId = npc.getNpcId();
-
+		
 		for (int[] npcInfo : DROP_ON_ATTACK)
 		{
 			if (npcInfo[0] != npcId)
 				continue;
-
+			
 			if (npcInfo[1] != st.getInt("cond"))
 				break;
-
+			
 			final double percentHp = ((npc.getCurrentHp() + damage) * 100) / npc.getMaxHp();
-
+			
 			// reward jewel fragment
 			if (percentHp < 33)
 			{
@@ -494,7 +494,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 						spawn = _jewel2;
 					else
 						spawn = _jewel1;
-
+					
 					if (spawn)
 					{
 						for (int i = 0; i < npcInfo[4]; i++)
@@ -504,7 +504,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 							((Attackable) mob).addDamageHate(attacker, 0, 500);
 							mob.getAI().setIntention(CtrlIntention.ATTACK, attacker);
 						}
-
+						
 						if (npcId == ABYSSAL_JEWEL_3)
 							_jewel3 = false;
 						else if (npcId == ABYSSAL_JEWEL_2)
@@ -513,7 +513,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 							_jewel1 = false;
 					}
 				}
-
+				
 			}
 			// reset spawned if npc regenerated to 90% HP and more
 			else if (percentHp > 90)
@@ -527,20 +527,20 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 			}
 			break;
 		}
-
+		
 		return null;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		final QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int cond = st.getInt("cond");
 		final int npcId = npc.getNpcId();
-
+		
 		switch (npcId)
 		{
 			case SACRIFICE_OF_THE_SACRIFICED: // Orven's request
@@ -555,7 +555,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 				{
 					if (npcInfo[0] != npcId)
 						continue;
-
+					
 					if (npcInfo[1] == cond && st.getInt("drop" + npcInfo[2]) == 1)
 					{
 						int itemId = npcInfo[3];
@@ -568,7 +568,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 					break;
 				}
 				break;
-
+			
 			case BLOOD_QUEEN:// Orven's request
 				if (cond == 1 && st.getInt("drop1") == 1 && !st.hasQuestItems(REMAINS_OF_SACRIFIED))
 				{
@@ -576,7 +576,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 						addSpawn(SACRIFICE_OF_THE_SACRIFICED, npc.getX() + Rnd.get(-100, 100), npc.getY() + Rnd.get(-100, 100), npc.getZ(), npc.getHeading(), true, 60000, false);
 				}
 				break;
-
+			
 			case HARIT_LIZARDMAN_SHAMAN:// Kendra's request
 			case HARIT_LIZARDMAN_MATRIARCH:
 				if (cond == 1 && Rnd.get(5) == 0 && st.getInt("drop2") == 1 && !st.hasQuestItems(TOTEM_OF_LAND_DRAGON))
@@ -585,7 +585,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 						addSpawn(HARIT_LIZARDMAN_ZEALOT, npc.getX() + Rnd.get(-50, 50), npc.getY() + Rnd.get(-50, 50), npc.getZ(), npc.getHeading(), true, 60000, false);
 				}
 				break;
-
+			
 			case CAVE_MAIDEN_1:// Gilmore's request
 			case CAVE_MAIDEN_2:
 			case CAVE_KEEPER_1:
@@ -594,7 +594,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest
 					addSpawn(ABYSSAL_JEWEL_3, npc.getX() + Rnd.get(-50, 50), npc.getY() + Rnd.get(-50, 50), npc.getZ(), npc.getHeading(), true, 60000, false);
 				break;
 		}
-
+		
 		return null;
 	}
 }

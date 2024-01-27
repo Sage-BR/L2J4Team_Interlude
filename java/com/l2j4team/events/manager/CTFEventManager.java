@@ -33,37 +33,37 @@ import java.util.logging.Logger;
 public class CTFEventManager
 {
 	protected static final Logger _log = Logger.getLogger(CTFEventManager.class.getName());
-
+	
 	public static ArrayList<String> CTF_TIMES_LIST;
-
+	
 	private static CTFEventManager instance = null;
-
+	
 	private CTFEventManager()
 	{
 		loadCTFConfig();
 	}
-
+	
 	private Calendar NextEvent;
 	private final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-
+	
 	public String getNextTime()
 	{
 		if (NextEvent.getTime() != null)
 			return format.format(NextEvent.getTime());
 		return "Erro";
 	}
-
+	
 	public static CTFEventManager getInstance()
 	{
-
+		
 		if (instance == null)
 		{
 			instance = new CTFEventManager();
 		}
 		return instance;
-
+		
 	}
-
+	
 	public void StartCalculationOfNextCtfEventTime()
 	{
 		try
@@ -72,7 +72,7 @@ public class CTFEventManager
 			Calendar testStartTime = null;
 			long flush2 = 0, timeL = 0;
 			int count = 0;
-
+			
 			for (String timeOfDay : CTF_TIMES_LIST)
 			{
 				testStartTime = Calendar.getInstance();
@@ -85,21 +85,21 @@ public class CTFEventManager
 				{
 					testStartTime.add(Calendar.DAY_OF_MONTH, 1);
 				}
-
+				
 				timeL = testStartTime.getTimeInMillis() - currentTime.getTimeInMillis();
-
+				
 				if (count == 0)
 				{
 					flush2 = timeL;
 					NextEvent = testStartTime;
 				}
-
+				
 				if (timeL < flush2)
 				{
 					flush2 = timeL;
 					NextEvent = testStartTime;
 				}
-
+				
 				count++;
 			}
 			_log.info("CTF Event Proximo Evento: " + NextEvent.getTime().toString());
@@ -109,29 +109,29 @@ public class CTFEventManager
 			System.out.println("CTF Next Event Info: " + e);
 		}
 	}
-
+	
 	public static void loadCTFConfig()
 	{
-
+		
 		InputStream is = null;
 		try
 		{
 			Properties eventSettings = new Properties();
 			is = new FileInputStream(new File(Config.CTF_FILE));
 			eventSettings.load(is);
-
+			
 			// ============================================================
-
+			
 			CTF_TIMES_LIST = new ArrayList<>();
-
+			
 			String[] propertySplit;
 			propertySplit = eventSettings.getProperty("CTFStartTime", "").split(";");
-
+			
 			for (final String time : propertySplit)
 			{
 				CTF_TIMES_LIST.add(time);
 			}
-
+			
 		}
 		catch (Exception e)
 		{
@@ -151,28 +151,28 @@ public class CTFEventManager
 				}
 			}
 		}
-
+		
 	}
-
+	
 	public void startCTFEventRegistration()
 	{
 		if (Config.CTF_EVENT_ENABLED)
 			registerCTF();
-
+		
 	}
-
+	
 	private static void registerCTF()
 	{
-
+		
 		CTF.loadData();
 		if (!CTF.checkStartJoinOk())
 		{
 			_log.info("registerCTF: CTF Event is not setted Properly");
 		}
-
+		
 		// clear all tvt
 		EventsGlobalTask.getInstance().clearEventTasksByEventName(CTF.get_eventName());
-
+		
 		for (final String time : CTF_TIMES_LIST)
 		{
 			final CTF newInstance = CTF.getNewInstance();
@@ -180,7 +180,7 @@ public class CTFEventManager
 			newInstance.setEventStartTime(time);
 			EventsGlobalTask.getInstance().registerNewEventTask(newInstance);
 		}
-
+		
 	}
-
+	
 }

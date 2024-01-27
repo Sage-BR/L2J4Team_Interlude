@@ -12,7 +12,7 @@ public class PrivateStoreManageListBuy extends L2GameServerPacket
 	private final int _playerAdena;
 	private final ItemInstance[] _itemList;
 	private final List<TradeItem> _buyList;
-
+	
 	public PrivateStoreManageListBuy(Player player)
 	{
 		_objId = player.getObjectId();
@@ -20,14 +20,14 @@ public class PrivateStoreManageListBuy extends L2GameServerPacket
 		_itemList = player.getInventory().getUniqueItems(false, true);
 		_buyList = player.getBuyList().getItems();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0xb7);
 		writeD(_objId);
 		writeD(_playerAdena);
-
+		
 		writeD(_itemList.length); // inventory items for potential buy
 		for (ItemInstance item : _itemList)
 		{
@@ -39,7 +39,7 @@ public class PrivateStoreManageListBuy extends L2GameServerPacket
 			writeD(item.getItem().getBodyPart());
 			writeH(item.getItem().getType2());
 		}
-
+		
 		writeD(_buyList.size()); // count for all items already added for buy
 		for (TradeItem item : _buyList)
 		{

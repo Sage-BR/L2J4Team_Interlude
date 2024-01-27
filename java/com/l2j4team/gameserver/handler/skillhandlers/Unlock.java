@@ -20,12 +20,12 @@ public class Unlock implements ISkillHandler
 		L2SkillType.UNLOCK,
 		L2SkillType.UNLOCK_SPECIAL
 	};
-
+	
 	@Override
 	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
 	{
 		final WorldObject object = targets[0];
-
+		
 		if (object instanceof Door)
 		{
 			final Door door = (Door) object;
@@ -34,7 +34,7 @@ public class Unlock implements ISkillHandler
 				activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.UNABLE_TO_UNLOCK_DOOR));
 				return;
 			}
-
+			
 			if (doorUnlock(skill) && (!door.isOpened()))
 				door.openMe();
 			else
@@ -45,7 +45,7 @@ public class Unlock implements ISkillHandler
 			final Chest chest = (Chest) object;
 			if (chest.isDead() || chest.isInteracted())
 				return;
-
+			
 			chest.setInteracted();
 			if (chestUnlock(skill, chest))
 			{
@@ -61,12 +61,12 @@ public class Unlock implements ISkillHandler
 		else
 			activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.INCORRECT_TARGET));
 	}
-
+	
 	private static final boolean doorUnlock(L2Skill skill)
 	{
 		if (skill.getSkillType() == L2SkillType.UNLOCK_SPECIAL)
 			return Rnd.get(100) < skill.getPower();
-
+		
 		switch (skill.getLevel())
 		{
 			case 0:
@@ -81,7 +81,7 @@ public class Unlock implements ISkillHandler
 				return Rnd.get(120) < 100;
 		}
 	}
-
+	
 	private static final boolean chestUnlock(L2Skill skill, Creature chest)
 	{
 		int chance = 0;
@@ -89,38 +89,38 @@ public class Unlock implements ISkillHandler
 		{
 			if (skill.getLevel() < 10)
 				return false;
-
+			
 			chance = (skill.getLevel() - 10) * 5 + 30;
 		}
 		else if (chest.getLevel() > 40)
 		{
 			if (skill.getLevel() < 6)
 				return false;
-
+			
 			chance = (skill.getLevel() - 6) * 5 + 10;
 		}
 		else if (chest.getLevel() > 30)
 		{
 			if (skill.getLevel() < 3)
 				return false;
-
+			
 			if (skill.getLevel() > 12)
 				return true;
-
+			
 			chance = (skill.getLevel() - 3) * 5 + 30;
 		}
 		else
 		{
 			if (skill.getLevel() > 10)
 				return true;
-
+			
 			chance = skill.getLevel() * 5 + 35;
 		}
-
+		
 		chance = Math.min(chance, 50);
 		return Rnd.get(100) < chance;
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

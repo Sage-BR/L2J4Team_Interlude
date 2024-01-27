@@ -10,12 +10,12 @@ public class SiegeSummon extends Servitor
 	public static final int SIEGE_GOLEM_ID = 14737;
 	public static final int HOG_CANNON_ID = 14768;
 	public static final int SWOOP_CANNON_ID = 14839;
-
+	
 	public SiegeSummon(int objectId, NpcTemplate template, Player owner, L2Skill skill)
 	{
 		super(objectId, template, owner, skill);
 	}
-
+	
 	@Override
 	public void onSpawn()
 	{

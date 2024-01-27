@@ -14,14 +14,14 @@ public class Skins implements IItemHandler
 	public void useItem(Playable playable, ItemInstance item, boolean forceUse)
 	{
 		final Player player = (Player) playable;
-
+		
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final DressMe dress = DressMeData.getInstance().getItemId(item.getItemId());
 		if (dress == null)
 			return;
-
+		
 		player.setDress(dress);
 		player.broadcastPacket(new MagicSkillUse(player, player, 1036, 1, 4000, 0));
 		player.broadcastUserInfo();

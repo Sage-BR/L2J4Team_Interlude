@@ -25,7 +25,7 @@ public class Monster extends Attackable
 {
 	private Monster _master;
 	private MinionList _minionList;
-
+	
 	/**
 	 * Constructor of L2MonsterInstance (use Creature and L2NpcInstance constructor).
 	 * <ul>
@@ -40,23 +40,23 @@ public class Monster extends Attackable
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public boolean isAutoAttackable(Creature attacker)
 	{
 		// FIXME: to test to allow monsters hit others monsters
 		if (attacker instanceof Monster)
 			return false;
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public boolean isAggressive()
 	{
 		return getTemplate().getAggroRange() > 0;
 	}
-
+	
 	@Override
 	public void onSpawn()
 	{
@@ -71,23 +71,23 @@ public class Monster extends Attackable
 			// delete spawned minions before dynamic minions spawned by script
 			else if (_minionList != null)
 				getMinionList().deleteSpawnedMinions();
-
+			
 			startMaintenanceTask();
 		}
-
+		
 		// dynamic script-based minions spawned here, after all preparations.
 		super.onSpawn();
 	}
-
+	
 	@Override
 	public void onTeleported()
 	{
 		super.onTeleported();
-
+		
 		if (_minionList != null)
 			getMinionList().onMasterTeleported();
 	}
-
+	
 	/**
 	 * Spawn minions.
 	 */
@@ -96,16 +96,16 @@ public class Monster extends Attackable
 		if (!getTemplate().getMinionData().isEmpty())
 			getMinionList().spawnMinions();
 	}
-
+	
 	@Override
 	public boolean doDie(Creature killer)
 	{
 		if (!super.doDie(killer))
 			return false;
-
+		
 		if (_master != null)
 			_master.getMinionList().onMinionDie(this, _master.getSpawn().getRespawnDelay() * 1000 / 2);
-
+		
 		if (killer != null)
 		{
 			final Player player = killer.getActingPlayer();
@@ -126,12 +126,12 @@ public class Monster extends Attackable
 						}
 					}
 				}
-
+				
 				if (getNpcId() == Config.monsterId && PartyZoneTask.is_started())
 				{
 					PvpFlagTaskManager.getInstance().add(player, 60000);
 				}
-
+				
 				if (getNpcId() == Config.monsterId && !PartyZoneTask.is_started())
 				{
 					for (RewardHolder reward : Config.PARTY_ZONE_REWARDS)
@@ -154,7 +154,7 @@ public class Monster extends Attackable
 										}
 									}
 								}
-
+								
 							}
 						}
 						else if (Rnd.get(100) <= reward.getRewardChance())
@@ -207,7 +207,7 @@ public class Monster extends Attackable
 						}
 					}
 				}
-
+				
 				if (Config.MISSION_LIST_MONSTER.contains(Integer.valueOf(getTemplate().getNpcId())) && Config.ACTIVE_MISSION)
 					if (player.getParty() == null)
 					{
@@ -216,7 +216,7 @@ public class Monster extends Attackable
 						if (!player.isMobCompleted() && player.getMonsterKills() < Config.MISSION_MOB_CONT)
 							player.setMonsterKills(player.getMonsterKills() + 1);
 					}
-
+				
 				if (getNpcId() == Config.monsterId && Config.ACTIVE_MISSION)
 					if (player.getParty() != null)
 					{
@@ -241,13 +241,13 @@ public class Monster extends Attackable
 						if (!player.isPartyMobCompleted() && player.getPartyMonsterKills() < Config.MISSION_PARTY_MOB_CONT)
 							player.setPartyMonsterKills(player.getPartyMonsterKills() + 1);
 					}
-
+				
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public void deleteMe()
 	{
@@ -255,31 +255,31 @@ public class Monster extends Attackable
 			getMinionList().onMasterDie(true);
 		else if (_master != null)
 			_master.getMinionList().onMinionDie(this, 0);
-
+		
 		super.deleteMe();
 	}
-
+	
 	@Override
 	public Monster getLeader()
 	{
 		return _master;
 	}
-
+	
 	public void setLeader(Monster leader)
 	{
 		_master = leader;
 	}
-
+	
 	public boolean hasMinions()
 	{
 		return _minionList != null;
 	}
-
+	
 	public MinionList getMinionList()
 	{
 		if (_minionList == null)
 			_minionList = new MinionList(this);
-
+		
 		return _minionList;
 	}
 }

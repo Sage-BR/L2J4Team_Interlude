@@ -6,11 +6,11 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ExCloseMPCC extends L2GameServerPacket
 {
 	public static final ExCloseMPCC STATIC_PACKET = new ExCloseMPCC();
-
+	
 	private ExCloseMPCC()
 	{
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

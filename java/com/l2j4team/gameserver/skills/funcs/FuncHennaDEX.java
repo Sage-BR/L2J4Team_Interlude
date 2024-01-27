@@ -8,17 +8,17 @@ import com.l2j4team.gameserver.skills.basefuncs.Func;
 public class FuncHennaDEX extends Func
 {
 	static final FuncHennaDEX _fh_instance = new FuncHennaDEX();
-
+	
 	public static Func getInstance()
 	{
 		return _fh_instance;
 	}
-
+	
 	private FuncHennaDEX()
 	{
 		super(Stats.STAT_DEX, 0x10, null, null);
 	}
-
+	
 	@Override
 	public void calc(Env env)
 	{

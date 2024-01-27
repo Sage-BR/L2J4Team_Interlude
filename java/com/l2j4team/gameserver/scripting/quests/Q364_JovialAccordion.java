@@ -10,7 +10,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q364_JovialAccordion extends Quest
 {
 	private static final String qn = "Q364_JovialAccordion";
-
+	
 	// NPCs
 	private static final int BARBADO = 30959;
 	private static final int SWAN = 30957;
@@ -18,24 +18,24 @@ public class Q364_JovialAccordion extends Quest
 	private static final int XABER = 30075;
 	private static final int CLOTH_CHEST = 30961;
 	private static final int BEER_CHEST = 30960;
-
+	
 	// Items
 	private static final int KEY_1 = 4323;
 	private static final int KEY_2 = 4324;
 	private static final int STOLEN_BEER = 4321;
 	private static final int STOLEN_CLOTHES = 4322;
 	private static final int ECHO = 4421;
-
+	
 	public Q364_JovialAccordion()
 	{
 		super(364, "Jovial Accordion");
-
+		
 		setItemsIds(KEY_1, KEY_2, STOLEN_BEER, STOLEN_CLOTHES);
-
+		
 		addStartNpc(BARBADO);
 		addTalkId(BARBADO, SWAN, SABRIN, XABER, CLOTH_CHEST, BEER_CHEST);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -43,7 +43,7 @@ public class Q364_JovialAccordion extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30959-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -84,10 +84,10 @@ public class Q364_JovialAccordion extends Quest
 				}
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -95,17 +95,17 @@ public class Q364_JovialAccordion extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 15) ? "30959-00.htm" : "30959-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				final int stolenItems = st.getInt("items");
-
+				
 				switch (npc.getNpcId())
 				{
 					case BARBADO:
@@ -119,7 +119,7 @@ public class Q364_JovialAccordion extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case SWAN:
 						if (cond == 1)
 							htmltext = "30957-01.htm";
@@ -129,7 +129,7 @@ public class Q364_JovialAccordion extends Quest
 							{
 								st.set("cond", "3");
 								st.playSound(QuestState.SOUND_MIDDLE);
-
+								
 								if (stolenItems == 2)
 								{
 									htmltext = "30957-04.htm";
@@ -153,19 +153,19 @@ public class Q364_JovialAccordion extends Quest
 						else if (cond == 3)
 							htmltext = "30957-07.htm";
 						break;
-
+					
 					case BEER_CHEST:
 						htmltext = "30960-03.htm";
 						if (cond == 2 && st.hasQuestItems(KEY_2))
 							htmltext = "30960-01.htm";
 						break;
-
+					
 					case CLOTH_CHEST:
 						htmltext = "30961-03.htm";
 						if (cond == 2 && st.hasQuestItems(KEY_1))
 							htmltext = "30961-01.htm";
 						break;
-
+					
 					case SABRIN:
 						if (st.hasQuestItems(STOLEN_BEER))
 						{
@@ -177,7 +177,7 @@ public class Q364_JovialAccordion extends Quest
 						else
 							htmltext = "30060-02.htm";
 						break;
-
+					
 					case XABER:
 						if (st.hasQuestItems(STOLEN_CLOTHES))
 						{
@@ -192,7 +192,7 @@ public class Q364_JovialAccordion extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

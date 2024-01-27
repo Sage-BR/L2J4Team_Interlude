@@ -12,7 +12,7 @@ public final class RequestGetOnVehicle extends L2GameClientPacket
 	private int _x;
 	private int _y;
 	private int _z;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -21,14 +21,14 @@ public final class RequestGetOnVehicle extends L2GameClientPacket
 		_y = readD();
 		_z = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		Vehicle boat;
 		if (activeChar.isInBoat())
 		{
@@ -48,11 +48,11 @@ public final class RequestGetOnVehicle extends L2GameClientPacket
 				return;
 			}
 		}
-
+		
 		activeChar.getVehiclePosition().set(_x, _y, _z, activeChar.getHeading());
 		activeChar.setVehicle(boat);
 		activeChar.broadcastPacket(new GetOnVehicle(activeChar.getObjectId(), boat.getObjectId(), _x, _y, _z));
-
+		
 		activeChar.setXYZ(boat.getX(), boat.getY(), boat.getZ());
 		activeChar.revalidateZone(true);
 	}

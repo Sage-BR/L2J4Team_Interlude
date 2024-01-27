@@ -18,24 +18,24 @@ import com.l2j4team.commons.logging.CLogger;
 public class HtmCache
 {
 	private static final CLogger LOGGER = new CLogger(HtmCache.class.getName());
-
+	
 	private final Map<Integer, String> _htmCache = new HashMap<>();
 	private final FileFilter _htmFilter = new HtmFilter();
-
+	
 	protected HtmCache()
 	{
 	}
-
+	
 	/**
 	 * Cleans the HTM cache.
 	 */
 	public void reload()
 	{
 		LOGGER.info("HtmCache has been cleared ({} entries).", _htmCache.size());
-
+		
 		_htmCache.clear();
 	}
-
+	
 	/**
 	 * Loads and stores the HTM file content.
 	 * @param file : The file to be cached.
@@ -46,13 +46,13 @@ public class HtmCache
 		try (FileInputStream fis = new FileInputStream(file); UnicodeReader ur = new UnicodeReader(fis, "UTF-8"); BufferedReader br = new BufferedReader(ur))
 		{
 			final StringBuilder sb = new StringBuilder();
-
+			
 			String line;
 			while ((line = br.readLine()) != null)
 				sb.append(line).append('\n');
-
+			
 			final String content = sb.toString().replaceAll("\r\n", "\n");
-
+			
 			_htmCache.put(file.getPath().replace("\\", "/").hashCode(), content);
 			return content;
 		}
@@ -62,7 +62,7 @@ public class HtmCache
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Check if an HTM exists and can be loaded. If so, it is loaded and stored.
 	 * @param path : The path to the HTM.
@@ -73,10 +73,10 @@ public class HtmCache
 		final File file = new File(path);
 		if (!_htmFilter.accept(file))
 			return false;
-
+		
 		return loadFile(file) != null;
 	}
-
+	
 	/**
 	 * Returns the HTM content given by filename. Test the cache first, then try to load the file if unsuccessful.
 	 * @param path : The path to the HTM.
@@ -86,7 +86,7 @@ public class HtmCache
 	{
 		if (path == null || path.isEmpty())
 			return null;
-
+		
 		String content = _htmCache.get(path.hashCode());
 		if (content == null)
 		{
@@ -94,10 +94,10 @@ public class HtmCache
 			if (_htmFilter.accept(file))
 				content = loadFile(file);
 		}
-
+		
 		return content;
 	}
-
+	
 	/**
 	 * Return content of html message given by filename. In case filename does not exist, returns notice.
 	 * @param path : The path to the HTM.
@@ -111,10 +111,10 @@ public class HtmCache
 			content = "<html><body>My html is missing:<br>" + path + "</body></html>";
 			LOGGER.warn("Following HTM {} is missing.", path);
 		}
-
+		
 		return content;
 	}
-
+	
 	protected class HtmFilter implements FileFilter
 	{
 		@Override
@@ -123,12 +123,12 @@ public class HtmCache
 			return file.isFile() && (file.getName().endsWith(".htm") || file.getName().endsWith(".html"));
 		}
 	}
-
+	
 	public static HtmCache getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final HtmCache INSTANCE = new HtmCache();

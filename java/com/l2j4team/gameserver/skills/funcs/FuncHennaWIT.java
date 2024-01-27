@@ -8,17 +8,17 @@ import com.l2j4team.gameserver.skills.basefuncs.Func;
 public class FuncHennaWIT extends Func
 {
 	static final FuncHennaWIT _fh_instance = new FuncHennaWIT();
-
+	
 	public static Func getInstance()
 	{
 		return _fh_instance;
 	}
-
+	
 	private FuncHennaWIT()
 	{
 		super(Stats.STAT_WIT, 0x10, null, null);
 	}
-
+	
 	@Override
 	public void calc(Env env)
 	{

@@ -9,7 +9,7 @@ import com.l2j4team.commons.mmocore.ReceivablePacket;
 public abstract class L2LoginClientPacket extends ReceivablePacket<L2LoginClient>
 {
 	private static Logger _log;
-
+	
 	@Override
 	protected final boolean read()
 	{
@@ -24,9 +24,9 @@ public abstract class L2LoginClientPacket extends ReceivablePacket<L2LoginClient
 			return false;
 		}
 	}
-
+	
 	protected abstract boolean readImpl();
-
+	
 	static
 	{
 		L2LoginClientPacket._log = Logger.getLogger(L2LoginClientPacket.class.getName());

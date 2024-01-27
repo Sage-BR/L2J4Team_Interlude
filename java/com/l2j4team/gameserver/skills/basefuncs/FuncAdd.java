@@ -9,7 +9,7 @@ public class FuncAdd extends Func
 	{
 		super(pStat, pOrder, owner, lambda);
 	}
-
+	
 	@Override
 	public void calc(Env env)
 	{

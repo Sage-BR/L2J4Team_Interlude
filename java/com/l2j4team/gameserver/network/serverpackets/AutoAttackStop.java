@@ -3,12 +3,12 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class AutoAttackStop extends L2GameServerPacket
 {
 	private final int _targetObjId;
-
+	
 	public AutoAttackStop(int targetObjId)
 	{
 		_targetObjId = targetObjId;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

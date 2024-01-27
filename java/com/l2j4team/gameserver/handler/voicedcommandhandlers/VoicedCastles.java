@@ -24,7 +24,7 @@ public class VoicedCastles implements IVoicedCommandHandler
 		"siege_rune",
 		"siege_schuttgart"
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -37,7 +37,7 @@ public class VoicedCastles implements IVoicedCommandHandler
 				activeChar.sendPacket(SystemMessageId.YOU_ARE_NOT_AUTHORIZED_TO_DO_THAT);
 				return false;
 			}
-
+			
 			int castleId = 0;
 			if (command.startsWith("siege_gludio") && Config.SIEGE_GLUDIO)
 				castleId = 1;
@@ -59,14 +59,14 @@ public class VoicedCastles implements IVoicedCommandHandler
 				castleId = 9;
 			else
 				activeChar.sendMessage("This Castle has been disabled");
-
+			
 			Castle castle = CastleManager.getInstance().getCastleById(castleId);
 			if ((castle != null) && (castleId != 0))
 				activeChar.sendPacket(new SiegeInfo(castle));
 		}
 		return true;
 	}
-
+	
 	private static void sendHtml(Player activeChar)
 	{
 		String htmFile = "data/html/mods/menu/CastleManager.htm";
@@ -74,7 +74,7 @@ public class VoicedCastles implements IVoicedCommandHandler
 		msg.setFile(htmFile);
 		activeChar.sendPacket(msg);
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

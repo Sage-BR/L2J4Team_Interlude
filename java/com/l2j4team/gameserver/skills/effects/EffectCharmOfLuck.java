@@ -15,31 +15,31 @@ public class EffectCharmOfLuck extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.CHARM_OF_LUCK;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		((Playable) getEffected()).stopCharmOfLuck(this);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

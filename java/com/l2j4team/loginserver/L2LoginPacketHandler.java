@@ -58,7 +58,7 @@ public final class L2LoginPacketHandler implements IPacketHandler<L2LoginClient>
 		}
 		return packet;
 	}
-
+	
 	private static void debugOpcode(final int opcode, final L2LoginClient.LoginClientState state)
 	{
 		System.out.println("Unknown Opcode: " + opcode + " for state: " + state.name());

@@ -28,27 +28,27 @@ public class L2NoMonsterZone extends L2SpawnZone
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		character.setInsideZone(ZoneId.NO_MONSTER, true);
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.NO_MONSTER, false);
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 }

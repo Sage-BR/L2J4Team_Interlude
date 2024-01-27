@@ -6,11 +6,11 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ExQuestInfo extends L2GameServerPacket
 {
 	public static final ExQuestInfo STATIC_PACKET = new ExQuestInfo();
-
+	
 	private ExQuestInfo()
 	{
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

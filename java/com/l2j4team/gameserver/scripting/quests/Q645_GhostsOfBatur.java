@@ -10,13 +10,13 @@ import com.l2j4team.commons.lang.StringUtil;
 public class Q645_GhostsOfBatur extends Quest
 {
 	private static final String qn = "Q645_GhostsOfBatur";
-
+	
 	// NPC
 	private static final int KARUDA = 32017;
-
+	
 	// Item
 	private static final int CURSED_GRAVE_GOODS = 8089;
-
+	
 	// Rewards
 	private static final int[][] REWARDS =
 	{
@@ -45,17 +45,17 @@ public class Q645_GhostsOfBatur extends Quest
 			2
 		}
 	};
-
+	
 	public Q645_GhostsOfBatur()
 	{
 		super(645, "Ghosts Of Batur");
-
+		
 		addStartNpc(KARUDA);
 		addTalkId(KARUDA);
-
+		
 		addKillId(22007, 22009, 22010, 22011, 22012, 22013, 22014, 22015, 22016);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -63,7 +63,7 @@ public class Q645_GhostsOfBatur extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("32017-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -74,17 +74,17 @@ public class Q645_GhostsOfBatur extends Quest
 		{
 			htmltext = "32017-07.htm";
 			st.takeItems(CURSED_GRAVE_GOODS, -1);
-
+			
 			final int reward[] = REWARDS[Integer.parseInt(event)];
 			st.giveItems(reward[0], reward[1]);
-
+			
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -92,13 +92,13 @@ public class Q645_GhostsOfBatur extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 23) ? "32017-02.htm" : "32017-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				if (cond == 1)
@@ -107,22 +107,22 @@ public class Q645_GhostsOfBatur extends Quest
 					htmltext = "32017-05.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMember(player, npc, "1");
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		if (st.dropItems(CURSED_GRAVE_GOODS, 1, 180, 750000))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

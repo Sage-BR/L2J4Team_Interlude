@@ -17,7 +17,7 @@ public final class SoulCrystal
 	private final int _initialItemId;
 	private final int _stagedItemId;
 	private final int _brokenItemId;
-
+	
 	public SoulCrystal(StatsSet set)
 	{
 		_level = set.getInteger("level");
@@ -25,22 +25,22 @@ public final class SoulCrystal
 		_stagedItemId = set.getInteger("staged");
 		_brokenItemId = set.getInteger("broken");
 	}
-
+	
 	public int getLevel()
 	{
 		return _level;
 	}
-
+	
 	public int getInitialItemId()
 	{
 		return _initialItemId;
 	}
-
+	
 	public int getStagedItemId()
 	{
 		return _stagedItemId;
 	}
-
+	
 	public int getBrokenItemId()
 	{
 		return _brokenItemId;

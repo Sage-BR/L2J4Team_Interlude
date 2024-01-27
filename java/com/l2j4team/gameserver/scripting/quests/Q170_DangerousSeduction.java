@@ -9,22 +9,22 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q170_DangerousSeduction extends Quest
 {
 	private static final String qn = "Q170_DangerousSeduction";
-
+	
 	// Item
 	private static final int NIGHTMARE_CRYSTAL = 1046;
-
+	
 	public Q170_DangerousSeduction()
 	{
 		super(170, "Dangerous Seduction");
-
+		
 		setItemsIds(NIGHTMARE_CRYSTAL);
-
+		
 		addStartNpc(30305); // Vellior
 		addTalkId(30305);
-
+		
 		addKillId(27022); // Merkenis
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -32,17 +32,17 @@ public class Q170_DangerousSeduction extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30305-04.htm"))
 		{
 			st.setState(STATE_STARTED);
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -50,7 +50,7 @@ public class Q170_DangerousSeduction extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -61,7 +61,7 @@ public class Q170_DangerousSeduction extends Quest
 				else
 					htmltext = "30305-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				if (st.hasQuestItems(NIGHTMARE_CRYSTAL))
 				{
@@ -74,26 +74,26 @@ public class Q170_DangerousSeduction extends Quest
 				else
 					htmltext = "30305-05.htm";
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "1");
 		if (st == null)
 			return null;
-
+		
 		st.set("cond", "2");
 		st.playSound(QuestState.SOUND_MIDDLE);
 		st.giveItems(NIGHTMARE_CRYSTAL, 1);
-
+		
 		return null;
 	}
 }

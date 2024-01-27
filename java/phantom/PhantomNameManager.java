@@ -16,37 +16,37 @@ import com.l2j4team.commons.random.Rnd;
 public enum PhantomNameManager
 {
 	INSTANCE;
-
+	
 	public static final Logger _log = Logger.getLogger(PhantomNameManager.class.getName());
 	private List<String> _fakePlayerNames;
-
+	
 	public void initialise()
 	{
 		loadWordlist();
 	}
-
+	
 	public String getRandomAvailableName()
 	{
 		String name = getRandomNameFromWordlist();
-
+		
 		while (nameAlreadyExists(name))
 		{
 			name = getRandomNameFromWordlist();
 		}
-
+		
 		return name;
 	}
-
+	
 	private String getRandomNameFromWordlist()
 	{
 		return _fakePlayerNames.get(Rnd.get(0, _fakePlayerNames.size() - 1));
 	}
-
+	
 	public List<String> getFakePlayerNames()
 	{
 		return _fakePlayerNames;
 	}
-
+	
 	private void loadWordlist()
 	{
 		try (LineNumberReader lnr = new LineNumberReader(new BufferedReader(new FileReader(new File("./config/custom/phantom/phantom_name.ini"))));)
@@ -67,7 +67,7 @@ public enum PhantomNameManager
 			e.printStackTrace();
 		}
 	}
-
+	
 	private static boolean nameAlreadyExists(String name)
 	{
 		return PlayerNameTable.getInstance().getPlayerObjectId(name) > 0;

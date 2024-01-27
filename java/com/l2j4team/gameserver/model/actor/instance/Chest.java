@@ -12,50 +12,50 @@ public final class Chest extends Monster
 {
 	private volatile boolean _isInteracted;
 	private volatile boolean _specialDrop;
-
+	
 	public Chest(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
 		setIsNoRndWalk(true);
-
+		
 		_isInteracted = false;
 		_specialDrop = false;
 	}
-
+	
 	@Override
 	public void onSpawn()
 	{
 		super.onSpawn();
-
+		
 		_isInteracted = false;
 		_specialDrop = false;
 	}
-
+	
 	public boolean isInteracted()
 	{
 		return _isInteracted;
 	}
-
+	
 	public void setInteracted()
 	{
 		_isInteracted = true;
 	}
-
+	
 	public boolean isSpecialDrop()
 	{
 		return _specialDrop;
 	}
-
+	
 	public void setSpecialDrop()
 	{
 		_specialDrop = true;
 	}
-
+	
 	@Override
 	public void doItemDrop(NpcTemplate npcTemplate, Creature lastAttacker)
 	{
 		int id = getTemplate().getNpcId();
-
+		
 		if (!_specialDrop)
 		{
 			if (id >= 18265 && id <= 18286)
@@ -73,22 +73,22 @@ public final class Chest extends Monster
 			else if (id == 18297 || id == 18298)
 				id = 21786;
 		}
-
+		
 		super.doItemDrop(NpcTable.getInstance().getTemplate(id), lastAttacker);
 	}
-
+	
 	@Override
 	public boolean isMovementDisabled()
 	{
 		if (super.isMovementDisabled())
 			return true;
-
+		
 		if (isInteracted())
 			return false;
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public boolean hasRandomAnimation()
 	{

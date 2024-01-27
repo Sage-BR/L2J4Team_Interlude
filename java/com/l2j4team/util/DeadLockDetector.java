@@ -19,18 +19,18 @@ import java.util.logging.Logger;
 public class DeadLockDetector extends Thread
 {
 	private static Logger _log = Logger.getLogger(DeadLockDetector.class.getName());
-
+	
 	/** Interval to check for deadlocked threads */
 	private static final int _sleepTime = Config.DEADLOCK_CHECK_INTERVAL * 1000;
-
+	
 	private final ThreadMXBean tmx;
-
+	
 	public DeadLockDetector()
 	{
 		super("DeadLockDetector");
 		tmx = ManagementFactory.getThreadMXBean();
 	}
-
+	
 	@Override
 	public final void run()
 	{
@@ -40,25 +40,25 @@ public class DeadLockDetector extends Thread
 			try
 			{
 				long[] ids = tmx.findDeadlockedThreads();
-
+				
 				if (ids != null)
 				{
 					deadlock = true;
 					ThreadInfo[] tis = tmx.getThreadInfo(ids, true, true);
 					StringBuilder info = new StringBuilder();
 					info.append("DeadLock Found!\n");
-
+					
 					for (ThreadInfo ti : tis)
 						info.append(ti.toString());
-
+					
 					for (ThreadInfo ti : tis)
 					{
 						LockInfo[] locks = ti.getLockedSynchronizers();
 						MonitorInfo[] monitors = ti.getLockedMonitors();
-
+						
 						if (locks.length == 0 && monitors.length == 0)
 							continue;
-
+						
 						ThreadInfo dl = ti;
 						info.append("Java-level deadlock:\n");
 						info.append("\t");
@@ -68,7 +68,7 @@ public class DeadLockDetector extends Thread
 						info.append(" which is held by ");
 						info.append(dl.getLockOwnerName());
 						info.append("\n");
-
+						
 						while ((dl = tmx.getThreadInfo(new long[]
 						{
 							dl.getLockOwnerId()
@@ -84,7 +84,7 @@ public class DeadLockDetector extends Thread
 						}
 					}
 					_log.warning(info.toString());
-
+					
 					if (Config.RESTART_ON_DEADLOCK)
 					{
 						Broadcast.announceToOnlinePlayers("Server has stability issues - restarting now.");

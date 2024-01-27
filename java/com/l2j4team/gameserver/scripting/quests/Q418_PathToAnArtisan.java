@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q418_PathToAnArtisan extends Quest
 {
 	private static final String qn = "Q418_PathToAnArtisan";
-
+	
 	// Items
 	private static final int SILVERA_RING = 1632;
 	private static final int FIRST_PASS_CERTIFICATE = 1633;
@@ -22,7 +22,7 @@ public class Q418_PathToAnArtisan extends Quest
 	private static final int FOOTPRINT_OF_THIEF = 1639;
 	private static final int STOLEN_SECRET_BOX = 1640;
 	private static final int SECRET_BOX = 1641;
-
+	
 	// NPCs
 	private static final int SILVERA = 30527;
 	private static final int KLUTO = 30317;
@@ -31,19 +31,19 @@ public class Q418_PathToAnArtisan extends Quest
 	private static final int HITCHI = 31963;
 	private static final int LOCKIRIN = 30531;
 	private static final int RYDEL = 31956;
-
+	
 	public Q418_PathToAnArtisan()
 	{
 		super(418, "Path to an Artisan");
-
+		
 		setItemsIds(SILVERA_RING, FIRST_PASS_CERTIFICATE, SECOND_PASS_CERTIFICATE, BOOGLE_RATMAN_TOOTH, BOOGLE_RATMAN_LEADER_TOOTH, KLUTO_LETTER, FOOTPRINT_OF_THIEF, STOLEN_SECRET_BOX, SECRET_BOX);
-
+		
 		addStartNpc(SILVERA);
 		addTalkId(SILVERA, KLUTO, PINTER, OBI, HITCHI, LOCKIRIN, RYDEL);
-
+		
 		addKillId(20389, 20390, 20017);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -51,7 +51,7 @@ public class Q418_PathToAnArtisan extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30527-05.htm"))
 		{
 			if (player.getClassId() != ClassId.DWARVEN_FIGHTER)
@@ -149,10 +149,10 @@ public class Q418_PathToAnArtisan extends Quest
 			st.set("cond", "12");
 			st.playSound(QuestState.SOUND_MIDDLE);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -160,13 +160,13 @@ public class Q418_PathToAnArtisan extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "30527-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -181,7 +181,7 @@ public class Q418_PathToAnArtisan extends Quest
 						else if (cond == 8)
 							htmltext = "30527-09a.htm";
 						break;
-
+					
 					case KLUTO:
 						if (cond == 3)
 							htmltext = "30317-01.htm";
@@ -190,7 +190,7 @@ public class Q418_PathToAnArtisan extends Quest
 						else if (cond == 7)
 							htmltext = "30317-09.htm";
 						break;
-
+					
 					case PINTER:
 						if (cond == 4)
 							htmltext = "30298-01.htm";
@@ -201,7 +201,7 @@ public class Q418_PathToAnArtisan extends Quest
 						else if (cond == 7)
 							htmltext = "30298-07.htm";
 						break;
-
+					
 					case OBI:
 						if (cond == 8)
 							htmltext = "32052-01.htm";
@@ -210,7 +210,7 @@ public class Q418_PathToAnArtisan extends Quest
 						else if (cond == 11)
 							htmltext = "32052-07.htm";
 						break;
-
+					
 					case HITCHI:
 						if (cond == 9)
 							htmltext = "31963-01.htm";
@@ -221,12 +221,12 @@ public class Q418_PathToAnArtisan extends Quest
 						else if (cond == 12)
 							htmltext = "31963-08.htm";
 						break;
-
+					
 					case LOCKIRIN:
 						if (cond == 10)
 							htmltext = "30531-01.htm";
 						break;
-
+					
 					case RYDEL:
 						if (cond == 12)
 							htmltext = "31956-01.htm";
@@ -234,35 +234,35 @@ public class Q418_PathToAnArtisan extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case 20389:
 				if (st.getInt("cond") == 1 && st.dropItems(BOOGLE_RATMAN_TOOTH, 1, 10, 700000) && st.getQuestItemsCount(BOOGLE_RATMAN_LEADER_TOOTH) == 2)
 					st.set("cond", "2");
 				break;
-
+			
 			case 20390:
 				if (st.getInt("cond") == 1 && st.dropItems(BOOGLE_RATMAN_LEADER_TOOTH, 1, 2, 500000) && st.getQuestItemsCount(BOOGLE_RATMAN_TOOTH) == 10)
 					st.set("cond", "2");
 				break;
-
+			
 			case 20017:
 				if (st.getInt("cond") == 5 && st.dropItems(STOLEN_SECRET_BOX, 1, 1, 200000))
 					st.set("cond", "6");
 				break;
 		}
-
+		
 		return null;
 	}
 }

@@ -34,16 +34,16 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class ChatGlobalManager
 {
 	private static final Logger _log = Logger.getLogger(ChatGlobalManager.class.getName());
-
+	
 	private final Map<Integer, Long> _chats;
 	protected final Map<Integer, Long> _chatsTask;
 	private ScheduledFuture<?> _scheduler;
-
+	
 	public static ChatGlobalManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected ChatGlobalManager()
 	{
 		_chats = new ConcurrentHashMap<>();
@@ -51,7 +51,7 @@ public class ChatGlobalManager
 		_scheduler = ThreadPool.scheduleAtFixedRate(new ChatTask(), 1000, 1000);
 		load();
 	}
-
+	
 	public void reload()
 	{
 		_chats.clear();
@@ -61,7 +61,7 @@ public class ChatGlobalManager
 		_scheduler = ThreadPool.scheduleAtFixedRate(new ChatTask(), 1000, 1000);
 		load();
 	}
-
+	
 	public void load()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -77,15 +77,15 @@ public class ChatGlobalManager
 		{
 			_log.warning("Exception: ChatManager load: " + e.getMessage());
 		}
-
+		
 		_log.info("ChatGlobal_Manager: Loaded " + _chats.size() + " characters with chat time.");
 	}
-
+	
 	public void addChatTime(int objectId, long duration)
 	{
 		_chats.put(objectId, duration);
 		_chatsTask.put(objectId, duration);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("INSERT INTO chat_global_manager (objectId, duration) VALUES (?, ?)");
@@ -99,13 +99,13 @@ public class ChatGlobalManager
 			_log.warning("Exception: addChatTime: " + e.getMessage());
 		}
 	}
-
+	
 	public void updateChatTime(int objectId, long duration)
 	{
 		duration += _chats.get(objectId);
 		_chats.put(objectId, duration);
 		_chatsTask.put(objectId, duration);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("UPDATE chat_global_manager SET duration = ? WHERE objectId = ?");
@@ -119,12 +119,12 @@ public class ChatGlobalManager
 			_log.warning("updateChatTime: " + e.getMessage());
 		}
 	}
-
+	
 	public void removeChatTime(int objectId)
 	{
 		_chats.remove(objectId);
 		_chatsTask.remove(objectId);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("DELETE FROM chat_global_manager WHERE objectId = ?");
@@ -137,27 +137,27 @@ public class ChatGlobalManager
 			_log.warning("removeChatTime: " + e.getMessage());
 		}
 	}
-
+	
 	public boolean hasChatPrivileges(int objectId)
 	{
 		return _chats.containsKey(objectId);
 	}
-
+	
 	public long getChatDuration(int objectId)
 	{
 		return _chats.get(objectId);
 	}
-
+	
 	public void addChatTask(int objectId, long duration)
 	{
 		_chatsTask.put(objectId, duration);
 	}
-
+	
 	public void removeChatTask(int objectId)
 	{
 		_chatsTask.remove(objectId);
 	}
-
+	
 	public class ChatTask implements Runnable
 	{
 		@Override
@@ -165,7 +165,7 @@ public class ChatGlobalManager
 		{
 			if (_chatsTask.isEmpty())
 				return;
-
+			
 			for (Map.Entry<Integer, Long> entry : _chatsTask.entrySet())
 			{
 				final long duration = entry.getValue();
@@ -179,7 +179,7 @@ public class ChatGlobalManager
 			}
 		}
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final ChatGlobalManager _instance = new ChatGlobalManager();

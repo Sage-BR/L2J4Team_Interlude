@@ -15,7 +15,7 @@ public class PvPEventManager implements Runnable
 	private int _tick;
 	public EngineState _state;
 	private final PvPEvent _event;
-
+	
 	protected PvPEventManager()
 	{
 		_event = PvPEvent.getInstance();
@@ -32,7 +32,7 @@ public class PvPEventManager implements Runnable
 			PvPEventManager._log.info("PvPEvent: Event is disabled.");
 		}
 	}
-
+	
 	@Override
 	public void run()
 	{
@@ -130,7 +130,7 @@ public class PvPEventManager implements Runnable
 			--_tick;
 		}
 	}
-
+	
 	public void startEvent()
 	{
 		if (_event.startPartyEvent())
@@ -140,7 +140,7 @@ public class PvPEventManager implements Runnable
 			_tick = Config.PVP_EVENT_RUNNING_TIME * 60;
 		}
 	}
-
+	
 	public void endEvent()
 	{
 		if (_event.endPartyEvent())
@@ -151,28 +151,28 @@ public class PvPEventManager implements Runnable
 			_state = EngineState.AWAITING;
 		}
 	}
-
+	
 	public static PvPEventManager getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	static
 	{
 		_log = Logger.getLogger(PvPEventManager.class.getName());
 	}
-
+	
 	protected enum EngineState
 	{
 		AWAITING,
 		ACTIVE,
 		INACTIVE;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final PvPEventManager INSTANCE;
-
+		
 		static
 		{
 			INSTANCE = new PvPEventManager();

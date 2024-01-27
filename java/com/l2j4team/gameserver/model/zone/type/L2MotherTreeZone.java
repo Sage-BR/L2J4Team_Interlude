@@ -19,12 +19,12 @@ public class L2MotherTreeZone extends L2ZoneType
 	private int _mpRegen;
 	private int _hpRegen;
 	private int[] _race;
-
+	
 	public L2MotherTreeZone(int id)
 	{
 		super(id);
 	}
-
+	
 	@Override
 	public void setParameter(String name, String value)
 	{
@@ -39,9 +39,9 @@ public class L2MotherTreeZone extends L2ZoneType
 		else if (name.equals("affectedRace"))
 		{
 			final String[] races = value.split(",");
-
+			
 			_race = new int[races.length];
-
+			
 			int i = 0;
 			for (String race : races)
 				_race[i++] = Integer.parseInt(race);
@@ -49,7 +49,7 @@ public class L2MotherTreeZone extends L2ZoneType
 		else
 			super.setParameter(name, value);
 	}
-
+	
 	@Override
 	protected boolean isAffected(Creature character)
 	{
@@ -60,50 +60,50 @@ public class L2MotherTreeZone extends L2ZoneType
 		}
 		return true;
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		if (character instanceof Player)
 		{
 			Player player = (Player) character;
-
+			
 			player.setInsideZone(ZoneId.MOTHER_TREE, true);
-
+			
 			if (_enterMsg != 0)
 				player.sendPacket(SystemMessage.getSystemMessage(_enterMsg));
 		}
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		if (character instanceof Player)
 		{
 			Player player = (Player) character;
-
+			
 			player.setInsideZone(ZoneId.MOTHER_TREE, false);
-
+			
 			if (_leaveMsg != 0)
 				player.sendPacket(SystemMessage.getSystemMessage(_leaveMsg));
 		}
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 	public int getMpRegenBonus()
 	{
 		return _mpRegen;
 	}
-
+	
 	public int getHpRegenBonus()
 	{
 		return _hpRegen;

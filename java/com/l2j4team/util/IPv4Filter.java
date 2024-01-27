@@ -16,7 +16,7 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 {
 	private final HashMap<Integer, Flood> _ipFloodMap;
 	private static final long SLEEP_TIME = 5000;
-
+	
 	public IPv4Filter()
 	{
 		_ipFloodMap = new HashMap<>();
@@ -25,7 +25,7 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 		t.setDaemon(true);
 		t.start();
 	}
-
+	
 	/**
 	 * @param ip
 	 * @return
@@ -34,26 +34,26 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 	{
 		return ip[0] & 0xFF | ip[1] << 8 & 0xFF00 | ip[2] << 16 & 0xFF0000 | ip[3] << 24 & 0xFF000000;
 	}
-
+	
 	protected static final class Flood
 	{
 		long lastAccess;
 		int trys;
-
+		
 		Flood()
 		{
 			lastAccess = System.currentTimeMillis();
 			trys = 0;
 		}
 	}
-
+	
 	@SuppressWarnings("resource")
 	@Override
 	public boolean accept(SocketChannel sc)
 	{
 		InetAddress addr = sc.socket().getInetAddress();
 		int h = hash(addr.getAddress());
-
+		
 		long current = System.currentTimeMillis();
 		Flood f;
 		synchronized (_ipFloodMap)
@@ -67,17 +67,17 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 				f.lastAccess = current;
 				return false;
 			}
-
+			
 			if (f.lastAccess + 1000 > current)
 			{
 				f.lastAccess = current;
-
+				
 				if (f.trys >= 3)
 				{
 					f.trys = -1;
 					return false;
 				}
-
+				
 				f.trys++;
 			}
 			else
@@ -92,10 +92,10 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 				_ipFloodMap.put(h, new Flood());
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public void run()
 	{
@@ -112,7 +112,7 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 						it.remove();
 				}
 			}
-
+			
 			try
 			{
 				Thread.sleep(SLEEP_TIME);
@@ -123,5 +123,5 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 			}
 		}
 	}
-
+	
 }

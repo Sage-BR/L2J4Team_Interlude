@@ -12,7 +12,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q105_SkirmishWithTheOrcs extends Quest
 {
 	private static final String qn = "Q105_SkirmishWithTheOrcs";
-
+	
 	// Item
 	private static final int KENDELL_ORDER_1 = 1836;
 	private static final int KENDELL_ORDER_2 = 1837;
@@ -24,7 +24,7 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 	private static final int KENDELL_ORDER_8 = 1843;
 	private static final int KABOO_CHIEF_TORC_1 = 1844;
 	private static final int KABOO_CHIEF_TORC_2 = 1845;
-
+	
 	// Monster
 	private static final int KABOO_CHIEF_UOPH = 27059;
 	private static final int KABOO_CHIEF_KRACHA = 27060;
@@ -34,7 +34,7 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 	private static final int KABOO_CHIEF_ROKO = 27065;
 	private static final int KABOO_CHIEF_KAMUT = 27067;
 	private static final int KABOO_CHIEF_MURTIKA = 27068;
-
+	
 	// Rewards
 	private static final int SPIRITSHOT_FOR_BEGINNERS = 5790;
 	private static final int SOULSHOT_FOR_BEGINNERS = 5789;
@@ -45,19 +45,19 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 	private static final int ECHO_SOLITUDE = 4414;
 	private static final int ECHO_FEAST = 4415;
 	private static final int ECHO_CELEBRATION = 4416;
-
+	
 	public Q105_SkirmishWithTheOrcs()
 	{
 		super(105, "Skirmish with the Orcs");
-
+		
 		setItemsIds(KENDELL_ORDER_1, KENDELL_ORDER_2, KENDELL_ORDER_3, KENDELL_ORDER_4, KENDELL_ORDER_5, KENDELL_ORDER_6, KENDELL_ORDER_7, KENDELL_ORDER_8, KABOO_CHIEF_TORC_1, KABOO_CHIEF_TORC_2);
-
+		
 		addStartNpc(30218); // Kendell
 		addTalkId(30218);
-
+		
 		addKillId(KABOO_CHIEF_UOPH, KABOO_CHIEF_KRACHA, KABOO_CHIEF_BATOH, KABOO_CHIEF_TANUKIA, KABOO_CHIEF_TUREL, KABOO_CHIEF_ROKO, KABOO_CHIEF_KAMUT, KABOO_CHIEF_MURTIKA);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -65,7 +65,7 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30218-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -75,7 +75,7 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -83,7 +83,7 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -94,7 +94,7 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 				else
 					htmltext = "30218-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				if (cond == 1)
@@ -121,12 +121,12 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 					st.takeItems(KENDELL_ORDER_6, 1);
 					st.takeItems(KENDELL_ORDER_7, 1);
 					st.takeItems(KENDELL_ORDER_8, 1);
-
+					
 					if (player.isMageClass())
 						st.giveItems(RED_SUNSET_STAFF, 1);
 					else
 						st.giveItems(RED_SUNSET_SWORD, 1);
-
+					
 					if (player.isNewbie())
 					{
 						st.showQuestionMark(26);
@@ -141,7 +141,7 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 							st.giveItems(SOULSHOT_FOR_BEGINNERS, 7000);
 						}
 					}
-
+					
 					st.giveItems(ECHO_BATTLE, 10);
 					st.giveItems(ECHO_LOVE, 10);
 					st.giveItems(ECHO_SOLITUDE, 10);
@@ -152,21 +152,21 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 					st.exitQuest(false);
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case KABOO_CHIEF_UOPH:
@@ -180,7 +180,7 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 					st.giveItems(KABOO_CHIEF_TORC_1, 1);
 				}
 				break;
-
+			
 			case KABOO_CHIEF_TUREL:
 			case KABOO_CHIEF_ROKO:
 				if (st.getInt("cond") == 3 && st.hasQuestItems(npc.getNpcId() - 25224)) // npcId - 25224 = itemId to verify.
@@ -190,7 +190,7 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 					st.giveItems(KABOO_CHIEF_TORC_2, 1);
 				}
 				break;
-
+			
 			case KABOO_CHIEF_KAMUT:
 			case KABOO_CHIEF_MURTIKA:
 				if (st.getInt("cond") == 3 && st.hasQuestItems(npc.getNpcId() - 25225)) // npcId - 25225 = itemId to verify.
@@ -201,7 +201,7 @@ public class Q105_SkirmishWithTheOrcs extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
 }

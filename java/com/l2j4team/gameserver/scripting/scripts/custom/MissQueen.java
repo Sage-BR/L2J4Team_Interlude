@@ -9,11 +9,11 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class MissQueen extends Quest
 {
 	private static final String qn = "MissQueen";
-
+	
 	// Rewards
 	private static final int COUPON_ONE = 7832;
 	private static final int COUPON_TWO = 7833;
-
+	
 	// Miss Queen locations
 	private static final SpawnLocation[] LOCATIONS =
 	{
@@ -29,26 +29,26 @@ public class MissQueen extends Quest
 		new SpawnLocation(-84336, 242156, -3730, 24500),
 		new SpawnLocation(-82032, 150160, -3127, 16500)
 	};
-
+	
 	public MissQueen()
 	{
 		super(-1, "custom");
-
+		
 		// Spawn the 11 NPCs.
 		for (SpawnLocation loc : LOCATIONS)
 			addSpawn(31760, loc, false, 0, false);
-
+		
 		addStartNpc(31760);
 		addTalkId(31760);
 		addFirstTalkId(31760);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
 		String htmltext = event;
 		QuestState st = player.getQuestState(qn);
-
+		
 		if (event.equalsIgnoreCase("newbie_coupon"))
 		{
 			if (player.getClassId().level() == 0 && player.getLevel() >= 6 && player.getLevel() <= 25 && player.getPkKills() <= 0)
@@ -83,17 +83,17 @@ public class MissQueen extends Quest
 			else
 				htmltext = "31760-06.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onFirstTalk(Npc npc, Player player)
 	{
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			st = newQuestState(player);
-
+		
 		return "31760.htm";
 	}
 }

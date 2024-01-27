@@ -26,7 +26,7 @@ public class OracleTeleport extends Quest
 		31997,
 		31168
 	};
-
+	
 	private static final int[] TOWN_DUSK =
 	{
 		31085,
@@ -41,7 +41,7 @@ public class OracleTeleport extends Quest
 		31998,
 		31169
 	};
-
+	
 	private static final int[] TEMPLE_PRIEST =
 	{
 		31127,
@@ -55,7 +55,7 @@ public class OracleTeleport extends Quest
 		31140,
 		31141
 	};
-
+	
 	private static final int[] RIFT_POSTERS =
 	{
 		31488,
@@ -65,7 +65,7 @@ public class OracleTeleport extends Quest
 		31492,
 		31493
 	};
-
+	
 	private static final int[] TELEPORTERS =
 	{
 		31078,
@@ -133,7 +133,7 @@ public class OracleTeleport extends Quest
 		31124,
 		31125
 	};
-
+	
 	private static final Location[] RETURN_LOCS =
 	{
 		new Location(-80555, 150337, -3040),
@@ -201,48 +201,48 @@ public class OracleTeleport extends Quest
 		new Location(-19182, 13503, -4899),
 		new Location(12837, -248483, -9579)
 	};
-
+	
 	public OracleTeleport()
 	{
 		super(-1, "teleports");
-
+		
 		for (int posters : RIFT_POSTERS)
 		{
 			addStartNpc(posters);
 			addTalkId(posters);
 		}
-
+		
 		for (int teleporters : TELEPORTERS)
 		{
 			addStartNpc(teleporters);
 			addTalkId(teleporters);
 		}
-
+		
 		for (int priests : TEMPLE_PRIEST)
 		{
 			addStartNpc(priests);
 			addTalkId(priests);
 		}
-
+		
 		for (int dawn : TOWN_DAWN)
 		{
 			addStartNpc(dawn);
 			addTalkId(dawn);
 		}
-
+		
 		for (int dusk : TOWN_DUSK)
 		{
 			addStartNpc(dusk);
 			addTalkId(dusk);
 		}
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
 		String htmltext = "";
 		QuestState st = player.getQuestState(getName());
-
+		
 		int npcId = npc.getNpcId();
 		if (event.equalsIgnoreCase("Return"))
 		{
@@ -287,7 +287,7 @@ public class OracleTeleport extends Quest
 			int id = st.getInt("id");
 			if (id > -1)
 				htmltext = "5a.htm";
-
+			
 			int i = 0;
 			for (int id1 : TELEPORTERS)
 			{
@@ -295,7 +295,7 @@ public class OracleTeleport extends Quest
 					break;
 				i++;
 			}
-
+			
 			st.set("id", Integer.toString(i));
 			st.setState(STATE_STARTED);
 			player.teleToLocation(-114755, -179466, -6752, 0);
@@ -320,7 +320,7 @@ public class OracleTeleport extends Quest
 				st.takeItems(57, 18000);
 			else if (playerLevel >= 70)
 				st.takeItems(57, 24500);
-
+			
 			int i = 0;
 			for (int zigurrat : TELEPORTERS)
 			{
@@ -328,29 +328,29 @@ public class OracleTeleport extends Quest
 					break;
 				i++;
 			}
-
+			
 			st.set("id", Integer.toString(i));
 			st.setState(STATE_STARTED);
 			st.playSound(QuestState.SOUND_ACCEPT);
 			htmltext = "ziggurat_rift.htm";
 			player.teleToLocation(-114755, -179466, -6752, 0);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
 		String htmltext = "";
 		QuestState st = player.getQuestState(getName());
-
+		
 		int npcId = npc.getNpcId();
-
+		
 		if (ArraysUtil.contains(TOWN_DAWN, npcId))
 		{
 			st.setState(STATE_STARTED);
-
+			
 			int i = 0;
 			for (int dawn : TELEPORTERS)
 			{
@@ -358,17 +358,17 @@ public class OracleTeleport extends Quest
 					break;
 				i++;
 			}
-
+			
 			st.set("id", Integer.toString(i));
 			st.playSound(QuestState.SOUND_ACCEPT);
 			player.teleToLocation(-80157, 111344, -4901, 0);
 			player.setIsIn7sDungeon(true);
 		}
-
+		
 		if (ArraysUtil.contains(TOWN_DUSK, npcId))
 		{
 			st.setState(STATE_STARTED);
-
+			
 			int i = 0;
 			for (int dusk : TELEPORTERS)
 			{
@@ -376,7 +376,7 @@ public class OracleTeleport extends Quest
 					break;
 				i++;
 			}
-
+			
 			st.set("id", Integer.toString(i));
 			st.playSound(QuestState.SOUND_ACCEPT);
 			player.teleToLocation(-81261, 86531, -5157, 0);
@@ -453,7 +453,7 @@ public class OracleTeleport extends Quest
 			else
 				htmltext = "ziggurat.htm";
 		}
-
+		
 		return htmltext;
 	}
 }

@@ -30,20 +30,20 @@ public class L2EffectZone extends L2ZoneType
 	private Future<?> _task;
 	private int _minLvl;
 	private String _target = "Playable"; // default only playable
-
+	
 	protected Map<Integer, Integer> _skills = new ConcurrentHashMap<>();
-
+	
 	public L2EffectZone(int id)
 	{
 		super(id);
-
+		
 		_chance = 100;
 		_initialDelay = 0;
 		_reuse = 30000;
 		_enabled = true;
 		_isShowDangerIcon = true;
 	}
-
+	
 	@Override
 	public void setParameter(String name, String value)
 	{
@@ -86,14 +86,14 @@ public class L2EffectZone extends L2ZoneType
 		else
 			super.setParameter(name, value);
 	}
-
+	
 	@Override
 	protected boolean isAffected(Creature character)
 	{
 		// Check lvl
 		if (character.getLevel() < _minLvl)
 			return false;
-
+		
 		// check obj class
 		try
 		{
@@ -104,10 +104,10 @@ public class L2EffectZone extends L2ZoneType
 		{
 			e.printStackTrace();
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
@@ -119,14 +119,14 @@ public class L2EffectZone extends L2ZoneType
 					_task = ThreadPool.scheduleAtFixedRate(new ApplySkill(), _initialDelay, _reuse);
 			}
 		}
-
+		
 		if (character instanceof Player && _isShowDangerIcon)
 		{
 			character.setInsideZone(ZoneId.DANGER_AREA, true);
 			character.sendPacket(new EtcStatusUpdate((Player) character));
 		}
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
@@ -136,58 +136,58 @@ public class L2EffectZone extends L2ZoneType
 			if (!character.isInsideZone(ZoneId.DANGER_AREA))
 				character.sendPacket(new EtcStatusUpdate((Player) character));
 		}
-
+		
 		if (_characterList.isEmpty() && _task != null)
 		{
 			_task.cancel(true);
 			_task = null;
 		}
 	}
-
+	
 	public int getChance()
 	{
 		return _chance;
 	}
-
+	
 	public boolean isEnabled()
 	{
 		return _enabled;
 	}
-
+	
 	public void addSkill(int skillId, int skillLvL)
 	{
 		_skills.put(skillId, (skillLvL < 1) ? 1 : skillLvL);
 	}
-
+	
 	public void removeSkill(int skillId)
 	{
 		_skills.remove(skillId);
 	}
-
+	
 	public void clearSkills()
 	{
 		_skills.clear();
 	}
-
+	
 	public int getSkillLevel(int skillId)
 	{
 		if (!_skills.containsKey(skillId))
 			return 0;
-
+		
 		return _skills.get(skillId);
 	}
-
+	
 	public void setEnabled(boolean val)
 	{
 		_enabled = val;
 	}
-
+	
 	class ApplySkill implements Runnable
 	{
 		ApplySkill()
 		{
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -212,12 +212,12 @@ public class L2EffectZone extends L2ZoneType
 			}
 		}
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{

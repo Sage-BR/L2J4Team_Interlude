@@ -25,7 +25,7 @@ public class AdminBalancer implements IAdminCommandHandler
 	{
 		"admin_balance"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -37,12 +37,12 @@ public class AdminBalancer implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	public static void sendBalanceWindow(int classId, Player p)
 	{
 		NpcHtmlMessage htm = new NpcHtmlMessage(0);
 		htm.setFile("./data/html/admin/balance/balance.htm");
-
+		
 		htm.replace("%classId%", classId + "");
 		htm.replace("%Patk%", BalanceLoad.loadPAtk(classId) + "");
 		htm.replace("%Matk%", BalanceLoad.loadMAtk(classId) + "");
@@ -54,10 +54,10 @@ public class AdminBalancer implements IAdminCommandHandler
 		htm.replace("%CastSp%", BalanceLoad.loadMAtkSpd(classId) + "");
 		htm.replace("%Hp%", BalanceLoad.loadHP(classId) + "");
 		htm.replace("%Mp%", BalanceLoad.loadMP(classId) + "");
-
+		
 		p.sendPacket(htm);
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

@@ -10,13 +10,13 @@ import com.l2j4team.commons.lang.StringUtil;
 public class Q640_TheZeroHour extends Quest
 {
 	private static final String qn = "Q640_TheZeroHour";
-
+	
 	// NPC
 	private static final int KAHMAN = 31554;
-
+	
 	// Item
 	private static final int FANG_OF_STAKATO = 8085;
-
+	
 	private static final int[][] REWARDS =
 	{
 		{
@@ -65,20 +65,20 @@ public class Q640_TheZeroHour extends Quest
 			5
 		}
 	};
-
+	
 	public Q640_TheZeroHour()
 	{
 		super(640, "The Zero Hour");
-
+		
 		setItemsIds(FANG_OF_STAKATO);
-
+		
 		addStartNpc(KAHMAN);
 		addTalkId(KAHMAN);
-
+		
 		// All "spiked" stakatos types, except babies and cannibalistic followers.
 		addKillId(22105, 22106, 22107, 22108, 22109, 22110, 22111, 22113, 22114, 22115, 22116, 22117, 22118, 22119, 22121);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -86,7 +86,7 @@ public class Q640_TheZeroHour extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31554-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -106,7 +106,7 @@ public class Q640_TheZeroHour extends Quest
 		else if (StringUtil.isDigit(event))
 		{
 			int reward[] = REWARDS[Integer.parseInt(event)];
-
+			
 			if (st.getQuestItemsCount(FANG_OF_STAKATO) >= reward[0])
 			{
 				htmltext = "31554-09.htm";
@@ -116,10 +116,10 @@ public class Q640_TheZeroHour extends Quest
 			else
 				htmltext = "31554-06.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -127,7 +127,7 @@ public class Q640_TheZeroHour extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -139,24 +139,24 @@ public class Q640_TheZeroHour extends Quest
 					htmltext = (st2 != null && st2.isCompleted()) ? "31554-01.htm" : "31554-10.htm";
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				htmltext = (st.hasQuestItems(FANG_OF_STAKATO)) ? "31554-04.htm" : "31554-03.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		partyMember.getQuestState(qn).dropItemsAlways(FANG_OF_STAKATO, 1, 0);
-
+		
 		return null;
 	}
 }

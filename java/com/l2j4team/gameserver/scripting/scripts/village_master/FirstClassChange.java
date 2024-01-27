@@ -20,32 +20,32 @@ public class FirstClassChange extends Quest
 	private static final int IRON_HEART = 1252;
 	private static final int JEWEL_OF_DARKNESS = 1261;
 	private static final int ORB_OF_ABYSS = 1270;
-
+	
 	// Quest Items Orcs
 	private static final int MARK_OF_RAIDER = 1592;
 	private static final int KHAVATARI_TOTEM = 1615;
 	private static final int MASK_OF_MEDIUM = 1631;
-
+	
 	// Quest Items Dwarf
 	private static final int ARTI_MARKS = 1635;
 	private static final int SCAV_MARKS = 1642;
-
+	
 	// Quest Items Light Elf
 	private static final int ELVEN_KNIGHT_BROOCH = 1204;
 	private static final int REORIA_RECOMMENDATION = 1217;
 	private static final int ETERNITY_DIAMOND = 1230;
 	private static final int LEAF_OF_ORACLE = 1235;
-
+	
 	// Quest Items Human
 	private static final int MEDALLION_OF_WARRIOR = 1145;
 	private static final int SWORD_OF_RITUAL = 1161;
 	private static final int BEZIQUES_RECOMMENDATION = 1190;
 	private static final int BEAD_OF_SEASON = 1292;
 	private static final int MARK_OF_FAITH = 1201;
-
+	
 	// Reward Item
 	private static final int SHADOW_WEAPON_COUPON_DGRADE = 8869;
-
+	
 	// Classes
 	private static final Map<String, int[]> Classes = new HashMap<>();
 	{
@@ -98,7 +98,7 @@ public class FirstClassChange extends Quest
 			ORB_OF_ABYSS,
 			33
 		});
-
+		
 		// Orc
 		Classes.put("OR", new int[]
 		{
@@ -136,7 +136,7 @@ public class FirstClassChange extends Quest
 			MASK_OF_MEDIUM,
 			23
 		});
-
+		
 		// Dwarf
 		Classes.put("SC", new int[]
 		{
@@ -162,7 +162,7 @@ public class FirstClassChange extends Quest
 			ARTI_MARKS,
 			11
 		});
-
+		
 		// Light Elf
 		Classes.put("EK", new int[]
 		{
@@ -212,7 +212,7 @@ public class FirstClassChange extends Quest
 			LEAF_OF_ORACLE,
 			33
 		});
-
+		
 		// Human
 		Classes.put("HW", new int[]
 		{
@@ -275,7 +275,7 @@ public class FirstClassChange extends Quest
 			33
 		});
 	}
-
+	
 	// Also used by ShadowWeapon script.
 	public static final int[] FIRSTCLASSNPCS =
 	{
@@ -309,15 +309,15 @@ public class FirstClassChange extends Quest
 		32097,
 		32098
 	};
-
+	
 	public FirstClassChange()
 	{
 		super(-1, "village_master");
-
+		
 		addStartNpc(FIRSTCLASSNPCS);
 		addTalkId(FIRSTCLASSNPCS);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -325,18 +325,18 @@ public class FirstClassChange extends Quest
 		QuestState st = player.getQuestState("FirstClassChange");
 		if (st == null)
 			return htmltext;
-
+		
 		String suffix = "";
-
+		
 		if (Classes.containsKey(event))
 		{
 			// 0 = newClass, 1 = reqClass, 2 = reqRace, 3 = no/no, 4 = no/ok, 5 = ok/no, 6 = ok/ok, 7 = reqItem, 8 = deniedClass
 			final int[] array = Classes.get(event);
-
+			
 			if (player.getClassId().getId() == array[1] && player.getRace().ordinal() == array[2])
 			{
 				final boolean gotItem = st.hasQuestItems(array[7]);
-
+				
 				if (player.getLevel() < 20)
 					suffix = "-" + ((gotItem) ? array[4] : array[3]);
 				else
@@ -344,11 +344,11 @@ public class FirstClassChange extends Quest
 					if (gotItem)
 					{
 						suffix = "-" + array[6];
-
+						
 						st.takeItems(array[7], 1);
 						st.giveItems(SHADOW_WEAPON_COUPON_DGRADE, 15);
 						st.playSound(QuestState.SOUND_FANFARE);
-
+						
 						player.setClassId(array[0]);
 						player.setBaseClass(array[0]);
 						player.sendPacket(new HennaInfo(player));
@@ -357,17 +357,17 @@ public class FirstClassChange extends Quest
 					else
 						suffix = "-" + array[5];
 				}
-
+				
 				htmltext = npc.getNpcId() + suffix + ".htm";
 				st.exitQuest(true);
 			}
 			else
 				htmltext = npc.getNpcId() + "-" + array[8] + ".htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -375,13 +375,13 @@ public class FirstClassChange extends Quest
 		QuestState st = player.getQuestState("FirstClassChange");
 		if (st == null)
 			return htmltext;
-
+		
 		if (player.isSubClassActive())
 		{
 			st.exitQuest(true);
 			return htmltext;
 		}
-
+		
 		final int npcId = npc.getNpcId();
 		switch (npcId)
 		{
@@ -405,7 +405,7 @@ public class FirstClassChange extends Quest
 				else
 					htmltext = npcId + "-33.htm";
 				break;
-
+			
 			case 30358: // Thifiell (dark elf)
 				if (player.getRace() == ClassRace.DARK_ELF)
 				{
@@ -424,7 +424,7 @@ public class FirstClassChange extends Quest
 				else
 					htmltext = npcId + "-11.htm";
 				break;
-
+			
 			case 30500: // Orcs
 			case 30505:
 			case 30508:
@@ -446,7 +446,7 @@ public class FirstClassChange extends Quest
 				else
 					htmltext = npcId + "-23.htm";
 				break;
-
+			
 			case 30565: // Kakai (Orcs)
 				if (player.getRace() == ClassRace.ORC)
 				{
@@ -465,7 +465,7 @@ public class FirstClassChange extends Quest
 				else
 					htmltext = npcId + "-11.htm";
 				break;
-
+			
 			case 30503: // Dwarf
 			case 30594:
 			case 30498:
@@ -489,7 +489,7 @@ public class FirstClassChange extends Quest
 				else
 					htmltext = npcId + "-11.htm";
 				break;
-
+			
 			case 30525: // Bronk and Reed(dwarf)
 			case 30520:
 				if (player.getRace() == ClassRace.DWARF)
@@ -507,7 +507,7 @@ public class FirstClassChange extends Quest
 				else
 					htmltext = npcId + "-07.htm";
 				break;
-
+			
 			case 30070: // Elfs and humans mages
 			case 30037:
 			case 30289:
@@ -549,7 +549,7 @@ public class FirstClassChange extends Quest
 				else
 					htmltext = npcId + "-33.htm";
 				break;
-
+			
 			case 30154: // Asterios (Elf fighters and mages)
 				if (player.getRace() == ClassRace.ELF)
 				{
@@ -568,7 +568,7 @@ public class FirstClassChange extends Quest
 				else
 					htmltext = npcId + "-11.htm";
 				break;
-
+			
 			case 30031: // Biotin (Human mages)
 				if (player.getRace() == ClassRace.HUMAN)
 				{
@@ -590,7 +590,7 @@ public class FirstClassChange extends Quest
 				else
 					htmltext = npcId + "-08.htm";
 				break;
-
+			
 			case 30373: // Human and Elfs fighters
 			case 30288:
 			case 30066:
@@ -625,7 +625,7 @@ public class FirstClassChange extends Quest
 				else
 					htmltext = npcId + "-40.htm";
 				break;
-
+			
 			case 30026: // Bitz (Human fighters)
 				if (player.getRace() == ClassRace.HUMAN)
 				{
@@ -646,7 +646,7 @@ public class FirstClassChange extends Quest
 				break;
 		}
 		st.exitQuest(true);
-
+		
 		return htmltext;
 	}
 }

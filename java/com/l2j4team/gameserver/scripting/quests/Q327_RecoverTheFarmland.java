@@ -13,7 +13,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q327_RecoverTheFarmland extends Quest
 {
 	private static final String qn = "Q327_RecoverTheFarmland";
-
+	
 	// Items
 	private static final int LEIKAN_LETTER = 5012;
 	private static final int TUREK_DOGTAG = 1846;
@@ -26,7 +26,7 @@ public class Q327_RecoverTheFarmland extends Quest
 	private static final int ANCIENT_BRASS_TIARA = 1853;
 	private static final int ANCIENT_BRONZE_MIRROR = 1854;
 	private static final int ANCIENT_JADE_NECKLACE = 1855;
-
+	
 	// Rewards
 	private static final int ADENA = 57;
 	private static final int SOULSHOT_D = 1463;
@@ -36,14 +36,14 @@ public class Q327_RecoverTheFarmland extends Quest
 	private static final int POTION_OF_ALACRITY = 735;
 	private static final int SCROLL_OF_ESCAPE = 736;
 	private static final int SCROLL_OF_RESURRECTION = 737;
-
+	
 	// NPCs
 	private static final int LEIKAN = 30382;
 	private static final int PIOTUR = 30597;
 	private static final int IRIS = 30034;
 	private static final int ASHA = 30313;
 	private static final int NESTLE = 30314;
-
+	
 	// Monsters
 	private static final int TUREK_ORC_WARLORD = 20495;
 	private static final int TUREK_ORC_ARCHER = 20496;
@@ -52,7 +52,7 @@ public class Q327_RecoverTheFarmland extends Quest
 	private static final int TUREK_ORC_FOOTMAN = 20499;
 	private static final int TUREK_ORC_SENTINEL = 20500;
 	private static final int TUREK_ORC_SHAMAN = 20501;
-
+	
 	// Chances
 	private static final int[][] DROPLIST =
 	{
@@ -92,7 +92,7 @@ public class Q327_RecoverTheFarmland extends Quest
 			TUREK_MEDALLION
 		}
 	};
-
+	
 	// Exp
 	private static final Map<Integer, Integer> EXP_REWARD = new HashMap<>();
 	{
@@ -101,19 +101,19 @@ public class Q327_RecoverTheFarmland extends Quest
 		EXP_REWARD.put(ANCIENT_BRONZE_MIRROR, 3227);
 		EXP_REWARD.put(ANCIENT_JADE_NECKLACE, 3919);
 	}
-
+	
 	public Q327_RecoverTheFarmland()
 	{
 		super(327, "Recover the Farmland");
-
+		
 		setItemsIds(LEIKAN_LETTER);
-
+		
 		addStartNpc(LEIKAN, PIOTUR);
 		addTalkId(LEIKAN, PIOTUR, IRIS, ASHA, NESTLE);
-
+		
 		addKillId(TUREK_ORC_WARLORD, TUREK_ORC_ARCHER, TUREK_ORC_SKIRMISHER, TUREK_ORC_SUPPLIER, TUREK_ORC_FOOTMAN, TUREK_ORC_SENTINEL, TUREK_ORC_SHAMAN);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -121,7 +121,7 @@ public class Q327_RecoverTheFarmland extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// Piotur
 		if (event.equalsIgnoreCase("30597-03.htm") && st.getInt("cond") < 1)
 		{
@@ -251,7 +251,7 @@ public class Q327_RecoverTheFarmland extends Quest
 		else if (event.equalsIgnoreCase("30034-07.htm"))
 		{
 			boolean isRewarded = false;
-
+			
 			for (int i = 1852; i < 1856; i++)
 			{
 				int n = st.getQuestItemsCount(i);
@@ -314,10 +314,10 @@ public class Q327_RecoverTheFarmland extends Quest
 				st.rewardItems(SPIRITSHOT_D, 50 + Rnd.get(41));
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -325,13 +325,13 @@ public class Q327_RecoverTheFarmland extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = npc.getNpcId() + ((player.getLevel() < 25) ? "-01.htm" : "-02.htm");
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -342,16 +342,16 @@ public class Q327_RecoverTheFarmland extends Quest
 							if (st.hasAtLeastOneQuestItem(TUREK_DOGTAG, TUREK_MEDALLION))
 							{
 								htmltext = "30597-05.htm";
-
+								
 								if (cond < 4)
 								{
 									st.set("cond", "4");
 									st.playSound(QuestState.SOUND_MIDDLE);
 								}
-
+								
 								final int dogtag = st.getQuestItemsCount(TUREK_DOGTAG);
 								final int medallion = st.getQuestItemsCount(TUREK_MEDALLION);
-
+								
 								st.takeItems(TUREK_DOGTAG, -1);
 								st.takeItems(TUREK_MEDALLION, -1);
 								st.rewardItems(ADENA, dogtag * 40 + medallion * 50 + ((dogtag + medallion >= 10) ? 619 : 0));
@@ -367,7 +367,7 @@ public class Q327_RecoverTheFarmland extends Quest
 							st.takeItems(LEIKAN_LETTER, 1);
 						}
 						break;
-
+					
 					case LEIKAN:
 						if (cond == 2)
 							htmltext = "30382-04.htm";
@@ -380,24 +380,24 @@ public class Q327_RecoverTheFarmland extends Quest
 						else if (cond == 5)
 							htmltext = "30382-05.htm";
 						break;
-
+					
 					default:
 						htmltext = npc.getNpcId() + "-01.htm";
 						break;
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		for (int[] npcData : DROPLIST)
 		{
 			if (npcData[0] == npc.getNpcId())
@@ -407,7 +407,7 @@ public class Q327_RecoverTheFarmland extends Quest
 				break;
 			}
 		}
-
+		
 		return null;
 	}
 }

@@ -15,29 +15,29 @@ import java.util.Map;
 public class PolymorphingHalisha extends L2AttackableAIScript
 {
 	private static final Map<Integer, Integer> ANGELSPAWNS = new HashMap<>();
-
+	
 	static
 	{
 		ANGELSPAWNS.put(29046, 29047);
 	}
-
+	
 	public PolymorphingHalisha()
 	{
 		super("ai/group");
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addEventIds(ANGELSPAWNS.keySet(), EventType.ON_KILL);
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player killer, boolean isPet)
 	{
 		final Attackable newNpc = (Attackable) addSpawn(ANGELSPAWNS.get(npc.getNpcId()), npc, false, 0, false);
 		attack(newNpc, killer);
-
+		
 		return super.onKill(npc, killer, isPet);
 	}
 }

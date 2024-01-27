@@ -13,7 +13,7 @@ public class PlayerAuthRequest extends GameServerBasePacket
 		writeD(key.loginOkID1);
 		writeD(key.loginOkID2);
 	}
-
+	
 	@Override
 	public byte[] getContent()
 	{

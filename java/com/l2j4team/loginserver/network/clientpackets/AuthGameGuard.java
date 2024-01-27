@@ -11,32 +11,32 @@ public class AuthGameGuard extends L2LoginClientPacket
 	private int _data2;
 	private int _data3;
 	private int _data4;
-
+	
 	public int getSessionId()
 	{
 		return _sessionId;
 	}
-
+	
 	public int getData1()
 	{
 		return _data1;
 	}
-
+	
 	public int getData2()
 	{
 		return _data2;
 	}
-
+	
 	public int getData3()
 	{
 		return _data3;
 	}
-
+	
 	public int getData4()
 	{
 		return _data4;
 	}
-
+	
 	@Override
 	protected boolean readImpl()
 	{
@@ -51,7 +51,7 @@ public class AuthGameGuard extends L2LoginClientPacket
 		}
 		return false;
 	}
-
+	
 	@Override
 	public void run()
 	{

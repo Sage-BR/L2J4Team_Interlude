@@ -29,9 +29,9 @@ public class ChangeClanNameLog
 	{
 		new File("log/Player Log/ChangeClanNameLog").mkdirs();
 	}
-
+	
 	private static final Logger _log = Logger.getLogger(ChangeClanNameLog.class.getName());
-
+	
 	public static void auditGMAction(int i, String Name, String action, String ip, String params)
 	{
 		final File file = new File("log/Player Log/ChangeClanNameLog/" + i + ".txt");
@@ -43,7 +43,7 @@ public class ChangeClanNameLog
 			catch (IOException e)
 			{
 			}
-
+		
 		try (FileWriter save = new FileWriter(file, true))
 		{
 			save.write(MathUtil.formatDate(new Date(), "dd/MM/yyyy H:mm:ss") + " >>>>> ID: [" + i + "] >> Nome Atual do clan: [" + Name + "] >> Modificou para: [" + action + "] >> IP: [" + ip + "]\r\n");
@@ -53,7 +53,7 @@ public class ChangeClanNameLog
 			_log.log(Level.SEVERE, "ChangeClanNameLog for Player " + Name + " could not be saved: ", e);
 		}
 	}
-
+	
 	public static void auditGMAction(int i, String Name, String action, String ip)
 	{
 		auditGMAction(i, Name, action, ip, "");

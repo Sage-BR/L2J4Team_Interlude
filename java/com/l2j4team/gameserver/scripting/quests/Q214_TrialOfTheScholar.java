@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q214_TrialOfTheScholar extends Quest
 {
 	private static final String qn = "Q214_TrialOfTheScholar";
-
+	
 	// Items
 	private static final int MIRIEN_SIGIL_1 = 2675;
 	private static final int MIRIEN_SIGIL_2 = 2676;
@@ -57,11 +57,11 @@ public class Q214_TrialOfTheScholar extends Quest
 	private static final int FETTERED_SOUL_ICHOR = 2718;
 	private static final int ENCHANTED_GARGOYLE_NAIL = 2719;
 	private static final int SYMBOL_OF_CRONOS = 2720;
-
+	
 	// Rewards
 	private static final int MARK_OF_SCHOLAR = 2674;
 	private static final int DIMENSIONAL_DIAMOND = 7562;
-
+	
 	// NPCs
 	private static final int SYLVAIN = 30070;
 	private static final int LUCAS = 30071;
@@ -77,7 +77,7 @@ public class Q214_TrialOfTheScholar extends Quest
 	private static final int CRONOS = 30610;
 	private static final int TRIFF = 30611;
 	private static final int CASIAN = 30612;
-
+	
 	// Monsters
 	private static final int MONSTER_EYE_DESTROYER = 20068;
 	private static final int MEDUSA = 20158;
@@ -89,19 +89,19 @@ public class Q214_TrialOfTheScholar extends Quest
 	private static final int GRANDIS = 20554;
 	private static final int ENCHANTED_GARGOYLE = 20567;
 	private static final int LETO_LIZARDMAN_WARRIOR = 20580;
-
+	
 	public Q214_TrialOfTheScholar()
 	{
 		super(214, "Trial Of The Scholar");
-
+		
 		setItemsIds(MIRIEN_SIGIL_1, MIRIEN_SIGIL_2, MIRIEN_SIGIL_3, MIRIEN_INSTRUCTION, MARIA_LETTER_1, MARIA_LETTER_2, LUCAS_LETTER, LUCILLA_HANDBAG, CRETA_LETTER_1, CRETA_PAINTING_1, CRETA_PAINTING_2, CRETA_PAINTING_3, BROWN_SCROLL_SCRAP, CRYSTAL_OF_PURITY_1, HIGH_PRIEST_SIGIL, GRAND_MAGISTER_SIGIL, CRONOS_SIGIL, SYLVAIN_LETTER, SYMBOL_OF_SYLVAIN, JUREK_LIST, MONSTER_EYE_DESTROYER_SKIN, SHAMAN_NECKLACE, SHACKLE_SCALP, SYMBOL_OF_JUREK, CRONOS_LETTER, DIETER_KEY, CRETA_LETTER_2, DIETER_LETTER, DIETER_DIARY, RAUT_LETTER_ENVELOPE, TRIFF_RING, SCRIPTURE_CHAPTER_1, SCRIPTURE_CHAPTER_2, SCRIPTURE_CHAPTER_3, SCRIPTURE_CHAPTER_4, VALKON_REQUEST, POITAN_NOTES, STRONG_LIQUOR, CRYSTAL_OF_PURITY_2, CASIAN_LIST, GHOUL_SKIN, MEDUSA_BLOOD, FETTERED_SOUL_ICHOR, ENCHANTED_GARGOYLE_NAIL, SYMBOL_OF_CRONOS);
-
+		
 		addStartNpc(MIRIEN);
 		addTalkId(MIRIEN, SYLVAIN, LUCAS, VALKON, DIETER, JUREK, EDROC, RAUT, POITAN, MARIA, CRETA, CRONOS, TRIFF, CASIAN);
-
+		
 		addKillId(MONSTER_EYE_DESTROYER, MEDUSA, GHOUL, SHACKLE_1, SHACKLE_2, BREKA_ORC_SHAMAN, FETTERED_SOUL, GRANDIS, ENCHANTED_GARGOYLE, LETO_LIZARDMAN_WARRIOR);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -109,7 +109,7 @@ public class Q214_TrialOfTheScholar extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// MIRIEN
 		if (event.equalsIgnoreCase("30461-04.htm"))
 		{
@@ -117,7 +117,7 @@ public class Q214_TrialOfTheScholar extends Quest
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(MIRIEN_SIGIL_1, 1);
-
+			
 			if (!player.getMemos().getBool("secondClassChange35", false))
 			{
 				htmltext = "30461-04a.htm";
@@ -298,10 +298,10 @@ public class Q214_TrialOfTheScholar extends Quest
 			st.takeItems(POITAN_NOTES, 1);
 			st.giveItems(SCRIPTURE_CHAPTER_4, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -309,7 +309,7 @@ public class Q214_TrialOfTheScholar extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -320,7 +320,7 @@ public class Q214_TrialOfTheScholar extends Quest
 				else
 					htmltext = "30461-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -373,7 +373,7 @@ public class Q214_TrialOfTheScholar extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case SYLVAIN:
 						if (cond == 1)
 							htmltext = "30070-01.htm";
@@ -393,7 +393,7 @@ public class Q214_TrialOfTheScholar extends Quest
 						else if (cond > 14)
 							htmltext = "30070-06.htm";
 						break;
-
+					
 					case MARIA:
 						if (cond == 2)
 							htmltext = "30608-01.htm";
@@ -450,7 +450,7 @@ public class Q214_TrialOfTheScholar extends Quest
 							}
 						}
 						break;
-
+					
 					case JUREK:
 						if (cond == 15)
 							htmltext = "30115-01.htm";
@@ -473,7 +473,7 @@ public class Q214_TrialOfTheScholar extends Quest
 						else if (cond > 18)
 							htmltext = "30115-07.htm";
 						break;
-
+					
 					case LUCAS:
 						if (cond == 3)
 						{
@@ -494,7 +494,7 @@ public class Q214_TrialOfTheScholar extends Quest
 						else if (cond > 12)
 							htmltext = "30071-07.htm";
 						break;
-
+					
 					case CRETA:
 						if (cond == 5)
 							htmltext = "30609-01.htm";
@@ -511,7 +511,7 @@ public class Q214_TrialOfTheScholar extends Quest
 						else if (cond > 21)
 							htmltext = "30609-15.htm";
 						break;
-
+					
 					case CRONOS:
 						if (cond == 19)
 							htmltext = "30610-01.htm";
@@ -522,7 +522,7 @@ public class Q214_TrialOfTheScholar extends Quest
 						else if (cond == 31)
 							htmltext = "30610-15.htm";
 						break;
-
+					
 					case DIETER:
 						if (cond == 20)
 							htmltext = "30111-01.htm";
@@ -539,7 +539,7 @@ public class Q214_TrialOfTheScholar extends Quest
 						else if (cond == 31)
 							htmltext = "30111-15.htm";
 						break;
-
+					
 					case EDROC:
 						if (cond == 23)
 							htmltext = "30230-01.htm";
@@ -548,7 +548,7 @@ public class Q214_TrialOfTheScholar extends Quest
 						else if (cond > 24)
 							htmltext = "30230-04.htm";
 						break;
-
+					
 					case RAUT:
 						if (cond == 24)
 							htmltext = "30316-01.htm";
@@ -557,14 +557,14 @@ public class Q214_TrialOfTheScholar extends Quest
 						else if (cond > 25)
 							htmltext = "30316-05.htm";
 						break;
-
+					
 					case TRIFF:
 						if (cond == 25)
 							htmltext = "30611-01.htm";
 						else if (cond > 25)
 							htmltext = "30611-05.htm";
 						break;
-
+					
 					case VALKON:
 						if (st.hasQuestItems(TRIFF_RING))
 						{
@@ -589,7 +589,7 @@ public class Q214_TrialOfTheScholar extends Quest
 								htmltext = "30103-07.htm";
 						}
 						break;
-
+					
 					case POITAN:
 						if (cond == 26 || cond == 27)
 						{
@@ -607,7 +607,7 @@ public class Q214_TrialOfTheScholar extends Quest
 						else if (cond == 30)
 							htmltext = "30458-04.htm";
 						break;
-
+					
 					case CASIAN:
 						if ((cond == 26 || cond == 27) && st.hasQuestItems(POITAN_NOTES))
 						{
@@ -632,78 +632,78 @@ public class Q214_TrialOfTheScholar extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case LETO_LIZARDMAN_WARRIOR:
 				if (st.getInt("cond") == 11 && st.dropItems(BROWN_SCROLL_SCRAP, 1, 5, 500000))
 					st.set("cond", "12");
 				break;
-
+			
 			case SHACKLE_1:
 			case SHACKLE_2:
 				if (st.getInt("cond") == 16 && st.dropItems(SHACKLE_SCALP, 1, 2, 500000))
 					if (st.getQuestItemsCount(MONSTER_EYE_DESTROYER_SKIN) == 5 && st.getQuestItemsCount(SHAMAN_NECKLACE) == 5)
 						st.set("cond", "17");
 				break;
-
+			
 			case MONSTER_EYE_DESTROYER:
 				if (st.getInt("cond") == 16 && st.dropItems(MONSTER_EYE_DESTROYER_SKIN, 1, 5, 500000))
 					if (st.getQuestItemsCount(SHACKLE_SCALP) == 2 && st.getQuestItemsCount(SHAMAN_NECKLACE) == 5)
 						st.set("cond", "17");
 				break;
-
+			
 			case BREKA_ORC_SHAMAN:
 				if (st.getInt("cond") == 16 && st.dropItems(SHAMAN_NECKLACE, 1, 5, 500000))
 					if (st.getQuestItemsCount(SHACKLE_SCALP) == 2 && st.getQuestItemsCount(MONSTER_EYE_DESTROYER_SKIN) == 5)
 						st.set("cond", "17");
 				break;
-
+			
 			case GRANDIS:
 				if (st.hasQuestItems(TRIFF_RING))
 					st.dropItems(SCRIPTURE_CHAPTER_3, 1, 1, 300000);
 				break;
-
+			
 			case MEDUSA:
 				if (st.getInt("cond") == 28 && st.dropItemsAlways(MEDUSA_BLOOD, 1, 12))
 					if (st.getQuestItemsCount(GHOUL_SKIN) == 10 && st.getQuestItemsCount(FETTERED_SOUL_ICHOR) == 5 && st.getQuestItemsCount(ENCHANTED_GARGOYLE_NAIL) == 5)
 						st.set("cond", "29");
 				break;
-
+			
 			case GHOUL:
 				if (st.getInt("cond") == 28 && st.dropItemsAlways(GHOUL_SKIN, 1, 10))
 					if (st.getQuestItemsCount(MEDUSA_BLOOD) == 12 && st.getQuestItemsCount(FETTERED_SOUL_ICHOR) == 5 && st.getQuestItemsCount(ENCHANTED_GARGOYLE_NAIL) == 5)
 						st.set("cond", "29");
 				break;
-
+			
 			case FETTERED_SOUL:
 				if (st.getInt("cond") == 28 && st.dropItemsAlways(FETTERED_SOUL_ICHOR, 1, 5))
 					if (st.getQuestItemsCount(MEDUSA_BLOOD) == 12 && st.getQuestItemsCount(GHOUL_SKIN) == 10 && st.getQuestItemsCount(ENCHANTED_GARGOYLE_NAIL) == 5)
 						st.set("cond", "29");
 				break;
-
+			
 			case ENCHANTED_GARGOYLE:
 				if (st.getInt("cond") == 28 && st.dropItemsAlways(ENCHANTED_GARGOYLE_NAIL, 1, 5))
 					if (st.getQuestItemsCount(MEDUSA_BLOOD) == 12 && st.getQuestItemsCount(GHOUL_SKIN) == 10 && st.getQuestItemsCount(FETTERED_SOUL_ICHOR) == 5)
 						st.set("cond", "29");
 				break;
 		}
-
+		
 		return null;
 	}
 }

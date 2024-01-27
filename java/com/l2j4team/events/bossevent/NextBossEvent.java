@@ -16,7 +16,7 @@ public class NextBossEvent
 	private Calendar nextEvent;
 	private final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 	public ScheduledFuture<?> task = null;
-
+	
 	public static NextBossEvent getInstance()
 	{
 		if (_instance == null)
@@ -25,7 +25,7 @@ public class NextBossEvent
 		}
 		return _instance;
 	}
-
+	
 	public String getNextTime()
 	{
 		if (nextEvent.getTime() != null)
@@ -34,7 +34,7 @@ public class NextBossEvent
 		}
 		return "Erro";
 	}
-
+	
 	public void startCalculationOfNextEventTime()
 	{
 		try
@@ -77,13 +77,13 @@ public class NextBossEvent
 			System.out.println("[Boss Event]: " + e);
 		}
 	}
-
+	
 	class StartEventTask implements Runnable
 	{
 		StartEventTask()
 		{
 		}
-
+		
 		@Override
 		public void run()
 		{

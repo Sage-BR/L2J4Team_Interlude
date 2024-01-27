@@ -16,7 +16,7 @@ public class L2ArenaZone extends L2SpawnZone
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
@@ -25,29 +25,29 @@ public class L2ArenaZone extends L2SpawnZone
 			if (!character.isInsideZone(ZoneId.PVP))
 				((Player) character).sendPacket(SystemMessageId.ENTERED_COMBAT_ZONE);
 		}
-
+		
 		character.setInsideZone(ZoneId.PVP, true);
 		character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, true);
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.PVP, false);
 		character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, false);
-
+		
 		if (character instanceof Player)
 		{
 			if (!character.isInsideZone(ZoneId.PVP))
 				((Player) character).sendPacket(SystemMessageId.LEFT_COMBAT_ZONE);
 		}
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{

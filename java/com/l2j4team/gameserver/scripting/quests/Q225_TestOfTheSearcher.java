@@ -11,7 +11,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q225_TestOfTheSearcher extends Quest
 {
 	private static final String qn = "Q225_TestOfTheSearcher";
-
+	
 	// Items
 	private static final int LUTHER_LETTER = 2784;
 	private static final int ALEX_WARRANT = 2785;
@@ -38,11 +38,11 @@ public class Q225_TestOfTheSearcher extends Quest
 	private static final int RUSTED_KEY = 2806;
 	private static final int GOLD_BAR = 2807;
 	private static final int ALEX_RECOMMEND = 2808;
-
+	
 	// Rewards
 	private static final int MARK_OF_SEARCHER = 2809;
 	private static final int DIMENSIONAL_DIAMOND = 7562;
-
+	
 	// NPCs
 	private static final int ALEX = 30291;
 	private static final int TYRA = 30420;
@@ -52,7 +52,7 @@ public class Q225_TestOfTheSearcher extends Quest
 	private static final int LEIRYNN = 30728;
 	private static final int BORYS = 30729;
 	private static final int JAX = 30730;
-
+	
 	// Monsters
 	private static final int HANGMAN_TREE = 20144;
 	private static final int ROAD_SCAVENGER = 20551;
@@ -60,22 +60,22 @@ public class Q225_TestOfTheSearcher extends Quest
 	private static final int DELU_LIZARDMAN_SHAMAN = 20781;
 	private static final int DELU_CHIEF_KALKIS = 27093;
 	private static final int NEER_BODYGUARD = 27092;
-
+	
 	private static Npc _strongWoodenChest; // Used to avoid to spawn multiple instances.
-
+	
 	public Q225_TestOfTheSearcher()
 	{
 		super(225, "Test of the Searcher");
-
+		
 		setItemsIds(LUTHER_LETTER, ALEX_WARRANT, LEIRYNN_ORDER_1, DELU_TOTEM, LEIRYNN_ORDER_2, CHIEF_KALKI_FANG, LEIRYNN_REPORT, STRANGE_MAP, LAMBERT_MAP, ALEX_LETTER, ALEX_ORDER, WINE_CATALOG, TYRA_CONTRACT, RED_SPORE_DUST, MALRUKIAN_WINE, OLD_ORDER, JAX_DIARY, TORN_MAP_PIECE_1, TORN_MAP_PIECE_2, SOLT_MAP, MAKEL_MAP, COMBINED_MAP, RUSTED_KEY, GOLD_BAR, ALEX_RECOMMEND);
-
+		
 		addStartNpc(LUTHER);
 		addTalkId(ALEX, TYRA, TREE, STRONG_WOODEN_CHEST, LUTHER, LEIRYNN, BORYS, JAX);
-
+		
 		addAttackId(DELU_LIZARDMAN_SHAMAN);
 		addKillId(HANGMAN_TREE, ROAD_SCAVENGER, GIANT_FUNGUS, DELU_LIZARDMAN_SHAMAN, DELU_CHIEF_KALKIS, NEER_BODYGUARD);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -83,7 +83,7 @@ public class Q225_TestOfTheSearcher extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// LUTHER
 		if (event.equalsIgnoreCase("30690-05.htm"))
 		{
@@ -91,7 +91,7 @@ public class Q225_TestOfTheSearcher extends Quest
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(LUTHER_LETTER, 1);
-
+			
 			if (!player.getMemos().getBool("secondClassChange39", false))
 			{
 				htmltext = "30690-05a.htm";
@@ -137,7 +137,7 @@ public class Q225_TestOfTheSearcher extends Quest
 					st.playSound(QuestState.SOUND_MIDDLE);
 					st.giveItems(RUSTED_KEY, 1);
 				}
-
+				
 				_strongWoodenChest = addSpawn(STRONG_WOODEN_CHEST, 10098, 157287, -2406, 0, false, 0, true);
 				startQuestTimer("chest_despawn", 300000, null, player, false);
 			}
@@ -153,7 +153,7 @@ public class Q225_TestOfTheSearcher extends Quest
 				st.playSound(QuestState.SOUND_MIDDLE);
 				st.takeItems(RUSTED_KEY, -1);
 				st.giveItems(GOLD_BAR, 20);
-
+				
 				_strongWoodenChest.deleteMe();
 				_strongWoodenChest = null;
 				cancelQuestTimer("chest_despawn", null, player);
@@ -166,10 +166,10 @@ public class Q225_TestOfTheSearcher extends Quest
 			_strongWoodenChest = null;
 			return null;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -177,7 +177,7 @@ public class Q225_TestOfTheSearcher extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -188,7 +188,7 @@ public class Q225_TestOfTheSearcher extends Quest
 				else
 					htmltext = (player.getClassId() == ClassId.SCAVENGER) ? "30690-04.htm" : "30690-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -209,7 +209,7 @@ public class Q225_TestOfTheSearcher extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case ALEX:
 						if (cond == 1)
 						{
@@ -244,7 +244,7 @@ public class Q225_TestOfTheSearcher extends Quest
 						else if (cond == 19)
 							htmltext = "30291-12.htm";
 						break;
-
+					
 					case LEIRYNN:
 						if (cond == 2)
 						{
@@ -281,7 +281,7 @@ public class Q225_TestOfTheSearcher extends Quest
 						else if (cond > 7)
 							htmltext = "30728-07.htm";
 						break;
-
+					
 					case BORYS:
 						if (cond == 8)
 						{
@@ -307,7 +307,7 @@ public class Q225_TestOfTheSearcher extends Quest
 						else if (cond > 13)
 							htmltext = "30729-05.htm";
 						break;
-
+					
 					case TYRA:
 						if (cond == 9)
 							htmltext = "30420-01.htm";
@@ -325,7 +325,7 @@ public class Q225_TestOfTheSearcher extends Quest
 						else if (cond > 11)
 							htmltext = "30420-04.htm";
 						break;
-
+					
 					case JAX:
 						if (cond == 13)
 							htmltext = "30730-01.htm";
@@ -345,110 +345,110 @@ public class Q225_TestOfTheSearcher extends Quest
 						else if (cond > 15)
 							htmltext = "30730-04.htm";
 						break;
-
+					
 					case TREE:
 						if (cond == 16 || cond == 17)
 							htmltext = "30627-01.htm";
 						break;
-
+					
 					case STRONG_WOODEN_CHEST:
 						if (cond == 17)
 							htmltext = "30628-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
 		QuestState st = checkPlayerState(attacker, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		if (st.hasQuestItems(LEIRYNN_ORDER_1) && !npc.isScriptValue(1))
 		{
 			npc.setScriptValue(1);
 			addSpawn(NEER_BODYGUARD, npc, false, 200000, true);
 		}
-
+		
 		return null;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st;
-
+		
 		switch (npc.getNpcId())
 		{
 			case DELU_LIZARDMAN_SHAMAN:
 				st = checkPlayerCondition(player, npc, "cond", "3");
 				if (st == null)
 					return null;
-
+				
 				if (st.dropItemsAlways(DELU_TOTEM, 1, 10))
 					st.set("cond", "4");
 				break;
-
+			
 			case DELU_CHIEF_KALKIS:
 				st = checkPlayerCondition(player, npc, "cond", "5");
 				if (st == null)
 					return null;
-
+				
 				st.set("cond", "6");
 				st.playSound(QuestState.SOUND_MIDDLE);
 				st.giveItems(CHIEF_KALKI_FANG, 1);
 				st.giveItems(STRANGE_MAP, 1);
 				break;
-
+			
 			case GIANT_FUNGUS:
 				st = checkPlayerCondition(player, npc, "cond", "10");
 				if (st == null)
 					return null;
-
+				
 				if (st.dropItemsAlways(RED_SPORE_DUST, 1, 10))
 					st.set("cond", "11");
 				break;
-
+			
 			case ROAD_SCAVENGER:
 				st = checkPlayerCondition(player, npc, "cond", "14");
 				if (st == null)
 					return null;
-
+				
 				if (!st.hasQuestItems(SOLT_MAP) && st.dropItems(TORN_MAP_PIECE_1, 1, 4, 500000))
 				{
 					st.takeItems(TORN_MAP_PIECE_1, -1);
 					st.giveItems(SOLT_MAP, 1);
-
+					
 					if (st.hasQuestItems(MAKEL_MAP))
 						st.set("cond", "15");
 				}
 				break;
-
+			
 			case HANGMAN_TREE:
 				st = checkPlayerCondition(player, npc, "cond", "14");
 				if (st == null)
 					return null;
-
+				
 				if (!st.hasQuestItems(MAKEL_MAP) && st.dropItems(TORN_MAP_PIECE_2, 1, 4, 500000))
 				{
 					st.takeItems(TORN_MAP_PIECE_2, -1);
 					st.giveItems(MAKEL_MAP, 1);
-
+					
 					if (st.hasQuestItems(SOLT_MAP))
 						st.set("cond", "15");
 				}
 				break;
 		}
-
+		
 		return null;
 	}
 }

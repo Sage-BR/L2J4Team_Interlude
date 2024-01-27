@@ -11,13 +11,13 @@ import java.util.Map;
 public class Q368_TrespassingIntoTheSacredArea extends Quest
 {
 	private static final String qn = "Q368_TrespassingIntoTheSacredArea";
-
+	
 	// NPC
 	private static final int RESTINA = 30926;
-
+	
 	// Item
 	private static final int FANG = 5881;
-
+	
 	// Drop chances
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
@@ -26,19 +26,19 @@ public class Q368_TrespassingIntoTheSacredArea extends Quest
 		CHANCES.put(20796, 500000);
 		CHANCES.put(20797, 480000);
 	}
-
+	
 	public Q368_TrespassingIntoTheSacredArea()
 	{
 		super(368, "Trespassing into the Sacred Area");
-
+		
 		setItemsIds(FANG);
-
+		
 		addStartNpc(RESTINA);
 		addTalkId(RESTINA);
-
+		
 		addKillId(20794, 20795, 20796, 20797);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -46,7 +46,7 @@ public class Q368_TrespassingIntoTheSacredArea extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30926-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -58,10 +58,10 @@ public class Q368_TrespassingIntoTheSacredArea extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -69,13 +69,13 @@ public class Q368_TrespassingIntoTheSacredArea extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 36) ? "30926-01a.htm" : "30926-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int fangs = st.getQuestItemsCount(FANG);
 				if (fangs == 0)
@@ -83,26 +83,26 @@ public class Q368_TrespassingIntoTheSacredArea extends Quest
 				else
 				{
 					final int reward = 250 * fangs + (fangs > 10 ? 5730 : 2000);
-
+					
 					htmltext = "30926-04.htm";
 					st.takeItems(5881, -1);
 					st.rewardItems(57, reward);
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		partyMember.getQuestState(qn).dropItems(FANG, 1, 0, CHANCES.get(npc.getNpcId()));
-
+		
 		return null;
 	}
 }

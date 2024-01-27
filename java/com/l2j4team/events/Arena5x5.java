@@ -30,7 +30,7 @@ public class Arena5x5 implements Runnable
 	Arena[] arenas = new Arena[Config.ARENA_EVENT_COUNT_5X5];
 	// list of fights going on
 	Map<Integer, String> fights = new HashMap<>(Config.ARENA_EVENT_COUNT_5X5);
-
+	
 	public Arena5x5()
 	{
 		registered = new ArrayList<>();
@@ -41,12 +41,12 @@ public class Arena5x5 implements Runnable
 			arenas[i] = new Arena(i, coord[0], coord[1], coord[2]);
 		}
 	}
-
+	
 	public static Arena5x5 getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	public boolean register(Player player, Player assist, Player assist2, Player assist3, Player assist4)
 	{
 		for (Pair p : registered)
@@ -79,7 +79,7 @@ public class Arena5x5 implements Runnable
 		}
 		return registered.add(new Pair(player, assist, assist2, assist3, assist4));
 	}
-
+	
 	public boolean isRegistered(Player player)
 	{
 		for (Pair p : registered)
@@ -91,12 +91,12 @@ public class Arena5x5 implements Runnable
 		}
 		return false;
 	}
-
+	
 	public Map<Integer, String> getFights()
 	{
 		return fights;
 	}
-
+	
 	public boolean remove(Player player)
 	{
 		for (Pair p : registered)
@@ -110,18 +110,18 @@ public class Arena5x5 implements Runnable
 		}
 		return false;
 	}
-
+	
 	@Override
 	public synchronized void run()
 	{
 		boolean load = true;
-
+		
 		// while server is running
 		while (load)
 		{
 			if (!ArenaTask.is_started())
 				load = false;
-
+			
 			// if no have participants or arenas are busy wait 1 minute
 			if (registered.size() < 2 || free == 0)
 			{
@@ -151,7 +151,7 @@ public class Arena5x5 implements Runnable
 			}
 		}
 	}
-
+	
 	@SuppressWarnings("null")
 	private List<Pair> selectOpponents()
 	{
@@ -163,7 +163,7 @@ public class Arena5x5 implements Runnable
 			int first = 0, second = 0;
 			if (getRegisteredCount() < 2)
 				return opponents;
-
+			
 			if (pairOne == null)
 			{
 				first = Rnd.get(getRegisteredCount());
@@ -179,7 +179,7 @@ public class Arena5x5 implements Runnable
 					registered.remove(first);
 					return null;
 				}
-
+				
 			}
 			if (pairTwo == null)
 			{
@@ -196,23 +196,23 @@ public class Arena5x5 implements Runnable
 					registered.remove(second);
 					return null;
 				}
-
+				
 			}
 		}
 		while ((pairOne == null || pairTwo == null) && --tries > 0);
 		return opponents;
 	}
-
+	
 	public void clear()
 	{
 		registered.clear();
 	}
-
+	
 	public int getRegisteredCount()
 	{
 		return registered.size();
 	}
-
+	
 	private class Pair
 	{
 		Player leader;
@@ -220,7 +220,7 @@ public class Arena5x5 implements Runnable
 		Player assist2;
 		Player assist3;
 		Player assist4;
-
+		
 		public Pair(Player leader, Player assist, Player assist2, Player assist3, Player assist4)
 		{
 			this.leader = leader;
@@ -229,105 +229,105 @@ public class Arena5x5 implements Runnable
 			this.assist3 = assist3;
 			this.assist4 = assist4;
 		}
-
+		
 		public Player getAssist()
 		{
 			return assist;
 		}
-
+		
 		public Player getAssist2()
 		{
 			return assist2;
 		}
-
+		
 		public Player getAssist3()
 		{
 			return assist3;
 		}
-
+		
 		public Player getAssist4()
 		{
 			return assist4;
 		}
-
+		
 		public Player getLeader()
 		{
 			return leader;
 		}
-
+		
 		public boolean check()
 		{
 			if ((leader == null || !leader.isOnline()))
 			{
 				if (assist != null || assist.isOnline())
 					assist.sendMessage("Tournament: You participation in Event was Canceled.");
-
+				
 				if (assist2 != null || assist2.isOnline())
 					assist2.sendMessage("Tournament: You participation in Event was Canceled.");
-
+				
 				if (assist3 != null || assist3.isOnline())
 					assist3.sendMessage("Tournament: You participation in Event was Canceled.");
-
+				
 				if (assist4 != null || assist4.isOnline())
 					assist4.sendMessage("Tournament: You participation in Event was Canceled.");
-
+				
 				return false;
 			}
 			else if (((assist == null || !assist.isOnline()) || (assist2 == null || !assist2.isOnline()) || (assist3 == null || !assist3.isOnline()) || (assist4 == null || !assist4.isOnline())) && (leader != null && leader.isOnline()))
 			{
 				leader.sendMessage("Tournament: You participation in Event was Canceled.");
-
+				
 				if (assist != null || assist.isOnline())
 					assist.sendMessage("Tournament: You participation in Event was Canceled.");
-
+				
 				if (assist2 != null || assist2.isOnline())
 					assist2.sendMessage("Tournament: You participation in Event was Canceled.");
-
+				
 				if (assist3 != null || assist3.isOnline())
 					assist3.sendMessage("Tournament: You participation in Event was Canceled.");
-
+				
 				if (assist4 != null || assist4.isOnline())
 					assist4.sendMessage("Tournament: You participation in Event was Canceled.");
-
+				
 				return false;
 			}
 			return true;
 		}
-
+		
 		public boolean isDead()
 		{
 			if (Config.ARENA_PROTECT)
 			{
 				if (leader != null && leader.isOnline() && leader.isArenaAttack() && !leader.isDead() && !leader.isInsideZone(ZoneId.ARENA_EVENT))
 					leader.logout();
-
+				
 				if (assist != null && assist.isOnline() && assist.isArenaAttack() && !assist.isDead() && !assist.isInsideZone(ZoneId.ARENA_EVENT))
 					assist.logout();
-
+				
 				if (assist2 != null && assist2.isOnline() && assist2.isArenaAttack() && !assist2.isDead() && !assist2.isInsideZone(ZoneId.ARENA_EVENT))
 					assist2.logout();
-
+				
 				if (assist3 != null && assist3.isOnline() && assist3.isArenaAttack() && !assist3.isDead() && !assist3.isInsideZone(ZoneId.ARENA_EVENT))
 					assist3.logout();
-
+				
 				if (assist4 != null && assist4.isOnline() && assist4.isArenaAttack() && !assist4.isDead() && !assist4.isInsideZone(ZoneId.ARENA_EVENT))
 					assist4.logout();
 			}
-
+			
 			if ((leader == null || leader.isDead() || !leader.isOnline() || !leader.isInsideZone(ZoneId.ARENA_EVENT) || !leader.isArenaAttack()) && (assist == null || assist.isDead() || !assist.isOnline() || !assist.isInsideZone(ZoneId.ARENA_EVENT) || !assist.isArenaAttack()) && (assist2 == null || assist2.isDead() || !assist2.isOnline() || !assist2.isInsideZone(ZoneId.ARENA_EVENT) || !assist2.isArenaAttack()) && (assist3 == null || assist3.isDead() || !assist3.isOnline() || !assist3.isInsideZone(ZoneId.ARENA_EVENT) || !assist3.isArenaAttack()) && (assist4 == null || assist4.isDead() || !assist4.isOnline() || !assist4.isInsideZone(ZoneId.ARENA_EVENT) || !assist4.isArenaAttack()))
 				return false;
-
+			
 			return !(leader.isDead() && assist.isDead() && assist2.isDead() && assist3.isDead() && assist4.isDead());
 		}
-
+		
 		public boolean isAlive()
 		{
 			if ((leader == null || leader.isDead() || !leader.isOnline() || !leader.isInsideZone(ZoneId.ARENA_EVENT) || !leader.isArenaAttack()) && (assist == null || assist.isDead() || !assist.isOnline() || !assist.isInsideZone(ZoneId.ARENA_EVENT) || !assist.isArenaAttack()) && (assist2 == null || assist2.isDead() || !assist2.isOnline() || !assist2.isInsideZone(ZoneId.ARENA_EVENT) || !assist2.isArenaAttack()) && (assist3 == null || assist3.isDead() || !assist3.isOnline() || !assist3.isInsideZone(ZoneId.ARENA_EVENT) || !assist3.isArenaAttack()) && (assist4 == null || assist4.isDead() || !assist4.isOnline() || !assist4.isInsideZone(ZoneId.ARENA_EVENT) || !assist4.isArenaAttack()))
 				return false;
-
+			
 			return !(leader.isDead() && assist.isDead() && assist2.isDead() && assist3.isDead() && assist4.isDead());
 		}
-
+		
 		public void teleportTo(int x, int y, int z)
 		{
 			if (leader != null && leader.isOnline())
@@ -336,7 +336,7 @@ public class Arena5x5 implements Runnable
 				leader.setCurrentCp(leader.getMaxCp());
 				leader.setCurrentHp(leader.getMaxHp());
 				leader.setCurrentMp(leader.getMaxMp());
-
+				
 				if (leader.isInObserverMode())
 				{
 					leader.setLastCords(x, y, z);
@@ -344,17 +344,17 @@ public class Arena5x5 implements Runnable
 				}
 				else if (!leader.isInJail())
 					leader.teleToLocation(x, y, z, 0);
-
+				
 				leader.broadcastUserInfo();
 			}
-
+			
 			if (assist != null && assist.isOnline())
 			{
 				assist.getAppearance().setInvisible();
 				assist.setCurrentCp(assist.getMaxCp());
 				assist.setCurrentHp(assist.getMaxHp());
 				assist.setCurrentMp(assist.getMaxMp());
-
+				
 				if (assist.isInObserverMode())
 				{
 					assist.setLastCords(x, y + 50, z);
@@ -362,17 +362,17 @@ public class Arena5x5 implements Runnable
 				}
 				else if (!assist.isInJail())
 					assist.teleToLocation(x, y + 50, z, 0);
-
+				
 				assist.broadcastUserInfo();
 			}
-
+			
 			if (assist2 != null && assist2.isOnline())
 			{
 				assist2.getAppearance().setInvisible();
 				assist2.setCurrentCp(assist2.getMaxCp());
 				assist2.setCurrentHp(assist2.getMaxHp());
 				assist2.setCurrentMp(assist2.getMaxMp());
-
+				
 				if (assist2.isInObserverMode())
 				{
 					assist2.setLastCords(x, y - 100, z);
@@ -380,17 +380,17 @@ public class Arena5x5 implements Runnable
 				}
 				else if (!assist2.isInJail())
 					assist2.teleToLocation(x, y - 100, z, 0);
-
+				
 				assist2.broadcastUserInfo();
 			}
-
+			
 			if (assist3 != null && assist3.isOnline())
 			{
 				assist3.getAppearance().setInvisible();
 				assist3.setCurrentCp(assist3.getMaxCp());
 				assist3.setCurrentHp(assist3.getMaxHp());
 				assist3.setCurrentMp(assist3.getMaxMp());
-
+				
 				if (assist3.isInObserverMode())
 				{
 					assist3.setLastCords(x, y - 50, z);
@@ -398,7 +398,7 @@ public class Arena5x5 implements Runnable
 				}
 				else if (!assist3.isInJail())
 					assist3.teleToLocation(x, y - 50, z, 0);
-
+				
 				assist3.broadcastUserInfo();
 			}
 			if (assist4 != null && assist4.isOnline())
@@ -407,7 +407,7 @@ public class Arena5x5 implements Runnable
 				assist4.setCurrentCp(assist4.getMaxCp());
 				assist4.setCurrentHp(assist4.getMaxHp());
 				assist4.setCurrentMp(assist4.getMaxMp());
-
+				
 				if (assist4.isInObserverMode())
 				{
 					assist4.setLastCords(x, y + 100, z);
@@ -415,11 +415,11 @@ public class Arena5x5 implements Runnable
 				}
 				else if (!assist4.isInJail())
 					assist4.teleToLocation(x, y + 100, z, 0);
-
+				
 				assist4.broadcastUserInfo();
 			}
 		}
-
+		
 		public void EventTitle(String title, String color)
 		{
 			if (leader != null && leader.isOnline())
@@ -429,7 +429,7 @@ public class Arena5x5 implements Runnable
 				leader.broadcastUserInfo();
 				leader.broadcastTitleInfo();
 			}
-
+			
 			if (assist != null && assist.isOnline())
 			{
 				assist.setTitle(title);
@@ -443,7 +443,7 @@ public class Arena5x5 implements Runnable
 				assist2.getAppearance().setTitleColor(Integer.decode("0x" + color));
 				assist2.broadcastUserInfo();
 				assist2.broadcastTitleInfo();
-
+				
 			}
 			if (assist3 != null && assist3.isOnline())
 			{
@@ -452,7 +452,7 @@ public class Arena5x5 implements Runnable
 				assist3.broadcastUserInfo();
 				assist3.broadcastTitleInfo();
 			}
-
+			
 			if (assist4 != null && assist4.isOnline())
 			{
 				assist4.setTitle(title);
@@ -461,7 +461,7 @@ public class Arena5x5 implements Runnable
 				assist4.broadcastTitleInfo();
 			}
 		}
-
+		
 		public void saveTitle()
 		{
 			if (leader != null && leader.isOnline())
@@ -469,32 +469,32 @@ public class Arena5x5 implements Runnable
 				leader._originalTitleColorTournament = leader.getAppearance().getTitleColor();
 				leader._originalTitleTournament = leader.getTitle();
 			}
-
+			
 			if (assist != null && assist.isOnline())
 			{
 				assist._originalTitleColorTournament = assist.getAppearance().getTitleColor();
 				assist._originalTitleTournament = assist.getTitle();
 			}
-
+			
 			if (assist2 != null && assist2.isOnline())
 			{
 				assist2._originalTitleColorTournament = assist2.getAppearance().getTitleColor();
 				assist2._originalTitleTournament = assist2.getTitle();
 			}
-
+			
 			if (assist3 != null && assist3.isOnline())
 			{
 				assist3._originalTitleColorTournament = assist3.getAppearance().getTitleColor();
 				assist3._originalTitleTournament = assist3.getTitle();
 			}
-
+			
 			if (assist4 != null && assist4.isOnline())
 			{
 				assist4._originalTitleColorTournament = assist4.getAppearance().getTitleColor();
 				assist4._originalTitleTournament = assist4.getTitle();
 			}
 		}
-
+		
 		public void backTitle()
 		{
 			if (leader != null && leader.isOnline())
@@ -504,7 +504,7 @@ public class Arena5x5 implements Runnable
 				leader.broadcastUserInfo();
 				leader.broadcastTitleInfo();
 			}
-
+			
 			if (assist != null && assist.isOnline())
 			{
 				assist.setTitle(assist._originalTitleTournament);
@@ -512,7 +512,7 @@ public class Arena5x5 implements Runnable
 				assist.broadcastUserInfo();
 				assist.broadcastTitleInfo();
 			}
-
+			
 			if (assist2 != null && assist2.isOnline())
 			{
 				assist2.setTitle(assist2._originalTitleTournament);
@@ -520,7 +520,7 @@ public class Arena5x5 implements Runnable
 				assist2.broadcastUserInfo();
 				assist2.broadcastTitleInfo();
 			}
-
+			
 			if (assist3 != null && assist3.isOnline())
 			{
 				assist3.setTitle(assist3._originalTitleTournament);
@@ -528,7 +528,7 @@ public class Arena5x5 implements Runnable
 				assist3.broadcastUserInfo();
 				assist3.broadcastTitleInfo();
 			}
-
+			
 			if (assist4 != null && assist4.isOnline())
 			{
 				assist4.setTitle(assist4._originalTitleTournament);
@@ -536,22 +536,22 @@ public class Arena5x5 implements Runnable
 				assist4.broadcastUserInfo();
 				assist4.broadcastTitleInfo();
 			}
-
+			
 		}
-
+		
 		public void rewards()
 		{
-
+			
 			if (leader != null && leader.isOnline())
 			{
 				if (leader.isVip())
 					leader.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_WIN_REWARD_COUNT_5X5 * Config.RATE_DROP_VIP, leader, true);
 				else
 					leader.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_WIN_REWARD_COUNT_5X5, leader, true);
-
+				
 				if (leader.getClan() != null && !leader.isOnline())
 					leader.getClan().addclan5x5Score(1);
-
+				
 				if (Config.ACTIVE_MISSION)
 				{
 					if (!leader.check_obj_mission(leader.getObjectId()))
@@ -560,17 +560,17 @@ public class Arena5x5 implements Runnable
 						leader.setTournament5x5Cont(leader.getTournament5x5Cont() + 1);
 				}
 			}
-
+			
 			if (assist != null && assist.isOnline())
 			{
 				if (assist.isVip())
 					assist.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_WIN_REWARD_COUNT_5X5 * Config.RATE_DROP_VIP, assist, true);
 				else
 					assist.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_WIN_REWARD_COUNT_5X5, assist, true);
-
+				
 				if (assist.getClan() != null && !assist.isOnline())
 					assist.getClan().addclan5x5Score(1);
-
+				
 				if (Config.ACTIVE_MISSION)
 				{
 					if (!assist.check_obj_mission(assist.getObjectId()))
@@ -579,17 +579,17 @@ public class Arena5x5 implements Runnable
 						assist.setTournament5x5Cont(assist.getTournament5x5Cont() + 1);
 				}
 			}
-
+			
 			if (assist2 != null && assist2.isOnline())
 			{
 				if (assist2.isVip())
 					assist2.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_WIN_REWARD_COUNT_5X5 * Config.RATE_DROP_VIP, assist2, true);
 				else
 					assist2.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_WIN_REWARD_COUNT_5X5, assist2, true);
-
+				
 				if (assist2.getClan() != null && !assist2.isOnline())
 					assist2.getClan().addclan5x5Score(1);
-
+				
 				if (Config.ACTIVE_MISSION)
 				{
 					if (!assist2.check_obj_mission(assist2.getObjectId()))
@@ -598,17 +598,17 @@ public class Arena5x5 implements Runnable
 						assist2.setTournament5x5Cont(assist2.getTournament5x5Cont() + 1);
 				}
 			}
-
+			
 			if (assist3 != null && assist3.isOnline())
 			{
 				if (assist3.isVip())
 					assist3.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_WIN_REWARD_COUNT_5X5 * Config.RATE_DROP_VIP, assist3, true);
 				else
 					assist3.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_WIN_REWARD_COUNT_5X5, assist3, true);
-
+				
 				if (assist3.getClan() != null && !assist3.isOnline())
 					assist3.getClan().addclan5x5Score(1);
-
+				
 				if (Config.ACTIVE_MISSION)
 				{
 					if (!assist3.check_obj_mission(assist3.getObjectId()))
@@ -617,17 +617,17 @@ public class Arena5x5 implements Runnable
 						assist3.setTournament5x5Cont(assist3.getTournament5x5Cont() + 1);
 				}
 			}
-
+			
 			if (assist4 != null && assist4.isOnline())
 			{
 				if (assist4.isVip())
 					assist4.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_WIN_REWARD_COUNT_5X5 * Config.RATE_DROP_VIP, assist4, true);
 				else
 					assist4.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_WIN_REWARD_COUNT_5X5, assist4, true);
-
+				
 				if (assist4.getClan() != null && !assist4.isOnline())
 					assist4.getClan().addclan5x5Score(1);
-
+				
 				if (Config.ACTIVE_MISSION)
 				{
 					if (!assist4.check_obj_mission(assist4.getObjectId()))
@@ -636,7 +636,7 @@ public class Arena5x5 implements Runnable
 						assist4.setTournament5x5Cont(assist4.getTournament5x5Cont() + 1);
 				}
 			}
-
+			
 			sendPacket("Winner =)", 5);
 			leader.broadcastPacket(new MagicSkillUse(leader, leader, 2024, 1, 1, 0));
 			assist.broadcastPacket(new MagicSkillUse(assist, assist, 2024, 1, 1, 0));
@@ -644,7 +644,7 @@ public class Arena5x5 implements Runnable
 			assist3.broadcastPacket(new MagicSkillUse(assist, assist, 2024, 1, 1, 0));
 			assist4.broadcastPacket(new MagicSkillUse(assist, assist, 2024, 1, 1, 0));
 		}
-
+		
 		public void rewardsLost()
 		{
 			if (leader != null && leader.isOnline())
@@ -652,53 +652,53 @@ public class Arena5x5 implements Runnable
 					leader.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_LOST_REWARD_COUNT_5X5 * Config.RATE_DROP_VIP, leader, true);
 				else
 					leader.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_LOST_REWARD_COUNT_5X5, leader, true);
-
+				
 			if (assist != null && assist.isOnline())
 				if (assist.isVip())
 					assist.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_LOST_REWARD_COUNT_5X5 * Config.RATE_DROP_VIP, assist, true);
 				else
 					assist.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_LOST_REWARD_COUNT_5X5, assist, true);
-
+				
 			if (assist2 != null && assist2.isOnline())
 				if (assist2.isVip())
 					assist2.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_LOST_REWARD_COUNT_5X5 * Config.RATE_DROP_VIP, assist2, true);
 				else
 					assist2.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_LOST_REWARD_COUNT_5X5, assist2, true);
-
+				
 			if (assist3 != null && assist3.isOnline())
 				if (assist3.isVip())
 					assist3.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_LOST_REWARD_COUNT_5X5 * Config.RATE_DROP_VIP, assist3, true);
 				else
 					assist3.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_LOST_REWARD_COUNT_5X5, assist3, true);
-
+				
 			if (assist4 != null && assist4.isOnline())
 				if (assist4.isVip())
 					assist4.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_LOST_REWARD_COUNT_5X5 * Config.RATE_DROP_VIP, assist4, true);
 				else
 					assist4.addItem("Arena_Event", Config.ARENA_REWARD_ID, Config.ARENA_LOST_REWARD_COUNT_5X5, assist4, true);
-
+				
 			sendPacket("Loser =(", 5);
-
+			
 		}
-
+		
 		public void setInTournamentEvent(boolean val)
 		{
 			if (leader != null && leader.isOnline())
 				leader.setInArenaEvent(val);
-
+			
 			if (assist != null && assist.isOnline())
 				assist.setInArenaEvent(val);
-
+			
 			if (assist2 != null && assist2.isOnline())
 				assist2.setInArenaEvent(val);
-
+			
 			if (assist3 != null && assist3.isOnline())
 				assist3.setInArenaEvent(val);
-
+			
 			if (assist4 != null && assist4.isOnline())
 				assist4.setInArenaEvent(val);
 		}
-
+		
 		public void removeMessage()
 		{
 			if (leader != null && leader.isOnline())
@@ -707,37 +707,37 @@ public class Arena5x5 implements Runnable
 				leader.setArenaProtection(false);
 				leader.setArena5x5(false);
 			}
-
+			
 			if (assist != null && assist.isOnline())
 			{
 				assist.sendMessage("Tournament: Your participation has been removed.");
 				assist.setArenaProtection(false);
 				assist.setArena5x5(false);
 			}
-
+			
 			if (assist2 != null && assist2.isOnline())
 			{
 				assist2.sendMessage("Tournament: Your participation has been removed.");
 				assist2.setArenaProtection(false);
 				assist2.setArena5x5(false);
 			}
-
+			
 			if (assist3 != null && assist3.isOnline())
 			{
 				assist3.sendMessage("Tournament: Your participation has been removed.");
 				assist3.setArenaProtection(false);
 				assist3.setArena5x5(false);
 			}
-
+			
 			if (assist4 != null && assist4.isOnline())
 			{
 				assist4.sendMessage("Tournament: Your participation has been removed.");
 				assist4.setArenaProtection(false);
 				assist4.setArena5x5(false);
 			}
-
+			
 		}
-
+		
 		public void setArenaProtection(boolean val)
 		{
 			if (leader != null && leader.isOnline())
@@ -745,7 +745,7 @@ public class Arena5x5 implements Runnable
 				leader.setArenaProtection(val);
 				leader.setArena5x5(val);
 			}
-
+			
 			if (assist != null && assist.isOnline())
 			{
 				assist.setArenaProtection(val);
@@ -756,38 +756,38 @@ public class Arena5x5 implements Runnable
 				assist2.setArenaProtection(val);
 				assist2.setArena5x5(val);
 			}
-
+			
 			if (assist3 != null && assist3.isOnline())
 			{
 				assist3.setArenaProtection(val);
 				assist3.setArena5x5(val);
 			}
-
+			
 			if (assist4 != null && assist4.isOnline())
 			{
 				assist4.setArenaProtection(val);
 				assist4.setArena5x5(val);
 			}
 		}
-
+		
 		public void revive()
 		{
 			if (leader != null && leader.isOnline() && leader.isDead())
 				leader.doRevive();
-
+			
 			if (assist != null && assist.isOnline() && assist.isDead())
 				assist.doRevive();
-
+			
 			if (assist2 != null && assist2.isOnline() && assist2.isDead())
 				assist2.doRevive();
-
+			
 			if (assist3 != null && assist3.isOnline() && assist3.isDead())
 				assist3.doRevive();
-
+			
 			if (assist4 != null && assist4.isOnline() && assist4.isDead())
 				assist4.doRevive();
 		}
-
+		
 		public void setImobilised(boolean val)
 		{
 			if (leader != null && leader.isOnline())
@@ -810,14 +810,14 @@ public class Arena5x5 implements Runnable
 				assist3.setIsInvul(val);
 				assist3.setStopArena(val);
 			}
-
+			
 			if (assist4 != null && assist4.isOnline())
 			{
 				assist4.setIsInvul(val);
 				assist4.setStopArena(val);
 			}
 		}
-
+		
 		public void setArenaAttack(boolean val)
 		{
 			if (leader != null && leader.isOnline())
@@ -825,32 +825,32 @@ public class Arena5x5 implements Runnable
 				leader.setArenaAttack(val);
 				leader.broadcastUserInfo();
 			}
-
+			
 			if (assist != null && assist.isOnline())
 			{
 				assist.setArenaAttack(val);
 				assist.broadcastUserInfo();
 			}
-
+			
 			if (assist2 != null && assist2.isOnline())
 			{
 				assist2.setArenaAttack(val);
 				assist2.broadcastUserInfo();
 			}
-
+			
 			if (assist3 != null && assist3.isOnline())
 			{
 				assist3.setArenaAttack(val);
 				assist3.broadcastUserInfo();
 			}
-
+			
 			if (assist4 != null && assist4.isOnline())
 			{
 				assist4.setArenaAttack(val);
 				assist4.broadcastUserInfo();
 			}
 		}
-
+		
 		public void removePet()
 		{
 			if (leader != null && leader.isOnline())
@@ -861,12 +861,12 @@ public class Arena5x5 implements Runnable
 					Summon summon = leader.getPet();
 					if (summon != null)
 						summon.unSummon(summon.getOwner());
-
+					
 					if (summon instanceof Pet)
 						summon.unSummon(leader);
-
+					
 				}
-
+				
 				if (leader.getMountType() == 1 || leader.getMountType() == 2)
 					leader.dismount();
 			}
@@ -878,17 +878,17 @@ public class Arena5x5 implements Runnable
 					Summon summon = assist.getPet();
 					if (summon != null)
 						summon.unSummon(summon.getOwner());
-
+					
 					if (summon instanceof Pet)
 						summon.unSummon(assist);
-
+					
 				}
-
+				
 				if (assist.getMountType() == 1 || assist.getMountType() == 2)
 					assist.dismount();
-
+				
 			}
-
+			
 			if (assist2 != null && assist2.isOnline())
 			{
 				// Remove Summon's buffs
@@ -897,17 +897,17 @@ public class Arena5x5 implements Runnable
 					Summon summon = assist2.getPet();
 					if (summon != null)
 						summon.unSummon(summon.getOwner());
-
+					
 					if (summon instanceof Pet)
 						summon.unSummon(assist2);
-
+					
 				}
-
+				
 				if (assist2.getMountType() == 1 || assist2.getMountType() == 2)
 					assist2.dismount();
-
+				
 			}
-
+			
 			if (assist3 != null && assist3.isOnline())
 			{
 				// Remove Summon's buffs
@@ -916,16 +916,16 @@ public class Arena5x5 implements Runnable
 					Summon summon = assist3.getPet();
 					if (summon != null)
 						summon.unSummon(summon.getOwner());
-
+					
 					if (summon instanceof Pet)
 						summon.unSummon(assist3);
 				}
-
+				
 				if (assist3.getMountType() == 1 || assist3.getMountType() == 2)
 					assist3.dismount();
-
+				
 			}
-
+			
 			if (assist4 != null && assist4.isOnline())
 			{
 				// Remove Summon's buffs
@@ -934,18 +934,18 @@ public class Arena5x5 implements Runnable
 					Summon summon = assist4.getPet();
 					if (summon != null)
 						summon.unSummon(summon.getOwner());
-
+					
 					if (summon instanceof Pet)
 						summon.unSummon(assist4);
 				}
-
+				
 				if (assist4.getMountType() == 1 || assist4.getMountType() == 2)
 					assist4.dismount();
-
+				
 			}
-
+			
 		}
-
+		
 		public void removeSkills()
 		{
 			if (!(leader.getClassId() == ClassId.SHILLIEN_ELDER || leader.getClassId() == ClassId.SHILLIEN_SAINT || leader.getClassId() == ClassId.BISHOP || leader.getClassId() == ClassId.CARDINAL || leader.getClassId() == ClassId.ELVEN_ELDER || leader.getClassId() == ClassId.EVAS_SAINT))
@@ -956,7 +956,7 @@ public class Arena5x5 implements Runnable
 						leader.stopSkillEffects(effect.getSkill().getId());
 				}
 			}
-
+			
 			if (!(assist.getClassId() == ClassId.SHILLIEN_ELDER || assist.getClassId() == ClassId.SHILLIEN_SAINT || assist.getClassId() == ClassId.BISHOP || assist.getClassId() == ClassId.CARDINAL || assist.getClassId() == ClassId.ELVEN_ELDER || assist.getClassId() == ClassId.EVAS_SAINT))
 			{
 				for (L2Effect effect : assist.getAllEffects())
@@ -965,7 +965,7 @@ public class Arena5x5 implements Runnable
 						assist.stopSkillEffects(effect.getSkill().getId());
 				}
 			}
-
+			
 			if (!(assist2.getClassId() == ClassId.SHILLIEN_ELDER || assist2.getClassId() == ClassId.SHILLIEN_SAINT || assist2.getClassId() == ClassId.BISHOP || assist2.getClassId() == ClassId.CARDINAL || assist2.getClassId() == ClassId.ELVEN_ELDER || assist2.getClassId() == ClassId.EVAS_SAINT))
 			{
 				for (L2Effect effect : assist2.getAllEffects())
@@ -974,7 +974,7 @@ public class Arena5x5 implements Runnable
 						assist2.stopSkillEffects(effect.getSkill().getId());
 				}
 			}
-
+			
 			if (!(assist3.getClassId() == ClassId.SHILLIEN_ELDER || assist3.getClassId() == ClassId.SHILLIEN_SAINT || assist3.getClassId() == ClassId.BISHOP || assist3.getClassId() == ClassId.CARDINAL || assist3.getClassId() == ClassId.ELVEN_ELDER || assist3.getClassId() == ClassId.EVAS_SAINT))
 			{
 				for (L2Effect effect : assist3.getAllEffects())
@@ -983,7 +983,7 @@ public class Arena5x5 implements Runnable
 						assist3.stopSkillEffects(effect.getSkill().getId());
 				}
 			}
-
+			
 			if (!(assist4.getClassId() == ClassId.SHILLIEN_ELDER || assist4.getClassId() == ClassId.SHILLIEN_SAINT || assist4.getClassId() == ClassId.BISHOP || assist4.getClassId() == ClassId.CARDINAL || assist4.getClassId() == ClassId.ELVEN_ELDER || assist4.getClassId() == ClassId.EVAS_SAINT))
 			{
 				for (L2Effect effect : assist4.getAllEffects())
@@ -992,52 +992,52 @@ public class Arena5x5 implements Runnable
 						assist4.stopSkillEffects(effect.getSkill().getId());
 				}
 			}
-
+			
 		}
-
+		
 		public void sendPacket(String message, int duration)
 		{
 			if (leader != null && leader.isOnline())
 				leader.sendPacket(new ExShowScreenMessage(message, duration * 1000));
-
+			
 			if (assist != null && assist.isOnline())
 				assist.sendPacket(new ExShowScreenMessage(message, duration * 1000));
-
+			
 			if (assist2 != null && assist2.isOnline())
 				assist2.sendPacket(new ExShowScreenMessage(message, duration * 1000));
-
+			
 			if (assist3 != null && assist3.isOnline())
 				assist3.sendPacket(new ExShowScreenMessage(message, duration * 1000));
-
+			
 			if (assist4 != null && assist4.isOnline())
 				assist4.sendPacket(new ExShowScreenMessage(message, duration * 1000));
-
+			
 		}
-
+		
 		public void inicarContagem(int duration)
 		{
 			if (leader != null && leader.isOnline())
 				ThreadPool.schedule(new countdown(leader, duration), 0);
-
+			
 			if (assist != null && assist.isOnline())
 				ThreadPool.schedule(new countdown(assist, duration), 0);
-
+			
 			if (assist2 != null && assist2.isOnline())
 				ThreadPool.schedule(new countdown(assist2, duration), 0);
-
+			
 			if (assist3 != null && assist3.isOnline())
 				ThreadPool.schedule(new countdown(assist3, duration), 0);
-
+			
 			if (assist4 != null && assist4.isOnline())
 				ThreadPool.schedule(new countdown(assist4, duration), 0);
 		}
-
+		
 		public void sendPacketinit(String message, int duration)
 		{
 			if (leader != null && leader.isOnline())
 			{
 				leader.sendPacket(new ExShowScreenMessage(message, duration * 1000, ExShowScreenMessage.SMPOS.MIDDLE_LEFT, false));
-
+				
 				if ((leader.getClassId() == ClassId.SHILLIEN_ELDER || leader.getClassId() == ClassId.SHILLIEN_SAINT || leader.getClassId() == ClassId.BISHOP || leader.getClassId() == ClassId.CARDINAL || leader.getClassId() == ClassId.ELVEN_ELDER || leader.getClassId() == ClassId.EVAS_SAINT) && Config.bs_COUNT_5X5 == 0)
 				{
 					ThreadPool.schedule(new Runnable()
@@ -1050,11 +1050,11 @@ public class Arena5x5 implements Runnable
 					}, 100);
 				}
 			}
-
+			
 			if (assist != null && assist.isOnline())
 			{
 				assist.sendPacket(new ExShowScreenMessage(message, duration * 1000, ExShowScreenMessage.SMPOS.MIDDLE_LEFT, false));
-
+				
 				if ((assist.getClassId() == ClassId.SHILLIEN_ELDER || assist.getClassId() == ClassId.SHILLIEN_SAINT || assist.getClassId() == ClassId.BISHOP || assist.getClassId() == ClassId.CARDINAL || assist.getClassId() == ClassId.ELVEN_ELDER || assist.getClassId() == ClassId.EVAS_SAINT) && Config.bs_COUNT_5X5 == 0)
 				{
 					ThreadPool.schedule(new Runnable()
@@ -1066,9 +1066,9 @@ public class Arena5x5 implements Runnable
 						}
 					}, 100);
 				}
-
+				
 			}
-
+			
 			if (assist2 != null && assist2.isOnline())
 			{
 				assist2.sendPacket(new ExShowScreenMessage(message, duration * 1000, ExShowScreenMessage.SMPOS.MIDDLE_LEFT, false));
@@ -1084,7 +1084,7 @@ public class Arena5x5 implements Runnable
 					}, 100);
 				}
 			}
-
+			
 			if (assist3 != null && assist3.isOnline())
 			{
 				assist3.sendPacket(new ExShowScreenMessage(message, duration * 1000, ExShowScreenMessage.SMPOS.MIDDLE_LEFT, false));
@@ -1100,7 +1100,7 @@ public class Arena5x5 implements Runnable
 					}, 100);
 				}
 			}
-
+			
 			if (assist4 != null && assist4.isOnline())
 			{
 				assist4.sendPacket(new ExShowScreenMessage(message, duration * 1000, ExShowScreenMessage.SMPOS.MIDDLE_LEFT, false));
@@ -1117,14 +1117,14 @@ public class Arena5x5 implements Runnable
 				}
 			}
 		}
-
+		
 		public void TourAura(int color)
 		{
 			if (leader != null && leader.isOnline())
 			{
 				leader.setTeamTour(color);
 			}
-
+			
 			if (assist != null && assist.isOnline())
 			{
 				assist.setTeamTour(color);
@@ -1142,16 +1142,16 @@ public class Arena5x5 implements Runnable
 				assist4.setTeamTour(color);
 			}
 		}
-
+		
 	}
-
+	
 	private class EvtArenaTask implements Runnable
 	{
 		private final Pair pairOne;
 		private final Pair pairTwo;
 		private final int pOneX, pOneY, pOneZ, pTwoX, pTwoY, pTwoZ;
 		private Arena arena;
-
+		
 		public EvtArenaTask(List<Pair> opponents)
 		{
 			pairOne = opponents.get(0);
@@ -1165,7 +1165,7 @@ public class Arena5x5 implements Runnable
 			pTwoY = leader.getY();
 			pTwoZ = leader.getZ();
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -1192,7 +1192,7 @@ public class Arena5x5 implements Runnable
 			pairTwo.setImobilised(false);
 			pairOne.setArenaAttack(true);
 			pairTwo.setArenaAttack(true);
-
+			
 			while (check())
 			{
 				// check players status each seconds
@@ -1208,7 +1208,7 @@ public class Arena5x5 implements Runnable
 			finishDuel();
 			free++;
 		}
-
+		
 		private void finishDuel()
 		{
 			fights.remove(arena.id);
@@ -1229,14 +1229,14 @@ public class Arena5x5 implements Runnable
 			pairTwo.setArenaAttack(false);
 			arena.setFree(true);
 		}
-
+		
 		private void rewardWinner()
 		{
 			if (pairOne.isAlive() && !pairTwo.isAlive())
 			{
 				Player leader1 = pairOne.getLeader();
 				Player leader2 = pairTwo.getLeader();
-
+				
 				if (leader1.getClan() != null && leader2.getClan() != null && Config.TOURNAMENT_EVENT_ANNOUNCE)
 				{
 					final CreatureSay a = new CreatureSay(0, Config.PVP_COLOR_ANNOUNCE, "(5X5)", "(" + leader1.getClan().getName() + " VS " + leader2.getClan().getName() + ") ~> " + leader1.getClan().getName() + " win!"); // 8D
@@ -1259,7 +1259,7 @@ public class Arena5x5 implements Runnable
 			{
 				Player leader1 = pairTwo.getLeader();
 				Player leader2 = pairOne.getLeader();
-
+				
 				if (leader1.getClan() != null && leader2.getClan() != null && Config.TOURNAMENT_EVENT_ANNOUNCE)
 				{
 					final CreatureSay a = new CreatureSay(0, Config.PVP_COLOR_ANNOUNCE, "(5X5)", "(" + leader1.getClan().getName() + " VS " + leader2.getClan().getName() + ") ~> " + leader1.getClan().getName() + " win!"); // 8D
@@ -1279,12 +1279,12 @@ public class Arena5x5 implements Runnable
 				pairOne.rewardsLost();
 			}
 		}
-
+		
 		private boolean check()
 		{
 			return (pairOne.isDead() && pairTwo.isDead());
 		}
-
+		
 		private void portPairsToArena()
 		{
 			for (Arena arena : arenas)
@@ -1309,13 +1309,13 @@ public class Arena5x5 implements Runnable
 			}
 		}
 	}
-
+	
 	private class Arena
 	{
 		protected int x, y, z;
 		protected boolean isFree = true;
 		int id;
-
+		
 		public Arena(int id, int x, int y, int z)
 		{
 			this.id = id;
@@ -1323,30 +1323,30 @@ public class Arena5x5 implements Runnable
 			this.y = y;
 			this.z = z;
 		}
-
+		
 		public void setFree(boolean val)
 		{
 			isFree = val;
 		}
 	}
-
+	
 	protected class countdown implements Runnable
 	{
 		private final Player _player;
 		private final int _time;
-
+		
 		public countdown(Player player, int time)
 		{
 			_time = time;
 			_player = player;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			if (_player.isOnline())
 			{
-
+				
 				switch (_time)
 				{
 					case 300:
@@ -1426,10 +1426,10 @@ public class Arena5x5 implements Runnable
 			}
 		}
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final Arena5x5 INSTANCE = new Arena5x5();
 	}
-
+	
 }

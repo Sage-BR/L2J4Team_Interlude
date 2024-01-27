@@ -13,37 +13,37 @@ public final class EffectVipBuff extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.VIP_BUFF;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		if (getSkill().getSkillType() != L2SkillType.CONT)
 			return false;
-
+		
 		double manaDam = calc();
-
+		
 		if (manaDam > getEffected().getCurrentMp())
 		{
 			getEffected().sendPacket(SystemMessage.getSystemMessage(SystemMessageId.SKILL_REMOVED_DUE_LACK_MP));
 			return false;
 		}
-
+		
 		getEffected().reduceCurrentMp(manaDam);
 		return true;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{

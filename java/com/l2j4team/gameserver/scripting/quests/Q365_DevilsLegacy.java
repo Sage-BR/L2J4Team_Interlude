@@ -12,26 +12,26 @@ import com.l2j4team.commons.random.Rnd;
 public class Q365_DevilsLegacy extends Quest
 {
 	private static final String qn = "Q365_DevilsLegacy";
-
+	
 	// NPCs
 	private static final int RANDOLF = 30095;
 	private static final int COLLOB = 30092;
-
+	
 	// Item
 	private static final int PIRATE_TREASURE_CHEST = 5873;
-
+	
 	public Q365_DevilsLegacy()
 	{
 		super(365, "Devil's Legacy");
-
+		
 		setItemsIds(PIRATE_TREASURE_CHEST);
-
+		
 		addStartNpc(RANDOLF);
 		addTalkId(RANDOLF, COLLOB);
-
+		
 		addKillId(20836, 20845, 21629, 21630); // Pirate Zombie && Pirate Zombie Captain.
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -39,7 +39,7 @@ public class Q365_DevilsLegacy extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30095-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -61,7 +61,7 @@ public class Q365_DevilsLegacy extends Quest
 			{
 				st.takeItems(PIRATE_TREASURE_CHEST, 1);
 				st.takeItems(57, 600);
-
+				
 				int i0;
 				if (Rnd.get(100) < 80)
 				{
@@ -76,7 +76,7 @@ public class Q365_DevilsLegacy extends Quest
 						st.giveItems(1884, 1);
 					else
 						st.giveItems(1872, 1);
-
+					
 					htmltext = "30092-05.htm";
 				}
 				else
@@ -98,9 +98,9 @@ public class Q365_DevilsLegacy extends Quest
 						st.giveItems(1882, 1);
 					else
 						st.giveItems(1881, 1);
-
+					
 					htmltext = "30092-06.htm";
-
+					
 					// Curse effect !
 					final L2Skill skill = SkillTable.getInstance().getInfo(4082, 1);
 					if (skill != null && player.getFirstEffect(skill) == null)
@@ -108,10 +108,10 @@ public class Q365_DevilsLegacy extends Quest
 				}
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -119,13 +119,13 @@ public class Q365_DevilsLegacy extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 39) ? "30095-00.htm" : "30095-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -135,32 +135,32 @@ public class Q365_DevilsLegacy extends Quest
 						else
 						{
 							htmltext = "30095-05.htm";
-
+							
 							int reward = st.getQuestItemsCount(PIRATE_TREASURE_CHEST) * 400;
-
+							
 							st.takeItems(PIRATE_TREASURE_CHEST, -1);
 							st.rewardItems(57, reward + 19800);
 						}
 						break;
-
+					
 					case COLLOB:
 						htmltext = "30092-01.htm";
 						break;
 				}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		partyMember.getQuestState(qn).dropItems(PIRATE_TREASURE_CHEST, 1, 0, (npc.getNpcId() == 20836) ? 360000 : 520000);
-
+		
 		return null;
 	}
 }

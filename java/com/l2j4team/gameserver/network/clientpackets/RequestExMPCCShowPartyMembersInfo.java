@@ -11,20 +11,20 @@ import com.l2j4team.gameserver.network.serverpackets.ExMPCCShowPartyMemberInfo;
 public final class RequestExMPCCShowPartyMembersInfo extends L2GameClientPacket
 {
 	private int _partyLeaderId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_partyLeaderId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		Player player = World.getInstance().getPlayer(_partyLeaderId);
 		if (player != null && player.isInParty())
 			activeChar.sendPacket(new ExMPCCShowPartyMemberInfo(player.getParty()));

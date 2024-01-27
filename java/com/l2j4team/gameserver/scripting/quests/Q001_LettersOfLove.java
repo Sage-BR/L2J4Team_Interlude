@@ -8,31 +8,31 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q001_LettersOfLove extends Quest
 {
 	private static final String qn = "Q001_LettersOfLove";
-
+	
 	// Npcs
 	private static final int DARIN = 30048;
 	private static final int ROXXY = 30006;
 	private static final int BAULRO = 30033;
-
+	
 	// Items
 	private static final int DARIN_LETTER = 687;
 	private static final int ROXXY_KERCHIEF = 688;
 	private static final int DARIN_RECEIPT = 1079;
 	private static final int BAULRO_POTION = 1080;
-
+	
 	// Reward
 	private static final int NECKLACE = 906;
-
+	
 	public Q001_LettersOfLove()
 	{
 		super(1, "Letters of Love");
-
+		
 		setItemsIds(DARIN_LETTER, ROXXY_KERCHIEF, DARIN_RECEIPT, BAULRO_POTION);
-
+		
 		addStartNpc(DARIN);
 		addTalkId(DARIN, ROXXY, BAULRO);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -40,7 +40,7 @@ public class Q001_LettersOfLove extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30048-06.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -48,10 +48,10 @@ public class Q001_LettersOfLove extends Quest
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(DARIN_LETTER, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -59,13 +59,13 @@ public class Q001_LettersOfLove extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 2) ? "30048-01.htm" : "30048-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -92,7 +92,7 @@ public class Q001_LettersOfLove extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case ROXXY:
 						if (cond == 1)
 						{
@@ -107,7 +107,7 @@ public class Q001_LettersOfLove extends Quest
 						else if (cond > 2)
 							htmltext = "30006-03.htm";
 						break;
-
+					
 					case BAULRO:
 						if (cond == 3)
 						{
@@ -122,12 +122,12 @@ public class Q001_LettersOfLove extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

@@ -13,19 +13,19 @@ import java.util.Collection;
 public class ExHeroList extends L2GameServerPacket
 {
 	private final Collection<StatsSet> _heroList;
-
+	
 	public ExHeroList()
 	{
 		_heroList = Hero.getInstance().getHeroes().values();
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
 		writeC(0xfe);
 		writeH(0x23);
 		writeD(_heroList.size());
-
+		
 		for (StatsSet hero : _heroList)
 		{
 			writeS(hero.getString(Olympiad.CHAR_NAME));

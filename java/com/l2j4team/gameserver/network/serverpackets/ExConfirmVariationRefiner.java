@@ -10,7 +10,7 @@ public class ExConfirmVariationRefiner extends L2GameServerPacket
 	private final int _gemstoneItemId;
 	private final int _gemstoneCount;
 	private final int _unk2;
-
+	
 	public ExConfirmVariationRefiner(int refinerItemObjId, int lifeStoneId, int gemstoneItemId, int gemstoneCount)
 	{
 		_refinerItemObjId = refinerItemObjId;
@@ -19,7 +19,7 @@ public class ExConfirmVariationRefiner extends L2GameServerPacket
 		_gemstoneCount = gemstoneCount;
 		_unk2 = 1;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

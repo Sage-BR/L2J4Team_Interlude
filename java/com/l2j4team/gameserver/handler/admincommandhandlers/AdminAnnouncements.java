@@ -21,13 +21,13 @@ public class AdminAnnouncements implements IAdminCommandHandler
 		"admin_ann",
 		"admin_say"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (activeChar.getAccessLevel().getLevel() < 7)
 			return false;
-
+		
 		if (command.startsWith("admin_announce"))
 		{
 			try
@@ -38,26 +38,26 @@ public class AdminAnnouncements implements IAdminCommandHandler
 					case "list":
 						AnnouncementData.getInstance().listAnnouncements(activeChar);
 						break;
-
+					
 					case "all":
 					case "all_auto":
 						final boolean isAuto = tokens[1].equalsIgnoreCase("all_auto");
 						for (Player player : World.getInstance().getPlayers())
 							AnnouncementData.getInstance().showAnnouncements(player, isAuto);
-
+						
 						AnnouncementData.getInstance().listAnnouncements(activeChar);
 						break;
-
+					
 					case "add":
 						String[] split = tokens[2].split(" ", 2); // boolean string
 						int crit = getAnnounce(split[0]);
-
+						
 						if (!AnnouncementData.getInstance().addAnnouncement(split[1], crit, false, -1, -1, -1))
 							activeChar.sendMessage("Invalid //announce message content ; can't be null or empty.");
-
+						
 						AnnouncementData.getInstance().listAnnouncements(activeChar);
 						break;
-
+					
 					case "add_auto":
 						split = tokens[2].split(" ", 6); // boolean boolean int int int string
 						crit = getAnnounce(split[0]);
@@ -66,18 +66,18 @@ public class AdminAnnouncements implements IAdminCommandHandler
 						final int delay = Integer.parseInt(split[3]);
 						final int limit = Integer.parseInt(split[4]);
 						final String msg = split[5];
-
+						
 						if (!AnnouncementData.getInstance().addAnnouncement(msg, crit, auto, idelay, delay, limit))
 							activeChar.sendMessage("Invalid //announce message content ; can't be null or empty.");
-
+						
 						AnnouncementData.getInstance().listAnnouncements(activeChar);
 						break;
-
+					
 					case "del":
 						AnnouncementData.getInstance().delAnnouncement(Integer.parseInt(tokens[2]));
 						AnnouncementData.getInstance().listAnnouncements(activeChar);
 						break;
-
+					
 					default:
 						activeChar.sendMessage("Possible //announce parameters : <list|all|add|add_auto|del>");
 						break;
@@ -90,10 +90,10 @@ public class AdminAnnouncements implements IAdminCommandHandler
 		}
 		else if (command.startsWith("admin_ann") || command.startsWith("admin_say"))
 			AnnouncementData.getInstance().handleAnnounce(command, 10, 0);
-
+		
 		return true;
 	}
-
+	
 	private static int getAnnounce(String name)
 	{
 		if (name.equalsIgnoreCase("ANNOUNCEMENT"))
@@ -114,10 +114,10 @@ public class AdminAnnouncements implements IAdminCommandHandler
 			return 7;
 		if (name.equalsIgnoreCase("ALLIANCE"))
 			return 8;
-
+		
 		return 0;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

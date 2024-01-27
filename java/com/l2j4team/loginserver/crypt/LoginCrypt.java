@@ -10,24 +10,24 @@ public class LoginCrypt
 	private NewCrypt _staticCrypt;
 	private NewCrypt _crypt;
 	private boolean _static;
-
+	
 	public LoginCrypt()
 	{
 		_static = true;
 	}
-
+	
 	public void setKey(final byte[] key)
 	{
 		_staticCrypt = new NewCrypt(LoginCrypt.STATIC_BLOWFISH_KEY);
 		_crypt = new NewCrypt(key);
 	}
-
+	
 	public boolean decrypt(final byte[] raw, final int offset, final int size) throws IOException
 	{
 		_crypt.decrypt(raw, offset, size);
 		return NewCrypt.verifyChecksum(raw, offset, size);
 	}
-
+	
 	public int encrypt(final byte[] raw, final int offset, int size) throws IOException
 	{
 		size += 4;
@@ -47,7 +47,7 @@ public class LoginCrypt
 		}
 		return size;
 	}
-
+	
 	static
 	{
 		STATIC_BLOWFISH_KEY = new byte[]

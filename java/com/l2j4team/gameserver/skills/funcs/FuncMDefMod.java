@@ -10,17 +10,17 @@ import com.l2j4team.gameserver.skills.basefuncs.Func;
 public class FuncMDefMod extends Func
 {
 	static final FuncMDefMod _fpa_instance = new FuncMDefMod();
-
+	
 	public static Func getInstance()
 	{
 		return _fpa_instance;
 	}
-
+	
 	private FuncMDefMod()
 	{
 		super(Stats.MAGIC_DEFENCE, 0x20, null, null);
 	}
-
+	
 	@Override
 	public void calc(Env env)
 	{
@@ -38,7 +38,7 @@ public class FuncMDefMod extends Func
 			if (player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_NECK) != null)
 				env.subValue(13);
 		}
-
+		
 		env.mulValue(Formulas.MEN_BONUS[env.getCharacter().getMEN()] * env.getCharacter().getLevelMod());
 	}
 }

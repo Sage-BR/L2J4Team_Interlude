@@ -16,7 +16,7 @@ public class BlowfishEngine
 	private final int[] P;
 	private boolean encrypting;
 	private byte[] workingKey;
-
+	
 	public BlowfishEngine()
 	{
 		encrypting = false;
@@ -27,18 +27,18 @@ public class BlowfishEngine
 		S3 = new int[256];
 		P = new int[18];
 	}
-
+	
 	public void init(final boolean pEncrypting, final byte[] key)
 	{
 		encrypting = pEncrypting;
 		setKey(workingKey = key);
 	}
-
+	
 	public String getAlgorithmName()
 	{
 		return "Blowfish";
 	}
-
+	
 	public final int processBlock(final byte[] in, final int inOff, final byte[] out, final int outOff) throws IOException
 	{
 		if (workingKey == null)
@@ -53,21 +53,21 @@ public class BlowfishEngine
 			decryptBlock(in, inOff, out, outOff);
 		return 8;
 	}
-
+	
 	public void reset()
 	{
 	}
-
+	
 	public int getBlockSize()
 	{
 		return 8;
 	}
-
+	
 	private int func(final int x)
 	{
 		return (S0[x >>> 24] + S1[x >>> 16 & 0xFF] ^ S2[x >>> 8 & 0xFF]) + S3[x & 0xFF];
 	}
-
+	
 	private void processTable(int xl, int xr, final int[] table)
 	{
 		for (int size = table.length, s = 0; s < size; s += 2)
@@ -85,7 +85,7 @@ public class BlowfishEngine
 			xl = table[s];
 		}
 	}
-
+	
 	private void setKey(final byte[] key)
 	{
 		System.arraycopy(BlowfishEngine.KS0, 0, S0, 0, 256);
@@ -114,7 +114,7 @@ public class BlowfishEngine
 		processTable(S1[254], S1[255], S2);
 		processTable(S2[254], S2[255], S3);
 	}
-
+	
 	private void encryptBlock(final byte[] src, final int srcIndex, final byte[] dst, final int dstIndex)
 	{
 		int xl = bytesTo32bits(src, srcIndex);
@@ -129,7 +129,7 @@ public class BlowfishEngine
 		bits32ToBytes(xr, dst, dstIndex);
 		bits32ToBytes(xl, dst, dstIndex + 4);
 	}
-
+	
 	private void decryptBlock(final byte[] src, final int srcIndex, final byte[] dst, final int dstIndex)
 	{
 		int xl = bytesTo32bits(src, srcIndex);
@@ -144,12 +144,12 @@ public class BlowfishEngine
 		bits32ToBytes(xr, dst, dstIndex);
 		bits32ToBytes(xl, dst, dstIndex + 4);
 	}
-
+	
 	private static int bytesTo32bits(final byte[] b, final int i)
 	{
 		return (b[i + 3] & 0xFF) << 24 | (b[i + 2] & 0xFF) << 16 | (b[i + 1] & 0xFF) << 8 | b[i] & 0xFF;
 	}
-
+	
 	private static void bits32ToBytes(final int in, final byte[] b, final int offset)
 	{
 		b[offset] = (byte) in;
@@ -157,7 +157,7 @@ public class BlowfishEngine
 		b[offset + 2] = (byte) (in >> 16);
 		b[offset + 3] = (byte) (in >> 24);
 	}
-
+	
 	static
 	{
 		KP = new int[]

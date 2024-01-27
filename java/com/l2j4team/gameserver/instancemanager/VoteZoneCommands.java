@@ -25,18 +25,18 @@ public class VoteZoneCommands
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	public static final Logger _log = Logger.getLogger(VoteZoneCommands.class.getName());
-
+	
 	private static int vote_1 = 0;
-
+	
 	static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-
+	
 	public static int getVote_1()
 	{
 		return vote_1;
 	}
-
+	
 	public static void addVote_1(int to)
 	{
 		if (!check_vote(1))
@@ -87,19 +87,19 @@ public class VoteZoneCommands
 		}
 		vote_1 += to;
 	}
-
+	
 	public static void cleanVote_1(int to)
 	{
 		vote_1 = to;
 	}
-
+	
 	private static int vote_2 = 0;
-
+	
 	public static int getVote_2()
 	{
 		return vote_2;
 	}
-
+	
 	public static void addVote_2(int to)
 	{
 		if (!check_vote(2))
@@ -150,19 +150,19 @@ public class VoteZoneCommands
 		}
 		vote_2 += to;
 	}
-
+	
 	public static void cleanVote_2(int to)
 	{
 		vote_2 = to;
 	}
-
+	
 	private static int vote_3 = 0;
-
+	
 	public static int getVote_3()
 	{
 		return vote_3;
 	}
-
+	
 	public static void addVote_3(int to)
 	{
 		if (!check_vote(3))
@@ -213,19 +213,19 @@ public class VoteZoneCommands
 		}
 		vote_3 += to;
 	}
-
+	
 	public static void cleanVote_3(int to)
 	{
 		vote_3 = to;
 	}
-
+	
 	private static int vote_4 = 0;
-
+	
 	public static int getVote_4()
 	{
 		return vote_4;
 	}
-
+	
 	public static void addVote_4(int to)
 	{
 		if (!check_vote(4))
@@ -276,19 +276,19 @@ public class VoteZoneCommands
 		}
 		vote_4 += to;
 	}
-
+	
 	public static void cleanVote_4(int to)
 	{
 		vote_4 = to;
 	}
-
+	
 	private static int vote_5 = 0;
-
+	
 	public static int getVote_5()
 	{
 		return vote_5;
 	}
-
+	
 	public static void addVote_5(int to)
 	{
 		if (!check_vote(5))
@@ -339,19 +339,19 @@ public class VoteZoneCommands
 		}
 		vote_5 += to;
 	}
-
+	
 	public static void cleanVote_5(int to)
 	{
 		vote_5 = to;
 	}
-
+	
 	private static int vote_6 = 0;
-
+	
 	public static int getVote_6()
 	{
 		return vote_6;
 	}
-
+	
 	public static void addVote_6(int to)
 	{
 		if (!check_vote(6))
@@ -402,19 +402,19 @@ public class VoteZoneCommands
 		}
 		vote_6 += to;
 	}
-
+	
 	public static void cleanVote_6(int to)
 	{
 		vote_6 = to;
 	}
-
+	
 	private static int vote_7 = 0;
-
+	
 	public static int getVote_7()
 	{
 		return vote_7;
 	}
-
+	
 	public static void addVote_7(int to)
 	{
 		if (!check_vote(7))
@@ -465,12 +465,12 @@ public class VoteZoneCommands
 		}
 		vote_7 += to;
 	}
-
+	
 	public static void cleanVote_7(int to)
 	{
 		vote_7 = to;
 	}
-
+	
 	public void Classes(String command, Player activeChar)
 	{
 		if (command.startsWith("close"))
@@ -628,12 +628,12 @@ public class VoteZoneCommands
 			}
 		}
 	}
-
+	
 	public static final void Link(Player player, String request)
 	{
 		getInstance().Classes(request, player);
 	}
-
+	
 	public static void ShowHtml(Player activeChar)
 	{
 		StringBuilder sb = new StringBuilder();
@@ -645,7 +645,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=170 align=center>Ketra Orc</td>");
 				sb.append("<td fixwidth=20></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><button width=\"75\" height=\"21\" back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\" action=\"link vote_1\" value=\"Vote\">");
 				sb.append("</center></td>");
@@ -660,7 +660,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=80 align=center>Ketra Orc</td>");
 				sb.append("<td fixwidth=20></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><font color=\"ff0000\"> Voted</font>");
 				sb.append("</center></td>");
@@ -676,7 +676,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=170 align=center>Primeval Isle</td>");
 				sb.append("<td fixwidth=20></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><button width=\"75\" height=\"21\" back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\" action=\"link vote_2\" value=\"Vote\">");
 				sb.append("</center></td>");
@@ -691,7 +691,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=85 align=center>Primeval Isle</td>");
 				sb.append("<td fixwidth=12></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><font color=\"ff0000\"> Voted</font>");
 				sb.append("</center></td>");
@@ -707,7 +707,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=170 align=center>Heine</td>");
 				sb.append("<td fixwidth=20></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><button width=\"75\" height=\"21\" back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\" action=\"link vote_3\" value=\"Vote\">");
 				sb.append("</center></td>");
@@ -722,7 +722,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=80 align=center>Heine</td>");
 				sb.append("<td fixwidth=20></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><font color=\"ff0000\"> Voted</font>");
 				sb.append("</center></td>");
@@ -738,7 +738,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=170 align=center>Iris Lake</td>");
 				sb.append("<td fixwidth=20></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><button width=\"75\" height=\"21\" back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\" action=\"link vote_4\" value=\"Vote\">");
 				sb.append("</center></td>");
@@ -753,7 +753,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=80 align=center>Iris Lake</td>");
 				sb.append("<td fixwidth=20></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><font color=\"ff0000\"> Voted</font>");
 				sb.append("</center></td>");
@@ -769,7 +769,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=170 align=center>Alligator Island</td>");
 				sb.append("<td fixwidth=20></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><button width=\"75\" height=\"21\" back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\" action=\"link vote_5\" value=\"Vote\">");
 				sb.append("</center></td>");
@@ -783,7 +783,7 @@ public class VoteZoneCommands
 				sb.append("<table width=\"200\" bgcolor=\"000000\">");
 				sb.append("<tr>");
 				sb.append("<td width=100 align=center>Alligator Island</td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><font color=\"ff0000\"> Voted</font>");
 				sb.append("</center></td>");
@@ -799,7 +799,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=170 align=center>Imperial Tomb</td>");
 				sb.append("<td fixwidth=20></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><button width=\"75\" height=\"21\" back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\" action=\"link vote_6\" value=\"Vote\">");
 				sb.append("</center></td>");
@@ -814,7 +814,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=95 align=center>Imperial Tomb</td>");
 				sb.append("<td fixwidth=6></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><font color=\"ff0000\"> Voted</font>");
 				sb.append("</center></td>");
@@ -830,7 +830,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=170 align=center>Field of Whispers</td>");
 				sb.append("<td fixwidth=20></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><button width=\"75\" height=\"21\" back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\" action=\"link vote_7\" value=\"Vote\">");
 				sb.append("</center></td>");
@@ -845,7 +845,7 @@ public class VoteZoneCommands
 				sb.append("<tr>");
 				sb.append("<td width=95 align=center>Field of Whispers</td>");
 				sb.append("<td fixwidth=6></td>");
-
+				
 				sb.append("<td fixwidth=50 height=10>");
 				sb.append("<center><font color=\"ff0000\"> Voted</font>");
 				sb.append("</center></td>");
@@ -898,7 +898,7 @@ public class VoteZoneCommands
 		}
 		activeChar.sendPacket(new TutorialShowHtml(msg));
 	}
-
+	
 	public static void ShowResult_init(Player activeChar)
 	{
 		StringBuilder _ranking = new StringBuilder();
@@ -979,7 +979,7 @@ public class VoteZoneCommands
 		msg = msg.replaceAll("%next%", NewZoneVote.getInstance().getNextTime());
 		activeChar.sendPacket(new TutorialShowHtml(msg));
 	}
-
+	
 	public static void ShowResult(Player activeChar)
 	{
 		StringBuilder _ranking = new StringBuilder();
@@ -1061,7 +1061,7 @@ public class VoteZoneCommands
 		msg = msg.replaceAll("%next%", NewZoneVote.getInstance().getNextTime());
 		activeChar.sendPacket(new TutorialShowHtml(msg));
 	}
-
+	
 	public static synchronized boolean check_vote(int charid)
 	{
 		boolean result = true;
@@ -1080,7 +1080,7 @@ public class VoteZoneCommands
 		}
 		return result;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final VoteZoneCommands _instance = new VoteZoneCommands();

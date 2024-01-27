@@ -14,18 +14,18 @@ public final class RequestPledgePowerGradeList extends L2GameClientPacket
 	protected void readImpl()
 	{
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		final Clan clan = player.getClan();
 		if (clan == null)
 			return;
-
+		
 		player.sendPacket(new PledgePowerGradeList(clan.getPriviledges().keySet(), clan.getMembers()));
 	}
 }

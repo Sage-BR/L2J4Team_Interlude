@@ -28,7 +28,7 @@ public class TopPvPMonument extends L2PcPolymorph
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onSpawn()
 	{
@@ -36,7 +36,7 @@ public class TopPvPMonument extends L2PcPolymorph
 		if (Config.CKM_ENABLED)
 			CharacterKillingManager.getInstance().addPvPMorphListener(this);
 	}
-
+	
 	@Override
 	public void deleteMe()
 	{

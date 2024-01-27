@@ -13,14 +13,14 @@ public class AuthLoginFail extends L2GameServerPacket
 	public static final int ACCESS_FAILED_TRY_LATER3 = 8;
 	public static final int ACCESS_FAILED_TRY_LATER4 = 9;
 	public static final int ACCESS_FAILED_TRY_LATER5 = 10;
-
+	
 	private final int _reason;
-
+	
 	public AuthLoginFail(int reason)
 	{
 		_reason = reason;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

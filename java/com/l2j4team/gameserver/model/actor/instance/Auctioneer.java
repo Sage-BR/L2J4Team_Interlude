@@ -26,22 +26,22 @@ import com.l2j4team.commons.math.MathUtil;
 public final class Auctioneer extends Folk
 {
 	private static final int PAGE_LIMIT = 15;
-
+	
 	private final Map<Integer, Auction> _pendingAuctions = new ConcurrentHashMap<>();
-
+	
 	public Auctioneer(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
 		final StringTokenizer st = new StringTokenizer(command, " ");
-
+		
 		final String actualCommand = st.nextToken();
 		final String val = (st.hasMoreTokens()) ? st.nextToken() : "";
-
+		
 		// Only a few actions are possible for clanless people.
 		if (actualCommand.equalsIgnoreCase("list"))
 		{
@@ -52,13 +52,13 @@ public final class Auctioneer extends Folk
 		{
 			if (val.isEmpty())
 				return;
-
+			
 			if (player.isClanLeader() && player.getClan().getMembersCount() < Config.ALT_NUM_OF_MEMBERS_IN_CLAN)
 			{
 				player.sendMessage("You need to " + Config.ALT_NUM_OF_MEMBERS_IN_CLAN + " Online members in your Clan.");
 				return;
 			}
-
+			
 			try
 			{
 				final Auction auction = AuctionManager.getInstance().getAuction(Integer.parseInt(val));
@@ -66,7 +66,7 @@ public final class Auctioneer extends Folk
 				{
 					final ClanHall ch = ClanHallManager.getInstance().getClanHallById(auction.getItemId());
 					final long remainingTime = auction.getEndDate() - System.currentTimeMillis();
-
+					
 					final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 					html.setFile("data/html/auction/AgitAuctionInfo.htm");
 					html.replace("%AGIT_NAME%", ItemTable.getInstance().getTemplate(Config.ITEM_ID_BUY_CLAN_HALL).getName());
@@ -115,22 +115,22 @@ public final class Auctioneer extends Folk
 				player.sendPacket(SystemMessageId.CANNOT_PARTICIPATE_IN_AUCTION);
 				return;
 			}
-
+			
 			if (actualCommand.equalsIgnoreCase("bid"))
 			{
 				if (val.isEmpty())
 					return;
-
+				
 				if (player.isClanLeader() && player.getClan().getMembersCount() < Config.ALT_NUM_OF_MEMBERS_IN_CLAN)
 				{
 					player.sendMessage("You need to " + Config.ALT_NUM_OF_MEMBERS_IN_CLAN + " Online members in your Clan.");
 					return;
 				}
-
+				
 				try
 				{
 					final int bid = (st.hasMoreTokens()) ? Math.min(Integer.parseInt(st.nextToken()), Integer.MAX_VALUE) : 0;
-
+					
 					AuctionManager.getInstance().getAuction(Integer.parseInt(val)).setBid(player, bid);
 				}
 				catch (Exception e)
@@ -142,27 +142,27 @@ public final class Auctioneer extends Folk
 			{
 				if (val.isEmpty())
 					return;
-
+				
 				if (player.isClanLeader() && player.getClan().getMembersCount() < Config.ALT_NUM_OF_MEMBERS_IN_CLAN)
 				{
 					player.sendMessage("You need to " + Config.ALT_NUM_OF_MEMBERS_IN_CLAN + " Online members in your Clan.");
 					return;
 				}
-
+				
 				if (player.getClan() == null || player.getClan().getLevel() < 2)
 				{
 					showAuctionsList("1", player); // Force to display page 1.
 					player.sendPacket(SystemMessageId.AUCTION_ONLY_CLAN_LEVEL_2_HIGHER);
 					return;
 				}
-
+				
 				if (player.getClan().hasHideout())
 				{
 					showAuctionsList("1", player); // Force to display page 1.
 					player.sendPacket(SystemMessageId.CANNOT_PARTICIPATE_IN_AUCTION);
 					return;
 				}
-
+				
 				try
 				{
 					if ((player.getClan().getAuctionBiddedAt() > 0 && player.getClan().getAuctionBiddedAt() != Integer.parseInt(val)))
@@ -171,12 +171,12 @@ public final class Auctioneer extends Folk
 						player.sendPacket(SystemMessageId.ALREADY_SUBMITTED_BID);
 						return;
 					}
-
+					
 					final Auction auction = AuctionManager.getInstance().getAuction(Integer.parseInt(val));
 					int minimumBid = auction.getHighestBidderMaxBid();
 					if (minimumBid == 0)
 						minimumBid = auction.getStartingBid();
-
+					
 					final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 					html.setFile("data/html/auction/AgitBid1.htm");
 					html.replace("%AGIT_LINK_BACK%", "bypass -h npc_" + getObjectId() + "_bidding " + val);
@@ -197,7 +197,7 @@ public final class Auctioneer extends Folk
 					player.sendMessage("You need to " + Config.ALT_NUM_OF_MEMBERS_IN_CLAN + " Online members in your Clan.");
 					return;
 				}
-
+				
 				try
 				{
 					int auctionId = 0;
@@ -205,19 +205,19 @@ public final class Auctioneer extends Folk
 					{
 						if (player.getClan().getAuctionBiddedAt() <= 0)
 							return;
-
+						
 						auctionId = player.getClan().getAuctionBiddedAt();
 					}
 					else
 						auctionId = Integer.parseInt(val);
-
+					
 					final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					final Collection<Bidder> bidders = AuctionManager.getInstance().getAuction(auctionId).getBidders().values();
-
+					
 					final StringBuilder sb = new StringBuilder(bidders.size() * 150);
 					for (Bidder bidder : bidders)
 						StringUtil.append(sb, "<tr><td width=90 align=center>", bidder.getClanName(), "</td><td width=90 align=center>", bidder.getName(), "</td><td width=90 align=center>", sdf.format(bidder.getTimeBid().getTime()), "</td></tr>");
-
+					
 					final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 					html.setFile("data/html/auction/AgitBidderList.htm");
 					html.replace("%AGIT_LIST%", sb.toString());
@@ -240,7 +240,7 @@ public final class Auctioneer extends Folk
 				try
 				{
 					final int bid = AuctionManager.getInstance().getAuction(player.getClan().getAuctionBiddedAt()).getBidders().get(player.getClanId()).getBid();
-
+					
 					final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 					html.setFile("data/html/auction/AgitBidCancel.htm");
 					html.replace("%AGIT_BID%", bid);
@@ -298,13 +298,13 @@ public final class Auctioneer extends Folk
 			}
 			else if (actualCommand.equalsIgnoreCase("rebid"))
 			{
-
+				
 				if (player.isClanLeader() && player.getClan().getMembersCount() < Config.ALT_NUM_OF_MEMBERS_IN_CLAN)
 				{
 					player.sendMessage("You need to " + Config.ALT_NUM_OF_MEMBERS_IN_CLAN + " Online members in your Clan.");
 					return;
 				}
-
+				
 				final Auction auction = AuctionManager.getInstance().getAuction(player.getClan().getAuctionBiddedAt());
 				if (auction != null)
 				{
@@ -328,22 +328,22 @@ public final class Auctioneer extends Folk
 					player.sendPacket(SystemMessageId.NOT_ENOUGH_ADENA_IN_CWH);
 					return;
 				}
-
+				
 				if (actualCommand.equalsIgnoreCase("auction"))
 				{
 					if (val.isEmpty())
 						return;
-
+					
 					try
 					{
 						final int days = Integer.parseInt(val);
 						final int bid = (st.hasMoreTokens()) ? Math.min(Integer.parseInt(st.nextToken()), Integer.MAX_VALUE) : 0;
 						final ClanHall ch = ClanHallManager.getInstance().getClanHallByOwner(player.getClan());
-
+						
 						final Auction auction = new Auction(player.getClan().getHideoutId(), player.getClan(), days * 86400000L, bid, ch.getName());
-
+						
 						_pendingAuctions.put(auction.getId(), auction);
-
+						
 						final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 						html.setFile("data/html/auction/AgitSale3.htm");
 						html.replace("%x%", val);
@@ -365,17 +365,17 @@ public final class Auctioneer extends Folk
 					final int chId = player.getClan().getHideoutId();
 					if (chId <= 0)
 						return;
-
+					
 					final Auction auction = _pendingAuctions.get(chId);
 					if (auction == null)
 						return;
-
+					
 					if (Auction.takeItem(player, ClanHallManager.getInstance().getClanHallByOwner(player.getClan()).getLease()))
 					{
 						auction.confirmAuction();
-
+						
 						_pendingAuctions.remove(chId);
-
+						
 						showSelectedItems(player);
 						player.sendPacket(SystemMessageId.REGISTERED_FOR_CLANHALL);
 					}
@@ -395,7 +395,7 @@ public final class Auctioneer extends Folk
 		}
 		super.onBypassFeedback(player, command);
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player)
 	{
@@ -406,44 +406,44 @@ public final class Auctioneer extends Folk
 		html.replace("%npcname%", getName());
 		player.sendPacket(html);
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player, int val)
 	{
 		if (val == 0)
 			return;
-
+		
 		super.showChatWindow(player, val);
 	}
-
+	
 	private void showAuctionsList(String val, Player player)
 	{
 		// Retrieve the whole auctions list.
 		List<Auction> auctions = AuctionManager.getInstance().getAuctions();
-
+		
 		final int page = (val.isEmpty()) ? 1 : Integer.parseInt(val);
 		final int max = MathUtil.countPagesNumber(auctions.size(), PAGE_LIMIT);
-
+		
 		// Cut auctions list up to page number.
 		auctions = auctions.subList((page - 1) * PAGE_LIMIT, Math.min(page * PAGE_LIMIT, auctions.size()));
-
+		
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		final StringBuilder sb = new StringBuilder(4000);
-
+		
 		sb.append("<table width=280>");
-
+		
 		// Auctions feeding.
 		for (Auction auction : auctions)
 			StringUtil.append(sb, "<tr><td><font color=\"aaaaff\">", ClanHallManager.getInstance().getClanHallById(auction.getItemId()).getLocation(), "</font></td><td><font color=\"ffffaa\"><a action=\"bypass -h npc_", getObjectId(), "_bidding ", auction.getId(), "\">", auction.getItemName(), " [", auction.getBidders().size(), "]</a></font></td><td>", sdf.format(auction.getEndDate()), "</td><td><font color=\"aaffff\">", auction.getStartingBid(), "</font></td></tr>");
-
+		
 		sb.append("</table><table width=280><tr>");
-
+		
 		// Page feeding.
 		for (int j = 1; j <= max; j++)
 			StringUtil.append(sb, "<td><center><a action=\"bypass -h npc_", getObjectId(), "_list ", j, "\"> Page ", j, " </a></center></td>");
-
+		
 		sb.append("</tr></table>");
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile("data/html/auction/AgitAuctionList.htm");
 		html.replace("%AGIT_LIST%", sb.toString());
@@ -451,13 +451,13 @@ public final class Auctioneer extends Folk
 		player.sendPacket(html);
 		return;
 	}
-
+	
 	private void showSelectedItems(Player player)
 	{
 		final Clan clan = player.getClan();
 		if (clan == null)
 			return;
-
+		
 		if (!clan.hasHideout() && clan.getAuctionBiddedAt() > 0)
 		{
 			final Auction auction = AuctionManager.getInstance().getAuction(clan.getAuctionBiddedAt());
@@ -465,7 +465,7 @@ public final class Auctioneer extends Folk
 			{
 				final ClanHall ch = ClanHallManager.getInstance().getClanHallById(auction.getItemId());
 				final long remainingTime = auction.getEndDate() - System.currentTimeMillis();
-
+				
 				final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 				html.setFile("data/html/auction/AgitBidInfo.htm");
 				html.replace("%AGIT_NAME%", ItemTable.getInstance().getTemplate(Config.ITEM_ID_BUY_CLAN_HALL).getName());
@@ -492,7 +492,7 @@ public final class Auctioneer extends Folk
 			{
 				final ClanHall ch = ClanHallManager.getInstance().getClanHallById(auction.getItemId());
 				final long remainingTime = auction.getEndDate() - System.currentTimeMillis();
-
+				
 				final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 				html.setFile("data/html/auction/AgitSaleInfo.htm");
 				html.replace("%AGIT_NAME%", ItemTable.getInstance().getTemplate(Config.ITEM_ID_BUY_CLAN_HALL).getName());
@@ -516,7 +516,7 @@ public final class Auctioneer extends Folk
 		else if (clan.hasHideout())
 		{
 			final ClanHall ch = ClanHallManager.getInstance().getClanHallById(clan.getHideoutId());
-
+			
 			final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 			html.setFile("data/html/auction/AgitInfo.htm");
 			html.replace("%AGIT_NAME%", ItemTable.getInstance().getTemplate(Config.ITEM_ID_BUY_CLAN_HALL).getName());
@@ -537,32 +537,32 @@ public final class Auctioneer extends Folk
 			return;
 		}
 	}
-
+	
 	private static String getPictureName(Player plyr)
 	{
 		switch (MapRegionTable.getInstance().getMapRegion(plyr.getX(), plyr.getY()))
 		{
 			case 5:
 				return "GLUDIO";
-
+			
 			case 6:
 				return "GLUDIN";
-
+			
 			case 7:
 				return "DION";
-
+			
 			case 8:
 				return "GIRAN";
-
+			
 			case 14:
 				return "RUNE";
-
+			
 			case 15:
 				return "GODARD";
-
+			
 			case 16:
 				return "SCHUTTGART";
-
+			
 			default:
 				return "ADEN";
 		}

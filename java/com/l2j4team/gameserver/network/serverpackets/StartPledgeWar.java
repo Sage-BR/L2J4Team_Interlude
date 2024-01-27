@@ -4,13 +4,13 @@ public class StartPledgeWar extends L2GameServerPacket
 {
 	private final String _pledgeName;
 	private final String _playerName;
-
+	
 	public StartPledgeWar(String pledge, String charName)
 	{
 		_pledgeName = pledge;
 		_playerName = charName;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

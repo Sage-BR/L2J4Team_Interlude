@@ -22,15 +22,15 @@ import com.l2j4team.gameserver.model.item.instance.ItemInstance;
 public class ClanLevel6 implements IItemHandler
 {
 	private final byte LEVEL = 6;
-
+	
 	@Override
 	public void useItem(Playable playable, ItemInstance item, boolean forceUse)
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isClanLeader() && activeChar.getClan().getLevel() == 5)
 		{
 			if (activeChar.getClan().getLevel() == 8)
@@ -38,9 +38,9 @@ public class ClanLevel6 implements IItemHandler
 				activeChar.sendMessage("Your clan is already maximum level!");
 				return;
 			}
-
+			
 			activeChar.getClan().changeLevel(LEVEL);
-
+			
 			activeChar.getClan().updateClanInDB();
 			activeChar.sendMessage("Your clan has evolved to the level " + LEVEL + ".");
 			playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
@@ -48,7 +48,7 @@ public class ClanLevel6 implements IItemHandler
 		}
 		else
 			activeChar.sendMessage("You are not the clan leader or your clan not is level 5.");
-
+		
 		return;
 	}
 }

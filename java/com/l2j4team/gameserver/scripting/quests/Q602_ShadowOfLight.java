@@ -10,9 +10,9 @@ import com.l2j4team.commons.random.Rnd;
 public class Q602_ShadowOfLight extends Quest
 {
 	private static final String qn = "Q602_ShadowOfLight";
-
+	
 	private static final int EYE_OF_DARKNESS = 7189;
-
+	
 	private static final int[][] REWARDS =
 	{
 		{
@@ -44,19 +44,19 @@ public class Q602_ShadowOfLight extends Quest
 			100
 		}
 	};
-
+	
 	public Q602_ShadowOfLight()
 	{
 		super(602, "Shadow of Light");
-
+		
 		setItemsIds(EYE_OF_DARKNESS);
-
+		
 		addStartNpc(31683); // Eye of Argos
 		addTalkId(31683);
-
+		
 		addKillId(21299, 21304);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -64,7 +64,7 @@ public class Q602_ShadowOfLight extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31683-02.htm"))
 		{
 			if (player.getLevel() < 68)
@@ -79,17 +79,17 @@ public class Q602_ShadowOfLight extends Quest
 		else if (event.equalsIgnoreCase("31683-05.htm"))
 		{
 			st.takeItems(EYE_OF_DARKNESS, -1);
-
+			
 			final int random = Rnd.get(100);
 			for (int[] element : REWARDS)
 			{
 				if (random < element[4])
 				{
 					st.rewardItems(57, element[1]);
-
+					
 					if (element[0] != 0)
 						st.giveItems(element[0], 3);
-
+					
 					st.rewardExpAndSp(element[2], element[3]);
 					break;
 				}
@@ -97,10 +97,10 @@ public class Q602_ShadowOfLight extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -108,13 +108,13 @@ public class Q602_ShadowOfLight extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "31683-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				if (cond == 1)
@@ -123,22 +123,22 @@ public class Q602_ShadowOfLight extends Quest
 					htmltext = "31683-04.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMember(player, npc, "cond", "1");
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		if (st.dropItems(EYE_OF_DARKNESS, 1, 100, (npc.getNpcId() == 21299) ? 450000 : 500000))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

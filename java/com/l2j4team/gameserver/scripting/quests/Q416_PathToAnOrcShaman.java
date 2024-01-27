@@ -12,7 +12,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q416_PathToAnOrcShaman extends Quest
 {
 	private static final String qn = "Q416_PathToAnOrcShaman";
-
+	
 	// Items
 	private static final int FIRE_CHARM = 1616;
 	private static final int KASHA_BEAR_PELT = 1617;
@@ -30,7 +30,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 	private static final int DURKA_PARASITE = 1629;
 	private static final int TOTEM_SPIRIT_BLOOD = 1630;
 	private static final int MASK_OF_MEDIUM = 1631;
-
+	
 	// NPCs
 	private static final int TATARU_ZU_HESTUI = 30585;
 	private static final int UMOS = 30502;
@@ -39,7 +39,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 	private static final int MOIRA = 31979;
 	private static final int TOTEM_SPIRIT_OF_GANDI = 32057;
 	private static final int DEAD_LEOPARD_CARCASS = 32090;
-
+	
 	// Monsters
 	private static final int VENOMOUS_SPIDER = 20038;
 	private static final int ARACHNID_TRACKER = 20043;
@@ -49,19 +49,19 @@ public class Q416_PathToAnOrcShaman extends Quest
 	private static final int KASHA_BEAR = 20479;
 	private static final int DURKA_SPIRIT = 27056;
 	private static final int BLACK_LEOPARD = 27319;
-
+	
 	public Q416_PathToAnOrcShaman()
 	{
 		super(416, "Path To An Orc Shaman");
-
+		
 		setItemsIds(FIRE_CHARM, KASHA_BEAR_PELT, KASHA_BLADE_SPIDER_HUSK, FIERY_EGG_1, HESTUI_MASK, FIERY_EGG_2, TOTEM_SPIRIT_CLAW, TATARU_LETTER, FLAME_CHARM, GRIZZLY_BLOOD, BLOOD_CAULDRON, SPIRIT_NET, BOUND_DURKA_SPIRIT, DURKA_PARASITE, TOTEM_SPIRIT_BLOOD);
-
+		
 		addStartNpc(TATARU_ZU_HESTUI);
 		addTalkId(TATARU_ZU_HESTUI, UMOS, HESTUI_TOTEM_SPIRIT, DUDA_MARA_TOTEM_SPIRIT, MOIRA, TOTEM_SPIRIT_OF_GANDI, DEAD_LEOPARD_CARCASS);
-
+		
 		addKillId(VENOMOUS_SPIDER, ARACHNID_TRACKER, GRIZZLY_BEAR, SCARLET_SALAMANDER, KASHA_BLADE_SPIDER, KASHA_BEAR, DURKA_SPIRIT, BLACK_LEOPARD);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -69,7 +69,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// TATARU ZU HESTUI
 		if (event.equalsIgnoreCase("30585-05.htm"))
 		{
@@ -144,10 +144,10 @@ public class Q416_PathToAnOrcShaman extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -155,13 +155,13 @@ public class Q416_PathToAnOrcShaman extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "30585-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -192,7 +192,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 						else if (cond == 12)
 							htmltext = "30585-11c.htm";
 						break;
-
+					
 					case HESTUI_TOTEM_SPIRIT:
 						if (cond == 3)
 							htmltext = "30592-01.htm";
@@ -201,7 +201,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 						else if (cond > 4 && cond < 12)
 							htmltext = "30592-05.htm";
 						break;
-
+					
 					case UMOS:
 						if (cond == 5)
 						{
@@ -229,7 +229,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 						else if (cond == 11)
 							htmltext = "30502-06.htm";
 						break;
-
+					
 					case MOIRA:
 						if (cond == 12)
 						{
@@ -249,7 +249,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case TOTEM_SPIRIT_OF_GANDI:
 						if (cond == 13)
 							htmltext = "32057-01.htm";
@@ -258,7 +258,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 						else if (cond == 20)
 							htmltext = "32057-04.htm";
 						break;
-
+					
 					case DUDA_MARA_TOTEM_SPIRIT:
 						if (cond == 8)
 							htmltext = "30593-01.htm";
@@ -275,7 +275,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 						else if (cond == 11)
 							htmltext = "30593-06.htm";
 						break;
-
+					
 					case DEAD_LEOPARD_CARCASS:
 						if (cond == 14)
 							htmltext = "32090-01a.htm";
@@ -301,19 +301,19 @@ public class Q416_PathToAnOrcShaman extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int cond = st.getInt("cond");
-
+		
 		switch (npc.getNpcId())
 		{
 			case KASHA_BEAR:
@@ -329,7 +329,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 						st.playSound(QuestState.SOUND_ITEMGET);
 				}
 				break;
-
+			
 			case KASHA_BLADE_SPIDER:
 				if (cond == 1 && !st.hasQuestItems(KASHA_BLADE_SPIDER_HUSK))
 				{
@@ -343,7 +343,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 						st.playSound(QuestState.SOUND_ITEMGET);
 				}
 				break;
-
+			
 			case SCARLET_SALAMANDER:
 				if (cond == 1 && !st.hasQuestItems(FIERY_EGG_1))
 				{
@@ -357,12 +357,12 @@ public class Q416_PathToAnOrcShaman extends Quest
 						st.playSound(QuestState.SOUND_ITEMGET);
 				}
 				break;
-
+			
 			case GRIZZLY_BEAR:
 				if (cond == 6 && st.dropItemsAlways(GRIZZLY_BLOOD, 1, 3))
 					st.set("cond", "7");
 				break;
-
+			
 			case VENOMOUS_SPIDER:
 			case ARACHNID_TRACKER:
 				if (cond == 9)
@@ -379,7 +379,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 						st.dropItemsAlways(DURKA_PARASITE, 1, 0);
 				}
 				break;
-
+			
 			case DURKA_SPIRIT:
 				if (cond == 9)
 				{
@@ -390,7 +390,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 					st.giveItems(BOUND_DURKA_SPIRIT, 1);
 				}
 				break;
-
+			
 			case BLACK_LEOPARD:
 				if (cond == 14)
 				{
@@ -398,7 +398,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 					{
 						st.set("cond", "15");
 						st.playSound(QuestState.SOUND_MIDDLE);
-
+						
 						if (Rnd.get(3) < 2)
 							npc.broadcastNpcSay("My dear friend of " + player.getName() + ", who has gone on ahead of me!");
 					}
@@ -409,7 +409,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 				{
 					st.set("cond", "17");
 					st.playSound(QuestState.SOUND_MIDDLE);
-
+					
 					if (Rnd.get(3) < 2)
 						npc.broadcastNpcSay("Listen to Tejakar Gandi, young Oroka! The spirit of the slain leopard is calling you, " + player.getName() + "!");
 				}
@@ -420,7 +420,7 @@ public class Q416_PathToAnOrcShaman extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
 }

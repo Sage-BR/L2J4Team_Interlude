@@ -8,7 +8,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q632_NecromancersRequest extends Quest
 {
 	private static final String qn = "Q632_NecromancersRequest";
-
+	
 	// Monsters
 	private static final int[] VAMPIRES =
 	{
@@ -27,7 +27,7 @@ public class Q632_NecromancersRequest extends Quest
 		21594,
 		21595
 	};
-
+	
 	private static final int[] UNDEADS =
 	{
 		21547,
@@ -43,24 +43,24 @@ public class Q632_NecromancersRequest extends Quest
 		21577,
 		21579
 	};
-
+	
 	// Items
 	private static final int VAMPIRE_HEART = 7542;
 	private static final int ZOMBIE_BRAIN = 7543;
-
+	
 	public Q632_NecromancersRequest()
 	{
 		super(632, "Necromancer's Request");
-
+		
 		setItemsIds(VAMPIRE_HEART, ZOMBIE_BRAIN);
-
+		
 		addStartNpc(31522); // Mysterious Wizard
 		addTalkId(31522);
-
+		
 		addKillId(VAMPIRES);
 		addKillId(UNDEADS);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -68,7 +68,7 @@ public class Q632_NecromancersRequest extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31522-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -92,10 +92,10 @@ public class Q632_NecromancersRequest extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -103,30 +103,30 @@ public class Q632_NecromancersRequest extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 63) ? "31522-01.htm" : "31522-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				htmltext = (st.getQuestItemsCount(VAMPIRE_HEART) >= 200) ? "31522-05.htm" : "31522-04.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		for (int undead : UNDEADS)
 		{
 			if (undead == npc.getNpcId())
@@ -135,10 +135,10 @@ public class Q632_NecromancersRequest extends Quest
 				return null;
 			}
 		}
-
+		
 		if (st.getInt("cond") == 1 && st.dropItems(VAMPIRE_HEART, 1, 200, 500000))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

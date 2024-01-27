@@ -10,14 +10,14 @@ public enum ClassRace
 	DARK_ELF(1.5),
 	ORC(0.9),
 	DWARF(0.8);
-
+	
 	private final double _breathMultiplier;
-
+	
 	private ClassRace(double breathMultiplier)
 	{
 		_breathMultiplier = breathMultiplier;
 	}
-
+	
 	/**
 	 * @return the breath multiplier.
 	 */

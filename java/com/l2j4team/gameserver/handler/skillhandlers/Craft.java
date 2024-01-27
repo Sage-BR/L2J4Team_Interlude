@@ -16,13 +16,13 @@ public class Craft implements ISkillHandler
 		L2SkillType.COMMON_CRAFT,
 		L2SkillType.DWARVEN_CRAFT
 	};
-
+	
 	@Override
 	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
 	{
 		if (activeChar == null || !(activeChar instanceof Player))
 			return;
-
+		
 		Player player = (Player) activeChar;
 		if (player.isInStoreMode())
 		{
@@ -31,7 +31,7 @@ public class Craft implements ISkillHandler
 		}
 		RecipeTable.getInstance().requestBookOpen(player, skill.getSkillType() == L2SkillType.DWARVEN_CRAFT);
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

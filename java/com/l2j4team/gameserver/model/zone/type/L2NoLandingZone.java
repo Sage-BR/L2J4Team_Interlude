@@ -14,12 +14,12 @@ import com.l2j4team.gameserver.network.serverpackets.SystemMessage;
 public class L2NoLandingZone extends L2ZoneType
 {
 	private int dismountDelay = 5;
-
+	
 	public L2NoLandingZone(int id)
 	{
 		super(id);
 	}
-
+	
 	@Override
 	public void setParameter(String name, String value)
 	{
@@ -28,7 +28,7 @@ public class L2NoLandingZone extends L2ZoneType
 		else
 			super.setParameter(name, value);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
@@ -42,7 +42,7 @@ public class L2NoLandingZone extends L2ZoneType
 			}
 		}
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
@@ -53,12 +53,12 @@ public class L2NoLandingZone extends L2ZoneType
 				((Player) character).exitedNoLanding();
 		}
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{

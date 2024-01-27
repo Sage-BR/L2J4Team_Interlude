@@ -39,27 +39,27 @@ import org.w3c.dom.Node;
 public class ZoneManager
 {
 	private static final Logger _log = Logger.getLogger(ZoneManager.class.getName());
-
+	
 	private static final String DELETE_GRAND_BOSS_LIST = "DELETE FROM grandboss_list";
 	private static final String INSERT_GRAND_BOSS_LIST = "INSERT INTO grandboss_list (player_id,zone) VALUES (?,?)";
-
+	
 	private final Map<Class<? extends L2ZoneType>, Map<Integer, ? extends L2ZoneType>> _classZones = new HashMap<>();
 	private final Map<Integer, ItemInstance> _debugItems = new ConcurrentHashMap<>();
-
+	
 	private int _lastDynamicId = 0;
-
+	
 	protected ZoneManager()
 	{
 		_log.info("ZoneManager: Loading zones...");
-
+		
 		load();
 	}
-
+	
 	public void reload()
 	{
 		// save L2BossZone
 		save();
-
+		
 		// remove zones from world
 		int count = 0;
 		for (WorldRegion[] worldRegion : World.getInstance().getWorldRegions())
@@ -70,16 +70,16 @@ public class ZoneManager
 				count++;
 			}
 		}
-
+		
 		_log.info("ZoneManager: Removed zones in " + count + " regions.");
-
+		
 		// clear
 		_classZones.clear();
 		clearDebugItems();
-
+		
 		// load all zones
 		load();
-
+		
 		// revalidate objects in zones
 		for (WorldObject o : World.getInstance().getObjects())
 		{
@@ -87,12 +87,12 @@ public class ZoneManager
 				((Creature) o).revalidateZone(true);
 		}
 	}
-
+	
 	public final void load()
 	{
 		// Get the world regions
 		WorldRegion[][] worldRegions = World.getInstance().getWorldRegions();
-
+		
 		// Load the zone xml
 		try
 		{
@@ -102,7 +102,7 @@ public class ZoneManager
 				_log.warning("ZoneManager: Main directory " + mainDir.getAbsolutePath() + " hasn't been found.");
 				return;
 			}
-
+			
 			int fileCounter = 0;
 			for (final File file : mainDir.listFiles())
 			{
@@ -119,15 +119,15 @@ public class ZoneManager
 			_log.log(Level.SEVERE, "ZoneManager: Error while loading zones.", e);
 			return;
 		}
-
+		
 		// get size
 		int size = 0;
 		for (Map<Integer, ? extends L2ZoneType> map : _classZones.values())
 			size += map.size();
-
+		
 		_log.info("ZoneManager: Loaded " + _classZones.size() + " zones classes and total " + size + " zones.");
 	}
-
+	
 	private void loadFileZone(final File f, WorldRegion[][] worldRegions) throws Exception
 	{
 		final Document doc = XMLDocumentFactory.getInstance().loadDocument(f);
@@ -139,26 +139,26 @@ public class ZoneManager
 				Node attribute = attrs.getNamedItem("enabled");
 				if (attribute != null && !Boolean.parseBoolean(attribute.getNodeValue()))
 					continue;
-
+				
 				for (Node d = n.getFirstChild(); d != null; d = d.getNextSibling())
 				{
 					if ("zone".equalsIgnoreCase(d.getNodeName()))
 					{
 						final NamedNodeMap nnmd = d.getAttributes();
-
+						
 						// Generate dynamically zone's ID.
 						int zoneId = _lastDynamicId++;
-
+						
 						// Dynamic id is replaced by handwritten id if existing.
 						attribute = nnmd.getNamedItem("id");
 						if (attribute != null)
 							zoneId = Integer.parseInt(attribute.getNodeValue());
-
+						
 						final String zoneType = nnmd.getNamedItem("type").getNodeValue();
 						final String zoneShape = nnmd.getNamedItem("shape").getNodeValue();
 						final int minZ = Integer.parseInt(nnmd.getNamedItem("minZ").getNodeValue());
 						final int maxZ = Integer.parseInt(nnmd.getNamedItem("maxZ").getNodeValue());
-
+						
 						// Create the zone
 						Class<?> newZone;
 						try
@@ -170,15 +170,15 @@ public class ZoneManager
 							_log.warning("ZoneData: No such zone type: " + zoneType + " in file: " + f.getName());
 							continue;
 						}
-
+						
 						Constructor<?> zoneConstructor = newZone.getConstructor(int.class);
 						L2ZoneType temp = (L2ZoneType) zoneConstructor.newInstance(zoneId);
-
+						
 						// Get the zone shape from sql
 						try
 						{
 							List<int[]> rs = new ArrayList<>();
-
+							
 							// loading from XML first
 							for (Node cd = d.getFirstChild(); cd != null; cd = cd.getNextSibling())
 							{
@@ -191,15 +191,15 @@ public class ZoneManager
 									rs.add(point);
 								}
 							}
-
+							
 							int[][] coords = rs.toArray(new int[rs.size()][]);
-
+							
 							if (coords == null || coords.length == 0)
 							{
 								_log.warning("ZoneData: missing data for zone: " + zoneId + " on file: " + f.getName());
 								continue;
 							}
-
+							
 							// Create this zone. Parsing for cuboids is a bit different than for other polygons cuboids need exactly 2 points to be defined.
 							// Other polygons need at least 3 (one per vertex)
 							if (zoneShape.equalsIgnoreCase("Cuboid"))
@@ -255,7 +255,7 @@ public class ZoneManager
 						{
 							_log.log(Level.WARNING, "ZoneData: Failed to load zone " + zoneId + " coordinates: " + e.getMessage(), e);
 						}
-
+						
 						// Check for additional parameters
 						for (Node cd = d.getFirstChild(); cd != null; cd = cd.getNextSibling())
 						{
@@ -264,7 +264,7 @@ public class ZoneManager
 								attrs = cd.getAttributes();
 								String name = attrs.getNamedItem("name").getNodeValue();
 								String val = attrs.getNamedItem("val").getNodeValue();
-
+								
 								temp.setParameter(name, val);
 							}
 							else if ("spawn".equalsIgnoreCase(cd.getNodeName()) && temp instanceof L2SpawnZone)
@@ -273,7 +273,7 @@ public class ZoneManager
 								int spawnX = Integer.parseInt(attrs.getNamedItem("X").getNodeValue());
 								int spawnY = Integer.parseInt(attrs.getNamedItem("Y").getNodeValue());
 								int spawnZ = Integer.parseInt(attrs.getNamedItem("Z").getNodeValue());
-
+								
 								Node val = attrs.getNamedItem("isChaotic");
 								if (val != null && Boolean.parseBoolean(val.getNodeValue()))
 									((L2SpawnZone) temp).addChaoticSpawn(spawnX, spawnY, spawnZ);
@@ -281,9 +281,9 @@ public class ZoneManager
 									((L2SpawnZone) temp).addSpawn(spawnX, spawnY, spawnZ);
 							}
 						}
-
+						
 						addZone(zoneId, temp);
-
+						
 						// Register the zone into any world region it intersects with...
 						for (int x = 0; x < worldRegions.length; x++)
 						{
@@ -298,7 +298,7 @@ public class ZoneManager
 			}
 		}
 	}
-
+	
 	public final void save()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -307,7 +307,7 @@ public class ZoneManager
 			PreparedStatement ps = con.prepareStatement(DELETE_GRAND_BOSS_LIST);
 			ps.executeUpdate();
 			ps.close();
-
+			
 			// store actual data
 			ps = con.prepareStatement(INSERT_GRAND_BOSS_LIST);
 			for (L2ZoneType zone : _classZones.get(L2BossZone.class).values())
@@ -321,7 +321,7 @@ public class ZoneManager
 			}
 			ps.executeBatch();
 			ps.close();
-
+			
 			_log.info("ZoneManager: Saved L2BossZone data.");
 		}
 		catch (SQLException e)
@@ -329,7 +329,7 @@ public class ZoneManager
 			_log.log(Level.WARNING, "ZoneManager: Couldn't store boss zones to database: " + e.getMessage(), e);
 		}
 	}
-
+	
 	/**
 	 * Add new zone
 	 * @param id
@@ -350,7 +350,7 @@ public class ZoneManager
 		else
 			map.put(id, zone);
 	}
-
+	
 	/**
 	 * Return all zones by class type
 	 * @param <T>
@@ -362,7 +362,7 @@ public class ZoneManager
 	{
 		return (Collection<T>) _classZones.get(zoneType).values();
 	}
-
+	
 	/**
 	 * Get zone by ID
 	 * @param id
@@ -378,7 +378,7 @@ public class ZoneManager
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Get zone by ID and zone class
 	 * @param <T>
@@ -391,7 +391,7 @@ public class ZoneManager
 	{
 		return (T) _classZones.get(zoneType).get(id);
 	}
-
+	
 	/**
 	 * Returns all zones from where the object is located
 	 * @param object
@@ -401,7 +401,7 @@ public class ZoneManager
 	{
 		return getZones(object.getX(), object.getY(), object.getZ());
 	}
-
+	
 	/**
 	 * Returns zone from where the object is located by type
 	 * @param <T>
@@ -413,66 +413,66 @@ public class ZoneManager
 	{
 		if (object == null)
 			return null;
-
+		
 		return getZone(object.getX(), object.getY(), object.getZ(), type);
 	}
-
+	
 	public final static L2FlagZone getPartyZone(Creature character)
 	{
 		if (character == null)
 			return null;
-
+		
 		for (L2ZoneType temp : ZoneManager.getInstance().getZones(character.getX(), character.getY(), character.getZ()))
 		{
 			if (temp instanceof L2FlagZone && temp.isCharacterInZone(character))
 				return ((L2FlagZone) temp);
 		}
-
+		
 		return null;
 	}
-
+	
 	public final static L2RaidZone getRaidZone(Creature character)
 	{
 		if (character == null)
 			return null;
-
+		
 		for (L2ZoneType temp : ZoneManager.getInstance().getZones(character.getX(), character.getY(), character.getZ()))
 		{
 			if (temp instanceof L2RaidZone && temp.isCharacterInZone(character))
 				return ((L2RaidZone) temp);
 		}
-
+		
 		return null;
 	}
-
+	
 	public final static L2RaidZoneNoFlag getRaidZoneNoFlag(Creature character)
 	{
 		if (character == null)
 			return null;
-
+		
 		for (L2ZoneType temp : ZoneManager.getInstance().getZones(character.getX(), character.getY(), character.getZ()))
 		{
 			if (temp instanceof L2RaidZoneNoFlag && temp.isCharacterInZone(character))
 				return ((L2RaidZoneNoFlag) temp);
 		}
-
+		
 		return null;
 	}
-
+	
 	public final static L2SoloZone getSoloZone(Creature character)
 	{
 		if (character == null)
 			return null;
-
+		
 		for (L2ZoneType temp : ZoneManager.getInstance().getZones(character.getX(), character.getY(), character.getZ()))
 		{
 			if (temp instanceof L2SoloZone && temp.isCharacterInZone(character))
 				return ((L2SoloZone) temp);
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * Returns all zones from given coordinates (plane)
 	 * @param x
@@ -489,7 +489,7 @@ public class ZoneManager
 		}
 		return temp;
 	}
-
+	
 	/**
 	 * Returns all zones from given coordinates
 	 * @param x
@@ -507,7 +507,7 @@ public class ZoneManager
 		}
 		return temp;
 	}
-
+	
 	/**
 	 * Returns zone from given coordinates
 	 * @param <T>
@@ -527,7 +527,7 @@ public class ZoneManager
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Add an item on debug list. Used to visualize zones.
 	 * @param item : The item to add.
@@ -536,7 +536,7 @@ public class ZoneManager
 	{
 		_debugItems.put(item.getObjectId(), item);
 	}
-
+	
 	/**
 	 * Remove all debug items from the world.
 	 */
@@ -544,15 +544,15 @@ public class ZoneManager
 	{
 		for (ItemInstance item : _debugItems.values())
 			item.decayMe();
-
+		
 		_debugItems.clear();
 	}
-
+	
 	public static final ZoneManager getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final ZoneManager INSTANCE = new ZoneManager();

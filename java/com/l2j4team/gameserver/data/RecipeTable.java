@@ -37,23 +37,23 @@ import org.w3c.dom.Node;
 public class RecipeTable
 {
 	protected static final Logger _log = Logger.getLogger(RecipeTable.class.getName());
-
+	
 	private final Map<Integer, RecipeList> _lists = new HashMap<>();
-
+	
 	public static RecipeTable getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected RecipeTable()
 	{
 		try
 		{
 			File file = new File("./data/xml/recipes.xml");
 			final Document doc = XMLDocumentFactory.getInstance().loadDocument(file);
-
+			
 			List<IntIntHolder> recipePartList = new ArrayList<>();
-
+			
 			Node n = doc.getFirstChild();
 			for (Node d = n.getFirstChild(); d != null; d = d.getNextSibling())
 			{
@@ -61,7 +61,7 @@ public class RecipeTable
 				{
 					recipePartList.clear();
 					NamedNodeMap attrs = d.getAttributes();
-
+					
 					Node att = attrs.getNamedItem("id");
 					if (att == null)
 					{
@@ -69,7 +69,7 @@ public class RecipeTable
 						continue;
 					}
 					int id = Integer.parseInt(att.getNodeValue());
-
+					
 					att = attrs.getNamedItem("name");
 					if (att == null)
 					{
@@ -77,7 +77,7 @@ public class RecipeTable
 						continue;
 					}
 					String recipeName = att.getNodeValue();
-
+					
 					int recipeId = -1;
 					int level = -1;
 					boolean isDwarvenRecipe = true;
@@ -85,7 +85,7 @@ public class RecipeTable
 					int successRate = -1;
 					int prodId = -1;
 					int count = -1;
-
+					
 					for (Node c = d.getFirstChild(); c != null; c = c.getNextSibling())
 					{
 						if ("recipe".equalsIgnoreCase(c.getNodeName()))
@@ -114,15 +114,15 @@ public class RecipeTable
 							count = Integer.parseInt(c.getAttributes().getNamedItem("count").getNodeValue());
 						}
 					}
-
+					
 					RecipeList recipeList = new RecipeList(id, level, recipeId, recipeName, successRate, mpCost, prodId, count, isDwarvenRecipe);
 					for (IntIntHolder recipePart : recipePartList)
 						recipeList.addNeededRecipePart(recipePart);
-
+					
 					_lists.put(id, recipeList);
 				}
 			}
-
+			
 			_log.info("RecipeTable: Loaded " + _lists.size() + " recipes.");
 		}
 		catch (Exception e)
@@ -130,12 +130,12 @@ public class RecipeTable
 			_log.log(Level.SEVERE, "RecipeTable: Failed loading recipe list", e);
 		}
 	}
-
+	
 	public RecipeList getRecipeList(int listId)
 	{
 		return _lists.get(listId);
 	}
-
+	
 	public RecipeList getRecipeByItemId(int itemId)
 	{
 		for (RecipeList find : _lists.values())
@@ -145,31 +145,31 @@ public class RecipeTable
 		}
 		return null;
 	}
-
+	
 	public void requestBookOpen(Player player, boolean isDwarvenCraft)
 	{
 		RecipeBookItemList response = new RecipeBookItemList(isDwarvenCraft, player.getMaxMp());
 		response.addRecipes(isDwarvenCraft ? player.getDwarvenRecipeBook() : player.getCommonRecipeBook());
 		player.sendPacket(response);
 	}
-
+	
 	public void requestManufactureItem(Player manufacturer, int recipeListId, Player player)
 	{
 		final RecipeList recipeList = getValidRecipeList(player, recipeListId);
 		if (recipeList == null)
 			return;
-
+		
 		Collection<RecipeList> dwarfRecipes = manufacturer.getDwarvenRecipeBook();
 		Collection<RecipeList> commonRecipes = manufacturer.getCommonRecipeBook();
-
+		
 		if (!dwarfRecipes.contains(recipeList) && !commonRecipes.contains(recipeList))
 			return;
-
+		
 		final RecipeItemMaker maker = new RecipeItemMaker(manufacturer, recipeList, player);
 		if (maker._isValid)
 			maker.run();
 	}
-
+	
 	public void requestMakeItem(Player player, int recipeListId)
 	{
 		if (AttackStanceTaskManager.getInstance().isInAttackStance(player) || player.isInDuel())
@@ -177,22 +177,22 @@ public class RecipeTable
 			player.sendPacket(SystemMessageId.CANT_OPERATE_PRIVATE_STORE_DURING_COMBAT);
 			return;
 		}
-
+		
 		final RecipeList recipeList = getValidRecipeList(player, recipeListId);
 		if (recipeList == null)
 			return;
-
+		
 		Collection<RecipeList> dwarfRecipes = player.getDwarvenRecipeBook();
 		Collection<RecipeList> commonRecipes = player.getCommonRecipeBook();
-
+		
 		if (!dwarfRecipes.contains(recipeList) && !commonRecipes.contains(recipeList))
 			return;
-
+		
 		final RecipeItemMaker maker = new RecipeItemMaker(player, recipeList, player);
 		if (maker._isValid)
 			maker.run();
 	}
-
+	
 	private class RecipeItemMaker implements Runnable
 	{
 		protected boolean _isValid;
@@ -203,35 +203,35 @@ public class RecipeTable
 		protected final int _skillLevel;
 		protected double _manaRequired;
 		protected int _price;
-
+		
 		public RecipeItemMaker(Player pPlayer, RecipeList pRecipeList, Player pTarget)
 		{
 			_player = pPlayer;
 			_target = pTarget;
 			_recipeList = pRecipeList;
-
+			
 			_isValid = false;
 			_skillId = _recipeList.isDwarvenRecipe() ? L2Skill.SKILL_CREATE_DWARVEN : L2Skill.SKILL_CREATE_COMMON;
 			_skillLevel = _player.getSkillLevel(_skillId);
-
+			
 			_manaRequired = _recipeList.getMpCost();
-
+			
 			_player.setCrafting(true);
-
+			
 			if (_player.isAlikeDead() || _target.isAlikeDead())
 			{
 				_player.sendPacket(ActionFailed.STATIC_PACKET);
 				abort();
 				return;
 			}
-
+			
 			if (_player.isProcessingTransaction() || _target.isProcessingTransaction())
 			{
 				_target.sendPacket(ActionFailed.STATIC_PACKET);
 				abort();
 				return;
 			}
-
+			
 			// validate recipe list
 			// validate skill level
 			if (_recipeList.getNeededRecipeParts().isEmpty() || (_recipeList.getLevel() > _skillLevel))
@@ -240,7 +240,7 @@ public class RecipeTable
 				abort();
 				return;
 			}
-
+			
 			// check that customer can afford to pay for creation services
 			if (_player != _target)
 			{
@@ -259,14 +259,14 @@ public class RecipeTable
 					}
 				}
 			}
-
+			
 			// Check if inventory got all required materials.
 			if (!listItems(false))
 			{
 				abort();
 				return;
 			}
-
+			
 			// initial mana check requires MP as written on recipe
 			if (_player.getCurrentMp() < _manaRequired)
 			{
@@ -274,14 +274,14 @@ public class RecipeTable
 				abort();
 				return;
 			}
-
+			
 			updateMakeInfo(true);
 			updateStatus();
-
+			
 			_player.setCrafting(false);
 			_isValid = true;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -291,23 +291,23 @@ public class RecipeTable
 				abort();
 				return;
 			}
-
+			
 			if (_player == null || _target == null)
 			{
 				_log.warning("Player or target == null (disconnected?), aborting" + _target + _player);
 				abort();
 				return;
 			}
-
+			
 			if (!_player.isOnline() || !_target.isOnline())
 			{
 				_log.warning("Player or target is not online, aborting " + _target + _player);
 				abort();
 				return;
 			}
-
+			
 			_player.reduceCurrentMp(_manaRequired);
-
+			
 			// first take adena for manufacture
 			if (_target != _player && _price > 0) // customer must pay for services
 			{
@@ -320,14 +320,14 @@ public class RecipeTable
 					return;
 				}
 			}
-
+			
 			// Inventory check failed.
 			if (!listItems(true))
 			{
 				abort();
 				return;
 			}
-
+			
 			if (Rnd.get(100) < _recipeList.getSuccessRate())
 			{
 				rewardPlayer(); // and immediately puts created item in its place
@@ -342,17 +342,17 @@ public class RecipeTable
 				}
 				else
 					_target.sendPacket(SystemMessageId.ITEM_MIXING_FAILED);
-
+				
 				updateMakeInfo(false);
 			}
-
+			
 			// update load and mana bar of craft window
 			updateStatus();
-
+			
 			_player.setCrafting(false);
 			_target.sendPacket(new ItemList(_target, false));
 		}
-
+		
 		private void updateMakeInfo(boolean success)
 		{
 			if (_target == _player)
@@ -360,7 +360,7 @@ public class RecipeTable
 			else
 				_target.sendPacket(new RecipeShopItemInfo(_player, _recipeList.getId()));
 		}
-
+		
 		private void updateStatus()
 		{
 			final StatusUpdate su = new StatusUpdate(_target);
@@ -368,12 +368,12 @@ public class RecipeTable
 			su.addAttribute(StatusUpdate.CUR_LOAD, _target.getCurrentLoad());
 			_target.sendPacket(su);
 		}
-
+		
 		private boolean listItems(boolean remove)
 		{
 			final Inventory inv = _target.getInventory();
 			final List<IntIntHolder> materials = new ArrayList<>();
-
+			
 			boolean gotAllMats = true;
 			for (IntIntHolder neededPart : _recipeList.getNeededRecipeParts())
 			{
@@ -390,16 +390,16 @@ public class RecipeTable
 						materials.add(new IntIntHolder(item.getItemId(), quantity));
 				}
 			}
-
+			
 			if (!gotAllMats)
 				return false;
-
+			
 			if (remove)
 			{
 				for (IntIntHolder material : materials)
 				{
 					inv.destroyItemByItemId("Manufacture", material.getId(), material.getValue(), _target, _player);
-
+					
 					if (material.getValue() > 1)
 						_target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S2_S1_DISAPPEARED).addItemName(material.getId()).addItemNumber(material.getValue()));
 					else
@@ -408,20 +408,20 @@ public class RecipeTable
 			}
 			return true;
 		}
-
+		
 		private void abort()
 		{
 			updateMakeInfo(false);
 			_player.setCrafting(false);
 		}
-
+		
 		private void rewardPlayer()
 		{
 			int itemId = _recipeList.getItemId();
 			int itemCount = _recipeList.getCount();
-
+			
 			_target.getInventory().addItem("Manufacture", itemId, itemCount, _target, _player);
-
+			
 			// inform customer of earned item
 			if (_target != _player)
 			{
@@ -437,16 +437,16 @@ public class RecipeTable
 					_target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_CREATED_S2_S3_S_FOR_S4_ADENA).addString(_player.getName()).addNumber(itemCount).addItemName(itemId).addItemNumber(_price));
 				}
 			}
-
+			
 			if (itemCount > 1)
 				_target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.EARNED_S2_S1_S).addItemName(itemId).addNumber(itemCount));
 			else
 				_target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.EARNED_ITEM_S1).addItemName(itemId));
-
+			
 			updateMakeInfo(true); // success
 		}
 	}
-
+	
 	private RecipeList getValidRecipeList(Player player, int id)
 	{
 		final RecipeList recipeList = _lists.get(id);
@@ -458,7 +458,7 @@ public class RecipeTable
 		}
 		return recipeList;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final RecipeTable _instance = new RecipeTable();

@@ -17,10 +17,10 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class BoatGiranTalking implements Runnable
 {
 	private static final Logger _log = Logger.getLogger(BoatGiranTalking.class.getName());
-
+	
 	private static final Location OUST_LOC_1 = new Location(46763, 187041, -3451);
 	private static final Location OUST_LOC_2 = new Location(-96777, 258970, -3623);
-
+	
 	// Time: 868s
 	private static final VehicleLocation[] GIRAN_TO_TALKING =
 	{
@@ -44,12 +44,12 @@ public class BoatGiranTalking implements Runnable
 		new VehicleLocation(-92344, 261660, -3610, 180, 800),
 		new VehicleLocation(-94242, 261659, -3610, 150, 800)
 	};
-
+	
 	private static final VehicleLocation[] TALKING_DOCK =
 	{
 		new VehicleLocation(-96622, 261660, -3610, 150, 800)
 	};
-
+	
 	// Time: 1398s
 	private static final VehicleLocation[] TALKING_TO_GIRAN =
 	{
@@ -72,13 +72,13 @@ public class BoatGiranTalking implements Runnable
 		new VehicleLocation(45986, 192203, -3610, 150, 800),
 		new VehicleLocation(48950, 190613, -3610, 150, 800)
 	};
-
+	
 	private static final VehicleLocation GIRAN_DOCK = TALKING_TO_GIRAN[TALKING_TO_GIRAN.length - 1];
-
+	
 	private final Vehicle _boat;
 	private int _cycle = 0;
 	private int _shoutCount = 0;
-
+	
 	private final CreatureSay ARRIVED_AT_GIRAN;
 	private final CreatureSay ARRIVED_AT_GIRAN_2;
 	private final CreatureSay LEAVE_GIRAN5;
@@ -92,7 +92,7 @@ public class BoatGiranTalking implements Runnable
 	private final CreatureSay LEAVE_TALKING0;
 	private final CreatureSay LEAVING_TALKING;
 	private final CreatureSay BUSY_TALKING;
-
+	
 	private final CreatureSay ARRIVAL_TALKING15;
 	private final CreatureSay ARRIVAL_TALKING10;
 	private final CreatureSay ARRIVAL_TALKING5;
@@ -102,20 +102,20 @@ public class BoatGiranTalking implements Runnable
 	private final CreatureSay ARRIVAL_GIRAN10;
 	private final CreatureSay ARRIVAL_GIRAN5;
 	private final CreatureSay ARRIVAL_GIRAN1;
-
+	
 	private final PlaySound GIRAN_SOUND;
 	private final PlaySound TALKING_SOUND;
-
+	
 	private final PlaySound GIRAN_SOUND_LEAVE_5MIN;
 	private final PlaySound GIRAN_SOUND_LEAVE_1MIN;
-
+	
 	private final PlaySound TALKING_SOUND_LEAVE_5MIN;
 	private final PlaySound TALKING_SOUND_LEAVE_1MIN;
-
+	
 	public BoatGiranTalking(Vehicle boat)
 	{
 		_boat = boat;
-
+		
 		ARRIVED_AT_GIRAN = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_ARRIVED_AT_GIRAN);
 		ARRIVED_AT_GIRAN_2 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_LEAVE_FOR_TALKING_AFTER_10_MINUTES);
 		LEAVE_GIRAN5 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_LEAVE_FOR_TALKING_IN_5_MINUTES);
@@ -129,7 +129,7 @@ public class BoatGiranTalking implements Runnable
 		LEAVE_TALKING0 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_LEAVE_SOON_FOR_GIRAN);
 		LEAVING_TALKING = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_LEAVING_FOR_GIRAN);
 		BUSY_TALKING = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_GIRAN_TALKING_DELAYED);
-
+		
 		ARRIVAL_TALKING15 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_FROM_GIRAN_ARRIVE_AT_TALKING_15_MINUTES);
 		ARRIVAL_TALKING10 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_FROM_GIRAN_ARRIVE_AT_TALKING_10_MINUTES);
 		ARRIVAL_TALKING5 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_FROM_GIRAN_ARRIVE_AT_TALKING_5_MINUTES);
@@ -139,17 +139,17 @@ public class BoatGiranTalking implements Runnable
 		ARRIVAL_GIRAN10 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_FROM_TALKING_ARRIVE_AT_GIRAN_10_MINUTES);
 		ARRIVAL_GIRAN5 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_FROM_TALKING_ARRIVE_AT_GIRAN_5_MINUTES);
 		ARRIVAL_GIRAN1 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_FROM_TALKING_ARRIVE_AT_GIRAN_1_MINUTE);
-
+		
 		GIRAN_SOUND = new PlaySound(0, "itemsound.ship_arrival_departure", _boat);
 		TALKING_SOUND = new PlaySound(0, "itemsound.ship_arrival_departure", _boat);
-
+		
 		GIRAN_SOUND_LEAVE_5MIN = new PlaySound(0, "itemsound.ship_5min", _boat);
 		GIRAN_SOUND_LEAVE_1MIN = new PlaySound(0, "itemsound.ship_1min", _boat);
-
+		
 		TALKING_SOUND_LEAVE_5MIN = new PlaySound(0, "itemsound.ship_5min", _boat);
 		TALKING_SOUND_LEAVE_1MIN = new PlaySound(0, "itemsound.ship_1min", _boat);
 	}
-
+	
 	@Override
 	public void run()
 	{
@@ -195,11 +195,11 @@ public class BoatGiranTalking implements Runnable
 					{
 						if (_shoutCount == 0)
 							BoatManager.getInstance().broadcastPacket(TALKING_DOCK[0], GIRAN_DOCK, BUSY_TALKING);
-
+						
 						_shoutCount++;
 						if (_shoutCount > 35)
 							_shoutCount = 0;
-
+						
 						ThreadPool.schedule(this, 5000);
 						return;
 					}
@@ -269,7 +269,7 @@ public class BoatGiranTalking implements Runnable
 			_log.log(Level.WARNING, e.getMessage());
 		}
 	}
-
+	
 	public static void load()
 	{
 		final Vehicle boat = BoatManager.getInstance().getNewBoat(2, 48950, 190613, -3610, 60800);

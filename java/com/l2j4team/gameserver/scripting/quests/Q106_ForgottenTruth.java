@@ -10,18 +10,18 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q106_ForgottenTruth extends Quest
 {
 	private static final String qn = "Q106_ForgottenTruth";
-
+	
 	// NPCs
 	private static final int THIFIELL = 30358;
 	private static final int KARTIA = 30133;
-
+	
 	// Items
 	private static final int ONYX_TALISMAN_1 = 984;
 	private static final int ONYX_TALISMAN_2 = 985;
 	private static final int ANCIENT_SCROLL = 986;
 	private static final int ANCIENT_CLAY_TABLET = 987;
 	private static final int KARTIA_TRANSLATION = 988;
-
+	
 	// Rewards
 	private static final int SPIRITSHOT_NO_GRADE = 2509;
 	private static final int SOULSHOT_NO_GRADE = 1835;
@@ -34,19 +34,19 @@ public class Q106_ForgottenTruth extends Quest
 	private static final int ECHO_FEAST = 4415;
 	private static final int ECHO_CELEBRATION = 4416;
 	private static final int LESSER_HEALING_POTION = 1060;
-
+	
 	public Q106_ForgottenTruth()
 	{
 		super(106, "Forgotten Truth");
-
+		
 		setItemsIds(ONYX_TALISMAN_1, ONYX_TALISMAN_2, ANCIENT_SCROLL, ANCIENT_CLAY_TABLET, KARTIA_TRANSLATION);
-
+		
 		addStartNpc(THIFIELL);
 		addTalkId(THIFIELL, KARTIA);
-
+		
 		addKillId(27070); // Tumran Orc Brigand
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -54,7 +54,7 @@ public class Q106_ForgottenTruth extends Quest
 		String htmltext = event;
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30358-05.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -64,7 +64,7 @@ public class Q106_ForgottenTruth extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -72,7 +72,7 @@ public class Q106_ForgottenTruth extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -83,7 +83,7 @@ public class Q106_ForgottenTruth extends Quest
 				else
 					htmltext = "30358-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -101,12 +101,12 @@ public class Q106_ForgottenTruth extends Quest
 							st.takeItems(KARTIA_TRANSLATION, 1);
 							st.giveItems(ELDRITCH_DAGGER, 1);
 							st.giveItems(LESSER_HEALING_POTION, 100);
-
+							
 							if (player.isMageClass())
 								st.giveItems(SPIRITSHOT_NO_GRADE, 500);
 							else
 								st.giveItems(SOULSHOT_NO_GRADE, 1000);
-
+							
 							if (player.isNewbie())
 							{
 								st.showQuestionMark(26);
@@ -121,7 +121,7 @@ public class Q106_ForgottenTruth extends Quest
 									st.giveItems(SOULSHOT_FOR_BEGINNERS, 6000);
 								}
 							}
-
+							
 							st.giveItems(ECHO_BATTLE, 10);
 							st.giveItems(ECHO_LOVE, 10);
 							st.giveItems(ECHO_SOLITUDE, 10);
@@ -132,7 +132,7 @@ public class Q106_ForgottenTruth extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case KARTIA:
 						if (cond == 1)
 						{
@@ -159,26 +159,26 @@ public class Q106_ForgottenTruth extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "2");
 		if (st == null)
 			return null;
-
+		
 		if (!st.hasQuestItems(ANCIENT_SCROLL))
 			st.dropItems(ANCIENT_SCROLL, 1, 1, 200000);
 		else if (st.dropItems(ANCIENT_CLAY_TABLET, 1, 1, 200000))
 			st.set("cond", "3");
-
+		
 		return null;
 	}
 }

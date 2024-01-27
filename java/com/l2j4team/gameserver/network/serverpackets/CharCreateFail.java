@@ -9,14 +9,14 @@ public class CharCreateFail extends L2GameServerPacket
 	public static final CharCreateFail REASON_INCORRECT_NAME = new CharCreateFail(0x04);
 	public static final CharCreateFail REASON_CREATE_NOT_ALLOWED = new CharCreateFail(0x05);
 	public static final CharCreateFail REASON_CHOOSE_ANOTHER_SVR = new CharCreateFail(0x06);
-
+	
 	private final int _error;
-
+	
 	public CharCreateFail(int errorCode)
 	{
 		_error = errorCode;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

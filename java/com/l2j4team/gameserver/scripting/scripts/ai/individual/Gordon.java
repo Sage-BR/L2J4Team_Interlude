@@ -17,7 +17,7 @@ import com.l2j4team.gameserver.scripting.scripts.ai.L2AttackableAIScript;
 public class Gordon extends L2AttackableAIScript
 {
 	private static final int GORDON = 29095;
-
+	
 	private static final Location[] LOCS =
 	{
 		new Location(141569, -45908, -2387),
@@ -76,25 +76,25 @@ public class Gordon extends L2AttackableAIScript
 		new Location(140483, -46339, -2382),
 		new Location(141569, -45908, -2387)
 	};
-
+	
 	// The current Location node index.
 	private static int _currentNode;
-
+	
 	public Gordon()
 	{
 		super("ai/individual");
-
+		
 		final Npc npc = findSpawn(GORDON);
 		if (npc != null)
 			startQuestTimer("ai_loop", 1000, npc, null, true);
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addEventIds(GORDON, EventType.ON_KILL, EventType.ON_SPAWN);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -103,7 +103,7 @@ public class Gordon extends L2AttackableAIScript
 			// Doesn't bother about task AI if the NPC is already fighting.
 			if (npc.getAI().getIntention() == CtrlIntention.ATTACK || npc.getAI().getIntention() == CtrlIntention.CAST)
 				return null;
-
+			
 			// Check if player have Cursed Weapon and is in radius.
 			for (Player pc : npc.getKnownTypeInRadius(Player.class, 5000))
 			{
@@ -113,7 +113,7 @@ public class Gordon extends L2AttackableAIScript
 					return null;
 				}
 			}
-
+			
 			// Test the NPC position and move on new position if current position is reached.
 			final Location currentNode = LOCS[_currentNode];
 			if (npc.isInsideRadius(currentNode.getX(), currentNode.getY(), 100, false))
@@ -122,7 +122,7 @@ public class Gordon extends L2AttackableAIScript
 				_currentNode++;
 				if (_currentNode >= LOCS.length)
 					_currentNode = 0;
-
+				
 				npc.setWalking();
 				npc.getAI().setIntention(CtrlIntention.MOVE_TO, LOCS[_currentNode]);
 			}
@@ -134,27 +134,27 @@ public class Gordon extends L2AttackableAIScript
 		}
 		return super.onAdvEvent(event, npc, player);
 	}
-
+	
 	@Override
 	public String onSpawn(Npc npc)
 	{
 		// Initialize current node.
 		_currentNode = 0;
-
+		
 		// Launch the AI loop.
 		startQuestTimer("ai_loop", 1000, npc, null, true);
-
+		
 		return super.onSpawn(npc);
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player killer, boolean isPet)
 	{
 		cancelQuestTimer("ai_loop", npc, null);
-
+		
 		return super.onKill(npc, killer, isPet);
 	}
-
+	
 	private static Npc findSpawn(int npcId)
 	{
 		for (L2Spawn spawn : SpawnTable.getInstance().getSpawnTable())

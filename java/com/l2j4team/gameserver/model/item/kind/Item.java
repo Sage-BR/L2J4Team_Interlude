@@ -43,14 +43,14 @@ public abstract class Item
 	public static final int TYPE1_WEAPON_RING_EARRING_NECKLACE = 0;
 	public static final int TYPE1_SHIELD_ARMOR = 1;
 	public static final int TYPE1_ITEM_QUESTITEM_ADENA = 4;
-
+	
 	public static final int TYPE2_WEAPON = 0;
 	public static final int TYPE2_SHIELD_ARMOR = 1;
 	public static final int TYPE2_ACCESSORY = 2;
 	public static final int TYPE2_QUEST = 3;
 	public static final int TYPE2_MONEY = 4;
 	public static final int TYPE2_OTHER = 5;
-
+	
 	public static final int SLOT_NONE = 0x0000;
 	public static final int SLOT_UNDERWEAR = 0x0001;
 	public static final int SLOT_R_EAR = 0x0002;
@@ -74,14 +74,14 @@ public abstract class Item
 	public static final int SLOT_ALLDRESS = 0x020000;
 	public static final int SLOT_HAIR = 0x040000;
 	public static final int SLOT_HAIRALL = 0x080000;
-
+	
 	public static final int SLOT_WOLF = -100;
 	public static final int SLOT_HATCHLING = -101;
 	public static final int SLOT_STRIDER = -102;
 	public static final int SLOT_BABYPET = -103;
-
+	
 	public static final int SLOT_ALLWEAPON = SLOT_LR_HAND | SLOT_R_HAND;
-
+	
 	private final int _itemId;
 	private final String _name;
 	protected int _type1; // needed for item list (inventory)
@@ -94,27 +94,27 @@ public abstract class Item
 	private final int _bodyPart;
 	private final int _referencePrice;
 	private final int _crystalCount;
-
+	
 	private final boolean _sellable;
 	private final boolean _dropable;
 	private final boolean _destroyable;
 	private final boolean _tradable;
 	private final boolean _depositable;
-
+	
 	private final boolean _heroItem;
 	private final boolean _isOlyRestricted;
-
+	
 	private final ActionType _defaultAction;
-
+	
 	protected List<FuncTemplate> _funcTemplates;
-
+	
 	protected List<Condition> _preConditions;
 	private IntIntHolder[] _skillHolder;
-
+	
 	private List<Quest> _questEvents = Collections.emptyList();
-
+	
 	protected static final Logger _log = Logger.getLogger(Item.class.getName());
-
+	
 	/**
 	 * Constructor of the L2Item that fill class variables.
 	 * @param set : StatsSet corresponding to a set of couples (key,value) for description of the item
@@ -130,26 +130,26 @@ public abstract class Item
 		_referencePrice = set.getInteger("price", 0);
 		_crystalType = set.getEnum("crystal_type", CrystalType.class, CrystalType.NONE);
 		_crystalCount = set.getInteger("crystal_count", 0);
-
+		
 		_stackable = set.getBool("is_stackable", false);
 		_sellable = set.getBool("is_sellable", true);
 		_dropable = set.getBool("is_dropable", true);
 		_destroyable = set.getBool("is_destroyable", true);
 		_tradable = set.getBool("is_tradable", true);
 		_depositable = set.getBool("is_depositable", true);
-
+		
 		_heroItem = (_itemId >= 6611 && _itemId <= 6621) || _itemId == 6842;
 		_isOlyRestricted = set.getBool("is_oly_restricted", false);
-
+		
 		_defaultAction = set.getEnum("default_action", ActionType.class, ActionType.none);
-
+		
 		String skills = set.getString("item_skill", null);
 		if (skills != null)
 		{
 			String[] skillsSplit = skills.split(";");
 			_skillHolder = new IntIntHolder[skillsSplit.length];
 			int used = 0;
-
+			
 			for (String element : skillsSplit)
 			{
 				try
@@ -157,19 +157,19 @@ public abstract class Item
 					String[] skillSplit = element.split("-");
 					int id = Integer.parseInt(skillSplit[0]);
 					int level = Integer.parseInt(skillSplit[1]);
-
+					
 					if (id == 0)
 					{
 						_log.info("Ignoring item_skill(" + element + ") for item " + toString() + ". Skill id is 0.");
 						continue;
 					}
-
+					
 					if (level == 0)
 					{
 						_log.info("Ignoring item_skill(" + element + ") for item " + toString() + ". Skill level is 0.");
 						continue;
 					}
-
+					
 					_skillHolder[used] = new IntIntHolder(id, level);
 					++used;
 				}
@@ -178,7 +178,7 @@ public abstract class Item
 					_log.warning("Failed to parse item_skill(" + element + ") for item " + toString() + ". The used format is wrong.");
 				}
 			}
-
+			
 			// this is only loading? just don't leave a null or use a collection?
 			if (used != _skillHolder.length)
 			{
@@ -188,12 +188,12 @@ public abstract class Item
 			}
 		}
 	}
-
+	
 	/**
 	 * @return Enum the itemType.
 	 */
 	public abstract ItemType getItemType();
-
+	
 	/**
 	 * @return int the duration of the item
 	 */
@@ -201,7 +201,7 @@ public abstract class Item
 	{
 		return _duration;
 	}
-
+	
 	/**
 	 * @return int the ID of the item
 	 */
@@ -209,9 +209,9 @@ public abstract class Item
 	{
 		return _itemId;
 	}
-
+	
 	public abstract int getItemMask();
-
+	
 	/**
 	 * @return int the type of material of the item
 	 */
@@ -219,7 +219,7 @@ public abstract class Item
 	{
 		return _materialType;
 	}
-
+	
 	/**
 	 * @return int the type 2 of the item
 	 */
@@ -227,7 +227,7 @@ public abstract class Item
 	{
 		return _type2;
 	}
-
+	
 	/**
 	 * @return int the weight of the item
 	 */
@@ -235,7 +235,7 @@ public abstract class Item
 	{
 		return _weight;
 	}
-
+	
 	/**
 	 * @return boolean if the item is crystallizable
 	 */
@@ -243,7 +243,7 @@ public abstract class Item
 	{
 		return _crystalType != CrystalType.NONE && _crystalCount > 0;
 	}
-
+	
 	/**
 	 * @return CrystalType the type of crystal if item is crystallizable
 	 */
@@ -251,7 +251,7 @@ public abstract class Item
 	{
 		return _crystalType;
 	}
-
+	
 	/**
 	 * @return int the type of crystal if item is crystallizable
 	 */
@@ -259,7 +259,7 @@ public abstract class Item
 	{
 		return _crystalType.getCrystalId();
 	}
-
+	
 	/**
 	 * @return int the quantity of crystals for crystallization
 	 */
@@ -267,7 +267,7 @@ public abstract class Item
 	{
 		return _crystalCount;
 	}
-
+	
 	/**
 	 * @param enchantLevel
 	 * @return int the quantity of crystals for crystallization on specific enchant level
@@ -281,10 +281,10 @@ public abstract class Item
 				case TYPE2_SHIELD_ARMOR:
 				case TYPE2_ACCESSORY:
 					return _crystalCount + getCrystalType().getCrystalEnchantBonusArmor() * (3 * enchantLevel - 6);
-
+				
 				case TYPE2_WEAPON:
 					return _crystalCount + getCrystalType().getCrystalEnchantBonusWeapon() * (2 * enchantLevel - 3);
-
+				
 				default:
 					return _crystalCount;
 			}
@@ -305,7 +305,7 @@ public abstract class Item
 		else
 			return _crystalCount;
 	}
-
+	
 	/**
 	 * @return String the name of the item
 	 */
@@ -313,7 +313,7 @@ public abstract class Item
 	{
 		return _name;
 	}
-
+	
 	/**
 	 * @return int the part of the body used with the item.
 	 */
@@ -321,7 +321,7 @@ public abstract class Item
 	{
 		return _bodyPart;
 	}
-
+	
 	/**
 	 * @return int the type 1 of the item
 	 */
@@ -329,7 +329,7 @@ public abstract class Item
 	{
 		return _type1;
 	}
-
+	
 	/**
 	 * @return boolean if the item is stackable
 	 */
@@ -337,7 +337,7 @@ public abstract class Item
 	{
 		return _stackable;
 	}
-
+	
 	/**
 	 * @return boolean if the item is consumable
 	 */
@@ -345,12 +345,12 @@ public abstract class Item
 	{
 		return false;
 	}
-
+	
 	public boolean isEquipable()
 	{
 		return getBodyPart() != 0 && !(getItemType() instanceof EtcItemType);
 	}
-
+	
 	/**
 	 * @return int the price of reference of the item
 	 */
@@ -358,7 +358,7 @@ public abstract class Item
 	{
 		return (isConsumable() ? (int) (_referencePrice * Config.RATE_CONSUMABLE_COST) : _referencePrice);
 	}
-
+	
 	/**
 	 * Returns if the item can be sold
 	 * @return boolean
@@ -367,7 +367,7 @@ public abstract class Item
 	{
 		return Config.LIST_NO_SELL_ITEM.contains(_itemId) ? false : _sellable;
 	}
-
+	
 	/**
 	 * Returns if the item can dropped
 	 * @return boolean
@@ -376,7 +376,7 @@ public abstract class Item
 	{
 		return Config.LIST_NO_DROP_ITEM.contains(_itemId) ? false : _dropable;
 	}
-
+	
 	/**
 	 * Returns if the item can destroy
 	 * @return boolean
@@ -385,7 +385,7 @@ public abstract class Item
 	{
 		return Config.LIST_NO_DELETE_ITEM.contains(_itemId) ? false : _destroyable;
 	}
-
+	
 	/**
 	 * Returns if the item can add to trade
 	 * @return boolean
@@ -394,7 +394,7 @@ public abstract class Item
 	{
 		return Config.LIST_NO_TRADE_ITEM.contains(_itemId) ? false : _tradable;
 	}
-
+	
 	/**
 	 * Returns if the item can be put into warehouse
 	 * @return boolean
@@ -403,7 +403,7 @@ public abstract class Item
 	{
 		return Config.LIST_NO_DEPOSITE_ITEM.contains(_itemId) ? false : _depositable;
 	}
-
+	
 	/**
 	 * Get the functions used by this item.
 	 * @param item : ItemInstance pointing out the item
@@ -414,14 +414,14 @@ public abstract class Item
 	{
 		if (_funcTemplates == null || _funcTemplates.isEmpty())
 			return Collections.emptyList();
-
+		
 		final List<Func> funcs = new ArrayList<>(_funcTemplates.size());
-
+		
 		final Env env = new Env();
 		env.setCharacter(player);
 		env.setTarget(player);
 		env.setItem(item);
-
+		
 		for (FuncTemplate t : _funcTemplates)
 		{
 			final Func f = t.getFunc(env, item);
@@ -430,7 +430,7 @@ public abstract class Item
 		}
 		return funcs;
 	}
-
+	
 	/**
 	 * Add the FuncTemplate f to the list of functions used with the item
 	 * @param f : FuncTemplate to add
@@ -439,19 +439,19 @@ public abstract class Item
 	{
 		if (_funcTemplates == null)
 			_funcTemplates = new ArrayList<>(1);
-
+		
 		_funcTemplates.add(f);
 	}
-
+	
 	public final void attach(Condition c)
 	{
 		if (_preConditions == null)
 			_preConditions = new ArrayList<>();
-
+		
 		if (!_preConditions.contains(c))
 			_preConditions.add(c);
 	}
-
+	
 	/**
 	 * Method to retrieve skills linked to this item
 	 * @return Skills linked to this item as SkillHolder[]
@@ -460,7 +460,7 @@ public abstract class Item
 	{
 		return _skillHolder;
 	}
-
+	
 	public boolean checkCondition(Creature activeChar, WorldObject target, boolean sendMessage)
 	{
 		// Don't allow hero equipment and restricted items during Olympiad
@@ -470,23 +470,23 @@ public abstract class Item
 				activeChar.getActingPlayer().sendPacket(SystemMessageId.THIS_ITEM_CANT_BE_EQUIPPED_FOR_THE_OLYMPIAD_EVENT);
 			else
 				activeChar.getActingPlayer().sendPacket(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT);
-
+			
 			return false;
 		}
-
+		
 		if (_preConditions == null)
 			return true;
-
+		
 		final Env env = new Env();
 		env.setCharacter(activeChar);
 		if (target instanceof Creature)
 			env.setTarget((Creature) target);
-
+		
 		for (Condition preCondition : _preConditions)
 		{
 			if (preCondition == null)
 				continue;
-
+			
 			if (!preCondition.test(env))
 			{
 				if (activeChar instanceof Summon)
@@ -494,7 +494,7 @@ public abstract class Item
 					activeChar.getActingPlayer().sendPacket(SystemMessageId.PET_CANNOT_USE_ITEM);
 					return false;
 				}
-
+				
 				if (sendMessage)
 				{
 					String msg = preCondition.getMessage();
@@ -516,52 +516,52 @@ public abstract class Item
 		}
 		return true;
 	}
-
+	
 	public boolean isConditionAttached()
 	{
 		return _preConditions != null && !_preConditions.isEmpty();
 	}
-
+	
 	public boolean isQuestItem()
 	{
 		return (getItemType() == EtcItemType.QUEST);
 	}
-
+	
 	public final boolean isHeroItem()
 	{
 		return _heroItem;
 	}
-
+	
 	public boolean isOlyRestrictedItem()
 	{
 		return _isOlyRestricted;
 	}
-
+	
 	public boolean isOlyRestricted()
 	{
 		return (Config.OLY_PROTECT_ITEMS.contains(_itemId));
 	}
-
+	
 	public boolean isPetItem()
 	{
 		return (getItemType() == ArmorType.PET || getItemType() == WeaponType.PET);
 	}
-
+	
 	public boolean isPotion()
 	{
 		return (getItemType() == EtcItemType.POTION);
 	}
-
+	
 	public boolean isElixir()
 	{
 		return (getItemType() == EtcItemType.ELIXIR);
 	}
-
+	
 	public ActionType getDefaultAction()
 	{
 		return _defaultAction;
 	}
-
+	
 	/**
 	 * Returns the name of the item
 	 * @return String
@@ -571,25 +571,25 @@ public abstract class Item
 	{
 		return _name + " (" + _itemId + ")";
 	}
-
+	
 	public void addQuestEvent(Quest quest)
 	{
 		if (_questEvents.isEmpty())
 			_questEvents = new ArrayList<>(3);
-
+		
 		_questEvents.add(quest);
 	}
-
+	
 	public List<Quest> getQuestEvents()
 	{
 		return _questEvents;
 	}
-
+	
 	public String getIcon(int id)
 	{
 		if (IconTable._icons.get(id) == null)
 			return "icon.NOIMAGE";
-
+		
 		return IconTable._icons.get(id);
 	}
 }

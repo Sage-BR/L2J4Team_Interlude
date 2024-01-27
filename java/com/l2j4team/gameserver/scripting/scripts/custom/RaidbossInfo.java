@@ -17,9 +17,9 @@ public class RaidbossInfo extends Quest
 {
 	private static final String qn = "RaidbossInfo";
 	private static final String BOSS_CLASS_TYPE = "RaidBoss";
-
+	
 	private static final Map<Integer, Location> RADARS = new HashMap<>();
-
+	
 	private static final int[] NPCs =
 	{
 		31729,
@@ -100,17 +100,17 @@ public class RaidbossInfo extends Quest
 		31840,
 		31841
 	};
-
+	
 	public RaidbossInfo()
 	{
 		super(-1, "custom");
-
+		
 		for (int npcId : NPCs)
 		{
 			addStartNpc(npcId);
 			addTalkId(npcId);
 		}
-
+		
 		// Add all Raid Bosses locations.
 		for (L2Spawn spawn : SpawnTable.getInstance().getSpawnTable())
 		{
@@ -118,18 +118,18 @@ public class RaidbossInfo extends Quest
 				RADARS.put(spawn.getNpcId(), spawn.getLoc());
 		}
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return event;
-
+		
 		if (StringUtil.isDigit(event))
 		{
 			int rbid = Integer.parseInt(event);
-
+			
 			if (RADARS.containsKey(rbid))
 			{
 				Location loc = RADARS.get(rbid);
@@ -140,7 +140,7 @@ public class RaidbossInfo extends Quest
 		}
 		return event;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{

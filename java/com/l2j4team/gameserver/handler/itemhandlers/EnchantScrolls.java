@@ -14,14 +14,14 @@ public class EnchantScrolls implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final Player activeChar = (Player) playable;
 		if (activeChar.isCastingNow())
 			return;
-
+		
 		if (activeChar.getActiveEnchantItem() == null)
 			activeChar.sendPacket(SystemMessageId.SELECT_ITEM_TO_ENCHANT);
-
+		
 		activeChar.setActiveEnchantItem(item);
 		activeChar.sendPacket(new ChooseInventoryItem(item.getItemId()));
 	}

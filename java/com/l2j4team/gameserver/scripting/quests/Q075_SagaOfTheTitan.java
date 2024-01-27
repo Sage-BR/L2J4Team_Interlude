@@ -7,7 +7,7 @@ public class Q075_SagaOfTheTitan extends SagasSuperClass
 	public Q075_SagaOfTheTitan()
 	{
 		super(75, "Saga of the Titan");
-
+		
 		NPC = new int[]
 		{
 			31327,
@@ -23,7 +23,7 @@ public class Q075_SagaOfTheTitan extends SagasSuperClass
 			31658,
 			31290
 		};
-
+		
 		Items = new int[]
 		{
 			7080,
@@ -39,38 +39,38 @@ public class Q075_SagaOfTheTitan extends SagasSuperClass
 			7098,
 			0
 		};
-
+		
 		Mob = new int[]
 		{
 			27292,
 			27224,
 			27283
 		};
-
+		
 		classid = 113;
 		prevclass = 0x2e;
-
+		
 		X = new int[]
 		{
 			119518,
 			181215,
 			181227
 		};
-
+		
 		Y = new int[]
 		{
 			-28658,
 			36676,
 			36703
 		};
-
+		
 		Z = new int[]
 		{
 			-3811,
 			-4812,
 			-4816
 		};
-
+		
 		registerNPCs();
 	}
 }

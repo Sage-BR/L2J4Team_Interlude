@@ -16,13 +16,13 @@ public class EffectChameleonRest extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.RELAXING;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
@@ -30,41 +30,41 @@ public class EffectChameleonRest extends L2Effect
 			((Player) getEffected()).sitDown(false);
 		else
 			getEffected().getAI().setIntention(CtrlIntention.REST);
-
+		
 		return super.onStart();
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		super.onExit();
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		// Only cont skills shouldn't end
 		if (getEffected().isDead() || (getSkill().getSkillType() != L2SkillType.CONT))
 			return false;
-
+		
 		if (getEffected() instanceof Player)
 		{
 			if (!((Player) getEffected()).isSitting())
 				return false;
 		}
-
+		
 		double manaDam = calc();
-
+		
 		if (manaDam > getEffected().getCurrentMp())
 		{
 			getEffected().sendPacket(SystemMessage.getSystemMessage(SystemMessageId.SKILL_REMOVED_DUE_LACK_MP));
 			return false;
 		}
-
+		
 		getEffected().reduceCurrentMp(manaDam);
 		return true;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

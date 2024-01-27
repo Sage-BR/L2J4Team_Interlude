@@ -12,7 +12,7 @@ public class Cuboid extends Rectangle
 	// min and max Z coorinates
 	private final int _minZ;
 	private final int _maxZ;
-
+	
 	/**
 	 * Cuboid constructor.
 	 * @param x : Bottom left lower X coordinate.
@@ -25,40 +25,40 @@ public class Cuboid extends Rectangle
 	public Cuboid(int x, int y, int minZ, int maxZ, int w, int h)
 	{
 		super(x, y, w, h);
-
+		
 		_minZ = minZ;
 		_maxZ = maxZ;
 	}
-
+	
 	@Override
 	public final double getArea()
 	{
 		return 2 * (_w * _h + (_w + _h) * (_maxZ - _minZ));
 	}
-
+	
 	@Override
 	public final double getVolume()
 	{
 		return _w * _h * (_maxZ - _minZ);
 	}
-
+	
 	@Override
 	public boolean isInside(int x, int y, int z)
 	{
 		if (z < _minZ || z > _maxZ)
 			return false;
-
+		
 		int d = x - _x;
 		if (d < 0 || d > _w)
 			return false;
-
+		
 		d = y - _y;
 		if (d < 0 || d > _h)
 			return false;
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public Location getRandomLocation()
 	{

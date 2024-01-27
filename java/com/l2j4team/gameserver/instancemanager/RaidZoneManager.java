@@ -39,18 +39,18 @@ import java.util.logging.Logger;
 public class RaidZoneManager
 {
 	private static final Logger _log = Logger.getLogger(RaidZoneManager.class.getName());
-
+	
 	public RaidZoneManager()
 	{
 		_log.log(Level.INFO, "RaidZoneManager - Loaded.");
 	}
-
+	
 	private static boolean checkClanAreaKickTask(Player activeChar, Integer numberBox)
 	{
 		Map<String, List<Player>> zergMap = new HashMap<>();
-
+		
 		Clan clan = activeChar.getClan();
-
+		
 		if (clan != null)
 		{
 			for (Player player : clan.getOnlineMembers())
@@ -59,14 +59,14 @@ public class RaidZoneManager
 					continue;
 				String zerg1 = activeChar.getClan().getName();
 				String zerg2 = player.getClan().getName();
-
+				
 				if (zerg1.equals(zerg2))
 				{
 					if (zergMap.get(zerg1) == null)
 						zergMap.put(zerg1, new ArrayList<Player>());
-
+					
 					zergMap.get(zerg1).add(player);
-
+					
 					if (zergMap.get(zerg1).size() > numberBox)
 						return true;
 				}
@@ -74,11 +74,11 @@ public class RaidZoneManager
 		}
 		return false;
 	}
-
+	
 	private static boolean checkPlayersKickTask(Player activeChar, Integer numberBox)
 	{
 		Map<String, List<Player>> map = new HashMap<>();
-
+		
 		if (activeChar != null)
 		{
 			for (Player player : World.getInstance().getPlayers())
@@ -87,14 +87,14 @@ public class RaidZoneManager
 					continue;
 				String ip1 = activeChar.getHWID();
 				String ip2 = player.getHWID();
-
+				
 				if (ip1.equals(ip2))
 				{
 					if (map.get(ip1) == null)
 						map.put(ip1, new ArrayList<Player>());
-
+					
 					map.get(ip1).add(player);
-
+					
 					if (map.get(ip1).size() > numberBox)
 						return true;
 				}
@@ -102,11 +102,11 @@ public class RaidZoneManager
 		}
 		return false;
 	}
-
+	
 	private static boolean checkAllyAreaKickTask(Player activeChar, Integer numberBox, Collection<Player> world)
 	{
 		Map<String, List<Player>> zergMap = new HashMap<>();
-
+		
 		if (activeChar.getAllyId() != 0)
 		{
 			for (Player player : world)
@@ -115,14 +115,14 @@ public class RaidZoneManager
 					continue;
 				String zerg1 = activeChar.getClan().getAllyName();
 				String zerg2 = player.getClan().getAllyName();
-
+				
 				if (zerg1.equals(zerg2))
 				{
 					if (zergMap.get(zerg1) == null)
 						zergMap.put(zerg1, new ArrayList<Player>());
-
+					
 					zergMap.get(zerg1).add(player);
-
+					
 					if (zergMap.get(zerg1).size() > numberBox)
 						return true;
 				}
@@ -130,7 +130,7 @@ public class RaidZoneManager
 		}
 		return false;
 	}
-
+	
 	public boolean checkClanArea(Player activeChar, Integer numberBox, Boolean forcedTeleport)
 	{
 		if (checkClanAreaKickTask(activeChar, numberBox))
@@ -144,7 +144,7 @@ public class RaidZoneManager
 		}
 		return false;
 	}
-
+	
 	public boolean checkPlayersArea(Player activeChar, Integer numberBox, Boolean forcedTeleport)
 	{
 		if (checkPlayersKickTask(activeChar, numberBox))
@@ -163,7 +163,7 @@ public class RaidZoneManager
 		}
 		return false;
 	}
-
+	
 	public boolean checkAllyArea(Player activeChar, Integer numberBox, Collection<Player> world, Boolean forcedTeleport)
 	{
 		if (checkAllyAreaKickTask(activeChar, numberBox, world))
@@ -177,7 +177,7 @@ public class RaidZoneManager
 		}
 		return false;
 	}
-
+	
 	private static boolean checkPlayersKickTask_ip(Player activeChar, Integer numberBox, Collection<Player> world)
 	{
 		Map<String, List<Player>> ipMap = new HashMap<>();
@@ -187,21 +187,21 @@ public class RaidZoneManager
 				continue;
 			String ip = activeChar.getClient().getConnection().getInetAddress().getHostAddress();
 			String playerIp = player.getClient().getConnection().getInetAddress().getHostAddress();
-
+			
 			if (IPProtection(playerIp))
 			{
 				if (ipMap.get(ip) == null)
 					ipMap.put(ip, new ArrayList<Player>());
-
+				
 				ipMap.get(ip).add(player);
-
+				
 				if (ipMap.get(ip).size() >= numberBox)
 					return true;
 			}
 		}
 		return false;
 	}
-
+	
 	public boolean checkPlayersArea_ip(Player activeChar, Integer numberBox, Collection<Player> world, Boolean forcedLogOut)
 	{
 		if (checkPlayersKickTask_ip(activeChar, numberBox, world))
@@ -220,7 +220,7 @@ public class RaidZoneManager
 		}
 		return false;
 	}
-
+	
 	public static synchronized boolean IPProtection(final String ip)
 	{
 		boolean result = true;
@@ -239,7 +239,7 @@ public class RaidZoneManager
 		}
 		return result;
 	}
-
+	
 	// Giran Coord's
 	public void RandomTeleport(Player activeChar)
 	{
@@ -282,12 +282,12 @@ public class RaidZoneManager
 			}
 		}
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final RaidZoneManager _instance = new RaidZoneManager();
 	}
-
+	
 	public static final RaidZoneManager getInstance()
 	{
 		return SingletonHolder._instance;

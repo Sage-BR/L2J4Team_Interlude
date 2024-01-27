@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
 
 public class AdminLocPhantom implements IAdminCommandHandler
 {
-
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_save",
@@ -21,34 +21,34 @@ public class AdminLocPhantom implements IAdminCommandHandler
 		"admin_remove",
 		"admin_end",
 	};
-
+	
 	private static final List<Location> savedLocs = new ArrayList<>();
 	private static final String fileName = "town_locs" + "%s" + ".ini";
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		final StringTokenizer st = new StringTokenizer(command);
 		st.nextToken();
-
+		
 		if (command.startsWith("admin_save"))
 		{
 			final Location loc = new Location(activeChar.getX(), activeChar.getY(), activeChar.getZ());
 			if (savedLocs.add(loc))
 				activeChar.sendMessage(loc + " saved..");
-
+			
 		}
 		else if (command.startsWith("admin_reset"))
 		{
 			clear();
 			activeChar.sendMessage("Reset completed.");
-
+			
 		}
 		else if (command.startsWith("admin_remove"))
 		{
 			if (savedLocs.size() > 0)
 				activeChar.sendMessage(savedLocs.remove(savedLocs.size() - 1) + " removed.");
-
+			
 		}
 		else if (command.startsWith("admin_end"))
 		{
@@ -61,7 +61,7 @@ public class AdminLocPhantom implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	private static void store(Player gm)
 	{
 		final String fName = String.format(fileName, "");
@@ -79,12 +79,12 @@ public class AdminLocPhantom implements IAdminCommandHandler
 		gm.sendMessage("Coordinates has been successfully stored at " + filePath);
 		clear();
 	}
-
+	
 	private static void clear()
 	{
 		savedLocs.clear();
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

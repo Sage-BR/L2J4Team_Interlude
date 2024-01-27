@@ -48,25 +48,25 @@ import com.l2j4team.commons.math.MathUtil;
 public class GeoEngine
 {
 	protected static final CLogger LOGGER = new CLogger(GeoEngine.class.getName());
-
+	
 	private static final String GEO_BUG = "%d;%d;%d;%d;%d;%d;%d;%s\r\n";
-
+	
 	private final ABlock[][] _blocks;
 	private final BlockNull _nullBlock;
-
+	
 	private final PrintWriter _geoBugReports;
 	private final Set<ItemInstance> _debugItems = ConcurrentHashMap.newKeySet();
-
+	
 	// pre-allocated buffers
 	private final BufferHolder[] _buffers;
-
+	
 	// pathfinding statistics
 	private int _findSuccess = 0;
 	private int _findFails = 0;
 	private int _postFilterPlayableUses = 0;
 	private int _postFilterUses = 0;
 	private long _postFilterElapsed = 0;
-
+	
 	/**
 	 * GeoEngine contructor. Loads all geodata files of chosen geodata format.
 	 */
@@ -74,13 +74,13 @@ public class GeoEngine
 	{
 		// initialize block container
 		_blocks = new ABlock[GeoStructure.GEO_BLOCKS_X][GeoStructure.GEO_BLOCKS_Y];
-
+		
 		// load null block
 		_nullBlock = new BlockNull();
-
+		
 		// initialize multilayer temporarily buffer
 		BlockMultilayer.initialize();
-
+		
 		// load geo files according to geoengine config setup
 		final ExProperties props = Config.initProperties(Config.GEOENGINE_FILE);
 		int loaded = 0;
@@ -105,16 +105,16 @@ public class GeoEngine
 			}
 		}
 		LOGGER.info("Loaded {} L2D region files.", loaded);
-
+		
 		// release multilayer block temporarily buffer
 		BlockMultilayer.release();
-
+		
 		if (failed > 0)
 		{
 			LOGGER.warn("Failed to load {} L2D region files. Please consider to check your \"geodata.properties\" settings and location of your geodata files.", failed);
 			System.exit(1);
 		}
-
+		
 		// initialize bug reports
 		PrintWriter writer = null;
 		try
@@ -126,16 +126,16 @@ public class GeoEngine
 			LOGGER.error("Couldn't load \"geo_bugs.txt\" file.", e);
 		}
 		_geoBugReports = writer;
-
+		
 		String[] array = Config.PATHFIND_BUFFERS.split(";");
 		_buffers = new BufferHolder[array.length];
-
+		
 		int count = 0;
 		for (int i = 0; i < array.length; i++)
 		{
 			String buf = array[i];
 			String[] args = buf.split("x");
-
+			
 			try
 			{
 				int size = Integer.parseInt(args[1]);
@@ -147,10 +147,10 @@ public class GeoEngine
 				LOGGER.error("Couldn't load buffer setting: {}.", e, buf);
 			}
 		}
-
+		
 		LOGGER.info("Loaded {} node buffers.", count);
 	}
-
+	
 	/**
 	 * Create list of node locations as result of calculated buffer node tree.
 	 * @param target : the entry point
@@ -160,41 +160,41 @@ public class GeoEngine
 	{
 		// create empty list
 		LinkedList<Location> list = new LinkedList<>();
-
+		
 		// set direction X/Y
 		int dx = 0;
 		int dy = 0;
-
+		
 		// get target parent
 		Node parent = target.getParent();
-
+		
 		// while parent exists
 		while (parent != null)
 		{
 			// get parent <> target direction X/Y
 			final int nx = parent.getLoc().getGeoX() - target.getLoc().getGeoX();
 			final int ny = parent.getLoc().getGeoY() - target.getLoc().getGeoY();
-
+			
 			// direction has changed?
 			if (dx != nx || dy != ny)
 			{
 				// add node to the beginning of the list
 				list.addFirst(target.getLoc());
-
+				
 				// update direction X/Y
 				dx = nx;
 				dy = ny;
 			}
-
+			
 			// move to next node, set target and get its parent
 			target = parent;
 			parent = target.getParent();
 		}
-
+		
 		// return list
 		return list;
 	}
-
+	
 	/**
 	 * Provides optimize selection of the buffer. When all pre-initialized buffer are locked, creates new buffer and log this situation.
 	 * @param size : pre-calculated minimal required size
@@ -209,33 +209,33 @@ public class GeoEngine
 			// Find proper size of buffer
 			if (holder._size < size)
 				continue;
-
+			
 			// Find unlocked NodeBuffer
 			for (NodeBuffer buffer : holder._buffer)
 			{
 				if (!buffer.isLocked())
 					continue;
-
+				
 				holder._uses++;
 				if (playable)
 					holder._playableUses++;
-
+				
 				holder._elapsed += buffer.getElapsedTime();
 				return buffer;
 			}
-
+			
 			// NodeBuffer not found, allocate temporary buffer
 			current = new NodeBuffer(holder._size);
 			current.isLocked();
-
+			
 			holder._overflows++;
 			if (playable)
 				holder._playableOverflows++;
 		}
-
+		
 		return current;
 	}
-
+	
 	/**
 	 * Loads geodata from a file. When file does not exist, is corrupted or not consistent, loads none geodata.
 	 * @param regionX : Geodata file region X coordinate.
@@ -246,18 +246,18 @@ public class GeoEngine
 	{
 		final String filename = String.format(GeoFormat.L2D.getFilename(), regionX, regionY);
 		final String filepath = Config.GEODATA_PATH + filename;
-
+		
 		// standard load
 		try (RandomAccessFile raf = new RandomAccessFile(filepath, "r"); FileChannel fc = raf.getChannel())
 		{
 			// initialize file buffer
 			MappedByteBuffer buffer = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size()).load();
 			buffer.order(ByteOrder.LITTLE_ENDIAN);
-
+			
 			// get block indexes
 			final int blockX = (regionX - World.TILE_X_MIN) * GeoStructure.REGION_BLOCKS_X;
 			final int blockY = (regionY - World.TILE_Y_MIN) * GeoStructure.REGION_BLOCKS_Y;
-
+			
 			// loop over region blocks
 			for (int ix = 0; ix < GeoStructure.REGION_BLOCKS_X; ix++)
 			{
@@ -265,32 +265,32 @@ public class GeoEngine
 				{
 					// get block type
 					final byte type = buffer.get();
-
+					
 					// load block according to block type
 					switch (type)
 					{
 						case GeoStructure.TYPE_FLAT_L2D:
 							_blocks[blockX + ix][blockY + iy] = new BlockFlat(buffer, GeoFormat.L2D);
 							break;
-
+						
 						case GeoStructure.TYPE_COMPLEX_L2D:
 							_blocks[blockX + ix][blockY + iy] = new BlockComplex(buffer, GeoFormat.L2D);
 							break;
-
+						
 						case GeoStructure.TYPE_MULTILAYER_L2D:
 							_blocks[blockX + ix][blockY + iy] = new BlockMultilayer(buffer, GeoFormat.L2D);
 							break;
-
+						
 						default:
 							throw new IllegalArgumentException("Unknown block type: " + type);
 					}
 				}
 			}
-
+			
 			// check data consistency
 			if (buffer.remaining() > 0)
 				LOGGER.warn("Region file {} can be corrupted, remaining {} bytes to read.", filename, buffer.remaining());
-
+			
 			// loading was successful
 			return true;
 		}
@@ -298,15 +298,15 @@ public class GeoEngine
 		{
 			// an error occured while loading, load null blocks
 			LOGGER.error("Error loading {} region file.", e, filename);
-
+			
 			// replace whole region file with null blocks
 			loadNullBlocks(regionX, regionY);
-
+			
 			// loading was not successful
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Loads null blocks. Used when no region file is detected or an error occurs during loading.
 	 * @param regionX : Geodata file region X coordinate.
@@ -317,13 +317,13 @@ public class GeoEngine
 		// get block indexes
 		final int blockX = (regionX - World.TILE_X_MIN) * GeoStructure.REGION_BLOCKS_X;
 		final int blockY = (regionY - World.TILE_Y_MIN) * GeoStructure.REGION_BLOCKS_Y;
-
+		
 		// load all null blocks
 		for (int ix = 0; ix < GeoStructure.REGION_BLOCKS_X; ix++)
 			for (int iy = 0; iy < GeoStructure.REGION_BLOCKS_Y; iy++)
 				_blocks[blockX + ix][blockY + iy] = _nullBlock;
 	}
-
+	
 	/**
 	 * Returns the height of cell, which is closest to given coordinates.<br>
 	 * Geodata without {@link IGeoObject} are taken in consideration.
@@ -336,7 +336,7 @@ public class GeoEngine
 	{
 		return getBlock(geoX, geoY).getHeightNearestOriginal(geoX, geoY, worldZ);
 	}
-
+	
 	/**
 	 * Returns the NSWE flag byte of cell, which is closes to given coordinates.<br>
 	 * Geodata without {@link IGeoObject} are taken in consideration.
@@ -349,9 +349,9 @@ public class GeoEngine
 	{
 		return getBlock(geoX, geoY).getNsweNearestOriginal(geoX, geoY, worldZ);
 	}
-
+	
 	// GEODATA - GENERAL
-
+	
 	/**
 	 * Converts world X to geodata X.
 	 * @param worldX
@@ -361,7 +361,7 @@ public class GeoEngine
 	{
 		return (MathUtil.limit(worldX, World.WORLD_X_MIN, World.WORLD_X_MAX) - World.WORLD_X_MIN) >> 4;
 	}
-
+	
 	/**
 	 * Converts world Y to geodata Y.
 	 * @param worldY
@@ -371,7 +371,7 @@ public class GeoEngine
 	{
 		return (MathUtil.limit(worldY, World.WORLD_Y_MIN, World.WORLD_Y_MAX) - World.WORLD_Y_MIN) >> 4;
 	}
-
+	
 	/**
 	 * Converts geodata X to world X.
 	 * @param geoX
@@ -381,7 +381,7 @@ public class GeoEngine
 	{
 		return (MathUtil.limit(geoX, 0, GeoStructure.GEO_CELLS_X) << 4) + World.WORLD_X_MIN + 8;
 	}
-
+	
 	/**
 	 * Converts geodata Y to world Y.
 	 * @param geoY
@@ -391,7 +391,7 @@ public class GeoEngine
 	{
 		return (MathUtil.limit(geoY, 0, GeoStructure.GEO_CELLS_Y) << 4) + World.WORLD_Y_MIN + 8;
 	}
-
+	
 	/**
 	 * Returns block of geodata on given coordinates.
 	 * @param geoX : Geodata X
@@ -402,7 +402,7 @@ public class GeoEngine
 	{
 		return _blocks[geoX / GeoStructure.BLOCK_CELLS_X][geoY / GeoStructure.BLOCK_CELLS_Y];
 	}
-
+	
 	/**
 	 * Check if geo coordinates has geo.
 	 * @param geoX : Geodata X
@@ -413,7 +413,7 @@ public class GeoEngine
 	{
 		return getBlock(geoX, geoY).hasGeoPos();
 	}
-
+	
 	/**
 	 * Returns the height of cell, which is closest to given coordinates.
 	 * @param geoX : Cell geodata X coordinate.
@@ -425,7 +425,7 @@ public class GeoEngine
 	{
 		return getBlock(geoX, geoY).getHeightNearest(geoX, geoY, worldZ);
 	}
-
+	
 	/**
 	 * Returns the NSWE flag byte of cell, which is closes to given coordinates.
 	 * @param geoX : Cell geodata X coordinate.
@@ -437,7 +437,7 @@ public class GeoEngine
 	{
 		return getBlock(geoX, geoY).getNsweNearest(geoX, geoY, worldZ);
 	}
-
+	
 	/**
 	 * Check if world coordinates has geo.
 	 * @param worldX : World X
@@ -448,7 +448,7 @@ public class GeoEngine
 	{
 		return hasGeoPos(getGeoX(worldX), getGeoY(worldY));
 	}
-
+	
 	/**
 	 * Returns closest Z coordinate according to geodata.
 	 * @param worldX : world x
@@ -460,9 +460,9 @@ public class GeoEngine
 	{
 		return getHeightNearest(getGeoX(worldX), getGeoY(worldY), worldZ);
 	}
-
+	
 	// GEODATA - DYNAMIC
-
+	
 	/**
 	 * Returns calculated NSWE flag byte as a description of {@link IGeoObject}.<br>
 	 * The {@link IGeoObject} is defined by boolean 2D array, saying if the object is present on given cell or not.
@@ -474,10 +474,10 @@ public class GeoEngine
 		// get dimensions
 		final int width = inside.length;
 		final int height = inside[0].length;
-
+		
 		// create object flags for geodata, according to the geo object 2D description
 		final byte[][] result = new byte[width][height];
-
+		
 		// loop over each cell of the geo object
 		for (int ix = 0; ix < width; ix++)
 			for (int iy = 0; iy < height; iy++)
@@ -489,10 +489,10 @@ public class GeoEngine
 				else
 				{
 					// cell is outside of geo object, block only movement leading inside geo object
-
+					
 					// set initial value -> no geodata change
 					byte nswe = (byte) 0xFF;
-
+					
 					// perform axial and diagonal checks
 					if (iy < height - 1)
 						if (inside[ix][iy + 1])
@@ -518,13 +518,13 @@ public class GeoEngine
 					if (ix > 0 && iy > 0)
 						if (inside[ix - 1][iy - 1] || inside[ix][iy - 1] || inside[ix - 1][iy])
 							nswe &= ~GeoStructure.CELL_FLAG_NW;
-
+						
 					result[ix][iy] = nswe;
 				}
-
+			
 		return result;
 	}
-
+	
 	/**
 	 * Add {@link IGeoObject} to the geodata.
 	 * @param object : An object using {@link IGeoObject} interface.
@@ -533,7 +533,7 @@ public class GeoEngine
 	{
 		toggleGeoObject(object, true);
 	}
-
+	
 	/**
 	 * Remove {@link IGeoObject} from the geodata.
 	 * @param object : An object using {@link IGeoObject} interface.
@@ -542,7 +542,7 @@ public class GeoEngine
 	{
 		toggleGeoObject(object, false);
 	}
-
+	
 	/**
 	 * Toggles an {@link IGeoObject} in the geodata.
 	 * @param object : An object using {@link IGeoObject} interface.
@@ -554,13 +554,13 @@ public class GeoEngine
 		final int minGX = object.getGeoX();
 		final int minGY = object.getGeoY();
 		final byte[][] geoData = object.getObjectGeoData();
-
+		
 		// get min/max block coordinates
 		int minBX = minGX / GeoStructure.BLOCK_CELLS_X;
 		int maxBX = (minGX + geoData.length - 1) / GeoStructure.BLOCK_CELLS_X;
 		int minBY = minGY / GeoStructure.BLOCK_CELLS_Y;
 		int maxBY = (minGY + geoData[0].length - 1) / GeoStructure.BLOCK_CELLS_Y;
-
+		
 		// loop over affected blocks in X direction
 		for (int bx = minBX; bx <= maxBX; bx++)
 		{
@@ -568,20 +568,20 @@ public class GeoEngine
 			for (int by = minBY; by <= maxBY; by++)
 			{
 				ABlock block;
-
+				
 				// conversion to dynamic block must be synchronized to prevent 2 independent threads converting same block
 				synchronized (_blocks)
 				{
 					// get related block
 					block = _blocks[bx][by];
-
+					
 					// check for dynamic block
 					if (!(block instanceof IBlockDynamic))
 					{
 						// null block means no geodata (particular region file is not loaded), no geodata means no geobjects
 						if (block instanceof BlockNull)
 							continue;
-
+						
 						// not a dynamic block, convert it
 						if (block instanceof BlockFlat)
 						{
@@ -603,7 +603,7 @@ public class GeoEngine
 						}
 					}
 				}
-
+				
 				// add/remove geo object to/from dynamic block
 				if (add)
 					((IBlockDynamic) block).addGeoObject(object);
@@ -612,9 +612,9 @@ public class GeoEngine
 			}
 		}
 	}
-
+	
 	// PATHFINDING
-
+	
 	/**
 	 * Check line of sight from {@link WorldObject} to {@link WorldObject}.
 	 * @param origin : The origin object.
@@ -630,41 +630,41 @@ public class GeoEngine
 		final int tx = target.getX();
 		final int ty = target.getY();
 		final int tz = target.getZ();
-
+		
 		// get origin and check existing geo coordinates
 		final int gox = getGeoX(ox);
 		final int goy = getGeoY(oy);
 		if (!hasGeoPos(gox, goy))
 			return true;
-
+		
 		final short goz = getHeightNearest(gox, goy, oz);
-
+		
 		// get target and check existing geo coordinates
 		final int gtx = getGeoX(tx);
 		final int gty = getGeoY(ty);
 		if (!hasGeoPos(gtx, gty))
 			return true;
-
+		
 		final boolean door = target instanceof Door;
 		final short gtz = door ? getHeightNearestOriginal(gtx, gty, tz) : getHeightNearest(gtx, gty, tz);
-
+		
 		// origin and target coordinates are same
 		if (gox == gtx && goy == gty)
 			return goz == gtz;
-
+		
 		// get origin and target height, real height = collision height * 2
 		double oheight = 0;
 		if (origin instanceof Creature)
 			oheight = ((Creature) origin).getCollisionHeight() * 2;
-
+		
 		double theight = 0;
 		if (target instanceof Creature)
 			theight = ((Creature) target).getCollisionHeight() * 2;
-
+		
 		// perform geodata check
 		return door ? checkSeeOriginal(gox, goy, goz, oheight, gtx, gty, gtz, theight) : checkSee(gox, goy, goz, oheight, gtx, gty, gtz, theight);
 	}
-
+	
 	/**
 	 * Check line of sight from {@link WorldObject} to {@link Location}.
 	 * @param origin : The origin object.
@@ -680,36 +680,36 @@ public class GeoEngine
 		final int tx = position.getX();
 		final int ty = position.getY();
 		final int tz = position.getZ();
-
+		
 		// get origin and check existing geo coordinates
 		final int gox = getGeoX(ox);
 		final int goy = getGeoY(oy);
 		if (!hasGeoPos(gox, goy))
 			return true;
-
+		
 		final short goz = getHeightNearest(gox, goy, oz);
-
+		
 		// get target and check existing geo coordinates
 		final int gtx = getGeoX(tx);
 		final int gty = getGeoY(ty);
 		if (!hasGeoPos(gtx, gty))
 			return true;
-
+		
 		final short gtz = getHeightNearest(gtx, gty, tz);
-
+		
 		// origin and target coordinates are same
 		if (gox == gtx && goy == gty)
 			return goz == gtz;
-
+		
 		// get origin and target height, real height = collision height * 2
 		double oheight = 0;
 		if (origin instanceof Creature)
 			oheight = ((Creature) origin).getTemplate().getCollisionHeight();
-
+		
 		// perform geodata check
 		return checkSee(gox, goy, goz, oheight, gtx, gty, gtz, 0);
 	}
-
+	
 	/**
 	 * Simple check for origin to target visibility.
 	 * @param gox : origin X geodata coordinate
@@ -727,38 +727,38 @@ public class GeoEngine
 		// get line of sight Z coordinates
 		double losoz = goz + oheight * Config.PART_OF_CHARACTER_HEIGHT / 100;
 		double lostz = gtz + theight * Config.PART_OF_CHARACTER_HEIGHT / 100;
-
+		
 		// get X delta and signum
 		final int dx = Math.abs(gtx - gox);
 		final int sx = gox < gtx ? 1 : -1;
 		final byte dirox = sx > 0 ? GeoStructure.CELL_FLAG_E : GeoStructure.CELL_FLAG_W;
 		final byte dirtx = sx > 0 ? GeoStructure.CELL_FLAG_W : GeoStructure.CELL_FLAG_E;
-
+		
 		// get Y delta and signum
 		final int dy = Math.abs(gty - goy);
 		final int sy = goy < gty ? 1 : -1;
 		final byte diroy = sy > 0 ? GeoStructure.CELL_FLAG_S : GeoStructure.CELL_FLAG_N;
 		final byte dirty = sy > 0 ? GeoStructure.CELL_FLAG_N : GeoStructure.CELL_FLAG_S;
-
+		
 		// get Z delta
 		final int dm = Math.max(dx, dy);
 		final double dz = (lostz - losoz) / dm;
-
+		
 		// get direction flag for diagonal movement
 		final byte diroxy = getDirXY(dirox, diroy);
 		final byte dirtxy = getDirXY(dirtx, dirty);
-
+		
 		// delta, determines axis to move on (+..X axis, -..Y axis)
 		int d = dx - dy;
-
+		
 		// NSWE direction of movement
 		byte diro;
 		byte dirt;
-
+		
 		// clearDebugItems();
 		// dropDebugItem(728, 0, new GeoLocation(gox, goy, goz)); // blue potion
 		// dropDebugItem(728, 0, new GeoLocation(gtx, gty, gtz)); // blue potion
-
+		
 		// initialize node values
 		int nox = gox;
 		int noy = goy;
@@ -766,7 +766,7 @@ public class GeoEngine
 		int nty = gty;
 		byte nsweo = getNsweNearest(gox, goy, goz);
 		byte nswet = getNsweNearest(gtx, gty, gtz);
-
+		
 		// loop
 		ABlock block;
 		int index;
@@ -774,11 +774,11 @@ public class GeoEngine
 		{
 			// dropDebugItem(57, 0, new GeoLocation(gox, goy, goz)); // antidote
 			// dropDebugItem(1831, 0, new GeoLocation(gtx, gty, gtz)); // adena
-
+			
 			// reset direction flag
 			diro = 0;
 			dirt = 0;
-
+			
 			// calculate next point coordinates
 			int e2 = 2 * d;
 			if (e2 > -dy && e2 < dx)
@@ -811,69 +811,69 @@ public class GeoEngine
 				diro |= diroy;
 				dirt |= dirty;
 			}
-
+			
 			{
 				// get block of the next cell
 				block = getBlock(nox, noy);
-
+				
 				// get index of particular layer, based on movement conditions
 				if ((nsweo & diro) == 0)
 					index = block.getIndexAbove(nox, noy, goz - GeoStructure.CELL_IGNORE_HEIGHT);
 				else
 					index = block.getIndexBelow(nox, noy, goz + GeoStructure.CELL_IGNORE_HEIGHT);
-
+				
 				// layer does not exist, return
 				if (index == -1)
 					return false;
-
+				
 				// get layer and next line of sight Z coordinate
 				goz = block.getHeight(index);
 				losoz += dz;
-
+				
 				// perform line of sight check, return when fails
 				if ((goz - losoz) > Config.MAX_OBSTACLE_HEIGHT)
 					return false;
-
+				
 				// get layer nswe
 				nsweo = block.getNswe(index);
 			}
 			{
 				// get block of the next cell
 				block = getBlock(ntx, nty);
-
+				
 				// get index of particular layer, based on movement conditions
 				if ((nswet & dirt) == 0)
 					index = block.getIndexAbove(ntx, nty, gtz - GeoStructure.CELL_IGNORE_HEIGHT);
 				else
 					index = block.getIndexBelow(ntx, nty, gtz + GeoStructure.CELL_IGNORE_HEIGHT);
-
+				
 				// layer does not exist, return
 				if (index == -1)
 					return false;
-
+				
 				// get layer and next line of sight Z coordinate
 				gtz = block.getHeight(index);
 				lostz -= dz;
-
+				
 				// perform line of sight check, return when fails
 				if ((gtz - lostz) > Config.MAX_OBSTACLE_HEIGHT)
 					return false;
-
+				
 				// get layer nswe
 				nswet = block.getNswe(index);
 			}
-
+			
 			// update coords
 			gox = nox;
 			goy = noy;
 			gtx = ntx;
 			gty = nty;
 		}
-
+		
 		// when iteration is completed, compare final Z coordinates
 		return Math.abs(goz - gtz) < GeoStructure.CELL_HEIGHT * 4;
 	}
-
+	
 	/**
 	 * Simple check for origin to target visibility.<br>
 	 * Geodata without {@link IGeoObject} are taken in consideration.<br>
@@ -893,38 +893,38 @@ public class GeoEngine
 		// get line of sight Z coordinates
 		double losoz = goz + oheight * Config.PART_OF_CHARACTER_HEIGHT / 100;
 		double lostz = gtz + theight * Config.PART_OF_CHARACTER_HEIGHT / 100;
-
+		
 		// get X delta and signum
 		final int dx = Math.abs(gtx - gox);
 		final int sx = gox < gtx ? 1 : -1;
 		final byte dirox = sx > 0 ? GeoStructure.CELL_FLAG_E : GeoStructure.CELL_FLAG_W;
 		final byte dirtx = sx > 0 ? GeoStructure.CELL_FLAG_W : GeoStructure.CELL_FLAG_E;
-
+		
 		// get Y delta and signum
 		final int dy = Math.abs(gty - goy);
 		final int sy = goy < gty ? 1 : -1;
 		final byte diroy = sy > 0 ? GeoStructure.CELL_FLAG_S : GeoStructure.CELL_FLAG_N;
 		final byte dirty = sy > 0 ? GeoStructure.CELL_FLAG_N : GeoStructure.CELL_FLAG_S;
-
+		
 		// get Z delta
 		final int dm = Math.max(dx, dy);
 		final double dz = (lostz - losoz) / dm;
-
+		
 		// get direction flag for diagonal movement
 		final byte diroxy = getDirXY(dirox, diroy);
 		final byte dirtxy = getDirXY(dirtx, dirty);
-
+		
 		// delta, determines axis to move on (+..X axis, -..Y axis)
 		int d = dx - dy;
-
+		
 		// NSWE direction of movement
 		byte diro;
 		byte dirt;
-
+		
 		// clearDebugItems();
 		// dropDebugItem(728, 0, new GeoLocation(gox, goy, goz)); // blue potion
 		// dropDebugItem(728, 0, new GeoLocation(gtx, gty, gtz)); // blue potion
-
+		
 		// initialize node values
 		int nox = gox;
 		int noy = goy;
@@ -932,7 +932,7 @@ public class GeoEngine
 		int nty = gty;
 		byte nsweo = getNsweNearestOriginal(gox, goy, goz);
 		byte nswet = getNsweNearestOriginal(gtx, gty, gtz);
-
+		
 		// loop
 		ABlock block;
 		int index;
@@ -940,11 +940,11 @@ public class GeoEngine
 		{
 			// dropDebugItem(57, 0, new GeoLocation(gox, goy, goz)); // antidote
 			// dropDebugItem(1831, 0, new GeoLocation(gtx, gty, gtz)); // adena
-
+			
 			// reset direction flag
 			diro = 0;
 			dirt = 0;
-
+			
 			// calculate next point coordinates
 			int e2 = 2 * d;
 			if (e2 > -dy && e2 < dx)
@@ -977,69 +977,69 @@ public class GeoEngine
 				diro |= diroy;
 				dirt |= dirty;
 			}
-
+			
 			{
 				// get block of the next cell
 				block = getBlock(nox, noy);
-
+				
 				// get index of particular layer, based on movement conditions
 				if ((nsweo & diro) == 0)
 					index = block.getIndexAboveOriginal(nox, noy, goz - GeoStructure.CELL_IGNORE_HEIGHT);
 				else
 					index = block.getIndexBelowOriginal(nox, noy, goz + GeoStructure.CELL_IGNORE_HEIGHT);
-
+				
 				// layer does not exist, return
 				if (index == -1)
 					return false;
-
+				
 				// get layer and next line of sight Z coordinate
 				goz = block.getHeightOriginal(index);
 				losoz += dz;
-
+				
 				// perform line of sight check, return when fails
 				if ((goz - losoz) > Config.MAX_OBSTACLE_HEIGHT)
 					return false;
-
+				
 				// get layer nswe
 				nsweo = block.getNsweOriginal(index);
 			}
 			{
 				// get block of the next cell
 				block = getBlock(ntx, nty);
-
+				
 				// get index of particular layer, based on movement conditions
 				if ((nswet & dirt) == 0)
 					index = block.getIndexAboveOriginal(ntx, nty, gtz - GeoStructure.CELL_IGNORE_HEIGHT);
 				else
 					index = block.getIndexBelowOriginal(ntx, nty, gtz + GeoStructure.CELL_IGNORE_HEIGHT);
-
+				
 				// layer does not exist, return
 				if (index == -1)
 					return false;
-
+				
 				// get layer and next line of sight Z coordinate
 				gtz = block.getHeightOriginal(index);
 				lostz -= dz;
-
+				
 				// perform line of sight check, return when fails
 				if ((gtz - lostz) > Config.MAX_OBSTACLE_HEIGHT)
 					return false;
-
+				
 				// get layer nswe
 				nswet = block.getNsweOriginal(index);
 			}
-
+			
 			// update coords
 			gox = nox;
 			goy = noy;
 			gtx = ntx;
 			gty = nty;
 		}
-
+		
 		// when iteration is completed, compare final Z coordinates
 		return Math.abs(goz - gtz) < GeoStructure.CELL_HEIGHT * 4;
 	}
-
+	
 	/**
 	 * Check movement from coordinates to coordinates.
 	 * @param ox : origin X coordinate
@@ -1057,26 +1057,26 @@ public class GeoEngine
 		final int goy = getGeoY(oy);
 		if (!hasGeoPos(gox, goy))
 			return true;
-
+		
 		final short goz = getHeightNearest(gox, goy, oz);
-
+		
 		// get target and check existing geo coordinates
 		final int gtx = getGeoX(tx);
 		final int gty = getGeoY(ty);
 		if (!hasGeoPos(gtx, gty))
 			return true;
-
+		
 		final short gtz = getHeightNearest(gtx, gty, tz);
-
+		
 		// target coordinates reached
 		if (gox == gtx && goy == gty && goz == gtz)
 			return true;
-
+		
 		// perform geodata check
 		GeoLocation loc = checkMove(gox, goy, goz, gtx, gty, gtz);
 		return loc.getGeoX() == gtx && loc.getGeoY() == gty;
 	}
-
+	
 	/**
 	 * Check movement from origin to target. Returns last available point in the checked path.
 	 * @param ox : origin X coordinate
@@ -1094,25 +1094,25 @@ public class GeoEngine
 		final int goy = getGeoY(oy);
 		if (!hasGeoPos(gox, goy))
 			return new Location(tx, ty, tz);
-
+		
 		final short goz = getHeightNearest(gox, goy, oz);
-
+		
 		// get target and check existing geo coordinates
 		final int gtx = getGeoX(tx);
 		final int gty = getGeoY(ty);
 		if (!hasGeoPos(gtx, gty))
 			return new Location(tx, ty, tz);
-
+		
 		final short gtz = getHeightNearest(gtx, gty, tz);
-
+		
 		// target coordinates reached
 		if (gox == gtx && goy == gty && goz == gtz)
 			return new Location(tx, ty, tz);
-
+		
 		// perform geodata check
 		return checkMove(gox, goy, goz, gtx, gty, gtz);
 	}
-
+	
 	/**
 	 * With this method you can check if a position is visible or can be reached by beeline movement.<br>
 	 * Target X and Y reachable and Z is on same floor:
@@ -1141,35 +1141,35 @@ public class GeoEngine
 		final int dx = Math.abs(gtx - gox);
 		final int sx = gox < gtx ? 1 : -1;
 		final byte dirX = sx > 0 ? GeoStructure.CELL_FLAG_E : GeoStructure.CELL_FLAG_W;
-
+		
 		// get Y delta, signum and direction flag
 		final int dy = Math.abs(gty - goy);
 		final int sy = goy < gty ? 1 : -1;
 		final byte dirY = sy > 0 ? GeoStructure.CELL_FLAG_S : GeoStructure.CELL_FLAG_N;
-
+		
 		// get direction flag for diagonal movement
 		final byte dirXY = getDirXY(dirX, dirY);
-
+		
 		// delta, determines axis to move on (+..X axis, -..Y axis)
 		int d = dx - dy;
-
+		
 		// NSWE direction of movement
 		byte direction;
-
+		
 		// load pointer coordinates
 		int gpx = gox;
 		int gpy = goy;
 		int gpz = goz;
-
+		
 		// load next pointer
 		int nx = gpx;
 		int ny = gpy;
-
+		
 		// loop
 		do
 		{
 			direction = 0;
-
+			
 			// calculate next point coordinates
 			int e2 = 2 * d;
 			if (e2 > -dy && e2 < dx)
@@ -1192,16 +1192,16 @@ public class GeoEngine
 				ny += sy;
 				direction |= dirY;
 			}
-
+			
 			// obstacle found, return
 			if ((getNsweNearest(gpx, gpy, gpz) & direction) == 0)
 				return new GeoLocation(gpx, gpy, gpz);
-
+			
 			// update pointer coordinates
 			gpx = nx;
 			gpy = ny;
 			gpz = getHeightNearest(nx, ny, gpz);
-
+			
 			// target coordinates reached
 			if (gpx == gtx && gpy == gty)
 			{
@@ -1210,14 +1210,14 @@ public class GeoEngine
 					// path found, Z coordinates are okay, return target point
 					return new GeoLocation(gtx, gty, gtz);
 				}
-
+				
 				// path found, Z coordinates are not okay, return origin point
 				return new GeoLocation(gox, goy, goz);
 			}
 		}
 		while (true);
 	}
-
+	
 	/**
 	 * Returns diagonal NSWE flag format of combined two NSWE flags.
 	 * @param dirX : X direction NSWE flag
@@ -1231,16 +1231,16 @@ public class GeoEngine
 		{
 			if (dirX == GeoStructure.CELL_FLAG_W)
 				return GeoStructure.CELL_FLAG_NW;
-
+			
 			return GeoStructure.CELL_FLAG_NE;
 		}
-
+		
 		if (dirX == GeoStructure.CELL_FLAG_W)
 			return GeoStructure.CELL_FLAG_SW;
-
+		
 		return GeoStructure.CELL_FLAG_SE;
 	}
-
+	
 	/**
 	 * Returns the list of location objects as a result of complete path calculation.
 	 * @param ox : origin x
@@ -1259,44 +1259,44 @@ public class GeoEngine
 		int goy = getGeoY(oy);
 		if (!hasGeoPos(gox, goy))
 			return null;
-
+		
 		short goz = getHeightNearest(gox, goy, oz);
-
+		
 		// get target and check existing geo coords
 		int gtx = getGeoX(tx);
 		int gty = getGeoY(ty);
 		if (!hasGeoPos(gtx, gty))
 			return null;
-
+		
 		short gtz = getHeightNearest(gtx, gty, tz);
-
+		
 		// Prepare buffer for pathfinding calculations
 		NodeBuffer buffer = getBuffer(64 + (2 * Math.max(Math.abs(gox - gtx), Math.abs(goy - gty))), playable);
 		if (buffer == null)
 			return null;
-
+		
 		// clean debug path
 		boolean debug = playable && Config.DEBUG_PATH;
 		if (debug)
 			clearDebugItems();
-
+		
 		// find path
 		List<Location> path = null;
 		try
 		{
 			Node result = buffer.findPath(gox, goy, goz, gtx, gty, gtz);
-
+			
 			if (result == null)
 			{
 				_findFails++;
 				return null;
 			}
-
+			
 			if (debug)
 			{
 				// path origin
 				dropDebugItem(728, 0, new GeoLocation(gox, goy, goz)); // blue potion
-
+				
 				// path
 				for (Node n : buffer.debugPath())
 				{
@@ -1306,13 +1306,13 @@ public class GeoEngine
 						dropDebugItem(57, (int) (n.getCost() * 10), n.getLoc()); // adena
 				}
 			}
-
+			
 			path = constructPath(result);
 		}
 		catch (Exception e)
 		{
 			LOGGER.error("Failed to generate a path.", e);
-
+			
 			_findFails++;
 			return null;
 		}
@@ -1321,43 +1321,43 @@ public class GeoEngine
 			buffer.free();
 			_findSuccess++;
 		}
-
+		
 		// check path
 		if (path.size() < 3)
 			return path;
-
+		
 		// log data
 		long timeStamp = System.currentTimeMillis();
 		_postFilterUses++;
 		if (playable)
 			_postFilterPlayableUses++;
-
+		
 		// get path list iterator
 		ListIterator<Location> point = path.listIterator();
-
+		
 		// get node A (origin)
 		int nodeAx = gox;
 		int nodeAy = goy;
 		short nodeAz = goz;
-
+		
 		// get node B
 		GeoLocation nodeB = (GeoLocation) point.next();
-
+		
 		// iterate thought the path to optimize it
 		while (point.hasNext())
 		{
 			// get node C
 			GeoLocation nodeC = (GeoLocation) path.get(point.nextIndex());
-
+			
 			// check movement from node A to node C
 			GeoLocation loc = checkMove(nodeAx, nodeAy, nodeAz, nodeC.getGeoX(), nodeC.getGeoY(), nodeC.getZ());
 			if (loc.getGeoX() == nodeC.getGeoX() && loc.getGeoY() == nodeC.getGeoY())
 			{
 				// can move from node A to node C
-
+				
 				// remove node B
 				point.remove();
-
+				
 				// show skipped nodes
 				if (debug)
 					dropDebugItem(735, 0, nodeB); // green potion
@@ -1365,30 +1365,30 @@ public class GeoEngine
 			else
 			{
 				// can not move from node A to node C
-
+				
 				// set node A (node B is part of path, update A coordinates)
 				nodeAx = nodeB.getGeoX();
 				nodeAy = nodeB.getGeoY();
 				nodeAz = (short) nodeB.getZ();
 			}
-
+			
 			// set node B
 			nodeB = (GeoLocation) point.next();
 		}
-
+		
 		// show final path
 		if (debug)
 		{
 			for (Location node : path)
 				dropDebugItem(65, 0, node); // red potion
 		}
-
+		
 		// log data
 		_postFilterElapsed += System.currentTimeMillis() - timeStamp;
-
+		
 		return path;
 	}
-
+	
 	/**
 	 * Return pathfinding statistics, useful for getting information about pathfinding status.
 	 * @return {@code List<String>} : stats
@@ -1396,22 +1396,22 @@ public class GeoEngine
 	public List<String> getStat()
 	{
 		List<String> list = new ArrayList<>();
-
+		
 		for (BufferHolder buffer : _buffers)
 			list.add(buffer.toString());
-
+		
 		list.add("Use: playable=" + String.valueOf(_postFilterPlayableUses) + " non-playable=" + String.valueOf(_postFilterUses - _postFilterPlayableUses));
-
+		
 		if (_postFilterUses > 0)
 			list.add("Time (ms): total=" + String.valueOf(_postFilterElapsed) + " avg=" + String.format("%1.2f", (double) _postFilterElapsed / _postFilterUses));
-
+		
 		list.add("Pathfind: success=" + String.valueOf(_findSuccess) + ", fail=" + String.valueOf(_findFails));
-
+		
 		return list;
 	}
-
+	
 	// MISC
-
+	
 	/**
 	 * Record a geodata bug.
 	 * @param loc : Location of the geodata bug.
@@ -1429,7 +1429,7 @@ public class GeoEngine
 		int by = (goy / GeoStructure.BLOCK_CELLS_Y) % GeoStructure.REGION_BLOCKS_Y;
 		int cx = gox % GeoStructure.BLOCK_CELLS_X;
 		int cy = goy % GeoStructure.BLOCK_CELLS_Y;
-
+		
 		try
 		{
 			_geoBugReports.printf(GEO_BUG, rx, ry, bx, by, cx, cy, goz, comment.replace(";", ":"));
@@ -1441,7 +1441,7 @@ public class GeoEngine
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Add new item to drop list for debug purpose.
 	 * @param id : Item id
@@ -1455,7 +1455,7 @@ public class GeoEngine
 		item.spawnMe(loc.getX(), loc.getY(), loc.getZ());
 		_debugItems.add(item);
 	}
-
+	
 	/**
 	 * Clear item drop list for debugging paths.
 	 */
@@ -1463,10 +1463,10 @@ public class GeoEngine
 	{
 		for (ItemInstance item : _debugItems)
 			item.decayMe();
-
+		
 		_debugItems.clear();
 	}
-
+	
 	/**
 	 * NodeBuffer container with specified size and count of separate buffers.
 	 */
@@ -1475,41 +1475,41 @@ public class GeoEngine
 		final int _size;
 		final int _count;
 		ArrayList<NodeBuffer> _buffer;
-
+		
 		// statistics
 		int _playableUses = 0;
 		int _uses = 0;
 		int _playableOverflows = 0;
 		int _overflows = 0;
 		long _elapsed = 0;
-
+		
 		public BufferHolder(int size, int count)
 		{
 			_size = size;
 			_count = count;
 			_buffer = new ArrayList<>(count);
-
+			
 			for (int i = 0; i < count; i++)
 				_buffer.add(new NodeBuffer(size));
-
+			
 		}
-
+		
 		@Override
 		public String toString()
 		{
 			final StringBuilder sb = new StringBuilder(100);
-
+			
 			StringUtil.append(sb, "Buffer ", String.valueOf(_size), "x", String.valueOf(_size), ": count=", String.valueOf(_count), " uses=", String.valueOf(_playableUses), "/", String.valueOf(_uses));
-
+			
 			if (_uses > 0)
 				StringUtil.append(sb, " total/avg(ms)=", String.valueOf(_elapsed), "/", String.format("%1.2f", (double) _elapsed / _uses));
-
+			
 			StringUtil.append(sb, " ovf=", String.valueOf(_playableOverflows), "/", String.valueOf(_overflows));
-
+			
 			return sb.toString();
 		}
 	}
-
+	
 	/**
 	 * Returns the instance of the {@link GeoEngine}.
 	 * @return {@link GeoEngine} : The instance.
@@ -1518,7 +1518,7 @@ public class GeoEngine
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final GeoEngine INSTANCE = new GeoEngine();

@@ -9,7 +9,7 @@ public class SiegeNpc extends Folk
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player)
 	{

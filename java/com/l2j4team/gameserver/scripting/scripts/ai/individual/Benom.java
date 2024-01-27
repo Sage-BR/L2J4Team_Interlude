@@ -30,7 +30,7 @@ public class Benom extends L2AttackableAIScript
 	private static final int BENOM = 29054;
 	private static final int TELEPORT_CUBE = 29055;
 	private static final int DUNGEON_KEEPER = 35506;
-
+	
 	// Important : the heading is used as offset.
 	private static final SpawnLocation[] TARGET_TELEPORTS =
 	{
@@ -47,34 +47,34 @@ public class Benom extends L2AttackableAIScript
 		new SpawnLocation(15538, -49153, -1056, 200),
 		new SpawnLocation(17001, -49149, -1064, 650)
 	};
-
+	
 	private static final SpawnLocation THRONE_LOC = new SpawnLocation(11025, -49152, -537, 0);
 	private static final SpawnLocation PRISON_LOC = new SpawnLocation(11882, -49216, -3008, 0);
-
+	
 	private final Siege _siege;
-
+	
 	private Npc _benom;
-
+	
 	private boolean _isPrisonOpened;
-
+	
 	private final List<Player> _targets = new ArrayList<>();
-
+	
 	public Benom()
 	{
 		super("ai/individual");
-
+		
 		_siege = addSiegeNotify(8);
-
+		
 		addStartNpc(DUNGEON_KEEPER, TELEPORT_CUBE);
 		addTalkId(DUNGEON_KEEPER, TELEPORT_CUBE);
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addEventIds(BENOM, EventType.ON_AGGRO, EventType.ON_SPELL_FINISHED, EventType.ON_ATTACK, EventType.ON_KILL);
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player talker)
 	{
@@ -83,7 +83,7 @@ public class Benom extends L2AttackableAIScript
 			case TELEPORT_CUBE:
 				talker.teleToLocation(TeleportType.TOWN);
 				break;
-
+			
 			case DUNGEON_KEEPER:
 				if (_isPrisonOpened)
 					talker.teleToLocation(12589, -49044, -3008, 0);
@@ -93,7 +93,7 @@ public class Benom extends L2AttackableAIScript
 		}
 		return super.onTalk(npc, talker);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -101,22 +101,22 @@ public class Benom extends L2AttackableAIScript
 		{
 			case "benom_spawn":
 				_isPrisonOpened = true;
-
+				
 				_benom = addSpawn(BENOM, PRISON_LOC, false, 0, false);
 				_benom.broadcastNpcSay("Who dares to covet the throne of our castle! Leave immediately or you will pay the price of your audacity with your very own blood!");
 				break;
-
+			
 			case "tower_check":
 				if (_siege.getControlTowerCount() < 2)
 				{
 					npc.teleToLocation(THRONE_LOC, 0);
 					_siege.getCastle().getSiegeZone().broadcastPacket(new NpcSay(0, Say2.ALL, DUNGEON_KEEPER, "Oh no! The defenses have failed. It is too dangerous to remain inside the castle. Flee! Every man for himself!"));
-
+					
 					cancelQuestTimer("tower_check", npc, null);
 					startQuestTimer("raid_check", 10000, npc, null, true);
 				}
 				break;
-
+			
 			case "raid_check":
 				if (!npc.isInsideZone(ZoneId.SIEGE) && !npc.isTeleporting())
 					npc.teleToLocation(THRONE_LOC, 0);
@@ -124,26 +124,26 @@ public class Benom extends L2AttackableAIScript
 		}
 		return event;
 	}
-
+	
 	@Override
 	public String onAggro(Npc npc, Player player, boolean isPet)
 	{
 		if (isPet)
 			return super.onAggro(npc, player, isPet);
-
+		
 		if (_targets.size() < 10 && Rnd.get(3) < 1)
 			_targets.add(player);
-
+		
 		return super.onAggro(npc, player, isPet);
 	}
-
+	
 	@Override
 	public void onSiegeEvent()
 	{
 		// Don't go further if the castle isn't owned.
 		if (_siege.getCastle().getOwnerId() <= 0)
 			return;
-
+		
 		switch (_siege.getStatus())
 		{
 			case IN_PROGRESS:
@@ -151,27 +151,27 @@ public class Benom extends L2AttackableAIScript
 				if (_benom != null && !_benom.isDead())
 					startQuestTimer("tower_check", 30000, _benom, null, true);
 				break;
-
+			
 			case REGISTRATION_OPENED:
 				_isPrisonOpened = false;
-
+				
 				if (_benom != null)
 				{
 					cancelQuestTimer("tower_check", _benom, null);
 					cancelQuestTimer("raid_check", _benom, null);
-
+					
 					_benom.deleteMe();
 				}
-
+				
 				startQuestTimer("benom_spawn", _siege.getSiegeDate().getTimeInMillis() - 8640000 - System.currentTimeMillis(), null, null, false);
 				break;
-
+			
 			case REGISTRATION_OVER:
 				startQuestTimer("benom_spawn", 0, null, null, false);
 				break;
 		}
 	}
-
+	
 	@Override
 	public String onSpellFinished(Npc npc, Player player, L2Skill skill)
 	{
@@ -181,7 +181,7 @@ public class Benom extends L2AttackableAIScript
 				teleportTarget(player);
 				((Attackable) npc).stopHating(player);
 				break;
-
+			
 			case 4996:
 				teleportTarget(player);
 				((Attackable) npc).stopHating(player);
@@ -203,10 +203,10 @@ public class Benom extends L2AttackableAIScript
 				}
 				break;
 		}
-
+		
 		return null;
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
@@ -235,18 +235,18 @@ public class Benom extends L2AttackableAIScript
 		}
 		return super.onAttack(npc, attacker, damage, isPet, skill);
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player killer, boolean isPet)
 	{
 		npc.broadcastNpcSay("It's not over yet... It won't be... over... like this... Never...");
 		cancelQuestTimer("raid_check", npc, null);
-
+		
 		addSpawn(TELEPORT_CUBE, 12589, -49044, -3008, 0, false, 120000, false);
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * Move a player by Skill. Venom has two skill related.
 	 * @param player the player targeted

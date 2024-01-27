@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q235_MimirsElixir extends Quest
 {
 	private static final String qn = "Q235_MimirsElixir";
-
+	
 	// Items
 	private static final int STAR_OF_DESTINY = 5011;
 	private static final int PURE_SILVER = 6320;
@@ -19,27 +19,27 @@ public class Q235_MimirsElixir extends Quest
 	private static final int BLOOD_FIRE = 6318;
 	private static final int MIMIR_ELIXIR = 6319;
 	private static final int MAGISTER_MIXING_STONE = 5905;
-
+	
 	// Reward
 	private static final int SCROLL_ENCHANT_WEAPON_A = 729;
-
+	
 	// NPCs
 	private static final int JOAN = 30718;
 	private static final int LADD = 30721;
 	private static final int MIXING_URN = 31149;
-
+	
 	public Q235_MimirsElixir()
 	{
 		super(235, "Mimir's Elixir");
-
+		
 		setItemsIds(PURE_SILVER, TRUE_GOLD, SAGE_STONE, BLOOD_FIRE, MAGISTER_MIXING_STONE, MIMIR_ELIXIR);
-
+		
 		addStartNpc(LADD);
 		addTalkId(LADD, JOAN, MIXING_URN);
-
+		
 		addKillId(20965, 21090);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -47,7 +47,7 @@ public class Q235_MimirsElixir extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30721-06.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -63,7 +63,7 @@ public class Q235_MimirsElixir extends Quest
 		else if (event.equalsIgnoreCase("30721-16.htm") && st.hasQuestItems(MIMIR_ELIXIR))
 		{
 			player.broadcastPacket(new MagicSkillUse(player, player, 4339, 1, 1, 1));
-
+			
 			st.takeItems(MAGISTER_MIXING_STONE, -1);
 			st.takeItems(MIMIR_ELIXIR, -1);
 			st.takeItems(STAR_OF_DESTINY, -1);
@@ -111,10 +111,10 @@ public class Q235_MimirsElixir extends Quest
 			else
 				htmltext = "31149-havent.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -122,7 +122,7 @@ public class Q235_MimirsElixir extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -133,7 +133,7 @@ public class Q235_MimirsElixir extends Quest
 				else
 					htmltext = "30721-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -159,7 +159,7 @@ public class Q235_MimirsElixir extends Quest
 						else if (cond == 8 && st.hasQuestItems(MIMIR_ELIXIR))
 							htmltext = "30721-14.htm";
 						break;
-
+					
 					case JOAN:
 						if (cond == 2)
 							htmltext = "30718-01.htm";
@@ -176,42 +176,42 @@ public class Q235_MimirsElixir extends Quest
 						else if (cond > 4)
 							htmltext = "30718-06.htm";
 						break;
-
+					
 					// The urn gives the same first htm. Bypasses' events will do all the job.
 					case MIXING_URN:
 						htmltext = "31149-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case 20965:
 				if (st.getInt("cond") == 3 && st.dropItems(SAGE_STONE, 1, 1, 200000))
 					st.set("cond", "4");
 				break;
-
+			
 			case 21090:
 				if (st.getInt("cond") == 6 && st.dropItems(BLOOD_FIRE, 1, 1, 200000))
 					st.set("cond", "7");
 				break;
 		}
-
+		
 		return null;
 	}
 }

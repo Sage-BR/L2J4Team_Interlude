@@ -8,7 +8,7 @@ public final class AccountInfo
 	private final String _passHash;
 	private final int _accessLevel;
 	private final int _lastServer;
-
+	
 	public AccountInfo(final String login, final String passHash, final int accessLevel, final int lastServer)
 	{
 		Objects.<String> requireNonNull(login, "login");
@@ -22,22 +22,22 @@ public final class AccountInfo
 		_accessLevel = accessLevel;
 		_lastServer = lastServer;
 	}
-
+	
 	public boolean checkPassHash(final String passHash)
 	{
 		return _passHash.equals(passHash);
 	}
-
+	
 	public String getLogin()
 	{
 		return _login;
 	}
-
+	
 	public int getAccessLevel()
 	{
 		return _accessLevel;
 	}
-
+	
 	public int getLastServer()
 	{
 		return _lastServer;

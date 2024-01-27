@@ -10,18 +10,18 @@ public class FolkStatus extends NpcStatus
 	{
 		super(activeChar);
 	}
-
+	
 	@Override
 	public final void reduceHp(double value, Creature attacker)
 	{
 		reduceHp(value, attacker, true, false, false);
 	}
-
+	
 	@Override
 	public final void reduceHp(double value, Creature attacker, boolean awake, boolean isDOT, boolean isHpConsumption)
 	{
 	}
-
+	
 	@Override
 	public Folk getActiveChar()
 	{

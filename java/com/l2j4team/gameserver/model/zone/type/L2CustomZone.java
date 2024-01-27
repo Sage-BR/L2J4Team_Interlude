@@ -31,44 +31,44 @@ public class L2CustomZone extends L2SpawnZone
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		character.setInsideZone(ZoneId.CUSTOM, true);
 		character.setInsideZone(ZoneId.NO_STORE, true);
-
+		
 		if (character instanceof Player)
 		{
 			final Player player = ((Player) character);
-
+			
 			if (player.getMountType() == 2 && !Config.WYVERN_PVPZONE)
 			{
 				player.sendPacket(SystemMessageId.AREA_CANNOT_BE_ENTERED_WHILE_MOUNTED_WYVERN);
 				player.enteredNoLanding(5);
 			}
-
+			
 			if (!player.isInObserverMode() && !player.isGM())
 				player.getAppearance().setVisible();
-
+			
 		}
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.CUSTOM, false);
 		character.setInsideZone(ZoneId.NO_STORE, false);
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 }

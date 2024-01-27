@@ -31,17 +31,17 @@ public class ClassItem implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isOlympiadProtection())
 		{
 			activeChar.sendMessage("You can not do that.");
 			return;
 		}
-
+		
 		activeChar.setClassChangeItemId(item.getItemId());
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/Coin Custom/aviso.htm");
 		activeChar.sendPacket(html);

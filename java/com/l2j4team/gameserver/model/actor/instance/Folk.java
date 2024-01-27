@@ -29,19 +29,19 @@ public class Folk extends Npc
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public FolkStatus getStatus()
 	{
 		return (FolkStatus) super.getStatus();
 	}
-
+	
 	@Override
 	public void initCharStatus()
 	{
 		setStatus(new FolkStatus(this));
 	}
-
+	
 	@Override
 	public void addEffect(L2Effect newEffect)
 	{
@@ -50,7 +50,7 @@ public class Folk extends Npc
 		else if (newEffect != null)
 			newEffect.stopEffectTask();
 	}
-
+	
 	/**
 	 * This method displays SkillList to the player.
 	 * @param player The player who requested the method.
@@ -66,24 +66,24 @@ public class Folk extends Npc
 			player.sendPacket(html);
 			return;
 		}
-
+		
 		AcquireSkillList asl = new AcquireSkillList(AcquireSkillList.SkillType.Usual);
 		boolean empty = true;
-
+		
 		for (L2SkillLearn sl : SkillTreeTable.getInstance().getAvailableSkills(player, classId))
 		{
 			L2Skill sk = SkillTable.getInstance().getInfo(sl.getId(), sl.getLevel());
 			if (sk == null)
 				continue;
-
+			
 			asl.addSkill(sl.getId(), sl.getLevel(), sl.getLevel(), sl.getSpCost(), 0);
 			empty = false;
 		}
-
+		
 		if (empty)
 		{
 			int minlevel = SkillTreeTable.getInstance().getMinLevelForNewSkill(player, classId);
-
+			
 			if (minlevel > 0)
 				player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DO_NOT_HAVE_FURTHER_SKILLS_TO_LEARN_S1).addNumber(minlevel));
 			else
@@ -91,10 +91,10 @@ public class Folk extends Npc
 		}
 		else
 			player.sendPacket(asl);
-
+		
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	/**
 	 * This method displays EnchantSkillList to the player.
 	 * @param player The player who requested the method.
@@ -110,7 +110,7 @@ public class Folk extends Npc
 			player.sendPacket(html);
 			return;
 		}
-
+		
 		if (player.getClassId().level() < 3)
 		{
 			final NpcHtmlMessage html = new NpcHtmlMessage(npc.getObjectId());
@@ -118,29 +118,29 @@ public class Folk extends Npc
 			player.sendPacket(html);
 			return;
 		}
-
+		
 		ExEnchantSkillList esl = new ExEnchantSkillList();
 		boolean empty = true;
-
+		
 		List<L2EnchantSkillLearn> esll = SkillTreeTable.getInstance().getAvailableEnchantSkills(player);
 		for (L2EnchantSkillLearn skill : esll)
 		{
 			L2Skill sk = SkillTable.getInstance().getInfo(skill.getId(), skill.getLevel());
 			if (sk == null)
 				continue;
-
+			
 			L2EnchantSkillData data = SkillTreeTable.getInstance().getEnchantSkillData(skill.getEnchant());
 			if (data == null)
 				continue;
-
+			
 			esl.addSkill(skill.getId(), skill.getLevel(), data.getCostSp(), data.getCostExp());
 			empty = false;
 		}
-
+		
 		if (empty)
 		{
 			player.sendPacket(SystemMessageId.THERE_IS_NO_SKILL_THAT_ENABLES_ENCHANT);
-
+			
 			if (player.getLevel() < 74)
 				player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DO_NOT_HAVE_FURTHER_SKILLS_TO_LEARN_S1).addNumber(74));
 			else
@@ -148,18 +148,18 @@ public class Folk extends Npc
 		}
 		else
 			player.sendPacket(esl);
-
+		
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	public void giveBlessingSupport(Player player)
 	{
 		if (player == null)
 			return;
-
+		
 		// Select the player
 		setTarget(player);
-
+		
 		// If the player is too high level, display a message and return
 		if (player.getLevel() > 39 || player.getClassId().level() >= 2)
 		{
@@ -171,7 +171,7 @@ public class Folk extends Npc
 		}
 		doCast(FrequentSkill.BLESSING_OF_PROTECTION.getSkill());
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{

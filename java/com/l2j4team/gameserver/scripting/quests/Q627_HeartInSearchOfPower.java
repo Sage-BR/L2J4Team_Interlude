@@ -11,16 +11,16 @@ import java.util.Map;
 public class Q627_HeartInSearchOfPower extends Quest
 {
 	private static final String qn = "Q627_HeartInSearchOfPower";
-
+	
 	// NPCs
 	private static final int NECROMANCER = 31518;
 	private static final int ENFEUX = 31519;
-
+	
 	// Items
 	private static final int SEAL_OF_LIGHT = 7170;
 	private static final int BEAD_OF_OBEDIENCE = 7171;
 	private static final int GEM_OF_SAINTS = 7172;
-
+	
 	// Drop chances
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
@@ -39,7 +39,7 @@ public class Q627_HeartInSearchOfPower extends Quest
 		CHANCES.put(21540, 762000);
 		CHANCES.put(21658, 690000);
 	}
-
+	
 	// Rewards
 	private static final Map<String, int[]> REWARDS = new HashMap<>();
 	{
@@ -74,20 +74,20 @@ public class Q627_HeartInSearchOfPower extends Quest
 			17200
 		});
 	}
-
+	
 	public Q627_HeartInSearchOfPower()
 	{
 		super(627, "Heart in Search of Power");
-
+		
 		setItemsIds(BEAD_OF_OBEDIENCE);
-
+		
 		addStartNpc(NECROMANCER);
 		addTalkId(NECROMANCER, ENFEUX);
-
+		
 		for (int npcId : CHANCES.keySet())
 			addKillId(npcId);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -95,7 +95,7 @@ public class Q627_HeartInSearchOfPower extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31518-01.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -134,21 +134,21 @@ public class Q627_HeartInSearchOfPower extends Quest
 			{
 				htmltext = "31518-07.htm";
 				st.takeItems(GEM_OF_SAINTS, 1);
-
+				
 				if (REWARDS.get(event)[0] > 0)
 					st.giveItems(REWARDS.get(event)[0], REWARDS.get(event)[1]);
 				st.rewardItems(57, REWARDS.get(event)[2]);
-
+				
 				st.playSound(QuestState.SOUND_FINISH);
 				st.exitQuest(true);
 			}
 			else
 				htmltext = "31518-7.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -156,13 +156,13 @@ public class Q627_HeartInSearchOfPower extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 60) ? "31518-00a.htm" : "31518-00.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -177,7 +177,7 @@ public class Q627_HeartInSearchOfPower extends Quest
 						else if (cond == 4)
 							htmltext = "31518-05.htm";
 						break;
-
+					
 					case ENFEUX:
 						if (cond == 3)
 							htmltext = "31519-00.htm";
@@ -186,22 +186,22 @@ public class Q627_HeartInSearchOfPower extends Quest
 						break;
 				}
 				break;
-
+			
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "1");
 		if (st == null)
 			return null;
-
+		
 		if (st.dropItems(BEAD_OF_OBEDIENCE, 1, 300, CHANCES.get(npc.getNpcId())))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

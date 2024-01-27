@@ -25,7 +25,7 @@ public class L2ZakenDoorZone extends L2ZoneType
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
@@ -38,19 +38,19 @@ public class L2ZakenDoorZone extends L2ZoneType
 			}
 		}
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
-
+		
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
-
+		
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{

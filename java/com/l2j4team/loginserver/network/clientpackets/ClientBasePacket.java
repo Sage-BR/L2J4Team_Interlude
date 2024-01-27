@@ -4,13 +4,13 @@ public abstract class ClientBasePacket
 {
 	private final byte[] _decrypt;
 	private int _off;
-
+	
 	public ClientBasePacket(final byte[] decrypt)
 	{
 		_decrypt = decrypt;
 		_off = 1;
 	}
-
+	
 	public int readD()
 	{
 		int result = _decrypt[_off++] & 0xFF;
@@ -19,20 +19,20 @@ public abstract class ClientBasePacket
 		result |= _decrypt[_off++] << 24 & 0xFF000000;
 		return result;
 	}
-
+	
 	public int readC()
 	{
 		final int result = _decrypt[_off++] & 0xFF;
 		return result;
 	}
-
+	
 	public int readH()
 	{
 		int result = _decrypt[_off++] & 0xFF;
 		result |= _decrypt[_off++] << 8 & 0xFF00;
 		return result;
 	}
-
+	
 	public double readF()
 	{
 		long result = _decrypt[_off++] & 0xFF;
@@ -45,7 +45,7 @@ public abstract class ClientBasePacket
 		result |= _decrypt[_off++] << 56 & 0xFF00000000000000L;
 		return Double.longBitsToDouble(result);
 	}
-
+	
 	public String readS()
 	{
 		String result = null;
@@ -61,7 +61,7 @@ public abstract class ClientBasePacket
 		}
 		return result;
 	}
-
+	
 	public final byte[] readB(final int length)
 	{
 		final byte[] result = new byte[length];

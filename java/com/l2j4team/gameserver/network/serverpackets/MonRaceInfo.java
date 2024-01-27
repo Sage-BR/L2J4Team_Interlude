@@ -11,7 +11,7 @@ public class MonRaceInfo extends L2GameServerPacket
 	private final int _unknown2;
 	private final Npc[] _monsters;
 	private final int[][] _speeds;
-
+	
 	public MonRaceInfo(int unknown1, int unknown2, Npc[] monsters, int[][] speeds)
 	{
 		/*
@@ -22,16 +22,16 @@ public class MonRaceInfo extends L2GameServerPacket
 		_monsters = monsters;
 		_speeds = speeds;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0xdd);
-
+		
 		writeD(_unknown1);
 		writeD(_unknown2);
 		writeD(8);
-
+		
 		for (int i = 0; i < 8; i++)
 		{
 			writeD(_monsters[i].getObjectId());
@@ -45,7 +45,7 @@ public class MonRaceInfo extends L2GameServerPacket
 			writeF(_monsters[i].getCollisionHeight());
 			writeF(_monsters[i].getCollisionRadius());
 			writeD(120); // ?? unknown
-
+			
 			for (int j = 0; j < 20; j++)
 			{
 				if (_unknown1 == 0)

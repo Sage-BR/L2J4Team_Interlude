@@ -8,9 +8,9 @@ import com.l2j4team.gameserver.skills.Env;
  */
 public class ConditionLogicNot extends Condition
 {
-
+	
 	private final Condition _condition;
-
+	
 	/**
 	 * Instantiates a new condition logic not.
 	 * @param condition the condition
@@ -21,7 +21,7 @@ public class ConditionLogicNot extends Condition
 		if (getListener() != null)
 			_condition.setListener(this);
 	}
-
+	
 	/**
 	 * Sets the listener.
 	 * @param listener the new listener
@@ -36,7 +36,7 @@ public class ConditionLogicNot extends Condition
 			_condition.setListener(null);
 		super.setListener(listener);
 	}
-
+	
 	/**
 	 * Test impl.
 	 * @param env the env

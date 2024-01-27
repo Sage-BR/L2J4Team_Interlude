@@ -29,7 +29,7 @@ public class ChannelDelete implements IUserCommandHandler
 	{
 		93
 	};
-
+	
 	@Override
 	public boolean useUserCommand(int id, Player activeChar)
 	{
@@ -45,7 +45,7 @@ public class ChannelDelete implements IUserCommandHandler
 		}
 		return false;
 	}
-
+	
 	@Override
 	public int[] getUserCommandList()
 	{

@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q413_PathToAShillienOracle extends Quest
 {
 	private static final String qn = "Q413_PathToAShillienOracle";
-
+	
 	// Items
 	private static final int SIDRA_LETTER = 1262;
 	private static final int BLANK_SHEET = 1263;
@@ -21,24 +21,24 @@ public class Q413_PathToAShillienOracle extends Quest
 	private static final int ASHEN_BONES = 1268;
 	private static final int ANDARIEL_BOOK = 1269;
 	private static final int ORB_OF_ABYSS = 1270;
-
+	
 	// NPCs
 	private static final int SIDRA = 30330;
 	private static final int ADONIUS = 30375;
 	private static final int TALBOT = 30377;
-
+	
 	public Q413_PathToAShillienOracle()
 	{
 		super(413, "Path to a Shillien Oracle");
-
+		
 		setItemsIds(SIDRA_LETTER, BLANK_SHEET, BLOODY_RUNE, GARMIEL_BOOK, PRAYER_OF_ADONIUS, PENITENT_MARK, ASHEN_BONES, ANDARIEL_BOOK);
-
+		
 		addStartNpc(SIDRA);
 		addTalkId(SIDRA, ADONIUS, TALBOT);
-
+		
 		addKillId(20776, 20457, 20458, 20514, 20515);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -46,7 +46,7 @@ public class Q413_PathToAShillienOracle extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30330-05.htm"))
 		{
 			if (player.getClassId() != ClassId.DARK_MYSTIC)
@@ -77,10 +77,10 @@ public class Q413_PathToAShillienOracle extends Quest
 			st.takeItems(PRAYER_OF_ADONIUS, 1);
 			st.giveItems(PENITENT_MARK, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -88,13 +88,13 @@ public class Q413_PathToAShillienOracle extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "30330-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -118,7 +118,7 @@ public class Q413_PathToAShillienOracle extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case TALBOT:
 						if (cond == 1)
 							htmltext = "30377-01.htm";
@@ -138,7 +138,7 @@ public class Q413_PathToAShillienOracle extends Quest
 						else if (cond == 7)
 							htmltext = "30377-07.htm";
 						break;
-
+					
 					case ADONIUS:
 						if (cond == 4)
 							htmltext = "30375-01.htm";
@@ -159,17 +159,17 @@ public class Q413_PathToAShillienOracle extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		if (npc.getNpcId() == 20776)
 		{
 			if (st.getInt("cond") == 2)
@@ -181,7 +181,7 @@ public class Q413_PathToAShillienOracle extends Quest
 		}
 		else if (st.getInt("cond") == 5 && st.dropItemsAlways(ASHEN_BONES, 1, 10))
 			st.set("cond", "6");
-
+		
 		return null;
 	}
 }

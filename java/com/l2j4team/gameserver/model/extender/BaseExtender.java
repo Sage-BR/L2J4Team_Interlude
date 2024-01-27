@@ -36,15 +36,15 @@ public class BaseExtender
 		DIE("die"), // L2Character
 		REVIVE("revive"), // null
 		SETINTENTION("setintention"); // CtrlIntention
-
+		
 		public final String name;
-
+		
 		EventType(final String name)
 		{
 			this.name = name;
 		}
 	}
-
+	
 	/**
 	 * @param object as L2Object<br>
 	 * @return as boolean<br>
@@ -53,10 +53,10 @@ public class BaseExtender
 	{
 		return true;
 	}
-
+	
 	protected WorldObject _owner;
 	private BaseExtender _next = null;
-
+	
 	/**
 	 * @param owner - L2Object
 	 */
@@ -64,7 +64,7 @@ public class BaseExtender
 	{
 		_owner = owner;
 	}
-
+	
 	/**
 	 * @return as Object
 	 */
@@ -72,7 +72,7 @@ public class BaseExtender
 	{
 		return _owner;
 	}
-
+	
 	/**
 	 * onEvent - super.onEvent(event,params);<BR>
 	 * <BR>
@@ -86,7 +86,7 @@ public class BaseExtender
 			return null;
 		return _next.onEvent(event, params);
 	}
-
+	
 	/**
 	 * @param simpleClassName as String<br>
 	 * @return as BaseExtender - null
@@ -100,7 +100,7 @@ public class BaseExtender
 		else
 			return null;
 	}
-
+	
 	public void removeExtender(final BaseExtender ext)
 	{
 		if (_next != null)
@@ -109,12 +109,12 @@ public class BaseExtender
 			else
 				_next.removeExtender(ext);
 	}
-
+	
 	public BaseExtender getNextExtender()
 	{
 		return _next;
 	}
-
+	
 	/**
 	 * @param newExtender as BaseExtender
 	 */

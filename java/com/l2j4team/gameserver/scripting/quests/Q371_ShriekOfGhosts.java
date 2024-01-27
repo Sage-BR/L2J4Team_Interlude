@@ -13,15 +13,15 @@ import com.l2j4team.commons.random.Rnd;
 public class Q371_ShriekOfGhosts extends Quest
 {
 	private static final String qn = "Q371_ShriekOfGhosts";
-
+	
 	// NPCs
 	private static final int REVA = 30867;
 	private static final int PATRIN = 30929;
-
+	
 	// Item
 	private static final int URN = 5903;
 	private static final int PORCELAIN = 6002;
-
+	
 	// Drop chances
 	private static final Map<Integer, int[]> CHANCES = new HashMap<>();
 	{
@@ -41,19 +41,19 @@ public class Q371_ShriekOfGhosts extends Quest
 			58
 		});
 	}
-
+	
 	public Q371_ShriekOfGhosts()
 	{
 		super(371, "Shriek of Ghosts");
-
+		
 		setItemsIds(URN, PORCELAIN);
-
+		
 		addStartNpc(REVA);
 		addTalkId(REVA, PATRIN);
-
+		
 		addKillId(20818, 20820, 20824);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -61,7 +61,7 @@ public class Q371_ShriekOfGhosts extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30867-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -94,9 +94,9 @@ public class Q371_ShriekOfGhosts extends Quest
 			if (st.hasQuestItems(PORCELAIN))
 			{
 				int chance = Rnd.get(100);
-
+				
 				st.takeItems(PORCELAIN, 1);
-
+				
 				if (chance < 2)
 				{
 					st.giveItems(6003, 1);
@@ -123,10 +123,10 @@ public class Q371_ShriekOfGhosts extends Quest
 			else
 				htmltext = "30929-02.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -134,13 +134,13 @@ public class Q371_ShriekOfGhosts extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 59) ? "30867-01.htm" : "30867-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -150,32 +150,32 @@ public class Q371_ShriekOfGhosts extends Quest
 						else
 							htmltext = "30867-06.htm";
 						break;
-
+					
 					case PATRIN:
 						htmltext = "30929-01.htm";
 						break;
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		final int[] chances = CHANCES.get(npc.getNpcId());
 		final int random = Rnd.get(100);
-
+		
 		if (random < chances[1])
 			st.dropItemsAlways((random < chances[0]) ? URN : PORCELAIN, 1, 0);
-
+		
 		return null;
 	}
 }

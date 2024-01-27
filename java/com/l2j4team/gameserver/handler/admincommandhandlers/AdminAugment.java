@@ -42,48 +42,48 @@ public class AdminAugment implements IAdminCommandHandler
 		"admin_add_str",
 		"admin_add_men",
 		"admin_add_con",
-
+	
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (activeChar.getAccessLevel().getLevel() < 7)
 			return false;
-
+		
 		StringTokenizer st1 = new StringTokenizer(command);
 		command = st1.nextToken();
-
+		
 		if ((command.startsWith("admin_add_arglist")))
 			AdminHelpPage.showHelpPage(activeChar, "augments.htm");
 		else if (command.equals("admin_add_arg"))
 		{
-
+			
 			Player targetz = activeChar;
 			if (activeChar.getTarget() != null && activeChar.getTarget() instanceof Player)
 				targetz = (Player) activeChar.getTarget();
-
+			
 			try
 			{
 				final int id = Integer.parseInt(st1.nextToken());
-
+				
 				int count = 1;
-
+				
 				if (st1.hasMoreTokens())
 				{
 					count = Integer.parseInt(st1.nextToken());
 				}
-
+				
 				addargument(activeChar, targetz, id, count);
-
+				
 				AdminHelpPage.showHelpPage(activeChar, "augmentweapon.htm");
-
+				
 			}
 			catch (Exception e)
 			{
 				activeChar.sendMessage("Usage: //add_arg [id] [lvl]");
 				AdminHelpPage.showHelpPage(activeChar, "augmentweapon.htm");
-
+				
 			}
 		}
 		else if ((command.startsWith("admin_add_int")))
@@ -96,7 +96,7 @@ public class AdminAugment implements IAdminCommandHandler
 			}
 			else
 				activeChar.sendMessage("Target invalido");
-
+			
 		}
 		else if ((command.startsWith("admin_add_str")))
 		{
@@ -108,7 +108,7 @@ public class AdminAugment implements IAdminCommandHandler
 			}
 			else
 				activeChar.sendMessage("Target invalido");
-
+			
 		}
 		else if ((command.startsWith("admin_add_men")))
 		{
@@ -120,7 +120,7 @@ public class AdminAugment implements IAdminCommandHandler
 			}
 			else
 				activeChar.sendMessage("Target invalido");
-
+			
 		}
 		else if ((command.startsWith("admin_add_con")))
 		{
@@ -132,17 +132,17 @@ public class AdminAugment implements IAdminCommandHandler
 			}
 			else
 				activeChar.sendMessage("Target invalido");
-
+			
 		}
 		return false;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return _adminCommands;
 	}
-
+	
 	@SuppressWarnings(
 	{
 		"null"
@@ -157,21 +157,21 @@ public class AdminAugment implements IAdminCommandHandler
 			id = 1071123988;
 		else if (id == 4)
 			id = 1070996530;
-
+		
 		else
 		{
 			activeChar.sendMessage("Invalido.");
 			return;
 		}
-
+		
 		ItemInstance rhand = target.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
-
+		
 		if (rhand.isAugmented())
 		{
 			activeChar.sendMessage("SYS: Esta arma ja esta Argumentada.");
 			return;
 		}
-
+		
 		if (rhand != null)
 		{
 			rhand.setAugmentation(new L2Augmentation(id, 0, 0));
@@ -184,23 +184,23 @@ public class AdminAugment implements IAdminCommandHandler
 		// Apply augmentation bonuses on equip
 		if (rhand.isAugmented())
 			rhand.getAugmentation().applyBonus(target);
-
+		
 		target.sendPacket(new ItemList(target, true));
 		target.broadcastUserInfo();
-
+		
 	}
-
+	
 	@SuppressWarnings("null")
 	public static void addargument(Player activeChar, Player target, int id, int lvl)
 	{
 		ItemInstance rhand = target.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
-
+		
 		if (rhand.isAugmented())
 		{
 			activeChar.sendMessage("SYS: Esta arma ja esta Argumentada.");
 			return;
 		}
-
+		
 		if (rhand != null)
 		{
 			rhand.setAugmentation(new L2Augmentation(0, id, lvl));
@@ -210,14 +210,14 @@ public class AdminAugment implements IAdminCommandHandler
 				iu.addModifiedItem(element);
 			target.sendPacket(iu);
 		}
-
+		
 		// Apply augmentation bonuses on equip
 		if (rhand.isAugmented())
 			rhand.getAugmentation().applyBonus(target);
-
+		
 		target.sendPacket(new ItemList(target, true));
 		target.broadcastUserInfo();
-
+		
 		activeChar.sendMessage("SYS: Voce adicionou uma Skills Augment no Jogador " + target.getName());
 	}
 }

@@ -18,7 +18,7 @@ public final class RequestMoveToLocationInVehicle extends L2GameClientPacket
 	private int _originX;
 	private int _originY;
 	private int _originZ;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -30,33 +30,33 @@ public final class RequestMoveToLocationInVehicle extends L2GameClientPacket
 		_originY = readD();
 		_originZ = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		if (_targetX == _originX && _targetY == _originY && _targetZ == _originZ)
 		{
 			activeChar.sendPacket(new StopMoveInVehicle(activeChar, _boatId));
 			return;
 		}
-
+		
 		if ((activeChar.isAttackingNow() && activeChar.getAttackType() == WeaponType.BOW) || activeChar.isSitting() || activeChar.isMovementDisabled())
 		{
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		if (activeChar.getPet() != null)
 		{
 			activeChar.sendPacket(SystemMessageId.RELEASE_PET_ON_BOAT);
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		final Vehicle boat;
 		if (activeChar.isInBoat())
 		{
@@ -77,7 +77,7 @@ public final class RequestMoveToLocationInVehicle extends L2GameClientPacket
 			}
 			activeChar.setVehicle(boat);
 		}
-
+		
 		activeChar.getVehiclePosition().set(_targetX, _targetY, _targetZ);
 		activeChar.broadcastPacket(new MoveToLocationInVehicle(activeChar, _targetX, _targetY, _targetZ, _originX, _originY, _originZ));
 	}

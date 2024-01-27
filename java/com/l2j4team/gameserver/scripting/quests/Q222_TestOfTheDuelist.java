@@ -10,9 +10,9 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q222_TestOfTheDuelist extends Quest
 {
 	private static final String qn = "Q222_TestOfTheDuelist";
-
+	
 	private static final int KAIEN = 30623;
-
+	
 	// Items
 	private static final int ORDER_GLUDIO = 2763;
 	private static final int ORDER_DION = 2764;
@@ -35,11 +35,11 @@ public class Q222_TestOfTheDuelist extends Quest
 	private static final int GRANDIS_SKIN = 2781;
 	private static final int TIMAK_ORC_BELT = 2782;
 	private static final int LAKIN_MACE = 2783;
-
+	
 	// Rewards
 	private static final int MARK_OF_DUELIST = 2762;
 	private static final int DIMENSIONAL_DIAMOND = 7562;
-
+	
 	// Monsters
 	private static final int PUNCHER = 20085;
 	private static final int NOBLE_ANT_LEADER = 20090;
@@ -56,19 +56,19 @@ public class Q222_TestOfTheDuelist extends Quest
 	private static final int GRANDIS = 20554;
 	private static final int TIMAK_ORC_OVERLORD = 20588;
 	private static final int LAKIN = 20604;
-
+	
 	public Q222_TestOfTheDuelist()
 	{
 		super(222, "Test of the Duelist");
-
+		
 		setItemsIds(ORDER_GLUDIO, ORDER_DION, ORDER_GIRAN, ORDER_OREN, ORDER_ADEN, FINAL_ORDER, PUNCHER_SHARD, NOBLE_ANT_FEELER, DRONE_CHITIN, DEAD_SEEKER_FANG, OVERLORD_NECKLACE, FETTERED_SOUL_CHAIN, CHIEF_AMULET, ENCHANTED_EYE_MEAT, TAMRIN_ORC_RING, TAMRIN_ORC_ARROW, EXCURO_SKIN, KRATOR_SHARD, GRANDIS_SKIN, TIMAK_ORC_BELT, LAKIN_MACE);
-
+		
 		addStartNpc(KAIEN);
 		addTalkId(KAIEN);
-
+		
 		addKillId(PUNCHER, NOBLE_ANT_LEADER, MARSH_STAKATO_DRONE, DEAD_SEEKER, BREKA_ORC_OVERLORD, FETTERED_SOUL, LETO_LIZARDMAN_OVERLORD, ENCHANTED_MONSTEREYE, TAMLIN_ORC, TAMLIN_ORC_ARCHER, EXCURO, KRATOR, GRANDIS, TIMAK_ORC_OVERLORD, LAKIN);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -76,7 +76,7 @@ public class Q222_TestOfTheDuelist extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30623-04.htm"))
 		{
 			if (player.getRace() == ClassRace.ORC)
@@ -93,7 +93,7 @@ public class Q222_TestOfTheDuelist extends Quest
 			st.giveItems(ORDER_GIRAN, 1);
 			st.giveItems(ORDER_OREN, 1);
 			st.giveItems(ORDER_ADEN, 1);
-
+			
 			if (!player.getMemos().getBool("secondClassChange39", false))
 			{
 				htmltext = "30623-07a.htm";
@@ -107,13 +107,13 @@ public class Q222_TestOfTheDuelist extends Quest
 			{
 				st.set("cond", "4");
 				st.playSound(QuestState.SOUND_MIDDLE);
-
+				
 				st.takeItems(ORDER_GLUDIO, 1);
 				st.takeItems(ORDER_DION, 1);
 				st.takeItems(ORDER_GIRAN, 1);
 				st.takeItems(ORDER_OREN, 1);
 				st.takeItems(ORDER_ADEN, 1);
-
+				
 				st.takeItems(PUNCHER_SHARD, -1);
 				st.takeItems(NOBLE_ANT_FEELER, -1);
 				st.takeItems(DRONE_CHITIN, -1);
@@ -124,14 +124,14 @@ public class Q222_TestOfTheDuelist extends Quest
 				st.takeItems(ENCHANTED_EYE_MEAT, -1);
 				st.takeItems(TAMRIN_ORC_RING, -1);
 				st.takeItems(TAMRIN_ORC_ARROW, -1);
-
+				
 				st.giveItems(FINAL_ORDER, 1);
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -139,7 +139,7 @@ public class Q222_TestOfTheDuelist extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -151,7 +151,7 @@ public class Q222_TestOfTheDuelist extends Quest
 				else
 					htmltext = "30623-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				if (cond == 2)
@@ -176,22 +176,22 @@ public class Q222_TestOfTheDuelist extends Quest
 					st.exitQuest(false);
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		if (st.getInt("cond") == 2)
 		{
 			switch (npc.getNpcId())
@@ -201,55 +201,55 @@ public class Q222_TestOfTheDuelist extends Quest
 						if (st.getQuestItemsCount(NOBLE_ANT_FEELER) >= 10 && st.getQuestItemsCount(DRONE_CHITIN) >= 10 && st.getQuestItemsCount(DEAD_SEEKER_FANG) >= 10 && st.getQuestItemsCount(OVERLORD_NECKLACE) >= 10 && st.getQuestItemsCount(FETTERED_SOUL_CHAIN) >= 10 && st.getQuestItemsCount(CHIEF_AMULET) >= 10 && st.getQuestItemsCount(ENCHANTED_EYE_MEAT) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_RING) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_ARROW) >= 10)
 							st.set("cond", "3");
 					break;
-
+				
 				case NOBLE_ANT_LEADER:
 					if (st.dropItemsAlways(NOBLE_ANT_FEELER, 1, 10))
 						if (st.getQuestItemsCount(PUNCHER_SHARD) >= 10 && st.getQuestItemsCount(DRONE_CHITIN) >= 10 && st.getQuestItemsCount(DEAD_SEEKER_FANG) >= 10 && st.getQuestItemsCount(OVERLORD_NECKLACE) >= 10 && st.getQuestItemsCount(FETTERED_SOUL_CHAIN) >= 10 && st.getQuestItemsCount(CHIEF_AMULET) >= 10 && st.getQuestItemsCount(ENCHANTED_EYE_MEAT) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_RING) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_ARROW) >= 10)
 							st.set("cond", "3");
 					break;
-
+				
 				case MARSH_STAKATO_DRONE:
 					if (st.dropItemsAlways(DRONE_CHITIN, 1, 10))
 						if (st.getQuestItemsCount(PUNCHER_SHARD) >= 10 && st.getQuestItemsCount(NOBLE_ANT_FEELER) >= 10 && st.getQuestItemsCount(DEAD_SEEKER_FANG) >= 10 && st.getQuestItemsCount(OVERLORD_NECKLACE) >= 10 && st.getQuestItemsCount(FETTERED_SOUL_CHAIN) >= 10 && st.getQuestItemsCount(CHIEF_AMULET) >= 10 && st.getQuestItemsCount(ENCHANTED_EYE_MEAT) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_RING) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_ARROW) >= 10)
 							st.set("cond", "3");
 					break;
-
+				
 				case DEAD_SEEKER:
 					if (st.dropItemsAlways(DEAD_SEEKER_FANG, 1, 10))
 						if (st.getQuestItemsCount(PUNCHER_SHARD) >= 10 && st.getQuestItemsCount(NOBLE_ANT_FEELER) >= 10 && st.getQuestItemsCount(DRONE_CHITIN) >= 10 && st.getQuestItemsCount(OVERLORD_NECKLACE) >= 10 && st.getQuestItemsCount(FETTERED_SOUL_CHAIN) >= 10 && st.getQuestItemsCount(CHIEF_AMULET) >= 10 && st.getQuestItemsCount(ENCHANTED_EYE_MEAT) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_RING) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_ARROW) >= 10)
 							st.set("cond", "3");
 					break;
-
+				
 				case BREKA_ORC_OVERLORD:
 					if (st.dropItemsAlways(OVERLORD_NECKLACE, 1, 10))
 						if (st.getQuestItemsCount(PUNCHER_SHARD) >= 10 && st.getQuestItemsCount(NOBLE_ANT_FEELER) >= 10 && st.getQuestItemsCount(DRONE_CHITIN) >= 10 && st.getQuestItemsCount(DEAD_SEEKER_FANG) >= 10 && st.getQuestItemsCount(FETTERED_SOUL_CHAIN) >= 10 && st.getQuestItemsCount(CHIEF_AMULET) >= 10 && st.getQuestItemsCount(ENCHANTED_EYE_MEAT) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_RING) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_ARROW) >= 10)
 							st.set("cond", "3");
 					break;
-
+				
 				case FETTERED_SOUL:
 					if (st.dropItemsAlways(FETTERED_SOUL_CHAIN, 1, 10))
 						if (st.getQuestItemsCount(PUNCHER_SHARD) >= 10 && st.getQuestItemsCount(NOBLE_ANT_FEELER) >= 10 && st.getQuestItemsCount(DRONE_CHITIN) >= 10 && st.getQuestItemsCount(DEAD_SEEKER_FANG) >= 10 && st.getQuestItemsCount(OVERLORD_NECKLACE) >= 10 && st.getQuestItemsCount(CHIEF_AMULET) >= 10 && st.getQuestItemsCount(ENCHANTED_EYE_MEAT) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_RING) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_ARROW) >= 10)
 							st.set("cond", "3");
 					break;
-
+				
 				case LETO_LIZARDMAN_OVERLORD:
 					if (st.dropItemsAlways(CHIEF_AMULET, 1, 10))
 						if (st.getQuestItemsCount(PUNCHER_SHARD) >= 10 && st.getQuestItemsCount(NOBLE_ANT_FEELER) >= 10 && st.getQuestItemsCount(DRONE_CHITIN) >= 10 && st.getQuestItemsCount(DEAD_SEEKER_FANG) >= 10 && st.getQuestItemsCount(OVERLORD_NECKLACE) >= 10 && st.getQuestItemsCount(FETTERED_SOUL_CHAIN) >= 10 && st.getQuestItemsCount(ENCHANTED_EYE_MEAT) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_RING) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_ARROW) >= 10)
 							st.set("cond", "3");
 					break;
-
+				
 				case ENCHANTED_MONSTEREYE:
 					if (st.dropItemsAlways(ENCHANTED_EYE_MEAT, 1, 10))
 						if (st.getQuestItemsCount(PUNCHER_SHARD) >= 10 && st.getQuestItemsCount(NOBLE_ANT_FEELER) >= 10 && st.getQuestItemsCount(DRONE_CHITIN) >= 10 && st.getQuestItemsCount(DEAD_SEEKER_FANG) >= 10 && st.getQuestItemsCount(OVERLORD_NECKLACE) >= 10 && st.getQuestItemsCount(FETTERED_SOUL_CHAIN) >= 10 && st.getQuestItemsCount(CHIEF_AMULET) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_RING) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_ARROW) >= 10)
 							st.set("cond", "3");
 					break;
-
+				
 				case TAMLIN_ORC:
 					if (st.dropItemsAlways(TAMRIN_ORC_RING, 1, 10))
 						if (st.getQuestItemsCount(PUNCHER_SHARD) >= 10 && st.getQuestItemsCount(NOBLE_ANT_FEELER) >= 10 && st.getQuestItemsCount(DRONE_CHITIN) >= 10 && st.getQuestItemsCount(DEAD_SEEKER_FANG) >= 10 && st.getQuestItemsCount(OVERLORD_NECKLACE) >= 10 && st.getQuestItemsCount(FETTERED_SOUL_CHAIN) >= 10 && st.getQuestItemsCount(CHIEF_AMULET) >= 10 && st.getQuestItemsCount(ENCHANTED_EYE_MEAT) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_ARROW) >= 10)
 							st.set("cond", "3");
 					break;
-
+				
 				case TAMLIN_ORC_ARCHER:
 					if (st.dropItemsAlways(TAMRIN_ORC_ARROW, 1, 10))
 						if (st.getQuestItemsCount(PUNCHER_SHARD) >= 10 && st.getQuestItemsCount(NOBLE_ANT_FEELER) >= 10 && st.getQuestItemsCount(DRONE_CHITIN) >= 10 && st.getQuestItemsCount(DEAD_SEEKER_FANG) >= 10 && st.getQuestItemsCount(OVERLORD_NECKLACE) >= 10 && st.getQuestItemsCount(FETTERED_SOUL_CHAIN) >= 10 && st.getQuestItemsCount(CHIEF_AMULET) >= 10 && st.getQuestItemsCount(ENCHANTED_EYE_MEAT) >= 10 && st.getQuestItemsCount(TAMRIN_ORC_RING) >= 10)
@@ -266,25 +266,25 @@ public class Q222_TestOfTheDuelist extends Quest
 						if (st.getQuestItemsCount(KRATOR_SHARD) >= 3 && st.getQuestItemsCount(LAKIN_MACE) >= 3 && st.getQuestItemsCount(GRANDIS_SKIN) >= 3 && st.getQuestItemsCount(TIMAK_ORC_BELT) >= 3)
 							st.set("cond", "5");
 					break;
-
+				
 				case KRATOR:
 					if (st.dropItemsAlways(KRATOR_SHARD, 1, 3))
 						if (st.getQuestItemsCount(EXCURO_SKIN) >= 3 && st.getQuestItemsCount(LAKIN_MACE) >= 3 && st.getQuestItemsCount(GRANDIS_SKIN) >= 3 && st.getQuestItemsCount(TIMAK_ORC_BELT) >= 3)
 							st.set("cond", "5");
 					break;
-
+				
 				case LAKIN:
 					if (st.dropItemsAlways(LAKIN_MACE, 1, 3))
 						if (st.getQuestItemsCount(EXCURO_SKIN) >= 3 && st.getQuestItemsCount(KRATOR_SHARD) >= 3 && st.getQuestItemsCount(GRANDIS_SKIN) >= 3 && st.getQuestItemsCount(TIMAK_ORC_BELT) >= 3)
 							st.set("cond", "5");
 					break;
-
+				
 				case GRANDIS:
 					if (st.dropItemsAlways(GRANDIS_SKIN, 1, 3))
 						if (st.getQuestItemsCount(EXCURO_SKIN) >= 3 && st.getQuestItemsCount(KRATOR_SHARD) >= 3 && st.getQuestItemsCount(LAKIN_MACE) >= 3 && st.getQuestItemsCount(TIMAK_ORC_BELT) >= 3)
 							st.set("cond", "5");
 					break;
-
+				
 				case TIMAK_ORC_OVERLORD:
 					if (st.dropItemsAlways(TIMAK_ORC_BELT, 1, 3))
 						if (st.getQuestItemsCount(EXCURO_SKIN) >= 3 && st.getQuestItemsCount(KRATOR_SHARD) >= 3 && st.getQuestItemsCount(LAKIN_MACE) >= 3 && st.getQuestItemsCount(GRANDIS_SKIN) >= 3)
@@ -292,7 +292,7 @@ public class Q222_TestOfTheDuelist extends Quest
 					break;
 			}
 		}
-
+		
 		return null;
 	}
 }

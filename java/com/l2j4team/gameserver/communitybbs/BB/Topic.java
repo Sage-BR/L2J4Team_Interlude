@@ -11,10 +11,10 @@ import java.util.logging.Logger;
 public class Topic
 {
 	private static final Logger _log = Logger.getLogger(Topic.class.getName());
-
+	
 	public static final int MORMAL = 0;
 	public static final int MEMO = 1;
-
+	
 	private final int _id;
 	private final int _forumId;
 	private final String _topicName;
@@ -23,7 +23,7 @@ public class Topic
 	private final int _ownerId;
 	private final int _type;
 	private final int _cReply;
-
+	
 	public Topic(ConstructorType ct, int id, int fid, String name, long date, String oname, int oid, int type, int Creply)
 	{
 		_id = id;
@@ -35,11 +35,11 @@ public class Topic
 		_type = type;
 		_cReply = Creply;
 		TopicBBSManager.getInstance().addTopic(this);
-
+		
 		if (ct == ConstructorType.CREATE)
 			insertIntoDb();
 	}
-
+	
 	private void insertIntoDb()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -61,43 +61,43 @@ public class Topic
 			_log.log(Level.WARNING, "Error while saving new Topic to db " + e.getMessage(), e);
 		}
 	}
-
+	
 	public enum ConstructorType
 	{
 		RESTORE,
 		CREATE
 	}
-
+	
 	public int getID()
 	{
 		return _id;
 	}
-
+	
 	public int getForumID()
 	{
 		return _forumId;
 	}
-
+	
 	public String getName()
 	{
 		return _topicName;
 	}
-
+	
 	public String getOwnerName()
 	{
 		return _ownerName;
 	}
-
+	
 	public long getDate()
 	{
 		return _date;
 	}
-
+	
 	public void deleteMe(Forum f)
 	{
 		TopicBBSManager.getInstance().delTopic(this);
 		f.rmTopicByID(getID());
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("DELETE FROM topic WHERE topic_id=? AND topic_forum_id=?");

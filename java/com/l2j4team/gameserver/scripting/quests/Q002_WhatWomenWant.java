@@ -9,33 +9,33 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q002_WhatWomenWant extends Quest
 {
 	private static final String qn = "Q002_WhatWomenWant";
-
+	
 	// NPCs
 	private static final int ARUJIEN = 30223;
 	private static final int MIRABEL = 30146;
 	private static final int HERBIEL = 30150;
 	private static final int GREENIS = 30157;
-
+	
 	// Items
 	private static final int ARUJIEN_LETTER_1 = 1092;
 	private static final int ARUJIEN_LETTER_2 = 1093;
 	private static final int ARUJIEN_LETTER_3 = 1094;
 	private static final int POETRY_BOOK = 689;
 	private static final int GREENIS_LETTER = 693;
-
+	
 	// Rewards
 	private static final int MYSTICS_EARRING = 113;
-
+	
 	public Q002_WhatWomenWant()
 	{
 		super(2, "What Women Want");
-
+		
 		setItemsIds(ARUJIEN_LETTER_1, ARUJIEN_LETTER_2, ARUJIEN_LETTER_3, POETRY_BOOK, GREENIS_LETTER);
-
+		
 		addStartNpc(ARUJIEN);
 		addTalkId(ARUJIEN, MIRABEL, HERBIEL, GREENIS);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -43,7 +43,7 @@ public class Q002_WhatWomenWant extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30223-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -65,10 +65,10 @@ public class Q002_WhatWomenWant extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -76,7 +76,7 @@ public class Q002_WhatWomenWant extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -87,7 +87,7 @@ public class Q002_WhatWomenWant extends Quest
 				else
 					htmltext = "30223-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -110,7 +110,7 @@ public class Q002_WhatWomenWant extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case MIRABEL:
 						if (cond == 1)
 						{
@@ -123,7 +123,7 @@ public class Q002_WhatWomenWant extends Quest
 						else if (cond > 1)
 							htmltext = "30146-02.htm";
 						break;
-
+					
 					case HERBIEL:
 						if (cond == 2)
 						{
@@ -136,7 +136,7 @@ public class Q002_WhatWomenWant extends Quest
 						else if (cond > 2)
 							htmltext = "30150-02.htm";
 						break;
-
+					
 					case GREENIS:
 						if (cond < 4)
 							htmltext = "30157-01.htm";
@@ -153,12 +153,12 @@ public class Q002_WhatWomenWant extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

@@ -40,15 +40,17 @@ import com.l2j4team.gameserver.handler.voicedcommandhandlers.VoicedVoteZone;
 import java.util.HashMap;
 import java.util.Map;
 
+import hopzone.eu.command.VoteCMD;
+
 public class VoicedCommandHandler
 {
 	private final Map<Integer, IVoicedCommandHandler> _datatable = new HashMap<>();
-
+	
 	public static VoicedCommandHandler getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected VoicedCommandHandler()
 	{
 		registerHandler(new VoicedAutoPotion());
@@ -73,43 +75,44 @@ public class VoicedCommandHandler
 		registerHandler(new VoicedVoteZone());
 		registerHandler(new VoicedLuckyDice());
 		registerHandler(new VoicedStatus());
+		registerHandler(new VoteCMD());
 	}
-
+	
 	public void registerHandler(IVoicedCommandHandler handler)
 	{
 		String[] ids = handler.getVoicedCommandList();
-
+		
 		for (String id : ids)
 			_datatable.put(id.hashCode(), handler);
 	}
-
+	
 	public IVoicedCommandHandler getHandler(String voicedCommand)
 	{
 		String command = voicedCommand;
-
+		
 		if (voicedCommand.indexOf(" ") != -1)
 			command = voicedCommand.substring(0, voicedCommand.indexOf(" "));
-
+		
 		return _datatable.get(command.hashCode());
 	}
-
+	
 	public int size()
 	{
 		return _datatable.size();
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final VoicedCommandHandler _instance = new VoicedCommandHandler();
 	}
-
+	
 	/**
 	 * @param bossEventCMD
 	 */
 	public void registerVoicedCommandHandler(VoicedBossEventCMD bossEventCMD)
 	{
 		// TODO Auto-generated method stub
-
+		
 	}
-
+	
 }

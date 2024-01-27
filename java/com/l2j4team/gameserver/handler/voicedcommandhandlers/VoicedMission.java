@@ -31,15 +31,15 @@ public class VoicedMission implements IVoicedCommandHandler
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	private static final String[] VOICED_COMMANDS = new String[]
 	{
 		"select_m"
 	};
 	public static final Logger _log = Logger.getLogger(VoicedMission.class.getName());
-
+	
 	static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -429,7 +429,7 @@ public class VoicedMission implements IVoicedCommandHandler
 		}
 		return true;
 	}
-
+	
 	public static void info_tvt(Player activeChar)
 	{
 		String name = "Nao recebida";
@@ -477,7 +477,7 @@ public class VoicedMission implements IVoicedCommandHandler
 			con = null;
 		}
 	}
-
+	
 	public static void info_pvp(Player activeChar)
 	{
 		String name = "Nao recebida";
@@ -525,7 +525,7 @@ public class VoicedMission implements IVoicedCommandHandler
 			con = null;
 		}
 	}
-
+	
 	public static void info_raid(Player activeChar)
 	{
 		String name = "Nao recebida";
@@ -573,7 +573,7 @@ public class VoicedMission implements IVoicedCommandHandler
 			con = null;
 		}
 	}
-
+	
 	public static void info_party_mob(Player activeChar)
 	{
 		String name = "Nao recebida";
@@ -621,7 +621,7 @@ public class VoicedMission implements IVoicedCommandHandler
 			con = null;
 		}
 	}
-
+	
 	public static void info_mob(Player activeChar)
 	{
 		String name = "Nao recebida";
@@ -669,7 +669,7 @@ public class VoicedMission implements IVoicedCommandHandler
 			con = null;
 		}
 	}
-
+	
 	public static void info_1x1(Player activeChar)
 	{
 		String name = "Nao recebida";
@@ -717,7 +717,7 @@ public class VoicedMission implements IVoicedCommandHandler
 			con = null;
 		}
 	}
-
+	
 	public static void info_2x2(Player activeChar)
 	{
 		String name = "Nao recebida";
@@ -765,7 +765,7 @@ public class VoicedMission implements IVoicedCommandHandler
 			con = null;
 		}
 	}
-
+	
 	public static void info_5x5(Player activeChar)
 	{
 		String name = "Nao recebida";
@@ -813,7 +813,7 @@ public class VoicedMission implements IVoicedCommandHandler
 			con = null;
 		}
 	}
-
+	
 	public static void info_9x9(Player activeChar)
 	{
 		String name = "Nao recebida";
@@ -861,7 +861,7 @@ public class VoicedMission implements IVoicedCommandHandler
 			con = null;
 		}
 	}
-
+	
 	public void Classes(String command, Player activeChar)
 	{
 		if (command.startsWith("tvt_mission"))
@@ -901,7 +901,7 @@ public class VoicedMission implements IVoicedCommandHandler
 					CloseUtil.close(con);
 				}
 				activeChar.setTvTCompleted(true);
-
+				
 				if (Config.REWARD_PCPOINT)
 				{
 					activeChar.addPcBangScore(Config.PC_TVT);
@@ -928,7 +928,7 @@ public class VoicedMission implements IVoicedCommandHandler
 			}
 			activeChar.sendPacket(TutorialCloseHtml.STATIC_PACKET);
 		}
-
+		
 		if (command.startsWith("pvp_mission"))
 		{
 			if (!Config.ACTIVE_MISSION_PVP)
@@ -966,7 +966,7 @@ public class VoicedMission implements IVoicedCommandHandler
 					CloseUtil.close(con);
 				}
 				activeChar.setPvPCompleted(true);
-
+				
 				if (Config.REWARD_PCPOINT)
 				{
 					activeChar.addPcBangScore(Config.PC_PVP);
@@ -993,7 +993,7 @@ public class VoicedMission implements IVoicedCommandHandler
 			}
 			activeChar.sendPacket(TutorialCloseHtml.STATIC_PACKET);
 		}
-
+		
 		else if (command.startsWith("raid_mission"))
 		{
 			if (!Config.ACTIVE_MISSION_RAID)
@@ -1031,7 +1031,7 @@ public class VoicedMission implements IVoicedCommandHandler
 					CloseUtil.close(con);
 				}
 				activeChar.setRaidCompleted(true);
-
+				
 				if (Config.REWARD_PCPOINT)
 				{
 					activeChar.addPcBangScore(Config.PC_RAID_IND);
@@ -1095,7 +1095,7 @@ public class VoicedMission implements IVoicedCommandHandler
 					CloseUtil.close(con);
 				}
 				activeChar.setPartyMobCompleted(true);
-
+				
 				if (Config.REWARD_PCPOINT)
 				{
 					activeChar.addPcBangScore(Config.PC_PARTYZONE);
@@ -1109,7 +1109,7 @@ public class VoicedMission implements IVoicedCommandHandler
 				{
 					activeChar.addItem("Reward", Config.MISSION_PARTY_MOB_REWARD_ID, Config.MISSION_PARTY_MOB_REWARD_AMOUNT, activeChar, true);
 				}
-
+				
 				activeChar.sendMessage("Parabens! Voce concluiu uma tarefa diaria.");
 				MagicSkillUse MSU = new MagicSkillUse(activeChar, activeChar, 2024, 1, 1, 0);
 				activeChar.broadcastPacket(MSU);
@@ -1235,7 +1235,7 @@ public class VoicedMission implements IVoicedCommandHandler
 					CloseUtil.close(con);
 				}
 				activeChar.set1x1Completed(true);
-
+				
 				if (Config.REWARD_PCPOINT)
 				{
 					activeChar.addPcBangScore(Config.PC_1x1);
@@ -1249,7 +1249,7 @@ public class VoicedMission implements IVoicedCommandHandler
 				{
 					activeChar.addItem("Reward", Config.MISSION_1X1_REWARD_ID, Config.MISSION_1X1_REWARD_AMOUNT, activeChar, true);
 				}
-
+				
 				activeChar.sendMessage("Parabens! Voce concluiu uma tarefa diaria.");
 				MagicSkillUse MSU = new MagicSkillUse(activeChar, activeChar, 2024, 1, 1, 0);
 				activeChar.broadcastPacket(MSU);
@@ -1263,7 +1263,7 @@ public class VoicedMission implements IVoicedCommandHandler
 			}
 			activeChar.sendPacket(TutorialCloseHtml.STATIC_PACKET);
 		}
-
+		
 		else if (command.startsWith("2x2_mission"))
 		{
 			if (!Config.ACTIVE_MISSION_2X2)
@@ -1301,7 +1301,7 @@ public class VoicedMission implements IVoicedCommandHandler
 					CloseUtil.close(con);
 				}
 				activeChar.set2x2Completed(true);
-
+				
 				if (Config.REWARD_PCPOINT)
 				{
 					activeChar.addPcBangScore(Config.PC_2x2);
@@ -1315,7 +1315,7 @@ public class VoicedMission implements IVoicedCommandHandler
 				{
 					activeChar.addItem("Reward", Config.MISSION_2X2_REWARD_ID, Config.MISSION_2X2_REWARD_AMOUNT, activeChar, true);
 				}
-
+				
 				activeChar.sendMessage("Parabens! Voce concluiu uma tarefa diaria.");
 				MagicSkillUse MSU = new MagicSkillUse(activeChar, activeChar, 2024, 1, 1, 0);
 				activeChar.broadcastPacket(MSU);
@@ -1366,7 +1366,7 @@ public class VoicedMission implements IVoicedCommandHandler
 					CloseUtil.close(con);
 				}
 				activeChar.set5x5Completed(true);
-
+				
 				if (Config.REWARD_PCPOINT)
 				{
 					activeChar.addPcBangScore(Config.PC_5x5);
@@ -1430,11 +1430,11 @@ public class VoicedMission implements IVoicedCommandHandler
 					CloseUtil.close(con);
 				}
 				activeChar.set9x9Completed(true);
-
+				
 				if (Config.REWARD_PCPOINT)
 				{
 					activeChar.addPcBangScore(Config.PC_9x9);
-
+					
 					SystemMessage sm = new SystemMessage(SystemMessageId.ACQUIRED_S1_PCPOINT);
 					sm.addNumber(Config.PC_9x9);
 					activeChar.sendPacket(sm);
@@ -1459,18 +1459,18 @@ public class VoicedMission implements IVoicedCommandHandler
 			activeChar.sendPacket(TutorialCloseHtml.STATIC_PACKET);
 		}
 	}
-
+	
 	public static final void linkMission(Player player, String request)
 	{
 		getInstance().Classes(request, player);
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final VoicedMission _instance = new VoicedMission();

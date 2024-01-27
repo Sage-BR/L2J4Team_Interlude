@@ -18,14 +18,14 @@ import java.util.logging.Logger;
 public class Product
 {
 	private static final Logger LOG = Logger.getLogger(Product.class.getName());
-
+	
 	private final int _buyListId;
 	private final Item _item;
 	private final int _price;
 	private final long _restockDelay;
 	private final int _maxCount;
 	private AtomicInteger _count = null;
-
+	
 	public Product(int buyListId, StatsSet set)
 	{
 		_buyListId = buyListId;
@@ -33,41 +33,41 @@ public class Product
 		_price = set.getInteger("price", 0);
 		_restockDelay = set.getLong("restockDelay", -1) * 60000;
 		_maxCount = set.getInteger("count", -1);
-
+		
 		if (hasLimitedStock())
 			_count = new AtomicInteger(_maxCount);
 	}
-
+	
 	public int getBuyListId()
 	{
 		return _buyListId;
 	}
-
+	
 	public Item getItem()
 	{
 		return _item;
 	}
-
+	
 	public int getItemId()
 	{
 		return _item.getItemId();
 	}
-
+	
 	public int getPrice()
 	{
 		return _price;
 	}
-
+	
 	public long getRestockDelay()
 	{
 		return _restockDelay;
 	}
-
+	
 	public int getMaxCount()
 	{
 		return _maxCount;
 	}
-
+	
 	/**
 	 * Get the actual {@link Product} count.<br>
 	 * If this Product doesn't own a timer (valid if _maxCount > -1), return 0.
@@ -77,11 +77,11 @@ public class Product
 	{
 		if (_count == null)
 			return 0;
-
+		
 		final int count = _count.get();
 		return (count > 0) ? count : 0;
 	}
-
+	
 	/**
 	 * Set arbitrarily the current amount of a {@link Product}.
 	 * @param currentCount : The amount to set.
@@ -90,7 +90,7 @@ public class Product
 	{
 		_count.set(currentCount);
 	}
-
+	
 	/**
 	 * Decrease {@link Product} count, but only if result is superior or equal to 0, and if _count exists.<br>
 	 * We setup this Product in the general task if not already existing, and save result on database.
@@ -101,20 +101,20 @@ public class Product
 	{
 		if (_count == null)
 			return false;
-
+		
 		// We test product addition and save result, but only if count has been affected.
 		final boolean result = _count.addAndGet(-val) >= 0;
 		if (result)
 			BuyListTaskManager.getInstance().add(this, getRestockDelay());
-
+		
 		return result;
 	}
-
+	
 	public boolean hasLimitedStock()
 	{
 		return _maxCount > -1;
 	}
-
+	
 	/**
 	 * Save the {@link Product} into database. Happens on successful decrease count.
 	 * @param nextRestockTime : The new restock timer.
@@ -136,7 +136,7 @@ public class Product
 			LOG.log(Level.WARNING, "Failed to save product for buylist id:" + getBuyListId() + " and item id:" + getItemId(), e);
 		}
 	}
-
+	
 	/**
 	 * Delete the {@link Product} from database. Happens on restock time reset.
 	 */

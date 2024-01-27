@@ -17,15 +17,15 @@ public class ClanFull implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final Player player = (Player) playable;
-
+		
 		if (player.isInOlympiadMode())
 		{
 			player.sendMessage("SYS: Voce nao pode fazer isso.");
 			return;
 		}
-
+		
 		if (player.isClanLeader())
 		{
 			if (player.getClan().getLevel() == 8)
@@ -33,7 +33,7 @@ public class ClanFull implements IItemHandler
 				player.sendMessage("Your clan is already Level 8!");
 				return;
 			}
-
+			
 			for (int i = 370; i <= 391; i++)
 			{
 				player.getClan().addNewSkill(SkillTable.getInstance().getInfo(i, SkillTable.getInstance().getMaxLevel(i)));

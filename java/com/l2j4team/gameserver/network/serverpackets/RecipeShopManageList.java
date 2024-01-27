@@ -16,17 +16,17 @@ public class RecipeShopManageList extends L2GameServerPacket
 	private final Player _seller;
 	private final boolean _isDwarven;
 	private Collection<RecipeList> _recipes;
-
+	
 	public RecipeShopManageList(Player seller, boolean isDwarven)
 	{
 		_seller = seller;
 		_isDwarven = isDwarven;
-
+		
 		if (_isDwarven && seller.hasDwarvenCraft())
 			_recipes = seller.getDwarvenRecipeBook();
 		else
 			_recipes = seller.getCommonRecipeBook();
-
+		
 		// clean previous recipes
 		if (seller.getCreateList() != null)
 		{
@@ -39,7 +39,7 @@ public class RecipeShopManageList extends L2GameServerPacket
 			}
 		}
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -47,13 +47,13 @@ public class RecipeShopManageList extends L2GameServerPacket
 		writeD(_seller.getObjectId());
 		writeD(_seller.getAdena());
 		writeD(_isDwarven ? 0x00 : 0x01);
-
+		
 		if (_recipes == null)
 			writeD(0);
 		else
 		{
 			writeD(_recipes.size());// number of items in recipe book
-
+			
 			int i = 0;
 			for (RecipeList recipe : _recipes)
 			{
@@ -61,14 +61,14 @@ public class RecipeShopManageList extends L2GameServerPacket
 				writeD(++i);
 			}
 		}
-
+		
 		if (_seller.getCreateList() == null)
 			writeD(0);
 		else
 		{
 			L2ManufactureList list = _seller.getCreateList();
 			writeD(list.size());
-
+			
 			for (L2ManufactureItem item : list.getList())
 			{
 				writeD(item.getRecipeId());

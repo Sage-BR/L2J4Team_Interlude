@@ -14,7 +14,7 @@ public abstract class PlayableAI extends CreatureAI
 	{
 		super(playable);
 	}
-
+	
 	@Override
 	protected void onIntentionAttack(Creature target)
 	{
@@ -22,7 +22,7 @@ public abstract class PlayableAI extends CreatureAI
 		{
 			final Player targetPlayer = target.getActingPlayer();
 			final Player actorPlayer = _actor.getActingPlayer();
-
+			
 			if (!target.isInsideZone(ZoneId.PVP))
 			{
 				if (targetPlayer.getProtectionBlessing() && (actorPlayer.getLevel() - targetPlayer.getLevel()) >= 10 && actorPlayer.getKarma() > 0)
@@ -32,7 +32,7 @@ public abstract class PlayableAI extends CreatureAI
 					clientActionFailed();
 					return;
 				}
-
+				
 				if (actorPlayer.getProtectionBlessing() && (targetPlayer.getLevel() - actorPlayer.getLevel()) >= 10 && targetPlayer.getKarma() > 0)
 				{
 					// If target have karma, level >= 10 and actor have Newbie Protection Buff
@@ -41,7 +41,7 @@ public abstract class PlayableAI extends CreatureAI
 					return;
 				}
 			}
-
+			
 			if ((targetPlayer.isCursedWeaponEquipped() && actorPlayer.getLevel() <= 20) || (actorPlayer.isCursedWeaponEquipped() && targetPlayer.getLevel() <= 20))
 			{
 				actorPlayer.sendPacket(SystemMessageId.TARGET_IS_INCORRECT);
@@ -51,7 +51,7 @@ public abstract class PlayableAI extends CreatureAI
 		}
 		super.onIntentionAttack(target);
 	}
-
+	
 	@Override
 	protected void onIntentionCast(L2Skill skill, WorldObject target)
 	{
@@ -59,7 +59,7 @@ public abstract class PlayableAI extends CreatureAI
 		{
 			final Player targetPlayer = target.getActingPlayer();
 			final Player actorPlayer = _actor.getActingPlayer();
-
+			
 			if (!target.isInsideZone(ZoneId.PVP))
 			{
 				if (targetPlayer.getProtectionBlessing() && (actorPlayer.getLevel() - targetPlayer.getLevel()) >= 10 && actorPlayer.getKarma() > 0)
@@ -70,7 +70,7 @@ public abstract class PlayableAI extends CreatureAI
 					_actor.setIsCastingNow(false);
 					return;
 				}
-
+				
 				if (actorPlayer.getProtectionBlessing() && (targetPlayer.getLevel() - actorPlayer.getLevel()) >= 10 && targetPlayer.getKarma() > 0)
 				{
 					// If target have karma, level >= 10 and actor have Newbie Protection Buff
@@ -80,7 +80,7 @@ public abstract class PlayableAI extends CreatureAI
 					return;
 				}
 			}
-
+			
 			if ((targetPlayer.isCursedWeaponEquipped() && actorPlayer.getLevel() <= 20) || (actorPlayer.isCursedWeaponEquipped() && targetPlayer.getLevel() <= 20))
 			{
 				actorPlayer.sendPacket(SystemMessageId.TARGET_IS_INCORRECT);

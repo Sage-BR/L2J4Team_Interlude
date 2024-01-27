@@ -30,7 +30,7 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class Util
 {
 	private static final Logger _log = Logger.getLogger(Util.class.getName());
-
+	
 	public static boolean isInternalIP(String ipAddress)
 	{
 		java.net.InetAddress addr = null;
@@ -45,79 +45,79 @@ public class Util
 		}
 		return false;
 	}
-
+	
 	public static String printData(byte[] data, int len)
 	{
 		StringBuilder result = new StringBuilder();
-
+		
 		int counter = 0;
-
+		
 		for (int i = 0; i < len; i++)
 		{
 			if (counter % 16 == 0)
 				result.append(fillHex(i, 4) + ": ");
-
+			
 			result.append(fillHex(data[i] & 0xff, 2) + " ");
 			counter++;
 			if (counter == 16)
 			{
 				result.append("   ");
-
+				
 				int charpoint = i - 15;
 				for (int a = 0; a < 16; a++)
 				{
 					int t1 = data[charpoint++];
-
+					
 					if (t1 > 0x1f && t1 < 0x80)
 						result.append((char) t1);
 					else
 						result.append('.');
 				}
-
+				
 				result.append("\n");
 				counter = 0;
 			}
 		}
-
+		
 		int rest = data.length % 16;
 		if (rest > 0)
 		{
 			for (int i = 0; i < 17 - rest; i++)
 				result.append("   ");
-
+			
 			int charpoint = data.length - rest;
 			for (int a = 0; a < rest; a++)
 			{
 				int t1 = data[charpoint++];
-
+				
 				if (t1 > 0x1f && t1 < 0x80)
 					result.append((char) t1);
 				else
 					result.append('.');
 			}
-
+			
 			result.append("\n");
 		}
 		return result.toString();
 	}
-
+	
 	public static String fillHex(int data, int digits)
 	{
 		String number = Integer.toHexString(data);
-
+		
 		for (int i = number.length(); i < digits; i++)
 		{
 			number = "0" + number;
 		}
-
+		
 		return number;
 	}
-
+	
 	public static String printData(byte[] raw)
 	{
 		return printData(raw, raw.length);
 	}
-
+	
 	public static void printSection(String s)
 	{
 		s = "=[ " + s + " ]";
@@ -125,7 +125,7 @@ public class Util
 			s = "-" + s;
 		_log.info(s);
 	}
-
+	
 	/**
 	 * @param <T> The Object type.
 	 * @param array - the array to look into.
@@ -136,14 +136,14 @@ public class Util
 	{
 		if (array == null || array.length == 0)
 			return false;
-
+		
 		for (T element : array)
 			if (element.equals(obj))
 				return true;
-
+			
 		return false;
 	}
-
+	
 	public static boolean isValidName(String text, String regex)
 	{
 		Pattern pattern;
@@ -158,12 +158,12 @@ public class Util
 		Matcher regexp = pattern.matcher(text);
 		return regexp.matches();
 	}
-
+	
 	public static boolean isValidPlayerName(String text)
 	{
 		return isValidName(text, "^[A-Za-z0-9]{1,16}$");
 	}
-
+	
 	/**
 	 * Format the given date on the given format
 	 * @param date : the date to format.
@@ -175,15 +175,15 @@ public class Util
 		final DateFormat dateFormat = new SimpleDateFormat(format);
 		if (date != null)
 			return dateFormat.format(date);
-
+		
 		return null;
 	}
-
+	
 	public static void handleIllegalPlayerAction(Player actor, String message, int punishment)
 	{
 		ThreadPool.schedule(new IllegalPlayerAction(actor, message, punishment), 5000);
 	}
-
+	
 	/**
 	 * @param array - the array to look into.
 	 * @param obj - the integer to search for.
@@ -193,11 +193,11 @@ public class Util
 	{
 		if (array == null || array.length == 0)
 			return false;
-
+		
 		for (int element : array)
 			if (element == obj)
 				return true;
-
+			
 		return false;
 	}
 }

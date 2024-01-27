@@ -26,24 +26,24 @@ public class L2LoginServer
 	private static L2LoginServer loginServer;
 	private GameServerListener _gameServerListener;
 	private SelectorThread<L2LoginClient> _selectorThread;
-
+	
 	public static void main(final String[] args) throws Exception
 	{
 		L2LoginServer.loginServer = new L2LoginServer();
 	}
-
+	
 	public static L2LoginServer getInstance()
 	{
 		return L2LoginServer.loginServer;
 	}
-
+	
 	public L2LoginServer() throws Exception
 	{
 		// Create log folder
 		new File("./log").mkdir();
 		new File("./log/console").mkdir();
 		new File("./log/error").mkdir();
-
+		
 		// Create input stream for log file -- or store file data into memory
 		try (InputStream is = new FileInputStream(new File(Config.LOGGING)))
 		{
@@ -117,12 +117,12 @@ public class L2LoginServer
 		L2LoginServer._log.info("Loginserver ready on " + (bindAddress == null ? "*" : bindAddress.getHostAddress()) + ":" + Config.PORT_LOGIN);
 		StringUtil.printSection("Waiting for gameserver answer");
 	}
-
+	
 	public GameServerListener getGameServerListener()
 	{
 		return _gameServerListener;
 	}
-
+	
 	private static void loadBanFile()
 	{
 		final File banFile = new File("config/Banned_ip.ini");
@@ -173,12 +173,12 @@ public class L2LoginServer
 		else
 			L2LoginServer._log.warning("Banned_ip.ini is missing. Ban listing is skipped.");
 	}
-
+	
 	public void shutdown(final boolean restart)
 	{
 		Runtime.getRuntime().exit(restart ? 2 : 0);
 	}
-
+	
 	static
 	{
 		_log = Logger.getLogger(L2LoginServer.class.getName());

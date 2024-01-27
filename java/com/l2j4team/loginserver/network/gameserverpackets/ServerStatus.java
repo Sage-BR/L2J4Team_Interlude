@@ -22,7 +22,7 @@ public class ServerStatus extends ClientBasePacket
 	public static final int STATUS_GM_ONLY = 5;
 	public static final int ON = 1;
 	public static final int OFF = 0;
-
+	
 	public ServerStatus(final byte[] decrypt, final int serverId)
 	{
 		super(decrypt);
@@ -62,7 +62,7 @@ public class ServerStatus extends ClientBasePacket
 				}
 			}
 	}
-
+	
 	static
 	{
 		ServerStatus._log = Logger.getLogger(ServerStatus.class.getName());

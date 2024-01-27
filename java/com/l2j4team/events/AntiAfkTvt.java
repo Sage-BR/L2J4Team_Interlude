@@ -17,16 +17,16 @@ public class AntiAfkTvt
 {
 	// Debug
 	static boolean debug = false;
-
+	
 	// Delay between location checks , Default 15000 ms (1 minute)
 	private final int CheckDelay = 20000;
-
+	
 	static Logger _log = Logger.getLogger(AntiAfkTvt.class.getName());
 	static ArrayList<String> TvTPlayerList = new ArrayList<>();
 	static String[] Splitter;
 	static int xx, yy, zz, SameLoc;
 	static Player _player;
-
+	
 	private AntiAfkTvt()
 	{
 		if (Config.DEBUG_TVT)
@@ -35,7 +35,7 @@ public class AntiAfkTvt
 		}
 		ThreadPool.scheduleAtFixedRate(new AntiAfk(), 20000, CheckDelay);
 	}
-
+	
 	private class AntiAfk implements Runnable
 	{
 		@Override
@@ -45,13 +45,13 @@ public class AntiAfkTvt
 			{
 				synchronized (TvT._players)
 				{
-
+					
 					// Iterate over all participated player instances in this team
 					if (TvT._players.size() <= 1)
 					{
 						return;
 					}
-
+					
 					for (Player playerInstance : TvT._players)
 					{
 						if (playerInstance != null && playerInstance.isOnline() && !playerInstance.isDead() && !playerInstance.isPhantom() && !playerInstance.isGM() && !playerInstance.isImmobilized() && !playerInstance.isParalyzed() && playerInstance.isKickProtection())
@@ -70,7 +70,7 @@ public class AntiAfkTvt
 			}
 		}
 	}
-
+	
 	static void AddTvTSpawnInfo(String name, int _x, int _y, int _z)
 	{
 		if (!CheckTvTSpawnInfo(name))
@@ -93,19 +93,19 @@ public class AntiAfkTvt
 						++SameLoc;
 						if (SameLoc >= 4)// Kick after 4 same x/y/z, location checks
 						{
-
+							
 							// kick here
 							if (debug)
 							{
 								System.out.println("WANR: " + _player.getName() + " Foi kickado do evento por inatividade.");
 							}
-
+							
 							for (Player allgms : World.getAllGMs())
 								allgms.sendMessage("[SYS]: " + _player.getName() + " Foi kickado do evento por inatividade.");
-
+							
 							TvTPlayerList.remove(i);
 							setUserData(_player);
-
+							
 							return;
 						}
 						TvTPlayerList.remove(i);
@@ -118,13 +118,13 @@ public class AntiAfkTvt
 					TvTPlayerList.add(temp);
 				}
 			}
-
+			
 		}
 	}
-
+	
 	private static boolean CheckTvTSpawnInfo(String name)
 	{
-
+		
 		Object[] elements = TvTPlayerList.toArray();
 		for (Object element : elements)
 		{
@@ -137,10 +137,10 @@ public class AntiAfkTvt
 		}
 		return false;
 	}
-
+	
 	private static void GetTvTSpawnInfo(String name)
 	{
-
+		
 		Object[] elements = TvTPlayerList.toArray();
 		for (Object element : elements)
 		{
@@ -155,27 +155,27 @@ public class AntiAfkTvt
 			}
 		}
 	}
-
+	
 	public static AntiAfkTvt getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final AntiAfkTvt _instance = new AntiAfkTvt();
 	}
-
+	
 	public static void main(String[] args)
 	{
 		AntiAfkTvt.getInstance();
 	}
-
+	
 	public static void setUserData(Player player)
 	{
 		player.teleToLocation(player.getLastX(), player.getLastY(), player.getLastZ(), 50);
 		TvT.removePlayer(player);
 		player.logout();
 	}
-
+	
 }

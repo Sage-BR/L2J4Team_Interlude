@@ -10,29 +10,29 @@ import com.l2j4team.gameserver.model.zone.ZoneId;
  */
 public class L2NoSummonFriendZone extends L2ZoneType
 {
-
+	
 	public L2NoSummonFriendZone(int id)
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, true);
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, false);
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{

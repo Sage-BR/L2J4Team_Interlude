@@ -18,20 +18,20 @@ import com.l2j4team.gameserver.network.serverpackets.SystemMessage;
 public final class AnswerJoinPartyRoom extends L2GameClientPacket
 {
 	private int _answer; // 1 or 0
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_answer = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		final Player partner = player.getActiveRequester();
 		if (partner == null || World.getInstance().getPlayer(partner.getObjectId()) == null)
 		{
@@ -40,34 +40,34 @@ public final class AnswerJoinPartyRoom extends L2GameClientPacket
 			player.setActiveRequester(null);
 			return;
 		}
-
+		
 		// If answer is positive, join the requester's PartyRoom.
 		if (_answer == 1 && !partner.isRequestExpired())
 		{
 			PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(partner.getPartyRoom());
 			if (_room == null)
 				return;
-
+			
 			if ((player.getLevel() >= _room.getMinLvl()) && (player.getLevel() <= _room.getMaxLvl()))
 			{
 				// Remove from waiting list
 				PartyMatchWaitingList.getInstance().removePlayer(player);
-
+				
 				player.setPartyRoom(partner.getPartyRoom());
-
+				
 				player.sendPacket(new PartyMatchDetail(_room));
 				player.sendPacket(new ExPartyRoomMember(_room, 0));
-
+				
 				for (Player _member : _room.getPartyMembers())
 				{
 					if (_member == null)
 						continue;
-
+					
 					_member.sendPacket(new ExManagePartyRoomMember(player, _room, 0));
 					_member.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_ENTERED_PARTY_ROOM).addCharName(player));
 				}
 				_room.addMember(player);
-
+				
 				// Info Broadcast
 				player.broadcastUserInfo();
 			}
@@ -77,7 +77,7 @@ public final class AnswerJoinPartyRoom extends L2GameClientPacket
 		// Else, send a message to requester.
 		else
 			partner.sendPacket(SystemMessageId.PARTY_MATCHING_REQUEST_NO_RESPONSE);
-
+		
 		// reset transaction timers
 		player.setActiveRequester(null);
 		partner.onTransactionResponse();

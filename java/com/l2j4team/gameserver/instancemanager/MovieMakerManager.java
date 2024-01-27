@@ -16,12 +16,12 @@ import com.l2j4team.commons.lang.StringUtil;
 public class MovieMakerManager
 {
 	protected Map<Integer, Sequence> _sequence = new HashMap<>();
-
+	
 	public static final MovieMakerManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected class Sequence
 	{
 		protected int _sequenceId;
@@ -35,26 +35,26 @@ public class MovieMakerManager
 		protected int _rise;
 		protected int _widescreen;
 	}
-
+	
 	public void mainHtm(Player player)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
-
+		
 		if (!_sequence.isEmpty())
 		{
 			final StringBuilder sb = new StringBuilder();
 			for (Sequence s : _sequence.values())
 				StringUtil.append(sb, "<tr><td>", s._sequenceId, ": (", s._dist, ", ", s._yaw, ", ", s._pitch, ", ", s._time, ", ", s._duration, ", ", s._turn, ", ", s._rise, ", ", s._widescreen, ")</td></tr>");
-
+			
 			html.setFile("data/html/admin/movie/main_notempty.htm");
 			html.replace("%sequences%", sb.toString());
 		}
 		else
 			html.setFile("data/html/admin/movie/main_empty.htm");
-
+		
 		player.sendPacket(html);
 	}
-
+	
 	public void playSequence(int id, Player player)
 	{
 		if (_sequence.containsKey(id))
@@ -68,7 +68,7 @@ public class MovieMakerManager
 			mainHtm(player);
 		}
 	}
-
+	
 	public void broadcastSequence(int id, Player player)
 	{
 		if (_sequence.containsKey(id))
@@ -82,12 +82,12 @@ public class MovieMakerManager
 			mainHtm(player);
 		}
 	}
-
+	
 	public void playSequence(Player player, int objid, int dist, int yaw, int pitch, int time, int duration, int turn, int rise, int screen)
 	{
 		player.sendPacket(new SpecialCamera(objid, dist, yaw, pitch, time, duration, turn, rise, screen, 0));
 	}
-
+	
 	public void addSequence(Player player, int seqId, int objid, int dist, int yaw, int pitch, int time, int duration, int turn, int rise, int screen)
 	{
 		if (!_sequence.containsKey(seqId))
@@ -112,20 +112,20 @@ public class MovieMakerManager
 			mainHtm(player);
 		}
 	}
-
+	
 	public void addSequence(Player player)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/admin/movie/add_sequence.htm");
 		player.sendPacket(html);
 	}
-
+	
 	public void editSequence(int id, Player player)
 	{
 		if (_sequence.containsKey(id))
 		{
 			final Sequence s = _sequence.get(id);
-
+			
 			final NpcHtmlMessage html = new NpcHtmlMessage(0);
 			html.setFile("data/html/admin/movie/edit_sequence.htm");
 			html.replace("%sId%", s._sequenceId);
@@ -145,7 +145,7 @@ public class MovieMakerManager
 			mainHtm(player);
 		}
 	}
-
+	
 	public void updateSequence(Player player, int seqId, int objid, int dist, int yaw, int pitch, int time, int duration, int turn, int rise, int screen)
 	{
 		if (_sequence.containsKey(seqId))
@@ -161,25 +161,25 @@ public class MovieMakerManager
 			s._turn = turn;
 			s._rise = rise;
 			s._widescreen = screen;
-
+			
 			_sequence.put(seqId, s);
 		}
 		else
 			player.sendMessage("This sequence doesn't exist.");
-
+		
 		mainHtm(player);
 	}
-
+	
 	public void deleteSequence(int id, Player player)
 	{
 		if (_sequence.containsKey(id))
 			_sequence.remove(id);
 		else
 			player.sendMessage("This sequence id doesn't exist.");
-
+		
 		mainHtm(player);
 	}
-
+	
 	public void playMovie(int broadcast, Player player)
 	{
 		if (!_sequence.isEmpty())
@@ -190,32 +190,32 @@ public class MovieMakerManager
 			mainHtm(player);
 		}
 	}
-
+	
 	private class Play implements Runnable
 	{
 		private final int _id;
 		private final int _broad;
 		private final Player _player;
-
+		
 		public Play(int id, int broadcast, Player player)
 		{
 			_id = id;
 			_broad = broadcast;
 			_player = player;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			if (_sequence.containsKey(_id))
 			{
 				final Sequence sec = _sequence.get(_id);
-
+				
 				if (_broad == 1)
 					_player.broadcastPacket(new SpecialCamera(sec._objid, sec._dist, sec._yaw, sec._pitch, sec._time, sec._duration, sec._turn, sec._rise, sec._widescreen, 0));
 				else
 					_player.sendPacket(new SpecialCamera(sec._objid, sec._dist, sec._yaw, sec._pitch, sec._time, sec._duration, sec._turn, sec._rise, sec._widescreen, 0));
-
+				
 				ThreadPool.schedule(new Play(_id + 1, _broad, _player), (sec._duration - 100));
 			}
 			else
@@ -225,7 +225,7 @@ public class MovieMakerManager
 			}
 		}
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final MovieMakerManager _instance = new MovieMakerManager();

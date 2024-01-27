@@ -6,12 +6,12 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ShowXMasSeal extends L2GameServerPacket
 {
 	private final int _item;
-
+	
 	public ShowXMasSeal(int item)
 	{
 		_item = item;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

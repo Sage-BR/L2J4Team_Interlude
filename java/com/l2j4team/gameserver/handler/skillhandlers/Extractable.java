@@ -20,26 +20,26 @@ public class Extractable implements ISkillHandler
 		L2SkillType.EXTRACTABLE,
 		L2SkillType.EXTRACTABLE_FISH
 	};
-
+	
 	@Override
 	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
 	{
 		if (!(activeChar instanceof Player))
 			return;
-
+		
 		final L2ExtractableSkill exItem = skill.getExtractableSkill();
 		if (exItem == null || exItem.getProductItemsArray().isEmpty())
 		{
 			_log.warning("Missing informations for extractable skill id: " + skill.getId() + ".");
 			return;
 		}
-
+		
 		final Player player = activeChar.getActingPlayer();
 		final int chance = Rnd.get(100000);
-
+		
 		boolean created = false;
 		int chanceIndex = 0;
-
+		
 		for (L2ExtractableProductItem expi : exItem.getProductItemsArray())
 		{
 			chanceIndex += (int) (expi.getChance() * 1000);
@@ -47,19 +47,19 @@ public class Extractable implements ISkillHandler
 			{
 				for (IntIntHolder item : expi.getItems())
 					player.addItem("Extract", item.getId(), item.getValue(), targets[0], true);
-
+				
 				created = true;
 				break;
 			}
 		}
-
+		
 		if (!created)
 		{
 			player.sendPacket(SystemMessageId.NOTHING_INSIDE_THAT);
 			return;
 		}
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

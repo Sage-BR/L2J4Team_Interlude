@@ -9,23 +9,23 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q247_PossessorOfAPreciousSoul extends Quest
 {
 	private static final String qn = "Q247_PossessorOfAPreciousSoul";
-
+	
 	// NPCs
 	private static final int CARADINE = 31740;
 	private static final int LADY_OF_THE_LAKE = 31745;
-
+	
 	// Items
 	private static final int CARADINE_LETTER = 7679;
 	private static final int NOBLESS_TIARA = 7694;
-
+	
 	public Q247_PossessorOfAPreciousSoul()
 	{
 		super(247, "Possessor of a Precious Soul - 4");
-
+		
 		addStartNpc(CARADINE);
 		addTalkId(CARADINE, LADY_OF_THE_LAKE);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -33,7 +33,7 @@ public class Q247_PossessorOfAPreciousSoul extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// Caradine
 		if (event.equalsIgnoreCase("31740-03.htm"))
 		{
@@ -57,10 +57,10 @@ public class Q247_PossessorOfAPreciousSoul extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -68,18 +68,18 @@ public class Q247_PossessorOfAPreciousSoul extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				if (st.hasQuestItems(CARADINE_LETTER))
 					htmltext = (!player.isSubClassActive() || player.getLevel() < 75) ? "31740-02.htm" : "31740-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				if (!player.isSubClassActive())
 					break;
-
+				
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
 				{
@@ -89,19 +89,19 @@ public class Q247_PossessorOfAPreciousSoul extends Quest
 						else if (cond == 2)
 							htmltext = "31740-06.htm";
 						break;
-
+					
 					case LADY_OF_THE_LAKE:
 						if (cond == 2)
 							htmltext = (player.getLevel() < 75) ? "31745-06.htm" : "31745-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

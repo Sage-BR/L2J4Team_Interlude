@@ -30,29 +30,29 @@ public final class GrandBoss extends Monster
 		super(objectId, template);
 		setIsRaid(true);
 	}
-
+	
 	@Override
 	public void onSpawn()
 	{
 		setIsNoRndWalk(true);
 		super.onSpawn();
 	}
-
+	
 	@Override
 	public boolean doDie(Creature killer)
 	{
 		if (!super.doDie(killer))
 			return false;
-
+		
 		final Player player = killer.getActingPlayer();
 		if (player != null)
 		{
 			broadcastPacket(SystemMessage.getSystemMessage(SystemMessageId.RAID_WAS_SUCCESSFUL));
 			broadcastPacket(new PlaySound("systemmsg_e.1209"));
-
+			
 			if (player.getClan() != null && Config.GRANDBOSS_INFO_IDS_LIST.contains(Integer.valueOf(getNpcId())))
 				player.getClan().addclanBossScore(1);
-
+			
 			if (!player.isGM())
 			{
 				for (Player pl : World.getInstance().getPlayers())
@@ -61,7 +61,7 @@ public final class GrandBoss extends Monster
 						pl.sendChatMessage(0, Config.ANNOUNCE_ID, "Grand Boss ", getName() + " was killed by " + player.getName() + " of the clan " + player.getClan().getName());
 					else
 						pl.sendChatMessage(0, Config.ANNOUNCE_ID, "Grand Boss ", getName() + " was killed by " + player.getName());
-
+					
 					if (Config.EARTH_QUAKE)
 					{
 						pl.broadcastPacket(new ExRedSky(10));
@@ -69,7 +69,7 @@ public final class GrandBoss extends Monster
 					}
 				}
 			}
-
+			
 			final L2Party party = player.getParty();
 			if (party != null)
 			{
@@ -87,10 +87,10 @@ public final class GrandBoss extends Monster
 					Hero.getInstance().setRBkilled(player.getObjectId(), getNpcId());
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public boolean returnHome(boolean cleanAggro)
 	{

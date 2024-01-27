@@ -8,28 +8,28 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q298_LizardmensConspiracy extends Quest
 {
 	private static final String qn = "Q298_LizardmensConspiracy";
-
+	
 	// NPCs
 	private static final int PRAGA = 30333;
 	private static final int ROHMER = 30344;
-
+	
 	// Items
 	private static final int PATROL_REPORT = 7182;
 	private static final int WHITE_GEM = 7183;
 	private static final int RED_GEM = 7184;
-
+	
 	public Q298_LizardmensConspiracy()
 	{
 		super(298, "Lizardmen's Conspiracy");
-
+		
 		setItemsIds(PATROL_REPORT, WHITE_GEM, RED_GEM);
-
+		
 		addStartNpc(PRAGA);
 		addTalkId(PRAGA, ROHMER);
-
+		
 		addKillId(20926, 20927, 20922, 20923, 20924);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -37,7 +37,7 @@ public class Q298_LizardmensConspiracy extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30333-1.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -63,10 +63,10 @@ public class Q298_LizardmensConspiracy extends Quest
 				st.exitQuest(true);
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -74,20 +74,20 @@ public class Q298_LizardmensConspiracy extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 25) ? "30333-0b.htm" : "30333-0a.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
 					case PRAGA:
 						htmltext = "30333-2.htm";
 						break;
-
+					
 					case ROHMER:
 						if (st.getInt("cond") == 1)
 							htmltext = (st.hasQuestItems(PATROL_REPORT)) ? "30344-0.htm" : "30344-0a.htm";
@@ -97,43 +97,43 @@ public class Q298_LizardmensConspiracy extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMember(player, npc, "2");
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		switch (npc.getNpcId())
 		{
 			case 20922:
 				if (st.dropItems(WHITE_GEM, 1, 50, 400000) && st.getQuestItemsCount(RED_GEM) >= 50)
 					st.set("cond", "3");
 				break;
-
+			
 			case 20923:
 				if (st.dropItems(WHITE_GEM, 1, 50, 450000) && st.getQuestItemsCount(RED_GEM) >= 50)
 					st.set("cond", "3");
 				break;
-
+			
 			case 20924:
 				if (st.dropItems(WHITE_GEM, 1, 50, 350000) && st.getQuestItemsCount(RED_GEM) >= 50)
 					st.set("cond", "3");
 				break;
-
+			
 			case 20926:
 			case 20927:
 				if (st.dropItems(RED_GEM, 1, 50, 400000) && st.getQuestItemsCount(WHITE_GEM) >= 50)
 					st.set("cond", "3");
 				break;
 		}
-
+		
 		return null;
 	}
 }

@@ -22,7 +22,7 @@ public class OlympiadStat implements IUserCommandHandler
 	{
 		109
 	};
-
+	
 	@Override
 	public boolean useUserCommand(int id, Player activeChar)
 	{
@@ -31,14 +31,14 @@ public class OlympiadStat implements IUserCommandHandler
 			activeChar.sendPacket(SystemMessageId.NOBLESSE_ONLY);
 			return false;
 		}
-
+		
 		OlympiadPoints(activeChar);
-
+		
 		return true;
 	}
-
+	
 	private static final String OLYMPIAD_POINTS = "SELECT olympiad_points, competitions_done, competitions_won, competitions_lost FROM olympiad_nobles WHERE char_Id=?";
-
+	
 	public static void OlympiadPoints(Player activeChar)
 	{
 		StatsSet playerStat = Olympiad.getNobleStats(activeChar.getObjectId());
@@ -47,22 +47,22 @@ public class OlympiadStat implements IUserCommandHandler
 			Olympiad.getInstance().announcePeriod(activeChar);
 			return;
 		}
-
+		
 		int points = 0;
 		int done = 0;
 		int win = 0;
 		int lost = 0;
-
+		
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
 			PreparedStatement statement = con.prepareStatement(OLYMPIAD_POINTS);
 			statement.setInt(1, activeChar.getObjectId());
-
+			
 			ResultSet rset = statement.executeQuery();
-
+			
 			while (rset.next())
 			{
 				points = rset.getInt("olympiad_points");
@@ -70,23 +70,23 @@ public class OlympiadStat implements IUserCommandHandler
 				win = rset.getInt("competitions_won");
 				lost = rset.getInt("competitions_lost");
 			}
-
+			
 			activeChar.sendMessage("========<Olympiad>========");
 			int classId = activeChar.getBaseClass();
 			String className = CharTemplateTable.getInstance().getClassNameById(classId);
-
+			
 			activeChar.sendMessage("Classe Base: " + className);
 			activeChar.sendMessage("Match(es): " + done + " | Win(s): " + win + " | Defeat(s): " + lost);
 			activeChar.sendMessage("Olympiad Points: " + points);
 			activeChar.sendMessage("=======================");
-
+			
 			Olympiad.getInstance().announcePeriod(activeChar);
-
+			
 			rset.close();
 			statement.close();
 			statement = null;
 			rset = null;
-
+			
 		}
 		catch (final Exception e)
 		{
@@ -96,9 +96,9 @@ public class OlympiadStat implements IUserCommandHandler
 		{
 			CloseUtil.close(con);
 		}
-
+		
 	}
-
+	
 	@Override
 	public int[] getUserCommandList()
 	{

@@ -16,7 +16,7 @@ public class Calculator implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		playable.sendPacket(new ShowCalculator(item.getItemId()));
 	}
 }

@@ -12,7 +12,7 @@ public class SymbolMaker extends Folk
 	{
 		super(objectID, template);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
@@ -26,7 +26,7 @@ public class SymbolMaker extends Folk
 				if (player.getHenna(i) != null)
 					hasHennas = true;
 			}
-
+			
 			if (hasHennas)
 				player.sendPacket(new HennaRemoveList(player));
 			else
@@ -35,7 +35,7 @@ public class SymbolMaker extends Folk
 		else
 			super.onBypassFeedback(player, command);
 	}
-
+	
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{

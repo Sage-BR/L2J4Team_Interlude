@@ -17,7 +17,7 @@ public class ExShowScreenMessage extends L2GameServerPacket
 		BOTTOM_CENTER,
 		BOTTOM_RIGHT,
 	}
-
+	
 	private final int _type;
 	private final int _sysMessageId;
 	private final boolean _hide;
@@ -29,7 +29,7 @@ public class ExShowScreenMessage extends L2GameServerPacket
 	private final boolean _effect;
 	private final String _text;
 	private final int _time;
-
+	
 	public ExShowScreenMessage(String text, int time)
 	{
 		_type = 1;
@@ -44,12 +44,12 @@ public class ExShowScreenMessage extends L2GameServerPacket
 		_size = 0;
 		_effect = false;
 	}
-
+	
 	public ExShowScreenMessage(String text, int time, SMPOS pos, boolean effect)
 	{
 		this(text, time, pos.ordinal(), effect);
 	}
-
+	
 	public ExShowScreenMessage(String text, int time, int pos, boolean effect)
 	{
 		_type = 1;
@@ -64,7 +64,7 @@ public class ExShowScreenMessage extends L2GameServerPacket
 		_size = 0;
 		_effect = effect;
 	}
-
+	
 	public ExShowScreenMessage(int type, int messageId, int position, boolean hide, int size, int unk2, int unk3, boolean showEffect, int time, boolean fade, String text)
 	{
 		_type = type;
@@ -79,7 +79,7 @@ public class ExShowScreenMessage extends L2GameServerPacket
 		_size = size;
 		_effect = showEffect;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

@@ -50,7 +50,7 @@ public class Donator extends Folk
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player)
 	{
@@ -77,7 +77,7 @@ public class Donator extends Folk
 			player.sendPacket(html);
 		}
 	}
-
+	
 	public void Buy_Vip(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -85,7 +85,7 @@ public class Donator extends Folk
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", getObjectId());
-
+		
 		if (player._vip_days == 0)
 			html.replace("%coin%", "0");
 		else if (player._vip_days == 30)
@@ -96,7 +96,7 @@ public class Donator extends Folk
 			html.replace("%coin%", "<font color=\"00FF00\">" + Config.VIP_90_DAYS_PRICE + "</font>");
 		else if (player._vip_days >= 360)
 			html.replace("%coin%", "<font color=\"00FF00\">" + Config.VIP_ETERNAL_PRICE + "</font>");
-
+		
 		if (player._vip_days == 0)
 			html.replace("%vip_days%", "0");
 		else if (player._vip_days == 30)
@@ -107,10 +107,10 @@ public class Donator extends Folk
 			html.replace("%vip_days%", "<font color=\"00FF00\">90</font> Days");
 		else if (player._vip_days >= 360)
 			html.replace("%vip_days%", "<font color=\"00FF00\">Eternal</font>");
-
+		
 		player.sendPacket(html);
 	}
-
+	
 	public void Buy_Hero(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -118,7 +118,7 @@ public class Donator extends Folk
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", getObjectId());
-
+		
 		if (player._hero_days == 0)
 			html.replace("%coin%", "0");
 		else if (player._hero_days == 30)
@@ -129,7 +129,7 @@ public class Donator extends Folk
 			html.replace("%coin%", "<font color=\"00FF00\">" + Config.HERO_90_DAYS_PRICE + "</font>");
 		else if (player._hero_days >= 360)
 			html.replace("%coin%", "<font color=\"00FF00\">" + Config.HERO_ETERNAL_PRICE + "</font>");
-
+		
 		if (player._hero_days == 0)
 			html.replace("%hero_days%", "0");
 		else if (player._hero_days == 30)
@@ -140,10 +140,10 @@ public class Donator extends Folk
 			html.replace("%hero_days%", "<font color=\"00FF00\">90</font> Days");
 		else if (player._hero_days >= 360)
 			html.replace("%hero_days%", "<font color=\"00FF00\">Eternal</font>");
-
+		
 		player.sendPacket(html);
 	}
-
+	
 	public void class_select(Player player)
 	{
 		player._class_id = 0;
@@ -154,7 +154,7 @@ public class Donator extends Folk
 		html.replace("%objectId%", getObjectId());
 		player.sendPacket(html);
 	}
-
+	
 	public void class_finish(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -163,7 +163,7 @@ public class Donator extends Folk
 		html.setFile(filename);
 		html.replace("%objectId%", getObjectId());
 		html.replace("%coin%", "<font color=\"00FF00\">" + Config.DONATE_CLASS_PRICE + "</font>");
-
+		
 		if (player._class_id == 1)
 			html.replace("%class_name%", "Duelist");
 		else if (player._class_id == 2)
@@ -226,7 +226,7 @@ public class Donator extends Folk
 			html.replace("%class_name%", "Fortune Seeker");
 		else if (player._class_id == 31)
 			html.replace("%class_name%", "Maestro");
-
+		
 		if (player._class_id >= 1 && player._class_id <= 6)
 			html.replace("%race%", "Human Fighter");
 		else if (player._class_id >= 7 && player._class_id <= 11)
@@ -245,10 +245,10 @@ public class Donator extends Folk
 			html.replace("%race%", "Orc Mystic");
 		else if (player._class_id >= 30 && player._class_id <= 31)
 			html.replace("%race%", "Dwarf Fighter");
-
+		
 		player.sendPacket(html);
 	}
-
+	
 	public void name_select(Player player)
 	{
 		player._change_Name = "";
@@ -260,7 +260,7 @@ public class Donator extends Folk
 		html.replace("%name%", player.getName());
 		player.sendPacket(html);
 	}
-
+	
 	public void name_finish(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -273,7 +273,7 @@ public class Donator extends Folk
 		html.replace("%coin%", "<font color=\"00FF00\">" + Config.DONATE_NAME_PRICE + "</font>");
 		player.sendPacket(html);
 	}
-
+	
 	public void sex_select(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -281,21 +281,21 @@ public class Donator extends Folk
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", getObjectId());
-
+		
 		if (player.getAppearance().getSex() == Sex.MALE)
 			html.replace("%old_sex%", "Male / Masculino");
 		else
 			html.replace("%old_sex%", "Female / Feminino");
-
+		
 		if (player._sex_id == 1)
 			html.replace("%new_sex%", "Female / Feminino");
 		else
 			html.replace("%new_sex%", "Male / Masculino");
-
+		
 		html.replace("%coin%", "<font color=\"00FF00\">" + Config.DONATE_SEX_PRICE + "</font>");
 		player.sendPacket(html);
 	}
-
+	
 	public void Incorrect_item(Player player)
 	{
 		player._vip_days = 0;
@@ -310,7 +310,7 @@ public class Donator extends Folk
 		html.replace("%objectId%", getObjectId());
 		player.sendPacket(html);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
@@ -318,14 +318,14 @@ public class Donator extends Folk
 		{
 			Sex male = Sex.MALE;
 			Sex female = Sex.FEMALE;
-
+			
 			if (player.getAppearance().getSex() == male)
 				player._sex_id = 1;
 			else if (player.getAppearance().getSex() == female)
 				player._sex_id = 2;
-
+			
 			sex_select(player);
-
+			
 		}
 		else if (command.startsWith("setsex"))
 		{
@@ -333,7 +333,7 @@ public class Donator extends Folk
 			{
 				Sex male = Sex.MALE;
 				Sex female = Sex.FEMALE;
-
+				
 				if (player.getAppearance().getSex() == male)
 				{
 					player.getAppearance().setSex(female);
@@ -350,10 +350,10 @@ public class Donator extends Folk
 					player.decayMe();
 					player.spawnMe();
 				}
-
+				
 				ThreadPool.schedule(new Runnable()
 				{
-
+					
 					@Override
 					public void run()
 					{
@@ -363,7 +363,7 @@ public class Donator extends Folk
 			}
 			else
 				Incorrect_item(player);
-
+			
 		}
 		else if (command.startsWith("name_select"))
 			name_select(player);
@@ -374,9 +374,9 @@ public class Donator extends Folk
 			try
 			{
 				String name = st.nextToken();
-
+				
 				player._change_Name = name;
-
+				
 				if (player._change_Name.length() > 16)
 				{
 					player.sendMessage("The chosen name cannot exceed 16 characters in length.");
@@ -401,7 +401,7 @@ public class Donator extends Folk
 					showChatWindow(player);
 					return;
 				}
-
+				
 				name_finish(player);
 			}
 			catch (Exception e)
@@ -435,7 +435,7 @@ public class Donator extends Folk
 				showChatWindow(player);
 				return;
 			}
-
+			
 			if (player.destroyItemByItemId("Donate Coin", Config.DONATE_COIN_ID, Config.DONATE_NAME_PRICE, null, true))
 			{
 				player.setName(player._change_Name);
@@ -447,7 +447,7 @@ public class Donator extends Folk
 			}
 			else
 				Incorrect_item(player);
-
+			
 		}
 		else if (command.startsWith("class_select"))
 			class_select(player);
@@ -489,15 +489,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(88);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(88);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 2)
@@ -507,15 +507,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(89);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(89);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 3)
@@ -525,15 +525,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(90);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(90);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 4)
@@ -543,15 +543,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(91);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(91);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 5)
@@ -561,15 +561,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(92);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(92);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 6)
@@ -579,15 +579,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(93);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(93);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 7)
@@ -597,15 +597,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(94);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(94);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 8)
@@ -615,15 +615,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(95);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(95);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 9)
@@ -633,15 +633,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(96);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(96);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 10)
@@ -651,15 +651,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(97);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(97);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 11)
@@ -669,15 +669,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(98);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(98);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 12)
@@ -687,15 +687,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(99);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(99);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 13)
@@ -705,15 +705,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(100);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(100);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 14)
@@ -723,15 +723,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(101);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(101);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 15)
@@ -741,15 +741,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(102);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(102);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 16)
@@ -759,14 +759,14 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(103);
 					if (!player.isSubClassActive())
 						player.setBaseClass(103);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 17)
@@ -776,15 +776,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(104);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(104);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 18)
@@ -794,15 +794,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(105);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(105);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 19)
@@ -812,15 +812,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(106);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(106);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 20)
@@ -830,15 +830,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(107);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(107);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 21)
@@ -848,15 +848,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(108);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(108);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 22)
@@ -866,15 +866,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(109);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(109);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 23)
@@ -884,15 +884,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(110);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(110);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 24)
@@ -902,15 +902,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(111);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(111);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 25)
@@ -920,15 +920,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(112);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(112);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 26)
@@ -938,15 +938,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(113);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(113);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 27)
@@ -956,15 +956,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(114);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(114);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 28)
@@ -974,15 +974,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(115);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(115);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 29)
@@ -992,15 +992,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(116);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(116);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 30)
@@ -1010,15 +1010,15 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(117);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(117);
-
+					
 					Finish(player);
 				}
 				else if (player._class_id == 31)
@@ -1028,24 +1028,24 @@ public class Donator extends Folk
 						player.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return;
 					}
-
+					
 					for (L2Skill skill : player.getSkills().values())
 						player.removeSkill(skill);
-
+					
 					player.setClassId(118);
-
+					
 					if (!player.isSubClassActive())
 						player.setBaseClass(118);
-
+					
 					Finish(player);
 				}
 				else
 					player.sendMessage("ERROR , CONTATE O ADMINISTRADOR");
-
+				
 			}
 			else
 				Incorrect_item(player);
-
+			
 		}
 		else if (command.startsWith("vip"))
 		{
@@ -1076,7 +1076,7 @@ public class Donator extends Folk
 						player.sendMessage("Please select another value!");
 						showChatWindow(player);
 						break;
-
+					
 				}
 			}
 			catch (Exception e)
@@ -1096,9 +1096,9 @@ public class Donator extends Folk
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = VipManager.getInstance().getVipDuration(player.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + player._vip_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1111,7 +1111,7 @@ public class Donator extends Folk
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1123,13 +1123,13 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().updateVip(player.getObjectId(), end_day);
 					}
@@ -1147,7 +1147,7 @@ public class Donator extends Folk
 								player._vip_days -= 30;
 							}
 						}
-
+						
 						if (player._vip_days < 30 && player._vip_days > 0)
 						{
 							while (player._vip_days > 0)
@@ -1159,17 +1159,17 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								player._vip_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().addVip(player.getObjectId(), end_day);
 					}
-
+					
 					long _daysleft;
 					final long now = Calendar.getInstance().getTimeInMillis();
 					long duration = VipManager.getInstance().getVipDuration(player.getObjectId());
@@ -1183,7 +1183,7 @@ public class Donator extends Folk
 				}
 				else
 					Incorrect_item(player);
-
+				
 			}
 			else if (player._vip_days == 60)
 			{
@@ -1195,9 +1195,9 @@ public class Donator extends Folk
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = VipManager.getInstance().getVipDuration(player.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + player._vip_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1210,7 +1210,7 @@ public class Donator extends Folk
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1222,13 +1222,13 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().updateVip(player.getObjectId(), end_day);
 					}
@@ -1246,7 +1246,7 @@ public class Donator extends Folk
 								player._vip_days -= 30;
 							}
 						}
-
+						
 						if (player._vip_days < 30 && player._vip_days > 0)
 						{
 							while (player._vip_days > 0)
@@ -1258,17 +1258,17 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								player._vip_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().addVip(player.getObjectId(), end_day);
 					}
-
+					
 					long _daysleft;
 					final long now = Calendar.getInstance().getTimeInMillis();
 					long duration = VipManager.getInstance().getVipDuration(player.getObjectId());
@@ -1282,7 +1282,7 @@ public class Donator extends Folk
 				}
 				else
 					Incorrect_item(player);
-
+				
 			}
 			else if (player._vip_days == 90)
 			{
@@ -1294,9 +1294,9 @@ public class Donator extends Folk
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = VipManager.getInstance().getVipDuration(player.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + player._vip_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1309,7 +1309,7 @@ public class Donator extends Folk
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1321,13 +1321,13 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().updateVip(player.getObjectId(), end_day);
 					}
@@ -1345,7 +1345,7 @@ public class Donator extends Folk
 								player._vip_days -= 30;
 							}
 						}
-
+						
 						if (player._vip_days < 30 && player._vip_days > 0)
 						{
 							while (player._vip_days > 0)
@@ -1357,17 +1357,17 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								player._vip_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().addVip(player.getObjectId(), end_day);
 					}
-
+					
 					long _daysleft;
 					final long now = Calendar.getInstance().getTimeInMillis();
 					long duration = VipManager.getInstance().getVipDuration(player.getObjectId());
@@ -1381,22 +1381,22 @@ public class Donator extends Folk
 				}
 				else
 					Incorrect_item(player);
-
+				
 			}
 			else if (player._vip_days == 999)
 			{
 				if (player.destroyItemByItemId("Donate Coin", Config.DONATE_COIN_ID, Config.VIP_ETERNAL_PRICE, null, true))
 				{
-
+					
 					if (VipManager.getInstance().hasVipPrivileges(player.getObjectId()))
 					{
 						long _daysleft;
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = VipManager.getInstance().getVipDuration(player.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + player._vip_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1409,7 +1409,7 @@ public class Donator extends Folk
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1421,13 +1421,13 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().updateVip(player.getObjectId(), end_day);
 					}
@@ -1445,7 +1445,7 @@ public class Donator extends Folk
 								player._vip_days -= 30;
 							}
 						}
-
+						
 						if (player._vip_days < 30 && player._vip_days > 0)
 						{
 							while (player._vip_days > 0)
@@ -1457,29 +1457,29 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								player._vip_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().addVip(player.getObjectId(), end_day);
 					}
-
+					
 					player.sendPacket(new ExShowScreenMessage("Congratulations! You have activated Eternal VIP.", 10000));
 					player.sendMessage("Congratulations! You have activated Eternal VIP.");
 				}
 				else
 					Incorrect_item(player);
-
+				
 			}
 			else
 			{
 				player.sendMessage("ERROR , CONTATE O ADMINISTRADOR");
 			}
-
+			
 		}
 		if (command.startsWith("hero"))
 		{
@@ -1510,7 +1510,7 @@ public class Donator extends Folk
 						player.sendMessage("Please select another value!");
 						showChatWindow(player);
 						break;
-
+					
 				}
 			}
 			catch (Exception e)
@@ -1530,9 +1530,9 @@ public class Donator extends Folk
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = HeroManager.getInstance().getHeroDuration(player.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + player._hero_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1545,7 +1545,7 @@ public class Donator extends Folk
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1557,13 +1557,13 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().updateHero(player.getObjectId(), end_day);
 					}
@@ -1581,7 +1581,7 @@ public class Donator extends Folk
 								player._hero_days -= 30;
 							}
 						}
-
+						
 						if (player._hero_days < 30 && player._hero_days > 0)
 						{
 							while (player._hero_days > 0)
@@ -1593,17 +1593,17 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								player._hero_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().addHero(player.getObjectId(), end_day);
 					}
-
+					
 					long _daysleft;
 					final long now = Calendar.getInstance().getTimeInMillis();
 					long duration = HeroManager.getInstance().getHeroDuration(player.getObjectId());
@@ -1617,7 +1617,7 @@ public class Donator extends Folk
 				}
 				else
 					Incorrect_item(player);
-
+				
 			}
 			else if (player._hero_days == 60)
 			{
@@ -1629,9 +1629,9 @@ public class Donator extends Folk
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = HeroManager.getInstance().getHeroDuration(player.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + player._hero_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1644,7 +1644,7 @@ public class Donator extends Folk
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1656,13 +1656,13 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().updateHero(player.getObjectId(), end_day);
 					}
@@ -1680,7 +1680,7 @@ public class Donator extends Folk
 								player._hero_days -= 30;
 							}
 						}
-
+						
 						if (player._hero_days < 30 && player._hero_days > 0)
 						{
 							while (player._hero_days > 0)
@@ -1692,17 +1692,17 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								player._hero_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().addHero(player.getObjectId(), end_day);
 					}
-
+					
 					long _daysleft;
 					final long now = Calendar.getInstance().getTimeInMillis();
 					long duration = HeroManager.getInstance().getHeroDuration(player.getObjectId());
@@ -1716,7 +1716,7 @@ public class Donator extends Folk
 				}
 				else
 					Incorrect_item(player);
-
+				
 			}
 			else if (player._hero_days == 90)
 			{
@@ -1728,9 +1728,9 @@ public class Donator extends Folk
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = HeroManager.getInstance().getHeroDuration(player.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + player._hero_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1743,7 +1743,7 @@ public class Donator extends Folk
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1755,13 +1755,13 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().updateHero(player.getObjectId(), end_day);
 					}
@@ -1779,7 +1779,7 @@ public class Donator extends Folk
 								player._hero_days -= 30;
 							}
 						}
-
+						
 						if (player._hero_days < 30 && player._hero_days > 0)
 						{
 							while (player._hero_days > 0)
@@ -1791,17 +1791,17 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								player._hero_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().addHero(player.getObjectId(), end_day);
 					}
-
+					
 					long _daysleft;
 					final long now = Calendar.getInstance().getTimeInMillis();
 					long duration = HeroManager.getInstance().getHeroDuration(player.getObjectId());
@@ -1815,22 +1815,22 @@ public class Donator extends Folk
 				}
 				else
 					Incorrect_item(player);
-
+				
 			}
 			else if (player._hero_days == 999)
 			{
 				if (player.destroyItemByItemId("Donate Coin", Config.DONATE_COIN_ID, Config.HERO_ETERNAL_PRICE, null, true))
 				{
-
+					
 					if (HeroManager.getInstance().hasHeroPrivileges(player.getObjectId()))
 					{
 						long _daysleft;
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = HeroManager.getInstance().getHeroDuration(player.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + player._hero_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1843,7 +1843,7 @@ public class Donator extends Folk
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1855,13 +1855,13 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().updateHero(player.getObjectId(), end_day);
 					}
@@ -1879,7 +1879,7 @@ public class Donator extends Folk
 								player._hero_days -= 30;
 							}
 						}
-
+						
 						if (player._hero_days < 30 && player._hero_days > 0)
 						{
 							while (player._hero_days > 0)
@@ -1891,50 +1891,50 @@ public class Donator extends Folk
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								player._hero_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().addHero(player.getObjectId(), end_day);
 					}
-
+					
 					player.sendPacket(new ExShowScreenMessage("Congratulations! You have activated Eternal Hero.", 10000));
 					player.sendMessage("Congratulations! You have activated Eternal Hero.");
 				}
 				else
 					Incorrect_item(player);
-
+				
 			}
 			else
 			{
 				player.sendMessage("ERROR , CONTATE O ADMINISTRADOR");
 			}
-
+			
 		}
 		else if (command.startsWith("back_home"))
 			showChatWindow(player);
-
+		
 	}
-
+	
 	public static void Finish(Player activeChar)
 	{
 		String newclass = activeChar.getTemplate().getClassName();
-
+		
 		activeChar.sendMessage(activeChar.getName() + " is now a " + newclass + ".");
 		activeChar.sendPacket(new ExShowScreenMessage("Congratulations. You is now a " + newclass + ".", 6000, 0x02, true));
-
+		
 		activeChar.refreshOverloaded();
 		activeChar.store();
 		activeChar.sendPacket(new HennaInfo(activeChar));
 		activeChar.sendSkillList();
 		activeChar.broadcastUserInfo();
-
+		
 		activeChar.sendPacket(new PlaySound("ItemSound.quest_finish"));
-
+		
 		if (activeChar.isNoble())
 		{
 			StatsSet playerStat = Olympiad.getNobleStats(activeChar.getObjectId());
@@ -1945,7 +1945,7 @@ public class Donator extends Folk
 				activeChar.sendMessage("You now has " + Olympiad.getInstance().getNoblePoints(activeChar.getObjectId()) + " Olympiad points.");
 			}
 		}
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			// Remove all henna info stored for this sub-class.
@@ -1959,10 +1959,10 @@ public class Donator extends Folk
 		{
 			_log.warning("Class Item: " + e);
 		}
-
+		
 		ThreadPool.schedule(new Runnable()
 		{
-
+			
 			@Override
 			public void run()
 			{
@@ -1970,5 +1970,5 @@ public class Donator extends Folk
 			}
 		}, 3000);
 	}
-
+	
 }

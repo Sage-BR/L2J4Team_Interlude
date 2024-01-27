@@ -13,17 +13,17 @@ import com.l2j4team.commons.random.Rnd;
 public class Q355_FamilyHonor extends Quest
 {
 	private static final String qn = "Q355_FamilyHonor";
-
+	
 	// NPCs
 	private static final int GALIBREDO = 30181;
 	private static final int PATRIN = 30929;
-
+	
 	// Monsters
 	private static final int TIMAK_ORC_TROOP_LEADER = 20767;
 	private static final int TIMAK_ORC_TROOP_SHAMAN = 20768;
 	private static final int TIMAK_ORC_TROOP_WARRIOR = 20769;
 	private static final int TIMAK_ORC_TROOP_ARCHER = 20770;
-
+	
 	// Items
 	private static final int GALIBREDO_BUST = 4252;
 	private static final int WORK_OF_BERONA = 4350;
@@ -31,7 +31,7 @@ public class Q355_FamilyHonor extends Quest
 	private static final int STATUE_ORIGINAL = 4352;
 	private static final int STATUE_REPLICA = 4353;
 	private static final int STATUE_FORGERY = 4354;
-
+	
 	// Drop chances
 	private static final Map<Integer, int[]> CHANCES = new HashMap<>();
 	{
@@ -56,19 +56,19 @@ public class Q355_FamilyHonor extends Quest
 			42
 		});
 	}
-
+	
 	public Q355_FamilyHonor()
 	{
 		super(355, "Family Honor");
-
+		
 		setItemsIds(GALIBREDO_BUST);
-
+		
 		addStartNpc(GALIBREDO);
 		addTalkId(GALIBREDO, PATRIN);
-
+		
 		addKillId(TIMAK_ORC_TROOP_LEADER, TIMAK_ORC_TROOP_SHAMAN, TIMAK_ORC_TROOP_WARRIOR, TIMAK_ORC_TROOP_ARCHER);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -76,7 +76,7 @@ public class Q355_FamilyHonor extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30181-2.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -89,14 +89,14 @@ public class Q355_FamilyHonor extends Quest
 			if (count > 0)
 			{
 				htmltext = "30181-4.htm";
-
+				
 				int reward = 2800 + (count * 120);
 				if (count >= 100)
 				{
 					htmltext = "30181-4a.htm";
 					reward += 5000;
 				}
-
+				
 				st.takeItems(GALIBREDO_BUST, count);
 				st.rewardItems(57, reward);
 			}
@@ -106,7 +106,7 @@ public class Q355_FamilyHonor extends Quest
 			if (st.hasQuestItems(WORK_OF_BERONA))
 			{
 				st.takeItems(WORK_OF_BERONA, 1);
-
+				
 				final int appraising = Rnd.get(100);
 				if (appraising < 20)
 					htmltext = "30929-2.htm";
@@ -137,10 +137,10 @@ public class Q355_FamilyHonor extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -148,45 +148,45 @@ public class Q355_FamilyHonor extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 36) ? "30181-0a.htm" : "30181-0.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
 					case GALIBREDO:
 						htmltext = (st.hasQuestItems(GALIBREDO_BUST)) ? "30181-3a.htm" : "30181-3.htm";
 						break;
-
+					
 					case PATRIN:
 						htmltext = "30929-0.htm";
 						break;
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		final int[] chances = CHANCES.get(npc.getNpcId());
 		final int random = Rnd.get(100);
-
+		
 		if (random < chances[1])
 			st.dropItemsAlways((random < chances[0]) ? GALIBREDO_BUST : WORK_OF_BERONA, 1, 0);
-
+		
 		return null;
 	}
 }

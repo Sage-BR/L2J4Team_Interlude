@@ -7,13 +7,13 @@ import com.l2j4team.gameserver.network.serverpackets.AllyCrest;
 public final class RequestAllyCrest extends L2GameClientPacket
 {
 	private int _crestId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_crestId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{

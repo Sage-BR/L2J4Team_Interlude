@@ -7,13 +7,13 @@ public class HennaItemInfo extends L2GameServerPacket
 {
 	private final Player _activeChar;
 	private final Henna _henna;
-
+	
 	public HennaItemInfo(Henna henna, Player player)
 	{
 		_henna = henna;
 		_activeChar = player;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -24,7 +24,7 @@ public class HennaItemInfo extends L2GameServerPacket
 		writeD(_henna.getPrice()); // total amount of adenas required to draw symbol
 		writeD(1); // able to draw or not 0 is false and 1 is true
 		writeD(_activeChar.getAdena());
-
+		
 		writeD(_activeChar.getINT()); // current INT
 		writeC(_activeChar.getINT() + _henna.getINT()); // equip INT
 		writeD(_activeChar.getSTR()); // current STR

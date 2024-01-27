@@ -15,7 +15,7 @@ public class AuctionManager
 {
 	protected static final Logger _log = Logger.getLogger(AuctionManager.class.getName());
 	private final List<Auction> _auctions;
-
+	
 	private static final String[] ITEM_INIT_DATA =
 	{
 		"(22, 0, '', '', 22, 'Moonstone Hall', 20000000, 0, 1164841200000)",
@@ -57,7 +57,7 @@ public class AuctionManager
 		"(60, 0, '', '', 60, 'Molten Ore Hall', 50000000, 0, 1164841200000)",
 		"(61, 0, '', '', 61, 'Titan Hall', 50000000, 0, 1164841200000)"
 	};
-
+	
 	private static final int[] ItemInitDataId =
 	{
 		22,
@@ -99,37 +99,37 @@ public class AuctionManager
 		60,
 		61
 	};
-
+	
 	public static final AuctionManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected AuctionManager()
 	{
 		_auctions = new ArrayList<>();
 		load();
 	}
-
+	
 	public void reload()
 	{
 		_auctions.clear();
 		load();
 	}
-
+	
 	private final void load()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("SELECT id FROM auction ORDER BY id");
 			ResultSet rs = statement.executeQuery();
-
+			
 			while (rs.next())
 				_auctions.add(new Auction(rs.getInt("id")));
-
+			
 			rs.close();
 			statement.close();
-
+			
 			_log.info("AuctionManager: Loaded " + getAuctions().size() + " auction(s)");
 		}
 		catch (Exception e)
@@ -137,16 +137,16 @@ public class AuctionManager
 			_log.log(Level.WARNING, "AuctionManager: an exception occured at auction.sql loading: " + e.getMessage(), e);
 		}
 	}
-
+	
 	public final Auction getAuction(int auctionId)
 	{
 		int index = getAuctionIndex(auctionId);
 		if (index >= 0)
 			return getAuctions().get(index);
-
+		
 		return null;
 	}
-
+	
 	public final int getAuctionIndex(int auctionId)
 	{
 		Auction auction;
@@ -158,12 +158,12 @@ public class AuctionManager
 		}
 		return -1;
 	}
-
+	
 	public final List<Auction> getAuctions()
 	{
 		return _auctions;
 	}
-
+	
 	/**
 	 * Init Clan NPC aution
 	 * @param id
@@ -176,13 +176,13 @@ public class AuctionManager
 			if (ItemInitDataId[i] == id)
 				break;
 		}
-
+		
 		if (i >= ItemInitDataId.length || ItemInitDataId[i] != id)
 		{
 			_log.warning("ClanHall auction not found for Id: " + id);
 			return;
 		}
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("INSERT INTO `auction` VALUES " + ITEM_INIT_DATA[i]);
@@ -195,7 +195,7 @@ public class AuctionManager
 			_log.log(Level.SEVERE, "AuctionManager: an exception occured at initNPC loading: " + e.getMessage(), e);
 		}
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final AuctionManager _instance = new AuctionManager();

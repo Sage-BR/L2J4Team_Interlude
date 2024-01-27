@@ -8,14 +8,14 @@ public class GameGuardQuery extends L2GameServerPacket
 	public GameGuardQuery()
 	{
 	}
-
+	
 	@Override
 	public void runImpl()
 	{
 		// Lets make user as gg-unauthorized, we will set him as ggOK after reply from client or kick
 		getClient().setGameGuardOk(false);
 	}
-
+	
 	@Override
 	public void writeImpl()
 	{

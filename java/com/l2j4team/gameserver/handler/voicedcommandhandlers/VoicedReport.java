@@ -36,7 +36,7 @@ public class VoicedReport implements IVoicedCommandHandler
 		"send_report"
 	};
 	private static String _type;
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -51,38 +51,38 @@ public class VoicedReport implements IVoicedCommandHandler
 			String msg = "";
 			String type = null;
 			type = st.nextToken();
-
+			
 			try
 			{
 				while (st.hasMoreTokens())
 				{
 					msg = msg + " " + st.nextToken();
 				}
-
+				
 				if (msg.equals(""))
 				{
 					activeChar.sendMessage("Message box cannot be empty.");
 					return false;
 				}
-
+				
 				sendReport(activeChar, type, msg);
-
+				
 			}
 			catch (StringIndexOutOfBoundsException e)
 			{
 			}
 		}
 		mainHtml(activeChar);
-
+		
 		return true;
-
+		
 	}
-
+	
 	private static void sendReport(Player player, String command, String msg)
 	{
 		String type = command;
 		L2GameClient info = player.getClient().getConnection().getClient();
-
+		
 		if (type.equals("General"))
 			_type = "General";
 		if (type.equals("Fatal"))
@@ -93,18 +93,18 @@ public class VoicedReport implements IVoicedCommandHandler
 			_type = "Balance";
 		if (type.equals("Other"))
 			_type = "Other";
-
+		
 		try
 		{
 			String fname = "log/BugReports/" + player.getName() + ".txt";
 			File file = new File(fname);
-
+			
 			boolean exist = file.createNewFile();
 			if (!exist)
 			{
 				player.sendMessage("You have already sent a bug report, GMs must check it first.");
 				player.sendPacket(new ExShowScreenMessage("You have already sent a bug report!", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
-
+				
 				return;
 			}
 			FileWriter fstream = new FileWriter(fname);
@@ -112,10 +112,10 @@ public class VoicedReport implements IVoicedCommandHandler
 			out.write("Character Info: " + info + "\r\nBug Type: " + _type + "\r\nMessage: " + msg);
 			player.sendMessage("Report sent. GMs will check it soon. Thanks...");
 			player.sendPacket(new ExShowScreenMessage("Report sent successfully!", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
-
+			
 			for (Player allgms : World.getAllGMs())
 				allgms.sendPacket(new CreatureSay(0, Say2.SHOUT, "Bug Report Manager", player.getName() + " sent a bug report."));
-
+			
 			System.out.println("Character: " + player.getName() + " sent a bug report.");
 			out.close();
 		}
@@ -124,12 +124,12 @@ public class VoicedReport implements IVoicedCommandHandler
 			player.sendMessage("Something went wrong try again.");
 		}
 	}
-
+	
 	static
 	{
 		new File("log/BugReports/").mkdirs();
 	}
-
+	
 	public static void mainHtml(Player activeChar)
 	{
 		String htmFile = "data/html/mods/menu/report.htm";
@@ -138,11 +138,11 @@ public class VoicedReport implements IVoicedCommandHandler
 		msg.replace("%player%", activeChar.getName());
 		activeChar.sendPacket(msg);
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;
 	}
-
+	
 }

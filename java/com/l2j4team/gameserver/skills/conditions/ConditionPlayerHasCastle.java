@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.skills.Env;
 public final class ConditionPlayerHasCastle extends Condition
 {
 	private final int _castle;
-
+	
 	/**
 	 * Instantiates a new condition player has castle.
 	 * @param castle the castle
@@ -19,7 +19,7 @@ public final class ConditionPlayerHasCastle extends Condition
 	{
 		_castle = castle;
 	}
-
+	
 	/**
 	 * @param env the env
 	 * @return true, if successful
@@ -30,15 +30,15 @@ public final class ConditionPlayerHasCastle extends Condition
 	{
 		if (env.getPlayer() == null)
 			return false;
-
+		
 		Clan clan = env.getPlayer().getClan();
 		if (clan == null)
 			return _castle == 0;
-
+		
 		// Any castle
 		if (_castle == -1)
 			return clan.hasCastle();
-
+		
 		return clan.getCastleId() == _castle;
 	}
 }

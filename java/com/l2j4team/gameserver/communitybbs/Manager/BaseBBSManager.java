@@ -11,24 +11,24 @@ import java.util.logging.Logger;
 public abstract class BaseBBSManager
 {
 	protected static final Logger _log = Logger.getLogger(BaseBBSManager.class.getName());
-
+	
 	protected static final String CB_PATH = "data/html/CommunityBoard/";
-
+	
 	public void parseCmd(String command, Player activeChar)
 	{
 		separateAndSend("<html><body><br><br><center>The command: " + command + " isn't implemented.</center></body></html>", activeChar);
 	}
-
+	
 	public void parseWrite(String ar1, String ar2, String ar3, String ar4, String ar5, Player activeChar)
 	{
 		separateAndSend("<html><body><br><br><center>The command: " + ar1 + " isn't implemented.</center></body></html>", activeChar);
 	}
-
+	
 	public static void separateAndSend(String html, Player acha)
 	{
 		if (html == null || acha == null)
 			return;
-
+		
 		if (html.length() < 4090)
 		{
 			acha.sendPacket(new ShowBoard(html, "101"));
@@ -48,18 +48,18 @@ public abstract class BaseBBSManager
 			acha.sendPacket(new ShowBoard(html.substring(8180, html.length()), "103"));
 		}
 	}
-
+	
 	protected static void send1001(String html, Player acha)
 	{
 		if (html.length() < 8180)
 			acha.sendPacket(new ShowBoard(html, "1001"));
 	}
-
+	
 	protected static void send1002(Player acha)
 	{
 		send1002(acha, " ", " ", "0");
 	}
-
+	
 	protected static void send1002(Player activeChar, String string, String string2, String string3)
 	{
 		List<String> _arg = new ArrayList<>();
@@ -82,7 +82,7 @@ public abstract class BaseBBSManager
 		_arg.add("0");
 		activeChar.sendPacket(new ShowBoard(_arg));
 	}
-
+	
 	/**
 	 * Loads an HTM located in the default CB path.
 	 * @param file : the file to load.
@@ -92,7 +92,7 @@ public abstract class BaseBBSManager
 	{
 		separateAndSend(HtmCache.getInstance().getHtm(CB_PATH + getFolder() + file), activeChar);
 	}
-
+	
 	/**
 	 * That method is overidden in every board type. It allows to switch of folders following the board.
 	 * @return the folder.

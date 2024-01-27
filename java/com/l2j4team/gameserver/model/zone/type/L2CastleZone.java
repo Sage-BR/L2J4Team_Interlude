@@ -15,12 +15,12 @@ import com.l2j4team.gameserver.model.zone.ZoneId;
 public class L2CastleZone extends L2SpawnZone
 {
 	private int _castleId;
-
+	
 	public L2CastleZone(int id)
 	{
 		super(id);
 	}
-
+	
 	@Override
 	public void setParameter(String name, String value)
 	{
@@ -29,29 +29,29 @@ public class L2CastleZone extends L2SpawnZone
 		else
 			super.setParameter(name, value);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		character.setInsideZone(ZoneId.CASTLE, true);
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.CASTLE, false);
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 	/**
 	 * Removes all foreigners from the castle
 	 * @param owningClanId
@@ -60,16 +60,16 @@ public class L2CastleZone extends L2SpawnZone
 	{
 		if (_characterList.isEmpty())
 			return;
-
+		
 		for (Player player : getKnownTypeInside(Player.class))
 		{
 			if (player.getClanId() == owningClanId)
 				continue;
-
+			
 			player.teleToLocation(getChaoticSpawnLoc(), 20);
 		}
 	}
-
+	
 	public int getCastleId()
 	{
 		return _castleId;

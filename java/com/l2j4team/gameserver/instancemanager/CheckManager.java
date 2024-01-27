@@ -31,7 +31,7 @@ public class CheckManager
 	private static final int START_TIME = 60000;
 	// End Time
 	private static final int RESTART_TIME = 120000;
-
+	
 	private class AutoAnnounceTask implements Runnable
 	{
 		@Override
@@ -41,7 +41,7 @@ public class CheckManager
 				loadData();
 		}
 	}
-
+	
 	public void loadData()
 	{
 		Collection<Player> onlinePlayers = World.getInstance().getPlayers();
@@ -57,7 +57,7 @@ public class CheckManager
 					{
 						if (!players.isGM())
 							System.out.println("[INV]: " + players.getName() + " ~ [" + item.getCount() + "] -> " + item.getName());
-
+						
 						for (Player allgms : World.getAllGMs())
 						{
 							if (!players.isGM())
@@ -65,7 +65,7 @@ public class CheckManager
 						}
 					}
 				}
-
+				
 				for (int[] element : Config.PROTECT_ITEMS)
 				{
 					item = players.getWarehouse().getItemByItemId(element[0]);
@@ -73,7 +73,7 @@ public class CheckManager
 					{
 						if (!players.isGM())
 							System.out.println("[BAU]: " + players.getName() + " ~ [" + item.getCount() + "] -> " + item.getName());
-
+						
 						for (Player allgms : World.getAllGMs())
 						{
 							if (!players.isGM())
@@ -82,7 +82,7 @@ public class CheckManager
 					}
 				}
 			}
-
+			
 			if (Config.WARN_ENCHANT_ITEM_ENABLED)
 			{
 				for (final ItemInstance i : players.getInventory().getItems())
@@ -93,17 +93,17 @@ public class CheckManager
 						{
 							if (!players.isGM())
 								System.out.println("[INV]: " + players.getName() + " ~ " + i.getName() + " +" + i.getEnchantLevel());
-
+							
 							for (Player allgms : World.getAllGMs())
 							{
 								if (!players.isGM())
 									allgms.sendPacket(new CreatureSay(0, Say2.TELL, "[INV]", players.getName() + " ~ " + i.getName() + " +" + i.getEnchantLevel()));
 							}
 						}
-
+						
 					}
 				}
-
+				
 				for (final ItemInstance i : players.getWarehouse().getItems())
 				{
 					if (!players.isGM())
@@ -112,32 +112,32 @@ public class CheckManager
 						{
 							if (!players.isGM())
 								System.out.println("[BAU]: " + players.getName() + " ~ " + i.getName() + " +" + i.getEnchantLevel());
-
+							
 							for (Player allgms : World.getAllGMs())
 							{
 								if (!players.isGM())
 									allgms.sendPacket(new CreatureSay(0, Say2.TELL, "[Warehouse]", players.getName() + " ~ " + i.getName() + " +" + i.getEnchantLevel()));
 							}
 						}
-
+						
 					}
 				}
 			}
-
+			
 		}
 	}
-
+	
 	public static CheckManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	private static class SingletonHolder
 	{
-
+		
 		protected static final CheckManager _instance = new CheckManager();
 	}
-
+	
 	private CheckManager()
 	{
 		if (Config.WARN_ITEM_ENABLED)

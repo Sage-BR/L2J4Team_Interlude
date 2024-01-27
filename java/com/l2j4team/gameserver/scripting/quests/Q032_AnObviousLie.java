@@ -8,36 +8,36 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q032_AnObviousLie extends Quest
 {
 	private static final String qn = "Q032_AnObviousLie";
-
+	
 	// Items
 	private static final int SUEDE = 1866;
 	private static final int THREAD = 1868;
 	private static final int SPIRIT_ORE = 3031;
 	private static final int MAP = 7165;
 	private static final int MEDICINAL_HERB = 7166;
-
+	
 	// Rewards
 	private static final int CAT_EARS = 6843;
 	private static final int RACOON_EARS = 7680;
 	private static final int RABBIT_EARS = 7683;
-
+	
 	// NPCs
 	private static final int GENTLER = 30094;
 	private static final int MAXIMILIAN = 30120;
 	private static final int MIKI_THE_CAT = 31706;
-
+	
 	public Q032_AnObviousLie()
 	{
 		super(32, "An Obvious Lie");
-
+		
 		setItemsIds(MAP, MEDICINAL_HERB);
-
+		
 		addStartNpc(MAXIMILIAN);
 		addTalkId(MAXIMILIAN, GENTLER, MIKI_THE_CAT);
-
+		
 		addKillId(20135); // Alligator
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -45,7 +45,7 @@ public class Q032_AnObviousLie extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30120-1.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -135,10 +135,10 @@ public class Q032_AnObviousLie extends Quest
 				st.exitQuest(false);
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -146,13 +146,13 @@ public class Q032_AnObviousLie extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 45) ? "30120-0a.htm" : "30120-0.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -160,7 +160,7 @@ public class Q032_AnObviousLie extends Quest
 					case MAXIMILIAN:
 						htmltext = "30120-2.htm";
 						break;
-
+					
 					case GENTLER:
 						if (cond == 1)
 							htmltext = "30094-0.htm";
@@ -177,7 +177,7 @@ public class Q032_AnObviousLie extends Quest
 						else if (cond == 8)
 							htmltext = (st.getQuestItemsCount(THREAD) < 1000 || st.getQuestItemsCount(SUEDE) < 500) ? "30094-11.htm" : "30094-12.htm";
 						break;
-
+					
 					case MIKI_THE_CAT:
 						if (cond == 2)
 							htmltext = "31706-0.htm";
@@ -190,25 +190,25 @@ public class Q032_AnObviousLie extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "3");
 		if (st == null)
 			return null;
-
+		
 		if (st.dropItemsAlways(MEDICINAL_HERB, 1, 20))
 			st.set("cond", "4");
-
+		
 		return null;
 	}
 }

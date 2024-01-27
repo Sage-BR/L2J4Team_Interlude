@@ -12,13 +12,13 @@ public class ExOlympiadSpelledInfo extends L2GameServerPacket
 {
 	private final int _playerID;
 	private final List<Effect> _effects;
-
+	
 	private static class Effect
 	{
 		protected int _skillId;
 		protected int _level;
 		protected int _duration;
-
+		
 		public Effect(int pSkillId, int pLevel, int pDuration)
 		{
 			_skillId = pSkillId;
@@ -26,18 +26,18 @@ public class ExOlympiadSpelledInfo extends L2GameServerPacket
 			_duration = pDuration;
 		}
 	}
-
+	
 	public ExOlympiadSpelledInfo(Player player)
 	{
 		_effects = new ArrayList<>();
 		_playerID = player.getObjectId();
 	}
-
+	
 	public void addEffect(int skillId, int level, int duration)
 	{
 		_effects.add(new Effect(skillId, level, duration));
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

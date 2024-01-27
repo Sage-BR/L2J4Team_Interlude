@@ -9,7 +9,7 @@ public class SpawnItem extends L2GameServerPacket
 	private final int _itemId;
 	private final int _x, _y, _z;
 	private final int _stackable, _count;
-
+	
 	public SpawnItem(ItemInstance item)
 	{
 		_objectId = item.getObjectId();
@@ -20,7 +20,7 @@ public class SpawnItem extends L2GameServerPacket
 		_stackable = item.isStackable() ? 0x01 : 0x00;
 		_count = item.getCount();
 	}
-
+	
 	public SpawnItem(WorldObject object)
 	{
 		_objectId = object.getObjectId();
@@ -31,7 +31,7 @@ public class SpawnItem extends L2GameServerPacket
 		_stackable = 0x00;
 		_count = 1;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

@@ -18,7 +18,7 @@ public class EffectClanGate extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
@@ -32,22 +32,22 @@ public class EffectClanGate extends L2Effect
 				clan.broadcastToOtherOnlineMembers(msg, ((Player) getEffected()));
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		getEffected().stopAbnormalEffect(AbnormalEffect.MAGIC_CIRCLE);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{

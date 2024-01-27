@@ -7,12 +7,12 @@ import com.l2j4team.gameserver.network.serverpackets.NpcHtmlMessage;
 public class VIPINFO implements Runnable
 {
 	private final Player _activeChar;
-
+	
 	public VIPINFO(Player activeChar)
 	{
 		_activeChar = activeChar;
 	}
-
+	
 	@Override
 	public void run()
 	{

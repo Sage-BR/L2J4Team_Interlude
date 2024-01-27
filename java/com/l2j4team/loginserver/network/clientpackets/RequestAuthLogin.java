@@ -22,27 +22,27 @@ public class RequestAuthLogin extends L2LoginClientPacket
 	private String _user;
 	private String _password;
 	private int _ncotp;
-
+	
 	public RequestAuthLogin()
 	{
 		_raw = new byte[128];
 	}
-
+	
 	public String getPassword()
 	{
 		return _password;
 	}
-
+	
 	public String getUser()
 	{
 		return _user;
 	}
-
+	
 	public int getOneTimePassword()
 	{
 		return _ncotp;
 	}
-
+	
 	@Override
 	public boolean readImpl()
 	{
@@ -53,7 +53,7 @@ public class RequestAuthLogin extends L2LoginClientPacket
 		}
 		return false;
 	}
-
+	
 	@Override
 	public void run()
 	{
@@ -137,7 +137,7 @@ public class RequestAuthLogin extends L2LoginClientPacket
 			}
 		}
 	}
-
+	
 	static
 	{
 		RequestAuthLogin._log = Logger.getLogger(RequestAuthLogin.class.getName());

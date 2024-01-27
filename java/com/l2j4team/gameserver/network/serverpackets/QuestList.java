@@ -10,13 +10,13 @@ public class QuestList extends L2GameServerPacket
 {
 	private final List<Quest> _quests;
 	private final Player _activeChar;
-
+	
 	public QuestList(Player player)
 	{
 		_activeChar = player;
 		_quests = player.getAllQuests(true);
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -31,7 +31,7 @@ public class QuestList extends L2GameServerPacket
 				writeD(0);
 				continue;
 			}
-
+			
 			int states = qs.getInt("__compltdStateFlags");
 			if (states != 0)
 				writeD(states);

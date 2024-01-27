@@ -11,10 +11,10 @@ import com.l2j4team.commons.random.Rnd;
 public class Q367_ElectrifyingRecharge extends Quest
 {
 	private static final String qn = "Q367_ElectrifyingRecharge";
-
+	
 	// NPCs
 	private static final int LORAIN = 30673;
-
+	
 	// Item
 	private static final int LORAIN_LAMP = 5875;
 	private static final int TITAN_LAMP_1 = 5876;
@@ -22,7 +22,7 @@ public class Q367_ElectrifyingRecharge extends Quest
 	private static final int TITAN_LAMP_3 = 5878;
 	private static final int TITAN_LAMP_4 = 5879;
 	private static final int TITAN_LAMP_5 = 5880;
-
+	
 	// Reward
 	private static final int REWARD[] =
 	{
@@ -39,22 +39,22 @@ public class Q367_ElectrifyingRecharge extends Quest
 		4563,
 		4564
 	};
-
+	
 	// Mobs
 	private static final int CATHEROK = 21035;
-
+	
 	public Q367_ElectrifyingRecharge()
 	{
 		super(367, "Electrifying Recharge!");
-
+		
 		setItemsIds(LORAIN_LAMP, TITAN_LAMP_1, TITAN_LAMP_2, TITAN_LAMP_3, TITAN_LAMP_4, TITAN_LAMP_5);
-
+		
 		addStartNpc(LORAIN);
 		addTalkId(LORAIN);
-
+		
 		addSpellFinishedId(CATHEROK);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -62,7 +62,7 @@ public class Q367_ElectrifyingRecharge extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30673-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -88,7 +88,7 @@ public class Q367_ElectrifyingRecharge extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -96,13 +96,13 @@ public class Q367_ElectrifyingRecharge extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 37) ? "30673-02.htm" : "30673-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				if (cond == 1)
@@ -143,23 +143,23 @@ public class Q367_ElectrifyingRecharge extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onSpellFinished(Npc npc, Player player, L2Skill skill)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "1");
 		if (st == null)
 			return null;
-
+		
 		if (skill.getId() == 4072)
 		{
 			if (st.hasQuestItems(LORAIN_LAMP))
 			{
 				int randomItem = Rnd.get(5876, 5880);
-
+				
 				st.takeItems(LORAIN_LAMP, 1);
 				st.giveItems(randomItem, 1);
-
+				
 				if (randomItem == 5879)
 				{
 					st.set("cond", "2");
@@ -169,7 +169,7 @@ public class Q367_ElectrifyingRecharge extends Quest
 					st.playSound(QuestState.SOUND_ITEMGET);
 			}
 		}
-
+		
 		return null;
 	}
 }

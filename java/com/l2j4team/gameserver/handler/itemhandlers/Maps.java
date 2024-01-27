@@ -16,7 +16,7 @@ public class Maps implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		playable.sendPacket(new ShowMiniMap(item.getItemId()));
 	}
 }

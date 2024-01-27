@@ -211,4 +211,38 @@
 		<set name="dropHerbGroup" val="1"/>
 		<ai type="DEFAULT" ssCount="200" ssRate="5" spsCount="100" spsRate="10" aggro="0" canMove="true" seedable="true"/>
 	</npc>
+
+	<npc id="65529" idTemplate="30513" name="HeimDall" title="Auction House">
+		<set name="usingServerSideName" val="true"/>
+		<set name="usingServerSideTitle" val="true"/>	
+		<set name="level" val="80"/>
+	    <set name="radius" val="8"/>
+		<set name="height" val="26"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="AuctionManager"/>
+		<set name="exp" val="2444"/>
+		<set name="sp" val="160"/>
+		<set name="hp" val="1008.23781"/>
+		<set name="mp" val="504.8"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="187.11878"/>
+		<set name="pDef" val="160.69002"/>
+		<set name="mAtk" val="127.77787"/>
+		<set name="mDef" val="106.989225133249"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="20"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="90"/>
+		<set name="runSpd" val="174"/>
+		<set name="dropHerbGroup" val="1"/>
+		<ai type="DEFAULT" ssCount="200" ssRate="5" spsCount="100" spsRate="10" aggro="0" canMove="true" seedable="true"/>
+	</npc>
 </list>

@@ -27,65 +27,65 @@ public class L2PvPZone extends L2SpawnZone
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		character.setInsideZone(ZoneId.PVP_CUSTOM, true);
-
+		
 		if (character instanceof Player)
 		{
 			Player activeChar = (Player) character;
-
+			
 			if (Config.ANTZERG_CHECK_PARTY_INVITE)
 			{
 				checkPartyMembers(activeChar);
 			}
 		}
-
+		
 		character.sendMessage("You have entered a Pvp Zone!");
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.PVP_CUSTOM, false);
 		character.sendMessage("You have left a Pvp Zone!");
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 	public void checkPartyMembers(Player player)
 	{
 		L2Party party = player.getParty();
-
+		
 		if (party == null)
 		{
 			return;
 		}
 		for (Player member : party.getPartyMembers())
 		{
-
+			
 			if ((member == null) || !member.isOnline() || (member.getClan() == null))
 			{
 				continue;
 			}
 			if (member.getClan() != player.getClan() && member.getClan().getAllyId() != player.getClan().getAllyId() && member.getClan() != null && player.getClan() != null && member.getAllyId() != 0 && player.getAllyId() != 0)
 			{
-
+				
 				player.sendMessage("In pvp zone only clan/ally party allowed.");
 				player.getParty().removePartyMember(player, L2Party.MessageType.Left);
 				break;
 			}
 		}
 	}
-
+	
 }

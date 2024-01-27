@@ -15,7 +15,7 @@ public class AdminCamera implements IAdminCommandHandler
 		"admin_camera",
 		"admin_cameramode"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -25,7 +25,7 @@ public class AdminCamera implements IAdminCommandHandler
 			{
 				final Creature target = (Creature) activeChar.getTarget();
 				final String[] com = command.split(" ");
-
+				
 				target.broadcastPacket(new SpecialCamera(target.getObjectId(), Integer.parseInt(com[1]), Integer.parseInt(com[2]), Integer.parseInt(com[3]), Integer.parseInt(com[4]), Integer.parseInt(com[5]), Integer.parseInt(com[6]), Integer.parseInt(com[7]), Integer.parseInt(com[8]), Integer.parseInt(com[9])));
 			}
 			catch (Exception e)
@@ -42,13 +42,13 @@ public class AdminCamera implements IAdminCommandHandler
 				activeChar.setTarget(null);
 				activeChar.setIsImmobilized(true);
 				activeChar.sendPacket(new CameraMode(1));
-
+				
 				// Make the character disappears (from world too)
 				activeChar.getAppearance().setInvisible();
 				activeChar.broadcastUserInfo();
 				activeChar.decayMe();
 				activeChar.spawnMe();
-
+				
 				activeChar.sendPacket(new ExShowScreenMessage(1, 0, 2, false, 1, 0, 0, false, 5000, true, "To remove this text, press ALT+H. To exit, press ALT+H and type //cameramode"));
 			}
 			else
@@ -56,18 +56,18 @@ public class AdminCamera implements IAdminCommandHandler
 				activeChar.setIsImmobilized(false);
 				activeChar.sendPacket(new CameraMode(0));
 				activeChar.sendPacket(NormalCamera.STATIC_PACKET);
-
+				
 				// Make the character appears (to world too)
 				activeChar.getAppearance().setVisible();
 				activeChar.broadcastUserInfo();
-
+				
 				// Teleport back the player to beginning point
 				activeChar.teleToLocation(activeChar.getX(), activeChar.getY(), activeChar.getZ(), 0);
 			}
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

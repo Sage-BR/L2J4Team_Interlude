@@ -13,7 +13,7 @@ public abstract class Condition implements ConditionListener
 	private int _msgId;
 	private boolean _addName = false;
 	private boolean _result;
-
+	
 	/**
 	 * Sets the message.
 	 * @param msg the new message
@@ -22,7 +22,7 @@ public abstract class Condition implements ConditionListener
 	{
 		_msg = msg;
 	}
-
+	
 	/**
 	 * Gets the message.
 	 * @return the message
@@ -31,7 +31,7 @@ public abstract class Condition implements ConditionListener
 	{
 		return _msg;
 	}
-
+	
 	/**
 	 * Sets the message id.
 	 * @param msgId the new message id
@@ -40,7 +40,7 @@ public abstract class Condition implements ConditionListener
 	{
 		_msgId = msgId;
 	}
-
+	
 	/**
 	 * Gets the message id.
 	 * @return the message id
@@ -49,7 +49,7 @@ public abstract class Condition implements ConditionListener
 	{
 		return _msgId;
 	}
-
+	
 	/**
 	 * Adds the name.
 	 */
@@ -57,7 +57,7 @@ public abstract class Condition implements ConditionListener
 	{
 		_addName = true;
 	}
-
+	
 	/**
 	 * Checks if is adds the name.
 	 * @return true, if is adds the name
@@ -66,7 +66,7 @@ public abstract class Condition implements ConditionListener
 	{
 		return _addName;
 	}
-
+	
 	/**
 	 * Sets the listener.
 	 * @param listener the new listener
@@ -76,7 +76,7 @@ public abstract class Condition implements ConditionListener
 		_listener = listener;
 		notifyChanged();
 	}
-
+	
 	/**
 	 * Gets the listener.
 	 * @return the listener
@@ -85,7 +85,7 @@ public abstract class Condition implements ConditionListener
 	{
 		return _listener;
 	}
-
+	
 	/**
 	 * Test.
 	 * @param env the env
@@ -101,14 +101,14 @@ public abstract class Condition implements ConditionListener
 		}
 		return res;
 	}
-
+	
 	/**
 	 * Test impl.
 	 * @param env the env
 	 * @return true, if successful
 	 */
 	abstract boolean testImpl(Env env);
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.l2j4team.gameserver.skills.conditions.ConditionListener#notifyChanged()

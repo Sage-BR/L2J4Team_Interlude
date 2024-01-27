@@ -6,12 +6,12 @@ import java.io.IOException;
 public abstract class GameServerBasePacket
 {
 	private final ByteArrayOutputStream _bao;
-
+	
 	protected GameServerBasePacket()
 	{
 		_bao = new ByteArrayOutputStream();
 	}
-
+	
 	protected void writeD(int value)
 	{
 		_bao.write(value & 0xff);
@@ -19,18 +19,18 @@ public abstract class GameServerBasePacket
 		_bao.write(value >> 16 & 0xff);
 		_bao.write(value >> 24 & 0xff);
 	}
-
+	
 	protected void writeH(int value)
 	{
 		_bao.write(value & 0xff);
 		_bao.write(value >> 8 & 0xff);
 	}
-
+	
 	protected void writeC(int value)
 	{
 		_bao.write(value & 0xff);
 	}
-
+	
 	protected void writeF(double org)
 	{
 		long value = Double.doubleToRawLongBits(org);
@@ -43,7 +43,7 @@ public abstract class GameServerBasePacket
 		_bao.write((int) (value >> 48 & 0xff));
 		_bao.write((int) (value >> 56 & 0xff));
 	}
-
+	
 	protected void writeS(String text)
 	{
 		try
@@ -57,11 +57,11 @@ public abstract class GameServerBasePacket
 		{
 			e.printStackTrace();
 		}
-
+		
 		_bao.write(0);
 		_bao.write(0);
 	}
-
+	
 	protected void writeB(byte[] array)
 	{
 		try
@@ -73,16 +73,16 @@ public abstract class GameServerBasePacket
 			e.printStackTrace();
 		}
 	}
-
+	
 	public int getLength()
 	{
 		return _bao.size() + 2;
 	}
-
+	
 	public byte[] getBytes()
 	{
 		writeD(0x00); // reserve for checksum
-
+		
 		int padding = _bao.size() % 8;
 		if (padding != 0)
 		{
@@ -91,9 +91,9 @@ public abstract class GameServerBasePacket
 				writeC(0x00);
 			}
 		}
-
+		
 		return _bao.toByteArray();
 	}
-
+	
 	public abstract byte[] getContent() throws IOException;
 }

@@ -12,16 +12,16 @@ import com.l2j4team.gameserver.skills.Stats;
 public class CreatureStat
 {
 	private final Creature _activeChar;
-
+	
 	private long _exp = 0;
 	private int _sp = 0;
 	private byte _level = 1;
-
+	
 	public CreatureStat(Creature activeChar)
 	{
 		_activeChar = activeChar;
 	}
-
+	
 	/**
 	 * Calculate the new value of the state with modifiers that will be applied on the targeted Creature.<BR>
 	 * <BR>
@@ -44,23 +44,23 @@ public class CreatureStat
 	{
 		if (_activeChar == null || stat == null)
 			return init;
-
+		
 		final int id = stat.ordinal();
-
+		
 		final Calculator c = _activeChar.getCalculators()[id];
 		if (c == null || c.size() == 0)
 			return init;
-
+		
 		// Create and init an Env object to pass parameters to the Calculator
 		final Env env = new Env();
 		env.setCharacter(_activeChar);
 		env.setTarget(target);
 		env.setSkill(skill);
 		env.setValue(init);
-
+		
 		// Launch the calculation
 		c.calc(env);
-
+		
 		// avoid some troubles with negative stats (some stats should never be negative)
 		if (env.getValue() <= 0)
 		{
@@ -87,7 +87,7 @@ public class CreatureStat
 		}
 		return env.getValue();
 	}
-
+	
 	/**
 	 * @return the STR of the Creature (base+modifier).
 	 */
@@ -95,7 +95,7 @@ public class CreatureStat
 	{
 		return (int) calcStat(Stats.STAT_STR, _activeChar.getTemplate().getBaseSTR(), null, null);
 	}
-
+	
 	/**
 	 * @return the DEX of the Creature (base+modifier).
 	 */
@@ -103,7 +103,7 @@ public class CreatureStat
 	{
 		return (int) calcStat(Stats.STAT_DEX, _activeChar.getTemplate().getBaseDEX(), null, null);
 	}
-
+	
 	/**
 	 * @return the CON of the Creature (base+modifier).
 	 */
@@ -111,7 +111,7 @@ public class CreatureStat
 	{
 		return (int) calcStat(Stats.STAT_CON, _activeChar.getTemplate().getBaseCON(), null, null);
 	}
-
+	
 	/**
 	 * @return the INT of the Creature (base+modifier).
 	 */
@@ -119,7 +119,7 @@ public class CreatureStat
 	{
 		return (int) calcStat(Stats.STAT_INT, _activeChar.getTemplate().getBaseINT(), null, null);
 	}
-
+	
 	/**
 	 * @return the MEN of the Creature (base+modifier).
 	 */
@@ -127,7 +127,7 @@ public class CreatureStat
 	{
 		return (int) calcStat(Stats.STAT_MEN, _activeChar.getTemplate().getBaseMEN(), null, null);
 	}
-
+	
 	/**
 	 * @return the WIT of the Creature (base+modifier).
 	 */
@@ -135,7 +135,7 @@ public class CreatureStat
 	{
 		return (int) calcStat(Stats.STAT_WIT, _activeChar.getTemplate().getBaseWIT(), null, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @param skill
@@ -145,7 +145,7 @@ public class CreatureStat
 	{
 		return Math.min((int) calcStat(Stats.CRITICAL_RATE, _activeChar.getTemplate().getBaseCritRate(), target, skill), 500);
 	}
-
+	
 	/**
 	 * @param target
 	 * @param skill
@@ -155,7 +155,7 @@ public class CreatureStat
 	{
 		return (int) calcStat(Stats.MCRITICAL_RATE, 8, target, skill);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the Attack Evasion rate (base+modifier) of the Creature.
@@ -164,7 +164,7 @@ public class CreatureStat
 	{
 		if (_activeChar == null)
 			return 1;
-
+		
 		double val = (calcStat(Stats.EVASION_RATE, 0, target, null));
 		if (_activeChar instanceof Player && ((Player) _activeChar).getClassId().getId() >= 88)
 		{
@@ -174,7 +174,7 @@ public class CreatureStat
 			return (int) val;
 		return 0;
 	}
-
+	
 	/**
 	 * @return the Accuracy (base+modifier) of the Creature in function of the Weapon Expertise Penalty.
 	 */
@@ -182,7 +182,7 @@ public class CreatureStat
 	{
 		if (_activeChar == null)
 			return 0;
-
+		
 		double val = (calcStat(Stats.ACCURACY_COMBAT, 0, null, null));
 		if (_activeChar instanceof Player && ((Player) _activeChar).getClassId().getId() >= 88)
 		{
@@ -192,12 +192,12 @@ public class CreatureStat
 			return (int) val;
 		return 0;
 	}
-
+	
 	public int getMaxHp()
 	{
 		if (_activeChar == null)
 			return 1;
-
+		
 		double val = calcStat(Stats.MAX_HP, _activeChar.getTemplate().getBaseHpMax(_activeChar.getLevel()), null, null);
 		if (_activeChar instanceof Player && ((Player) _activeChar).getClassId().getId() >= 88)
 		{
@@ -207,17 +207,17 @@ public class CreatureStat
 			return (int) val;
 		return 0;
 	}
-
+	
 	public int getMaxCp()
 	{
 		return 0;
 	}
-
+	
 	public int getMaxMp()
 	{
 		if (_activeChar == null)
 			return 1;
-
+		
 		double val = calcStat(Stats.MAX_MP, _activeChar.getTemplate().getBaseMpMax(_activeChar.getLevel()), null, null);
 		if (_activeChar instanceof Player && ((Player) _activeChar).getClassId().getId() >= 88)
 		{
@@ -227,7 +227,7 @@ public class CreatureStat
 			return (int) val;
 		return 0;
 	}
-
+	
 	/**
 	 * @param target The Creature targeted by the skill
 	 * @param skill The L2Skill used against the target
@@ -237,25 +237,25 @@ public class CreatureStat
 	{
 		if (_activeChar == null)
 			return 1;
-
+		
 		double attack = _activeChar.getTemplate().getBaseMAtk() * ((_activeChar.isChampion()) ? Config.CHAMPION_ATK : 1);
-
+		
 		// Add the power of the skill to the attack effect
 		if (skill != null)
 			attack += skill.getPower();
-
+		
 		// Calculate modifiers Magic Attack
 		double val = calcStat(Stats.MAGIC_ATTACK, attack, target, skill);
 		if (_activeChar instanceof Player && ((Player) _activeChar).getClassId().getId() >= 88)
 		{
 			val += BalanceLoad.MAtk[((Player) _activeChar).getClassId().getId() - 88];
-
+			
 		}
 		if (val > 0)
 			return (int) val;
 		return 0;
 	}
-
+	
 	/**
 	 * @return the MAtk Speed (base+modifier) of the Creature in function of the Armour Expertise Penalty.
 	 */
@@ -268,7 +268,7 @@ public class CreatureStat
 		{
 			bonusSpdAtk = (float) Config.CHAMPION_SPD_ATK;
 		}
-
+		
 		double val = calcStat(Stats.MAGIC_ATTACK_SPEED, 330.0 * bonusSpdAtk, null, null);
 		if (_activeChar instanceof Player && ((Player) _activeChar).getClassId().getId() >= 88)
 		{
@@ -278,7 +278,7 @@ public class CreatureStat
 			return (int) val;
 		return 0;
 	}
-
+	
 	/**
 	 * @param target The Creature targeted by the skill
 	 * @param skill The L2Skill used against the target
@@ -288,16 +288,16 @@ public class CreatureStat
 	{
 		if (_activeChar == null)
 			return 1;
-
+		
 		// Get the base MDef of the L2Character
 		double defence = _activeChar.getTemplate().getBaseMDef();
-
+		
 		// Calculate modifier for Raid Bosses
 		if (_activeChar.isRaid())
 		{
 			defence *= Config.RAID_DEFENCE_MULTIPLIER;
 		}
-
+		
 		// Calculate modifiers Magic Attack
 		double val = calcStat(Stats.MAGIC_DEFENCE, defence, target, skill);
 		if (_activeChar instanceof Player && ((Player) _activeChar).getClassId().getId() >= 88)
@@ -308,17 +308,17 @@ public class CreatureStat
 		{
 			val += Config.MDEF_PHANTOM;
 		}
-
+		
 		if (_activeChar.isPhantom() && _activeChar.isPhantomArcher())
 		{
 			val += Config.MDEF_PHANTOM_ARCHER;
 		}
-
+		
 		if (val >= 0)
 			return (int) val;
 		return 0;
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PAtk (base+modifier) of the Creature.
@@ -332,22 +332,22 @@ public class CreatureStat
 		{
 			bonusAtk = (float) Config.CHAMPION_ATK;
 		}
-
+		
 		double val = calcStat(Stats.POWER_ATTACK, _activeChar.getTemplate().getBasePAtk() * bonusAtk, target, null);
 		if (_activeChar instanceof Player && ((Player) _activeChar).getClassId().getId() >= 88)
 		{
 			val += BalanceLoad.PAtk[((Player) _activeChar).getClassId().getId() - 88];
 		}
-
+		
 		// if (_activeChar.isPhantom() && _activeChar.isPhantomArcher()){
 		// val += Rnd.get(Config.POWER_PHANTOM_ARCHER_MIN, Config.POWER_PHANTOM_ARCHER_MAX);
 		// }
-
+		
 		if (val >= 0)
 			return (int) val;
 		return 0;
 	}
-
+	
 	/**
 	 * @return the PAtk Speed (base+modifier) of the Creature in function of the Armour Expertise Penalty.
 	 */
@@ -360,23 +360,23 @@ public class CreatureStat
 		{
 			bonusAtk = (float) Config.CHAMPION_SPD_ATK;
 		}
-
+		
 		double val = (calcStat(Stats.POWER_ATTACK_SPEED, _activeChar.getTemplate().getBasePAtkSpd() * bonusAtk, null, null));
 		if (_activeChar instanceof Player && ((Player) _activeChar).getClassId().getId() >= 88)
 		{
 			val += BalanceLoad.PAtkSpd[((Player) _activeChar).getClassId().getId() - 88];
 		}
-
+		
 		if (_activeChar.isPhantom() && _activeChar.isPhantomArcher())
 		{
 			val += Config.ATKSPEED_PHANTOM;
 		}
-
+		
 		if (val > 0)
 			return (int) val;
 		return 0;
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PDef (base+modifier) of the Creature.
@@ -385,16 +385,16 @@ public class CreatureStat
 	{
 		if (_activeChar == null)
 			return 1;
-
+		
 		// Get the base PDef of the L2Character
 		double defence = _activeChar.getTemplate().getBasePDef();
-
+		
 		// Calculate modifier for Raid Bosses
 		if (_activeChar.isRaid())
 		{
 			defence *= Config.RAID_DEFENCE_MULTIPLIER;
 		}
-
+		
 		// Calculate modifiers Magic Attack
 		double val = calcStat(Stats.POWER_DEFENCE, defence, target, null);
 		if (_activeChar instanceof Player && ((Player) _activeChar).getClassId().getId() >= 88)
@@ -405,18 +405,18 @@ public class CreatureStat
 		{
 			val += Config.PDEF_PHANTOM;
 		}
-
+		
 		if (_activeChar.isPhantom() && _activeChar.isPhantomArcher())
 		{
 			val += Config.PDEF_PHANTOM_ARCHER;
 		}
-
+		
 		if (val >= 0)
 			return (int) val;
 		return 0;
-
+		
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PAtk Modifier against animals.
@@ -425,7 +425,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PATK_ANIMALS, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PAtk Modifier against dragons.
@@ -434,7 +434,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PATK_DRAGONS, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PAtk Modifier against insects.
@@ -443,7 +443,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PATK_INSECTS, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PAtk Modifier against monsters.
@@ -452,7 +452,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PATK_MONSTERS, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PAtk Modifier against plants.
@@ -461,7 +461,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PATK_PLANTS, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PAtk Modifier against giants.
@@ -470,7 +470,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PATK_GIANTS, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PAtk Modifier against magic creatures
@@ -479,7 +479,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PATK_MCREATURES, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PDef Modifier against animals.
@@ -488,7 +488,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PDEF_ANIMALS, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PDef Modifier against dragons.
@@ -497,7 +497,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PDEF_DRAGONS, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PDef Modifier against insects.
@@ -506,7 +506,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PDEF_INSECTS, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PDef Modifier against monsters.
@@ -515,7 +515,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PDEF_MONSTERS, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PDef Modifier against plants.
@@ -524,7 +524,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PDEF_PLANTS, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PDef Modifier against giants.
@@ -533,7 +533,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PDEF_GIANTS, 1, target, null);
 	}
-
+	
 	/**
 	 * @param target
 	 * @return the PDef Modifier against giants.
@@ -542,7 +542,7 @@ public class CreatureStat
 	{
 		return calcStat(Stats.PDEF_MCREATURES, 1, target, null);
 	}
-
+	
 	/**
 	 * @return the Physical Attack range (base+modifier) of the Creature.
 	 */
@@ -550,7 +550,7 @@ public class CreatureStat
 	{
 		return getActiveChar().getAttackType().getRange();
 	}
-
+	
 	/**
 	 * @return the ShieldDef rate (base+modifier) of the Creature.
 	 */
@@ -558,7 +558,7 @@ public class CreatureStat
 	{
 		return (int) calcStat(Stats.SHIELD_DEFENCE, 0, null, null);
 	}
-
+	
 	/**
 	 * @param skill
 	 * @return the mpConsume.
@@ -567,23 +567,23 @@ public class CreatureStat
 	{
 		if (skill == null)
 			return 1;
-
+		
 		double mpConsume = skill.getMpConsume();
 		if (skill.isDance())
 		{
 			if (_activeChar != null && _activeChar.getDanceCount() > 0)
 				mpConsume += _activeChar.getDanceCount() * skill.getNextDanceMpCost();
 		}
-
+		
 		if (skill.isDance())
 			return (int) calcStat(Stats.DANCE_MP_CONSUME_RATE, mpConsume, null, null);
-
+		
 		if (skill.isMagic())
 			return (int) calcStat(Stats.MAGICAL_MP_CONSUME_RATE, mpConsume, null, null);
-
+		
 		return (int) calcStat(Stats.PHYSICAL_MP_CONSUME_RATE, mpConsume, null, null);
 	}
-
+	
 	/**
 	 * @param skill
 	 * @return the mpInitialConsume.
@@ -592,18 +592,18 @@ public class CreatureStat
 	{
 		if (skill == null)
 			return 1;
-
+		
 		double mpConsume = skill.getMpInitialConsume();
-
+		
 		if (skill.isDance())
 			return (int) calcStat(Stats.DANCE_MP_CONSUME_RATE, mpConsume, null, null);
-
+		
 		if (skill.isMagic())
 			return (int) calcStat(Stats.MAGICAL_MP_CONSUME_RATE, mpConsume, null, null);
-
+		
 		return (int) calcStat(Stats.PHYSICAL_MP_CONSUME_RATE, mpConsume, null, null);
 	}
-
+	
 	public int getAttackElementValue(byte attackAttribute)
 	{
 		switch (attackAttribute)
@@ -624,7 +624,7 @@ public class CreatureStat
 				return 0;
 		}
 	}
-
+	
 	public double getDefenseElementValue(byte defenseAttribute)
 	{
 		switch (defenseAttribute)
@@ -645,7 +645,7 @@ public class CreatureStat
 				return 1;
 		}
 	}
-
+	
 	/**
 	 * Returns base running speed, given by owner template.<br>
 	 * Player is affected by mount type.
@@ -655,7 +655,7 @@ public class CreatureStat
 	{
 		return _activeChar.getTemplate().getBaseRunSpeed();
 	}
-
+	
 	/**
 	 * Returns base walking speed, given by owner template.<br>
 	 * Player is affected by mount type.
@@ -665,7 +665,7 @@ public class CreatureStat
 	{
 		return _activeChar.getTemplate().getBaseWalkSpeed();
 	}
-
+	
 	/**
 	 * Returns base movement speed, given by owner template and owner movement status.<br>
 	 * Player is affected by mount type and by being in L2WaterZone.
@@ -675,7 +675,7 @@ public class CreatureStat
 	{
 		return _activeChar.isRunning() ? getBaseRunSpeed() : getBaseWalkSpeed();
 	}
-
+	
 	/**
 	 * Returns movement speed multiplier, which is used by client to set correct character/object movement speed.
 	 * @return float : Movement speed multiplier.
@@ -684,7 +684,7 @@ public class CreatureStat
 	{
 		return getMoveSpeed() / getBaseMoveSpeed();
 	}
-
+	
 	/**
 	 * Returns attack speed multiplier, which is used by client to set correct character/object attack speed.
 	 * @return float : Attack speed multiplier.
@@ -693,7 +693,7 @@ public class CreatureStat
 	{
 		return (float) ((1.1) * getPAtkSpd() / _activeChar.getTemplate().getBasePAtkSpd());
 	}
-
+	
 	/**
 	 * Returns final movement speed, given by owner template, owner status and effects.<br>
 	 * L2Playable is affected by L2SwampZone.<br>
@@ -704,37 +704,37 @@ public class CreatureStat
 	{
 		return (float) calcStat(Stats.RUN_SPEED, getBaseMoveSpeed(), null, null);
 	}
-
+	
 	public long getExp()
 	{
 		return _exp;
 	}
-
+	
 	public void setExp(long value)
 	{
 		_exp = value;
 	}
-
+	
 	public int getSp()
 	{
 		return _sp;
 	}
-
+	
 	public void setSp(int value)
 	{
 		_sp = value;
 	}
-
+	
 	public byte getLevel()
 	{
 		return _level;
 	}
-
+	
 	public void setLevel(byte value)
 	{
 		_level = value;
 	}
-
+	
 	public Creature getActiveChar()
 	{
 		return _activeChar;

@@ -11,13 +11,13 @@ public class CastleDoorman extends Doorman
 	{
 		super(objectID, template);
 	}
-
+	
 	@Override
 	protected void openDoors(Player player, String command)
 	{
 		StringTokenizer st = new StringTokenizer(command.substring(10), ", ");
 		st.nextToken();
-
+		
 		while (st.hasMoreTokens())
 		{/*
 			 * if (getConquerableHall() != null) getConquerableHall().openCloseDoor(Integer.parseInt(st.nextToken()), true); else
@@ -25,13 +25,13 @@ public class CastleDoorman extends Doorman
 			getCastle().openDoor(player, Integer.parseInt(st.nextToken()));
 		}
 	}
-
+	
 	@Override
 	protected final void closeDoors(Player player, String command)
 	{
 		StringTokenizer st = new StringTokenizer(command.substring(11), ", ");
 		st.nextToken();
-
+		
 		while (st.hasMoreTokens())
 		{/*
 			 * if (getConquerableHall() != null) getConquerableHall().openCloseDoor(Integer.parseInt(st.nextToken()), false); else
@@ -39,7 +39,7 @@ public class CastleDoorman extends Doorman
 			getCastle().closeDoor(player, Integer.parseInt(st.nextToken()));
 		}
 	}
-
+	
 	@Override
 	protected final boolean isOwnerClan(Player player)
 	{
@@ -56,13 +56,13 @@ public class CastleDoorman extends Doorman
 		}
 		return false;
 	}
-
+	
 	@Override
 	protected final boolean isUnderSiege()
 	{/*
 		 * SiegableHall hall = getConquerableHall(); if (hall != null) return hall.isInSiege();
 		 */
-
+		
 		return getCastle().getSiegeZone().isActive();
 	}
 }

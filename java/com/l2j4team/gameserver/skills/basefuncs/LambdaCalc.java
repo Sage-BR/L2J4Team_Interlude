@@ -11,12 +11,12 @@ import java.util.List;
 public final class LambdaCalc extends Lambda
 {
 	private final List<Func> _funcs;
-
+	
 	public LambdaCalc()
 	{
 		_funcs = new ArrayList<>();
 	}
-
+	
 	@Override
 	public double calc(Env env)
 	{
@@ -26,7 +26,7 @@ public final class LambdaCalc extends Lambda
 			env.setValue(0);
 			for (Func f : _funcs)
 				f.calc(env);
-
+			
 			return env.getValue();
 		}
 		finally
@@ -34,12 +34,12 @@ public final class LambdaCalc extends Lambda
 			env.setValue(saveValue);
 		}
 	}
-
+	
 	public void addFunc(Func f)
 	{
 		_funcs.add(f);
 	}
-
+	
 	public List<Func> getFuncs()
 	{
 		return _funcs;

@@ -35,16 +35,16 @@ public class AdminCreateItem implements IAdminCommandHandler
 		"admin_create_coin",
 		"admin_create_set"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (activeChar.getAccessLevel().getLevel() < 7)
 			return false;
-
+		
 		StringTokenizer st = new StringTokenizer(command);
 		command = st.nextToken();
-
+		
 		if (command.equals("admin_itemcreate"))
 		{
 			AdminHelpPage.showHelpPage(activeChar, "itemcreation.htm");
@@ -55,11 +55,11 @@ public class AdminCreateItem implements IAdminCommandHandler
 			{
 				final int id = Integer.parseInt(st.nextToken());
 				final int count = (st.hasMoreTokens()) ? Integer.parseInt(st.nextToken()) : 1;
-
+				
 				final Collection<Player> players = World.getInstance().getPlayers();
 				for (Player player : players)
 					createItem(activeChar, player, id, count, 0, false);
-
+				
 				activeChar.sendMessage(players.size() + " players rewarded with " + ItemTable.getInstance().getTemplate(id).getName());
 			}
 			catch (Exception e)
@@ -73,23 +73,23 @@ public class AdminCreateItem implements IAdminCommandHandler
 			Player target = activeChar;
 			if (activeChar.getTarget() != null && activeChar.getTarget() instanceof Player)
 				target = (Player) activeChar.getTarget();
-
+			
 			if (command.equals("admin_create_item"))
 			{
 				try
 				{
 					final int id = Integer.parseInt(st.nextToken());
-
+					
 					int count = 1;
 					int radius = 0;
-
+					
 					if (st.hasMoreTokens())
 					{
 						count = Integer.parseInt(st.nextToken());
 						if (st.hasMoreTokens())
 							radius = Integer.parseInt(st.nextToken());
 					}
-
+					
 					createItem(activeChar, target, id, count, radius, true);
 				}
 				catch (Exception e)
@@ -108,7 +108,7 @@ public class AdminCreateItem implements IAdminCommandHandler
 						activeChar.sendMessage("Usage: //create_coin <name> [amount]");
 						return false;
 					}
-
+					
 					createItem(activeChar, target, id, (st.hasMoreTokens()) ? Integer.parseInt(st.nextToken()) : 1, 0, true);
 				}
 				catch (Exception e)
@@ -130,18 +130,18 @@ public class AdminCreateItem implements IAdminCommandHandler
 							activeChar.sendMessage("This chest has no set.");
 							return false;
 						}
-
+						
 						for (int itemId : set.getSetItemsId())
 						{
 							if (itemId > 0)
 								target.getInventory().addItem("Admin", itemId, 1, target, activeChar);
 						}
-
+						
 						if (set.getShield() > 0)
 							target.getInventory().addItem("Admin", set.getShield(), 1, target, activeChar);
-
+						
 						activeChar.sendMessage("You have spawned " + set.toString() + " in " + target.getName() + "'s inventory.");
-
+						
 						// Send the whole item list and open inventory window.
 						target.sendPacket(new ItemList(target, true));
 					}
@@ -150,25 +150,25 @@ public class AdminCreateItem implements IAdminCommandHandler
 						activeChar.sendMessage("Usage: //create_set <chestId>");
 					}
 				}
-
+				
 				// Regular case (first HTM with all possible sets).
 				int i = 0;
-
+				
 				final StringBuilder sb = new StringBuilder();
 				for (ArmorSet set : ArmorSetData.getInstance().getSets())
 				{
 					final boolean isNextLine = i % 2 == 0;
 					if (isNextLine)
 						sb.append("<tr>");
-
+					
 					sb.append("<td><a action=\"bypass -h admin_create_set " + set.getSetItemsId()[0] + "\">" + set.toString() + "</a></td>");
-
+					
 					if (isNextLine)
 						sb.append("</tr>");
-
+					
 					i++;
 				}
-
+				
 				final NpcHtmlMessage html = new NpcHtmlMessage(0);
 				html.setFile("data/html/admin/itemsets.htm");
 				html.replace("%sets%", sb.toString());
@@ -177,10 +177,10 @@ public class AdminCreateItem implements IAdminCommandHandler
 			else if (command.equals("admin_clear_all"))
 				removeAllItems(target);
 		}
-
+		
 		return true;
 	}
-
+	
 	private static void createItem(Player activeChar, Player target, int id, int num, int radius, boolean sendGmMessage)
 	{
 		final Item template = ItemTable.getInstance().getTemplate(id);
@@ -189,13 +189,13 @@ public class AdminCreateItem implements IAdminCommandHandler
 			activeChar.sendMessage("This item doesn't exist.");
 			return;
 		}
-
+		
 		if (num > 1 && !template.isStackable())
 		{
 			activeChar.sendMessage("This item doesn't stack - Creation aborted.");
 			return;
 		}
-
+		
 		if (radius > 0)
 		{
 			final List<Player> players = activeChar.getKnownTypeInRadius(Player.class, radius);
@@ -203,7 +203,7 @@ public class AdminCreateItem implements IAdminCommandHandler
 			{
 				obj.addItem("Admin", id, num, activeChar, false);
 			}
-
+			
 			if (sendGmMessage)
 				activeChar.sendMessage(players.size() + " players rewarded with " + num + " " + template.getName() + " in a " + radius + " radius.");
 		}
@@ -212,26 +212,26 @@ public class AdminCreateItem implements IAdminCommandHandler
 			target.getInventory().addItem("Admin", id, num, target, activeChar);
 			if (sendGmMessage)
 				activeChar.sendMessage("You have spawned " + num + " " + template.getName() + " (" + id + ") in " + target.getName() + "'s inventory.");
-
+			
 			// Send the whole item list and open inventory window.
 			target.sendPacket(new ItemList(target, true));
 		}
 	}
-
+	
 	private static int getCoinId(String name)
 	{
 		if (name.equalsIgnoreCase("adena"))
 			return 57;
-
+		
 		if (name.equalsIgnoreCase("ancientadena"))
 			return 5575;
-
+		
 		if (name.equalsIgnoreCase("festivaladena"))
 			return 6673;
-
+		
 		return 0;
 	}
-
+	
 	private static void removeAllItems(final Player activeChar)
 	{
 		for (final ItemInstance item : activeChar.getInventory().getItems())
@@ -242,7 +242,7 @@ public class AdminCreateItem implements IAdminCommandHandler
 		activeChar.sendPacket(new ItemList(activeChar, false));
 		activeChar.sendMessage("Your inventory has been cleared.");
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

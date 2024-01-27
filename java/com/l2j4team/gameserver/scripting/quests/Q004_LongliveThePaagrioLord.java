@@ -12,7 +12,7 @@ import java.util.Map;
 public class Q004_LongliveThePaagrioLord extends Quest
 {
 	private static final String qn = "Q004_LongliveThePaagrioLord";
-
+	
 	private static final Map<Integer, Integer> NPC_GIFTS = new HashMap<>();
 	{
 		NPC_GIFTS.put(30585, 1542);
@@ -22,17 +22,17 @@ public class Q004_LongliveThePaagrioLord extends Quest
 		NPC_GIFTS.put(30559, 1545);
 		NPC_GIFTS.put(30587, 1546);
 	}
-
+	
 	public Q004_LongliveThePaagrioLord()
 	{
 		super(4, "Long live the Pa'agrio Lord!");
-
+		
 		setItemsIds(1541, 1542, 1543, 1544, 1545, 1546);
-
+		
 		addStartNpc(30578); // Nakusin
 		addTalkId(30578, 30585, 30566, 30562, 30560, 30559, 30587);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -40,17 +40,17 @@ public class Q004_LongliveThePaagrioLord extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30578-03.htm"))
 		{
 			st.setState(STATE_STARTED);
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -58,7 +58,7 @@ public class Q004_LongliveThePaagrioLord extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -69,11 +69,11 @@ public class Q004_LongliveThePaagrioLord extends Quest
 				else
 					htmltext = "30578-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				int npcId = npc.getNpcId();
-
+				
 				if (npcId == 30578)
 				{
 					if (cond == 1)
@@ -84,7 +84,7 @@ public class Q004_LongliveThePaagrioLord extends Quest
 						st.giveItems(4, 1);
 						for (int item : NPC_GIFTS.values())
 							st.takeItems(item, -1);
-
+						
 						st.playSound(QuestState.SOUND_FINISH);
 						st.exitQuest(false);
 					}
@@ -98,11 +98,11 @@ public class Q004_LongliveThePaagrioLord extends Quest
 					{
 						st.giveItems(i, 1);
 						htmltext = npcId + "-01.htm";
-
+						
 						int count = 0;
 						for (int item : NPC_GIFTS.values())
 							count += st.getQuestItemsCount(item);
-
+						
 						if (count == 6)
 						{
 							st.set("cond", "2");
@@ -113,12 +113,12 @@ public class Q004_LongliveThePaagrioLord extends Quest
 					}
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

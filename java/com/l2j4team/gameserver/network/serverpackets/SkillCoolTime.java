@@ -9,12 +9,12 @@ import java.util.stream.Collectors;
 public class SkillCoolTime extends L2GameServerPacket
 {
 	public List<TimeStamp> _reuseTimeStamps;
-
+	
 	public SkillCoolTime(Player cha)
 	{
 		_reuseTimeStamps = cha.getReuseTimeStamps().stream().filter(r -> r.hasNotPassed()).collect(Collectors.toList());
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

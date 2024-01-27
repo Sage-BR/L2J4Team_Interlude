@@ -17,20 +17,20 @@ public class Harvester implements IItemHandler
 	{
 		if (!(playable instanceof Player) || !Config.ALLOW_MANOR)
 			return;
-
+		
 		if (!(playable.getTarget() instanceof Monster))
 		{
 			playable.sendPacket(SystemMessageId.INCORRECT_TARGET);
 			return;
 		}
-
+		
 		final Monster _target = (Monster) playable.getTarget();
 		if (_target == null || !_target.isDead())
 		{
 			playable.sendPacket(SystemMessageId.INCORRECT_TARGET);
 			return;
 		}
-
+		
 		final L2Skill skill = SkillTable.getInstance().getInfo(2098, 1);
 		if (skill != null)
 			playable.useMagic(skill, false, false);

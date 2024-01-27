@@ -10,7 +10,7 @@ public class TradeItem
 	private int _enchant;
 	private int _count;
 	private int _price;
-
+	
 	public TradeItem(ItemInstance item, int count, int price)
 	{
 		_objectId = item.getObjectId();
@@ -19,7 +19,7 @@ public class TradeItem
 		_count = count;
 		_price = price;
 	}
-
+	
 	public TradeItem(Item item, int count, int price)
 	{
 		_objectId = 0;
@@ -28,7 +28,7 @@ public class TradeItem
 		_count = count;
 		_price = price;
 	}
-
+	
 	public TradeItem(TradeItem item, int count, int price)
 	{
 		_objectId = item.getObjectId();
@@ -37,47 +37,47 @@ public class TradeItem
 		_count = count;
 		_price = price;
 	}
-
+	
 	public void setObjectId(int objectId)
 	{
 		_objectId = objectId;
 	}
-
+	
 	public int getObjectId()
 	{
 		return _objectId;
 	}
-
+	
 	public Item getItem()
 	{
 		return _item;
 	}
-
+	
 	public void setEnchant(int enchant)
 	{
 		_enchant = enchant;
 	}
-
+	
 	public int getEnchant()
 	{
 		return _enchant;
 	}
-
+	
 	public void setCount(int count)
 	{
 		_count = count;
 	}
-
+	
 	public int getCount()
 	{
 		return _count;
 	}
-
+	
 	public void setPrice(int price)
 	{
 		_price = price;
 	}
-
+	
 	public int getPrice()
 	{
 		return _price;

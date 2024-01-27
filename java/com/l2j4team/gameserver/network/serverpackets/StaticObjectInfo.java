@@ -8,12 +8,12 @@ import com.l2j4team.gameserver.model.actor.instance.StaticObject;
 public class StaticObjectInfo extends L2GameServerPacket
 {
 	private final StaticObject _staticObject;
-
+	
 	public StaticObjectInfo(StaticObject StaticObject)
 	{
 		_staticObject = StaticObject;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

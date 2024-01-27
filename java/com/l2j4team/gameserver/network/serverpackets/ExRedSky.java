@@ -7,12 +7,12 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ExRedSky extends L2GameServerPacket
 {
 	private final int _duration;
-
+	
 	public ExRedSky(int duration)
 	{
 		_duration = duration;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

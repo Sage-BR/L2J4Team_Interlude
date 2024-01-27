@@ -39,12 +39,12 @@ import java.util.Map;
 public class SkillHandler
 {
 	private final Map<Integer, ISkillHandler> _datatable = new HashMap<>();
-
+	
 	public static SkillHandler getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected SkillHandler()
 	{
 		registerSkillHandler(new BalanceLife());
@@ -79,23 +79,23 @@ public class SkillHandler
 		registerSkillHandler(new TakeCastle());
 		registerSkillHandler(new Unlock());
 	}
-
+	
 	public void registerSkillHandler(ISkillHandler handler)
 	{
 		for (L2SkillType t : handler.getSkillIds())
 			_datatable.put(t.ordinal(), handler);
 	}
-
+	
 	public ISkillHandler getSkillHandler(L2SkillType skillType)
 	{
 		return _datatable.get(skillType.ordinal());
 	}
-
+	
 	public int size()
 	{
 		return _datatable.size();
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final SkillHandler _instance = new SkillHandler();

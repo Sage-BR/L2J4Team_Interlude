@@ -16,10 +16,10 @@ import com.l2j4team.commons.random.Rnd;
 public class Q508_AClansReputation extends Quest
 {
 	private static final String qn = "Q508_AClansReputation";
-
+	
 	// NPC
 	private static final int SIR_ERIC_RODEMAI = 30868;
-
+	
 	// Items
 	private static final int NUCLEUS_OF_FLAMESTONE_GIANT = 8494;
 	private static final int THEMIS_SCALE = 8277;
@@ -27,26 +27,26 @@ public class Q508_AClansReputation extends Quest
 	private static final int TIPHON_SHARD = 8280;
 	private static final int GLAKI_NUCLEUS = 8281;
 	private static final int RAHHA_FANG = 8282;
-
+	
 	// Min & Max
 	private static final int MIN_FLAMESTONE_GIANT = Config.MIN_FLAMESTONE_GIANT;
 	private static final int MAX_FLAMESTONE_GIANT = Config.MAX_FLAMESTONE_GIANT;
-
+	
 	private static final int MIN_THEMIS_SCALE = Config.MIN_THEMIS_SCALE;
 	private static final int MAX_THEMIS_SCALE = Config.MAX_THEMIS_SCALE;
-
+	
 	private static final int MIN_HEKATON_PRIME = Config.MIN_HEKATON_PRIME;
 	private static final int MAX_HEKATON_PRIME = Config.MAX_HEKATON_PRIME;
-
+	
 	private static final int MIN_GARGOYLE = Config.MIN_GARGOYLE;
 	private static final int MAX_GARGOYLE = Config.MAX_GARGOYLE;
-
+	
 	private static final int MIN_GLAKI = Config.MIN_GLAKI;
 	private static final int MAX_GLAKI = Config.MAX_GLAKI;
-
+	
 	private static final int MIN_RAHHA = Config.MIN_RAHHA;
 	private static final int MAX_RAHHA = Config.MAX_RAHHA;
-
+	
 	// Raidbosses
 	private static final int FLAMESTONE_GIANT = 25524;
 	private static final int PALIBATI_QUEEN_THEMIS = 25252;
@@ -54,7 +54,7 @@ public class Q508_AClansReputation extends Quest
 	private static final int GARGOYLE_LORD_TIPHON = 25255;
 	private static final int LAST_LESSER_GIANT_GLAKI = 25245;
 	private static final int RAHHA = 25051;
-
+	
 	// Reward list (itemId, minClanPoints, maxClanPoints)
 	private static final int reward_list[][] =
 	{
@@ -95,7 +95,7 @@ public class Q508_AClansReputation extends Quest
 			MAX_FLAMESTONE_GIANT
 		}
 	};
-
+	
 	// Radar
 	private static final int radar[][] =
 	{
@@ -130,19 +130,19 @@ public class Q508_AClansReputation extends Quest
 			-4722
 		}
 	};
-
+	
 	public Q508_AClansReputation()
 	{
 		super(508, "A Clan's Reputation");
-
+		
 		setItemsIds(THEMIS_SCALE, NUCLEUS_OF_HEKATON_PRIME, TIPHON_SHARD, GLAKI_NUCLEUS, RAHHA_FANG, NUCLEUS_OF_FLAMESTONE_GIANT);
-
+		
 		addStartNpc(SIR_ERIC_RODEMAI);
 		addTalkId(SIR_ERIC_RODEMAI);
-
+		
 		addKillId(FLAMESTONE_GIANT, PALIBATI_QUEEN_THEMIS, HEKATON_PRIME, GARGOYLE_LORD_TIPHON, LAST_LESSER_GIANT_GLAKI, RAHHA);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -150,7 +150,7 @@ public class Q508_AClansReputation extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (StringUtil.isDigit(event))
 		{
 			htmltext = "30868-" + event + ".htm";
@@ -158,13 +158,13 @@ public class Q508_AClansReputation extends Quest
 			st.set("cond", "1");
 			st.set("raid", event);
 			st.playSound(QuestState.SOUND_ACCEPT);
-
+			
 			int evt = Integer.parseInt(event);
-
+			
 			int x = radar[evt - 1][0];
 			int y = radar[evt - 1][1];
 			int z = radar[evt - 1][2];
-
+			
 			if (x + y + z > 0)
 				st.addRadar(x, y, z);
 		}
@@ -173,10 +173,10 @@ public class Q508_AClansReputation extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -184,9 +184,9 @@ public class Q508_AClansReputation extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		Clan clan = player.getClan();
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -197,17 +197,17 @@ public class Q508_AClansReputation extends Quest
 				else
 					htmltext = "30868-0c.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int raid = st.getInt("raid");
 				final int item = reward_list[raid - 1][1];
-
+				
 				if (!st.hasQuestItems(item))
 					htmltext = "30868-" + raid + "a.htm";
 				else
 				{
 					final int reward = Rnd.get(reward_list[raid - 1][2], reward_list[raid - 1][3]);
-
+					
 					htmltext = "30868-" + raid + "b.htm";
 					st.takeItems(item, 1);
 					clan.addReputationScore(reward);
@@ -216,10 +216,10 @@ public class Q508_AClansReputation extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
@@ -227,12 +227,12 @@ public class Q508_AClansReputation extends Quest
 		QuestState st = getClanLeaderQuestState(player, npc);
 		if (st == null || !st.isStarted())
 			return null;
-
+		
 		// Reward only if quest is setup on good index.
 		final int raid = st.getInt("raid");
 		if (reward_list[raid - 1][0] == npc.getNpcId())
 			st.dropItemsAlways(reward_list[raid - 1][1], 1, 1);
-
+		
 		return null;
 	}
 }

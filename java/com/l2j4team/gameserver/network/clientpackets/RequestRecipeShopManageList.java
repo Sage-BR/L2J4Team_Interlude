@@ -8,14 +8,14 @@ public final class RequestRecipeShopManageList extends L2GameClientPacket
 	protected void readImpl()
 	{
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		player.tryOpenWorkshop(true);
 	}
 }

@@ -18,39 +18,39 @@ public class EffectCancel extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.CANCEL;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		return cancel(getEffector(), getEffected(), this);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
+	
 	private static boolean cancel(Creature caster, Creature target, L2Effect effect)
 	{
 		if (!(target instanceof Player) || target.isDead())
 			return false;
-
+		
 		final int cancelLvl = effect.getSkill().getMagicLevel();
 		int count = effect.getSkill().getMaxNegatedEffects();
-
+		
 		double rate = effect.getEffectPower();
-
+		
 		// Resistance/vulnerability
 		final double res = Formulas.calcSkillVulnerability(caster, target, effect.getSkill(), effect.getSkillType());
 		rate *= res;
-
+		
 		L2Effect eff;
 		int lastCanceledSkillId = 0;
 		final L2Effect[] effects = target.getAllEffects();
@@ -60,24 +60,24 @@ public class EffectCancel extends L2Effect
 			// first pass - dances/songs only
 			if ((eff == null) || !eff.getSkill().isDance())
 				continue;
-
+			
 			if (eff.getSkill().getId() == lastCanceledSkillId)
 			{
 				eff.exit(); // this skill already canceled
 				continue;
 			}
-
+			
 			if (!calcCancelSuccess(eff, cancelLvl, (int) rate))
 				continue;
-
+			
 			lastCanceledSkillId = eff.getSkill().getId();
 			eff.exit();
 			count--;
-
+			
 			if (count == 0)
 				break;
 		}
-
+		
 		if (count != 0)
 		{
 			lastCanceledSkillId = 0;
@@ -87,38 +87,38 @@ public class EffectCancel extends L2Effect
 				// second pass - all except dances/songs
 				if ((eff == null) || eff.getSkill().isDance())
 					continue;
-
+				
 				if (eff.getSkill().getId() == lastCanceledSkillId)
 				{
 					eff.exit(); // this skill already canceled
 					continue;
 				}
-
+				
 				if (!calcCancelSuccess(eff, cancelLvl, (int) rate))
 					continue;
-
+				
 				lastCanceledSkillId = eff.getSkill().getId();
 				eff.exit();
 				count--;
-
+				
 				if (count == 0)
 					break;
 			}
 		}
 		return true;
 	}
-
+	
 	private static boolean calcCancelSuccess(L2Effect effect, int cancelLvl, int baseRate)
 	{
 		int rate = 2 * (cancelLvl - effect.getSkill().getMagicLevel());
 		rate += effect.getPeriod() / 120;
 		rate += baseRate;
-
+		
 		if (rate < 25)
 			rate = 25;
 		else if (rate > 75)
 			rate = 75;
-
+		
 		return Rnd.get(100) < rate;
 	}
 }

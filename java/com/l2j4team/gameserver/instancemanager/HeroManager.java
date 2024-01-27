@@ -35,16 +35,16 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class HeroManager
 {
 	private static final Logger _log = Logger.getLogger(HeroManager.class.getName());
-
+	
 	private final Map<Integer, Long> _heros;
 	protected final Map<Integer, Long> _herosTask;
 	private ScheduledFuture<?> _scheduler;
-
+	
 	public static HeroManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected HeroManager()
 	{
 		_heros = new ConcurrentHashMap<>();
@@ -52,7 +52,7 @@ public class HeroManager
 		_scheduler = ThreadPool.scheduleAtFixedRate(new HeroTask(), 1000, 1000);
 		load();
 	}
-
+	
 	public void reload()
 	{
 		_heros.clear();
@@ -62,7 +62,7 @@ public class HeroManager
 		_scheduler = ThreadPool.scheduleAtFixedRate(new HeroTask(), 1000, 1000);
 		load();
 	}
-
+	
 	public void load()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -78,16 +78,16 @@ public class HeroManager
 		{
 			_log.warning("Exception: HeroManager load: " + e.getMessage());
 		}
-
+		
 		_log.info("HeroManager: Loaded " + _heros.size() + " characters with hero privileges.");
 	}
-
+	
 	public void addHero(int objectId, long duration)
 	{
 		_heros.put(objectId, duration);
 		_herosTask.put(objectId, duration);
 		addHeroPrivileges(objectId, true);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("INSERT INTO character_hero (objectId, duration) VALUES (?, ?)");
@@ -101,12 +101,12 @@ public class HeroManager
 			_log.warning("Exception: HeroManager addHero: " + e.getMessage());
 		}
 	}
-
+	
 	public void updateHero(int objectId, long duration)
 	{
 		_heros.put(objectId, duration);
 		_herosTask.put(objectId, duration);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("UPDATE character_hero SET duration = ? WHERE objectId = ?");
@@ -120,13 +120,13 @@ public class HeroManager
 			_log.warning("Exception: HeroManager updateHero: " + e.getMessage());
 		}
 	}
-
+	
 	public void removeHero(int objectId)
 	{
 		_heros.remove(objectId);
 		_herosTask.remove(objectId);
 		removeHeroPrivileges(objectId, false);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("DELETE FROM character_hero WHERE objectId = ?");
@@ -139,27 +139,27 @@ public class HeroManager
 			_log.warning("Exception: HeroManager removeHero: " + e.getMessage());
 		}
 	}
-
+	
 	public boolean hasHeroPrivileges(int objectId)
 	{
 		return _heros.containsKey(objectId);
 	}
-
+	
 	public long getHeroDuration(int objectId)
 	{
 		return _heros.get(objectId);
 	}
-
+	
 	public void addHeroTask(int objectId, long duration)
 	{
 		_herosTask.put(objectId, duration);
 	}
-
+	
 	public void removeHeroTask(int objectId)
 	{
 		_herosTask.remove(objectId);
 	}
-
+	
 	public void addHeroPrivileges(int objectId, boolean apply)
 	{
 		final Player player = World.getInstance().getPlayer(objectId);
@@ -168,7 +168,7 @@ public class HeroManager
 		player.broadcastUserInfo();
 		player.addItem("Hero Item", 6842, 1, player, true);
 	}
-
+	
 	public void removeHeroPrivileges(int objectId, boolean apply)
 	{
 		final Player player = World.getInstance().getPlayer(objectId);
@@ -176,7 +176,7 @@ public class HeroManager
 		player.broadcastUserInfo();
 		player.getInventory().destroyItemByItemId("", 6842, 1, player, null);
 	}
-
+	
 	public class HeroTask implements Runnable
 	{
 		@Override
@@ -184,7 +184,7 @@ public class HeroManager
 		{
 			if (_herosTask.isEmpty())
 				return;
-
+			
 			for (Map.Entry<Integer, Long> entry : _herosTask.entrySet())
 			{
 				final long duration = entry.getValue();
@@ -192,14 +192,14 @@ public class HeroManager
 				{
 					final int objectId = entry.getKey();
 					removeHero(objectId);
-
+					
 					final Player player = World.getInstance().getPlayer(objectId);
 					player.sendPacket(new ExShowScreenMessage("Your Hero privileges were removed.", 10000));
 				}
 			}
 		}
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final HeroManager _instance = new HeroManager();

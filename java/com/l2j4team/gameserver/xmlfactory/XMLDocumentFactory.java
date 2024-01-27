@@ -16,9 +16,9 @@ public final class XMLDocumentFactory
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	private final DocumentBuilder _builder;
-
+	
 	protected XMLDocumentFactory() throws Exception
 	{
 		try
@@ -26,7 +26,7 @@ public final class XMLDocumentFactory
 			final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setValidating(false);
 			factory.setIgnoringComments(true);
-
+			
 			_builder = factory.newDocumentBuilder();
 		}
 		catch (Exception e)
@@ -34,29 +34,29 @@ public final class XMLDocumentFactory
 			throw new Exception("Failed initializing", e);
 		}
 	}
-
+	
 	public final Document loadDocument(final String filePath) throws Exception
 	{
 		return loadDocument(new File(filePath));
 	}
-
+	
 	public final Document loadDocument(final File file) throws Exception
 	{
 		if (!file.exists() || !file.isFile())
 			throw new Exception("File: " + file.getAbsolutePath() + " doesn't exist and/or is not a file.");
-
+		
 		return _builder.parse(file);
 	}
-
+	
 	public final Document newDocument()
 	{
 		return _builder.newDocument();
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final XMLDocumentFactory _instance;
-
+		
 		static
 		{
 			try

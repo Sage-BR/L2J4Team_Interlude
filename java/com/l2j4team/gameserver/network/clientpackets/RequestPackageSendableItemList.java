@@ -11,24 +11,24 @@ import com.l2j4team.gameserver.network.serverpackets.PackageSendableList;
 public final class RequestPackageSendableItemList extends L2GameClientPacket
 {
 	private int _objectID;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_objectID = readD();
 	}
-
+	
 	@Override
 	public void runImpl()
 	{
 		final Player player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		final ItemInstance[] items = player.getInventory().getAvailableItems(true, false);
 		if (items == null)
 			return;
-
+		
 		sendPacket(new PackageSendableList(items, _objectID));
 	}
 }

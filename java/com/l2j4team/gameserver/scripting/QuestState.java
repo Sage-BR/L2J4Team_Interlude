@@ -34,7 +34,7 @@ import com.l2j4team.commons.random.Rnd;
 public final class QuestState
 {
 	protected static final Logger _log = Logger.getLogger(Quest.class.getName());
-
+	
 	public static final String SOUND_ACCEPT = "ItemSound.quest_accept";
 	public static final String SOUND_ITEMGET = "ItemSound.quest_itemget";
 	public static final String SOUND_MIDDLE = "ItemSound.quest_middle";
@@ -43,22 +43,22 @@ public final class QuestState
 	public static final String SOUND_JACKPOT = "ItemSound.quest_jackpot";
 	public static final String SOUND_FANFARE = "ItemSound.quest_fanfare_2";
 	public static final String SOUND_BEFORE_BATTLE = "Itemsound.quest_before_battle";
-
+	
 	private static final String QUEST_SET_VAR = "REPLACE INTO character_quests (charId,name,var,value) VALUES (?,?,?,?)";
 	private static final String QUEST_DEL_VAR = "DELETE FROM character_quests WHERE charId=? AND name=? AND var=?";
 	private static final String QUEST_DELETE = "DELETE FROM character_quests WHERE charId=? AND name=?";
 	private static final String QUEST_COMPLETE = "DELETE FROM character_quests WHERE charId=? AND name=? AND var<>'<state>'";
-
+	
 	public static final byte DROP_DIVMOD = 0;
 	public static final byte DROP_FIXED_RATE = 1;
 	public static final byte DROP_FIXED_COUNT = 2;
 	public static final byte DROP_FIXED_BOTH = 3;
-
+	
 	private final Player _player;
 	private final Quest _quest;
 	private byte _state;
 	private final Map<String, String> _vars = new HashMap<>();
-
+	
 	/**
 	 * Constructor of the QuestState : save the quest in the list of quests of the player.<BR/>
 	 * <BR/>
@@ -75,10 +75,10 @@ public final class QuestState
 		_player = player;
 		_quest = quest;
 		_state = state;
-
+		
 		_player.setQuestState(this);
 	}
-
+	
 	/**
 	 * Return the Player
 	 * @return Player
@@ -87,7 +87,7 @@ public final class QuestState
 	{
 		return _player;
 	}
-
+	
 	/**
 	 * Return the quest
 	 * @return Quest
@@ -96,7 +96,7 @@ public final class QuestState
 	{
 		return _quest;
 	}
-
+	
 	/**
 	 * Return the state of the quest
 	 * @return State
@@ -105,7 +105,7 @@ public final class QuestState
 	{
 		return _state;
 	}
-
+	
 	/**
 	 * Return true if quest just created, false otherwise
 	 * @return
@@ -114,7 +114,7 @@ public final class QuestState
 	{
 		return (_state == Quest.STATE_CREATED);
 	}
-
+	
 	/**
 	 * Return true if quest completed, false otherwise
 	 * @return boolean
@@ -123,7 +123,7 @@ public final class QuestState
 	{
 		return (_state == Quest.STATE_COMPLETED);
 	}
-
+	
 	/**
 	 * Return true if quest started, false otherwise
 	 * @return boolean
@@ -132,7 +132,7 @@ public final class QuestState
 	{
 		return (_state == Quest.STATE_STARTED);
 	}
-
+	
 	/**
 	 * Set state of the quest.
 	 * <ul>
@@ -149,13 +149,13 @@ public final class QuestState
 		if (_state != state)
 		{
 			_state = state;
-
+			
 			setQuestVarInDb("<state>", String.valueOf(_state));
-
+			
 			_player.sendPacket(new QuestList(_player));
 		}
 	}
-
+	
 	/**
 	 * Destroy element used by quest when quest is exited
 	 * @param repeatable
@@ -164,10 +164,10 @@ public final class QuestState
 	{
 		if (!isStarted())
 			return;
-
+		
 		// Remove quest from player's notifyDeath list.
 		_player.removeNotifyQuestOfDeath(this);
-
+		
 		// Remove/Complete quest.
 		if (repeatable)
 		{
@@ -176,10 +176,10 @@ public final class QuestState
 		}
 		else
 			setState(Quest.STATE_COMPLETED);
-
+		
 		// Remove quest variables.
 		_vars.clear();
-
+		
 		// Remove registered quest items.
 		int[] itemIdList = _quest.getItemsIds();
 		if (itemIdList != null)
@@ -187,7 +187,7 @@ public final class QuestState
 			for (int itemId : itemIdList)
 				takeItems(itemId, -1);
 		}
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement;
@@ -195,7 +195,7 @@ public final class QuestState
 				statement = con.prepareStatement(QUEST_DELETE);
 			else
 				statement = con.prepareStatement(QUEST_COMPLETE);
-
+			
 			statement.setInt(1, _player.getObjectId());
 			statement.setString(2, _quest.getName());
 			statement.executeUpdate();
@@ -206,7 +206,7 @@ public final class QuestState
 			_log.log(Level.WARNING, "could not delete char quest:", e);
 		}
 	}
-
+	
 	/**
 	 * Add player to get notification of characters death
 	 */
@@ -215,7 +215,7 @@ public final class QuestState
 		if (_player != null)
 			_player.addNotifyQuestOfDeath(this);
 	}
-
+	
 	/**
 	 * Return value of parameter "val" after adding the couple (var,val) in class variable "vars".<BR>
 	 * <BR>
@@ -232,12 +232,12 @@ public final class QuestState
 	{
 		if (var == null || var.isEmpty() || value == null || value.isEmpty())
 			return;
-
+		
 		// FastMap.put() returns previous value associated with specified key, or null if there was no mapping for key.
 		String old = _vars.put(var, value);
-
+		
 		setQuestVarInDb(var, value);
-
+		
 		if ("cond".equals(var))
 		{
 			try
@@ -259,7 +259,7 @@ public final class QuestState
 			}
 		}
 	}
-
+	
 	/**
 	 * Add parameter used in quests.
 	 * @param var : String pointing out the name of the variable for quest
@@ -269,10 +269,10 @@ public final class QuestState
 	{
 		if (var == null || var.isEmpty() || value == null || value.isEmpty())
 			return;
-
+		
 		_vars.put(var, value);
 	}
-
+	
 	/**
 	 * Internally handles the progression of the quest so that it is ready for sending appropriate packets to the client<BR>
 	 * <BR>
@@ -290,9 +290,9 @@ public final class QuestState
 		// if there is no change since last setting, there is nothing to do here
 		if (cond == old)
 			return;
-
+		
 		int completedStateFlags = 0;
-
+		
 		// cond 0 and 1 do not need completedStateFlags. Also, if cond > 1, the 1st step must
 		// always exist (i.e. it can never be skipped). So if cond is 2, we can still safely
 		// assume no steps have been skipped.
@@ -301,14 +301,14 @@ public final class QuestState
 			unset("__compltdStateFlags");
 		else
 			completedStateFlags = getInt("__compltdStateFlags");
-
+		
 		// case 1: No steps have been skipped so far...
 		if (completedStateFlags == 0)
 		{
 			// check if this step also doesn't skip anything. If so, no further work is needed
 			// also, in this case, no work is needed if the state is being reset to a smaller value
 			// in those cases, skip forward to informing the client about the change...
-
+			
 			// ELSE, if we just now skipped for the first time...prepare the flags!!!
 			if (cond > (old + 1))
 			{
@@ -316,11 +316,11 @@ public final class QuestState
 				// also, ensure that the least significant bit is an 1 (the first step is never skipped, no matter
 				// what the cond says)
 				completedStateFlags = 0x80000001;
-
+				
 				// since no flag had been skipped until now, the least significant bits must all
 				// be set to 1, up until "old" number of bits.
 				completedStateFlags |= ((1 << old) - 1);
-
+				
 				// now, just set the bit corresponding to the passed cond to 1 (current step)
 				completedStateFlags |= (1 << (cond - 1));
 				set("__compltdStateFlags", String.valueOf(completedStateFlags));
@@ -333,7 +333,7 @@ public final class QuestState
 			if (cond < old)
 			{
 				completedStateFlags &= ((1 << cond) - 1); // note, this also unsets the flag indicating that there exist skips
-
+				
 				// now, check if this resulted in no steps being skipped any more
 				if (completedStateFlags == ((1 << cond) - 1))
 					unset("__compltdStateFlags");
@@ -354,14 +354,14 @@ public final class QuestState
 				set("__compltdStateFlags", String.valueOf(completedStateFlags));
 			}
 		}
-
+		
 		// send a packet to the client to inform it of the quest progress (step change)
 		_player.sendPacket(new QuestList(_player));
-
+		
 		if (_quest.isRealQuest() && cond > 0)
 			_player.sendPacket(new ExShowQuestMark(_quest.getQuestId()));
 	}
-
+	
 	/**
 	 * Remove the variable of quest from the list of variables for the quest.<BR>
 	 * <BR>
@@ -373,7 +373,7 @@ public final class QuestState
 		if (_vars.remove(var) != null)
 			removeQuestVarInDb(var);
 	}
-
+	
 	/**
 	 * Return the value of the variable of quest represented by "var"
 	 * @param var : name of the variable of quest
@@ -383,7 +383,7 @@ public final class QuestState
 	{
 		return _vars.get(var);
 	}
-
+	
 	/**
 	 * Return the value of the variable of quest represented by "var"
 	 * @param var : String designating the variable for the quest
@@ -394,7 +394,7 @@ public final class QuestState
 		final String variable = _vars.get(var);
 		if (variable == null || variable.isEmpty())
 			return 0;
-
+		
 		int value = 0;
 		try
 		{
@@ -404,10 +404,10 @@ public final class QuestState
 		{
 			_log.log(Level.FINER, _player.getName() + ": variable " + var + " isn't an integer: " + value + " ! " + e.getMessage(), e);
 		}
-
+		
 		return value;
 	}
-
+	
 	/**
 	 * Set in the database the quest for the player.
 	 * @param var : String designating the name of the variable for the quest
@@ -430,7 +430,7 @@ public final class QuestState
 			_log.log(Level.WARNING, "could not insert char quest:", e);
 		}
 	}
-
+	
 	/**
 	 * Delete a variable of player's quest from the database.
 	 * @param var : String designating the variable characterizing the quest
@@ -451,7 +451,7 @@ public final class QuestState
 			_log.log(Level.WARNING, "could not delete char quest:", e);
 		}
 	}
-
+	
 	/**
 	 * Check for an item in player's inventory.
 	 * @param itemId the ID of the item to check for
@@ -461,7 +461,7 @@ public final class QuestState
 	{
 		return _player.getInventory().getItemByItemId(itemId) != null;
 	}
-
+	
 	/**
 	 * Check for multiple items in player's inventory.
 	 * @param itemIds a list of item IDs to check for
@@ -477,7 +477,7 @@ public final class QuestState
 		}
 		return true;
 	}
-
+	
 	/**
 	 * Check if player possesses at least one given item.
 	 * @param itemIds a list of item IDs to check for
@@ -487,7 +487,7 @@ public final class QuestState
 	{
 		return _player.getInventory().hasAtLeastOneItem(itemIds);
 	}
-
+	
 	/**
 	 * @param itemId : ID of the item wanted to be count
 	 * @return the quantity of one sort of item hold by the player
@@ -495,14 +495,14 @@ public final class QuestState
 	public int getQuestItemsCount(int itemId)
 	{
 		int count = 0;
-
+		
 		for (ItemInstance item : _player.getInventory().getItems())
 			if (item != null && item.getItemId() == itemId)
 				count += item.getCount();
-
+			
 		return count;
 	}
-
+	
 	/**
 	 * @param loc A paperdoll slot to check.
 	 * @return the id of the item in the loc paperdoll slot.
@@ -511,7 +511,7 @@ public final class QuestState
 	{
 		return _player.getInventory().getPaperdollItemId(loc);
 	}
-
+	
 	/**
 	 * Return the level of enchantment on the weapon of the player(Done specifically for weapon SA's)
 	 * @param itemId : ID of the item to check enchantment
@@ -522,10 +522,10 @@ public final class QuestState
 		final ItemInstance enchanteditem = _player.getInventory().getItemByItemId(itemId);
 		if (enchanteditem == null)
 			return 0;
-
+		
 		return enchanteditem.getEnchantLevel();
 	}
-
+	
 	/**
 	 * Give items to the player's inventory.
 	 * @param itemId : Identifier of the item.
@@ -535,7 +535,7 @@ public final class QuestState
 	{
 		giveItems(itemId, itemCount, 0);
 	}
-
+	
 	/**
 	 * Give items to the player's inventory.
 	 * @param itemId : Identifier of the item.
@@ -547,16 +547,16 @@ public final class QuestState
 		// Incorrect amount.
 		if (itemCount <= 0)
 			return;
-
+		
 		// Add items to player's inventory.
 		final ItemInstance item = _player.getInventory().addItem("Quest", itemId, itemCount, _player, _player);
 		if (item == null)
 			return;
-
+		
 		// Set enchant level for the item.
 		if (enchantLevel > 0)
 			item.setEnchantLevel(enchantLevel);
-
+		
 		// Send message to the client.
 		if (itemId == 57)
 		{
@@ -580,13 +580,13 @@ public final class QuestState
 				_player.sendPacket(smsg);
 			}
 		}
-
+		
 		// Send status update packet.
 		StatusUpdate su = new StatusUpdate(_player);
 		su.addAttribute(StatusUpdate.CUR_LOAD, _player.getCurrentLoad());
 		_player.sendPacket(su);
 	}
-
+	
 	/**
 	 * Remove items from the player's inventory.
 	 * @param itemId : Identifier of the item.
@@ -598,11 +598,11 @@ public final class QuestState
 		final ItemInstance item = _player.getInventory().getItemByItemId(itemId);
 		if (item == null)
 			return;
-
+		
 		// Tests on count value and set correct value if necessary.
 		if (itemCount < 0 || itemCount > item.getCount())
 			itemCount = item.getCount();
-
+		
 		// Disarm item, if equipped.
 		if (item.isEquipped())
 		{
@@ -610,15 +610,15 @@ public final class QuestState
 			InventoryUpdate iu = new InventoryUpdate();
 			for (ItemInstance itm : unequiped)
 				iu.addModifiedItem(itm);
-
+			
 			_player.sendPacket(iu);
 			_player.broadcastUserInfo();
 		}
-
+		
 		// Destroy the quantity of items wanted.
 		_player.destroyItemByItemId("Quest", itemId, itemCount, _player, true);
 	}
-
+	
 	/**
 	 * Drop items to the player's inventory. Rate is 100%, amount is affected by Config.RATE_QUEST_DROP.
 	 * @param itemId : Identifier of the item to be dropped.
@@ -630,7 +630,7 @@ public final class QuestState
 	{
 		return dropItems(itemId, count, neededCount, DropData.MAX_CHANCE, DROP_FIXED_RATE);
 	}
-
+	
 	/**
 	 * Drop items to the player's inventory. Rate and amount is affected by DIVMOD of Config.RATE_QUEST_DROP.
 	 * @param itemId : Identifier of the item to be dropped.
@@ -643,7 +643,7 @@ public final class QuestState
 	{
 		return dropItems(itemId, count, neededCount, dropChance, DROP_DIVMOD);
 	}
-
+	
 	/**
 	 * Drop items to the player's inventory.
 	 * @param itemId : Identifier of the item to be dropped.
@@ -657,11 +657,11 @@ public final class QuestState
 	{
 		// Get current amount of item.
 		final int currentCount = getQuestItemsCount(itemId);
-
+		
 		// Required amount reached already?
 		if (neededCount > 0 && currentCount >= neededCount)
 			return true;
-
+		
 		int amount = 0;
 		switch (type)
 		{
@@ -671,23 +671,23 @@ public final class QuestState
 				if (Rnd.get(DropData.MAX_CHANCE) < dropChance % DropData.MAX_CHANCE)
 					amount += count;
 				break;
-
+			
 			case DROP_FIXED_RATE:
 				if (Rnd.get(DropData.MAX_CHANCE) < dropChance)
 					amount = (int) (count * Config.RATE_QUEST_DROP);
 				break;
-
+			
 			case DROP_FIXED_COUNT:
 				if (Rnd.get(DropData.MAX_CHANCE) < dropChance * Config.RATE_QUEST_DROP)
 					amount = count;
 				break;
-
+			
 			case DROP_FIXED_BOTH:
 				if (Rnd.get(DropData.MAX_CHANCE) < dropChance)
 					amount = count;
 				break;
 		}
-
+		
 		boolean reached = false;
 		if (amount > 0)
 		{
@@ -697,21 +697,21 @@ public final class QuestState
 				reached = (currentCount + amount) >= neededCount;
 				amount = (reached) ? neededCount - currentCount : amount;
 			}
-
+			
 			// Inventory slot check.
 			if (!_player.getInventory().validateCapacityByItemId(itemId))
 				return false;
-
+			
 			// Give items to the player.
 			giveItems(itemId, amount, 0);
-
+			
 			// Play the sound.
 			playSound(reached ? SOUND_MIDDLE : SOUND_ITEMGET);
 		}
-
+		
 		return neededCount > 0 && reached;
 	}
-
+	
 	/**
 	 * Drop multiple items to the player's inventory. Rate and amount is affected by DIVMOD of Config.RATE_QUEST_DROP.
 	 * @param rewardsInfos : Infos regarding drops (itemId, count, neededCount, dropChance).
@@ -721,7 +721,7 @@ public final class QuestState
 	{
 		return dropMultipleItems(rewardsInfos, DROP_DIVMOD);
 	}
-
+	
 	/**
 	 * Drop items to the player's inventory.
 	 * @param rewardsInfos : Infos regarding drops (itemId, count, neededCount, dropChance).
@@ -732,26 +732,26 @@ public final class QuestState
 	{
 		// Used for the sound.
 		boolean sendSound = false;
-
+		
 		// Used for the reached state.
 		boolean reached = true;
-
+		
 		// For each reward type, calculate the probability of drop.
 		for (int[] info : rewardsInfos)
 		{
 			final int itemId = info[0];
 			final int currentCount = getQuestItemsCount(itemId);
 			final int neededCount = info[2];
-
+			
 			// Required amount reached already?
 			if (neededCount > 0 && currentCount >= neededCount)
 				continue;
-
+			
 			final int count = info[1];
-
+			
 			int dropChance = info[3];
 			int amount = 0;
-
+			
 			switch (type)
 			{
 				case DROP_DIVMOD:
@@ -760,52 +760,52 @@ public final class QuestState
 					if (Rnd.get(DropData.MAX_CHANCE) < dropChance % DropData.MAX_CHANCE)
 						amount += count;
 					break;
-
+				
 				case DROP_FIXED_RATE:
 					if (Rnd.get(DropData.MAX_CHANCE) < dropChance)
 						amount = (int) (count * Config.RATE_QUEST_DROP);
 					break;
-
+				
 				case DROP_FIXED_COUNT:
 					if (Rnd.get(DropData.MAX_CHANCE) < dropChance * Config.RATE_QUEST_DROP)
 						amount = count;
 					break;
-
+				
 				case DROP_FIXED_BOTH:
 					if (Rnd.get(DropData.MAX_CHANCE) < dropChance)
 						amount = count;
 					break;
 			}
-
+			
 			if (amount > 0)
 			{
 				// Limit count to reach required amount.
 				if (neededCount > 0)
 					amount = ((currentCount + amount) >= neededCount) ? neededCount - currentCount : amount;
-
+				
 				// Inventory slot check.
 				if (!_player.getInventory().validateCapacityByItemId(itemId))
 					continue;
-
+				
 				// Give items to the player.
 				giveItems(itemId, amount, 0);
-
+				
 				// Send sound.
 				sendSound = true;
-
+				
 				// Illimited needed count or current count being inferior to needed count means the state isn't reached.
 				if (neededCount <= 0 || ((currentCount + amount) < neededCount))
 					reached = false;
 			}
 		}
-
+		
 		// Play the sound.
 		if (sendSound)
 			playSound((reached) ? SOUND_MIDDLE : SOUND_ITEMGET);
-
+		
 		return reached;
 	}
-
+	
 	/**
 	 * Reward player with items. The amount is affected by Config.RATE_QUEST_REWARD or Config.RATE_QUEST_REWARD_ADENA.
 	 * @param itemId : Identifier of the item.
@@ -818,7 +818,7 @@ public final class QuestState
 		else
 			giveItems(itemId, (int) (itemCount * Config.RATE_QUEST_REWARD), 0);
 	}
-
+	
 	/**
 	 * Reward player with EXP and SP. The amount is affected by Config.RATE_QUEST_REWARD_XP and Config.RATE_QUEST_REWARD_SP
 	 * @param exp : Experience amount.
@@ -828,27 +828,27 @@ public final class QuestState
 	{
 		_player.addExpAndSp((long) (exp * Config.RATE_QUEST_REWARD_XP), (int) (sp * Config.RATE_QUEST_REWARD_SP));
 	}
-
+	
 	// TODO: More radar functions need to be added when the radar class is complete.
 	// BEGIN STUFF THAT WILL PROBABLY BE CHANGED
-
+	
 	public void addRadar(int x, int y, int z)
 	{
 		_player.getRadar().addMarker(x, y, z);
 	}
-
+	
 	public void removeRadar(int x, int y, int z)
 	{
 		_player.getRadar().removeMarker(x, y, z);
 	}
-
+	
 	public void clearRadar()
 	{
 		_player.getRadar().removeAllMarkers();
 	}
-
+	
 	// END STUFF THAT WILL PROBABLY BE CHANGED
-
+	
 	/**
 	 * Send a packet in order to play sound at client terminal
 	 * @param sound
@@ -857,27 +857,27 @@ public final class QuestState
 	{
 		_player.sendPacket(new PlaySound(sound));
 	}
-
+	
 	public void showQuestionMark(int number)
 	{
 		_player.sendPacket(new TutorialShowQuestionMark(number));
 	}
-
+	
 	public void playTutorialVoice(String voice)
 	{
 		_player.sendPacket(new PlaySound(2, voice, _player));
 	}
-
+	
 	public void showTutorialHTML(String html)
 	{
 		_player.sendPacket(new TutorialShowHtml(HtmCache.getInstance().getHtmForce("data/html/scripts/quests/Tutorial/" + html)));
 	}
-
+	
 	public void closeTutorialHtml()
 	{
 		_player.sendPacket(TutorialCloseHtml.STATIC_PACKET);
 	}
-
+	
 	public void onTutorialClientEvent(int number)
 	{
 		_player.sendPacket(new TutorialEnableClientEvent(number));

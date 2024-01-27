@@ -23,7 +23,7 @@ public enum L2EffectFlag
 	BETRAYED,
 	MEDITATING,
 	PARALYZED;
-
+	
 	public int getMask()
 	{
 		return 1 << ordinal();

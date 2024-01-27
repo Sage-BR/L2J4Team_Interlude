@@ -13,13 +13,13 @@ public class Mount implements IUserCommandHandler
 	{
 		61
 	};
-
+	
 	@Override
 	public boolean useUserCommand(int id, Player activeChar)
 	{
 		return activeChar.mountPlayer(activeChar.getPet());
 	}
-
+	
 	@Override
 	public int[] getUserCommandList()
 	{

@@ -29,26 +29,26 @@ import com.l2j4team.gameserver.network.serverpackets.SystemMessage;
 public final class RequestAnswerJoinParty extends L2GameClientPacket
 {
 	private int _response;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_response = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		final Player requestor = player.getActiveRequester();
 		if (requestor == null)
 			return;
-
+		
 		requestor.sendPacket(new JoinParty(_response));
-
+		
 		if (_response == 1)
 		{
 			if (requestor.isInParty())
@@ -62,7 +62,7 @@ public final class RequestAnswerJoinParty extends L2GameClientPacket
 				}
 			}
 			player.joinParty(requestor.getParty());
-
+			
 			if (requestor.isInPartyMatchRoom() && player.isInPartyMatchRoom())
 			{
 				final PartyMatchRoomList list = PartyMatchRoomList.getInstance();
@@ -107,10 +107,10 @@ public final class RequestAnswerJoinParty extends L2GameClientPacket
 			if (requestor.isInParty() && requestor.getParty().getMemberCount() == 1)
 				requestor.getParty().removePartyMember(requestor, MessageType.None);
 		}
-
+		
 		if (requestor.isInParty())
 			requestor.getParty().setPendingInvitation(false);
-
+		
 		player.setActiveRequester(null);
 		requestor.onTransactionResponse();
 	}

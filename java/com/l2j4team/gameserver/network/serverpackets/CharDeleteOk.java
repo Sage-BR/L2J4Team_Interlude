@@ -3,11 +3,11 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class CharDeleteOk extends L2GameServerPacket
 {
 	public static final CharDeleteOk STATIC_PACKET = new CharDeleteOk();
-
+	
 	private CharDeleteOk()
 	{
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

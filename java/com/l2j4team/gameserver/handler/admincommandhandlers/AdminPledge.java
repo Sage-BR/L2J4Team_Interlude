@@ -31,7 +31,7 @@ public class AdminPledge implements IAdminCommandHandler
 	{
 		"admin_pledge"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -42,7 +42,7 @@ public class AdminPledge implements IAdminCommandHandler
 			showMainPage(activeChar);
 			return false;
 		}
-
+		
 		if (command.startsWith("admin_pledge"))
 		{
 			StringTokenizer st = new StringTokenizer(command, " ");
@@ -51,13 +51,13 @@ public class AdminPledge implements IAdminCommandHandler
 				st.nextToken();
 				final String action = st.nextToken();
 				final Player player = (Player) target;
-
+				
 				if (action.equals("create"))
 				{
 					try
 					{
 						final String parameter = st.nextToken();
-
+						
 						long cet = player.getClanCreateExpiryTime();
 						player.setClanCreateExpiryTime(0);
 						Clan clan = ClanTable.getInstance().createClan(player, parameter);
@@ -82,11 +82,11 @@ public class AdminPledge implements IAdminCommandHandler
 						showMainPage(activeChar);
 						return false;
 					}
-
+					
 					if (action.equals("dismiss"))
 					{
 						ClanTable.getInstance().destroyClan(player.getClanId());
-
+						
 						if (player.getClan() == null)
 							activeChar.sendMessage("The clan is now disbanded.");
 						else
@@ -99,7 +99,7 @@ public class AdminPledge implements IAdminCommandHandler
 						try
 						{
 							final int level = Integer.parseInt(st.nextToken());
-
+							
 							if (level >= 0 && level < 9)
 							{
 								player.getClan().changeLevel(level);
@@ -119,14 +119,14 @@ public class AdminPledge implements IAdminCommandHandler
 						{
 							final int points = Integer.parseInt(st.nextToken());
 							final Clan clan = player.getClan();
-
+							
 							if (clan.getLevel() < 5)
 							{
 								activeChar.sendMessage("Only clans of level 5 or above may receive reputation points.");
 								showMainPage(activeChar);
 								return false;
 							}
-
+							
 							clan.addReputationScore(points);
 							activeChar.sendMessage("You " + (points > 0 ? "added " : "removed ") + Math.abs(points) + " points " + (points > 0 ? "to " : "from ") + clan.getName() + "'s reputation. Their current score is: " + clan.getReputationScore());
 						}
@@ -145,13 +145,13 @@ public class AdminPledge implements IAdminCommandHandler
 		showMainPage(activeChar);
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 	private static void showMainPage(Player activeChar)
 	{
 		AdminHelpPage.showHelpPage(activeChar, "game_menu.htm");

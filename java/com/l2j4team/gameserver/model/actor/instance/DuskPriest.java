@@ -13,7 +13,7 @@ public class DuskPriest extends SignsPriest
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
@@ -22,16 +22,16 @@ public class DuskPriest extends SignsPriest
 		else
 			super.onBypassFeedback(player, command);
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
-
+		
 		String filename = SevenSigns.SEVEN_SIGNS_HTML_PATH;
-
+		
 		final CabalType winningCabal = SevenSigns.getInstance().getCabalHighestScore();
-
+		
 		switch (SevenSigns.getInstance().getPlayerCabal(player.getObjectId()))
 		{
 			case DUSK:
@@ -56,14 +56,14 @@ public class DuskPriest extends SignsPriest
 				else
 					filename += "dusk_priest_1b.htm";
 				break;
-
+			
 			case DAWN:
 				if (SevenSigns.getInstance().isSealValidationPeriod())
 					filename += "dusk_priest_3a.htm";
 				else
 					filename += "dusk_priest_3b.htm";
 				break;
-
+			
 			default:
 				if (SevenSigns.getInstance().isCompResultsPeriod())
 					filename += "dusk_priest_5.htm";
@@ -82,7 +82,7 @@ public class DuskPriest extends SignsPriest
 					filename += "dusk_priest_1a.htm";
 				break;
 		}
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", getObjectId());

@@ -37,34 +37,34 @@ public class AugmentationData extends XMLDocument
 	private static final int STAT_BLOCKSIZE = 3640;
 	private static final int STAT_SUBBLOCKSIZE = 91;
 	private static final int STAT_NUM = 13;
-
+	
 	private static final byte[] STATS1_MAP = new byte[STAT_SUBBLOCKSIZE];
 	private static final byte[] STATS2_MAP = new byte[STAT_SUBBLOCKSIZE];
-
+	
 	// skills
 	private static final int BLUE_START = 14561;
 	private static final int SKILLS_BLOCKSIZE = 178;
-
+	
 	// basestats
 	private static final int BASESTAT_STR = 16341;
 	private static final int BASESTAT_CON = 16342;
 	private static final int BASESTAT_INT = 16343;
 	private static final int BASESTAT_MEN = 16344;
-
+	
 	private final List<List<AugmentationStat>> _augStats = new ArrayList<>(4);
-
+	
 	private final List<List<Integer>> _blueSkills = new ArrayList<>(10);
 	private final List<List<Integer>> _purpleSkills = new ArrayList<>(10);
 	private final List<List<Integer>> _redSkills = new ArrayList<>(10);
-
+	
 	private final Map<Integer, IntIntHolder> _allSkills = new HashMap<>();
-
+	
 	protected AugmentationData()
 	{
 		// Lookup tables structure: STAT1 represent first stat, STAT2 - second.
 		// If both values are the same - use solo stat, if different - combined.
 		byte idx;
-
+		
 		// weapon augmentation block: solo values first
 		for (idx = 0; idx < STAT_NUM; idx++)
 		{
@@ -72,7 +72,7 @@ public class AugmentationData extends XMLDocument
 			STATS1_MAP[idx] = idx;
 			STATS2_MAP[idx] = idx;
 		}
-
+		
 		// combined values next.
 		for (int i = 0; i < STAT_NUM; i++)
 		{
@@ -83,26 +83,26 @@ public class AugmentationData extends XMLDocument
 				STATS2_MAP[idx] = (byte) j;
 			}
 		}
-
+		
 		for (int i = 0; i < 4; i++)
 			_augStats.add(new ArrayList<>());
-
+		
 		for (int i = 0; i < 10; i++)
 		{
 			_blueSkills.add(new ArrayList<>());
 			_purpleSkills.add(new ArrayList<>());
 			_redSkills.add(new ArrayList<>());
 		}
-
+		
 		load();
 	}
-
+	
 	@Override
 	protected void load()
 	{
 		loadDocument("./data/xml/augmentation");
 		LOGGER.info("Loaded {} sets of augmentation stats.", _augStats.size());
-
+		
 		int blue = 0, purple = 0, red = 0;
 		for (int i = 0; i < 10; i++)
 		{
@@ -112,13 +112,13 @@ public class AugmentationData extends XMLDocument
 		}
 		LOGGER.info("Loaded {} blue, {} purple and {} red Life-Stone skills.", blue, purple, red);
 	}
-
+	
 	@Override
 	protected void parseDocument(Document doc, File file)
 	{
 		// First element is never read.
 		final Node n = doc.getFirstChild();
-
+		
 		for (Node o = n.getFirstChild(); o != null; o = o.getNextSibling())
 		{
 			// Load the skillmap
@@ -128,7 +128,7 @@ public class AugmentationData extends XMLDocument
 				int skillId = 0, augmentationId = Integer.parseInt(attrs.getNamedItem("id").getNodeValue());
 				int skillLvL = 0;
 				String type = "blue";
-
+				
 				for (Node d = o.getFirstChild(); d != null; d = d.getNextSibling())
 				{
 					if ("skillId".equalsIgnoreCase(d.getNodeName()))
@@ -147,29 +147,29 @@ public class AugmentationData extends XMLDocument
 						type = attrs.getNamedItem("val").getNodeValue();
 					}
 				}
-
+				
 				if (skillId == 0 || skillLvL == 0)
 					continue;
-
+				
 				int k = (augmentationId - BLUE_START) / SKILLS_BLOCKSIZE;
-
+				
 				if ("blue".equalsIgnoreCase(type))
 					_blueSkills.get(k).add(augmentationId);
 				else if ("purple".equalsIgnoreCase(type))
 					_purpleSkills.get(k).add(augmentationId);
 				else
 					_redSkills.get(k).add(augmentationId);
-
+				
 				_allSkills.put(augmentationId, new IntIntHolder(skillId, skillLvL));
 			}
 			else if ("set".equalsIgnoreCase(o.getNodeName()))
 			{
 				NamedNodeMap attrs = o.getAttributes();
 				int order = Integer.parseInt(attrs.getNamedItem("order").getNodeValue());
-
+				
 				// Retrieve _augStats line to feed it.
 				final List<AugmentationStat> statList = _augStats.get(order);
-
+				
 				for (Node d = o.getFirstChild(); d != null; d = d.getNextSibling())
 				{
 					if ("stat".equalsIgnoreCase(d.getNodeName()))
@@ -177,19 +177,19 @@ public class AugmentationData extends XMLDocument
 						attrs = d.getAttributes();
 						String statName = attrs.getNamedItem("name").getNodeValue();
 						float soloValues[] = null, combinedValues[] = null;
-
+						
 						for (Node e = d.getFirstChild(); e != null; e = e.getNextSibling())
 						{
 							if ("table".equalsIgnoreCase(e.getNodeName()))
 							{
 								attrs = e.getAttributes();
 								String tableName = attrs.getNamedItem("name").getNodeValue();
-
+								
 								StringTokenizer data = new StringTokenizer(e.getFirstChild().getNodeValue());
 								List<Float> array = new ArrayList<>();
 								while (data.hasMoreTokens())
 									array.add(Float.parseFloat(data.nextToken()));
-
+								
 								if ("#soloValues".equalsIgnoreCase(tableName))
 								{
 									soloValues = new float[array.size()];
@@ -206,7 +206,7 @@ public class AugmentationData extends XMLDocument
 								}
 							}
 						}
-
+						
 						// store this stat ; as the List is now not fed, we have to generate nested List if not already existing.
 						statList.add(new AugmentationStat(Stats.valueOfXml(statName), soloValues, combinedValues));
 					}
@@ -214,14 +214,14 @@ public class AugmentationData extends XMLDocument
 			}
 		}
 	}
-
+	
 	public L2Augmentation generateRandomAugmentation(int lifeStoneLevel, int lifeStoneGrade)
 	{
 		// Note that stat12 stands for stat 1 AND 2 (same for stat34 ;p )
 		// this is because a value can contain up to 2 stat modifications
 		// (there are two short values packed in one integer value, meaning 4 stat modifications at max)
 		// for more info take a look at getAugStatsById(...)
-
+		
 		// Note: lifeStoneGrade: (0 means low grade, 3 top grade)
 		// First: determine whether we will add a skill/baseStatModifier or not
 		// because this determine which color could be the result
@@ -229,10 +229,10 @@ public class AugmentationData extends XMLDocument
 		int stat34 = 0;
 		boolean generateSkill = false;
 		boolean generateGlow = false;
-
+		
 		// lifestonelevel is used for stat Id and skill level, but here the max level is 9
 		lifeStoneLevel = Math.min(lifeStoneLevel, 9);
-
+		
 		switch (lifeStoneGrade)
 		{
 			case AbstractRefinePacket.GRADE_NONE:
@@ -260,10 +260,10 @@ public class AugmentationData extends XMLDocument
 					generateGlow = true;
 				break;
 		}
-
+		
 		if (!generateSkill && Rnd.get(1, 100) <= Config.AUGMENTATION_BASESTAT_CHANCE)
 			stat34 = Rnd.get(BASESTAT_STR, BASESTAT_MEN);
-
+			
 		// Second: decide which grade the augmentation result is going to have:
 		// 0:yellow, 1:blue, 2:purple, 3:red
 		// The chances used here are most likely custom,
@@ -286,7 +286,7 @@ public class AugmentationData extends XMLDocument
 			else
 				resultColor = 2;
 		}
-
+		
 		// generate a skill if neccessary
 		L2Skill skill = null;
 		if (generateSkill)
@@ -305,7 +305,7 @@ public class AugmentationData extends XMLDocument
 			}
 			skill = _allSkills.get(stat34).getSkill();
 		}
-
+		
 		// Third: Calculate the subblock offset for the choosen color,
 		// and the level of the lifeStone
 		// from large number of retail augmentations:
@@ -325,7 +325,7 @@ public class AugmentationData extends XMLDocument
 		// B - weak glow, mid grade LS?
 		// C - glow, high grade LS?
 		// D - strong glow, top grade LS?
-
+		
 		// is neither a skill nor basestat used for stat34? then generate a normal stat
 		int offset;
 		if (stat34 == 0)
@@ -333,7 +333,7 @@ public class AugmentationData extends XMLDocument
 			int temp = Rnd.get(2, 3);
 			int colorOffset = resultColor * (10 * STAT_SUBBLOCKSIZE) + temp * STAT_BLOCKSIZE + 1;
 			offset = (lifeStoneLevel * STAT_SUBBLOCKSIZE) + colorOffset;
-
+			
 			stat34 = Rnd.get(offset, offset + STAT_SUBBLOCKSIZE - 1);
 			if (generateGlow && lifeStoneGrade >= 2)
 				offset = (lifeStoneLevel * STAT_SUBBLOCKSIZE) + (temp - 2) * STAT_BLOCKSIZE + lifeStoneGrade * (10 * STAT_SUBBLOCKSIZE) + 1;
@@ -348,10 +348,10 @@ public class AugmentationData extends XMLDocument
 				offset = (lifeStoneLevel * STAT_SUBBLOCKSIZE) + Rnd.get(0, 1) * STAT_BLOCKSIZE + (lifeStoneGrade + resultColor) / 2 * (10 * STAT_SUBBLOCKSIZE) + 1;
 		}
 		stat12 = Rnd.get(offset, offset + STAT_SUBBLOCKSIZE - 1);
-
+		
 		return new L2Augmentation(((stat34 << 16) + stat12), skill);
 	}
-
+	
 	/**
 	 * Returns the stat and basestat boni for a given augmentation id
 	 * @param augmentationId
@@ -372,7 +372,7 @@ public class AugmentationData extends XMLDocument
 		int stats[] = new int[2];
 		stats[0] = 0x0000FFFF & augmentationId;
 		stats[1] = (augmentationId >> 16);
-
+		
 		for (int i = 0; i < 2; i++)
 		{
 			// weapon augmentation - stats
@@ -383,10 +383,10 @@ public class AugmentationData extends XMLDocument
 				int subblock = base % STAT_BLOCKSIZE; // offset in color block
 				int level = subblock / STAT_SUBBLOCKSIZE; // stat level (sub-block number)
 				int stat = subblock % STAT_SUBBLOCKSIZE; // offset in sub-block - stat
-
+				
 				byte stat1 = STATS1_MAP[stat];
 				byte stat2 = STATS2_MAP[stat];
-
+				
 				if (stat1 == stat2) // solo stat
 				{
 					AugmentationStat as = _augStats.get(color).get(stat1);
@@ -396,7 +396,7 @@ public class AugmentationData extends XMLDocument
 				{
 					AugmentationStat as = _augStats.get(color).get(stat1);
 					temp.add(new AugStat(as.getStat(), as.getCombinedStatValue(level)));
-
+					
 					as = _augStats.get(color).get(stat2);
 					temp.add(new AugStat(as.getStat(), as.getCombinedStatValue(level)));
 				}
@@ -423,29 +423,29 @@ public class AugmentationData extends XMLDocument
 		}
 		return temp;
 	}
-
+	
 	public static class AugStat
 	{
 		private final Stats _stat;
 		private final float _value;
-
+		
 		public AugStat(Stats stat, float value)
 		{
 			_stat = stat;
 			_value = value;
 		}
-
+		
 		public Stats getStat()
 		{
 			return _stat;
 		}
-
+		
 		public float getValue()
 		{
 			return _value;
 		}
 	}
-
+	
 	public static class AugmentationStat
 	{
 		private final Stats _stat;
@@ -453,7 +453,7 @@ public class AugmentationData extends XMLDocument
 		private final int _combinedSize;
 		private final float _singleValues[];
 		private final float _combinedValues[];
-
+		
 		public AugmentationStat(Stats stat, float sValues[], float cValues[])
 		{
 			_stat = stat;
@@ -462,44 +462,44 @@ public class AugmentationData extends XMLDocument
 			_combinedSize = cValues.length;
 			_combinedValues = cValues;
 		}
-
+		
 		public int getSingleStatSize()
 		{
 			return _singleSize;
 		}
-
+		
 		public int getCombinedStatSize()
 		{
 			return _combinedSize;
 		}
-
+		
 		public float getSingleStatValue(int i)
 		{
 			if (i >= _singleSize || i < 0)
 				return _singleValues[_singleSize - 1];
-
+			
 			return _singleValues[i];
 		}
-
+		
 		public float getCombinedStatValue(int i)
 		{
 			if (i >= _combinedSize || i < 0)
 				return _combinedValues[_combinedSize - 1];
-
+			
 			return _combinedValues[i];
 		}
-
+		
 		public Stats getStat()
 		{
 			return _stat;
 		}
 	}
-
+	
 	public static final AugmentationData getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final AugmentationData INSTANCE = new AugmentationData();

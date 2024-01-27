@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public final class Say2 extends L2GameClientPacket
 {
 	private static final Logger CHAT_LOG = Logger.getLogger("chat");
-
+	
 	public static final int ALL = 0;
 	public static final int SHOUT = 1; // !
 	public static final int TELL = 2;
@@ -37,7 +37,7 @@ public final class Say2 extends L2GameClientPacket
 	public static final int PARTYROOM_ALL = 16; // (Red)
 	public static final int HERO_VOICE = 17;
 	public static final int CRITICAL_ANNOUNCE = 18;
-
+	
 	private static final String[] CHAT_NAMES =
 	{
 		"ALL",
@@ -60,7 +60,7 @@ public final class Say2 extends L2GameClientPacket
 		"HERO_VOICE",
 		"CRITICAL_ANNOUNCEMENT"
 	};
-
+	
 	private static final String[] WALKER_COMMAND_LIST =
 	{
 		"USESKILL",
@@ -103,11 +103,11 @@ public final class Say2 extends L2GameClientPacket
 	private static boolean _globalChatDisabled = false;
 	private static boolean _tradeChatDisabled = false;
 	private static boolean _heroChatDisabled = false;
-
+	
 	private String _text;
 	private int _type;
 	private String _target;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -115,14 +115,14 @@ public final class Say2 extends L2GameClientPacket
 		_type = readD();
 		_target = (_type == TELL) ? readS() : null;
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		if (_type < 0 || _type >= CHAT_NAMES.length)
 		{
 			_log.warning("Say2: Invalid type: " + _type + " Player : " + activeChar.getName() + " text: " + _text);
@@ -130,7 +130,7 @@ public final class Say2 extends L2GameClientPacket
 			activeChar.logout();
 			return;
 		}
-
+		
 		if (_text.isEmpty())
 		{
 			_log.warning(activeChar.getName() + ": sending empty text. Possible packet hack.");
@@ -138,19 +138,19 @@ public final class Say2 extends L2GameClientPacket
 			activeChar.logout();
 			return;
 		}
-
+		
 		if ((_text.length() > 100) || (Config.L2WALKER_PROTECTION && _type == TELL && checkBot(_text)))
 			return;
-
+		
 		if (!activeChar.isGM() && _type == ANNOUNCEMENT)
 		{
 			_log.warning(activeChar.getName() + " tried to use announcements without GM statut.");
 			return;
 		}
-
+		
 		if (Config.USE_SAY_FILTER && !activeChar.isGM())
 			checkText(activeChar);
-
+		
 		if (activeChar.isInJail())
 		{
 			if (_type == TELL || _type == SHOUT || _type == TRADE || _type == HERO_VOICE)
@@ -159,15 +159,15 @@ public final class Say2 extends L2GameClientPacket
 				return;
 			}
 		}
-
+		
 		if (_type == PETITION_PLAYER && activeChar.isGM())
 			_type = PETITION_GM;
-
+		
 		if (Config.LOG_CHAT)
 		{
 			LogRecord record = new LogRecord(Level.INFO, _text);
 			record.setLoggerName("chat");
-
+			
 			if (_type == TELL)
 				record.setParameters(new Object[]
 				{
@@ -180,19 +180,19 @@ public final class Say2 extends L2GameClientPacket
 					CHAT_NAMES[_type],
 					"[" + activeChar.getName() + "]"
 				});
-
+			
 			CHAT_LOG.log(record);
 		}
-
+		
 		_text = _text.replaceAll("\\\\n", "");
-
+		
 		IChatHandler handler = ChatHandler.getInstance().getChatHandler(_type);
 		if (handler != null)
 			handler.handleChat(_type, activeChar, _target, _text);
 		else
 			_log.warning(activeChar.getName() + " tried to use unregistred chathandler type: " + _type + ".");
 	}
-
+	
 	private static boolean checkBot(String text)
 	{
 		for (String botCommand : WALKER_COMMAND_LIST)
@@ -202,11 +202,11 @@ public final class Say2 extends L2GameClientPacket
 		}
 		return false;
 	}
-
+	
 	public static boolean isChatDisabled(String chatType)
 	{
 		boolean chatDisabled = false;
-
+		
 		if (chatType.equalsIgnoreCase("all"))
 			chatDisabled = _chatDisabled;
 		else if (chatType.equalsIgnoreCase("hero"))
@@ -215,10 +215,10 @@ public final class Say2 extends L2GameClientPacket
 			chatDisabled = _tradeChatDisabled;
 		else if (chatType.equalsIgnoreCase("global"))
 			chatDisabled = _globalChatDisabled;
-
+		
 		return chatDisabled;
 	}
-
+	
 	public static void setIsChatDisabled(String chatType, boolean chatDisabled)
 	{
 		if (chatType.equalsIgnoreCase("all"))
@@ -230,39 +230,39 @@ public final class Say2 extends L2GameClientPacket
 		else if (chatType.equalsIgnoreCase("global"))
 			_globalChatDisabled = chatDisabled;
 	}
-
+	
 	private void checkText(Player activeChar)
 	{
 		if (Config.USE_SAY_FILTER)
 		{
 			String filteredText = _text.toLowerCase();
-
+			
 			for (String pattern : Config.FILTER_LIST)
 			{
 				filteredText = filteredText.replaceAll("(?i)" + pattern, Config.CHAT_FILTER_CHARS);
 			}
-
+			
 			if (!filteredText.equalsIgnoreCase(_text))
 			{
 				if (Config.CHAT_FILTER_PUNISHMENT.equalsIgnoreCase("chat"))
 				{
-
+					
 					if (!activeChar.isChatBlocked())
 					{
 						ChatBanManager.getInstance().addBlock(activeChar.getObjectId(), System.currentTimeMillis() + Config.CHAT_FILTER_PUNISHMENT_PARAM1 * 60000, activeChar.getHWID(), activeChar.getAccountName(), activeChar.getName());
-
+						
 						for (Player player : World.getInstance().getPlayers())
 						{
 							String hwidz = player.getHWID();
 							String hwid = activeChar.getHWID();
-
+							
 							if (player.isOnline() && !player.isPhantom())
 							{
 								if (hwidz.equals(hwid))
 								{
 									player.setChatBlock(true);
 									player.setChatBanTimer(System.currentTimeMillis() + Config.CHAT_FILTER_PUNISHMENT_PARAM1 * 60000);
-
+									
 									if (!player.equals(activeChar))
 									{
 										if (((player.getChatBanTimer() - System.currentTimeMillis()) / 3600000) >= 1)
@@ -278,7 +278,7 @@ public final class Say2 extends L2GameClientPacket
 							}
 						}
 					}
-
+					
 				}
 				else if (Config.CHAT_FILTER_PUNISHMENT.equalsIgnoreCase("karma"))
 				{
@@ -287,15 +287,15 @@ public final class Say2 extends L2GameClientPacket
 				}
 				else if (Config.CHAT_FILTER_PUNISHMENT.equalsIgnoreCase("jail"))
 					activeChar.setPunishLevel(PunishLevel.JAIL, Config.CHAT_FILTER_PUNISHMENT_PARAM1);
-
+				
 				for (Player allgms : World.getAllGMs())
 					allgms.sendPacket(new CreatureSay(0, Say2.ALLIANCE, activeChar.getName(), _text));
-
+				
 				_text = filteredText;
 			}
 		}
 	}
-
+	
 	@Override
 	protected boolean triggersOnActionRequest()
 	{

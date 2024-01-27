@@ -20,7 +20,7 @@ public final class SiegeGuard extends Attackable
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public CreatureAI getAI()
 	{
@@ -31,13 +31,13 @@ public final class SiegeGuard extends Attackable
 			{
 				if (_ai == null)
 					_ai = new SiegeGuardAI(this);
-
+				
 				return _ai;
 			}
 		}
 		return ai;
 	}
-
+	
 	/**
 	 * Return True if a siege is in progress and the Creature attacker isn't a Defender.
 	 * @param attacker The Creature that the L2SiegeGuardInstance try to attack
@@ -48,13 +48,13 @@ public final class SiegeGuard extends Attackable
 		// Attackable during siege by all except defenders
 		return (attacker != null && attacker.getActingPlayer() != null && getCastle() != null && getCastle().getSiege().isInProgress() && !getCastle().getSiege().checkSides(attacker.getActingPlayer().getClan(), SiegeSide.DEFENDER, SiegeSide.OWNER));
 	}
-
+	
 	@Override
 	public boolean hasRandomAnimation()
 	{
 		return false;
 	}
-
+	
 	/**
 	 * Note that super() is not called because guards need extra check to see if a player should interact or ATTACK them when clicked.
 	 */
@@ -80,30 +80,30 @@ public final class SiegeGuard extends Attackable
 				{
 					// Rotate the player to face the instance
 					player.sendPacket(new MoveToPawn(player, this, Npc.INTERACTION_DISTANCE));
-
+					
 					// Send ActionFailed to the player in order to avoid he stucks
 					player.sendPacket(ActionFailed.STATIC_PACKET);
 				}
 			}
 		}
 	}
-
+	
 	@Override
 	public void addDamageHate(Creature attacker, int damage, int aggro)
 	{
 		if (attacker == null)
 			return;
-
+		
 		if (!(attacker instanceof SiegeGuard))
 			super.addDamageHate(attacker, damage, aggro);
 	}
-
+	
 	@Override
 	public boolean isGuard()
 	{
 		return true;
 	}
-
+	
 	@Override
 	public int getDriftRange()
 	{

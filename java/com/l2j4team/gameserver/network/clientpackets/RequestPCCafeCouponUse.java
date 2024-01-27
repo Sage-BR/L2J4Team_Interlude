@@ -7,13 +7,13 @@ package com.l2j4team.gameserver.network.clientpackets;
 public final class RequestPCCafeCouponUse extends L2GameClientPacket
 {
 	private String _str;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_str = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{

@@ -26,13 +26,13 @@ public class CustomCancelTaskManager implements Runnable
 {
 	private Player player = null;
 	private ArrayList<L2Skill> buffsCanceled = null;
-
+	
 	public CustomCancelTaskManager(Player p, ArrayList<L2Skill> skill)
 	{
 		player = p;
 		buffsCanceled = skill;
 	}
-
+	
 	@Override
 	public void run()
 	{

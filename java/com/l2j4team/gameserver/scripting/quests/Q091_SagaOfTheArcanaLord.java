@@ -7,7 +7,7 @@ public class Q091_SagaOfTheArcanaLord extends SagasSuperClass
 	public Q091_SagaOfTheArcanaLord()
 	{
 		super(91, "Saga of the Arcana Lord");
-
+		
 		NPC = new int[]
 		{
 			31605,
@@ -23,7 +23,7 @@ public class Q091_SagaOfTheArcanaLord extends SagasSuperClass
 			31658,
 			31608
 		};
-
+		
 		Items = new int[]
 		{
 			7080,
@@ -39,38 +39,38 @@ public class Q091_SagaOfTheArcanaLord extends SagasSuperClass
 			7110,
 			0
 		};
-
+		
 		Mob = new int[]
 		{
 			27313,
 			27240,
 			27310
 		};
-
+		
 		classid = 96;
 		prevclass = 0x0e;
-
+		
 		X = new int[]
 		{
 			119518,
 			181215,
 			181227
 		};
-
+		
 		Y = new int[]
 		{
 			-28658,
 			36676,
 			36703
 		};
-
+		
 		Z = new int[]
 		{
 			-3811,
 			-4812,
 			-4816
 		};
-
+		
 		registerNPCs();
 	}
 }

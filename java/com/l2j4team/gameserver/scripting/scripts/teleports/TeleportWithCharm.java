@@ -9,24 +9,24 @@ public class TeleportWithCharm extends Quest
 {
 	private static final int WHIRPY = 30540;
 	private static final int TAMIL = 30576;
-
+	
 	private static final int ORC_GATEKEEPER_CHARM = 1658;
 	private static final int DWARF_GATEKEEPER_TOKEN = 1659;
-
+	
 	public TeleportWithCharm()
 	{
 		super(-1, "teleports");
-
+		
 		addStartNpc(WHIRPY, TAMIL);
 		addTalkId(WHIRPY, TAMIL);
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
 		QuestState st = player.getQuestState(getName());
 		String htmltext = "";
-
+		
 		int npcId = npc.getNpcId();
 		if (npcId == WHIRPY)
 		{
@@ -48,7 +48,7 @@ public class TeleportWithCharm extends Quest
 			else
 				htmltext = "30576-01.htm";
 		}
-
+		
 		st.exitQuest(true);
 		return htmltext;
 	}

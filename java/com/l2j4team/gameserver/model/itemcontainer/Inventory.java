@@ -48,22 +48,22 @@ public abstract class Inventory extends ItemContainer
 	public static final int PAPERDOLL_HAIR = 15;
 	public static final int PAPERDOLL_HAIRALL = 16;
 	public static final int PAPERDOLL_TOTALSLOTS = 17;
-
+	
 	private final ItemInstance[] _paperdoll;
 	private final List<OnEquipListener> _paperdollListeners;
-
+	
 	// protected to be accessed from child classes only
 	protected int _totalWeight;
-
+	
 	// used to quickly check for using of items of special type
 	private int _wornMask;
-
+	
 	// Recorder of alterations in inventory
 	private static final class ChangeRecorder implements OnEquipListener
 	{
 		private final Inventory _inventory;
 		private final List<ItemInstance> _changed;
-
+		
 		/**
 		 * Constructor of the ChangeRecorder
 		 * @param inventory
@@ -74,7 +74,7 @@ public abstract class Inventory extends ItemContainer
 			_changed = new ArrayList<>();
 			_inventory.addPaperdollListener(this);
 		}
-
+		
 		/**
 		 * Add alteration in inventory when item equipped
 		 */
@@ -84,7 +84,7 @@ public abstract class Inventory extends ItemContainer
 			if (!_changed.contains(item))
 				_changed.add(item);
 		}
-
+		
 		/**
 		 * Add alteration in inventory when item unequipped
 		 */
@@ -93,10 +93,10 @@ public abstract class Inventory extends ItemContainer
 		{
 			if (!_changed.contains(item))
 				_changed.add(item);
-
+			
 			checkItemAndRemoveSkill(item, actor);
 		}
-
+		
 		static void checkItemAndRemoveSkill(ItemInstance item, Playable player)
 		{
 			if (item.getItemType() == WeaponType.BOW)
@@ -104,17 +104,17 @@ public abstract class Inventory extends ItemContainer
 				// Remove Sniper
 				if (player.getFirstEffect(313) != null)
 					player.stopSkillEffects(313);
-
+				
 				// Remove Rapid Shot
 				if (player.getFirstEffect(99) != null)
 					player.stopSkillEffects(99);
-
+				
 				// Remove Hawk Eye
 				if (player.getFirstEffect(131) != null)
 					player.stopSkillEffects(131);
 			}
 		}
-
+		
 		/**
 		 * Returns alterations in inventory
 		 * @return ItemInstance[] : array of alterated items
@@ -124,7 +124,7 @@ public abstract class Inventory extends ItemContainer
 			return _changed.toArray(new ItemInstance[_changed.size()]);
 		}
 	}
-
+	
 	/**
 	 * Constructor of the inventory
 	 */
@@ -132,13 +132,13 @@ public abstract class Inventory extends ItemContainer
 	{
 		_paperdoll = new ItemInstance[PAPERDOLL_TOTALSLOTS];
 		_paperdollListeners = new ArrayList<>();
-
+		
 		// common
 		addPaperdollListener(StatsListener.getInstance());
 	}
-
+	
 	protected abstract ItemLocation getEquipLocation();
-
+	
 	/**
 	 * Returns the instance of new ChangeRecorder
 	 * @return ChangeRecorder
@@ -147,7 +147,7 @@ public abstract class Inventory extends ItemContainer
 	{
 		return new ChangeRecorder(this);
 	}
-
+	
 	/**
 	 * Drop item from inventory and updates database
 	 * @param process : String Identifier of process triggering this action
@@ -160,23 +160,23 @@ public abstract class Inventory extends ItemContainer
 	{
 		if (item == null)
 			return null;
-
+		
 		synchronized (item)
 		{
 			if (!_items.contains(item))
 				return null;
-
+			
 			removeItem(item);
 			item.setOwnerId(process, 0, actor, reference);
 			item.setLocation(ItemLocation.VOID);
 			item.setLastChange(ItemState.REMOVED);
-
+			
 			item.updateDatabase();
 			refreshWeight();
 		}
 		return item;
 	}
-
+	
 	/**
 	 * Drop item from inventory by using its <B>objectID</B> and updates database
 	 * @param process : String Identifier of process triggering this action
@@ -191,12 +191,12 @@ public abstract class Inventory extends ItemContainer
 		ItemInstance item = getItemByObjectId(objectId);
 		if (item == null)
 			return null;
-
+		
 		synchronized (item)
 		{
 			if (!_items.contains(item))
 				return null;
-
+				
 			// Adjust item quantity and create new instance to drop
 			// Directly drop entire item
 			if (item.getCount() > count)
@@ -204,7 +204,7 @@ public abstract class Inventory extends ItemContainer
 				item.changeCount(process, -count, actor, reference);
 				item.setLastChange(ItemState.MODIFIED);
 				item.updateDatabase();
-
+				
 				item = ItemTable.getInstance().createItem(process, item.getItemId(), count, actor, reference);
 				item.updateDatabase();
 				refreshWeight();
@@ -213,7 +213,7 @@ public abstract class Inventory extends ItemContainer
 		}
 		return dropItem(process, item, actor, reference);
 	}
-
+	
 	/**
 	 * Adds item to inventory for further adjustments and Equip it if necessary (itemlocation defined)<BR>
 	 * <BR>
@@ -226,7 +226,7 @@ public abstract class Inventory extends ItemContainer
 		if (item.isEquipped())
 			equipItem(item);
 	}
-
+	
 	/**
 	 * Removes item from inventory for further adjustments.
 	 * @param item : ItemInstance to be removed from inventory
@@ -242,7 +242,7 @@ public abstract class Inventory extends ItemContainer
 		}
 		return super.removeItem(item);
 	}
-
+	
 	/**
 	 * @param slot The slot to check.
 	 * @return The ItemInstance item in the paperdoll slot.
@@ -251,14 +251,14 @@ public abstract class Inventory extends ItemContainer
 	{
 		return _paperdoll[slot];
 	}
-
+	
 	/**
 	 * @return The list of worn ItemInstance items.
 	 */
 	public List<ItemInstance> getPaperdollItems()
 	{
 		final List<ItemInstance> itemsList = new ArrayList<>();
-
+		
 		for (final ItemInstance item : _paperdoll)
 		{
 			if (item != null)
@@ -266,7 +266,7 @@ public abstract class Inventory extends ItemContainer
 		}
 		return itemsList;
 	}
-
+	
 	public static int getPaperdollIndex(int slot)
 	{
 		switch (slot)
@@ -310,7 +310,7 @@ public abstract class Inventory extends ItemContainer
 		}
 		return -1;
 	}
-
+	
 	/**
 	 * @param slot Item slot identifier
 	 * @return the ItemInstance item in the paperdoll Item slot
@@ -320,10 +320,10 @@ public abstract class Inventory extends ItemContainer
 		int index = getPaperdollIndex(slot);
 		if (index == -1)
 			return null;
-
+		
 		return _paperdoll[index];
 	}
-
+	
 	/**
 	 * Returns the ID of the item in the paperdol slot
 	 * @param slot : int designating the slot
@@ -334,10 +334,10 @@ public abstract class Inventory extends ItemContainer
 		ItemInstance item = _paperdoll[slot];
 		if (item != null)
 			return item.getItemId();
-
+		
 		return 0;
 	}
-
+	
 	public int getPaperdollAugmentationId(int slot)
 	{
 		ItemInstance item = _paperdoll[slot];
@@ -348,7 +348,7 @@ public abstract class Inventory extends ItemContainer
 		}
 		return 0;
 	}
-
+	
 	/**
 	 * Returns the objectID associated to the item in the paperdoll slot
 	 * @param slot : int pointing out the slot
@@ -359,10 +359,10 @@ public abstract class Inventory extends ItemContainer
 		ItemInstance item = _paperdoll[slot];
 		if (item != null)
 			return item.getObjectId();
-
+		
 		return 0;
 	}
-
+	
 	/**
 	 * Adds new inventory's paperdoll listener
 	 * @param listener PaperdollListener pointing out the listener
@@ -372,7 +372,7 @@ public abstract class Inventory extends ItemContainer
 		assert !_paperdollListeners.contains(listener);
 		_paperdollListeners.add(listener);
 	}
-
+	
 	/**
 	 * Removes a paperdoll listener
 	 * @param listener PaperdollListener pointing out the listener to be deleted
@@ -381,7 +381,7 @@ public abstract class Inventory extends ItemContainer
 	{
 		_paperdollListeners.remove(listener);
 	}
-
+	
 	/**
 	 * Equips an item in the given slot of the paperdoll. <U><I>Remark :</I></U> The item <B>HAS TO BE</B> already in the inventory
 	 * @param slot : int pointing out the slot of the paperdoll
@@ -399,16 +399,16 @@ public abstract class Inventory extends ItemContainer
 				// Put old item from paperdoll slot to base location
 				old.setLocation(getBaseLocation());
 				old.setLastChange(ItemState.MODIFIED);
-
+				
 				// delete armor mask flag (in case of two-piece armor it does not matter, we need to deactivate mask too)
 				_wornMask &= ~old.getItem().getItemMask();
-
+				
 				// Notify all paperdoll listener in order to unequip old item in slot
 				for (OnEquipListener listener : _paperdollListeners)
 				{
 					if (listener == null)
 						continue;
-
+					
 					listener.onUnequip(slot, old, (Playable) getOwner());
 				}
 				old.updateDatabase();
@@ -419,7 +419,7 @@ public abstract class Inventory extends ItemContainer
 				_paperdoll[slot] = item;
 				item.setLocation(getEquipLocation(), slot);
 				item.setLastChange(ItemState.MODIFIED);
-
+				
 				// activate mask (check 2nd armor part for two-piece armors)
 				Item armor = item.getItem();
 				if (armor.getBodyPart() == Item.SLOT_CHEST)
@@ -436,12 +436,12 @@ public abstract class Inventory extends ItemContainer
 				}
 				else
 					_wornMask |= armor.getItemMask();
-
+				
 				for (OnEquipListener listener : _paperdollListeners)
 				{
 					if (listener == null)
 						continue;
-
+					
 					listener.onEquip(slot, item, (Playable) getOwner());
 				}
 				item.updateDatabase();
@@ -449,7 +449,7 @@ public abstract class Inventory extends ItemContainer
 		}
 		return old;
 	}
-
+	
 	/**
 	 * Return the mask of worn item
 	 * @return int
@@ -458,12 +458,12 @@ public abstract class Inventory extends ItemContainer
 	{
 		return _wornMask;
 	}
-
+	
 	public int getSlotFromItem(ItemInstance item)
 	{
 		int slot = -1;
 		int location = item.getLocationSlot();
-
+		
 		switch (location)
 		{
 			case PAPERDOLL_UNDER:
@@ -515,10 +515,10 @@ public abstract class Inventory extends ItemContainer
 				slot = Item.SLOT_FEET;
 				break;
 		}
-
+		
 		return slot;
 	}
-
+	
 	/**
 	 * Unequips item in body slot and returns alterations.
 	 * @param item : the item used to find the slot back.
@@ -527,7 +527,7 @@ public abstract class Inventory extends ItemContainer
 	public ItemInstance[] unEquipItemInBodySlotAndRecord(ItemInstance item)
 	{
 		Inventory.ChangeRecorder recorder = newRecorder();
-
+		
 		try
 		{
 			unEquipItemInBodySlot(getSlotFromItem(item));
@@ -538,7 +538,7 @@ public abstract class Inventory extends ItemContainer
 		}
 		return recorder.getChangedItems();
 	}
-
+	
 	/**
 	 * Unequips item in body slot and returns alterations.
 	 * @param slot : int designating the slot of the paperdoll
@@ -547,7 +547,7 @@ public abstract class Inventory extends ItemContainer
 	public ItemInstance[] unEquipItemInBodySlotAndRecord(int slot)
 	{
 		Inventory.ChangeRecorder recorder = newRecorder();
-
+		
 		try
 		{
 			unEquipItemInBodySlot(slot);
@@ -558,7 +558,7 @@ public abstract class Inventory extends ItemContainer
 		}
 		return recorder.getChangedItems();
 	}
-
+	
 	/**
 	 * Sets item in slot of the paperdoll to null value
 	 * @param pdollSlot : int designating the slot
@@ -568,7 +568,7 @@ public abstract class Inventory extends ItemContainer
 	{
 		return setPaperdollItem(pdollSlot, null);
 	}
-
+	
 	/**
 	 * Unepquips item in slot and returns alterations
 	 * @param slot : int designating the slot
@@ -577,7 +577,7 @@ public abstract class Inventory extends ItemContainer
 	public ItemInstance[] unEquipItemInSlotAndRecord(int slot)
 	{
 		Inventory.ChangeRecorder recorder = newRecorder();
-
+		
 		try
 		{
 			unEquipItemInSlot(slot);
@@ -590,7 +590,7 @@ public abstract class Inventory extends ItemContainer
 		}
 		return recorder.getChangedItems();
 	}
-
+	
 	/**
 	 * Unequips item in slot (i.e. equips with default value)
 	 * @param slot : int designating the slot
@@ -600,9 +600,9 @@ public abstract class Inventory extends ItemContainer
 	{
 		if (Config.DEBUG)
 			_log.fine("--- unequip body slot:" + slot);
-
+		
 		int pdollSlot = -1;
-
+		
 		switch (slot)
 		{
 			case Item.SLOT_L_EAR:
@@ -675,7 +675,7 @@ public abstract class Inventory extends ItemContainer
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Equips item and returns list of alterations<BR>
 	 * <B>If you dont need return value use {@link Inventory#equipItem(ItemInstance)} instead</B>
@@ -685,7 +685,7 @@ public abstract class Inventory extends ItemContainer
 	public ItemInstance[] equipItemAndRecord(ItemInstance item)
 	{
 		Inventory.ChangeRecorder recorder = newRecorder();
-
+		
 		try
 		{
 			equipItem(item);
@@ -696,7 +696,7 @@ public abstract class Inventory extends ItemContainer
 		}
 		return recorder.getChangedItems();
 	}
-
+	
 	/**
 	 * Equips item in slot of paperdoll.
 	 * @param item : ItemInstance designating the item and slot used.
@@ -709,9 +709,9 @@ public abstract class Inventory extends ItemContainer
 			if (((Player) getOwner()).isInStoreMode() || (!((Player) getOwner()).isHero() && item.isHeroItem()))
 				return;
 		}
-
+		
 		int targetSlot = item.getItem().getBodyPart();
-
+		
 		// check if player wear formal
 		ItemInstance formal = getPaperdollItem(PAPERDOLL_CHEST);
 		if (formal != null && formal.getItem().getBodyPart() == Item.SLOT_ALLDRESS)
@@ -731,27 +731,27 @@ public abstract class Inventory extends ItemContainer
 					return;
 			}
 		}
-
+		
 		switch (targetSlot)
 		{
 			case Item.SLOT_LR_HAND:
 				setPaperdollItem(PAPERDOLL_LHAND, null);
 				setPaperdollItem(PAPERDOLL_RHAND, item);
 				break;
-
+			
 			case Item.SLOT_L_HAND:
 				ItemInstance rh = getPaperdollItem(PAPERDOLL_RHAND);
 				if (rh != null && rh.getItem().getBodyPart() == Item.SLOT_LR_HAND && !((rh.getItemType() == WeaponType.BOW && item.getItemType() == EtcItemType.ARROW) || (rh.getItemType() == WeaponType.FISHINGROD && item.getItemType() == EtcItemType.LURE)))
 					setPaperdollItem(PAPERDOLL_RHAND, null);
-
+				
 				setPaperdollItem(PAPERDOLL_LHAND, item);
 				break;
-
+			
 			case Item.SLOT_R_HAND:
 				// dont care about arrows, listener will unequip them (hopefully)
 				setPaperdollItem(PAPERDOLL_RHAND, item);
 				break;
-
+			
 			case Item.SLOT_L_EAR:
 			case Item.SLOT_R_EAR:
 			case Item.SLOT_L_EAR | Item.SLOT_R_EAR:
@@ -769,7 +769,7 @@ public abstract class Inventory extends ItemContainer
 						setPaperdollItem(PAPERDOLL_LEAR, item);
 				}
 				break;
-
+			
 			case Item.SLOT_L_FINGER:
 			case Item.SLOT_R_FINGER:
 			case Item.SLOT_L_FINGER | Item.SLOT_R_FINGER:
@@ -787,70 +787,70 @@ public abstract class Inventory extends ItemContainer
 						setPaperdollItem(PAPERDOLL_LFINGER, item);
 				}
 				break;
-
+			
 			case Item.SLOT_NECK:
 				setPaperdollItem(PAPERDOLL_NECK, item);
 				break;
-
+			
 			case Item.SLOT_FULL_ARMOR:
 				setPaperdollItem(PAPERDOLL_LEGS, null);
 				setPaperdollItem(PAPERDOLL_CHEST, item);
 				break;
-
+			
 			case Item.SLOT_CHEST:
 				setPaperdollItem(PAPERDOLL_CHEST, item);
 				break;
-
+			
 			case Item.SLOT_LEGS:
 				// handle full armor
 				ItemInstance chest = getPaperdollItem(PAPERDOLL_CHEST);
 				if (chest != null && chest.getItem().getBodyPart() == Item.SLOT_FULL_ARMOR)
 					setPaperdollItem(PAPERDOLL_CHEST, null);
-
+				
 				setPaperdollItem(PAPERDOLL_LEGS, item);
 				break;
-
+			
 			case Item.SLOT_FEET:
 				setPaperdollItem(PAPERDOLL_FEET, item);
 				break;
-
+			
 			case Item.SLOT_GLOVES:
 				setPaperdollItem(PAPERDOLL_GLOVES, item);
 				break;
-
+			
 			case Item.SLOT_HEAD:
 				setPaperdollItem(PAPERDOLL_HEAD, item);
 				break;
-
+			
 			case Item.SLOT_FACE:
 				ItemInstance hair = getPaperdollItem(PAPERDOLL_HAIR);
 				if (hair != null && hair.getItem().getBodyPart() == Item.SLOT_HAIRALL)
 					setPaperdollItem(PAPERDOLL_HAIR, null);
-
+				
 				setPaperdollItem(PAPERDOLL_FACE, item);
 				break;
-
+			
 			case Item.SLOT_HAIR:
 				ItemInstance face = getPaperdollItem(PAPERDOLL_FACE);
 				if (face != null && face.getItem().getBodyPart() == Item.SLOT_HAIRALL)
 					setPaperdollItem(PAPERDOLL_FACE, null);
-
+				
 				setPaperdollItem(PAPERDOLL_HAIR, item);
 				break;
-
+			
 			case Item.SLOT_HAIRALL:
 				setPaperdollItem(PAPERDOLL_FACE, null);
 				setPaperdollItem(PAPERDOLL_HAIR, item);
 				break;
-
+			
 			case Item.SLOT_UNDERWEAR:
 				setPaperdollItem(PAPERDOLL_UNDER, item);
 				break;
-
+			
 			case Item.SLOT_BACK:
 				setPaperdollItem(PAPERDOLL_BACK, item);
 				break;
-
+			
 			case Item.SLOT_ALLDRESS:
 				// formal dress
 				setPaperdollItem(PAPERDOLL_LEGS, null);
@@ -861,12 +861,12 @@ public abstract class Inventory extends ItemContainer
 				setPaperdollItem(PAPERDOLL_GLOVES, null);
 				setPaperdollItem(PAPERDOLL_CHEST, item);
 				break;
-
+			
 			default:
 				_log.warning("Unknown body slot " + targetSlot + " for Item ID:" + item.getItemId());
 		}
 	}
-
+	
 	/**
 	 * Equips pet item in slot of paperdoll. Concerning pets, armors go to chest location, and weapon to R-hand.
 	 * @param item : ItemInstance designating the item and slot used.
@@ -879,7 +879,7 @@ public abstract class Inventory extends ItemContainer
 			if (((Player) getOwner()).isInStoreMode())
 				return;
 		}
-
+		
 		// Verify first if item is a pet item.
 		if (item.isPetItem())
 		{
@@ -890,7 +890,7 @@ public abstract class Inventory extends ItemContainer
 				setPaperdollItem(PAPERDOLL_CHEST, item);
 		}
 	}
-
+	
 	/**
 	 * Refresh the weight of equipment loaded
 	 */
@@ -898,16 +898,16 @@ public abstract class Inventory extends ItemContainer
 	protected void refreshWeight()
 	{
 		int weight = 0;
-
+		
 		for (ItemInstance item : _items)
 		{
 			if (item != null && item.getItem() != null)
 				weight += item.getItem().getWeight() * item.getCount();
 		}
-
+		
 		_totalWeight = weight;
 	}
-
+	
 	/**
 	 * Returns the totalWeight.
 	 * @return int
@@ -916,7 +916,7 @@ public abstract class Inventory extends ItemContainer
 	{
 		return _totalWeight;
 	}
-
+	
 	/**
 	 * Return the ItemInstance of the arrows needed for this bow.<BR>
 	 * <BR>
@@ -927,9 +927,9 @@ public abstract class Inventory extends ItemContainer
 	{
 		if (bow == null)
 			return null;
-
+		
 		int arrowsId = 0;
-
+		
 		switch (bow.getCrystalType())
 		{
 			default:
@@ -952,11 +952,11 @@ public abstract class Inventory extends ItemContainer
 				arrowsId = 1345;
 				break; // Shining arrow
 		}
-
+		
 		// Get the ItemInstance corresponding to the item identifier and return it
 		return getItemByItemId(arrowsId);
 	}
-
+	
 	/**
 	 * Get back items in inventory from database
 	 */
@@ -970,21 +970,21 @@ public abstract class Inventory extends ItemContainer
 			statement.setString(2, getBaseLocation().name());
 			statement.setString(3, getEquipLocation().name());
 			ResultSet inv = statement.executeQuery();
-
+			
 			while (inv.next())
 			{
 				ItemInstance item = ItemInstance.restoreFromDb(getOwnerId(), inv);
 				if (item == null)
 					continue;
-
+				
 				if (getOwner() instanceof Player)
 				{
 					if (!((Player) getOwner()).isHero() && item.isHeroItem())
 						item.setLocation(ItemLocation.INVENTORY);
 				}
-
+				
 				World.getInstance().addObject(item);
-
+				
 				// If stackable item is found in inventory just add to current quantity
 				if (item.isStackable() && getItemByItemId(item.getItemId()) != null)
 					addItem("Restore", item, getOwner().getActingPlayer(), null);
@@ -1000,7 +1000,7 @@ public abstract class Inventory extends ItemContainer
 			_log.log(Level.WARNING, "Could not restore inventory: " + e.getMessage(), e);
 		}
 	}
-
+	
 	/**
 	 * Re-notify to paperdoll listeners every equipped item
 	 */
@@ -1010,14 +1010,14 @@ public abstract class Inventory extends ItemContainer
 		{
 			if (element == null)
 				continue;
-
+			
 			int slot = element.getLocationSlot();
-
+			
 			for (OnEquipListener listener : _paperdollListeners)
 			{
 				if (listener == null)
 					continue;
-
+				
 				listener.onUnequip(slot, element, (Playable) getOwner());
 				listener.onEquip(slot, element, (Playable) getOwner());
 			}

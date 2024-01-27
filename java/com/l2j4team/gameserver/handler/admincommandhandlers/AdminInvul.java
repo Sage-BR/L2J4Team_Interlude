@@ -18,7 +18,7 @@ public class AdminInvul implements IAdminCommandHandler
 		"admin_invul",
 		"admin_setinvul"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -32,13 +32,13 @@ public class AdminInvul implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 	private static void handleInvul(Player activeChar)
 	{
 		String text;

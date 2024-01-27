@@ -10,25 +10,25 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q636_TruthBeyondTheGate extends Quest
 {
 	private static final String qn = "Q636_TruthBeyondTheGate";
-
+	
 	// NPCs
 	private static final int ELIYAH = 31329;
 	private static final int FLAURON = 32010;
-
+	
 	// Reward
 	private static final int VISITOR_MARK = 8064;
 	private static final int FADED_VISITOR_MARK = 8065;
-
+	
 	public Q636_TruthBeyondTheGate()
 	{
 		super(636, "The Truth Beyond the Gate");
-
+		
 		addStartNpc(ELIYAH);
 		addTalkId(ELIYAH, FLAURON);
-
+		
 		addEnterZoneId(100000);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -36,7 +36,7 @@ public class Q636_TruthBeyondTheGate extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31329-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -49,10 +49,10 @@ public class Q636_TruthBeyondTheGate extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -60,34 +60,34 @@ public class Q636_TruthBeyondTheGate extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 73) ? "31329-01.htm" : "31329-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
 					case ELIYAH:
 						htmltext = "31329-05.htm";
 						break;
-
+					
 					case FLAURON:
 						htmltext = (st.hasQuestItems(VISITOR_MARK)) ? "32010-03.htm" : "32010-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public final String onEnterZone(Creature character, L2ZoneType zone)
 	{

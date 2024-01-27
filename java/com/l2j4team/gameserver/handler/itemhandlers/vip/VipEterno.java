@@ -30,40 +30,40 @@ import java.util.logging.Logger;
  */
 public class VipEterno implements IItemHandler
 {
-
+	
 	protected static final Logger LOGGER = Logger.getLogger(VipEterno.class.getName());
-
+	
 	@Override
 	public void useItem(Playable playable, ItemInstance item, boolean forceUse)
 	{
-
+		
 		if (!(playable instanceof Player))
 			return;
-
+		
 		Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isInOlympiadMode())
 		{
 			activeChar.sendMessage("SYS: Voce nao pode fazer isso.");
 			return;
 		}
-
+		
 		if (activeChar.isVip())
 		{
 			activeChar.sendMessage("SYS: Voce ja esta com status Vip.");
 			return;
 		}
-
+		
 		playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 		activeChar.setVip(true);
 		activeChar.setNoble(true, true);
 		AdminVip.updateDatabase(activeChar, true);
-
+		
 		activeChar.broadcastUserInfo();
-
+		
 		for (Player allgms : World.getAllGMs())
 			allgms.sendPacket(new CreatureSay(0, Say2.SHOUT, "(Vip Manager)", activeChar.getName() + " ativou Vip Eterno."));
-
+		
 	}
-
+	
 }

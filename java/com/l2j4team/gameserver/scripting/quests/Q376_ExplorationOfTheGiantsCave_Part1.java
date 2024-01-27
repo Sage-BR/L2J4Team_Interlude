@@ -10,11 +10,11 @@ import com.l2j4team.commons.random.Rnd;
 public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest
 {
 	private static final String qn = "Q376_ExplorationOfTheGiantsCave_Part1";
-
+	
 	// NPCs
 	private static final int SOBLING = 31147;
 	private static final int CLIFF = 30182;
-
+	
 	// Items
 	private static final int PARCHMENT = 5944;
 	private static final int DICTIONARY_BASIC = 5891;
@@ -55,7 +55,7 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest
 			5931
 		}
 	};
-
+	
 	// Rewards
 	private static final int[][] RECIPES =
 	{
@@ -80,19 +80,19 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest
 			5340
 		}
 	};
-
+	
 	public Q376_ExplorationOfTheGiantsCave_Part1()
 	{
 		super(376, "Exploration of the Giants' Cave, Part 1");
-
+		
 		setItemsIds(DICTIONARY_BASIC, MYSTERIOUS_BOOK);
-
+		
 		addStartNpc(SOBLING);
 		addTalkId(SOBLING, CLIFF);
-
+		
 		addKillId(20647, 20648, 20649, 20650);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -100,7 +100,7 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// Sobling
 		if (event.equalsIgnoreCase("31147-03.htm"))
 		{
@@ -127,10 +127,10 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest
 			st.takeItems(MYSTERIOUS_BOOK, -1);
 			st.giveItems(DICTIONARY_INTERMEDIATE, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -138,13 +138,13 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 51) ? "31147-01.htm" : "31147-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -152,7 +152,7 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest
 					case SOBLING:
 						htmltext = checkItems(st);
 						break;
-
+					
 					case CLIFF:
 						if (cond == 2 && st.hasQuestItems(MYSTERIOUS_BOOK))
 							htmltext = "30182-01.htm";
@@ -162,10 +162,10 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
@@ -173,24 +173,24 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		st.dropItems(PARCHMENT, 1, 0, 20000);
-
+		
 		// Drop mysterious book to person who still need it
 		partyMember = getRandomPartyMember(player, npc, "condBook", "1");
 		if (partyMember == null)
 			return null;
-
+		
 		st = partyMember.getQuestState(qn);
-
+		
 		if (st.dropItems(MYSTERIOUS_BOOK, 1, 1, 1000))
 			st.unset("condBook");
-
+		
 		return null;
 	}
-
+	
 	private static String checkItems(QuestState st)
 	{
 		if (st.hasQuestItems(MYSTERIOUS_BOOK))
@@ -204,7 +204,7 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest
 			}
 			return "31147-08.htm";
 		}
-
+		
 		for (int type = 0; type < BOOKS.length; type++)
 		{
 			boolean complete = true;
@@ -213,12 +213,12 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest
 				if (!st.hasQuestItems(book))
 					complete = false;
 			}
-
+			
 			if (complete)
 			{
 				for (int book : BOOKS[type])
 					st.takeItems(book, 1);
-
+				
 				st.giveItems(RECIPES[type][Rnd.get(RECIPES[type].length)], 1);
 				return "31147-04.htm";
 			}

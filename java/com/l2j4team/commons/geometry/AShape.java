@@ -12,19 +12,19 @@ public abstract class AShape
 	 * @return int : Size.
 	 */
 	public abstract int getSize();
-
+	
 	/**
 	 * Returns surface area of the AShape.
 	 * @return double : Surface area.
 	 */
 	public abstract double getArea();
-
+	
 	/**
 	 * Returns enclosed volume of the AShape.
 	 * @return double : Enclosed volume.
 	 */
 	public abstract double getVolume();
-
+	
 	/**
 	 * Checks if given X, Y coordinates are laying inside the AShape.
 	 * @param x : World X coordinates.
@@ -32,7 +32,7 @@ public abstract class AShape
 	 * @return boolean : True, when if coordinates are inside this AShape.
 	 */
 	public abstract boolean isInside(int x, int y);
-
+	
 	/**
 	 * Checks if given X, Y, Z coordinates are laying inside the AShape.
 	 * @param x : World X coordinates.
@@ -41,7 +41,7 @@ public abstract class AShape
 	 * @return boolean : True, when if coordinates are inside this AShape.
 	 */
 	public abstract boolean isInside(int x, int y, int z);
-
+	
 	/**
 	 * Returns {@link Location} of random point inside AShape.<br>
 	 * In case AShape is only in 2D space, Z is set as 0.

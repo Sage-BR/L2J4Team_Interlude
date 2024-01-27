@@ -18,31 +18,31 @@ public class PaganKeys implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final Player activeChar = (Player) playable;
 		final WorldObject target = activeChar.getTarget();
-
+		
 		if (!(target instanceof Door))
 		{
 			activeChar.sendPacket(SystemMessageId.INCORRECT_TARGET);
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		final Door door = (Door) target;
-
+		
 		if (!(activeChar.isInsideRadius(door, Npc.INTERACTION_DISTANCE, false, false)))
 		{
 			activeChar.sendPacket(SystemMessageId.DIST_TOO_FAR_CASTING_STOPPED);
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		if (!playable.destroyItem("Consume", item.getObjectId(), 1, null, true))
 			return;
-
+		
 		final int doorId = door.getDoorId();
-
+		
 		switch (item.getItemId())
 		{
 			case 8056:
@@ -54,7 +54,7 @@ public class PaganKeys implements IItemHandler
 				else
 					activeChar.sendPacket(SystemMessageId.TARGET_IS_INCORRECT);
 				break;
-
+			
 			case 8273:
 				switch (doorId)
 				{
@@ -68,13 +68,13 @@ public class PaganKeys implements IItemHandler
 					case 19160009:
 						DoorTable.getInstance().getDoor(doorId).openMe();
 						break;
-
+					
 					default:
 						activeChar.sendPacket(SystemMessageId.TARGET_IS_INCORRECT);
 						break;
 				}
 				break;
-
+			
 			case 8275:
 				switch (doorId)
 				{
@@ -82,7 +82,7 @@ public class PaganKeys implements IItemHandler
 					case 19160013:
 						DoorTable.getInstance().getDoor(doorId).openMe();
 						break;
-
+					
 					default:
 						activeChar.sendPacket(SystemMessageId.TARGET_IS_INCORRECT);
 						break;

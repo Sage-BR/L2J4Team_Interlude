@@ -11,22 +11,22 @@ import com.l2j4team.gameserver.network.serverpackets.NpcHtmlMessage;
 public class ClanHallDoorman extends Doorman
 {
 	private ClanHall _clanHall;
-
+	
 	public ClanHallDoorman(int objectID, NpcTemplate template)
 	{
 		super(objectID, template);
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
-
+		
 		if (_clanHall == null)
 			return;
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
-
+		
 		final Clan owner = ClanTable.getInstance().getClan(_clanHall.getOwnerId());
 		if (isOwnerClan(player))
 		{
@@ -50,35 +50,35 @@ public class ClanHallDoorman extends Doorman
 		html.replace("%objectId%", getObjectId());
 		player.sendPacket(html);
 	}
-
+	
 	@Override
 	protected final void openDoors(Player player, String command)
 	{
 		_clanHall.openCloseDoors(true);
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile("data/html/clanHallDoormen/doormen-opened.htm");
 		html.replace("%objectId%", getObjectId());
 		player.sendPacket(html);
 	}
-
+	
 	@Override
 	protected final void closeDoors(Player player, String command)
 	{
 		_clanHall.openCloseDoors(false);
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile("data/html/clanHallDoormen/doormen-closed.htm");
 		html.replace("%objectId%", getObjectId());
 		player.sendPacket(html);
 	}
-
+	
 	@Override
 	protected final boolean isOwnerClan(Player player)
 	{
 		return _clanHall != null && player.getClan() != null && player.getClanId() == _clanHall.getOwnerId();
 	}
-
+	
 	@Override
 	public void onSpawn()
 	{

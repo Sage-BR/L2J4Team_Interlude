@@ -8,26 +8,26 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q167_DwarvenKinship extends Quest
 {
 	private static final String qn = "Q167_DwarvenKinship";
-
+	
 	// Items
 	private static final int CARLON_LETTER = 1076;
 	private static final int NORMAN_LETTER = 1106;
-
+	
 	// NPCs
 	private static final int CARLON = 30350;
 	private static final int NORMAN = 30210;
 	private static final int HAPROCK = 30255;
-
+	
 	public Q167_DwarvenKinship()
 	{
 		super(167, "Dwarven Kinship");
-
+		
 		setItemsIds(CARLON_LETTER, NORMAN_LETTER);
-
+		
 		addStartNpc(CARLON);
 		addTalkId(CARLON, HAPROCK, NORMAN);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -35,7 +35,7 @@ public class Q167_DwarvenKinship extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30350-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -64,10 +64,10 @@ public class Q167_DwarvenKinship extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -75,13 +75,13 @@ public class Q167_DwarvenKinship extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 15) ? "30350-02.htm" : "30350-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -90,26 +90,26 @@ public class Q167_DwarvenKinship extends Quest
 						if (cond == 1)
 							htmltext = "30350-05.htm";
 						break;
-
+					
 					case HAPROCK:
 						if (cond == 1)
 							htmltext = "30255-01.htm";
 						else if (cond == 2)
 							htmltext = "30255-05.htm";
 						break;
-
+					
 					case NORMAN:
 						if (cond == 2)
 							htmltext = "30210-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

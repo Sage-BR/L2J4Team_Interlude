@@ -29,9 +29,9 @@ public class HWID
 	{
 		new File("log/Player Log/HwidLog").mkdirs();
 	}
-
+	
 	private static final Logger _log = Logger.getLogger(HWID.class.getName());
-
+	
 	public static void auditGMAction(String gmName, String action, String params)
 	{
 		final File file = new File("log/Player Log/HwidLog/" + gmName + ".txt");
@@ -43,7 +43,7 @@ public class HWID
 			catch (IOException e)
 			{
 			}
-
+		
 		try (FileWriter save = new FileWriter(file, true))
 		{
 			save.write(MathUtil.formatDate(new Date(), "dd/MM/yyyy H:mm:ss") + " >>> HWID: [" + gmName + "] >>> Jogador  [" + action + "]\r\n");
@@ -53,7 +53,7 @@ public class HWID
 			_log.log(Level.SEVERE, "HwidLog for Player " + gmName + " could not be saved: ", e);
 		}
 	}
-
+	
 	public static void auditGMAction(String gmName, String action)
 	{
 		auditGMAction(gmName, action, "");

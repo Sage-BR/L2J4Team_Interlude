@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
 
 public class AdminZoneCreation implements IAdminCommandHandler
 {
-
+	
 	private static enum ZoneShape
 	{
 		NONE,
@@ -25,7 +25,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 		Cuboid,
 		Cylinder
 	}
-
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_create_zone",
@@ -36,7 +36,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 		"admin_removeLoc",
 		"admin_storeLocs",
 	};
-
+	
 	private static final List<Location> savedLocs = new ArrayList<>();
 	private static final String fileLoc = "data/html/admin/zoneCreation/";
 	private static final String fileName = "coordinates" + "%s" + ".xml";
@@ -44,7 +44,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 	private static final int zDifference = 1000;
 	private static final String maxLocs = "You have reached the maximum locations for this shape.";
 	private static int radius = 0;
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -57,7 +57,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 		else if (command.startsWith("admin_setType"))
 		{
 			shape = ZoneShape.valueOf(st.nextToken());
-
+			
 			switch (shape)
 			{
 				case NPoly:
@@ -72,7 +72,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 				default:
 					activeChar.sendMessage("You have to select the zone shape first.");
 			}
-
+			
 			openHtml(activeChar);
 		}
 		else if (command.startsWith("admin_saveLoc"))
@@ -82,7 +82,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 				final Location loc = new Location(activeChar.getX(), activeChar.getY(), activeChar.getZ());
 				if (savedLocs.add(loc))
 					activeChar.sendMessage(loc + " saved..");
-
+				
 			}
 			openHtml(activeChar);
 		}
@@ -113,17 +113,17 @@ public class AdminZoneCreation implements IAdminCommandHandler
 				activeChar.sendMessage("Invalid value or shape.");
 			else
 				activeChar.sendMessage("Radius stored.");
-
+			
 			openHtml(activeChar);
 		}
 		return true;
 	}
-
+	
 	private static int calcZ(boolean minZ)
 	{
 		return (savedLocs.stream().mapToInt(loc -> loc.getZ()).sum() / savedLocs.size()) + (minZ ? -zDifference : zDifference);
 	}
-
+	
 	private static int parseInt(String nextToken)
 	{
 		try
@@ -135,7 +135,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 			return 0;
 		}
 	}
-
+	
 	private static void store(Player gm)
 	{
 		if (!canStoreLocs(gm))
@@ -149,7 +149,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 			writer.write(getHeadLine());
 			for (Location loc : savedLocs)
 				writer.write(String.format("\t<node X=\"%s\" Y=\"%s\" />\r\n", loc.getX(), loc.getY()));
-
+			
 			writer.write("</zone>");
 		}
 		catch (IOException e)
@@ -161,12 +161,12 @@ public class AdminZoneCreation implements IAdminCommandHandler
 		clear();
 		openHtml(gm);
 	}
-
+	
 	private static String getTimeStamp()
 	{
 		return new SimpleDateFormat("hh-mm-ss").format(new Date());
 	}
-
+	
 	private static boolean canStoreLocs(Player gm)
 	{
 		switch (shape)
@@ -177,7 +177,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 					gm.sendMessage("You have to set atleast 3 coordinates!");
 					return false;
 				}
-
+				
 				return true;
 			case Cuboid:
 				if (savedLocs.size() != 2)
@@ -198,7 +198,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 				return false;
 		}
 	}
-
+	
 	private static boolean canSaveLoc(Player activeChar)
 	{
 		switch (shape)
@@ -224,7 +224,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 				return false;
 		}
 	}
-
+	
 	private static String getHeadLine()
 	{
 		switch (shape)
@@ -239,7 +239,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 				return "";
 		}
 	}
-
+	
 	private static boolean setRadius(int val)
 	{
 		if (shape == ZoneShape.Cylinder)
@@ -248,19 +248,19 @@ public class AdminZoneCreation implements IAdminCommandHandler
 				return false;
 			radius = val;
 		}
-
+		
 		return shape == ZoneShape.Cylinder;
 	}
-
+	
 	private static int getRad()
 	{
 		return radius;
 	}
-
+	
 	private static void openHtml(Player activeChar)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
-
+		
 		if (shape != ZoneShape.NONE)
 		{
 			html.setFile(fileLoc + type());
@@ -273,7 +273,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 		}
 		else
 			html.setFile(fileLoc + "index.htm");
-
+		
 		switch (shape)
 		{
 			case NPoly:
@@ -281,7 +281,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 					html.replace("%proceed%", "<button value=\"Store\" action=\"bypass admin_storeLocs\" back=\"l2ui_ch3.smallbutton2_down\" width=65 height=20 fore=\"l2ui_ch3.smallbutton2\">");
 				else
 					html.replace("%proceed%", "");
-
+				
 				break;
 			case Cuboid:
 				if (savedLocs.size() == 2)
@@ -290,7 +290,7 @@ public class AdminZoneCreation implements IAdminCommandHandler
 					html.replace("%proceed%", "");
 				break;
 			case Cylinder:
-
+				
 				if (savedLocs.size() == 1)
 				{
 					if (radius == 0)
@@ -311,23 +311,23 @@ public class AdminZoneCreation implements IAdminCommandHandler
 				}
 				break;
 		}
-
+		
 		activeChar.sendPacket(html);
-
+		
 	}
-
+	
 	private static String type()
 	{
 		return shape + ".htm";
 	}
-
+	
 	private static void clear()
 	{
 		shape = ZoneShape.NONE;
 		savedLocs.clear();
 		radius = 0;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

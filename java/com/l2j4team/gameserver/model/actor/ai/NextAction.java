@@ -8,13 +8,13 @@ public class NextAction
 {
 	/** After which CtrlEvent is this action supposed to run. */
 	private final CtrlEvent _event;
-
+	
 	/** What is the intention of the action, e.g. if AI gets this CtrlIntention set, NextAction is canceled. */
 	private final CtrlIntention _intention;
-
+	
 	/** Wrapper for NextAction content. */
 	private final Runnable _runnable;
-
+	
 	/**
 	 * Single constructor.
 	 * @param event : After which the NextAction is triggered.
@@ -27,7 +27,7 @@ public class NextAction
 		_intention = intention;
 		_runnable = runnable;
 	}
-
+	
 	/**
 	 * @return the _event
 	 */
@@ -35,7 +35,7 @@ public class NextAction
 	{
 		return _event;
 	}
-
+	
 	/**
 	 * @return the _intention
 	 */
@@ -43,7 +43,7 @@ public class NextAction
 	{
 		return _intention;
 	}
-
+	
 	/**
 	 * Do action.
 	 */

@@ -14,7 +14,7 @@ public class RequestBBSwrite extends L2GameClientPacket
 	private String _arg3;
 	private String _arg4;
 	private String _arg5;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -25,7 +25,7 @@ public class RequestBBSwrite extends L2GameClientPacket
 		_arg4 = readS();
 		_arg5 = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{

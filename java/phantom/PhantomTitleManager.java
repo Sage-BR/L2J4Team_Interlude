@@ -16,37 +16,37 @@ import com.l2j4team.commons.random.Rnd;
 public enum PhantomTitleManager
 {
 	INSTANCE;
-
+	
 	public static final Logger _log = Logger.getLogger(PhantomTitleManager.class.getName());
 	private List<String> _fakePlayerTitles;
-
+	
 	public void initialise()
 	{
 		loadWordlist();
 	}
-
+	
 	public String getRandomAvailableTitle()
 	{
 		String title = getRandomTitlesFromWordlist();
-
+		
 		while (titleAlreadyExists(title))
 		{
 			title = getRandomTitlesFromWordlist();
 		}
-
+		
 		return title;
 	}
-
+	
 	private String getRandomTitlesFromWordlist()
 	{
 		return _fakePlayerTitles.get(Rnd.get(0, _fakePlayerTitles.size() - 1));
 	}
-
+	
 	public List<String> getFakePlayerTitles()
 	{
 		return _fakePlayerTitles;
 	}
-
+	
 	private void loadWordlist()
 	{
 		try (LineNumberReader lnr = new LineNumberReader(new BufferedReader(new FileReader(new File("./config/custom/phantom/phantom_title.ini"))));)
@@ -67,7 +67,7 @@ public enum PhantomTitleManager
 			e.printStackTrace();
 		}
 	}
-
+	
 	private static boolean titleAlreadyExists(String name)
 	{
 		return PlayerNameTable.getInstance().getPlayerObjectId(name) > 0;

@@ -19,13 +19,13 @@ public class WarehouseKeeper extends Folk
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public boolean isWarehouse()
 	{
 		return true;
 	}
-
+	
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -34,33 +34,33 @@ public class WarehouseKeeper extends Folk
 			filename = "" + npcId;
 		else
 			filename = npcId + "-" + val;
-
+		
 		return "data/html/warehouse/" + filename + ".htm";
 	}
-
+	
 	private static void showRetrieveWindow(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 		player.setActiveWarehouse(player.getWarehouse());
-
+		
 		if (player.getActiveWarehouse().getSize() == 0)
 		{
 			player.sendPacket(SystemMessageId.NO_ITEM_DEPOSITED_IN_WH);
 			return;
 		}
-
+		
 		player.sendPacket(new WarehouseWithdrawList(player, WarehouseWithdrawList.PRIVATE));
 	}
-
+	
 	private static void showDepositWindow(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 		player.setActiveWarehouse(player.getWarehouse());
 		player.tempInventoryDisable();
-
+		
 		player.sendPacket(new WarehouseDepositList(player, WarehouseDepositList.PRIVATE));
 	}
-
+	
 	private static void showDepositWindowClan(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -76,7 +76,7 @@ public class WarehouseKeeper extends Folk
 			}
 		}
 	}
-
+	
 	private static void showWithdrawWindowClan(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -85,7 +85,7 @@ public class WarehouseKeeper extends Folk
 			player.sendPacket(SystemMessageId.YOU_DO_NOT_HAVE_THE_RIGHT_TO_USE_CLAN_WAREHOUSE);
 			return;
 		}
-
+		
 		if (player.getClan().getLevel() == 0)
 			player.sendPacket(SystemMessageId.ONLY_LEVEL_1_CLAN_OR_HIGHER_CAN_USE_WAREHOUSE);
 		else
@@ -94,12 +94,12 @@ public class WarehouseKeeper extends Folk
 			player.sendPacket(new WarehouseWithdrawList(player, WarehouseWithdrawList.CLAN));
 		}
 	}
-
+	
 	private void showWithdrawWindowFreight(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 		PcFreight freight = player.getFreight();
-
+		
 		if (freight != null)
 		{
 			if (freight.getSize() > 0)
@@ -108,7 +108,7 @@ public class WarehouseKeeper extends Folk
 					freight.setActiveLocation(0);
 				else
 					freight.setActiveLocation(getRegion().hashCode());
-
+				
 				player.setActiveWarehouse(freight);
 				player.sendPacket(new WarehouseWithdrawList(player, WarehouseWithdrawList.FREIGHT));
 			}
@@ -116,7 +116,7 @@ public class WarehouseKeeper extends Folk
 				player.sendPacket(SystemMessageId.NO_ITEM_DEPOSITED_IN_WH);
 		}
 	}
-
+	
 	private static void showDepositWindowFreight(Player player)
 	{
 		// No other chars in the account of this player
@@ -126,33 +126,33 @@ public class WarehouseKeeper extends Folk
 		else
 		{
 			Map<Integer, String> chars = player.getAccountChars();
-
+			
 			if (chars.size() < 1)
 			{
 				player.sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
-
+			
 			player.sendPacket(new PackageToList(chars));
 		}
 	}
-
+	
 	private void showDepositWindowFreight(Player player, int obj_Id)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
-
+		
 		PcFreight freight = player.getDepositedFreight(obj_Id);
-
+		
 		if (Config.ALT_GAME_FREIGHTS)
 			freight.setActiveLocation(0);
 		else
 			freight.setActiveLocation(getRegion().hashCode());
-
+		
 		player.setActiveWarehouse(freight);
 		player.tempInventoryDisable();
 		player.sendPacket(new WarehouseDepositList(player, WarehouseDepositList.FREIGHT));
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
@@ -161,14 +161,14 @@ public class WarehouseKeeper extends Folk
 			player.sendPacket(SystemMessageId.ALREADY_TRADING);
 			return;
 		}
-
+		
 		if (player.getActiveEnchantItem() != null)
 		{
 			player.setActiveEnchantItem(null);
 			player.sendPacket(EnchantResult.CANCELLED);
 			player.sendPacket(SystemMessageId.ENCHANT_SCROLL_CANCELLED);
 		}
-
+		
 		if (command.startsWith("WithdrawP"))
 			showRetrieveWindow(player);
 		else if (command.equals("DepositP"))

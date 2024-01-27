@@ -17,7 +17,7 @@ import com.l2j4team.commons.random.Rnd;
 public class PolymorphingOnAttack extends L2AttackableAIScript
 {
 	private static final Map<Integer, Integer[]> MOBSPAWNS = new HashMap<>();
-
+	
 	static
 	{
 		MOBSPAWNS.put(21258, new Integer[]
@@ -112,7 +112,7 @@ public class PolymorphingOnAttack extends L2AttackableAIScript
 			-1
 		}); // Fang of Splendor
 	}
-
+	
 	private static final String[][] MOBTEXTS =
 	{
 		new String[]
@@ -134,18 +134,18 @@ public class PolymorphingOnAttack extends L2AttackableAIScript
 			"You have more skill than I thought"
 		}
 	};
-
+	
 	public PolymorphingOnAttack()
 	{
 		super("ai/group");
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addEventIds(MOBSPAWNS.keySet(), EventType.ON_ATTACK);
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
@@ -162,7 +162,7 @@ public class PolymorphingOnAttack extends L2AttackableAIScript
 						npc.broadcastPacket(new CreatureSay(npc.getObjectId(), Say2.ALL, npc.getName(), text));
 					}
 					npc.deleteMe();
-
+					
 					Attackable newNpc = (Attackable) addSpawn(tmp[0], npc.getX(), npc.getY(), npc.getZ() + 10, npc.getHeading(), false, 0, true);
 					attack(newNpc, ((isPet) ? attacker.getPet() : attacker));
 				}

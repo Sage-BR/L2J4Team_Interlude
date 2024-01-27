@@ -14,7 +14,7 @@ public class AdminTarget implements IAdminCommandHandler
 	{
 		"admin_target"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -22,20 +22,20 @@ public class AdminTarget implements IAdminCommandHandler
 			handleTarget(command, activeChar);
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 	private static void handleTarget(String command, Player activeChar)
 	{
 		try
 		{
 			String targetName = command.substring(13);
 			Player obj = World.getInstance().getPlayer(targetName);
-
+			
 			if (obj != null)
 				obj.onAction(activeChar);
 			else

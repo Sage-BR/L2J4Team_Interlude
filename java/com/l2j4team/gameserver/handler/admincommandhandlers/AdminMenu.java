@@ -11,7 +11,7 @@ public class AdminMenu implements IAdminCommandHandler
 		"admin_char_manage",
 		"admin_teleport_character_to_menu"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -29,16 +29,16 @@ public class AdminMenu implements IAdminCommandHandler
 			}
 			showMainPage(activeChar);
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 	private static void teleportCharacter(Player player, int x, int y, int z, Player activeChar)
 	{
 		if (player != null)
@@ -48,7 +48,7 @@ public class AdminMenu implements IAdminCommandHandler
 		}
 		showMainPage(activeChar);
 	}
-
+	
 	private static void showMainPage(Player activeChar)
 	{
 		AdminHelpPage.showHelpPage(activeChar, "charmanage.htm");

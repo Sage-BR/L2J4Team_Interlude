@@ -8,12 +8,12 @@ import com.l2j4team.gameserver.model.partymatching.PartyMatchRoom;
 public class PartyMatchDetail extends L2GameServerPacket
 {
 	private final PartyMatchRoom _room;
-
+	
 	public PartyMatchDetail(PartyMatchRoom room)
 	{
 		_room = room;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

@@ -10,23 +10,23 @@ public class EffectAbortCast extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.ABORT_CAST;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		if (getEffected() == null || getEffected() == getEffector() || getEffected().isRaid())
 			return false;
-
+		
 		getEffected().breakCast();
 		return true;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

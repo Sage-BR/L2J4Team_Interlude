@@ -13,7 +13,7 @@ public class AdminHelpPage implements IAdminCommandHandler
 	{
 		"admin_help"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -28,16 +28,16 @@ public class AdminHelpPage implements IAdminCommandHandler
 			{
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 	// FIXME: implement method to send html to player in Player directly
 	// PUBLIC & STATIC so other classes from package can include it directly
 	public static void showHelpPage(Player targetChar, String filename)

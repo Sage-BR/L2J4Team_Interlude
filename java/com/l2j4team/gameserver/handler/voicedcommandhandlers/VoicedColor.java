@@ -39,7 +39,7 @@ public class VoicedColor implements IVoicedCommandHandler
 		"titlecolor"
 	};
 	public static final Logger _log = Logger.getLogger(VoicedColor.class.getName());
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -58,10 +58,10 @@ public class VoicedColor implements IVoicedCommandHandler
 				activeChar.sendPacket(cs);
 				return false;
 			}
-
+			
 			if (activeChar.isVip() || activeChar.destroyItemByItemId("NameColor", Config.COLOR_ITEM_ID, Config.COLOR_NAME_ITEM_AMOUNT, null, true))
 				nameColor(command, activeChar);
-
+			
 			color_html(activeChar);
 		}
 		else if (command.startsWith("titlecolor"))
@@ -72,27 +72,27 @@ public class VoicedColor implements IVoicedCommandHandler
 				activeChar.sendPacket(cs);
 				return false;
 			}
-
+			
 			if (activeChar.isVip() || activeChar.destroyItemByItemId("TitleColor", Config.COLOR_ITEM_ID, Config.COLOR_TITLE_ITEM_AMOUNT, null, true))
 				titleColor(command, activeChar);
-
+			
 			color_html(activeChar);
 		}
 		return false;
 	}
-
+	
 	private static void nameColor(String command, Player player)
 	{
 		try
 		{
 			String nameColor = command.substring(10);
 			player.getAppearance().setNameColor(Integer.decode(nameColor));
-
+			
 			player.sendMessage("A cor do seu nome foi alterado!");
 			player.broadcastUserInfo();
-
+			
 			color_html(player);
-
+			
 			try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 			{
 				PreparedStatement statement = con.prepareStatement(NAME_UPDATE);
@@ -106,25 +106,25 @@ public class VoicedColor implements IVoicedCommandHandler
 			{
 				_log.log(Level.SEVERE, "nameColor", e);
 			}
-
+			
 		}
 		catch (IndexOutOfBoundsException e)
 		{
 		}
 	}
-
+	
 	private static void titleColor(String command, Player player)
 	{
 		try
 		{
 			String titleColor = command.substring(11);
 			player.getAppearance().setTitleColor(Integer.decode(titleColor));
-
+			
 			player.sendMessage("A cor do seu title foi alterado!");
 			player.broadcastUserInfo();
-
+			
 			color_html(player);
-
+			
 			try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 			{
 				PreparedStatement statement = con.prepareStatement(TITLE_UPDATE);
@@ -138,17 +138,17 @@ public class VoicedColor implements IVoicedCommandHandler
 			{
 				_log.log(Level.SEVERE, "titleColor", e);
 			}
-
+			
 		}
 		catch (IndexOutOfBoundsException e)
 		{
 		}
 	}
-
+	
 	static String NAME_UPDATE = "UPDATE characters SET color_name=?, char_name=? WHERE obj_Id=?";
-
+	
 	static String TITLE_UPDATE = "UPDATE characters SET color_title=?, char_name=? WHERE obj_Id=?";
-
+	
 	private static void color_html(Player activeChar)
 	{
 		String itemName = ItemTable.getInstance().getTemplate(Config.COLOR_ITEM_ID).getName();
@@ -156,30 +156,30 @@ public class VoicedColor implements IVoicedCommandHandler
 		NpcHtmlMessage msg = new NpcHtmlMessage(5);
 		msg.setFile(htmFile);
 		msg.replace("%player%", activeChar.getName());
-
+		
 		if (activeChar.isVip())
 			msg.replace("%name%", "Free /");
 		else
 			msg.replace("%name%", String.valueOf(Config.COLOR_NAME_ITEM_AMOUNT));
-
+		
 		if (activeChar.isVip())
 			msg.replace("%item%", "Gratis");
 		else
 			msg.replace("%item%", itemName);
-
+		
 		if (activeChar.isVip())
 			msg.replace("%title%", "Free /");
 		else
 			msg.replace("%title%", String.valueOf(Config.COLOR_TITLE_ITEM_AMOUNT));
-
+		
 		activeChar.sendPacket(msg);
 	}
-
+	
 	public boolean useVoicedCommand(String command, String all, Player activeChar, String text)
 	{
 		return false;
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

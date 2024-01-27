@@ -8,7 +8,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q126_TheNameOfEvil_2 extends Quest
 {
 	public static final String qn = "Q126_TheNameOfEvil_2";
-
+	
 	private static final int MUSHIKA = 32114;
 	private static final int ASAMANAH = 32115;
 	private static final int ULU_KAIMU = 32119;
@@ -16,18 +16,18 @@ public class Q126_TheNameOfEvil_2 extends Quest
 	private static final int CHUTA_KAIMU = 32121;
 	private static final int WARRIOR_GRAVE = 32122;
 	private static final int SHILEN_STONE_STATUE = 32109;
-
+	
 	private static final int BONEPOWDER = 8783;
 	private static final int EWA = 729;
-
+	
 	public Q126_TheNameOfEvil_2()
 	{
 		super(126, "The Name of Evil - 2");
-
+		
 		addStartNpc(ASAMANAH);
 		addTalkId(ASAMANAH, MUSHIKA, ULU_KAIMU, BALU_KAIMU, CHUTA_KAIMU, WARRIOR_GRAVE, SHILEN_STONE_STATUE);
 	}
-
+	
 	@Override
 	public final String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -35,7 +35,7 @@ public class Q126_TheNameOfEvil_2 extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("32115-05.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -236,10 +236,10 @@ public class Q126_TheNameOfEvil_2 extends Quest
 				st.set("MI_2", "1");
 			htmltext = getSongTri(st);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -247,7 +247,7 @@ public class Q126_TheNameOfEvil_2 extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -262,7 +262,7 @@ public class Q126_TheNameOfEvil_2 extends Quest
 						htmltext = "32115-04.htm";
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -283,7 +283,7 @@ public class Q126_TheNameOfEvil_2 extends Quest
 						else if (cond == 22)
 							htmltext = "32115-29.htm";
 						break;
-
+					
 					case ULU_KAIMU:
 						if (cond == 1)
 							htmltext = "32119-01a.htm";
@@ -296,7 +296,7 @@ public class Q126_TheNameOfEvil_2 extends Quest
 						else if (cond > 4)
 							htmltext = "32119-12.htm";
 						break;
-
+					
 					case BALU_KAIMU:
 						if (cond < 5)
 							htmltext = "32120-02.htm";
@@ -309,7 +309,7 @@ public class Q126_TheNameOfEvil_2 extends Quest
 						else if (cond > 7)
 							htmltext = "32120-12.htm";
 						break;
-
+					
 					case CHUTA_KAIMU:
 						if (cond < 8)
 							htmltext = "32121-02.htm";
@@ -322,7 +322,7 @@ public class Q126_TheNameOfEvil_2 extends Quest
 						else if (cond > 10)
 							htmltext = "32121-16.htm";
 						break;
-
+					
 					case WARRIOR_GRAVE:
 						if (cond < 11)
 							htmltext = "32122-02.htm";
@@ -343,7 +343,7 @@ public class Q126_TheNameOfEvil_2 extends Quest
 						else if (cond == 18)
 							htmltext = "32122-91.htm";
 						break;
-
+					
 					case SHILEN_STONE_STATUE:
 						if (cond < 18)
 							htmltext = "32109-03.htm";
@@ -354,7 +354,7 @@ public class Q126_TheNameOfEvil_2 extends Quest
 						else if (cond > 19)
 							htmltext = "32109-04.htm";
 						break;
-
+					
 					case MUSHIKA:
 						if (cond < 22)
 							htmltext = "32114-02.htm";
@@ -365,15 +365,15 @@ public class Q126_TheNameOfEvil_2 extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	private static String getSongOne(QuestState st)
 	{
 		String htmltext = "32122-24.htm";
@@ -390,7 +390,7 @@ public class Q126_TheNameOfEvil_2 extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	private static String getSongTwo(QuestState st)
 	{
 		String htmltext = "32122-45.htm";
@@ -407,7 +407,7 @@ public class Q126_TheNameOfEvil_2 extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	private static String getSongTri(QuestState st)
 	{
 		String htmltext = "32122-66.htm";

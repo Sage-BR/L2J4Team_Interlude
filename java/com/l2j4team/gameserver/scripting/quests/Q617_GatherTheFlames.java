@@ -14,15 +14,15 @@ import com.l2j4team.commons.random.Rnd;
 public class Q617_GatherTheFlames extends Quest
 {
 	private static final String qn = "Q617_GatherTheFlames";
-
+	
 	// NPCs
 	private static final int HILDA = 31271;
 	private static final int VULCAN = 31539;
 	private static final int ROONEY = 32049;
-
+	
 	// Items
 	private static final int TORCH = 7264;
-
+	
 	// Drop chances
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
@@ -53,7 +53,7 @@ public class Q617_GatherTheFlames extends Quest
 		CHANCES.put(21379, 590000);
 		CHANCES.put(21380, 490000);
 	}
-
+	
 	// Rewards
 	private static final int REWARD[] =
 	{
@@ -68,20 +68,20 @@ public class Q617_GatherTheFlames extends Quest
 		6899,
 		7580
 	};
-
+	
 	public Q617_GatherTheFlames()
 	{
 		super(617, "Gather the Flames");
-
+		
 		setItemsIds(TORCH);
-
+		
 		addStartNpc(VULCAN, HILDA);
 		addTalkId(VULCAN, HILDA, ROONEY);
-
+		
 		for (int mobs : CHANCES.keySet())
 			addKillId(mobs);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -89,7 +89,7 @@ public class Q617_GatherTheFlames extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31539-03.htm") || event.equalsIgnoreCase("31271-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -121,10 +121,10 @@ public class Q617_GatherTheFlames extends Quest
 			else
 				htmltext = "32049-02.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -132,43 +132,43 @@ public class Q617_GatherTheFlames extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = npc.getNpcId() + ((player.getLevel() >= 74) ? "-01.htm" : "-02.htm");
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
 					case VULCAN:
 						htmltext = (st.getQuestItemsCount(TORCH) >= 1000) ? "31539-04.htm" : "31539-05.htm";
 						break;
-
+					
 					case HILDA:
 						htmltext = "31271-04.htm";
 						break;
-
+					
 					case ROONEY:
 						htmltext = (st.getQuestItemsCount(TORCH) >= 1200) ? "32049-01.htm" : "32049-02.htm";
 						break;
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		partyMember.getQuestState(qn).dropItems(TORCH, 1, 0, CHANCES.get(npc.getNpcId()));
-
+		
 		return null;
 	}
 }

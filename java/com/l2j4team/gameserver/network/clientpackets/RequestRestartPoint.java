@@ -25,33 +25,33 @@ public final class RequestRestartPoint extends L2GameClientPacket
 	protected static final Location GIRAN_LOCATION_2 = new Location(82856, 149080, -3464);
 	protected static final Location GIRAN_LOCATION_3 = new Location(81027, 149141, -3472);
 	protected static final Location GIRAN_LOCATION_4 = new Location(81032, 148104, -3464);
-
+	
 	protected int _requestType;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_requestType = readD();
 	}
-
+	
 	class DeathTask implements Runnable
 	{
 		final Player _player;
-
+		
 		DeathTask(Player player)
 		{
 			_player = player;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			final Clan clan = _player.getClan();
-
+			
 			Location loc = null;
-
+			
 			long check = _player.getDeathTimer() + 2000;
-
+			
 			if (!_player._inEventTvT && !_player._inEventCTF && System.currentTimeMillis() < check)
 			{
 				ThreadPool.schedule(new Runnable()
@@ -62,7 +62,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 						for (Player p : World.getInstance().getPlayers())
 						{
 							String all_hwids = p.getHWID();
-
+							
 							if (_player.isOnline())
 							{
 								if (all_hwids.equals(_player.getHWID()))
@@ -73,16 +73,16 @@ public final class RequestRestartPoint extends L2GameClientPacket
 				}, 100);
 				return;
 			}
-
+			
 			if ((TvT.is_started() && _player._inEventTvT) || (CTF.is_started() && _player._inEventCTF))
 				return;
-
+			
 			// Enforce type.
 			if (_player.isInJail())
 				_requestType = 27;
 			else if (_player.isFestivalParticipant())
 				_requestType = 4;
-
+			
 			// To clanhall.
 			if (_requestType == 1)
 			{
@@ -91,9 +91,9 @@ public final class RequestRestartPoint extends L2GameClientPacket
 					_log.warning(_player.getName() + " called RestartPointPacket - To Clanhall while he doesn't have clan / Clanhall.");
 					return;
 				}
-
+				
 				loc = MapRegionTable.getInstance().getLocationToTeleport(_player, TeleportType.CLAN_HALL);
-
+				
 				final ClanHall ch = ClanHallManager.getInstance().getClanHallByOwner(clan);
 				if (ch != null)
 				{
@@ -114,11 +114,11 @@ public final class RequestRestartPoint extends L2GameClientPacket
 						case OWNER:
 							loc = MapRegionTable.getInstance().getLocationToTeleport(_player, TeleportType.CASTLE);
 							break;
-
+						
 						case ATTACKER:
 							loc = MapRegionTable.getInstance().getLocationToTeleport(_player, TeleportType.TOWN);
 							break;
-
+						
 						default:
 							_log.warning(_player.getName() + " called RestartPointPacket - To Castle while he isn't registered to any castle siege.");
 							return;
@@ -128,7 +128,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 				{
 					if (clan == null || !clan.hasCastle())
 						return;
-
+					
 					loc = MapRegionTable.getInstance().getLocationToTeleport(_player, TeleportType.CASTLE);
 				}
 			}
@@ -155,45 +155,45 @@ public final class RequestRestartPoint extends L2GameClientPacket
 					else
 						loc = GIRAN_LOCATION_1;
 				}
-
+				
 			}
 			// To jail.
 			else if (_requestType == 27)
 			{
 				if (!_player.isInJail())
 					return;
-
+				
 				loc = JAIL_LOCATION;
 			}
 			// Nothing has been found, use regular "To town" behavior.
 			else
 				loc = MapRegionTable.getInstance().getLocationToTeleport(_player, TeleportType.TOWN);
-
+			
 			_player.setIsIn7sDungeon(false);
-
+			
 			if (_player.isDead())
 				_player.doRevive();
-
+			
 			_player.teleToLocation(loc, 100);
 		}
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		if (player.isFakeDeath())
 		{
 			player.stopFakeDeath(true);
 			return;
 		}
-
+		
 		if (!player.isDead())
 			return;
-
+		
 		// Schedule a respawn delay if player is part of a clan registered in an active siege.
 		if (player.getClan() != null)
 		{
@@ -201,14 +201,14 @@ public final class RequestRestartPoint extends L2GameClientPacket
 			if (siege != null && siege.checkSide(player.getClan(), SiegeSide.ATTACKER))
 			{
 				ThreadPool.schedule(new DeathTask(player), Config.ATTACKERS_RESPAWN_DELAY);
-
+				
 				if (Config.ATTACKERS_RESPAWN_DELAY > 0)
 					player.sendMessage("You will be teleported in " + Config.ATTACKERS_RESPAWN_DELAY / 1000 + " seconds.");
-
+				
 				return;
 			}
 		}
-
+		
 		// Run the task immediately (no need to schedule).
 		new DeathTask(player).run();
 	}

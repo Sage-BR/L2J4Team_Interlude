@@ -9,13 +9,13 @@ import java.util.List;
 public class AbnormalStatusUpdate extends L2GameServerPacket
 {
 	private final List<Effect> _effects;
-
+	
 	private static class Effect
 	{
 		protected int _skillId;
 		protected int _level;
 		protected int _duration;
-
+		
 		public Effect(int pSkillId, int pLevel, int pDuration)
 		{
 			_skillId = pSkillId;
@@ -23,29 +23,29 @@ public class AbnormalStatusUpdate extends L2GameServerPacket
 			_duration = pDuration;
 		}
 	}
-
+	
 	public AbnormalStatusUpdate()
 	{
 		_effects = new ArrayList<>();
 	}
-
+	
 	public void addEffect(int skillId, int level, int duration)
 	{
 		_effects.add(new Effect(skillId, level, duration));
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x7f);
-
+		
 		writeH(_effects.size());
-
+		
 		for (Effect temp : _effects)
 		{
 			writeD(temp._skillId);
 			writeH(temp._level);
-
+			
 			if (temp._duration == -1)
 				writeD(-1);
 			else

@@ -8,7 +8,7 @@ public class TargetUnselected extends L2GameServerPacket
 	private final int _x;
 	private final int _y;
 	private final int _z;
-
+	
 	public TargetUnselected(Creature character)
 	{
 		_targetObjId = character.getObjectId();
@@ -16,7 +16,7 @@ public class TargetUnselected extends L2GameServerPacket
 		_y = character.getY();
 		_z = character.getZ();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

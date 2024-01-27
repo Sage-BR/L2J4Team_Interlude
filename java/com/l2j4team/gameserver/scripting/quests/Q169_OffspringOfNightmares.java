@@ -9,24 +9,24 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q169_OffspringOfNightmares extends Quest
 {
 	private static final String qn = "Q169_OffspringOfNightmares";
-
+	
 	// Items
 	private static final int CRACKED_SKULL = 1030;
 	private static final int PERFECT_SKULL = 1031;
 	private static final int BONE_GAITERS = 31;
-
+	
 	public Q169_OffspringOfNightmares()
 	{
 		super(169, "Offspring of Nightmares");
-
+		
 		setItemsIds(CRACKED_SKULL, PERFECT_SKULL);
-
+		
 		addStartNpc(30145); // Vlasty
 		addTalkId(30145);
-
+		
 		addKillId(20105, 20025);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -34,7 +34,7 @@ public class Q169_OffspringOfNightmares extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30145-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -51,10 +51,10 @@ public class Q169_OffspringOfNightmares extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -62,7 +62,7 @@ public class Q169_OffspringOfNightmares extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -73,7 +73,7 @@ public class Q169_OffspringOfNightmares extends Quest
 				else
 					htmltext = "30145-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				if (cond == 1)
@@ -86,27 +86,27 @@ public class Q169_OffspringOfNightmares extends Quest
 				else if (cond == 2)
 					htmltext = "30145-07.htm";
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		if (st.getInt("cond") == 1 && st.dropItems(PERFECT_SKULL, 1, 1, 200000))
 			st.set("cond", "2");
 		else
 			st.dropItems(CRACKED_SKULL, 1, 0, 500000);
-
+		
 		return null;
 	}
 }

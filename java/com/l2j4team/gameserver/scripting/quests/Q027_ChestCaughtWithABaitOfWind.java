@@ -8,26 +8,26 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q027_ChestCaughtWithABaitOfWind extends Quest
 {
 	private static final String qn = "Q027_ChestCaughtWithABaitOfWind";
-
+	
 	// NPCs
 	private static final int LANOSCO = 31570;
 	private static final int SHALING = 31442;
-
+	
 	// Items
 	private static final int LARGE_BLUE_TREASURE_CHEST = 6500;
 	private static final int STRANGE_BLUEPRINT = 7625;
 	private static final int BLACK_PEARL_RING = 880;
-
+	
 	public Q027_ChestCaughtWithABaitOfWind()
 	{
 		super(27, "Chest caught with a bait of wind");
-
+		
 		setItemsIds(STRANGE_BLUEPRINT);
-
+		
 		addStartNpc(LANOSCO);
 		addTalkId(LANOSCO, SHALING);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -35,7 +35,7 @@ public class Q027_ChestCaughtWithABaitOfWind extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31570-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -66,10 +66,10 @@ public class Q027_ChestCaughtWithABaitOfWind extends Quest
 			else
 				htmltext = "31434-03.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -77,7 +77,7 @@ public class Q027_ChestCaughtWithABaitOfWind extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -92,7 +92,7 @@ public class Q027_ChestCaughtWithABaitOfWind extends Quest
 						htmltext = "31570-03.htm";
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -103,19 +103,19 @@ public class Q027_ChestCaughtWithABaitOfWind extends Quest
 						else if (cond == 2)
 							htmltext = "31570-09.htm";
 						break;
-
+					
 					case SHALING:
 						if (cond == 2)
 							htmltext = "31434-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

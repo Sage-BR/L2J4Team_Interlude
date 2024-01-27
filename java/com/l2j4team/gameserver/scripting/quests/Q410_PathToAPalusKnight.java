@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q410_PathToAPalusKnight extends Quest
 {
 	private static final String qn = "Q410_PathToAPalusKnight";
-
+	
 	// Items
 	private static final int PALUS_TALISMAN = 1237;
 	private static final int LYCANTHROPE_SKULL = 1238;
@@ -20,28 +20,28 @@ public class Q410_PathToAPalusKnight extends Quest
 	private static final int ARACHNID_TRACKER_SILK = 1242;
 	private static final int COFFIN_OF_ETERNAL_REST = 1243;
 	private static final int GAZE_OF_ABYSS = 1244;
-
+	
 	// NPCs
 	private static final int KALINTA = 30422;
 	private static final int VIRGIL = 30329;
-
+	
 	// Monsters
 	private static final int POISON_SPIDER = 20038;
 	private static final int ARACHNID_TRACKER = 20043;
 	private static final int LYCANTHROPE = 20049;
-
+	
 	public Q410_PathToAPalusKnight()
 	{
 		super(410, "Path to a Palus Knight");
-
+		
 		setItemsIds(PALUS_TALISMAN, LYCANTHROPE_SKULL, VIRGIL_LETTER, MORTE_TALISMAN, PREDATOR_CARAPACE, ARACHNID_TRACKER_SILK, COFFIN_OF_ETERNAL_REST);
-
+		
 		addStartNpc(VIRGIL);
 		addTalkId(VIRGIL, KALINTA);
-
+		
 		addKillId(POISON_SPIDER, ARACHNID_TRACKER, LYCANTHROPE);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -49,7 +49,7 @@ public class Q410_PathToAPalusKnight extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30329-05.htm"))
 		{
 			if (player.getClassId() != ClassId.DARK_FIGHTER)
@@ -90,10 +90,10 @@ public class Q410_PathToAPalusKnight extends Quest
 			st.takeItems(PREDATOR_CARAPACE, -1);
 			st.giveItems(COFFIN_OF_ETERNAL_REST, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -101,13 +101,13 @@ public class Q410_PathToAPalusKnight extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "30329-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -130,7 +130,7 @@ public class Q410_PathToAPalusKnight extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case KALINTA:
 						if (cond == 3)
 							htmltext = "30422-01.htm";
@@ -149,35 +149,35 @@ public class Q410_PathToAPalusKnight extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case LYCANTHROPE:
 				if (st.getInt("cond") == 1 && st.dropItemsAlways(LYCANTHROPE_SKULL, 1, 13))
 					st.set("cond", "2");
 				break;
-
+			
 			case ARACHNID_TRACKER:
 				if (st.getInt("cond") == 4 && st.dropItemsAlways(ARACHNID_TRACKER_SILK, 1, 5) && st.hasQuestItems(PREDATOR_CARAPACE))
 					st.set("cond", "5");
 				break;
-
+			
 			case POISON_SPIDER:
 				if (st.getInt("cond") == 4 && st.dropItemsAlways(PREDATOR_CARAPACE, 1, 1) && st.getQuestItemsCount(ARACHNID_TRACKER_SILK) == 5)
 					st.set("cond", "5");
 				break;
 		}
-
+		
 		return null;
 	}
 }

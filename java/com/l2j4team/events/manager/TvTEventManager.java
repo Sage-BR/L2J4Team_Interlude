@@ -34,37 +34,37 @@ import java.util.logging.Logger;
 public class TvTEventManager
 {
 	protected static final Logger _log = Logger.getLogger(TvTEventManager.class.getName());
-
+	
 	public static ArrayList<String> TVT_TIMES_LIST;
-
+	
 	private static TvTEventManager instance = null;
-
+	
 	private TvTEventManager()
 	{
 		loadTvTConfig();
 	}
-
+	
 	private Calendar NextEvent;
 	private final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-
+	
 	public String getNextTime()
 	{
 		if (NextEvent.getTime() != null)
 			return format.format(NextEvent.getTime());
 		return "Erro";
 	}
-
+	
 	public static TvTEventManager getInstance()
 	{
-
+		
 		if (instance == null)
 		{
 			instance = new TvTEventManager();
 		}
 		return instance;
-
+		
 	}
-
+	
 	public void StartCalculationOfNextEventTime()
 	{
 		try
@@ -73,7 +73,7 @@ public class TvTEventManager
 			Calendar testStartTime = null;
 			long flush2 = 0, timeL = 0;
 			int count = 0;
-
+			
 			for (String timeOfDay : TVT_TIMES_LIST)
 			{
 				testStartTime = Calendar.getInstance();
@@ -86,21 +86,21 @@ public class TvTEventManager
 				{
 					testStartTime.add(Calendar.DAY_OF_MONTH, 1);
 				}
-
+				
 				timeL = testStartTime.getTimeInMillis() - currentTime.getTimeInMillis();
-
+				
 				if (count == 0)
 				{
 					flush2 = timeL;
 					NextEvent = testStartTime;
 				}
-
+				
 				if (timeL < flush2)
 				{
 					flush2 = timeL;
 					NextEvent = testStartTime;
 				}
-
+				
 				count++;
 			}
 			_log.info("TvT Event Proximo Evento: " + NextEvent.getTime().toString());
@@ -110,34 +110,34 @@ public class TvTEventManager
 			System.out.println(" TVT Next Event Info: " + e);
 		}
 	}
-
+	
 	public static void loadTvTConfig()
 	{
-
+		
 		InputStream is = null;
 		try
 		{
 			Properties eventSettings = new Properties();
 			is = new FileInputStream(new File(Config.TVT_FILE));
 			eventSettings.load(is);
-
+			
 			// ============================================================
-
+			
 			TVT_TIMES_LIST = new ArrayList<>();
-
+			
 			String[] propertySplit;
 			propertySplit = eventSettings.getProperty("TVTStartTime", "").split(";");
-
+			
 			for (String time : propertySplit)
 			{
 				TVT_TIMES_LIST.add(time);
 			}
-
+			
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-
+			
 		}
 		finally
 		{
@@ -153,29 +153,29 @@ public class TvTEventManager
 				}
 			}
 		}
-
+		
 	}
-
+	
 	public void startTvTEventRegistration()
 	{
-
+		
 		if (Config.TVT_EVENT_ENABLED)
 			registerTvT();
-
+		
 	}
-
+	
 	private static void registerTvT()
 	{
-
+		
 		TvT.loadData();
 		if (!TvT.checkStartJoinOk())
 		{
 			_log.log(Level.SEVERE, "registerTvT: TvT Event is not setted Properly");
 		}
-
+		
 		// clear all tvt
 		EventsGlobalTask.getInstance().clearEventTasksByEventName(TvT.get_eventName());
-
+		
 		for (String time : TVT_TIMES_LIST)
 		{
 			TvT newInstance = TvT.getNewInstance();
@@ -183,6 +183,6 @@ public class TvTEventManager
 			newInstance.setEventStartTime(time);
 			EventsGlobalTask.getInstance().registerNewEventTask(newInstance);
 		}
-
+		
 	}
 }

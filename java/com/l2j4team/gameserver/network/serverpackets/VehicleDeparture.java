@@ -10,7 +10,7 @@ public class VehicleDeparture extends L2GameServerPacket
 	private final int _z;
 	private final int _moveSpeed;
 	private final int _rotationSpeed;
-
+	
 	public VehicleDeparture(Vehicle boat)
 	{
 		_objectId = boat.getObjectId();
@@ -20,7 +20,7 @@ public class VehicleDeparture extends L2GameServerPacket
 		_moveSpeed = (int) boat.getStat().getMoveSpeed();
 		_rotationSpeed = boat.getStat().getRotationSpeed();
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

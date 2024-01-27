@@ -31,7 +31,7 @@ public class NpcTemplate extends CreatureTemplate
 		SHORT_RANGE,
 		SUICIDE
 	}
-
+	
 	public static enum AIType
 	{
 		DEFAULT,
@@ -40,7 +40,7 @@ public class NpcTemplate extends CreatureTemplate
 		HEALER,
 		CORPSE
 	}
-
+	
 	public static enum Race
 	{
 		UNKNOWN,
@@ -67,12 +67,12 @@ public class NpcTemplate extends CreatureTemplate
 		SIEGEWEAPON,
 		DEFENDINGARMY,
 		MERCENARIE;
-
+		
 		public static final Race[] VALUES = values();
 	}
-
+	
 	protected static final Logger _log = Logger.getLogger(NpcTemplate.class.getName());
-
+	
 	private final int _npcId;
 	private final int _idTemplate;
 	private final String _type;
@@ -88,37 +88,37 @@ public class NpcTemplate extends CreatureTemplate
 	private final int _lHand;
 	private final int _enchantEffect;
 	private final int _corpseTime;
-
+	
 	private int _dropHerbGroup;
 	private Race _race = Race.UNKNOWN;
 	private final AIType _aiType;
-
+	
 	private final int _ssCount;
 	private final int _ssRate;
 	private final int _spsCount;
 	private final int _spsRate;
 	private final int _aggroRange;
-
+	
 	private String[] _clans;
 	private int _clanRange;
 	private int[] _ignoredIds;
-
+	
 	private final boolean _canMove;
 	private final boolean _isSeedable;
-
+	
 	private final List<DropCategory> _categories;
 	private final List<MinionData> _minions;
 	private List<ClassId> _teachInfo;
-
+	
 	private final Map<SkillType, List<L2Skill>> _skills = new HashMap<>();
 	private final Map<EventType, List<Quest>> _questEvents = new HashMap<>();
-
+	
 	private Castle _castle;
-
+	
 	public NpcTemplate(StatsSet set)
 	{
 		super(set);
-
+		
 		_npcId = set.getInteger("id");
 		_idTemplate = set.getInteger("idTemplate", _npcId);
 		_type = set.getString("type");
@@ -134,51 +134,51 @@ public class NpcTemplate extends CreatureTemplate
 		_lHand = set.getInteger("lHand", 0);
 		_enchantEffect = set.getInteger("enchant", 0);
 		_corpseTime = set.getInteger("corpseTime", 7);
-
+		
 		_dropHerbGroup = set.getInteger("dropHerbGroup", 0);
 		if (_dropHerbGroup > 0 && HerbDropData.getInstance().getHerbDroplist(_dropHerbGroup) == null)
 		{
 			_log.warning("Missing dropHerbGroup information for npcId: " + _npcId + ", dropHerbGroup: " + _dropHerbGroup);
 			_dropHerbGroup = 0;
 		}
-
+		
 		if (set.containsKey("raceId"))
 			setRace(set.getInteger("raceId"));
-
+		
 		_aiType = set.getEnum("aiType", AIType.class, AIType.DEFAULT);
-
+		
 		_ssCount = set.getInteger("ssCount", 0);
 		_ssRate = set.getInteger("ssRate", 0);
 		_spsCount = set.getInteger("spsCount", 0);
 		_spsRate = set.getInteger("spsRate", 0);
 		_aggroRange = set.getInteger("aggro", 0);
-
+		
 		if (set.containsKey("clan"))
 		{
 			_clans = set.getStringArray("clan");
 			_clanRange = set.getInteger("clanRange");
-
+			
 			if (set.containsKey("ignoredIds"))
 				_ignoredIds = set.getIntegerArray("ignoredIds");
 		}
-
+		
 		_canMove = set.getBool("canMove", true);
 		_isSeedable = set.getBool("seedable", false);
-
+		
 		_categories = set.getList("drops");
 		_minions = set.getList("minions");
-
+		
 		if (set.containsKey("teachTo"))
 		{
 			final int[] classIds = set.getIntegerArray("teachTo");
-
+			
 			_teachInfo = new ArrayList<>(classIds.length);
 			for (int classId : classIds)
 				_teachInfo.add(ClassId.VALUES[classId]);
 		}
-
+		
 		addSkills(set.getList("skills"));
-
+		
 		// Set the Castle.
 		for (Castle castle : CastleManager.getInstance().getCastles())
 		{
@@ -189,22 +189,22 @@ public class NpcTemplate extends CreatureTemplate
 			}
 		}
 	}
-
+	
 	public int getNpcId()
 	{
 		return _npcId;
 	}
-
+	
 	public int getIdTemplate()
 	{
 		return _idTemplate;
 	}
-
+	
 	public String getType()
 	{
 		return _type;
 	}
-
+	
 	/**
 	 * Checks types, ignore case.
 	 * @param t the type to check.
@@ -214,141 +214,141 @@ public class NpcTemplate extends CreatureTemplate
 	{
 		return _type.equalsIgnoreCase(t);
 	}
-
+	
 	public String getName()
 	{
 		return _name;
 	}
-
+	
 	public boolean isUsingServerSideName()
 	{
 		return _usingServerSideName;
 	}
-
+	
 	public String getTitle()
 	{
 		return _title;
 	}
-
+	
 	public boolean isUsingServerSideTitle()
 	{
 		return _usingServerSideTitle;
 	}
-
+	
 	public boolean cantBeChampion()
 	{
 		return _cantBeChampionMonster;
 	}
-
+	
 	public byte getLevel()
 	{
 		return _level;
 	}
-
+	
 	public int getRewardExp()
 	{
 		return _exp;
 	}
-
+	
 	public int getRewardSp()
 	{
 		return _sp;
 	}
-
+	
 	public int getRightHand()
 	{
 		return _rHand;
 	}
-
+	
 	public int getLeftHand()
 	{
 		return _lHand;
 	}
-
+	
 	public int getEnchantEffect()
 	{
 		return _enchantEffect;
 	}
-
+	
 	public int getCorpseTime()
 	{
 		return _corpseTime;
 	}
-
+	
 	public int getDropHerbGroup()
 	{
 		return _dropHerbGroup;
 	}
-
+	
 	public Race getRace()
 	{
 		return _race;
 	}
-
+	
 	public void setRace(int raceId)
 	{
 		// Race.UNKNOWN is already the default value. No needs to handle it.
 		if (raceId < 1 || raceId > 23)
 			return;
-
+		
 		_race = Race.VALUES[raceId];
 	}
-
+	
 	public AIType getAiType()
 	{
 		return _aiType;
 	}
-
+	
 	public int getSsCount()
 	{
 		return _ssCount;
 	}
-
+	
 	public int getSsRate()
 	{
 		return _ssRate;
 	}
-
+	
 	public int getSpsCount()
 	{
 		return _spsCount;
 	}
-
+	
 	public int getSpsRate()
 	{
 		return _spsRate;
 	}
-
+	
 	public int getAggroRange()
 	{
 		return _aggroRange;
 	}
-
+	
 	public String[] getClans()
 	{
 		return _clans;
 	}
-
+	
 	public int getClanRange()
 	{
 		return _clanRange;
 	}
-
+	
 	public int[] getIgnoredIds()
 	{
 		return _ignoredIds;
 	}
-
+	
 	public boolean canMove()
 	{
 		return _canMove;
 	}
-
+	
 	public boolean isSeedable()
 	{
 		return _isSeedable;
 	}
-
+	
 	/**
 	 * @return the list of all possible UNCATEGORIZED drops of this L2NpcTemplate.
 	 */
@@ -356,12 +356,12 @@ public class NpcTemplate extends CreatureTemplate
 	{
 		return _categories;
 	}
-
+	
 	public Castle getCastle()
 	{
 		return _castle;
 	}
-
+	
 	/**
 	 * @return the list of all possible item drops of this L2NpcTemplate. (ie full drops and part drops, mats, miscellaneous & UNCATEGORIZED)
 	 */
@@ -370,10 +370,10 @@ public class NpcTemplate extends CreatureTemplate
 		final List<DropData> list = new ArrayList<>();
 		for (DropCategory tmp : _categories)
 			list.addAll(tmp.getAllDrops());
-
+		
 		return list;
 	}
-
+	
 	/**
 	 * Add a drop to a given category. If the category does not exist, create it.
 	 * @param drop
@@ -382,7 +382,7 @@ public class NpcTemplate extends CreatureTemplate
 	public void addDropData(DropData drop, int categoryType)
 	{
 		final boolean isBossType = isType("RaidBoss") || isType("GrandBoss");
-
+		
 		synchronized (_categories)
 		{
 			// Category exists, stores the drop and return.
@@ -394,15 +394,15 @@ public class NpcTemplate extends CreatureTemplate
 					return;
 				}
 			}
-
+			
 			// Category doesn't exist, create and store it.
 			final DropCategory cat = new DropCategory(categoryType);
 			cat.addDropData(drop, isBossType);
-
+			
 			_categories.add(cat);
 		}
 	}
-
+	
 	/**
 	 * @return the list of all Minions that must be spawn with the L2Npc using this L2NpcTemplate.
 	 */
@@ -410,22 +410,22 @@ public class NpcTemplate extends CreatureTemplate
 	{
 		return _minions;
 	}
-
+	
 	public boolean canTeach(ClassId classId)
 	{
 		return _teachInfo != null && _teachInfo.contains((classId.level() == 3) ? classId.getParent() : classId);
 	}
-
+	
 	public Map<SkillType, List<L2Skill>> getSkills()
 	{
 		return _skills;
 	}
-
+	
 	public List<L2Skill> getSkills(SkillType type)
 	{
 		return _skills.getOrDefault(type, Collections.emptyList());
 	}
-
+	
 	public void addSkills(List<L2Skill> skills)
 	{
 		for (L2Skill skill : skills)
@@ -435,13 +435,13 @@ public class NpcTemplate extends CreatureTemplate
 				addSkill(SkillType.PASSIVE, skill);
 				continue;
 			}
-
+			
 			if (skill.isSuicideAttack())
 			{
 				addSkill(SkillType.SUICIDE, skill);
 				continue;
 			}
-
+			
 			switch (skill.getSkillType())
 			{
 				case BUFF:
@@ -449,7 +449,7 @@ public class NpcTemplate extends CreatureTemplate
 				case REFLECT:
 					addSkill(SkillType.BUFF, skill);
 					continue;
-
+				
 				case HEAL:
 				case HOT:
 				case HEAL_PERCENT:
@@ -459,7 +459,7 @@ public class NpcTemplate extends CreatureTemplate
 				case MANAHEAL_PERCENT:
 					addSkill(SkillType.HEAL, skill);
 					continue;
-
+				
 				case DEBUFF:
 				case ROOT:
 				case SLEEP:
@@ -477,7 +477,7 @@ public class NpcTemplate extends CreatureTemplate
 				case AGGDEBUFF:
 					addSkill(SkillType.DEBUFF, skill);
 					continue;
-
+				
 				case PDAM:
 				case MDAM:
 				case BLOW:
@@ -496,7 +496,7 @@ public class NpcTemplate extends CreatureTemplate
 			// _log.warning(skill.getName() + " skill wasn't added due to specific logic."); TODO
 		}
 	}
-
+	
 	public void addSkill(SkillType type, L2Skill skill)
 	{
 		List<L2Skill> list = _skills.get(type);
@@ -504,23 +504,23 @@ public class NpcTemplate extends CreatureTemplate
 		{
 			list = new ArrayList<>(5);
 			list.add(skill);
-
+			
 			_skills.put(type, list);
 		}
 		else
 			list.add(skill);
 	}
-
+	
 	public Map<EventType, List<Quest>> getEventQuests()
 	{
 		return _questEvents;
 	}
-
+	
 	public List<Quest> getEventQuests(EventType EventType)
 	{
 		return _questEvents.get(EventType);
 	}
-
+	
 	public void addQuestEvent(EventType type, Quest quest)
 	{
 		List<Quest> list = _questEvents.get(type);
@@ -528,13 +528,13 @@ public class NpcTemplate extends CreatureTemplate
 		{
 			list = new ArrayList<>(5);
 			list.add(quest);
-
+			
 			_questEvents.put(type, list);
 		}
 		else
 		{
 			list.remove(quest);
-
+			
 			if (type.isMultipleRegistrationAllowed() || list.isEmpty())
 				list.add(quest);
 			else

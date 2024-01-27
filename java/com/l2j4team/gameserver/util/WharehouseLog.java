@@ -31,9 +31,9 @@ public class WharehouseLog
 	{
 		new File("log/Player Log/WharehouseLog").mkdirs();
 	}
-
+	
 	private static final Logger _log = Logger.getLogger(WharehouseLog.class.getName());
-
+	
 	public static void Log(String player_name, String deposit_type, ItemInstance Item, int enchant, int cont, int obj_id, String params)
 	{
 		final File file = new File("log/Player Log/WharehouseLog/" + player_name + ".txt");
@@ -45,7 +45,7 @@ public class WharehouseLog
 			catch (IOException e)
 			{
 			}
-
+		
 		try (FileWriter save = new FileWriter(file, true))
 		{
 			if (enchant > 0)
@@ -58,7 +58,7 @@ public class WharehouseLog
 			_log.log(Level.SEVERE, "WharehouseLog for Player " + deposit_type + " could not be saved: ", e);
 		}
 	}
-
+	
 	public static void Log(String player_name, String deposit_type, ItemInstance Item, int enchant, int cont, int obj_id)
 	{
 		Log(player_name, deposit_type, Item, enchant, cont, obj_id, "");

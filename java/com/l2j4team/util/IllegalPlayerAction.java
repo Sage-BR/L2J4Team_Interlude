@@ -24,22 +24,22 @@ import java.util.logging.Logger;
 public final class IllegalPlayerAction implements Runnable
 {
 	private static Logger _logAudit = Logger.getLogger("audit");
-
+	
 	private final String _message;
 	private final int _punishment;
 	private final Player _actor;
-
+	
 	public static final int PUNISH_BROADCAST = 1;
 	public static final int PUNISH_KICK = 2;
 	public static final int PUNISH_KICKBAN = 3;
 	public static final int PUNISH_JAIL = 4;
-
+	
 	public IllegalPlayerAction(Player actor, String message, int punishment)
 	{
 		_message = message;
 		_punishment = punishment;
 		_actor = actor;
-
+		
 		switch (punishment)
 		{
 			case PUNISH_KICK:
@@ -56,7 +56,7 @@ public final class IllegalPlayerAction implements Runnable
 				break;
 		}
 	}
-
+	
 	@Override
 	public void run()
 	{
@@ -68,9 +68,9 @@ public final class IllegalPlayerAction implements Runnable
 			_punishment
 		});
 		_logAudit.log(record);
-
+		
 		AdminData.getInstance().broadcastMessageToGMs(_message);
-
+		
 		switch (_punishment)
 		{
 			case PUNISH_BROADCAST:

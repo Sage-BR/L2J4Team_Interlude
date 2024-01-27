@@ -7,7 +7,7 @@ public class Q098_SagaOfTheShillienSaint extends SagasSuperClass
 	public Q098_SagaOfTheShillienSaint()
 	{
 		super(98, "Saga of the Shillien Saint");
-
+		
 		NPC = new int[]
 		{
 			31581,
@@ -23,7 +23,7 @@ public class Q098_SagaOfTheShillienSaint extends SagasSuperClass
 			31658,
 			31287
 		};
-
+		
 		Items = new int[]
 		{
 			7080,
@@ -39,38 +39,38 @@ public class Q098_SagaOfTheShillienSaint extends SagasSuperClass
 			7090,
 			0
 		};
-
+		
 		Mob = new int[]
 		{
 			27270,
 			27247,
 			27277
 		};
-
+		
 		classid = 112;
 		prevclass = 0x2b;
-
+		
 		X = new int[]
 		{
 			119518,
 			181215,
 			181227
 		};
-
+		
 		Y = new int[]
 		{
 			-28658,
 			36676,
 			36703
 		};
-
+		
 		Z = new int[]
 		{
 			-3811,
 			-4812,
 			-4816
 		};
-
+		
 		registerNPCs();
 	}
 }

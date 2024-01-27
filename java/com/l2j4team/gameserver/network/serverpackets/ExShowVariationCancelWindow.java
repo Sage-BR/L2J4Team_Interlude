@@ -7,11 +7,11 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ExShowVariationCancelWindow extends L2GameServerPacket
 {
 	public static final ExShowVariationCancelWindow STATIC_PACKET = new ExShowVariationCancelWindow();
-
+	
 	private ExShowVariationCancelWindow()
 	{
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

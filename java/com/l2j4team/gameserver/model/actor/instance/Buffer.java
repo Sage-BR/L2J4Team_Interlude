@@ -48,13 +48,13 @@ public final class Buffer extends Folk
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
 		StringTokenizer st = new StringTokenizer(command, " ");
 		String actualCommand = st.nextToken();
-
+		
 		int buffid = 0;
 		int bufflevel = 1;
 		String nextWindow = null;
@@ -66,7 +66,7 @@ public final class Buffer extends Folk
 		}
 		else if (st.countTokens() == 1)
 			buffid = Integer.valueOf(st.nextToken());
-
+		
 		if (actualCommand.equalsIgnoreCase("getbuff"))
 		{
 			if (buffid != 0)
@@ -80,19 +80,19 @@ public final class Buffer extends Folk
 		else if (actualCommand.equalsIgnoreCase("restore"))
 		{
 			showMessageWindow(player);
-
+			
 			if ((player._inEventTvT && TvT.is_started() || player._inEventCTF && CTF.is_started()) && !player.isGM())
 			{
 				player.sendMessage("You can not do that.");
 				return;
 			}
-
+			
 			if (!player.isInsideZone(ZoneId.PEACE) && !player.isGM())
 			{
 				player.sendMessage("You can not do that.");
 				return;
 			}
-
+			
 			player.broadcastPacket(new MagicSkillUse(this, player, 1218, 33, 100, 0));
 			player.setCurrentHpMp(player.getMaxHp(), player.getMaxMp());
 			player.setCurrentCp(player.getMaxCp());
@@ -111,24 +111,24 @@ public final class Buffer extends Folk
 				if (skill != null)
 					skill.getEffects(player, player);
 			}
-
+			
 		}
 		else if (actualCommand.equalsIgnoreCase("mage"))
 		{
 			showMessageWindow(player);
-
+			
 			for (Integer skillid : Config.MAGE_BUFF_LIST)
 			{
 				L2Skill skill = SkillTable.getInstance().getInfo(skillid, SkillTable.getInstance().getMaxLevel(skillid));
 				if (skill != null)
 					skill.getEffects(player, player);
 			}
-
+			
 		}
 		else
 			super.onBypassFeedback(player, command);
 	}
-
+	
 	@Override
 	public void onAction(Player player)
 	{
@@ -152,11 +152,11 @@ public final class Buffer extends Folk
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 		}
 	}
-
+	
 	private void showMessageWindow(Player player)
 	{
 		String filename = "data/html/mods/custom_buffer/" + getNpcId() + ".htm";
-
+		
 		filename = getHtmlPath(getNpcId(), 0);
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
@@ -164,7 +164,7 @@ public final class Buffer extends Folk
 		html.replace("%npcname%", getName());
 		player.sendPacket(html);
 	}
-
+	
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -173,7 +173,7 @@ public final class Buffer extends Folk
 			pom = "" + npcId;
 		else
 			pom = npcId + "-" + val;
-
+		
 		return "data/html/mods/custom_buffer/" + pom + ".htm";
 	}
 }

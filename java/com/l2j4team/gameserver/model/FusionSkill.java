@@ -17,24 +17,24 @@ import com.l2j4team.commons.math.MathUtil;
 public final class FusionSkill
 {
 	protected static final Logger _log = Logger.getLogger(FusionSkill.class.getName());
-
+	
 	protected int _skillCastRange;
 	protected int _fusionId;
 	protected int _fusionLevel;
 	protected Creature _caster;
 	protected Creature _target;
 	protected Future<?> _geoCheckTask;
-
+	
 	public Creature getCaster()
 	{
 		return _caster;
 	}
-
+	
 	public Creature getTarget()
 	{
 		return _target;
 	}
-
+	
 	public FusionSkill(Creature caster, Creature target, L2Skill skill)
 	{
 		_skillCastRange = skill.getCastRange();
@@ -42,7 +42,7 @@ public final class FusionSkill
 		_target = target;
 		_fusionId = skill.getTriggeredId();
 		_fusionLevel = skill.getTriggeredLevel();
-
+		
 		L2Effect effect = _target.getFirstEffect(_fusionId);
 		if (effect != null)
 			((EffectFusion) effect).increaseEffect();
@@ -56,17 +56,17 @@ public final class FusionSkill
 		}
 		_geoCheckTask = ThreadPool.scheduleAtFixedRate(new GeoCheckTask(), 1000, 1000);
 	}
-
+	
 	public void onCastAbort()
 	{
 		_caster.setFusionSkill(null);
 		L2Effect effect = _target.getFirstEffect(_fusionId);
 		if (effect != null)
 			((EffectFusion) effect).decreaseForce();
-
+		
 		_geoCheckTask.cancel(true);
 	}
-
+	
 	public class GeoCheckTask implements Runnable
 	{
 		@Override
@@ -76,7 +76,7 @@ public final class FusionSkill
 			{
 				if (!MathUtil.checkIfInRange(_skillCastRange, _caster, _target, true))
 					_caster.abortCast();
-
+				
 				if (!GeoEngine.getInstance().canSeeTarget(_caster, _target))
 					_caster.abortCast();
 			}

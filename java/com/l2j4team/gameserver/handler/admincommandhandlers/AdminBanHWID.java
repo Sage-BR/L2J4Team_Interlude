@@ -36,13 +36,13 @@ import java.util.logging.Logger;
  */
 public class AdminBanHWID implements IAdminCommandHandler
 {
-
+	
 	private static String[] _adminCommands =
 	{
 		"admin_ban_ip"
 	};
 	protected static final Logger _log = Logger.getLogger(AdminBanHWID.class.getName());
-
+	
 	@SuppressWarnings("null")
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
@@ -63,14 +63,14 @@ public class AdminBanHWID implements IAdminCommandHandler
 			if (activeChar.getTarget() != null && activeChar.getTarget() instanceof Player)
 				targetPlayer = (Player) activeChar.getTarget();
 		}
-
+		
 		// Can't ban yourself
 		if (targetPlayer != null && targetPlayer.equals(activeChar))
 		{
 			activeChar.sendPacket(SystemMessageId.CANNOT_USE_ON_YOURSELF);
 			return false;
 		}
-
+		
 		if (command.startsWith("admin_ban_ip"))
 		{
 			String hwid = targetPlayer.getHWID();
@@ -80,7 +80,7 @@ public class AdminBanHWID implements IAdminCommandHandler
 				for (Player p : World.getInstance().getPlayers())
 				{
 					String hwidz = p.getHWID();
-
+					
 					if (p.isOnline())
 					{
 						if (hwidz.equals(targetPlayer.getHWID()))
@@ -89,18 +89,18 @@ public class AdminBanHWID implements IAdminCommandHandler
 				}
 				activeChar.sendMessage(new StringBuilder().append("HWID : ").append(hwid).append(" Banned").toString());
 			}
-
+			
 		}
-
+		
 		return false;
 	}
-
+	
 	public static void updateDatabase(Player player)
 	{
 		// prevents any NPE.
 		if (player == null)
 			return;
-
+		
 		Connection con = null;
 		try
 		{
@@ -108,13 +108,13 @@ public class AdminBanHWID implements IAdminCommandHandler
 			// --------------------------------
 			con = L2DatabaseFactory.getInstance().getConnection();
 			PreparedStatement stmt = con.prepareStatement(INSERT_DATA);
-
+			
 			stmt.setString(1, player.getName());
 			stmt.setString(2, player.getHWID());
 			stmt.execute();
 			stmt.close();
 			stmt = null;
-
+			
 		}
 		catch (Exception e)
 		{
@@ -125,15 +125,15 @@ public class AdminBanHWID implements IAdminCommandHandler
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	// Updates That Will be Executed by MySQL
 	// ----------------------------------------
 	static String INSERT_DATA = "REPLACE INTO banned_hwid (char_name, hwid) VALUES (?,?)";
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return _adminCommands;
 	}
-
+	
 }

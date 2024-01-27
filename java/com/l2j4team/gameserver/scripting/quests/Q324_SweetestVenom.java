@@ -11,10 +11,10 @@ import java.util.Map;
 public class Q324_SweetestVenom extends Quest
 {
 	private static final String qn = "Q324_SweetestVenom";
-
+	
 	// Item
 	private static final int VENOM_SAC = 1077;
-
+	
 	// Drop chances
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
@@ -22,19 +22,19 @@ public class Q324_SweetestVenom extends Quest
 		CHANCES.put(20038, 230000);
 		CHANCES.put(20043, 250000);
 	}
-
+	
 	public Q324_SweetestVenom()
 	{
 		super(324, "Sweetest Venom");
-
+		
 		setItemsIds(VENOM_SAC);
-
+		
 		addStartNpc(30351); // Astaron
 		addTalkId(30351);
-
+		
 		addKillId(20034, 20038, 20043);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -42,17 +42,17 @@ public class Q324_SweetestVenom extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30351-04.htm"))
 		{
 			st.setState(STATE_STARTED);
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -60,13 +60,13 @@ public class Q324_SweetestVenom extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 18) ? "30351-02.htm" : "30351-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				if (st.getInt("cond") == 1)
 					htmltext = "30351-05.htm";
@@ -80,20 +80,20 @@ public class Q324_SweetestVenom extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "1");
 		if (st == null)
 			return null;
-
+		
 		if (st.dropItems(VENOM_SAC, 1, 10, CHANCES.get(npc.getNpcId())))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

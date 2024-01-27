@@ -12,14 +12,14 @@ import com.l2j4team.commons.random.Rnd;
 public class Q211_TrialOfTheChallenger extends Quest
 {
 	private static final String qn = "Q211_TrialOfTheChallenger";
-
+	
 	// Items
 	private static final int LETTER_OF_KASH = 2628;
 	private static final int WATCHER_EYE_1 = 2629;
 	private static final int WATCHER_EYE_2 = 2630;
 	private static final int SCROLL_OF_SHYSLASSYS = 2631;
 	private static final int BROKEN_KEY = 2632;
-
+	
 	// Rewards
 	private static final int ADENA = 57;
 	private static final int ELVEN_NECKLACE_BEADS = 1904;
@@ -32,32 +32,32 @@ public class Q211_TrialOfTheChallenger extends Quest
 	private static final int BRIGANDINE_GAUNTLETS_PATTERN = 2927;
 	private static final int MARK_OF_CHALLENGER = 2627;
 	private static final int DIMENSIONAL_DIAMOND = 7562;
-
+	
 	// NPCs
 	private static final int FILAUR = 30535;
 	private static final int KASH = 30644;
 	private static final int MARTIEN = 30645;
 	private static final int RALDO = 30646;
 	private static final int CHEST_OF_SHYSLASSYS = 30647;
-
+	
 	// Monsters
 	private static final int SHYSLASSYS = 27110;
 	private static final int GORR = 27112;
 	private static final int BARAHAM = 27113;
 	private static final int SUCCUBUS_QUEEN = 27114;
-
+	
 	public Q211_TrialOfTheChallenger()
 	{
 		super(211, "Trial of the Challenger");
-
+		
 		setItemsIds(LETTER_OF_KASH, WATCHER_EYE_1, WATCHER_EYE_2, SCROLL_OF_SHYSLASSYS, BROKEN_KEY);
-
+		
 		addStartNpc(KASH);
 		addTalkId(FILAUR, KASH, MARTIEN, RALDO, CHEST_OF_SHYSLASSYS);
-
+		
 		addKillId(SHYSLASSYS, GORR, BARAHAM, SUCCUBUS_QUEEN);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -65,14 +65,14 @@ public class Q211_TrialOfTheChallenger extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// KASH
 		if (event.equalsIgnoreCase("30644-05.htm"))
 		{
 			st.setState(STATE_STARTED);
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
-
+			
 			if (!player.getMemos().getBool("secondClassChange35", false))
 			{
 				htmltext = "30644-05a.htm";
@@ -131,10 +131,10 @@ public class Q211_TrialOfTheChallenger extends Quest
 				}
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -142,7 +142,7 @@ public class Q211_TrialOfTheChallenger extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -153,7 +153,7 @@ public class Q211_TrialOfTheChallenger extends Quest
 				else
 					htmltext = "30644-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -174,11 +174,11 @@ public class Q211_TrialOfTheChallenger extends Quest
 						else if (cond > 3)
 							htmltext = "30644-09.htm";
 						break;
-
+					
 					case CHEST_OF_SHYSLASSYS:
 						htmltext = "30647-01.htm";
 						break;
-
+					
 					case MARTIEN:
 						if (cond == 3)
 							htmltext = "30645-01.htm";
@@ -198,7 +198,7 @@ public class Q211_TrialOfTheChallenger extends Quest
 						else if (cond > 7)
 							htmltext = "30645-06.htm";
 						break;
-
+					
 					case RALDO:
 						if (cond == 7)
 							htmltext = "30646-01.htm";
@@ -215,7 +215,7 @@ public class Q211_TrialOfTheChallenger extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case FILAUR:
 						if (cond == 8)
 						{
@@ -238,22 +238,22 @@ public class Q211_TrialOfTheChallenger extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case SHYSLASSYS:
@@ -266,18 +266,18 @@ public class Q211_TrialOfTheChallenger extends Quest
 					addSpawn(CHEST_OF_SHYSLASSYS, npc, false, 200000, true);
 				}
 				break;
-
+			
 			case GORR:
 				if (st.getInt("cond") == 4 && st.dropItemsAlways(WATCHER_EYE_1, 1, 1))
 					st.set("cond", "5");
 				break;
-
+			
 			case BARAHAM:
 				if (st.getInt("cond") == 6 && st.dropItemsAlways(WATCHER_EYE_2, 1, 1))
 					st.set("cond", "7");
 				addSpawn(RALDO, npc, false, 100000, true);
 				break;
-
+			
 			case SUCCUBUS_QUEEN:
 				if (st.getInt("cond") == 9)
 				{
@@ -287,7 +287,7 @@ public class Q211_TrialOfTheChallenger extends Quest
 				addSpawn(RALDO, npc, false, 100000, true);
 				break;
 		}
-
+		
 		return null;
 	}
 }

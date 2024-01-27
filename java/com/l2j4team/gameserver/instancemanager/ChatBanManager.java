@@ -34,16 +34,16 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class ChatBanManager
 {
 	private static final Logger _log = Logger.getLogger(ChatBanManager.class.getName());
-
+	
 	private final Map<Integer, Long> _blocklist;
 	protected final Map<Integer, Long> _blocksTask;
 	private ScheduledFuture<?> _scheduler;
-
+	
 	public static ChatBanManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected ChatBanManager()
 	{
 		_blocklist = new ConcurrentHashMap<>();
@@ -51,7 +51,7 @@ public class ChatBanManager
 		_scheduler = ThreadPool.scheduleAtFixedRate(new BlockTask(), 1000, 1000);
 		load();
 	}
-
+	
 	public void reload()
 	{
 		_blocklist.clear();
@@ -61,7 +61,7 @@ public class ChatBanManager
 		_scheduler = ThreadPool.scheduleAtFixedRate(new BlockTask(), 1000, 1000);
 		load();
 	}
-
+	
 	public void load()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -77,16 +77,16 @@ public class ChatBanManager
 		{
 			_log.warning("Exception: ChatBanManager load: " + e.getMessage());
 		}
-
+		
 		_log.info("ChatBanManager: Loaded " + _blocklist.size() + " banned hwids.");
 	}
-
+	
 	public void addBlock(int objectId, long duration, String hwid, String login, String name)
 	{
 		_blocklist.put(objectId, duration);
 		_blocksTask.put(objectId, duration);
 		addBlockPlayer(objectId, true);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("INSERT INTO ban_hwid_chat (objectId, duration, hwid, account_name, char_name) VALUES (?, ?, ?,?,?)");
@@ -103,13 +103,13 @@ public class ChatBanManager
 			_log.warning("Exception: ChatBanManager addBlock: " + e.getMessage());
 		}
 	}
-
+	
 	public void updateBlock(int objectId, long duration)
 	{
 		duration += _blocklist.get(objectId);
 		_blocklist.put(objectId, duration);
 		_blocksTask.put(objectId, duration);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("UPDATE ban_hwid_chat SET duration = ? WHERE hwid = ?");
@@ -123,12 +123,12 @@ public class ChatBanManager
 			_log.warning("Exception: ChatBanManager updateBlock: " + e.getMessage());
 		}
 	}
-
+	
 	public void removeBlock(int objectId)
 	{
 		_blocklist.remove(objectId);
 		_blocksTask.remove(objectId);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("DELETE FROM ban_hwid_chat WHERE objectId = ?");
@@ -141,33 +141,33 @@ public class ChatBanManager
 			_log.warning("Exception: ChatBanManager removeBlock: " + e.getMessage());
 		}
 	}
-
+	
 	public boolean hasBlockPrivileges(int objectId)
 	{
 		return _blocklist.containsKey(objectId);
 	}
-
+	
 	public long getBlockDuration(int objectId)
 	{
 		return _blocklist.get(objectId);
 	}
-
+	
 	public void addBlockTask(int objectId, long duration)
 	{
 		_blocksTask.put(objectId, duration);
 	}
-
+	
 	public void removeBlockTask(int objectId)
 	{
 		_blocksTask.remove(objectId);
 	}
-
+	
 	public void addBlockPlayer(int objectId, boolean apply)
 	{
 		final Player player = World.getInstance().getPlayer(objectId);
 		player.setChatBlock(true);
 	}
-
+	
 	public class BlockTask implements Runnable
 	{
 		@Override
@@ -175,7 +175,7 @@ public class ChatBanManager
 		{
 			if (_blocksTask.isEmpty())
 				return;
-
+			
 			for (Map.Entry<Integer, Long> entry : _blocksTask.entrySet())
 			{
 				final long duration = entry.getValue();
@@ -183,14 +183,14 @@ public class ChatBanManager
 				{
 					final int objectId = entry.getKey();
 					removeBlock(objectId);
-
+					
 					final Player player = World.getInstance().getPlayer(objectId);
 					player.setChatBlock(false);
 				}
 			}
 		}
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final ChatBanManager _instance = new ChatBanManager();

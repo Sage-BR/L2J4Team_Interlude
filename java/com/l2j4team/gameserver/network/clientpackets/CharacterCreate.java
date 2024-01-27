@@ -44,7 +44,7 @@ public final class CharacterCreate extends L2GameClientPacket
 	private byte _hairStyle;
 	private byte _hairColor;
 	private byte _face;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -62,7 +62,7 @@ public final class CharacterCreate extends L2GameClientPacket
 		_hairColor = (byte) readD();
 		_face = (byte) readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
@@ -71,60 +71,60 @@ public final class CharacterCreate extends L2GameClientPacket
 			sendPacket((_name.length() > 16) ? CharCreateFail.REASON_16_ENG_CHARS : CharCreateFail.REASON_INCORRECT_NAME);
 			return;
 		}
-
+		
 		if (_face > 2 || _face < 0)
 		{
 			sendPacket(CharCreateFail.REASON_CREATION_FAILED);
 			return;
 		}
-
+		
 		if (_hairStyle < 0 || (_sex == 0 && _hairStyle > 4) || (_sex != 0 && _hairStyle > 6))
 		{
 			sendPacket(CharCreateFail.REASON_CREATION_FAILED);
 			return;
 		}
-
+		
 		if (_hairColor > 3 || _hairColor < 0)
 		{
 			sendPacket(CharCreateFail.REASON_CREATION_FAILED);
 			return;
 		}
-
+		
 		if (PlayerNameTable.getInstance().getCharactersInAcc(getClient().getAccountName()) >= 7)
 		{
 			sendPacket(CharCreateFail.REASON_TOO_MANY_CHARACTERS);
 			return;
 		}
-
+		
 		if (PlayerNameTable.getInstance().getPlayerObjectId(_name) > 0)
 		{
 			sendPacket(CharCreateFail.REASON_NAME_ALREADY_EXISTS);
 			return;
 		}
-
+		
 		final PlayerTemplate template = CharTemplateTable.getInstance().getTemplate(_classId);
 		if (template == null || template.getClassBaseLevel() > 1)
 		{
 			sendPacket(CharCreateFail.REASON_CREATION_FAILED);
 			return;
 		}
-
+		
 		final Player newChar = Player.create(IdFactory.getInstance().getNextId(), template, getClient().getAccountName(), _name, _hairStyle, _hairColor, _face, Sex.values()[_sex]);
 		if (newChar == null)
 		{
 			sendPacket(CharCreateFail.REASON_CREATION_FAILED);
 			return;
 		}
-
+		
 		newChar.setCurrentCp(0);
 		newChar.setCurrentHp(newChar.getMaxHp());
 		newChar.setCurrentMp(newChar.getMaxMp());
-
+		
 		// send acknowledgement
 		sendPacket(CharCreateOk.STATIC_PACKET);
-
+		
 		World.getInstance().addObject(newChar);
-
+		
 		if (Config.SPAWN_CHAR)
 		{
 			int rnd;
@@ -142,42 +142,42 @@ public final class CharacterCreate extends L2GameClientPacket
 		}
 		else
 			newChar.getPosition().set(template.getSpawn());
-
+		
 		if (Config.CHAR_TITLE)
 			newChar.setTitle(Config.ADD_CHAR_TITLE);
 		else
 			newChar.setTitle("");
-
+		
 		if (Config.ALLOW_CREATE_LVL)
 			newChar.getStat().addExp(Experience.LEVEL[Config.CHAR_CREATE_LVL]);
-
+		
 		newChar.registerShortCut(new L2ShortCut(0, 0, 3, 2, -1, 1)); // attack shortcut
 		newChar.registerShortCut(new L2ShortCut(3, 0, 3, 5, -1, 1)); // take shortcut
 		newChar.registerShortCut(new L2ShortCut(10, 0, 3, 0, -1, 1)); // sit shortcut
-
+		
 		for (Item ia : template.getItems())
 		{
 			ItemInstance item = newChar.getInventory().addItem("Init", ia.getItemId(), 1, newChar, null);
 			if (item.getItemId() == 5588) // tutorial book shortcut
 				newChar.registerShortCut(new L2ShortCut(11, 0, 1, item.getObjectId(), -1, 1));
-
+			
 			if (item.isEquipable())
 			{
 				if (newChar.getActiveWeaponItem() == null || !(item.getItem().getType2() != Item.TYPE2_WEAPON))
 					newChar.getInventory().equipItemAndRecord(item);
 			}
 		}
-
+		
 		for (L2SkillLearn skill : SkillTreeTable.getInstance().getAvailableSkills(newChar, newChar.getClassId()))
 		{
 			newChar.addSkill(SkillTable.getInstance().getInfo(skill.getId(), skill.getLevel()), true);
 			if (skill.getId() == 1001 || skill.getId() == 1177)
 				newChar.registerShortCut(new L2ShortCut(1, 0, 2, skill.getId(), 1, 1));
-
+			
 			if (skill.getId() == 1216)
 				newChar.registerShortCut(new L2ShortCut(9, 0, 2, skill.getId(), 1, 1));
 		}
-
+		
 		if (!Config.DISABLE_TUTORIAL)
 		{
 			if (newChar.getQuestState("Tutorial") == null)
@@ -187,7 +187,7 @@ public final class CharacterCreate extends L2GameClientPacket
 					q.newQuestState(newChar).setState(Quest.STATE_STARTED);
 			}
 		}
-
+		
 		if (Config.CUSTOM_STARTER_ITEMS_ENABLED)
 		{
 			if (newChar.isMageClass() || (newChar.getTemplate().getRace() == ClassRace.ORC && (newChar.getClassId().getType() == ClassType.MYSTIC || newChar.getClassId().getType() == ClassType.PRIEST)))
@@ -213,13 +213,13 @@ public final class CharacterCreate extends L2GameClientPacket
 				}
 			}
 		}
-
+		
 		newChar.setCurrentHpMp(newChar.getMaxHp(), newChar.getMaxMp());
 		newChar.setCurrentCp(newChar.getMaxCp());
-
+		
 		newChar.setOnlineStatus(true, false);
 		newChar.deleteMe();
-
+		
 		final CharSelectInfo cl = new CharSelectInfo(getClient().getAccountName(), getClient().getSessionId().playOkID1);
 		getClient().getConnection().sendPacket(cl);
 		getClient().setCharSelection(cl.getCharInfo());

@@ -16,15 +16,15 @@ public class BeastSpice implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		Player activeChar = (Player) playable;
-
+		
 		if (!(activeChar.getTarget() instanceof FeedableBeast))
 		{
 			activeChar.sendPacket(SystemMessageId.INCORRECT_TARGET);
 			return;
 		}
-
+		
 		int skillId = 0;
 		switch (item.getItemId())
 		{
@@ -35,7 +35,7 @@ public class BeastSpice implements IItemHandler
 				skillId = 2189;
 				break;
 		}
-
+		
 		L2Skill skill = SkillTable.getInstance().getInfo(skillId, 1);
 		if (skill != null)
 			activeChar.useMagic(skill, false, false);

@@ -32,36 +32,34 @@ public class MercTicket implements IItemHandler
 		final Player activeChar = (Player) playable;
 		if (activeChar == null)
 			return;
-
+		
 		final Castle castle = CastleManager.getInstance().getCastle(activeChar);
 		if (castle == null)
 			return;
-
+		
 		final int castleId = castle.getCastleId();
-
+		
 		// Castle lord check.
 		if (!activeChar.isCastleLord(castleId))
 		{
 			activeChar.sendPacket(SystemMessageId.YOU_DO_NOT_HAVE_AUTHORITY_TO_POSITION_MERCENARIES);
 			return;
 		}
-
+		
 		final int itemId = item.getItemId();
 		final MercenaryTicket ticket = castle.getTicket(itemId);
-
+		
 		// Valid ticket for castle check.
 		if (ticket == null)
 		{
 			activeChar.sendPacket(SystemMessageId.MERCENARIES_CANNOT_BE_POSITIONED_HERE);
 			return;
 		}
-
+		
 		// Siege in progress check.
 		
-
 		// Seal validation check.
 		
-
 		// Seal of Strife owner check.
 		// Max amount check.
 		if (castle.getSiege().isInProgress() || !SevenSigns.getInstance().isSealValidationPeriod() || !ticket.isSsqType(SevenSigns.getInstance().getSealOwner(SealType.STRIFE)) || (castle.getDroppedTicketsCount(itemId) >= ticket.getMaxAmount()))
@@ -69,20 +67,20 @@ public class MercTicket implements IItemHandler
 			activeChar.sendPacket(SystemMessageId.THIS_MERCENARY_CANNOT_BE_POSITIONED_ANYMORE);
 			return;
 		}
-
+		
 		// Distance check.
 		if (castle.isTooCloseFromDroppedTicket(activeChar.getX(), activeChar.getY(), activeChar.getZ()))
 		{
 			activeChar.sendPacket(SystemMessageId.POSITIONING_CANNOT_BE_DONE_BECAUSE_DISTANCE_BETWEEN_MERCENARIES_TOO_SHORT);
 			return;
 		}
-
+		
 		final ItemInstance droppedTicket = activeChar.dropItem("Consume", item.getObjectId(), 1, activeChar.getX(), activeChar.getY(), activeChar.getZ(), null, false, false);
 		if (droppedTicket == null)
 			return;
-
+		
 		castle.addDroppedTicket(droppedTicket);
-
+		
 		activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.PLACE_S1_IN_CURRENT_LOCATION_AND_DIRECTION).addItemName(itemId));
 	}
 }

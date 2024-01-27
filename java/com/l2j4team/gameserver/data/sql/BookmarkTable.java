@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 public class BookmarkTable
 {
 	private static final Logger LOGGER = Logger.getLogger(BookmarkTable.class.getName());
-
+	
 	private final List<Bookmark> _bks = new ArrayList<>();
-
+	
 	protected BookmarkTable()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection(); PreparedStatement ps = con.prepareStatement("SELECT * FROM bookmarks"); ResultSet rs = ps.executeQuery())
@@ -36,7 +36,7 @@ public class BookmarkTable
 		}
 		LOGGER.info("Loaded " + _bks.size() + " bookmarks.");
 	}
-
+	
 	/**
 	 * Verify if a {@link Bookmark} already exists.
 	 * @param name : The Bookmark name.
@@ -47,7 +47,7 @@ public class BookmarkTable
 	{
 		return getBookmark(name, objId) != null;
 	}
-
+	
 	/**
 	 * Retrieve a {@link Bookmark} by its name and its specific {@link Player} objectId.
 	 * @param name : The Bookmark name.
@@ -63,7 +63,7 @@ public class BookmarkTable
 		}
 		return null;
 	}
-
+	
 	/**
 	 * @param objId : The Player objectId to make checks on.
 	 * @return the list of {@link Bookmark}s of a {@link Player}.
@@ -72,7 +72,7 @@ public class BookmarkTable
 	{
 		return _bks.stream().filter(bk -> bk.getId() == objId).collect(Collectors.toList());
 	}
-
+	
 	/**
 	 * Creates a new {@link Bookmark} and store info to database.
 	 * @param name : The name of the Bookmark.
@@ -84,9 +84,9 @@ public class BookmarkTable
 		final int x = player.getX();
 		final int y = player.getY();
 		final int z = player.getZ();
-
+		
 		_bks.add(new Bookmark(name, objId, x, y, z));
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection(); PreparedStatement ps = con.prepareStatement("INSERT INTO bookmarks (name, obj_Id, x, y, z) values (?,?,?,?,?)"))
 		{
 			ps.setString(1, name);
@@ -101,7 +101,7 @@ public class BookmarkTable
 			LOGGER.log(Level.SEVERE, "Error adding bookmark on DB.", e);
 		}
 	}
-
+	
 	/**
 	 * Delete a {@link Bookmark}, based on the {@link Player} objectId and its name.
 	 * @param name : The name of the Bookmark.
@@ -113,7 +113,7 @@ public class BookmarkTable
 		if (bookmark != null)
 		{
 			_bks.remove(bookmark);
-
+			
 			try (Connection con = L2DatabaseFactory.getInstance().getConnection(); PreparedStatement ps = con.prepareStatement("DELETE FROM bookmarks WHERE name=? AND obj_Id=?"))
 			{
 				ps.setString(1, name);
@@ -126,12 +126,12 @@ public class BookmarkTable
 			}
 		}
 	}
-
+	
 	public static BookmarkTable getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final BookmarkTable INSTANCE = new BookmarkTable();

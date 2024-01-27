@@ -22,7 +22,7 @@ import com.l2j4team.commons.random.Rnd;
 public class FrenzyOnAttack extends L2AttackableAIScript
 {
 	private static final L2Skill ULTIMATE_BUFF = SkillTable.getInstance().getInfo(4318, 1);
-
+	
 	private static final String[] ORCS_WORDS =
 	{
 		"Dear ultimate power!!!",
@@ -30,18 +30,18 @@ public class FrenzyOnAttack extends L2AttackableAIScript
 		"I never thought I'd use this against a novice!",
 		"You won't take me down easily."
 	};
-
+	
 	public FrenzyOnAttack()
 	{
 		super("ai/group");
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addAttackId(20270, 20495, 20588, 20778, 21116);
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{

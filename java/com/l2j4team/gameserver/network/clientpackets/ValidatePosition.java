@@ -13,7 +13,7 @@ public class ValidatePosition extends L2GameClientPacket
 	private int _z;
 	private int _heading;
 	private int _data;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -23,30 +23,30 @@ public class ValidatePosition extends L2GameClientPacket
 		_heading = readD();
 		_data = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null || activeChar.isTeleporting() || activeChar.isInObserverMode())
 			return;
-
+		
 		final int realX = activeChar.getX();
 		final int realY = activeChar.getY();
 		int realZ = activeChar.getZ();
-
+		
 		if (Config.DEVELOPER)
 			_log.fine("C(S) pos: " + _x + "(" + realX + ") " + _y + "(" + realY + ") " + _z + "(" + realZ + ") / " + _heading + "(" + activeChar.getHeading() + ")");
-
+		
 		if (_x == 0 && _y == 0)
 		{
 			if (realX != 0) // in this case this seems like a client error
 				return;
 		}
-
+		
 		int dx, dy, dz;
 		double diffSq;
-
+		
 		if (activeChar.isInBoat())
 		{
 			if (Config.COORD_SYNCHRONIZE == 2)
@@ -60,15 +60,15 @@ public class ValidatePosition extends L2GameClientPacket
 			}
 			return;
 		}
-
+		
 		if (activeChar.isFalling(_z))
 			return; // disable validations during fall to avoid "jumping"
-
+			
 		dx = _x - realX;
 		dy = _y - realY;
 		dz = _z - realZ;
 		diffSq = (dx * dx + dy * dy);
-
+		
 		if (activeChar.isFlying() || activeChar.isInsideZone(ZoneId.WATER))
 		{
 			activeChar.setXYZ(realX, realY, _z);
@@ -96,7 +96,7 @@ public class ValidatePosition extends L2GameClientPacket
 				}
 				else
 					activeChar.setXYZ(realX, realY, _z);
-
+				
 				activeChar.setHeading(_heading);
 				return;
 			}
@@ -114,12 +114,12 @@ public class ValidatePosition extends L2GameClientPacket
 				{
 					if (Config.DEVELOPER)
 						_log.info(activeChar.getName() + ": Synchronizing position Server --> Client");
-
+					
 					activeChar.sendPacket(new ValidateLocation(activeChar));
 				}
 			}
 		}
-
+		
 		activeChar.setClientX(_x);
 		activeChar.setClientY(_y);
 		activeChar.setClientZ(_z);

@@ -8,7 +8,7 @@ public class RadarControl extends L2GameServerPacket
 	private final int _showRadar;
 	private final int _type;
 	private final int _x, _y, _z;
-
+	
 	public RadarControl(int showRadar, int type, int x, int y, int z)
 	{
 		_showRadar = showRadar; // 0 = showradar; 1 = delete radar;
@@ -17,7 +17,7 @@ public class RadarControl extends L2GameServerPacket
 		_y = y;
 		_z = z;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

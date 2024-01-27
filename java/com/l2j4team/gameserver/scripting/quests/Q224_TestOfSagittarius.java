@@ -13,7 +13,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q224_TestOfSagittarius extends Quest
 {
 	private static final String qn = "Q224_TestOfSagittarius";
-
+	
 	// Items
 	private static final int BERNARD_INTRODUCTION = 3294;
 	private static final int HAMIL_LETTER_1 = 3295;
@@ -28,21 +28,21 @@ public class Q224_TestOfSagittarius extends Quest
 	private static final int REINFORCED_BOWSTRING = 3304;
 	private static final int MANASHEN_HORN = 3305;
 	private static final int BLOOD_OF_LIZARDMAN = 3306;
-
+	
 	private static final int CRESCENT_MOON_BOW = 3028;
 	private static final int WOODEN_ARROW = 17;
-
+	
 	// Rewards
 	private static final int MARK_OF_SAGITTARIUS = 3293;
 	private static final int DIMENSIONAL_DIAMOND = 7562;
-
+	
 	// NPCs
 	private static final int BERNARD = 30702;
 	private static final int HAMIL = 30626;
 	private static final int SIR_ARON_TANFORD = 30653;
 	private static final int VOKIAN = 30514;
 	private static final int GAUEN = 30717;
-
+	
 	// Monsters
 	private static final int ANT = 20079;
 	private static final int ANT_CAPTAIN = 20080;
@@ -67,19 +67,19 @@ public class Q224_TestOfSagittarius extends Quest
 	private static final int LETO_LIZARDMAN_SHAMAN = 20581;
 	private static final int LETO_LIZARDMAN_OVERLORD = 20582;
 	private static final int SERPENT_DEMON_KADESH = 27090;
-
+	
 	public Q224_TestOfSagittarius()
 	{
 		super(224, "Test Of Sagittarius");
-
+		
 		setItemsIds(BERNARD_INTRODUCTION, HAMIL_LETTER_1, HAMIL_LETTER_2, HAMIL_LETTER_3, HUNTER_RUNE_1, HUNTER_RUNE_2, TALISMAN_OF_KADESH, TALISMAN_OF_SNAKE, MITHRIL_CLIP, STAKATO_CHITIN, REINFORCED_BOWSTRING, MANASHEN_HORN, BLOOD_OF_LIZARDMAN, CRESCENT_MOON_BOW);
-
+		
 		addStartNpc(BERNARD);
 		addTalkId(BERNARD, HAMIL, SIR_ARON_TANFORD, VOKIAN, GAUEN);
-
+		
 		addKillId(ANT, ANT_CAPTAIN, ANT_OVERSEER, ANT_RECRUIT, ANT_PATROL, ANT_GUARD, NOBLE_ANT, NOBLE_ANT_LEADER, BREKA_ORC_SHAMAN, BREKA_ORC_OVERLORD, MARSH_STAKATO_WORKER, MARSH_STAKATO_SOLDIER, MARSH_STAKATO_DRONE, MARSH_SPIDER, ROAD_SCAVENGER, MANASHEN_GARGOYLE, LETO_LIZARDMAN, LETO_LIZARDMAN_ARCHER, LETO_LIZARDMAN_SOLDIER, LETO_LIZARDMAN_WARRIOR, LETO_LIZARDMAN_SHAMAN, LETO_LIZARDMAN_OVERLORD, SERPENT_DEMON_KADESH);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -87,7 +87,7 @@ public class Q224_TestOfSagittarius extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// BERNARD
 		if (event.equalsIgnoreCase("30702-04.htm"))
 		{
@@ -95,7 +95,7 @@ public class Q224_TestOfSagittarius extends Quest
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(BERNARD_INTRODUCTION, 1);
-
+			
 			if (!player.getMemos().getBool("secondClassChange39", false))
 			{
 				htmltext = "30702-04a.htm";
@@ -132,10 +132,10 @@ public class Q224_TestOfSagittarius extends Quest
 			st.playSound(QuestState.SOUND_MIDDLE);
 			st.takeItems(HAMIL_LETTER_2, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -143,7 +143,7 @@ public class Q224_TestOfSagittarius extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -154,7 +154,7 @@ public class Q224_TestOfSagittarius extends Quest
 				else
 					htmltext = "30702-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -162,7 +162,7 @@ public class Q224_TestOfSagittarius extends Quest
 					case BERNARD:
 						htmltext = "30702-05.htm";
 						break;
-
+					
 					case HAMIL:
 						if (cond == 1)
 							htmltext = "30626-01.htm";
@@ -203,14 +203,14 @@ public class Q224_TestOfSagittarius extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case SIR_ARON_TANFORD:
 						if (cond == 2)
 							htmltext = "30653-01.htm";
 						else if (cond > 2)
 							htmltext = "30653-03.htm";
 						break;
-
+					
 					case VOKIAN:
 						if (cond == 5)
 							htmltext = "30514-01.htm";
@@ -226,7 +226,7 @@ public class Q224_TestOfSagittarius extends Quest
 						else if (cond > 7)
 							htmltext = "30514-05.htm";
 						break;
-
+					
 					case GAUEN:
 						if (cond == 9)
 						{
@@ -254,22 +254,22 @@ public class Q224_TestOfSagittarius extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case ANT:
@@ -283,7 +283,7 @@ public class Q224_TestOfSagittarius extends Quest
 				if (st.getInt("cond") == 3 && st.dropItems(HUNTER_RUNE_1, 1, 10, 500000))
 					st.set("cond", "4");
 				break;
-
+			
 			case BREKA_ORC_SHAMAN:
 			case BREKA_ORC_OVERLORD:
 				if (st.getInt("cond") == 6 && st.dropItems(HUNTER_RUNE_2, 1, 10, 500000))
@@ -292,29 +292,29 @@ public class Q224_TestOfSagittarius extends Quest
 					st.giveItems(TALISMAN_OF_SNAKE, 1);
 				}
 				break;
-
+			
 			case MARSH_STAKATO_WORKER:
 			case MARSH_STAKATO_SOLDIER:
 			case MARSH_STAKATO_DRONE:
 				if (st.getInt("cond") == 10 && st.dropItems(STAKATO_CHITIN, 1, 1, 100000) && st.hasQuestItems(MANASHEN_HORN, MITHRIL_CLIP, REINFORCED_BOWSTRING))
 					st.set("cond", "11");
 				break;
-
+			
 			case MARSH_SPIDER:
 				if (st.getInt("cond") == 10 && st.dropItems(REINFORCED_BOWSTRING, 1, 1, 100000) && st.hasQuestItems(MANASHEN_HORN, MITHRIL_CLIP, STAKATO_CHITIN))
 					st.set("cond", "11");
 				break;
-
+			
 			case ROAD_SCAVENGER:
 				if (st.getInt("cond") == 10 && st.dropItems(MITHRIL_CLIP, 1, 1, 100000) && st.hasQuestItems(MANASHEN_HORN, REINFORCED_BOWSTRING, STAKATO_CHITIN))
 					st.set("cond", "11");
 				break;
-
+			
 			case MANASHEN_GARGOYLE:
 				if (st.getInt("cond") == 10 && st.dropItems(MANASHEN_HORN, 1, 1, 100000) && st.hasQuestItems(REINFORCED_BOWSTRING, MITHRIL_CLIP, STAKATO_CHITIN))
 					st.set("cond", "11");
 				break;
-
+			
 			case LETO_LIZARDMAN:
 			case LETO_LIZARDMAN_ARCHER:
 			case LETO_LIZARDMAN_SOLDIER:
@@ -333,7 +333,7 @@ public class Q224_TestOfSagittarius extends Quest
 						st.dropItemsAlways(BLOOD_OF_LIZARDMAN, 1, 0);
 				}
 				break;
-
+			
 			case SERPENT_DEMON_KADESH:
 				if (st.getInt("cond") == 13)
 				{
@@ -348,7 +348,7 @@ public class Q224_TestOfSagittarius extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
 }

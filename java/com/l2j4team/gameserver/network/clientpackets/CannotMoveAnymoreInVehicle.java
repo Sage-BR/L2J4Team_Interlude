@@ -10,7 +10,7 @@ public final class CannotMoveAnymoreInVehicle extends L2GameClientPacket
 	private int _y;
 	private int _z;
 	private int _heading;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -20,14 +20,14 @@ public final class CannotMoveAnymoreInVehicle extends L2GameClientPacket
 		_z = readD();
 		_heading = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		if (player.isInBoat() && player.getBoat().getObjectId() == _boatId)
 		{
 			player.getVehiclePosition().set(_x, _y, _z, _heading);

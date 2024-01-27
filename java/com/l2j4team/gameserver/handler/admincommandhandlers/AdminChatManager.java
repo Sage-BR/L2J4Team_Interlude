@@ -27,7 +27,7 @@ public class AdminChatManager implements IAdminCommandHandler
 	{
 		"admin_quiet"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -35,7 +35,7 @@ public class AdminChatManager implements IAdminCommandHandler
 		{
 			StringTokenizer st = new StringTokenizer(command);
 			st.nextToken();
-
+			
 			try
 			{
 				String type = st.nextToken();
@@ -56,7 +56,7 @@ public class AdminChatManager implements IAdminCommandHandler
 						{
 							allgms.sendMessage("All Chats have been enabled!");
 						}
-
+						
 						for (Player player : World.getInstance().getPlayers())
 						{
 							if (player != null)
@@ -73,7 +73,7 @@ public class AdminChatManager implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

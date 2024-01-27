@@ -28,7 +28,7 @@ public class Tournament extends Folk
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player)
 	{
@@ -37,7 +37,7 @@ public class Tournament extends Folk
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", getObjectId());
-
+		
 		if (Arena1x1.registered.size() == 0)
 			html.replace("%1x1%", "<button value=\"\" action=\"\" width=32 height=32 back=\"L2UI_CH3.calculate1_0_over\" fore=\"L2UI_CH3.calculate1_0\">");
 		else if (Arena1x1.registered.size() == 1)
@@ -58,7 +58,7 @@ public class Tournament extends Folk
 			html.replace("%1x1%", "<button value=\"\" action=\"\" width=32 height=32 back=\"L2UI_CH3.calculate1_8_over\" fore=\"L2UI_CH3.calculate1_8\">");
 		else if (Arena1x1.registered.size() >= 9)
 			html.replace("%1x1%", "<button value=\"\" action=\"\" width=32 height=32 back=\"L2UI_CH3.calculate1_9_over\" fore=\"L2UI_CH3.calculate1_9\">");
-
+		
 		if (Arena2x2.registered.size() == 0)
 			html.replace("%2x2%", "<button value=\"\" action=\"\" width=32 height=32 back=\"L2UI_CH3.calculate1_0_over\" fore=\"L2UI_CH3.calculate1_0\">");
 		else if (Arena2x2.registered.size() == 1)
@@ -79,7 +79,7 @@ public class Tournament extends Folk
 			html.replace("%2x2%", "<button value=\"\" action=\"\" width=32 height=32 back=\"L2UI_CH3.calculate1_8_over\" fore=\"L2UI_CH3.calculate1_8\">");
 		else if (Arena2x2.registered.size() >= 9)
 			html.replace("%2x2%", "<button value=\"\" action=\"\" width=32 height=32 back=\"L2UI_CH3.calculate1_9_over\" fore=\"L2UI_CH3.calculate1_9\">");
-
+		
 		if (Arena5x5.registered.size() == 0)
 			html.replace("%5x5%", "<button value=\"\" action=\"\" width=32 height=32 back=\"L2UI_CH3.calculate1_0_over\" fore=\"L2UI_CH3.calculate1_0\">");
 		else if (Arena5x5.registered.size() == 1)
@@ -100,7 +100,7 @@ public class Tournament extends Folk
 			html.replace("%5x5%", "<button value=\"\" action=\"\" width=32 height=32 back=\"L2UI_CH3.calculate1_8_over\" fore=\"L2UI_CH3.calculate1_8\">");
 		else if (Arena5x5.registered.size() >= 9)
 			html.replace("%5x5%", "<button value=\"\" action=\"\" width=32 height=32 back=\"L2UI_CH3.calculate1_9_over\" fore=\"L2UI_CH3.calculate1_9\">");
-
+		
 		if (Arena9x9.registered.size() == 0)
 			html.replace("%9x9%", "<button value=\"\" action=\"\" width=32 height=32 back=\"L2UI_CH3.calculate1_0_over\" fore=\"L2UI_CH3.calculate1_0\">");
 		else if (Arena9x9.registered.size() == 1)
@@ -121,10 +121,10 @@ public class Tournament extends Folk
 			html.replace("%9x9%", "<button value=\"\" action=\"\" width=32 height=32 back=\"L2UI_CH3.calculate1_8_over\" fore=\"L2UI_CH3.calculate1_8\">");
 		else if (Arena9x9.registered.size() >= 9)
 			html.replace("%9x9%", "<button value=\"\" action=\"\" width=32 height=32 back=\"L2UI_CH3.calculate1_9_over\" fore=\"L2UI_CH3.calculate1_9\">");
-
+		
 		player.sendPacket(html);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
@@ -135,7 +135,7 @@ public class Tournament extends Folk
 				player.sendMessage("[WARN]:The 1x1 is Temporarily unavailable.");
 				return;
 			}
-
+			
 			if (!Config.TOUR_GRADE_A_1X1)
 			{
 				ItemInstance item;
@@ -144,14 +144,14 @@ public class Tournament extends Folk
 					item = player.getInventory().getPaperdollItem(i);
 					if (item == null)
 						continue;
-
+					
 					if (item.getItem().getCrystalType() == CrystalType.S && !(item.getItem().getCrystalType() == CrystalType.NONE))
 					{
 						player.sendMessage("Tournament: Items (Grade-A)!");
 						player.sendPacket(new ExShowScreenMessage("Tournament: Items (Grade-A)!", 5000));
 						return;
 					}
-
+					
 					if (item.getEnchantLevel() > Config.ALT_TOUR_ENCHANT_LIMIT)
 					{
 						player.sendMessage("Max enchant allowed in tournament +" + Config.ALT_TOUR_ENCHANT_LIMIT + ".");
@@ -160,16 +160,16 @@ public class Tournament extends Folk
 					}
 				}
 			}
-
+			
 			if (player._active_boxes > 1 && !Config.Allow_Same_HWID_On_Tournament)
 			{
 				final List<String> players_in_boxes = player.active_boxes_characters;
-
+				
 				if (players_in_boxes != null && players_in_boxes.size() > 1)
 					for (final String character_name : players_in_boxes)
 					{
 						final Player ppl = World.getInstance().getPlayer(character_name);
-
+						
 						if (ppl != null && ppl.isArenaProtection())
 						{
 							player.sendMessage("You are already participating in Tournament with another char!");
@@ -177,7 +177,7 @@ public class Tournament extends Folk
 						}
 					}
 			}
-
+			
 			if (player.isArena1x1() || player.isArena2x2() || player.isArena5x5() || player.isArena9x9() || player.isArenaProtection())
 			{
 				player.sendMessage("Tournament: You already registered!");
@@ -209,13 +209,13 @@ public class Tournament extends Folk
 				player.sendMessage("Tournament: You already participated in another event!");
 				return;
 			}
-
+			
 			if (player.isAio() || player.isAioEterno() || AioManager.getInstance().hasAioPrivileges(player.getObjectId()))
 			{
 				player.sendMessage("Aio Buffer You can not attend the event!");
 				return;
 			}
-
+			
 			if (Arena1x1.getInstance().register(player))
 			{
 				player.sendMessage("Tournament: Your participation has been approved.");
@@ -226,7 +226,7 @@ public class Tournament extends Folk
 			}
 			else
 				player.sendMessage("Tournament: You or your member does not have the necessary requirements.");
-
+			
 		}
 		if (command.startsWith("2x2"))
 		{
@@ -235,7 +235,7 @@ public class Tournament extends Folk
 				player.sendMessage("[WARN]:The 2x2 is Temporarily unavailable.");
 				return;
 			}
-
+			
 			if (!Config.TOUR_GRADE_A_2X2)
 			{
 				ItemInstance item;
@@ -244,14 +244,14 @@ public class Tournament extends Folk
 					item = player.getInventory().getPaperdollItem(i);
 					if (item == null)
 						continue;
-
+					
 					if (item.getItem().getCrystalType() == CrystalType.S)
 					{
 						player.sendMessage("Tournament: Items (Grade-A)!");
 						player.sendPacket(new ExShowScreenMessage("Tournament: Items (Grade-A)!", 5000));
 						return;
 					}
-
+					
 					if (item.getEnchantLevel() > Config.ALT_TOUR_ENCHANT_LIMIT)
 					{
 						player.sendMessage("Max enchant allowed in tournament +" + Config.ALT_TOUR_ENCHANT_LIMIT + ".");
@@ -260,16 +260,16 @@ public class Tournament extends Folk
 					}
 				}
 			}
-
+			
 			if (player._active_boxes > 1 && !Config.Allow_Same_HWID_On_Tournament)
 			{
 				final List<String> players_in_boxes = player.active_boxes_characters;
-
+				
 				if (players_in_boxes != null && players_in_boxes.size() > 1)
 					for (final String character_name : players_in_boxes)
 					{
 						final Player ppl = World.getInstance().getPlayer(character_name);
-
+						
 						if (ppl != null && ppl.isArenaProtection())
 						{
 							player.sendMessage("You are already participating in Tournament with another char!");
@@ -277,7 +277,7 @@ public class Tournament extends Folk
 						}
 					}
 			}
-
+			
 			if (player.isArena1x1() || player.isArena2x2() || player.isArena5x5() || player.isArena9x9() || player.isArenaProtection())
 			{
 				player.sendMessage("Tournament: You already registered!");
@@ -305,12 +305,12 @@ public class Tournament extends Folk
 				player.sendPacket(new ExShowScreenMessage("Your Party can not have more than 2 members", 6 * 1000));
 				return;
 			}
-
+			
 			Player assist = player.getParty().getPartyMembers().get(1);
-
+			
 			String className = CharTemplateTable.getInstance().getClassNameById(player.getClassId().getId());
 			String assist_className = CharTemplateTable.getInstance().getClassNameById(assist.getClassId().getId());
-
+			
 			if ((player.getClassId() == ClassId.GLADIATOR || player.getClassId() == ClassId.DUELIST || player.getClassId() == ClassId.GRAND_KHAVATARI || player.getClassId() == ClassId.TYRANT) && (assist.getClassId() == ClassId.GLADIATOR || assist.getClassId() == ClassId.DUELIST || assist.getClassId() == ClassId.GRAND_KHAVATARI || assist.getClassId() == ClassId.TYRANT))
 			{
 				player.sendMessage("Tournament: Only 1 " + className + " / " + assist_className + " allowed per party.");
@@ -365,7 +365,7 @@ public class Tournament extends Folk
 				assist.sendMessage("Tournament: You already participated in another event!");
 				return;
 			}
-
+			
 			L2Party plparty = player.getParty();
 			for (Player ppl : plparty.getPartyMembers())
 			{
@@ -377,12 +377,12 @@ public class Tournament extends Folk
 							return;
 						}
 			}
-
+			
 			if (!Config.Allow_Same_HWID_On_Tournament)
 			{
 				String ip1 = player.getHWID();
 				String ip2 = assist.getHWID();
-
+				
 				if (ip1.equals(ip2))
 				{
 					player.sendMessage("Tournament: Register only 1 player per Computer");
@@ -390,7 +390,7 @@ public class Tournament extends Folk
 					return;
 				}
 			}
-
+			
 			if (Config.ARENA_SKILL_PROTECT)
 			{
 				for (L2Effect effect : player.getAllEffects())
@@ -398,26 +398,26 @@ public class Tournament extends Folk
 					if (Config.ARENA_STOP_SKILL_LIST.contains(effect.getSkill().getId()))
 						player.stopSkillEffects(effect.getSkill().getId());
 				}
-
+				
 				for (L2Effect effect : assist.getAllEffects())
 				{
 					if (Config.ARENA_STOP_SKILL_LIST.contains(effect.getSkill().getId()))
 						assist.stopSkillEffects(effect.getSkill().getId());
 				}
-
+				
 				for (L2Effect effect : player.getAllEffects())
 				{
 					if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
 						player.stopSkillEffects(effect.getSkill().getId());
 				}
-
+				
 				for (L2Effect effect : assist.getAllEffects())
 				{
 					if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
 						assist.stopSkillEffects(effect.getSkill().getId());
 				}
 			}
-
+			
 			if (Arena2x2.getInstance().register(player, assist))
 			{
 				player.sendMessage("Tournament: Your participation has been approved.");
@@ -432,17 +432,17 @@ public class Tournament extends Folk
 			}
 			else
 				player.sendMessage("Tournament: You or your member does not have the necessary requirements.");
-
+			
 		}
 		else if (command.startsWith("5x5"))
 		{
-
+			
 			if (!Config.ALLOW_5X5_REGISTER)
 			{
 				player.sendMessage("[WARN]:The 5x5 is Temporarily unavailable.");
 				return;
 			}
-
+			
 			if (!Config.TOUR_GRADE_A_5X5)
 			{
 				ItemInstance item;
@@ -451,14 +451,14 @@ public class Tournament extends Folk
 					item = player.getInventory().getPaperdollItem(i);
 					if (item == null)
 						continue;
-
+					
 					if (item.getItem().getCrystalType() == CrystalType.S)
 					{
 						player.sendMessage("Tournament: Items (Grade-A)!");
 						player.sendPacket(new ExShowScreenMessage("Tournament: Items (Grade-A)!", 5000));
 						return;
 					}
-
+					
 					if (item.getEnchantLevel() > Config.ALT_TOUR_ENCHANT_LIMIT)
 					{
 						player.sendMessage("Max enchant allowed in tournament +" + Config.ALT_TOUR_ENCHANT_LIMIT + ".");
@@ -467,16 +467,16 @@ public class Tournament extends Folk
 					}
 				}
 			}
-
+			
 			if (player._active_boxes > 1 && !Config.Allow_Same_HWID_On_Tournament)
 			{
 				final List<String> players_in_boxes = player.active_boxes_characters;
-
+				
 				if (players_in_boxes != null && players_in_boxes.size() > 1)
 					for (final String character_name : players_in_boxes)
 					{
 						final Player ppl = World.getInstance().getPlayer(character_name);
-
+						
 						if (ppl != null && ppl.isArenaProtection())
 						{
 							player.sendMessage("You are already participating in Tournament with another char!");
@@ -484,7 +484,7 @@ public class Tournament extends Folk
 						}
 					}
 			}
-
+			
 			if (player.isArena1x1() || player.isArena2x2() || player.isArena5x5() || player.isArena9x9() || player.isArenaProtection())
 			{
 				player.sendMessage("Tournament: You already registered!");
@@ -512,12 +512,12 @@ public class Tournament extends Folk
 				player.sendPacket(new ExShowScreenMessage("Your Party can not have more than 5 members", 6 * 1000));
 				return;
 			}
-
+			
 			Player assist = player.getParty().getPartyMembers().get(1);
 			Player assist2 = player.getParty().getPartyMembers().get(2);
 			Player assist3 = player.getParty().getPartyMembers().get(3);
 			Player assist4 = player.getParty().getPartyMembers().get(4);
-
+			
 			if (player.isCursedWeaponEquipped() || assist.isCursedWeaponEquipped() || assist2.isCursedWeaponEquipped() || assist3.isCursedWeaponEquipped() || assist4.isCursedWeaponEquipped() || player.isInStoreMode() || assist.isInStoreMode() || assist2.isInStoreMode() || assist3.isInStoreMode() || assist4.isInStoreMode() || player.getKarma() > 0 || assist.getKarma() > 0 || assist2.getKarma() > 0 || assist3.getKarma() > 0 || assist4.getKarma() > 0)
 			{
 				player.sendMessage("Tournament: You or your member does not have the necessary requirements.");
@@ -545,7 +545,7 @@ public class Tournament extends Folk
 				assist4.sendMessage("Tournament: You already participated in TvT event!");
 				return;
 			}
-
+			
 			L2Party plparty = player.getParty();
 			for (Player ppl : plparty.getPartyMembers())
 			{
@@ -557,7 +557,7 @@ public class Tournament extends Folk
 							return;
 						}
 			}
-
+			
 			if (!Config.Allow_Same_HWID_On_Tournament)
 			{
 				String ip1 = player.getHWID();
@@ -565,7 +565,7 @@ public class Tournament extends Folk
 				String ip3 = assist2.getHWID();
 				String ip4 = assist3.getHWID();
 				String ip5 = assist4.getHWID();
-
+				
 				if (ip1.equals(ip2) || ip1.equals(ip3) || ip1.equals(ip4) || ip1.equals(ip5))
 				{
 					player.sendMessage("Tournament: Register only 1 player per Computer");
@@ -612,33 +612,33 @@ public class Tournament extends Folk
 					return;
 				}
 			}
-
+			
 			for (L2Effect effect : player.getAllEffects())
 			{
 				if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
 					player.stopSkillEffects(effect.getSkill().getId());
 			}
-
+			
 			for (L2Effect effect : assist.getAllEffects())
 			{
 				if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
 					assist.stopSkillEffects(effect.getSkill().getId());
 			}
-
+			
 			for (L2Effect effect : assist2.getAllEffects())
 			{
 				if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
 					assist2.stopSkillEffects(effect.getSkill().getId());
 			}
-
+			
 			for (L2Effect effect : assist3.getAllEffects())
 			{
 				if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
 					assist3.stopSkillEffects(effect.getSkill().getId());
 			}
-
+			
 			ClasseCheck(player);
-
+			
 			if (player.duelist_cont > Config.duelist_COUNT_5X5)
 			{
 				player.sendMessage("Tournament: Only " + Config.duelist_COUNT_5X5 + " Duelist's or " + Config.duelist_COUNT_5X5 + " Grand Khauatari's allowed per party.");
@@ -738,19 +738,19 @@ public class Tournament extends Folk
 				assist2.sendMessage("Tournament: Your participation has been approved.");
 				assist3.sendMessage("Tournament: Your participation has been approved.");
 				assist4.sendMessage("Tournament: Your participation has been approved.");
-
+				
 				player.sendPacket(new ExShowScreenMessage("Successfully registered - 5x5", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
 				assist.sendPacket(new ExShowScreenMessage("Successfully registered - 5x5", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
 				assist2.sendPacket(new ExShowScreenMessage("Successfully registered - 5x5", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
 				assist3.sendPacket(new ExShowScreenMessage("Successfully registered - 5x5", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
 				assist4.sendPacket(new ExShowScreenMessage("Successfully registered - 5x5", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
-
+				
 				player.setArenaProtection(true);
 				assist.setArenaProtection(true);
 				assist2.setArenaProtection(true);
 				assist3.setArenaProtection(true);
 				assist4.setArenaProtection(true);
-
+				
 				player.setArena5x5(true);
 				assist.setArena5x5(true);
 				assist2.setArena5x5(true);
@@ -760,17 +760,17 @@ public class Tournament extends Folk
 			}
 			else
 				player.sendMessage("Tournament: You or your member does not have the necessary requirements.");
-
+			
 		}
 		else if (command.startsWith("9x9"))
 		{
-
+			
 			if (!Config.ALLOW_9X9_REGISTER)
 			{
 				player.sendMessage("[WARN]:The 9x9 is Temporarily unavailable.");
 				return;
 			}
-
+			
 			if (!Config.TOUR_GRADE_A_9X9)
 			{
 				ItemInstance item;
@@ -779,14 +779,14 @@ public class Tournament extends Folk
 					item = player.getInventory().getPaperdollItem(i);
 					if (item == null)
 						continue;
-
+					
 					if (item.getItem().getCrystalType() == CrystalType.S)
 					{
 						player.sendMessage("Tournament: Items (Grade-A)!");
 						player.sendPacket(new ExShowScreenMessage("Tournament: Items (Grade-A)!", 5000));
 						return;
 					}
-
+					
 					if (item.getEnchantLevel() > Config.ALT_TOUR_ENCHANT_LIMIT)
 					{
 						player.sendMessage("Max enchant allowed in tournament +" + Config.ALT_TOUR_ENCHANT_LIMIT + ".");
@@ -795,16 +795,16 @@ public class Tournament extends Folk
 					}
 				}
 			}
-
+			
 			if (player._active_boxes > 1 && !Config.Allow_Same_HWID_On_Tournament)
 			{
 				final List<String> players_in_boxes = player.active_boxes_characters;
-
+				
 				if (players_in_boxes != null && players_in_boxes.size() > 1)
 					for (final String character_name : players_in_boxes)
 					{
 						final Player ppl = World.getInstance().getPlayer(character_name);
-
+						
 						if (ppl != null && ppl.isArenaProtection())
 						{
 							player.sendMessage("You are already participating in Tournament with another char!");
@@ -812,7 +812,7 @@ public class Tournament extends Folk
 						}
 					}
 			}
-
+			
 			if (player.isArena1x1() || player.isArena2x2() || player.isArena5x5() || player.isArena9x9() || player.isArenaProtection())
 			{
 				player.sendMessage("Tournament: You already registered!");
@@ -840,7 +840,7 @@ public class Tournament extends Folk
 				player.sendPacket(new ExShowScreenMessage("Your Party can not have more than 9 members", 6 * 1000));
 				return;
 			}
-
+			
 			Player assist = player.getParty().getPartyMembers().get(1);
 			Player assist2 = player.getParty().getPartyMembers().get(2);
 			Player assist3 = player.getParty().getPartyMembers().get(3);
@@ -849,7 +849,7 @@ public class Tournament extends Folk
 			Player assist6 = player.getParty().getPartyMembers().get(6);
 			Player assist7 = player.getParty().getPartyMembers().get(7);
 			Player assist8 = player.getParty().getPartyMembers().get(8);
-
+			
 			if (player.isCursedWeaponEquipped() || assist.isCursedWeaponEquipped() || assist2.isCursedWeaponEquipped() || assist3.isCursedWeaponEquipped() || assist4.isCursedWeaponEquipped() || assist5.isCursedWeaponEquipped() || assist6.isCursedWeaponEquipped() || assist7.isCursedWeaponEquipped() || assist8.isCursedWeaponEquipped() || player.isInStoreMode() || assist.isInStoreMode() || assist2.isInStoreMode() || assist3.isInStoreMode() || assist4.isInStoreMode() || assist5.isInStoreMode() || assist6.isInStoreMode() || assist7.isInStoreMode() || assist8.isInStoreMode() || player.getKarma() > 0 || assist.getKarma() > 0 || assist2.getKarma() > 0 || assist3.getKarma() > 0 || assist4.getKarma() > 0 || assist5.getKarma() > 0 || assist6.getKarma() > 0 || assist7.getKarma() > 0 || assist8.getKarma() > 0)
 			{
 				player.sendMessage("Tournament: You or your member does not have the necessary requirements.");
@@ -889,7 +889,7 @@ public class Tournament extends Folk
 				assist8.sendMessage("Tournament: You already participated in TvT event!");
 				return;
 			}
-
+			
 			L2Party plparty = player.getParty();
 			for (Player ppl : plparty.getPartyMembers())
 			{
@@ -901,7 +901,7 @@ public class Tournament extends Folk
 							return;
 						}
 			}
-
+			
 			if (!Config.Allow_Same_HWID_On_Tournament)
 			{
 				if (player.isInParty() && (player.getParty().getPartyMembers().get(1) != null && player.getParty().getPartyMembers().get(2) != null && player.getParty().getPartyMembers().get(3) != null && player.getParty().getPartyMembers().get(4) != null && player.getParty().getPartyMembers().get(5) != null && player.getParty().getPartyMembers().get(6) != null && player.getParty().getPartyMembers().get(7) != null && player.getParty().getPartyMembers().get(8) != null))
@@ -915,7 +915,7 @@ public class Tournament extends Folk
 					String ip7 = assist6.getHWID();
 					String ip8 = assist7.getHWID();
 					String ip9 = assist8.getHWID();
-
+					
 					if (ip1.equals(ip2) || ip1.equals(ip3) || ip1.equals(ip4) || ip1.equals(ip5) || ip1.equals(ip6) || ip1.equals(ip7) || ip1.equals(ip8) || ip1.equals(ip9))
 					{
 						player.sendMessage("Tournament: Register only 1 player per Computer");
@@ -1033,40 +1033,40 @@ public class Tournament extends Folk
 						assist8.sendMessage("Tournament: Register only 1 player per Computer");
 						return;
 					}
-
+					
 				}
 			}
-
+			
 			for (L2Effect effect : player.getAllEffects())
 			{
 				if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
 					player.stopSkillEffects(effect.getSkill().getId());
 			}
-
+			
 			for (L2Effect effect : assist.getAllEffects())
 			{
 				if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
 					assist.stopSkillEffects(effect.getSkill().getId());
 			}
-
+			
 			for (L2Effect effect : assist2.getAllEffects())
 			{
 				if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
 					assist2.stopSkillEffects(effect.getSkill().getId());
 			}
-
+			
 			for (L2Effect effect : assist3.getAllEffects())
 			{
 				if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
 					assist3.stopSkillEffects(effect.getSkill().getId());
 			}
-
+			
 			for (L2Effect effect : assist4.getAllEffects())
 			{
 				if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
 					assist4.stopSkillEffects(effect.getSkill().getId());
 			}
-
+			
 			for (L2Effect effect : assist5.getAllEffects())
 			{
 				if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
@@ -1087,9 +1087,9 @@ public class Tournament extends Folk
 				if (Config.ARENA_DISABLE_SKILL_LIST_PERM.contains(effect.getSkill().getId()))
 					assist8.stopSkillEffects(effect.getSkill().getId());
 			}
-
+			
 			ClasseCheck(player);
-
+			
 			if (player.duelist_cont > Config.duelist_COUNT_9X9)
 			{
 				player.sendMessage("Tournament: Only " + Config.duelist_COUNT_9X9 + " Duelist's or " + Config.duelist_COUNT_9X9 + " Grand Khauatari's allowed per party.");
@@ -1185,7 +1185,7 @@ public class Tournament extends Folk
 				assist6.sendMessage("Tournament: Your participation has been approved.");
 				assist7.sendMessage("Tournament: Your participation has been approved.");
 				assist8.sendMessage("Tournament: Your participation has been approved.");
-
+				
 				player.sendPacket(new ExShowScreenMessage("Successfully registered - 9x9", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
 				assist.sendPacket(new ExShowScreenMessage("Successfully registered - 9x9", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
 				assist2.sendPacket(new ExShowScreenMessage("Successfully registered - 9x9", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
@@ -1195,7 +1195,7 @@ public class Tournament extends Folk
 				assist6.sendPacket(new ExShowScreenMessage("Successfully registered - 9x9", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
 				assist7.sendPacket(new ExShowScreenMessage("Successfully registered - 9x9", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
 				assist8.sendPacket(new ExShowScreenMessage("Successfully registered - 9x9", 4000, ExShowScreenMessage.SMPOS.MIDDLE_RIGHT, false));
-
+				
 				player.setArenaProtection(true);
 				assist.setArenaProtection(true);
 				assist2.setArenaProtection(true);
@@ -1205,7 +1205,7 @@ public class Tournament extends Folk
 				assist6.setArenaProtection(true);
 				assist7.setArenaProtection(true);
 				assist8.setArenaProtection(true);
-
+				
 				player.setArena9x9(true);
 				assist.setArena9x9(true);
 				assist2.setArena9x9(true);
@@ -1217,11 +1217,11 @@ public class Tournament extends Folk
 				assist8.setArena9x9(true);
 				clean(player);
 				showChatWindow(player);
-
+				
 			}
 			else
 				player.sendMessage("Tournament: You or your member does not have the necessary requirements.");
-
+			
 		}
 		else if (command.startsWith("remove"))
 		{
@@ -1257,7 +1257,7 @@ public class Tournament extends Folk
 		}
 		else if (command.startsWith("back"))
 			showChatWindow(player);
-
+		
 		else if (command.startsWith("tournament_observe"))
 		{
 			if (player._inEventTvT || player._inEventCTF)
@@ -1265,10 +1265,10 @@ public class Tournament extends Folk
 				player.sendMessage("Tournament: Remove your participation from the event!");
 				return;
 			}
-
+			
 			StringTokenizer st = new StringTokenizer(command);
 			st.nextToken();
-
+			
 			final int x = Integer.parseInt(st.nextToken());
 			final int y = Integer.parseInt(st.nextToken());
 			final int z = Integer.parseInt(st.nextToken());
@@ -1281,10 +1281,10 @@ public class Tournament extends Folk
 		else
 			super.onBypassFeedback(player, command);
 	}
-
+	
 	public void ClasseCheck(Player activeChar)
 	{
-
+		
 		L2Party plparty = activeChar.getParty();
 		for (Player player : plparty.getPartyMembers())
 		{/* Membros da party for */
@@ -1294,46 +1294,46 @@ public class Tournament extends Folk
 				{
 					if (player.getClassId() == ClassId.GLADIATOR || player.getClassId() == ClassId.DUELIST || player.getClassId() == ClassId.GRAND_KHAVATARI || player.getClassId() == ClassId.TYRANT)
 						activeChar.duelist_cont = activeChar.duelist_cont + 1;
-
+					
 					if (player.getClassId() == ClassId.WARLORD || player.getClassId() == ClassId.DREADNOUGHT)
 						activeChar.dreadnought_cont = activeChar.dreadnought_cont + 1;
-
+					
 					if (player.getClassId() == ClassId.PALADIN || player.getClassId() == ClassId.PHOENIX_KNIGHT || player.getClassId() == ClassId.DARK_AVENGER || player.getClassId() == ClassId.HELL_KNIGHT || player.getClassId() == ClassId.EVAS_TEMPLAR || player.getClassId() == ClassId.TEMPLE_KNIGHT || player.getClassId() == ClassId.SHILLIEN_KNIGHT || player.getClassId() == ClassId.SHILLIEN_TEMPLAR)
 						activeChar.tanker_cont = activeChar.tanker_cont + 1;
-
+					
 					if (player.getClassId() == ClassId.ADVENTURER || player.getClassId() == ClassId.TREASURE_HUNTER || player.getClassId() == ClassId.WIND_RIDER || player.getClassId() == ClassId.PLAINS_WALKER || player.getClassId() == ClassId.GHOST_HUNTER || player.getClassId() == ClassId.ABYSS_WALKER)
 						activeChar.dagger_cont = activeChar.dagger_cont + 1;
-
+					
 					if (player.getClassId() == ClassId.HAWKEYE || player.getClassId() == ClassId.SAGGITARIUS || player.getClassId() == ClassId.MOONLIGHT_SENTINEL || player.getClassId() == ClassId.SILVER_RANGER || player.getClassId() == ClassId.GHOST_SENTINEL || player.getClassId() == ClassId.PHANTOM_RANGER)
 						activeChar.archer_cont = activeChar.archer_cont + 1;
-
+					
 					if (player.getClassId() == ClassId.SHILLIEN_ELDER || player.getClassId() == ClassId.SHILLIEN_SAINT || player.getClassId() == ClassId.BISHOP || player.getClassId() == ClassId.CARDINAL || player.getClassId() == ClassId.ELVEN_ELDER || player.getClassId() == ClassId.EVAS_SAINT)
 						activeChar.bs_cont = activeChar.bs_cont + 1;
-
+					
 					if (player.getClassId() == ClassId.ARCHMAGE || player.getClassId() == ClassId.SORCERER)
 						activeChar.archmage_cont = activeChar.archmage_cont + 1;
-
+					
 					if (player.getClassId() == ClassId.SOULTAKER || player.getClassId() == ClassId.NECROMANCER)
 						activeChar.soultaker_cont = activeChar.soultaker_cont + 1;
-
+					
 					if (player.getClassId() == ClassId.MYSTIC_MUSE || player.getClassId() == ClassId.SPELLSINGER)
 						activeChar.mysticMuse_cont = activeChar.mysticMuse_cont + 1;
-
+					
 					if (player.getClassId() == ClassId.STORM_SCREAMER || player.getClassId() == ClassId.SPELLHOWLER)
 						activeChar.stormScreamer_cont = activeChar.stormScreamer_cont + 1;
-
+					
 					if (player.getClassId() == ClassId.TITAN || player.getClassId() == ClassId.DESTROYER)
 						activeChar.titan_cont = activeChar.titan_cont + 1;
-
+					
 					if (player.getClassId() == ClassId.DOMINATOR || player.getClassId() == ClassId.OVERLORD || player.getClassId() == ClassId.DOOMCRYER || player.getClassId() == ClassId.WARCRYER)
 						activeChar.dominator_cont = activeChar.dominator_cont + 1;
-
+					
 				}
 			}
 		}
-
+		
 	}
-
+	
 	public void clean(Player player)
 	{
 		player.duelist_cont = 0;
@@ -1349,5 +1349,5 @@ public class Tournament extends Folk
 		player.titan_cont = 0;
 		player.dominator_cont = 0;
 	}
-
+	
 }

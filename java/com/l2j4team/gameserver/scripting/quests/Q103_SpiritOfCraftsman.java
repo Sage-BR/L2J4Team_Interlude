@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q103_SpiritOfCraftsman extends Quest
 {
 	private static final String qn = "Q103_SpiritOfCraftsman";
-
+	
 	// Items
 	private static final int KARROD_LETTER = 968;
 	private static final int CECKTINON_VOUCHER_1 = 969;
@@ -20,7 +20,7 @@ public class Q103_SpiritOfCraftsman extends Quest
 	private static final int ZOMBIE_HEAD = 973;
 	private static final int STEELBENDER_HEAD = 974;
 	private static final int BONE_FRAGMENT = 1107;
-
+	
 	// Rewards
 	private static final int SPIRITSHOT_NO_GRADE = 2509;
 	private static final int SOULSHOT_NO_GRADE = 1835;
@@ -33,24 +33,24 @@ public class Q103_SpiritOfCraftsman extends Quest
 	private static final int ECHO_SOLITUDE = 4414;
 	private static final int ECHO_FEAST = 4415;
 	private static final int ECHO_CELEBRATION = 4416;
-
+	
 	// NPCs
 	private static final int KARROD = 30307;
 	private static final int CECKTINON = 30132;
 	private static final int HARNE = 30144;
-
+	
 	public Q103_SpiritOfCraftsman()
 	{
 		super(103, "Spirit of Craftsman");
-
+		
 		setItemsIds(KARROD_LETTER, CECKTINON_VOUCHER_1, CECKTINON_VOUCHER_2, BONE_FRAGMENT, SOUL_CATCHER, PRESERVING_OIL, ZOMBIE_HEAD, STEELBENDER_HEAD);
-
+		
 		addStartNpc(KARROD);
 		addTalkId(KARROD, CECKTINON, HARNE);
-
+		
 		addKillId(20015, 20020, 20455, 20517, 20518);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -58,7 +58,7 @@ public class Q103_SpiritOfCraftsman extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30307-05.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -66,10 +66,10 @@ public class Q103_SpiritOfCraftsman extends Quest
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(KARROD_LETTER, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -77,7 +77,7 @@ public class Q103_SpiritOfCraftsman extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -88,7 +88,7 @@ public class Q103_SpiritOfCraftsman extends Quest
 				else
 					htmltext = "30307-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -102,12 +102,12 @@ public class Q103_SpiritOfCraftsman extends Quest
 							st.takeItems(STEELBENDER_HEAD, 1);
 							st.giveItems(BLOODSABER, 1);
 							st.rewardItems(LESSER_HEALING_POT, 100);
-
+							
 							if (player.isMageClass())
 								st.giveItems(SPIRITSHOT_NO_GRADE, 500);
 							else
 								st.giveItems(SOULSHOT_NO_GRADE, 1000);
-
+							
 							if (player.isNewbie())
 							{
 								st.showQuestionMark(26);
@@ -122,7 +122,7 @@ public class Q103_SpiritOfCraftsman extends Quest
 									st.giveItems(SOULSHOT_FOR_BEGINNERS, 7000);
 								}
 							}
-
+							
 							st.giveItems(ECHO_BATTLE, 10);
 							st.giveItems(ECHO_LOVE, 10);
 							st.giveItems(ECHO_SOLITUDE, 10);
@@ -133,7 +133,7 @@ public class Q103_SpiritOfCraftsman extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case CECKTINON:
 						if (cond == 1)
 						{
@@ -166,7 +166,7 @@ public class Q103_SpiritOfCraftsman extends Quest
 						else if (cond == 8)
 							htmltext = "30132-06.htm";
 						break;
-
+					
 					case HARNE:
 						if (cond == 2)
 						{
@@ -192,22 +192,22 @@ public class Q103_SpiritOfCraftsman extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case 20517:
@@ -216,7 +216,7 @@ public class Q103_SpiritOfCraftsman extends Quest
 				if (st.getInt("cond") == 3 && st.dropItems(BONE_FRAGMENT, 1, 10, 300000))
 					st.set("cond", "4");
 				break;
-
+			
 			case 20015:
 			case 20020:
 				if (st.getInt("cond") == 6 && st.dropItems(ZOMBIE_HEAD, 1, 1, 300000))
@@ -226,7 +226,7 @@ public class Q103_SpiritOfCraftsman extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
 }

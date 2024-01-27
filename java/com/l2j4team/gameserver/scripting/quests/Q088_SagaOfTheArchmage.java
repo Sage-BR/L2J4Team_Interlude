@@ -7,7 +7,7 @@ public class Q088_SagaOfTheArchmage extends SagasSuperClass
 	public Q088_SagaOfTheArchmage()
 	{
 		super(88, "Saga of the Archmage");
-
+		
 		NPC = new int[]
 		{
 			30176,
@@ -23,7 +23,7 @@ public class Q088_SagaOfTheArchmage extends SagasSuperClass
 			31657,
 			31282
 		};
-
+		
 		Items = new int[]
 		{
 			7080,
@@ -39,38 +39,38 @@ public class Q088_SagaOfTheArchmage extends SagasSuperClass
 			7082,
 			0
 		};
-
+		
 		Mob = new int[]
 		{
 			27250,
 			27237,
 			27254
 		};
-
+		
 		classid = 94;
 		prevclass = 0x0c;
-
+		
 		X = new int[]
 		{
 			191046,
 			46066,
 			46087
 		};
-
+		
 		Y = new int[]
 		{
 			-40640,
 			-36396,
 			-36372
 		};
-
+		
 		Z = new int[]
 		{
 			-3042,
 			-1685,
 			-1685
 		};
-
+		
 		registerNPCs();
 	}
 }

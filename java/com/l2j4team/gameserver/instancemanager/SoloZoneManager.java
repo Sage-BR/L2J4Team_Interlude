@@ -37,16 +37,16 @@ import java.util.logging.Logger;
 public class SoloZoneManager
 {
 	private static final Logger _log = Logger.getLogger(SoloZoneManager.class.getName());
-
+	
 	public SoloZoneManager()
 	{
 		_log.log(Level.INFO, "SoloZoneManager - Loaded.");
 	}
-
+	
 	private static boolean checkPlayersKickTask(Player activeChar, Integer numberBox)
 	{
 		Map<String, List<Player>> map = new HashMap<>();
-
+		
 		if (activeChar != null)
 		{
 			for (Player player : World.getInstance().getPlayers())
@@ -55,14 +55,14 @@ public class SoloZoneManager
 					continue;
 				String ip1 = activeChar.getHWID();
 				String ip2 = player.getHWID();
-
+				
 				if (ip1.equals(ip2))
 				{
 					if (map.get(ip1) == null)
 						map.put(ip1, new ArrayList<Player>());
-
+					
 					map.get(ip1).add(player);
-
+					
 					if (map.get(ip1).size() > numberBox)
 						return true;
 				}
@@ -70,7 +70,7 @@ public class SoloZoneManager
 		}
 		return false;
 	}
-
+	
 	private static boolean checkPlayersKickTask_ip(Player activeChar, Integer numberBox, Collection<Player> world)
 	{
 		Map<String, List<Player>> ipMap = new HashMap<>();
@@ -80,21 +80,21 @@ public class SoloZoneManager
 				continue;
 			String ip = activeChar.getClient().getConnection().getInetAddress().getHostAddress();
 			String playerIp = player.getClient().getConnection().getInetAddress().getHostAddress();
-
+			
 			if (IPProtection(playerIp))
 			{
 				if (ipMap.get(ip) == null)
 					ipMap.put(ip, new ArrayList<Player>());
-
+				
 				ipMap.get(ip).add(player);
-
+				
 				if (ipMap.get(ip).size() >= numberBox)
 					return true;
 			}
 		}
 		return false;
 	}
-
+	
 	public boolean checkPlayersArea_ip(Player activeChar, Integer numberBox, Collection<Player> world, Boolean forcedLogOut)
 	{
 		if (checkPlayersKickTask_ip(activeChar, numberBox, world))
@@ -113,7 +113,7 @@ public class SoloZoneManager
 		}
 		return false;
 	}
-
+	
 	public boolean checkPlayersArea(Player activeChar, Integer numberBox, Boolean forcedTeleport)
 	{
 		if (checkPlayersKickTask(activeChar, numberBox))
@@ -132,7 +132,7 @@ public class SoloZoneManager
 		}
 		return false;
 	}
-
+	
 	public static synchronized boolean IPProtection(final String ip)
 	{
 		boolean result = true;
@@ -151,7 +151,7 @@ public class SoloZoneManager
 		}
 		return result;
 	}
-
+	
 	// Giran Coord's
 	public void RandomTeleport(Player activeChar)
 	{
@@ -194,12 +194,12 @@ public class SoloZoneManager
 			}
 		}
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final SoloZoneManager _instance = new SoloZoneManager();
 	}
-
+	
 	public static final SoloZoneManager getInstance()
 	{
 		return SingletonHolder._instance;

@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q411_PathToAnAssassin extends Quest
 {
 	private static final String qn = "Q411_PathToAnAssassin";
-
+	
 	// Items
 	private static final int SHILEN_CALL = 1245;
 	private static final int ARKENIA_LETTER = 1246;
@@ -19,24 +19,24 @@ public class Q411_PathToAnAssassin extends Quest
 	private static final int SHILEN_TEARS = 1250;
 	private static final int ARKENIA_RECOMMENDATION = 1251;
 	private static final int IRON_HEART = 1252;
-
+	
 	// NPCs
 	private static final int TRISKEL = 30416;
 	private static final int ARKENIA = 30419;
 	private static final int LEIKAN = 30382;
-
+	
 	public Q411_PathToAnAssassin()
 	{
 		super(411, "Path to an Assassin");
-
+		
 		setItemsIds(SHILEN_CALL, ARKENIA_LETTER, LEIKAN_NOTE, MOONSTONE_BEAST_MOLAR, SHILEN_TEARS, ARKENIA_RECOMMENDATION);
-
+		
 		addStartNpc(TRISKEL);
 		addTalkId(TRISKEL, ARKENIA, LEIKAN);
-
+		
 		addKillId(27036, 20369);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -44,7 +44,7 @@ public class Q411_PathToAnAssassin extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30416-05.htm"))
 		{
 			if (player.getClassId() != ClassId.DARK_FIGHTER)
@@ -75,10 +75,10 @@ public class Q411_PathToAnAssassin extends Quest
 			st.takeItems(ARKENIA_LETTER, 1);
 			st.giveItems(LEIKAN_NOTE, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -86,13 +86,13 @@ public class Q411_PathToAnAssassin extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "30416-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -119,7 +119,7 @@ public class Q411_PathToAnAssassin extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case ARKENIA:
 						if (cond == 1)
 							htmltext = "30419-01.htm";
@@ -140,7 +140,7 @@ public class Q411_PathToAnAssassin extends Quest
 						else if (cond == 7)
 							htmltext = "30419-09.htm";
 						break;
-
+					
 					case LEIKAN:
 						if (cond == 2)
 							htmltext = "30382-01.htm";
@@ -162,17 +162,17 @@ public class Q411_PathToAnAssassin extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		if (npc.getNpcId() == 20369)
 		{
 			if (st.getInt("cond") == 3 && st.dropItemsAlways(MOONSTONE_BEAST_MOLAR, 1, 10))
@@ -184,7 +184,7 @@ public class Q411_PathToAnAssassin extends Quest
 			st.playSound(QuestState.SOUND_MIDDLE);
 			st.giveItems(SHILEN_TEARS, 1);
 		}
-
+		
 		return null;
 	}
 }

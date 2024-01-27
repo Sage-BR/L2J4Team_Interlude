@@ -15,13 +15,13 @@ public class EffectTargetMe extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.TARGET_ME;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
@@ -31,19 +31,19 @@ public class EffectTargetMe extends L2Effect
 			// add an INTENTION_ATTACK, but only if victim got attacker as target
 			if ((getEffected().getAI() == null || getEffected().getAI().getNextIntention() == null) && getEffected().getTarget() == getEffector())
 				getEffected().getAI().setIntention(CtrlIntention.ATTACK, getEffector());
-
+			
 			// target the agressor
 			getEffected().setTarget(getEffector());
 			return true;
 		}
 		return false;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

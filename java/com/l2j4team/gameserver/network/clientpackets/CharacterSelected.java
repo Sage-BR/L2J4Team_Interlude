@@ -27,7 +27,7 @@ import hwid.Hwid;
 public class CharacterSelected extends L2GameClientPacket
 {
 	private int _charSlot;
-
+	
 	@SuppressWarnings("unused")
 	private int _unk1; // new in C4
 	@SuppressWarnings("unused")
@@ -36,7 +36,7 @@ public class CharacterSelected extends L2GameClientPacket
 	private int _unk3; // new in C4
 	@SuppressWarnings("unused")
 	private int _unk4; // new in C4
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -46,14 +46,14 @@ public class CharacterSelected extends L2GameClientPacket
 		_unk3 = readD();
 		_unk4 = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final L2GameClient client = getClient();
 		if (!FloodProtectors.performAction(client, Action.CHARACTER_SELECT))
 			return;
-
+		
 		// we should always be able to acquire the lock but if we cant lock then nothing should be done (ie repeated packet)
 		if (client.getActiveCharLock().tryLock())
 		{
@@ -65,26 +65,26 @@ public class CharacterSelected extends L2GameClientPacket
 					final CharSelectInfoPackage info = client.getCharSelection(_charSlot);
 					if (info == null || info.getAccessLevel() < 0)
 						return;
-
+					
 					// Load up character from disk
 					final Player cha = client.loadCharFromDisk(_charSlot);
 					if (cha == null)
 						return;
-
+					
 					cha.setClient(client);
 					client.setActiveChar(cha);
 					cha.setOnlineStatus(true, true);
-
+					
 					sendPacket(SSQInfo.sendSky());
-
+					
 					if (!Hwid.checkPlayerWithHWID(client, cha.getObjectId(), cha.getName()))
 						return;
-
+					
 					cha.ReloadBlockChat(false);
-
+					
 					if (cha.ChatProtection(cha.getHWID()) && ((cha.getChatBanTimer() - 1500) > System.currentTimeMillis()))
 						cha.setChatBlock(true);
-
+					
 					if (ChargebackHwid(client.getHWID()))
 					{
 						_log.info("------------------------------------------------------------------------------");
@@ -109,9 +109,9 @@ public class CharacterSelected extends L2GameClientPacket
 						getClient().closeNow();
 						return;
 					}
-
+					
 					client.setState(GameClientState.ENTERING);
-
+					
 					sendPacket(new CharSelected(cha, client.getSessionId().playOkID1));
 				}
 			}
@@ -121,10 +121,10 @@ public class CharacterSelected extends L2GameClientPacket
 			}
 		}
 	}
-
+	
 	public static void addBlock(String ip)
 	{
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("INSERT INTO ip_protection (ip) VALUES (?)");
@@ -137,10 +137,10 @@ public class CharacterSelected extends L2GameClientPacket
 			System.out.println("CharacterSelected -> addBlock: " + e.getMessage());
 		}
 	}
-
+	
 	public static void addBlockHwid(String name, String hwid)
 	{
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("INSERT INTO banned_hwid (char_name,hwid) VALUES (?,?)");
@@ -154,7 +154,7 @@ public class CharacterSelected extends L2GameClientPacket
 			System.out.println("CharacterSelected -> addBlockHwid: " + e.getMessage());
 		}
 	}
-
+	
 	public synchronized boolean BanedHwid(String hwidban)
 	{
 		boolean result = true;
@@ -173,7 +173,7 @@ public class CharacterSelected extends L2GameClientPacket
 		}
 		return result;
 	}
-
+	
 	public synchronized boolean GM_HWID(String hwidban)
 	{
 		boolean result = true;
@@ -192,9 +192,9 @@ public class CharacterSelected extends L2GameClientPacket
 		}
 		return result;
 	}
-
+	
 	static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-
+	
 	@SuppressWarnings("null")
 	public static void Ban_Hwid_Time(Player activeChar)
 	{
@@ -202,20 +202,20 @@ public class CharacterSelected extends L2GameClientPacket
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-
+			
 			PreparedStatement statement = con.prepareStatement("SELECT duration FROM antibot_hwid WHERE hwid=?");
 			statement.setString(1, activeChar.getHWID());
 			ResultSet rset = statement.executeQuery();
-
+			
 			while (rset.next())
 			{
 				long duration = rset.getLong("duration");
-
+				
 				String msg = HtmCache.getInstance().getHtm("data/html/mods/protect/banned_time.htm");
 				msg = msg.replaceAll("%time%", new SimpleDateFormat("HH:mm").format(new Date(duration)).toString());
 				msg = msg.replaceAll("%date%", sdf.format(new Date(System.currentTimeMillis())).toString());
 				activeChar.sendPacket(new TutorialShowHtml(msg));
-
+				
 			}
 			rset.close();
 			statement.close();
@@ -237,7 +237,7 @@ public class CharacterSelected extends L2GameClientPacket
 			con = null;
 		}
 	}
-
+	
 	public synchronized boolean ChargebackHwid(String hwidban)
 	{
 		boolean result = true;
@@ -256,7 +256,7 @@ public class CharacterSelected extends L2GameClientPacket
 		}
 		return result;
 	}
-
+	
 	public synchronized boolean check_hwid_antibot(String hwid)
 	{
 		boolean result = true;
@@ -274,7 +274,7 @@ public class CharacterSelected extends L2GameClientPacket
 			_log.log(Level.WARNING, "check_hwid_antibot: " + e.getMessage(), e);
 		}
 		return result;
-
+		
 	}
-
+	
 }

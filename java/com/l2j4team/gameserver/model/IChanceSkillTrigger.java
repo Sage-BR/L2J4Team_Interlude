@@ -8,10 +8,10 @@ package com.l2j4team.gameserver.model;
 public interface IChanceSkillTrigger
 {
 	public boolean triggersChanceSkill();
-
+	
 	public int getTriggeredChanceId();
-
+	
 	public int getTriggeredChanceLevel();
-
+	
 	public ChanceCondition getTriggeredChanceCondition();
 }

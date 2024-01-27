@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public final class CloseUtil
 {
 	private final static Logger _log = Logger.getLogger(CloseUtil.class.getName());
-
+	
 	public static void close(Connection con)
 	{
 		if (con != null)
@@ -40,7 +40,7 @@ public final class CloseUtil
 				_log.severe(e.getMessage());
 			}
 	}
-
+	
 	public static void close(Closeable closeable)
 	{
 		if (closeable != null)

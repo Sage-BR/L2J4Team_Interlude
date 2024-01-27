@@ -19,6 +19,6 @@ import com.l2j4team.gameserver.model.actor.instance.Player;
 public interface IVoicedCommandHandler
 {
 	public boolean useVoicedCommand(String command, Player activeChar, String params);
-
+	
 	public String[] getVoicedCommandList();
 }

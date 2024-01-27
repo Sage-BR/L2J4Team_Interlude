@@ -7,9 +7,9 @@ import com.l2j4team.gameserver.skills.Env;
  */
 public class ConditionPlayerCharges extends Condition
 {
-
+	
 	private final int _charges;
-
+	
 	/**
 	 * Instantiates a new condition player charges.
 	 * @param charges the charges
@@ -18,7 +18,7 @@ public class ConditionPlayerCharges extends Condition
 	{
 		_charges = charges;
 	}
-
+	
 	@Override
 	public boolean testImpl(Env env)
 	{

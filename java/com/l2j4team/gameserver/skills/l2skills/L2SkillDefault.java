@@ -12,7 +12,7 @@ public class L2SkillDefault extends L2Skill
 	{
 		super(set);
 	}
-
+	
 	@Override
 	public void useSkill(Creature caster, WorldObject[] targets)
 	{

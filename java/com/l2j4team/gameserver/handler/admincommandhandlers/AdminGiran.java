@@ -25,43 +25,43 @@ import java.util.logging.Logger;
  */
 public class AdminGiran implements IAdminCommandHandler
 {
-
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_giran"
 	};
-
+	
 	protected static final Logger _log = Logger.getLogger(AdminGiran.class.getName());
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
-
+		
 		if ((activeChar.getTarget() == null))
 		{
 			activeChar.sendMessage("Select a target");
 			return false;
 		}
-
+		
 		WorldObject target = activeChar.getTarget();
-
+		
 		if (!(target instanceof Player))
 		{
 			activeChar.sendMessage("Target need to be player");
 			return false;
 		}
-
+		
 		Player player = activeChar.getTarget().getActingPlayer();
-
+		
 		if (command.equals("admin_giran"))
 		{
 			player.teleToLocation(82840, 147996, -3469, 50); // Giran
 			activeChar.sendMessage("O Jogador " + player.getName() + " foi teleportado pra giran");
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

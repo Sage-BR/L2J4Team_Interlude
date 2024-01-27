@@ -30,9 +30,9 @@ public class DropProtection implements Runnable
 	private volatile boolean _isProtected = false;
 	private Player _owner = null;
 	private ScheduledFuture<?> _task = null;
-
+	
 	private static final long PROTECTED_MILLIS_TIME = Config.DROP_PROTECTED_TIME * 1000;
-
+	
 	@Override
 	public synchronized void run()
 	{
@@ -40,50 +40,50 @@ public class DropProtection implements Runnable
 		_owner = null;
 		_task = null;
 	}
-
+	
 	public boolean isProtected()
 	{
 		return _isProtected;
 	}
-
+	
 	public Player getOwner()
 	{
 		return _owner;
 	}
-
+	
 	public synchronized boolean tryPickUp(Player actor)
 	{
 		if (!_isProtected || (_owner == actor) || (_owner.getParty() != null && _owner.getParty() == actor.getParty()))
 			return true;
-
+		
 		return false;
 	}
-
+	
 	public boolean tryPickUp(Pet pet)
 	{
 		return tryPickUp(pet.getOwner());
 	}
-
+	
 	public synchronized void unprotect()
 	{
 		if (_task != null)
 			_task.cancel(false);
-
+		
 		_isProtected = false;
 		_owner = null;
 		_task = null;
 	}
-
+	
 	public synchronized void protect(Player player)
 	{
 		unprotect();
-
+		
 		_isProtected = true;
-
+		
 		if ((_owner = player) == null)
 			throw new NullPointerException("Trying to protect dropped item to null owner");
-
+		
 		_task = ThreadPool.schedule(this, PROTECTED_MILLIS_TIME);
-
+		
 	}
 }

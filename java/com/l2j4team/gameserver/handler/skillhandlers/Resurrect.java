@@ -21,20 +21,20 @@ public class Resurrect implements ISkillHandler
 	{
 		L2SkillType.RESURRECT
 	};
-
+	
 	@Override
 	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
 	{
 		for (WorldObject cha : targets)
 		{
 			final Creature target = (Creature) cha;
-
+			
 			if (Config.ANTIZERG_RES && (activeChar.isInsideZone(ZoneId.RAID) || activeChar.isInsideZone(ZoneId.RAID_NO_FLAG)) && (((Player) activeChar).getClanId() > 0 && ((Player) target).getClanId() > 0 && ((Player) activeChar).getClanId() != ((Player) target).getClanId()) || (((Player) activeChar).getAllyId() > 0 && ((Player) target).getAllyId() > 0 && ((Player) activeChar).getAllyId() != ((Player) target).getAllyId()))
 			{
 				activeChar.sendPacket(new CreatureSay(0, Say2.TELL, "Anti-Zerg:", "You can't res in another clan's player!"));
 				return;
 			}
-
+			
 			if (activeChar instanceof Player)
 			{
 				if (cha instanceof Player)
@@ -57,7 +57,7 @@ public class Resurrect implements ISkillHandler
 		}
 		activeChar.setChargedShot(activeChar.isChargedShot(ShotType.BLESSED_SPIRITSHOT) ? ShotType.BLESSED_SPIRITSHOT : ShotType.SPIRITSHOT, skill.isStaticReuse());
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

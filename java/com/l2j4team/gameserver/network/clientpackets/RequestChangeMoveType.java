@@ -5,13 +5,13 @@ import com.l2j4team.gameserver.model.actor.instance.Player;
 public final class RequestChangeMoveType extends L2GameClientPacket
 {
 	private boolean _typeRun;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_typeRun = readD() == 1;
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
@@ -20,7 +20,7 @@ public final class RequestChangeMoveType extends L2GameClientPacket
 		// Player is mounted, do not allow to change movement type.
 		if ((player == null) || player.isMounted())
 			return;
-
+		
 		// Change movement type.
 		if (_typeRun)
 			player.setRunning();

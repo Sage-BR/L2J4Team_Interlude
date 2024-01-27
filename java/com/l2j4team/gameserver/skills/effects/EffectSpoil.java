@@ -20,29 +20,29 @@ public class EffectSpoil extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.SPOIL;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		if (!(getEffector() instanceof Player) || !(getEffected() instanceof Monster))
 			return false;
-
+		
 		final Monster target = (Monster) getEffected();
 		if (target.isDead())
 			return false;
-
+		
 		if (target.getSpoilerId() != 0)
 		{
 			getEffector().sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ALREADY_SPOILED));
 			return false;
 		}
-
+		
 		if (Formulas.calcMagicSuccess(getEffector(), target, getSkill()))
 		{
 			target.setSpoilerId(getEffector().getObjectId());
@@ -51,7 +51,7 @@ public class EffectSpoil extends L2Effect
 		target.getAI().notifyEvent(CtrlEvent.EVT_ATTACKED, getEffector());
 		return true;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

@@ -6,38 +6,38 @@ import com.l2j4team.gameserver.model.actor.Npc;
 public final class ServerObjectInfo extends L2GameServerPacket
 {
 	private final Npc _npc;
-
+	
 	private final int _idTemplate;
 	private final String _name;
-
+	
 	private final int _x;
 	private final int _y;
 	private final int _z;
 	private final int _heading;
-
+	
 	private final double _collisionHeight;
 	private final double _collisionRadius;
-
+	
 	private final boolean _isAttackable;
-
+	
 	public ServerObjectInfo(Npc npc, Creature actor)
 	{
 		_npc = npc;
-
+		
 		_idTemplate = _npc.getTemplate().getIdTemplate();
 		_name = _npc.getName();
-
+		
 		_x = _npc.getX();
 		_y = _npc.getY();
 		_z = _npc.getZ();
 		_heading = _npc.getHeading();
-
+		
 		_collisionHeight = _npc.getCollisionHeight();
 		_collisionRadius = _npc.getCollisionRadius();
-
+		
 		_isAttackable = _npc.isAutoAttackable(actor);
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

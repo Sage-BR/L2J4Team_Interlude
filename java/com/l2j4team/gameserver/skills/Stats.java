@@ -18,7 +18,7 @@ public enum Stats
 	RECHARGE_MP_RATE("gainMp"),
 	HEAL_EFFECTIVNESS("gainHp"),
 	HEAL_PROFICIENCY("giveHp"),
-
+	
 	// Atk & Def
 	POWER_DEFENCE("pDef"),
 	MAGIC_DEFENCE("mDef"),
@@ -31,15 +31,15 @@ public enum Stats
 	SHIELD_DEFENCE("sDef"),
 	SHIELD_DEFENCE_ANGLE("shieldDefAngle"),
 	SHIELD_RATE("rShld"),
-
+	
 	CRITICAL_DAMAGE("cAtk"),
 	CRITICAL_DAMAGE_ADD("cAtkAdd"),
-
+	
 	PVP_PHYSICAL_DMG("pvpPhysDmg"),
 	PVP_MAGICAL_DMG("pvpMagicalDmg"),
 	PVP_PHYS_SKILL_DMG("pvpPhysSkillsDmg"),
 	PVP_PHYS_SKILL_DEF("pvpPhysSkillsDef"),
-
+	
 	// Atk & Def rates
 	EVASION_RATE("rEvas"),
 	P_SKILL_EVASION("pSkillEvas"),
@@ -48,16 +48,16 @@ public enum Stats
 	LETHAL_RATE("lethalRate"),
 	MCRITICAL_RATE("mCritRate"),
 	ATTACK_CANCEL("cancel"),
-
+	
 	// Accuracy and range
 	ACCURACY_COMBAT("accCombat"),
 	POWER_ATTACK_RANGE("pAtkRange"),
 	POWER_ATTACK_ANGLE("pAtkAngle"),
 	ATTACK_COUNT_MAX("atkCountMax"),
-
+	
 	// Run speed
 	RUN_SPEED("runSpd"),
-
+	
 	// Player-only stats
 	STAT_STR("STR"),
 	STAT_CON("CON"),
@@ -65,11 +65,11 @@ public enum Stats
 	STAT_INT("INT"),
 	STAT_WIT("WIT"),
 	STAT_MEN("MEN"),
-
+	
 	// stats of various abilities
 	BREATH("breath"),
 	FALL("fall"),
-
+	
 	// Abnormal effects
 	AGGRESSION("aggression"),
 	BLEED("bleed"),
@@ -79,10 +79,10 @@ public enum Stats
 	MOVEMENT("movement"),
 	CONFUSION("confusion"),
 	SLEEP("sleep"),
-
+	
 	VALAKAS("valakas"),
 	VALAKAS_RES("valakasRes"),
-
+	
 	// Elemental resistances/vulnerabilities
 	FIRE_RES("fireRes"),
 	WATER_RES("waterRes"),
@@ -90,7 +90,7 @@ public enum Stats
 	EARTH_RES("earthRes"),
 	HOLY_RES("holyRes"),
 	DARK_RES("darkRes"),
-
+	
 	// Elemental power (used for skills such as Holy blade)
 	FIRE_POWER("firePower"),
 	WATER_POWER("waterPower"),
@@ -98,7 +98,7 @@ public enum Stats
 	EARTH_POWER("earthPower"),
 	HOLY_POWER("holyPower"),
 	DARK_POWER("darkPower"),
-
+	
 	// Vulnerabilities
 	BLEED_VULN("bleedVuln"),
 	POISON_VULN("poisonVuln"),
@@ -111,7 +111,7 @@ public enum Stats
 	CANCEL_VULN("cancelVuln"),
 	DERANGEMENT_VULN("derangementVuln"),
 	DEBUFF_VULN("debuffVuln"),
-
+	
 	// Weapons vuln
 	SWORD_WPN_VULN("swordWpnVuln"),
 	BLUNT_WPN_VULN("bluntWpnVuln"),
@@ -122,7 +122,7 @@ public enum Stats
 	DUALFIST_WPN_VULN("dualFistWpnVuln"),
 	BIGSWORD_WPN_VULN("bigSwordWpnVuln"),
 	BIGBLUNT_WPN_VULN("bigBluntWpnVuln"),
-
+	
 	REFLECT_DAMAGE_PERCENT("reflectDam"),
 	REFLECT_SKILL_MAGIC("reflectSkillMagic"),
 	REFLECT_SKILL_PHYSIC("reflectSkillPhysic"),
@@ -130,7 +130,7 @@ public enum Stats
 	VENGEANCE_SKILL_PHYSICAL_DAMAGE("vengeancePdam"),
 	ABSORB_DAMAGE_PERCENT("absorbDam"),
 	TRANSFER_DAMAGE_PERCENT("transDam"),
-
+	
 	PATK_PLANTS("pAtk-plants"),
 	PATK_INSECTS("pAtk-insects"),
 	PATK_ANIMALS("pAtk-animals"),
@@ -138,7 +138,7 @@ public enum Stats
 	PATK_DRAGONS("pAtk-dragons"),
 	PATK_GIANTS("pAtk-giants"),
 	PATK_MCREATURES("pAtk-magicCreature"),
-
+	
 	PDEF_PLANTS("pDef-plants"),
 	PDEF_INSECTS("pDef-insects"),
 	PDEF_ANIMALS("pDef-animals"),
@@ -146,7 +146,7 @@ public enum Stats
 	PDEF_DRAGONS("pDef-dragons"),
 	PDEF_GIANTS("pDef-giants"),
 	PDEF_MCREATURES("pDef-magicCreature"),
-
+	
 	// ExSkill :)
 	MAX_LOAD("maxLoad"),
 	INV_LIM("inventoryLimit"),
@@ -156,29 +156,29 @@ public enum Stats
 	P_BUY_LIM("PrivateBuyLimit"),
 	REC_D_LIM("DwarfRecipeLimit"),
 	REC_C_LIM("CommonRecipeLimit"),
-
+	
 	// C4 Stats
 	PHYSICAL_MP_CONSUME_RATE("PhysicalMpConsumeRate"),
 	MAGICAL_MP_CONSUME_RATE("MagicalMpConsumeRate"),
 	DANCE_MP_CONSUME_RATE("DanceMpConsumeRate"),
-
+	
 	// Skill mastery
 	SKILL_MASTERY("skillMastery");
-
+	
 	public static final int NUM_STATS = values().length;
-
+	
 	private String _value;
-
+	
 	public String getValue()
 	{
 		return _value;
 	}
-
+	
 	private Stats(String s)
 	{
 		_value = s;
 	}
-
+	
 	public static Stats valueOfXml(String name)
 	{
 		name = name.intern();
@@ -187,7 +187,7 @@ public enum Stats
 			if (s.getValue().equals(name))
 				return s;
 		}
-
+		
 		throw new NoSuchElementException("Unknown name '" + name + "' for enum BaseStats");
 	}
 }

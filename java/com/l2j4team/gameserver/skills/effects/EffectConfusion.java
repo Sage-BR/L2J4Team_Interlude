@@ -29,13 +29,13 @@ public class EffectConfusion extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.CONFUSION;
 	}
-
+	
 	/** Notify started */
 	@Override
 	public boolean onStart()
@@ -44,19 +44,19 @@ public class EffectConfusion extends L2Effect
 		onActionTime();
 		return true;
 	}
-
+	
 	/** Notify exited */
 	@Override
 	public void onExit()
 	{
 		getEffected().stopConfused(this);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		List<Creature> targetList = new ArrayList<>();
-
+		
 		// Getting the possible targets
 		for (WorldObject obj : getEffected().getKnownType(WorldObject.class))
 		{
@@ -66,25 +66,25 @@ public class EffectConfusion extends L2Effect
 				if (!(obj instanceof Door || obj instanceof Chest))
 					targetList.add((Creature) obj);
 		}
-
+		
 		// if there is no target, exit function
 		if (targetList.isEmpty())
 			return true;
-
+		
 		// Choosing randomly a new target
 		WorldObject target = Rnd.get(targetList);
-
+		
 		// Attacking the target
 		getEffected().setTarget(target);
 		getEffected().getAI().setIntention(CtrlIntention.ATTACK, target);
-
+		
 		// Add aggro to that target aswell. The aggro power is random.
 		int aggro = (5 + Rnd.get(5)) * getEffector().getLevel();
 		((Attackable) getEffected()).addDamageHate((Creature) target, 0, aggro);
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

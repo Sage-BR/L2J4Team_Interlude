@@ -9,14 +9,14 @@ public final class RequestExitPartyMatchingWaitingRoom extends L2GameClientPacke
 	protected void readImpl()
 	{
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		PartyMatchWaitingList.getInstance().removePlayer(activeChar);
 	}
 }

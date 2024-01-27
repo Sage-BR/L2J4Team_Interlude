@@ -9,7 +9,7 @@ public class KickPlayer extends ServerBasePacket
 		writeC(4);
 		writeS(account);
 	}
-
+	
 	@Override
 	public byte[] getContent()
 	{

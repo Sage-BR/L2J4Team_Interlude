@@ -17,14 +17,14 @@ import java.util.LinkedList;
 public class PreparedListContainer extends ListContainer
 {
 	private int _npcObjectId = 0;
-
+	
 	public PreparedListContainer(ListContainer template, boolean inventoryOnly, Player player, Npc npc)
 	{
 		super(template.getId());
-
+		
 		setMaintainEnchantment(template.getMaintainEnchantment());
 		setApplyTaxes(false);
-
+		
 		double taxRate = 0;
 		if (npc != null)
 		{
@@ -35,18 +35,18 @@ public class PreparedListContainer extends ListContainer
 				taxRate = npc.getCastle().getTaxRate();
 			}
 		}
-
+		
 		if (inventoryOnly)
 		{
 			if (player == null)
 				return;
-
+			
 			final ItemInstance[] items;
 			if (getMaintainEnchantment())
 				items = player.getInventory().getUniqueItemsByEnchantLevel(false, false, false);
 			else
 				items = player.getInventory().getUniqueItems(false, false, false);
-
+			
 			_entries = new LinkedList<>();
 			for (ItemInstance item : items)
 			{
@@ -73,12 +73,12 @@ public class PreparedListContainer extends ListContainer
 		else
 		{
 			_entries = new ArrayList<>(template.getEntries().size());
-
+			
 			for (Entry ent : template.getEntries())
 				_entries.add(new PreparedEntry(ent, null, getApplyTaxes(), false, taxRate));
 		}
 	}
-
+	
 	public final boolean checkNpcObjectId(int npcObjectId)
 	{
 		return (_npcObjectId != 0) ? _npcObjectId == npcObjectId : true;

@@ -13,13 +13,13 @@ import com.l2j4team.commons.lang.StringUtil;
 public class Q631_DeliciousTopChoiceMeat extends Quest
 {
 	private static final String qn = "Q631_DeliciousTopChoiceMeat";
-
+	
 	// NPC
 	private static final int TUNATUN = 31537;
-
+	
 	// Item
 	private static final int TOP_QUALITY_MEAT = 7546;
-
+	
 	// Drop chances
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
@@ -48,7 +48,7 @@ public class Q631_DeliciousTopChoiceMeat extends Quest
 		CHANCES.put(21504, 509000);
 		CHANCES.put(21505, 920000);
 	}
-
+	
 	// Rewards
 	private static final int[][] REWARDS =
 	{
@@ -77,20 +77,20 @@ public class Q631_DeliciousTopChoiceMeat extends Quest
 			5
 		}
 	};
-
+	
 	public Q631_DeliciousTopChoiceMeat()
 	{
 		super(631, "Delicious Top Choice Meat");
-
+		
 		setItemsIds(TOP_QUALITY_MEAT);
-
+		
 		addStartNpc(TUNATUN);
 		addTalkId(TUNATUN);
-
+		
 		for (int npcId : CHANCES.keySet())
 			addKillId(npcId);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -98,7 +98,7 @@ public class Q631_DeliciousTopChoiceMeat extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31537-03.htm"))
 		{
 			if (player.getLevel() >= 65)
@@ -119,10 +119,10 @@ public class Q631_DeliciousTopChoiceMeat extends Quest
 			{
 				htmltext = "31537-06.htm";
 				st.takeItems(TOP_QUALITY_MEAT, -1);
-
+				
 				int[] reward = REWARDS[Integer.parseInt(event)];
 				st.rewardItems(reward[0], reward[1]);
-
+				
 				st.playSound(QuestState.SOUND_FINISH);
 				st.exitQuest(true);
 			}
@@ -132,10 +132,10 @@ public class Q631_DeliciousTopChoiceMeat extends Quest
 				htmltext = "31537-07.htm";
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -143,13 +143,13 @@ public class Q631_DeliciousTopChoiceMeat extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "31537-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				if (cond == 1)
@@ -166,22 +166,22 @@ public class Q631_DeliciousTopChoiceMeat extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMember(player, npc, "1");
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		if (st.dropItems(TOP_QUALITY_MEAT, 1, 120, CHANCES.get(npc.getNpcId())))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

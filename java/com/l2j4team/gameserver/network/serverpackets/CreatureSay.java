@@ -14,7 +14,7 @@ public class CreatureSay extends L2GameServerPacket
 	private String _text = null;
 	private int _npcString = -1;
 	private List<String> _parameters;
-
+	
 	public CreatureSay(int objectId, int messageType, String charName, String text)
 	{
 		_objectId = objectId;
@@ -22,7 +22,7 @@ public class CreatureSay extends L2GameServerPacket
 		_charName = charName;
 		_text = text;
 	}
-
+	
 	public CreatureSay(int objectId, int messageType, int charId, SystemMessageId sysString)
 	{
 		_objectId = objectId;
@@ -30,15 +30,15 @@ public class CreatureSay extends L2GameServerPacket
 		_charId = charId;
 		_npcString = sysString.getId();
 	}
-
+	
 	public void addStringParameter(String text)
 	{
 		if (_parameters == null)
 			_parameters = new ArrayList<>();
-
+		
 		_parameters.add(text);
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

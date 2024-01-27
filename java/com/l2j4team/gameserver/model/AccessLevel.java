@@ -9,15 +9,15 @@ import com.l2j4team.gameserver.templates.StatsSet;
 public class AccessLevel
 {
 	private final int _accessLevel;
-
+	
 	private final String _name;
-
+	
 	private final int _childLevel;
 	private AccessLevel _childAccess;
-
+	
 	private final int _nameColor;
 	private final int _titleColor;
-
+	
 	private final boolean _isGm;
 	private final boolean _allowPeaceAttack;
 	private final boolean _allowFixedRes;
@@ -26,7 +26,7 @@ public class AccessLevel
 	private final boolean _giveDamage;
 	private final boolean _takeAggro;
 	private final boolean _gainExp;
-
+	
 	public AccessLevel(StatsSet set)
 	{
 		_accessLevel = set.getInteger("level");
@@ -43,7 +43,7 @@ public class AccessLevel
 		_takeAggro = set.getBool("takeAggro", true);
 		_gainExp = set.getBool("gainExp", true);
 	}
-
+	
 	/**
 	 * @return the {@link AccessLevel} level.
 	 */
@@ -51,7 +51,7 @@ public class AccessLevel
 	{
 		return _accessLevel;
 	}
-
+	
 	/**
 	 * @return the {@link AccessLevel} name.
 	 */
@@ -59,7 +59,7 @@ public class AccessLevel
 	{
 		return _name;
 	}
-
+	
 	/**
 	 * @return the name color of the {@link AccessLevel}.
 	 */
@@ -67,7 +67,7 @@ public class AccessLevel
 	{
 		return _nameColor;
 	}
-
+	
 	/**
 	 * @return the title color of the {@link AccessLevel}.
 	 */
@@ -75,7 +75,7 @@ public class AccessLevel
 	{
 		return _titleColor;
 	}
-
+	
 	/**
 	 * @return true if the {@link AccessLevel} has gm access or not.
 	 */
@@ -83,7 +83,7 @@ public class AccessLevel
 	{
 		return _isGm;
 	}
-
+	
 	/**
 	 * @return true if the {@link AccessLevel} is allowed to attack in peace zone or not.
 	 */
@@ -91,7 +91,7 @@ public class AccessLevel
 	{
 		return _allowPeaceAttack;
 	}
-
+	
 	/**
 	 * @return true if the {@link AccessLevel} is allowed to use fixed res or not.
 	 */
@@ -99,7 +99,7 @@ public class AccessLevel
 	{
 		return _allowFixedRes;
 	}
-
+	
 	/**
 	 * @return true if the {@link AccessLevel} is allowed to perform transactions or not.
 	 */
@@ -107,7 +107,7 @@ public class AccessLevel
 	{
 		return _allowTransaction;
 	}
-
+	
 	/**
 	 * @return true if the {@link AccessLevel} is allowed to use AltG commands or not.
 	 */
@@ -115,7 +115,7 @@ public class AccessLevel
 	{
 		return _allowAltG;
 	}
-
+	
 	/**
 	 * @return true if the {@link AccessLevel} can give damage or not.
 	 */
@@ -123,7 +123,7 @@ public class AccessLevel
 	{
 		return _giveDamage;
 	}
-
+	
 	/**
 	 * @return true if the {@link AccessLevel} can take aggro or not.
 	 */
@@ -131,7 +131,7 @@ public class AccessLevel
 	{
 		return _takeAggro;
 	}
-
+	
 	/**
 	 * @return true if the {@link AccessLevel} can gain exp or not.
 	 */
@@ -139,7 +139,7 @@ public class AccessLevel
 	{
 		return _gainExp;
 	}
-
+	
 	/**
 	 * Set the child of a {@link AccessLevel} if not existing, then verify if this access level is associated to AccessLevel set as parameter.
 	 * @param access : The AccessLevel to check.
@@ -150,7 +150,7 @@ public class AccessLevel
 		// No child access has been found ; we check if a child level has been set. If yes, then we dig into AdminData to find back the AccessLevel and we set it for future usage.
 		if (_childAccess == null && _childLevel > 0)
 			_childAccess = AdminData.getInstance().getAccessLevel(_childLevel);
-
+		
 		return _childAccess != null && (_childAccess.getLevel() == access.getLevel() || _childAccess.hasChildAccess(access));
 	}
 }

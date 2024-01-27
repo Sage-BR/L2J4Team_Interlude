@@ -12,13 +12,13 @@ public class EffectParalyze extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.PARALYZE;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
@@ -26,20 +26,20 @@ public class EffectParalyze extends L2Effect
 		getEffected().startParalyze();
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		getEffected().stopAbnormalEffect(AbnormalEffect.HOLD_1);
 		getEffected().stopParalyze(false);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

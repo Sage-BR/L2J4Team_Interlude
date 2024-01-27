@@ -16,49 +16,49 @@ public abstract class AbstractMemo extends StatsSet
 	 */
 	private static final long serialVersionUID = 1L;
 	private final AtomicBoolean _hasChanges = new AtomicBoolean(false);
-
+	
 	@Override
 	public final void set(String name, boolean value)
 	{
 		_hasChanges.compareAndSet(false, true);
 		super.set(name, value);
 	}
-
+	
 	@Override
 	public final void set(String name, double value)
 	{
 		_hasChanges.compareAndSet(false, true);
 		super.set(name, value);
 	}
-
+	
 	@Override
 	public final void set(String name, Enum<?> value)
 	{
 		_hasChanges.compareAndSet(false, true);
 		super.set(name, value);
 	}
-
+	
 	@Override
 	public final void set(String name, int value)
 	{
 		_hasChanges.compareAndSet(false, true);
 		super.set(name, value);
 	}
-
+	
 	@Override
 	public final void set(String name, long value)
 	{
 		_hasChanges.compareAndSet(false, true);
 		super.set(name, value);
 	}
-
+	
 	@Override
 	public final void set(String name, String value)
 	{
 		_hasChanges.compareAndSet(false, true);
 		super.set(name, value);
 	}
-
+	
 	/**
 	 * @return {@code true} if changes are made since last load/save.
 	 */
@@ -66,7 +66,7 @@ public abstract class AbstractMemo extends StatsSet
 	{
 		return _hasChanges.get();
 	}
-
+	
 	/**
 	 * Atomically sets the value to the given updated value if the current value {@code ==} the expected value.
 	 * @param expect
@@ -77,7 +77,7 @@ public abstract class AbstractMemo extends StatsSet
 	{
 		return _hasChanges.compareAndSet(expect, update);
 	}
-
+	
 	/**
 	 * Removes variable
 	 * @param name
@@ -87,8 +87,8 @@ public abstract class AbstractMemo extends StatsSet
 		_hasChanges.compareAndSet(false, true);
 		unset(name);
 	}
-
+	
 	protected abstract boolean restoreMe();
-
+	
 	protected abstract boolean storeMe();
 }

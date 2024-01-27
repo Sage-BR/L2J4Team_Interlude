@@ -14,13 +14,13 @@ import java.util.List;
 public class FriendList extends L2GameServerPacket
 {
 	private final List<FriendInfo> _info;
-
+	
 	private static class FriendInfo
 	{
 		int _objId;
 		String _name;
 		boolean _online;
-
+		
 		public FriendInfo(int objId, String name, boolean online)
 		{
 			_objId = objId;
@@ -28,20 +28,20 @@ public class FriendList extends L2GameServerPacket
 			_online = online;
 		}
 	}
-
+	
 	public FriendList(Player player)
 	{
 		_info = new ArrayList<>(player.getFriendList().size());
-
+		
 		for (int objId : player.getFriendList())
 		{
 			final String name = PlayerNameTable.getInstance().getPlayerName(objId);
 			final Player player1 = World.getInstance().getPlayer(objId);
-
+			
 			_info.add(new FriendInfo(objId, name, (player1 != null && player1.isOnline())));
 		}
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

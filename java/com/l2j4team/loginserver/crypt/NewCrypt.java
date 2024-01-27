@@ -6,23 +6,23 @@ public class NewCrypt
 {
 	private final BlowfishEngine _crypt;
 	private final BlowfishEngine _decrypt;
-
+	
 	public NewCrypt(final byte[] blowfishKey)
 	{
 		(_crypt = new BlowfishEngine()).init(true, blowfishKey);
 		(_decrypt = new BlowfishEngine()).init(false, blowfishKey);
 	}
-
+	
 	public NewCrypt(final String key)
 	{
 		this(key.getBytes());
 	}
-
+	
 	public static boolean verifyChecksum(final byte[] raw)
 	{
 		return verifyChecksum(raw, 0, raw.length);
 	}
-
+	
 	public static boolean verifyChecksum(final byte[] raw, final int offset, final int size)
 	{
 		if ((size & 0x3) != 0x0 || size <= 4)
@@ -45,12 +45,12 @@ public class NewCrypt
 		check |= raw[i + 3] << 24 & 0xFF000000;
 		return check == chksum;
 	}
-
+	
 	public static void appendChecksum(final byte[] raw)
 	{
 		appendChecksum(raw, 0, raw.length);
 	}
-
+	
 	public static void appendChecksum(final byte[] raw, final int offset, final int size)
 	{
 		long chksum = 0L;
@@ -69,12 +69,12 @@ public class NewCrypt
 		raw[i + 2] = (byte) (chksum >> 16 & 0xFFL);
 		raw[i + 3] = (byte) (chksum >> 24 & 0xFFL);
 	}
-
+	
 	public static void encXORPass(final byte[] raw, final int key)
 	{
 		encXORPass(raw, 0, raw.length, key);
 	}
-
+	
 	public static void encXORPass(final byte[] raw, final int offset, final int size, final int key)
 	{
 		final int stop = size - 8;
@@ -98,7 +98,7 @@ public class NewCrypt
 		raw[pos++] = (byte) (ecx >> 16 & 0xFF);
 		raw[pos] = (byte) (ecx >> 24 & 0xFF);
 	}
-
+	
 	public byte[] decrypt(final byte[] raw) throws IOException
 	{
 		final byte[] result = new byte[raw.length];
@@ -106,7 +106,7 @@ public class NewCrypt
 			_decrypt.processBlock(raw, i * 8, result, i * 8);
 		return result;
 	}
-
+	
 	public void decrypt(final byte[] raw, final int offset, final int size) throws IOException
 	{
 		final byte[] result = new byte[size];
@@ -114,7 +114,7 @@ public class NewCrypt
 			_decrypt.processBlock(raw, offset + i * 8, result, i * 8);
 		System.arraycopy(result, 0, raw, offset, size);
 	}
-
+	
 	public byte[] crypt(final byte[] raw) throws IOException
 	{
 		final int count = raw.length / 8;
@@ -123,7 +123,7 @@ public class NewCrypt
 			_crypt.processBlock(raw, i * 8, result, i * 8);
 		return result;
 	}
-
+	
 	public void crypt(final byte[] raw, final int offset, final int size) throws IOException
 	{
 		final int count = size / 8;

@@ -18,24 +18,24 @@ public class CommunityBoard
 	protected CommunityBoard()
 	{
 	}
-
+	
 	public static CommunityBoard getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	public void handleCommands(L2GameClient client, String command)
 	{
 		final Player activeChar = client.getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		if (!Config.ENABLE_COMMUNITY_BOARD)
 		{
 			activeChar.sendPacket(SystemMessageId.CB_OFFLINE);
 			return;
 		}
-
+		
 		if (command.startsWith("_bbshome"))
 			TopBBSManager.getInstance().parseCmd(command, activeChar);
 		else if (command.startsWith("_bbsloc"))
@@ -55,19 +55,19 @@ public class CommunityBoard
 		else
 			BaseBBSManager.separateAndSend("<html><body><br><br><center>The command: " + command + " isn't implemented.</center></body></html>", activeChar);
 	}
-
+	
 	public void handleWriteCommands(L2GameClient client, String url, String arg1, String arg2, String arg3, String arg4, String arg5)
 	{
 		final Player activeChar = client.getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		if (!Config.ENABLE_COMMUNITY_BOARD)
 		{
 			activeChar.sendPacket(SystemMessageId.CB_OFFLINE);
 			return;
 		}
-
+		
 		if (url.equals("Topic"))
 			TopicBBSManager.getInstance().parseWrite(arg1, arg2, arg3, arg4, arg5, activeChar);
 		else if (url.equals("Post"))
@@ -83,7 +83,7 @@ public class CommunityBoard
 		else
 			BaseBBSManager.separateAndSend("<html><body><br><br><center>The command: " + url + " isn't implemented.</center></body></html>", activeChar);
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final CommunityBoard _instance = new CommunityBoard();

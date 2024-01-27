@@ -6,12 +6,12 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ExAskJoinMPCC extends L2GameServerPacket
 {
 	private final String _requestorName;
-
+	
 	public ExAskJoinMPCC(String requestorName)
 	{
 		_requestorName = requestorName;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

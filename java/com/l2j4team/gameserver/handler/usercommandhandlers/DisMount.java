@@ -13,16 +13,16 @@ public class DisMount implements IUserCommandHandler
 	{
 		62
 	};
-
+	
 	@Override
 	public boolean useUserCommand(int id, Player activeChar)
 	{
 		if (activeChar.isMounted())
 			activeChar.dismount();
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public int[] getUserCommandList()
 	{

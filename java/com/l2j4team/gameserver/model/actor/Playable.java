@@ -45,31 +45,31 @@ public abstract class Playable extends Creature
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void initCharStat()
 	{
 		setStat(new PlayableStat(this));
 	}
-
+	
 	@Override
 	public PlayableStat getStat()
 	{
 		return (PlayableStat) super.getStat();
 	}
-
+	
 	@Override
 	public void initCharStatus()
 	{
 		setStatus(new PlayableStatus(this));
 	}
-
+	
 	@Override
 	public PlayableStatus getStatus()
 	{
 		return (PlayableStatus) super.getStatus();
 	}
-
+	
 	@Override
 	public void onActionShift(Player player)
 	{
@@ -78,7 +78,7 @@ public abstract class Playable extends Creature
 		else
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	@Override
 	public boolean doDie(Creature killer)
 	{
@@ -87,24 +87,24 @@ public abstract class Playable extends Creature
 		{
 			if (isDead())
 				return false;
-
+			
 			// now reset currentHp to zero
 			setCurrentHp(0);
-
+			
 			setIsDead(true);
 		}
-
+		
 		// Set target to null and cancel Attack or Cast
 		setTarget(null);
-
+		
 		// Stop movement
 		stopMove(null);
-
+		
 		// Stop HP/MP/CP Regeneration task
 		getStatus().stopHpMpRegeneration();
-
+		
 		final Player actingPlayer = getActingPlayer();
-
+		
 		// Stop all active skills effects in progress
 		if (isPhoenixBlessed())
 		{
@@ -118,7 +118,7 @@ public abstract class Playable extends Creature
 		else if (isNoblesseBlessed())
 		{
 			stopNoblesseBlessing(null);
-
+			
 			// remove Lucky Charm if player have Nobless blessing buff
 			if (getCharmOfLuck())
 				stopCharmOfLuck(null);
@@ -142,40 +142,40 @@ public abstract class Playable extends Creature
 		}
 		// Send the Server->Client packet StatusUpdate with current HP and MP to all other Player to inform
 		broadcastStatusUpdate();
-
+		
 		// Notify Creature AI
 		getAI().notifyEvent(CtrlEvent.EVT_DEAD);
-
+		
 		final WorldRegion region = getRegion();
 		if (region != null)
 			region.onDeath(this);
-
+		
 		// Notify Quest of L2Playable's death
 		for (QuestState qs : actingPlayer.getNotifyQuestOfDeath())
 			qs.getQuest().notifyDeath((killer == null ? this : killer), actingPlayer);
-
+		
 		if (killer != null)
 		{
 			final Player player = killer.getActingPlayer();
 			if (player != null)
 				player.onKillUpdatePvPKarma(this);
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public void doRevive()
 	{
 		if (!isDead() || isTeleporting())
 			return;
-
+		
 		setIsDead(false);
-
+		
 		if (isPhoenixBlessed())
 		{
 			stopPhoenixBlessing(null);
-
+			
 			getStatus().setCurrentHp(getMaxHp());
 			getStatus().setCurrentMp(getMaxMp());
 		}
@@ -184,31 +184,31 @@ public abstract class Playable extends Creature
 			getStatus().setCurrentHpMp(getMaxHp() * Config.RESPAWN_RESTORE_HP, getMaxMp() * Config.RESPAWN_RESTORE_HP);
 			getStatus().setCurrentCp(getMaxCp() * Config.RESPAWN_RESTORE_CP);
 		}
-
+		
 		// Start broadcast status
 		broadcastPacket(new Revive(this));
-
+		
 		final WorldRegion region = getRegion();
 		if (region != null)
 			region.onRevive(this);
 	}
-
+	
 	public boolean checkIfPvP(Playable target)
 	{
 		if (target == null || target == this)
 			return false;
-
+		
 		final Player player = getActingPlayer();
 		if (player == null || player.getKarma() != 0)
 			return false;
-
+		
 		final Player targetPlayer = target.getActingPlayer();
 		if (targetPlayer == null || targetPlayer == this || targetPlayer.getKarma() != 0 || targetPlayer.getPvpFlag() == 0)
 			return false;
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Return True.
 	 */
@@ -217,7 +217,7 @@ public abstract class Playable extends Creature
 	{
 		return true;
 	}
-
+	
 	/**
 	 * <B><U> Overridden in </U> :</B>
 	 * <ul>
@@ -230,13 +230,13 @@ public abstract class Playable extends Creature
 	{
 		// default implementation
 	}
-
+	
 	// Support for Noblesse Blessing skill, where buffs are retained after resurrect
 	public final boolean isNoblesseBlessed()
 	{
 		return _effects.isAffected(L2EffectFlag.NOBLESS_BLESSING);
 	}
-
+	
 	public final void stopNoblesseBlessing(L2Effect effect)
 	{
 		if (effect == null)
@@ -245,23 +245,23 @@ public abstract class Playable extends Creature
 			removeEffect(effect);
 		updateAbnormalEffect();
 	}
-
+	
 	// Support for Soul of the Phoenix and Salvation skills
 	public final boolean isPhoenixBlessed()
 	{
 		return _effects.isAffected(L2EffectFlag.PHOENIX_BLESSING);
 	}
-
+	
 	public final void stopPhoenixBlessing(L2Effect effect)
 	{
 		if (effect == null)
 			stopEffects(L2EffectType.PHOENIX_BLESSING);
 		else
 			removeEffect(effect);
-
+		
 		updateAbnormalEffect();
 	}
-
+	
 	/**
 	 * @return True if the Silent Moving mode is active.
 	 */
@@ -269,63 +269,63 @@ public abstract class Playable extends Creature
 	{
 		return _effects.isAffected(L2EffectFlag.SILENT_MOVE);
 	}
-
+	
 	// for Newbie Protection Blessing skill, keeps you safe from an attack by a chaotic character >= 10 levels apart from you
 	public final boolean getProtectionBlessing()
 	{
 		return _effects.isAffected(L2EffectFlag.PROTECTION_BLESSING);
 	}
-
+	
 	public void stopProtectionBlessing(L2Effect effect)
 	{
 		if (effect == null)
 			stopEffects(L2EffectType.PROTECTION_BLESSING);
 		else
 			removeEffect(effect);
-
+		
 		updateAbnormalEffect();
 	}
-
+	
 	// Charm of Luck - During a Raid/Boss war, decreased chance for death penalty
 	public final boolean getCharmOfLuck()
 	{
 		return _effects.isAffected(L2EffectFlag.CHARM_OF_LUCK);
 	}
-
+	
 	public final void stopCharmOfLuck(L2Effect effect)
 	{
 		if (effect == null)
 			stopEffects(L2EffectType.CHARM_OF_LUCK);
 		else
 			removeEffect(effect);
-
+		
 		updateAbnormalEffect();
 	}
-
+	
 	@Override
 	public void updateEffectIcons(boolean partyOnly)
 	{
 		_effects.updateEffectIcons(partyOnly);
 	}
-
+	
 	/**
 	 * This method allows to easily send relations. Overridden in L2Summon and Player.
 	 */
 	public void broadcastRelationsChanges()
 	{
 	}
-
+	
 	@Override
 	public boolean isInArena()
 	{
 		return isInsideZone(ZoneId.PVP) && !isInsideZone(ZoneId.SIEGE);
 	}
-
+	
 	public abstract void doPickupItem(WorldObject object);
-
+	
 	public abstract int getKarma();
-
+	
 	public abstract byte getPvpFlag();
-
+	
 	public abstract boolean useMagic(L2Skill skill, boolean forceUse, boolean dontMove);
 }

@@ -6,7 +6,7 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class GetOffVehicle extends L2GameServerPacket
 {
 	private final int _charObjId, _boatObjId, _x, _y, _z;
-
+	
 	public GetOffVehicle(int charObjId, int boatObjId, int x, int y, int z)
 	{
 		_charObjId = charObjId;
@@ -15,7 +15,7 @@ public class GetOffVehicle extends L2GameServerPacket
 		_y = y;
 		_z = z;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

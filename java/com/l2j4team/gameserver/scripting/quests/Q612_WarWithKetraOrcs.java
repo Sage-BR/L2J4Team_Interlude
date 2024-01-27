@@ -11,21 +11,21 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q612_WarWithKetraOrcs extends Quest
 {
 	private static final String qn = "Q612_WarWithKetraOrcs";
-
+	
 	// Items
 	private static final int NEPENTHES_SEED = 7187;
 	private static final int MOLAR_OF_KETRA_ORC = 7234;
-
+	
 	public Q612_WarWithKetraOrcs()
 	{
 		super(612, "War with Ketra Orcs");
-
+		
 		setItemsIds(MOLAR_OF_KETRA_ORC);
-
+		
 		addStartNpc(31377); // Ashas Varka Durai
 		addTalkId(31377);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -33,7 +33,7 @@ public class Q612_WarWithKetraOrcs extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31377-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -56,10 +56,10 @@ public class Q612_WarWithKetraOrcs extends Quest
 			st.takeItems(MOLAR_OF_KETRA_ORC, -1);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -67,18 +67,18 @@ public class Q612_WarWithKetraOrcs extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() >= 74 && player.isAlliedWithVarka()) ? "31377-01.htm" : "31377-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				htmltext = (st.hasQuestItems(MOLAR_OF_KETRA_ORC)) ? "31377-04.htm" : "31377-05.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

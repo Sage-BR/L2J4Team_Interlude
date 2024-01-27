@@ -11,37 +11,37 @@ import com.l2j4team.commons.random.Rnd;
 public class Q292_BrigandsSweep extends Quest
 {
 	private static final String qn = "Q292_BrigandsSweep";
-
+	
 	// NPCs
 	private static final int SPIRON = 30532;
 	private static final int BALANKI = 30533;
-
+	
 	// Items
 	private static final int GOBLIN_NECKLACE = 1483;
 	private static final int GOBLIN_PENDANT = 1484;
 	private static final int GOBLIN_LORD_PENDANT = 1485;
 	private static final int SUSPICIOUS_MEMO = 1486;
 	private static final int SUSPICIOUS_CONTRACT = 1487;
-
+	
 	// Monsters
 	private static final int GOBLIN_BRIGAND = 20322;
 	private static final int GOBLIN_BRIGAND_LEADER = 20323;
 	private static final int GOBLIN_BRIGAND_LIEUTENANT = 20324;
 	private static final int GOBLIN_SNOOPER = 20327;
 	private static final int GOBLIN_LORD = 20528;
-
+	
 	public Q292_BrigandsSweep()
 	{
 		super(292, "Brigands Sweep");
-
+		
 		setItemsIds(GOBLIN_NECKLACE, GOBLIN_PENDANT, GOBLIN_LORD_PENDANT, SUSPICIOUS_MEMO, SUSPICIOUS_CONTRACT);
-
+		
 		addStartNpc(SPIRON);
 		addTalkId(SPIRON, BALANKI);
-
+		
 		addKillId(GOBLIN_BRIGAND, GOBLIN_BRIGAND_LEADER, GOBLIN_BRIGAND_LIEUTENANT, GOBLIN_SNOOPER, GOBLIN_LORD);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -49,7 +49,7 @@ public class Q292_BrigandsSweep extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30532-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -61,10 +61,10 @@ public class Q292_BrigandsSweep extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -72,7 +72,7 @@ public class Q292_BrigandsSweep extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -83,7 +83,7 @@ public class Q292_BrigandsSweep extends Quest
 				else
 					htmltext = "30532-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -92,11 +92,11 @@ public class Q292_BrigandsSweep extends Quest
 						final int goblinPendants = st.getQuestItemsCount(GOBLIN_PENDANT);
 						final int goblinLordPendants = st.getQuestItemsCount(GOBLIN_LORD_PENDANT);
 						final int suspiciousMemos = st.getQuestItemsCount(SUSPICIOUS_MEMO);
-
+						
 						final int countAll = goblinNecklaces + goblinPendants + goblinLordPendants;
-
+						
 						final boolean hasContract = st.hasQuestItems(SUSPICIOUS_CONTRACT);
-
+						
 						if (countAll == 0)
 							htmltext = "30532-04.htm";
 						else
@@ -112,21 +112,21 @@ public class Q292_BrigandsSweep extends Quest
 							}
 							else
 								htmltext = "30532-05.htm";
-
+							
 							st.takeItems(GOBLIN_NECKLACE, -1);
 							st.takeItems(GOBLIN_PENDANT, -1);
 							st.takeItems(GOBLIN_LORD_PENDANT, -1);
-
+							
 							if (hasContract)
 							{
 								st.set("cond", "1");
 								st.takeItems(SUSPICIOUS_CONTRACT, -1);
 							}
-
+							
 							st.rewardItems(57, ((12 * goblinNecklaces) + (36 * goblinPendants) + (33 * goblinLordPendants) + (countAll >= 10 ? 1000 : 0) + ((hasContract) ? 1120 : 0)));
 						}
 						break;
-
+					
 					case BALANKI:
 						if (!st.hasQuestItems(SUSPICIOUS_CONTRACT))
 							htmltext = "30533-01.htm";
@@ -141,19 +141,19 @@ public class Q292_BrigandsSweep extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int chance = Rnd.get(10);
-
+		
 		if (chance > 5)
 		{
 			switch (npc.getNpcId())
@@ -163,11 +163,11 @@ public class Q292_BrigandsSweep extends Quest
 				case GOBLIN_BRIGAND_LIEUTENANT:
 					st.dropItemsAlways(GOBLIN_NECKLACE, 1, 0);
 					break;
-
+				
 				case GOBLIN_BRIGAND_LEADER:
 					st.dropItemsAlways(GOBLIN_PENDANT, 1, 0);
 					break;
-
+				
 				case GOBLIN_LORD:
 					st.dropItemsAlways(GOBLIN_LORD_PENDANT, 1, 0);
 					break;
@@ -179,7 +179,7 @@ public class Q292_BrigandsSweep extends Quest
 			st.takeItems(SUSPICIOUS_MEMO, -1);
 			st.giveItems(SUSPICIOUS_CONTRACT, 1);
 		}
-
+		
 		return null;
 	}
 }

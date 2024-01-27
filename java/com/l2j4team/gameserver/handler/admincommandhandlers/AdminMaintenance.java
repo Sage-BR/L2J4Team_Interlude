@@ -17,16 +17,16 @@ public class AdminMaintenance implements IAdminCommandHandler
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_server",
-
+		
 		"admin_server_shutdown",
 		"admin_server_restart",
 		"admin_server_abort",
-
+		
 		"admin_server_gm_only",
 		"admin_server_all",
 		"admin_server_max_player",
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -62,7 +62,7 @@ public class AdminMaintenance implements IAdminCommandHandler
 		{
 			LoginServerThread.getInstance().setServerStatus(ServerStatus.STATUS_GM_ONLY);
 			Config.SERVER_GMONLY = true;
-
+			
 			activeChar.sendMessage("Server is now setted as GMonly.");
 			sendHtmlForm(activeChar);
 		}
@@ -70,7 +70,7 @@ public class AdminMaintenance implements IAdminCommandHandler
 		{
 			LoginServerThread.getInstance().setServerStatus(ServerStatus.STATUS_AUTO);
 			Config.SERVER_GMONLY = false;
-
+			
 			activeChar.sendMessage("Server isn't setted as GMonly anymore.");
 			sendHtmlForm(activeChar);
 		}
@@ -79,7 +79,7 @@ public class AdminMaintenance implements IAdminCommandHandler
 			try
 			{
 				final int number = Integer.parseInt(command.substring(24));
-
+				
 				LoginServerThread.getInstance().setMaxPlayer(number);
 				activeChar.sendMessage("Server maximum player amount is setted to " + number + ".");
 				sendHtmlForm(activeChar);
@@ -91,7 +91,7 @@ public class AdminMaintenance implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	private static void sendHtmlForm(Player activeChar)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
@@ -104,7 +104,7 @@ public class AdminMaintenance implements IAdminCommandHandler
 		html.replace("%time%", GameTimeTaskManager.getInstance().getGameTimeFormated());
 		activeChar.sendPacket(html);
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

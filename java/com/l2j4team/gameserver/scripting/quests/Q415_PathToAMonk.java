@@ -11,7 +11,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q415_PathToAMonk extends Quest
 {
 	private static final String qn = "Q415_PathToAMonk";
-
+	
 	// Items
 	private static final int POMEGRANATE = 1593;
 	private static final int LEATHER_POUCH_1 = 1594;
@@ -38,7 +38,7 @@ public class Q415_PathToAMonk extends Quest
 	private static final int KHAVATARI_TOTEM = 1615;
 	private static final int KASHA_SPIDER_TOOTH = 8545;
 	private static final int HORN_OF_BAAR_DRE_VANUL = 8546;
-
+	
 	// NPCs
 	private static final int GANTAKI = 30587;
 	private static final int ROSHEEK = 30590;
@@ -46,19 +46,19 @@ public class Q415_PathToAMonk extends Quest
 	private static final int TORUKU = 30591;
 	private static final int AREN = 32056;
 	private static final int MOIRA = 31979;
-
+	
 	public Q415_PathToAMonk()
 	{
 		super(415, "Path to a Monk");
-
+		
 		setItemsIds(POMEGRANATE, LEATHER_POUCH_1, LEATHER_POUCH_2, LEATHER_POUCH_3, LEATHER_POUCH_FULL_1, LEATHER_POUCH_FULL_2, LEATHER_POUCH_FULL_3, KASHA_BEAR_CLAW, KASHA_BLADE_SPIDER_TALON, SCARLET_SALAMANDER_SCALE, FIERY_SPIRIT_SCROLL, ROSHEEK_LETTER, GANTAKI_LETTER_OF_RECOMMENDATION, FIG, LEATHER_POUCH_4, LEATHER_POUCH_FULL_4, VUKU_ORC_TUSK, RATMAN_FANG, LANG_KLIZARDMAN_TOOTH, FELIM_LIZARDMAN_TOOTH, IRON_WILL_SCROLL, TORUKU_LETTER, KASHA_SPIDER_TOOTH, HORN_OF_BAAR_DRE_VANUL);
-
+		
 		addStartNpc(GANTAKI);
 		addTalkId(GANTAKI, ROSHEEK, KASMAN, TORUKU, AREN, MOIRA);
-
+		
 		addKillId(20014, 20017, 20024, 20359, 20415, 20476, 20478, 20479, 21118);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -66,7 +66,7 @@ public class Q415_PathToAMonk extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30587-05.htm"))
 		{
 			if (player.getClassId() != ClassId.ORC_FIGHTER)
@@ -115,10 +115,10 @@ public class Q415_PathToAMonk extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -126,13 +126,13 @@ public class Q415_PathToAMonk extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "30587-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -149,7 +149,7 @@ public class Q415_PathToAMonk extends Quest
 						else if (cond > 9)
 							htmltext = "30587-11.htm";
 						break;
-
+					
 					case ROSHEEK:
 						if (cond == 1)
 						{
@@ -195,7 +195,7 @@ public class Q415_PathToAMonk extends Quest
 						else if (cond > 8)
 							htmltext = "30590-09.htm";
 						break;
-
+					
 					case KASMAN:
 						if (cond == 9)
 						{
@@ -222,7 +222,7 @@ public class Q415_PathToAMonk extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case TORUKU:
 						if (cond == 10)
 						{
@@ -246,7 +246,7 @@ public class Q415_PathToAMonk extends Quest
 						else if (cond == 13)
 							htmltext = "30591-04.htm";
 						break;
-
+					
 					case AREN:
 						if (cond == 14)
 							htmltext = "32056-01.htm";
@@ -271,26 +271,26 @@ public class Q415_PathToAMonk extends Quest
 						else if (cond == 20)
 							htmltext = "32056-09.htm";
 						break;
-
+					
 					case MOIRA:
 						if (cond == 20)
 							htmltext = "31979-01.htm";
 						break;
-
+					
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final WeaponType weapon = player.getActiveWeaponItem().getItemType();
 		if (!weapon.equals(WeaponType.DUALFIST) && !weapon.equals(WeaponType.FIST))
 		{
@@ -298,7 +298,7 @@ public class Q415_PathToAMonk extends Quest
 			st.exitQuest(true);
 			return null;
 		}
-
+		
 		switch (npc.getNpcId())
 		{
 			case 20479:
@@ -310,7 +310,7 @@ public class Q415_PathToAMonk extends Quest
 					st.giveItems(LEATHER_POUCH_FULL_1, 1);
 				}
 				break;
-
+			
 			case 20478:
 				if (st.getInt("cond") == 4 && st.dropItemsAlways(KASHA_BLADE_SPIDER_TALON, 1, 5))
 				{
@@ -322,12 +322,12 @@ public class Q415_PathToAMonk extends Quest
 				else if (st.getInt("cond") == 15 && st.dropItems(KASHA_SPIDER_TOOTH, 1, 6, 500000))
 					st.set("cond", "16");
 				break;
-
+			
 			case 20476:
 				if (st.getInt("cond") == 15 && st.dropItems(KASHA_SPIDER_TOOTH, 1, 6, 500000))
 					st.set("cond", "16");
 				break;
-
+			
 			case 20415:
 				if (st.getInt("cond") == 6 && st.dropItemsAlways(SCARLET_SALAMANDER_SCALE, 1, 5))
 				{
@@ -337,7 +337,7 @@ public class Q415_PathToAMonk extends Quest
 					st.giveItems(LEATHER_POUCH_FULL_3, 1);
 				}
 				break;
-
+			
 			case 20014:
 				if (st.getInt("cond") == 11 && st.dropItemsAlways(FELIM_LIZARDMAN_TOOTH, 1, 3))
 				{
@@ -353,7 +353,7 @@ public class Q415_PathToAMonk extends Quest
 					}
 				}
 				break;
-
+			
 			case 20017:
 				if (st.getInt("cond") == 11 && st.dropItemsAlways(VUKU_ORC_TUSK, 1, 3))
 				{
@@ -369,7 +369,7 @@ public class Q415_PathToAMonk extends Quest
 					}
 				}
 				break;
-
+			
 			case 20024:
 				if (st.getInt("cond") == 11 && st.dropItemsAlways(LANG_KLIZARDMAN_TOOTH, 1, 3))
 				{
@@ -385,7 +385,7 @@ public class Q415_PathToAMonk extends Quest
 					}
 				}
 				break;
-
+			
 			case 20359:
 				if (st.getInt("cond") == 11 && st.dropItemsAlways(RATMAN_FANG, 1, 3))
 				{
@@ -401,7 +401,7 @@ public class Q415_PathToAMonk extends Quest
 					}
 				}
 				break;
-
+			
 			case 21118:
 				if (st.getInt("cond") == 17)
 				{
@@ -411,7 +411,7 @@ public class Q415_PathToAMonk extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
 }

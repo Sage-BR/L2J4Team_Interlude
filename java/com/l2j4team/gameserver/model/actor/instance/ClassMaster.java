@@ -41,34 +41,34 @@ public final class ClassMaster extends Folk
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 		String filename = "data/html/classmaster/disabled.htm";
-
+		
 		if (Config.ALLOW_CLASS_MASTERS)
 			filename = "data/html/classmaster/" + getNpcId() + ".htm";
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", getObjectId());
 		player.sendPacket(html);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
 		if (!Config.ALLOW_CLASS_MASTERS)
 			return;
-
+		
 		if (player.isCancel())
 		{
 			player.sendMessage("Please wait a moment..");
 			return;
 		}
-
+		
 		if (command.startsWith("1stClass"))
 			showHtmlMenu(player, getObjectId(), 1);
 		else if (command.startsWith("2ndClass"))
@@ -78,21 +78,21 @@ public final class ClassMaster extends Folk
 		else if (command.startsWith("change_class"))
 		{
 			int val = Integer.parseInt(command.substring(13));
-
+			
 			if (checkAndChangeClass(player, val))
 			{
 				final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 				html.setFile("data/html/classmaster/ok.htm");
 				html.replace("%name%", CharTemplateTable.getInstance().getClassNameById(val));
 				player.sendPacket(html);
-
+				
 				// Check player skills
 				if (Config.CHECK_SKILLS_ON_ENTER)
 					player.checkAllowedSkills();
-
+				
 				if (Config.ADD_SKILL_NOBLES && !player.isNoble())
 					player.addSkill(SkillTable.getInstance().getInfo(1323, 1), false);
-
+				
 				player.removeItens();
 				player.getInventory().reloadEquippedItems();
 				player.sendSkillList();
@@ -101,16 +101,16 @@ public final class ClassMaster extends Folk
 		else
 			super.onBypassFeedback(player, command);
 	}
-
+	
 	private static final void showHtmlMenu(Player player, int objectId, int level)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(objectId);
-
+		
 		if (!Config.CLASS_MASTER_SETTINGS.isAllowed(level))
 		{
 			final StringBuilder sb = new StringBuilder(100);
 			sb.append("<html><body>");
-
+			
 			switch (player.getClassId().level())
 			{
 				case 0:
@@ -123,7 +123,7 @@ public final class ClassMaster extends Folk
 					else
 						sb.append("I can't change your occupation.<br>");
 					break;
-
+				
 				case 1:
 					if (Config.CLASS_MASTER_SETTINGS.isAllowed(2))
 						sb.append("Come back here when you reached level 40 to change your class.<br>");
@@ -132,14 +132,14 @@ public final class ClassMaster extends Folk
 					else
 						sb.append("I can't change your occupation.<br>");
 					break;
-
+				
 				case 2:
 					if (Config.CLASS_MASTER_SETTINGS.isAllowed(3))
 						sb.append("Come back here when you reached level 76 to change your class.<br>");
 					else
 						sb.append("I can't change your occupation.<br>");
 					break;
-
+				
 				case 3:
 					sb.append("There is no class change available for you anymore.<br>");
 					break;
@@ -162,11 +162,11 @@ public final class ClassMaster extends Folk
 					{
 						if (cid.level() != level)
 							continue;
-
+						
 						if (validateClassId(currentClassId, cid))
 							StringUtil.append(menu, "<a action=\"bypass -h npc_%objectId%_change_class ", cid.getId(), "\">", CharTemplateTable.getInstance().getClassNameById(cid.getId()), "</a><br>");
 					}
-
+					
 					if (menu.length() > 0)
 					{
 						html.setFile("data/html/classmaster/template.htm");
@@ -191,17 +191,17 @@ public final class ClassMaster extends Folk
 				}
 			}
 		}
-
+		
 		html.replace("%objectId%", objectId);
 		html.replace("%req_items%", getRequiredItems(level));
 		player.sendPacket(html);
 	}
-
+	
 	public static final void onTutorialLink(Player player, String request)
 	{
 		if (!Config.ALTERNATE_CLASS_MASTER || request == null || !request.startsWith("CO") || !FloodProtectors.performAction(player.getClient(), Action.SUBCLASS))
 			return;
-
+		
 		try
 		{
 			int val = Integer.parseInt(request.substring(2));
@@ -212,41 +212,38 @@ public final class ClassMaster extends Folk
 		}
 		player.sendPacket(TutorialCloseHtml.STATIC_PACKET);
 	}
-
+	
 	public static final void onTutorialQuestionMark(Player player, int number)
 	{
 		if (!Config.ALTERNATE_CLASS_MASTER || number != 1001)
 			return;
-
+		
 		showTutorialHtml(player);
 	}
-
+	
 	public static final void showQuestionMark(Player player)
 	{
 		if (!Config.ALLOW_CLASS_MASTERS || !Config.ALTERNATE_CLASS_MASTER)
 			return;
-
+		
 		final ClassId classId = player.getClassId();
-		if (getMinLevel(classId.level()) > player.getLevel())
-			return;
-
-		if (!Config.CLASS_MASTER_SETTINGS.isAllowed(classId.level() + 1))
+		if ((getMinLevel(classId.level()) > player.getLevel()) || !Config.CLASS_MASTER_SETTINGS.isAllowed(classId.level() + 1))
 		{
 			return;
 		}
-
+		
 		player.sendPacket(new TutorialShowQuestionMark(1001));
 	}
-
+	
 	private static final void showTutorialHtml(Player player)
 	{
 		final ClassId currentClassId = player.getClassId();
 		if (getMinLevel(currentClassId.level()) > player.getLevel() && !Config.ALLOW_ENTIRE_TREE)
 			return;
-
+		
 		String msg = HtmCache.getInstance().getHtm("data/html/classmaster/template.htm");
 		msg = msg.replaceAll("%name%", CharTemplateTable.getInstance().getClassNameById(currentClassId.getId()));
-
+		
 		final StringBuilder menu = new StringBuilder(100);
 		for (ClassId cid : ClassId.values())
 		{
@@ -255,20 +252,20 @@ public final class ClassMaster extends Folk
 				StringUtil.append(menu, "<a action=\"link CO", String.valueOf(cid.getId()), "\">", CharTemplateTable.getInstance().getClassNameById(cid.getId()), "</a><br>");
 			}
 		}
-
+		
 		msg = msg.replaceAll("%menu%", menu.toString());
 		msg = msg.replace("%req_items%", getRequiredItems(currentClassId.level() + 1));
 		player.sendPacket(new TutorialShowHtml(msg));
 	}
-
+	
 	private static final boolean checkAndChangeClass(Player player, int val)
 	{
 		final ClassId currentClassId = player.getClassId();
 		if ((getMinLevel(currentClassId.level()) > player.getLevel() && !Config.ALLOW_ENTIRE_TREE) || !validateClassId(currentClassId, val))
 			return false;
-
+		
 		int newJobLevel = currentClassId.level() + 1;
-
+		
 		// Weight/Inventory check
 		if (!Config.CLASS_MASTER_SETTINGS.getRewardItems(newJobLevel).isEmpty())
 		{
@@ -278,9 +275,9 @@ public final class ClassMaster extends Folk
 				return false;
 			}
 		}
-
+		
 		final List<IntIntHolder> neededItems = Config.CLASS_MASTER_SETTINGS.getRequiredItems(newJobLevel);
-
+		
 		// check if player have all required items for class transfer
 		for (IntIntHolder item : neededItems)
 		{
@@ -290,36 +287,36 @@ public final class ClassMaster extends Folk
 				return false;
 			}
 		}
-
+		
 		// get all required items for class transfer
 		for (IntIntHolder item : neededItems)
 		{
 			if (!player.destroyItemByItemId("ClassMaster", item.getId(), item.getValue(), player, true))
 				return false;
 		}
-
+		
 		// reward player with items
 		for (IntIntHolder item : Config.CLASS_MASTER_SETTINGS.getRewardItems(newJobLevel))
 			player.addItem("ClassMaster", item.getId(), item.getValue(), player, true);
-
+		
 		player.setClassId(val);
-
+		
 		if (player.isSubClassActive())
 			player.getSubClasses().get(player.getClassIndex()).setClassId(player.getActiveClass());
 		else
 			player.setBaseClass(player.getActiveClass());
-
+		
 		player.sendPacket(new HennaInfo(player));
 		player.broadcastUserInfo();
-
+		
 		if (Config.CLASS_MASTER_SETTINGS.isAllowed(player.getClassId().level() + 1) && Config.ALTERNATE_CLASS_MASTER && (((player.getClassId().level() == 1) && (player.getLevel() >= 40)) || ((player.getClassId().level() == 2) && (player.getLevel() >= 76))))
 		{
 			showQuestionMark(player);
 		}
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * @param level - current skillId level (0 - start, 1 - first, etc)
 	 * @return minimum player level required for next class transfer
@@ -338,7 +335,7 @@ public final class ClassMaster extends Folk
 				return Integer.MAX_VALUE;
 		}
 	}
-
+	
 	/**
 	 * Returns true if class change is possible
 	 * @param oldCID current player ClassId
@@ -357,7 +354,7 @@ public final class ClassMaster extends Folk
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Returns true if class change is possible
 	 * @param oldCID current player ClassId
@@ -368,23 +365,23 @@ public final class ClassMaster extends Folk
 	{
 		if (newCID == null)
 			return false;
-
+		
 		if ((oldCID == newCID.getParent()) || (Config.ALLOW_ENTIRE_TREE && newCID.childOf(oldCID)))
 			return true;
-
+		
 		return false;
 	}
-
+	
 	private static String getRequiredItems(int level)
 	{
 		final List<IntIntHolder> neededItems = Config.CLASS_MASTER_SETTINGS.getRequiredItems(level);
 		if (neededItems == null || neededItems.isEmpty())
 			return "<tr><td>none</td></r>";
-
+		
 		final StringBuilder sb = new StringBuilder();
 		for (IntIntHolder item : neededItems)
 			StringUtil.append(sb, "<tr><td><font color=\"LEVEL\">", item.getValue(), "</font></td><td>", ItemTable.getInstance().getTemplate(item.getId()).getName(), "</td></tr>");
-
+		
 		return sb.toString();
 	}
 }

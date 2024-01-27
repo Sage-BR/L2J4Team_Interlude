@@ -10,7 +10,7 @@ public final class SuperCmdServerStatus extends L2GameClientPacket
 	protected void readImpl()
 	{
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{

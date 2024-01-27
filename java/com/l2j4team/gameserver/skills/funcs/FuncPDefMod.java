@@ -9,17 +9,17 @@ import com.l2j4team.gameserver.skills.basefuncs.Func;
 public class FuncPDefMod extends Func
 {
 	static final FuncPDefMod _fpa_instance = new FuncPDefMod();
-
+	
 	public static Func getInstance()
 	{
 		return _fpa_instance;
 	}
-
+	
 	private FuncPDefMod()
 	{
 		super(Stats.POWER_DEFENCE, 0x20, null, null);
 	}
-
+	
 	@Override
 	public void calc(Env env)
 	{
@@ -27,7 +27,7 @@ public class FuncPDefMod extends Func
 		{
 			final Player player = env.getPlayer();
 			final boolean isMage = player.isMageClass();
-
+			
 			if (player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_HEAD) != null)
 				env.subValue(12);
 			if (player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST) != null)
@@ -39,7 +39,7 @@ public class FuncPDefMod extends Func
 			if (player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_FEET) != null)
 				env.subValue(7);
 		}
-
+		
 		env.mulValue(env.getCharacter().getLevelMod());
 	}
 }

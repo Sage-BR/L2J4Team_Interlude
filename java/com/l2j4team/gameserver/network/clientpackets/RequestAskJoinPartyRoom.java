@@ -9,20 +9,20 @@ import com.l2j4team.gameserver.network.serverpackets.SystemMessage;
 public class RequestAskJoinPartyRoom extends L2GameClientPacket
 {
 	private static String _name;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_name = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		// Send PartyRoom invite request (with activeChar) name to the target
 		final Player target = World.getInstance().getPlayer(_name);
 		if (target != null)

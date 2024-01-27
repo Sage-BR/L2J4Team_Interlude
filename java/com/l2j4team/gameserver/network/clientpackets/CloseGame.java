@@ -9,13 +9,13 @@ public class CloseGame implements Runnable
 {
 	private final Player _player;
 	private final int _time;
-
+	
 	public CloseGame(Player player, int time)
 	{
 		_time = time;
 		_player = player;
 	}
-
+	
 	@Override
 	public void run()
 	{

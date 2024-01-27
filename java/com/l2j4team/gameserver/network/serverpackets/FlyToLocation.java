@@ -11,14 +11,14 @@ public final class FlyToLocation extends L2GameServerPacket
 	private final int _destX, _destY, _destZ;
 	private final int _chaObjId, _chaX, _chaY, _chaZ;
 	private final FlyType _type;
-
+	
 	public enum FlyType
 	{
 		THROW_UP,
 		THROW_HORIZONTAL,
 		DUMMY; // no effect
 	}
-
+	
 	public FlyToLocation(Creature cha, int destX, int destY, int destZ, FlyType type)
 	{
 		_chaObjId = cha.getObjectId();
@@ -30,12 +30,12 @@ public final class FlyToLocation extends L2GameServerPacket
 		_destZ = destZ;
 		_type = type;
 	}
-
+	
 	public FlyToLocation(Creature cha, WorldObject dest, FlyType type)
 	{
 		this(cha, dest.getX(), dest.getY(), dest.getZ(), type);
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

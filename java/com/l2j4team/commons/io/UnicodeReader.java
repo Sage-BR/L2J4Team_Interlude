@@ -16,26 +16,26 @@ public class UnicodeReader extends Reader
 	private InputStreamReader internalIn2 = null;
 	private final String defaultEnc;
 	private static final int BOM_SIZE = 4;
-
+	
 	public UnicodeReader(final InputStream in, final String defaultEnc)
 	{
 		internalIn = new PushbackInputStream(in, BOM_SIZE);
 		this.defaultEnc = defaultEnc;
 	}
-
+	
 	public String getDefaultEncoding()
 	{
 		return defaultEnc;
 	}
-
+	
 	public String getEncoding()
 	{
 		if (internalIn2 == null)
 			return null;
-
+		
 		return internalIn2.getEncoding();
 	}
-
+	
 	/**
 	 * Read-ahead four bytes and check for BOM marks. Extra bytes are unread back to the stream, only BOM bytes are skipped.
 	 * @throws IOException
@@ -44,13 +44,13 @@ public class UnicodeReader extends Reader
 	{
 		if (internalIn2 != null)
 			return;
-
+		
 		final String encoding;
 		final byte[] bom = new byte[BOM_SIZE];
 		final int n;
 		final int unread;
 		n = internalIn.read(bom, 0, bom.length);
-
+		
 		if (bom[0] == (byte) 0xEF && bom[1] == (byte) 0xBB && bom[2] == (byte) 0xBF)
 		{
 			encoding = "UTF-8";
@@ -82,14 +82,14 @@ public class UnicodeReader extends Reader
 			encoding = defaultEnc;
 			unread = n;
 		}
-
+		
 		if (unread > 0)
 			internalIn.unread(bom, (n - unread), unread);
-
+		
 		// Use given encoding
 		internalIn2 = encoding == null ? new InputStreamReader(internalIn) : new InputStreamReader(internalIn, encoding);
 	}
-
+	
 	@Override
 	public void close() throws IOException
 	{
@@ -97,7 +97,7 @@ public class UnicodeReader extends Reader
 		internalIn.close();
 		internalIn2.close();
 	}
-
+	
 	@Override
 	public int read(final char[] cbuf, final int off, final int len) throws IOException
 	{

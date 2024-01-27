@@ -16,7 +16,7 @@ import com.l2j4team.commons.util.ArraysUtil;
 public class NpcLocationInfo extends Quest
 {
 	private static final String qn = "NpcLocationInfo";
-
+	
 	private static final int[] RADARS =
 	{
 		// Talking Island
@@ -55,7 +55,7 @@ public class NpcLocationInfo extends Quest
 		30050, // Elias
 		30311, // Sir Collin Windawood
 		30051, // Cristel
-
+		
 		// Dark Elf Village
 		30134, // Gatekeeper Jasmine
 		30224, // Sentry Knight Rayla
@@ -92,7 +92,7 @@ public class NpcLocationInfo extends Quest
 		30351, // Astaron
 		30353, // Jughead
 		30354, // Jewel
-
+		
 		// Elven Village
 		30146, // Gatekeeper Mirabel
 		30285, // Sentinel Gartrandell
@@ -124,7 +124,7 @@ public class NpcLocationInfo extends Quest
 		30222, // Alshupes
 		30371, // Thalia
 		31852, // Pixy Murika
-
+		
 		// Dwarven Village
 		30540, // Gatekeeper Wirphy
 		30541, // Protector Paion
@@ -162,7 +162,7 @@ public class NpcLocationInfo extends Quest
 		30550, // Gauri Twinklerock
 		30554, // Miner Bolter
 		30553, // Maryse Redbonnet
-
+		
 		// Orc Village
 		30576, // Gatekeeper Tamil
 		30577, // Praetorian Rukain
@@ -191,15 +191,15 @@ public class NpcLocationInfo extends Quest
 		30585, // Tataru Zu Hestui
 		30587, // Gantaki Zu Urutu
 	};
-
+	
 	public NpcLocationInfo()
 	{
 		super(-1, "custom");
-
+		
 		addStartNpc(30598, 30599, 30600, 30601, 30602);
 		addTalkId(30598, 30599, 30600, 30601, 30602);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -207,12 +207,12 @@ public class NpcLocationInfo extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (StringUtil.isDigit(event))
 		{
 			htmltext = null;
 			int npcId = Integer.parseInt(event);
-
+			
 			if (ArraysUtil.contains(RADARS, npcId))
 			{
 				for (L2Spawn spawn : SpawnTable.getInstance().getSpawnTable())
@@ -229,7 +229,7 @@ public class NpcLocationInfo extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{

@@ -29,13 +29,13 @@ import com.l2j4team.commons.random.Rnd;
 public class QueenAnt extends L2AttackableAIScript
 {
 	private static final L2BossZone AQ_LAIR = ZoneManager.getInstance().getZoneById(110012, L2BossZone.class);
-
+	
 	private static final int QUEEN = 29001;
 	private static final int LARVA = 29002;
 	private static final int NURSE = 29003;
 	private static final int GUARD = 29004;
 	private static final int ROYAL = 29005;
-
+	
 	private static final int[] MOBS =
 	{
 		QUEEN,
@@ -44,33 +44,33 @@ public class QueenAnt extends L2AttackableAIScript
 		GUARD,
 		ROYAL
 	};
-
+	
 	private static final int QUEEN_X = -21610;
 	private static final int QUEEN_Y = 181594;
 	private static final int QUEEN_Z = -5734;
-
+	
 	// Status Tracking
 	private static final byte ALIVE = 0; // Queen Ant is spawned.
 	private static final byte DEAD = 1; // Queen Ant has been killed.
-
+	
 	private static final IntIntHolder HEAL1 = new IntIntHolder(4020, 1);
 	private static final IntIntHolder HEAL2 = new IntIntHolder(4024, 1);
-
+	
 	private static final List<Monster> _nurses = new ArrayList<>(5);
-
+	
 	private Monster _queen = null;
 	private Monster _larva = null;
-
+	
 	public QueenAnt()
 	{
 		super("ai/individual");
-
+		
 		StatsSet info = GrandBossManager.getInstance().getStatsSet(QUEEN);
 		if (GrandBossManager.getInstance().getBossStatus(QUEEN) == DEAD)
 		{
 			// load the unlock date and time for queen ant from DB
 			long temp = info.getLong("respawn_time") - System.currentTimeMillis();
-
+			
 			// the unlock time has not yet expired.
 			if (temp > 0)
 				startQuestTimer("queen_unlock", temp, null, null, false);
@@ -96,20 +96,20 @@ public class QueenAnt extends L2AttackableAIScript
 				loc_y = QUEEN_Y;
 				loc_z = QUEEN_Z;
 			}
-
+			
 			GrandBoss queen = (GrandBoss) addSpawn(QUEEN, loc_x, loc_y, loc_z, heading, false, 0, false);
 			queen.setCurrentHpMp(hp, mp);
 			spawnBoss(queen);
 		}
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addEventIds(MOBS, EventType.ON_SPAWN, EventType.ON_KILL, EventType.ON_AGGRO);
 		addFactionCallId(NURSE);
 	}
-
+	
 	private void spawnBoss(GrandBoss npc)
 	{
 		if (Rnd.get(100) < 33)
@@ -118,16 +118,16 @@ public class QueenAnt extends L2AttackableAIScript
 			AQ_LAIR.movePlayersTo(-17928, 180912, -5520);
 		else
 			AQ_LAIR.movePlayersTo(-23808, 182368, -5600);
-
+		
 		GrandBossManager.getInstance().addBoss(npc);
 		startQuestTimer("action", 10000, npc, null, true);
 		startQuestTimer("heal", 1000, null, null, true);
 		npc.broadcastPacket(new PlaySound(1, "BS02_D", npc));
-
+		
 		_queen = npc;
 		_larva = (Monster) addSpawn(LARVA, -21600, 179482, -5846, Rnd.get(360), false, 0, false);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -140,7 +140,7 @@ public class QueenAnt extends L2AttackableAIScript
 			{
 				if (nurse == null || nurse.isDead() || nurse.isCastingNow())
 					continue;
-
+				
 				notCasting = nurse.getAI().getIntention() != CtrlIntention.CAST;
 				if (larvaNeedHeal)
 				{
@@ -151,12 +151,12 @@ public class QueenAnt extends L2AttackableAIScript
 					}
 					continue;
 				}
-
+				
 				if (queenNeedHeal)
 				{
 					if (nurse.getLeader() == _larva) // skip larva's minions
 						continue;
-
+					
 					if (nurse.getTarget() != _queen || notCasting)
 					{
 						nurse.setTarget(_queen);
@@ -164,7 +164,7 @@ public class QueenAnt extends L2AttackableAIScript
 					}
 					continue;
 				}
-
+				
 				// if nurse not casting - remove target
 				if (notCasting && nurse.getTarget() != null)
 					nurse.setTarget(null);
@@ -188,7 +188,7 @@ public class QueenAnt extends L2AttackableAIScript
 		}
 		return super.onAdvEvent(event, npc, player);
 	}
-
+	
 	@Override
 	public String onSpawn(Npc npc)
 	{
@@ -212,13 +212,13 @@ public class QueenAnt extends L2AttackableAIScript
 		}
 		return super.onSpawn(npc);
 	}
-
+	
 	@Override
 	public String onFactionCall(Npc npc, Npc caller, Player attacker, boolean isPet)
 	{
 		if (caller == null || npc == null)
 			return super.onFactionCall(npc, caller, attacker, isPet);
-
+		
 		if (!npc.isCastingNow() && npc.getAI().getIntention() != CtrlIntention.CAST)
 		{
 			if (caller.getCurrentHp() < caller.getMaxHp())
@@ -229,13 +229,13 @@ public class QueenAnt extends L2AttackableAIScript
 		}
 		return null;
 	}
-
+	
 	@Override
 	public String onAggro(Npc npc, Player player, boolean isPet)
 	{
 		if (npc == null)
 			return null;
-
+		
 		final boolean isMage;
 		final Playable character;
 		if (isPet)
@@ -248,10 +248,10 @@ public class QueenAnt extends L2AttackableAIScript
 			isMage = player.isMageClass();
 			character = player;
 		}
-
+		
 		if (character == null)
 			return null;
-
+		
 		if (!Config.RAID_DISABLE_CURSE && character.getLevel() - npc.getLevel() > 8)
 		{
 			L2Skill curse = null;
@@ -265,19 +265,19 @@ public class QueenAnt extends L2AttackableAIScript
 				if (!character.isParalyzed() && Rnd.get(4) == 0)
 					curse = FrequentSkill.RAID_CURSE2.getSkill();
 			}
-
+			
 			if (curse != null)
 			{
 				npc.broadcastPacket(new MagicSkillUse(npc, character, curse.getId(), curse.getLevel(), 300, 0));
 				curse.getEffects(npc, character);
 			}
-
+			
 			((Attackable) npc).stopHating(character); // for calling again
 			return null;
 		}
 		return super.onAggro(npc, player, isPet);
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player killer, boolean isPet)
 	{
@@ -289,7 +289,7 @@ public class QueenAnt extends L2AttackableAIScript
 			{
 				npc.broadcastPacket(new PlaySound(1, "BS02_D", npc));
 				GrandBossManager.getInstance().setBossStatus(QUEEN, DEAD);
-
+				
 				long respawnTime;
 				if (Config.AQ_CUSTOM_SPAWN_ENABLED && Config.FindNext(Config.AQ_CUSTOM_SPAWN_TIMES) != null)
 				{
@@ -300,16 +300,16 @@ public class QueenAnt extends L2AttackableAIScript
 					respawnTime = (long) Config.SPAWN_INTERVAL_AQ + Rnd.get(-Config.RANDOM_SPAWN_TIME_AQ, Config.RANDOM_SPAWN_TIME_AQ);
 					respawnTime *= 3600000;
 				}
-
+				
 				startQuestTimer("queen_unlock", respawnTime, null, null, false);
 				cancelQuestTimer("action", npc, null);
 				cancelQuestTimer("heal", null, null);
-
+				
 				// also save the respawn time so that the info is maintained past reboots
 				StatsSet info = GrandBossManager.getInstance().getStatsSet(QUEEN);
 				info.set("respawn_time", System.currentTimeMillis() + respawnTime);
 				GrandBossManager.getInstance().setStatsSet(QUEEN, info);
-
+				
 				_nurses.clear();
 				_larva.deleteMe();
 				_larva = null;

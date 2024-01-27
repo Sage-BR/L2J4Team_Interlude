@@ -12,11 +12,11 @@ public class Rectangle extends AShape
 	// rectangle origin coordinates
 	protected final int _x;
 	protected final int _y;
-
+	
 	// rectangle width and height
 	protected final int _w;
 	protected final int _h;
-
+	
 	/**
 	 * Rectangle constructor.
 	 * @param x : Bottom left X coordinate.
@@ -28,57 +28,57 @@ public class Rectangle extends AShape
 	{
 		_x = x;
 		_y = y;
-
+		
 		_w = w;
 		_h = h;
 	}
-
+	
 	@Override
 	public final int getSize()
 	{
 		return _w * _h;
 	}
-
+	
 	@Override
 	public double getArea()
 	{
 		return _w * _h;
 	}
-
+	
 	@Override
 	public double getVolume()
 	{
 		return 0;
 	}
-
+	
 	@Override
 	public boolean isInside(int x, int y)
 	{
 		int d = x - _x;
 		if (d < 0 || d > _w)
 			return false;
-
+		
 		d = y - _y;
 		if (d < 0 || d > _h)
 			return false;
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public boolean isInside(int x, int y, int z)
 	{
 		int d = x - _x;
 		if (d < 0 || d > _w)
 			return false;
-
+		
 		d = y - _y;
 		if (d < 0 || d > _h)
 			return false;
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public Location getRandomLocation()
 	{

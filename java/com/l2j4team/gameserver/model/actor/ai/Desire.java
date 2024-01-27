@@ -6,28 +6,28 @@ package com.l2j4team.gameserver.model.actor.ai;
 public class Desire
 {
 	private final CtrlIntention _intention;
-
+	
 	private final Object _firstParameter;
 	private final Object _secondParameter;
-
+	
 	public Desire(CtrlIntention intention, Object firstParameter, Object secondParameter)
 	{
 		_intention = intention;
-
+		
 		_firstParameter = firstParameter;
 		_secondParameter = secondParameter;
 	}
-
+	
 	public CtrlIntention getIntention()
 	{
 		return _intention;
 	}
-
+	
 	public Object getFirstParameter()
 	{
 		return _firstParameter;
 	}
-
+	
 	public Object getSecondParameter()
 	{
 		return _secondParameter;

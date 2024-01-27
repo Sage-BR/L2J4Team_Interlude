@@ -21,32 +21,32 @@ import java.util.logging.Logger;
 public abstract class L2ZoneType
 {
 	protected static final Logger _log = Logger.getLogger(L2ZoneType.class.getName());
-
+	
 	private final int _id;
 	protected final Map<Integer, Creature> _characterList = new ConcurrentHashMap<>();
-
+	
 	private Map<EventType, List<Quest>> _questEvents;
 	private L2ZoneForm _zone;
-
+	
 	protected L2ZoneType(int id)
 	{
 		_id = id;
 	}
-
+	
 	protected abstract void onEnter(Creature character);
-
+	
 	protected abstract void onExit(Creature character);
-
+	
 	public abstract void onDieInside(Creature character);
-
+	
 	public abstract void onReviveInside(Creature character);
-
+	
 	@Override
 	public String toString()
 	{
 		return getClass().getSimpleName() + "[" + _id + "]";
 	}
-
+	
 	/**
 	 * @return Returns the id.
 	 */
@@ -54,7 +54,7 @@ public abstract class L2ZoneType
 	{
 		return _id;
 	}
-
+	
 	/**
 	 * @return this zone form.
 	 */
@@ -62,7 +62,7 @@ public abstract class L2ZoneType
 	{
 		return _zone;
 	}
-
+	
 	/**
 	 * Set the zone for this L2ZoneType Instance
 	 * @param zone
@@ -71,10 +71,10 @@ public abstract class L2ZoneType
 	{
 		if (_zone != null)
 			throw new IllegalStateException("Zone already set");
-
+		
 		_zone = zone;
 	}
-
+	
 	/**
 	 * @param x
 	 * @param y
@@ -84,7 +84,7 @@ public abstract class L2ZoneType
 	{
 		return _zone.isInsideZone(x, y, _zone.getHighZ());
 	}
-
+	
 	/**
 	 * @param x
 	 * @param y
@@ -95,7 +95,7 @@ public abstract class L2ZoneType
 	{
 		return _zone.isInsideZone(x, y, z);
 	}
-
+	
 	/**
 	 * @param object check object's X/Y positions.
 	 * @return true if the given object is inside the zone.
@@ -104,23 +104,23 @@ public abstract class L2ZoneType
 	{
 		return isInsideZone(object.getX(), object.getY(), object.getZ());
 	}
-
+	
 	public double getDistanceToZone(int x, int y)
 	{
 		return getZone().getDistanceToZone(x, y);
 	}
-
+	
 	public double getDistanceToZone(WorldObject object)
 	{
 		return getZone().getDistanceToZone(object.getX(), object.getY());
 	}
-
+	
 	public void revalidateInZone(Creature character)
 	{
 		// If the character can't be affected by this zone return
 		if (!isAffected(character))
 			return;
-
+		
 		// If the object is inside the zone...
 		if (isInsideZone(character))
 		{
@@ -134,10 +134,10 @@ public abstract class L2ZoneType
 					for (Quest quest : quests)
 						quest.notifyEnterZone(character, this);
 				}
-
+				
 				// Register player.
 				_characterList.put(character.getObjectId(), character);
-
+				
 				// Notify Zone implementation.
 				onEnter(character);
 			}
@@ -145,7 +145,7 @@ public abstract class L2ZoneType
 		else
 			removeCharacter(character);
 	}
-
+	
 	/**
 	 * Removes a character from the zone.
 	 * @param character : The character to remove.
@@ -162,15 +162,15 @@ public abstract class L2ZoneType
 				for (Quest quest : quests)
 					quest.notifyExitZone(character, this);
 			}
-
+			
 			// Unregister player.
 			_characterList.remove(character.getObjectId());
-
+			
 			// Notify Zone implementation.
 			onExit(character);
 		}
 	}
-
+	
 	/**
 	 * @param character The character to test.
 	 * @return True if the character is in the zone.
@@ -179,12 +179,12 @@ public abstract class L2ZoneType
 	{
 		return _characterList.containsKey(character.getObjectId());
 	}
-
+	
 	public Collection<Creature> getCharactersInside()
 	{
 		return _characterList.values();
 	}
-
+	
 	/**
 	 * @param <A> : The generic type.
 	 * @param type : The instance type to filter.
@@ -194,7 +194,7 @@ public abstract class L2ZoneType
 	public final <A> List<A> getKnownTypeInside(Class<A> type)
 	{
 		List<A> result = new ArrayList<>();
-
+		
 		for (WorldObject obj : _characterList.values())
 		{
 			if (type.isAssignableFrom(obj.getClass()))
@@ -202,12 +202,12 @@ public abstract class L2ZoneType
 		}
 		return result;
 	}
-
+	
 	public void addQuestEvent(EventType eventType, Quest quest)
 	{
 		if (_questEvents == null)
 			_questEvents = new HashMap<>();
-
+		
 		List<Quest> eventList = _questEvents.get(eventType);
 		if (eventList == null)
 		{
@@ -221,12 +221,12 @@ public abstract class L2ZoneType
 			eventList.add(quest);
 		}
 	}
-
+	
 	public List<Quest> getQuestByEvent(EventType EventType)
 	{
 		return (_questEvents == null) ? null : _questEvents.get(EventType);
 	}
-
+	
 	/**
 	 * Broadcasts packet to all players inside the zone
 	 * @param packet The packet to use.
@@ -239,7 +239,7 @@ public abstract class L2ZoneType
 				character.sendPacket(packet);
 		}
 	}
-
+	
 	/**
 	 * Setup new parameters for this zone
 	 * @param name parameter name.
@@ -249,7 +249,7 @@ public abstract class L2ZoneType
 	{
 		_log.info(getClass().getSimpleName() + ": Unknown parameter - " + name + " in zone: " + getId());
 	}
-
+	
 	/**
 	 * @param character The character to test.
 	 * @return True if the given character is affected by this zone.
@@ -259,7 +259,7 @@ public abstract class L2ZoneType
 		// Overriden in children classes.
 		return true;
 	}
-
+	
 	public void visualizeZone(int z)
 	{
 		getZone().visualizeZone(_id, z);

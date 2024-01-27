@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q404_PathToAHumanWizard extends Quest
 {
 	private static final String qn = "Q404_PathToAHumanWizard";
-
+	
 	// Items
 	private static final int MAP_OF_LUSTER = 1280;
 	private static final int KEY_OF_FLAME = 1281;
@@ -25,7 +25,7 @@ public class Q404_PathToAHumanWizard extends Quest
 	private static final int RED_SOIL = 1290;
 	private static final int EARTH_RING = 1291;
 	private static final int BEAD_OF_SEASON = 1292;
-
+	
 	// NPCs
 	private static final int PARINA = 30391;
 	private static final int EARTH_SNAKE = 30409;
@@ -33,19 +33,19 @@ public class Q404_PathToAHumanWizard extends Quest
 	private static final int FLAME_SALAMANDER = 30411;
 	private static final int WIND_SYLPH = 30412;
 	private static final int WATER_UNDINE = 30413;
-
+	
 	public Q404_PathToAHumanWizard()
 	{
 		super(404, "Path to a Human Wizard");
-
+		
 		setItemsIds(MAP_OF_LUSTER, KEY_OF_FLAME, FLAME_EARING, BROKEN_BRONZE_MIRROR, WIND_FEATHER, WIND_BANGEL, RAMA_DIARY, SPARKLE_PEBBLE, WATER_NECKLACE, RUST_GOLD_COIN, RED_SOIL, EARTH_RING);
-
+		
 		addStartNpc(PARINA);
 		addTalkId(PARINA, EARTH_SNAKE, WASTELAND_LIZARDMAN, FLAME_SALAMANDER, WIND_SYLPH, WATER_UNDINE);
-
+		
 		addKillId(20021, 20359, 27030);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -53,7 +53,7 @@ public class Q404_PathToAHumanWizard extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30391-08.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -67,10 +67,10 @@ public class Q404_PathToAHumanWizard extends Quest
 			st.takeItems(BROKEN_BRONZE_MIRROR, 1);
 			st.giveItems(WIND_FEATHER, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -78,7 +78,7 @@ public class Q404_PathToAHumanWizard extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		final int cond = st.getInt("cond");
 		switch (st.getState())
 		{
@@ -92,7 +92,7 @@ public class Q404_PathToAHumanWizard extends Quest
 				else
 					htmltext = "30391-04.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -113,7 +113,7 @@ public class Q404_PathToAHumanWizard extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case FLAME_SALAMANDER:
 						if (cond == 1)
 						{
@@ -136,7 +136,7 @@ public class Q404_PathToAHumanWizard extends Quest
 						else if (cond > 3)
 							htmltext = "30411-04.htm";
 						break;
-
+					
 					case WIND_SYLPH:
 						if (cond == 4)
 						{
@@ -158,14 +158,14 @@ public class Q404_PathToAHumanWizard extends Quest
 						else if (cond > 6)
 							htmltext = "30412-04.htm";
 						break;
-
+					
 					case WASTELAND_LIZARDMAN:
 						if (cond == 5)
 							htmltext = "30410-01.htm";
 						else if (cond > 5)
 							htmltext = "30410-04.htm";
 						break;
-
+					
 					case WATER_UNDINE:
 						if (cond == 7)
 						{
@@ -188,7 +188,7 @@ public class Q404_PathToAHumanWizard extends Quest
 						else if (cond > 9)
 							htmltext = "30413-04.htm";
 						break;
-
+					
 					case EARTH_SNAKE:
 						if (cond == 10)
 						{
@@ -214,35 +214,35 @@ public class Q404_PathToAHumanWizard extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case 20359: // Ratman Warrior
 				if (st.getInt("cond") == 2 && st.dropItems(KEY_OF_FLAME, 1, 1, 800000))
 					st.set("cond", "3");
 				break;
-
+			
 			case 27030: // Water Seer
 				if (st.getInt("cond") == 8 && st.dropItems(SPARKLE_PEBBLE, 1, 2, 800000))
 					st.set("cond", "9");
 				break;
-
+			
 			case 20021: // Red Bear
 				if (st.getInt("cond") == 11 && st.dropItems(RED_SOIL, 1, 1, 200000))
 					st.set("cond", "12");
 				break;
 		}
-
+		
 		return null;
 	}
 }

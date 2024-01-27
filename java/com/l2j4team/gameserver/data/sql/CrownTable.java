@@ -23,7 +23,7 @@ import java.util.List;
 public class CrownTable
 {
 	private static List<Integer> _crownList = new ArrayList<>();
-
+	
 	public static List<Integer> getCrownList()
 	{
 		if (_crownList.isEmpty())
@@ -39,10 +39,10 @@ public class CrownTable
 			_crownList.add(8182); // Rune
 			_crownList.add(8183); // Schuttgart
 		}
-
+		
 		return _crownList;
 	}
-
+	
 	public static int getCrownId(int CastleId)
 	{
 		int CrownId = 0;

@@ -68,13 +68,13 @@ public class AdminEffects implements IAdminCommandHandler
 		"admin_atmosphere",
 		"admin_atmosphere_menu"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		StringTokenizer st = new StringTokenizer(command);
 		st.nextToken();
-
+		
 		if (command.startsWith("admin_hide"))
 		{
 			if (!activeChar.getAppearance().getInvisible())
@@ -107,9 +107,9 @@ public class AdminEffects implements IAdminCommandHandler
 			{
 				String type = st.nextToken();
 				String state = st.nextToken();
-
+				
 				L2GameServerPacket packet = null;
-
+				
 				if (type.equals("ssqinfo"))
 				{
 					if (state.equals("dawn"))
@@ -135,7 +135,7 @@ public class AdminEffects implements IAdminCommandHandler
 					activeChar.sendMessage("Usage: //atmosphere <ssqinfo dawn|dusk|red|regular>");
 					activeChar.sendMessage("Usage: //atmosphere <sky day|night|red>");
 				}
-
+				
 				if (packet != null)
 					Broadcast.toAllOnlinePlayers(packet);
 			}
@@ -155,7 +155,7 @@ public class AdminEffects implements IAdminCommandHandler
 			{
 				final String sound = command.substring(17);
 				final PlaySound snd = (sound.contains(".")) ? new PlaySound(sound) : new PlaySound(1, sound);
-
+				
 				activeChar.broadcastPacket(snd);
 				activeChar.sendMessage("Playing " + sound + ".");
 			}
@@ -189,7 +189,7 @@ public class AdminEffects implements IAdminCommandHandler
 			if (target instanceof Creature)
 			{
 				final Creature player = (Creature) target;
-
+				
 				player.startAbnormalEffect(0x0800);
 				player.setIsParalyzed(true);
 				player.broadcastPacket(new StopMove(player));
@@ -203,7 +203,7 @@ public class AdminEffects implements IAdminCommandHandler
 			if (target instanceof Creature)
 			{
 				final Creature player = (Creature) target;
-
+				
 				player.stopAbnormalEffect(0x0800);
 				player.setIsParalyzed(false);
 			}
@@ -215,7 +215,7 @@ public class AdminEffects implements IAdminCommandHandler
 			try
 			{
 				activeChar.stopSkillEffects(7029);
-
+				
 				final int val = Integer.parseInt(st.nextToken());
 				if (val > 0 && val < 5)
 					activeChar.doCast(SkillTable.getInstance().getInfo(7029, val));
@@ -234,7 +234,7 @@ public class AdminEffects implements IAdminCommandHandler
 			try
 			{
 				final int social = Integer.parseInt(st.nextToken());
-
+				
 				if (st.hasMoreTokens())
 				{
 					final String targetOrRadius = st.nextToken();
@@ -251,10 +251,10 @@ public class AdminEffects implements IAdminCommandHandler
 						else
 						{
 							final int radius = Integer.parseInt(targetOrRadius);
-
+							
 							for (Creature object : activeChar.getKnownTypeInRadius(Creature.class, radius))
 								performSocial(social, object);
-
+							
 							activeChar.sendMessage(radius + " units radius was affected by your social request.");
 						}
 					}
@@ -264,7 +264,7 @@ public class AdminEffects implements IAdminCommandHandler
 					WorldObject obj = activeChar.getTarget();
 					if (obj == null)
 						obj = activeChar;
-
+					
 					if (performSocial(social, obj))
 						activeChar.sendMessage(obj.getName() + " was affected by your social request.");
 					else
@@ -281,7 +281,7 @@ public class AdminEffects implements IAdminCommandHandler
 			try
 			{
 				final int abnormal = Integer.decode("0x" + st.nextToken());
-
+				
 				if (st.hasMoreTokens())
 				{
 					final String targetOrRadius = st.nextToken();
@@ -298,10 +298,10 @@ public class AdminEffects implements IAdminCommandHandler
 						else
 						{
 							final int radius = Integer.parseInt(targetOrRadius);
-
+							
 							for (Creature object : activeChar.getKnownTypeInRadius(Creature.class, radius))
 								performAbnormal(abnormal, object);
-
+							
 							activeChar.sendMessage(radius + " units radius was affected by your abnormal request.");
 						}
 					}
@@ -311,7 +311,7 @@ public class AdminEffects implements IAdminCommandHandler
 					WorldObject obj = activeChar.getTarget();
 					if (obj == null)
 						obj = activeChar;
-
+					
 					if (performAbnormal(abnormal, obj))
 						activeChar.sendMessage(obj.getName() + " was affected by your abnormal request.");
 					else
@@ -330,15 +330,15 @@ public class AdminEffects implements IAdminCommandHandler
 				WorldObject obj = activeChar.getTarget();
 				int level = 1, hittime = 1;
 				int skill = Integer.parseInt(st.nextToken());
-
+				
 				if (st.hasMoreTokens())
 					level = Integer.parseInt(st.nextToken());
 				if (st.hasMoreTokens())
 					hittime = Integer.parseInt(st.nextToken());
-
+				
 				if (obj == null)
 					obj = activeChar;
-
+				
 				if (!(obj instanceof Creature))
 					activeChar.sendPacket(SystemMessageId.INCORRECT_TARGET);
 				else
@@ -353,7 +353,7 @@ public class AdminEffects implements IAdminCommandHandler
 				activeChar.sendMessage("Usage: //effect skill [level | level hittime]");
 			}
 		}
-
+		
 		if (command.contains("menu"))
 		{
 			String filename = "effects_menu.htm";
@@ -361,13 +361,13 @@ public class AdminEffects implements IAdminCommandHandler
 				filename = "abnormal.htm";
 			else if (command.contains("social"))
 				filename = "social.htm";
-
+			
 			AdminHelpPage.showHelpPage(activeChar, filename);
 		}
-
+		
 		return true;
 	}
-
+	
 	private static boolean performAbnormal(int action, WorldObject target)
 	{
 		if (target instanceof Creature)
@@ -377,26 +377,26 @@ public class AdminEffects implements IAdminCommandHandler
 				character.stopAbnormalEffect(action);
 			else
 				character.startAbnormalEffect(action);
-
+			
 			return true;
 		}
 		return false;
 	}
-
+	
 	private static boolean performSocial(int action, WorldObject target)
 	{
 		if (target instanceof Creature)
 		{
 			if (target instanceof Summon || target instanceof Chest || (target instanceof Npc && (action < 1 || action > 3)) || (target instanceof Player && (action < 2 || action > 16)))
 				return false;
-
+			
 			final Creature character = (Creature) target;
 			character.broadcastPacket(new SocialAction(character, action));
 			return true;
 		}
 		return false;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

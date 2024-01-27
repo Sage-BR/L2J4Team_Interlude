@@ -18,7 +18,7 @@ public class ChatShout implements IChatHandler
 	{
 		1
 	};
-
+	
 	@Override
 	public void handleChat(int type, Player activeChar, String target, String text)
 	{
@@ -27,54 +27,54 @@ public class ChatShout implements IChatHandler
 			activeChar.sendMessage("The chat is Temporarily unavailable.");
 			return;
 		}
-
+		
 		if (Config.ENABLE_CHAT_LEVEL && activeChar.getBaseClass() == activeChar.getActiveClass() && activeChar.getLevel() < Config.CHAT_LEVEL)
 		{
 			activeChar.sendMessage("You cannot chat with players until you reach level " + Config.CHAT_LEVEL + ".");
 			return;
 		}
-
+		
 		if ((Say2.isChatDisabled("all") && !activeChar.isGM()) || text.equals("Thanks for using my stuff - Elfocrash"))
 			return;
-
+		
 		if (activeChar.ChatProtection(activeChar.getHWID()) && activeChar.isChatBlocked() && ((activeChar.getChatBanTimer() - 1500) > System.currentTimeMillis()))
 		{
 			if (((activeChar.getChatBanTimer() - System.currentTimeMillis()) / 1000) >= 60)
 				activeChar.sendChatMessage(0, Say2.TELL, "SYS", "Your chat was suspended for " + (activeChar.getChatBanTimer() - System.currentTimeMillis()) / (1000 * 60) + " minute(s).");
 			else
 				activeChar.sendChatMessage(0, Say2.TELL, "SYS", "Your chat was suspended for " + (activeChar.getChatBanTimer() - System.currentTimeMillis()) / 1000 + " second(s).");
-
+			
 			activeChar.sendPacket(SystemMessageId.YOU_ARE_NOT_AUTHORIZED_TO_DO_THAT);
 			return;
 		}
-
+		
 		if ((activeChar.getChatGlobalTimer() - 1500) > System.currentTimeMillis())
 		{
 			activeChar.sendMessage("You must wait " + (activeChar.getChatGlobalTimer() - System.currentTimeMillis()) / 1000 + " seconds to use global chat.");
 			return;
 		}
-
+		
 		if (!FloodProtectors.performAction(activeChar.getClient(), Action.GLOBAL_CHAT))
 			return;
-
+		
 		final CreatureSay cs = new CreatureSay(activeChar.getObjectId(), type, activeChar.getName(), text);
-
+		
 		String convert = text.toLowerCase();
 		final CreatureSay disable = new CreatureSay(activeChar.getObjectId(), type, activeChar.getName(), convert);
-
+		
 		final int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
-
+		
 		if (Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("ON"))
 		{
 			for (Player player : World.getInstance().getPlayers())
 			{
 				if (region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
-
+					
 					if (Config.DISABLE_CAPSLOCK && !activeChar.isGM())
 						player.sendPacket(disable);
 					else
 						player.sendPacket(cs);
-
+					
 				if (!activeChar.isGM() && Config.CUSTOM_GLOBAL_CHAT_TIME > 0)
 				{
 					activeChar.setChatGlobalTimer(System.currentTimeMillis() + Config.CUSTOM_GLOBAL_CHAT_TIME * 1000);
@@ -92,14 +92,14 @@ public class ChatShout implements IChatHandler
 					activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT + " pvp kills in order to speak in global chat");
 					return;
 				}
-
+				
 				for (Player player : World.getInstance().getPlayers())
 				{
 					if (Config.DISABLE_CAPSLOCK && !activeChar.isGM())
 						player.sendPacket(disable);
 					else
 						player.sendPacket(cs);
-
+					
 					if (!activeChar.isGM() && Config.CUSTOM_GLOBAL_CHAT_TIME > 0)
 					{
 						activeChar.setChatGlobalTimer(System.currentTimeMillis() + Config.CUSTOM_GLOBAL_CHAT_TIME * 1000);
@@ -107,7 +107,7 @@ public class ChatShout implements IChatHandler
 							ChatGlobalManager.getInstance().addChatTime(activeChar.getObjectId(), System.currentTimeMillis() + Config.CUSTOM_GLOBAL_CHAT_TIME * 1000);
 					}
 				}
-
+				
 			}
 			else
 			{
@@ -117,7 +117,7 @@ public class ChatShout implements IChatHandler
 						player.sendPacket(disable);
 					else
 						player.sendPacket(cs);
-
+					
 					if (!activeChar.isGM() && Config.CUSTOM_GLOBAL_CHAT_TIME > 0)
 					{
 						activeChar.setChatGlobalTimer(System.currentTimeMillis() + Config.CUSTOM_GLOBAL_CHAT_TIME * 1000);
@@ -125,11 +125,11 @@ public class ChatShout implements IChatHandler
 							ChatGlobalManager.getInstance().addChatTime(activeChar.getObjectId(), System.currentTimeMillis() + Config.CUSTOM_GLOBAL_CHAT_TIME * 1000);
 					}
 				}
-
+				
 			}
 		}
 	}
-
+	
 	@Override
 	public int[] getChatTypeList()
 	{

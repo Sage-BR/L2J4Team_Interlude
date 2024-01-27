@@ -14,13 +14,13 @@ public class MagicSkillUse extends L2GameServerPacket
 	private final int _reuseDelay;
 	private final int _charObjId, _x, _y, _z, _targetx, _targety, _targetz;
 	private boolean _success = false;
-
+	
 	public MagicSkillUse(Creature cha, Creature target, int skillId, int skillLevel, int hitTime, int reuseDelay, boolean crit)
 	{
 		this(cha, target, skillId, skillLevel, hitTime, reuseDelay);
 		_success = crit;
 	}
-
+	
 	public MagicSkillUse(Creature cha, Creature target, int skillId, int skillLevel, int hitTime, int reuseDelay)
 	{
 		_charObjId = cha.getObjectId();
@@ -36,7 +36,7 @@ public class MagicSkillUse extends L2GameServerPacket
 		_targety = target.getY();
 		_targetz = target.getZ();
 	}
-
+	
 	public MagicSkillUse(Creature cha, int skillId, int skillLevel, int hitTime, int reuseDelay)
 	{
 		_charObjId = cha.getObjectId();
@@ -52,7 +52,7 @@ public class MagicSkillUse extends L2GameServerPacket
 		_targety = cha.getY();
 		_targetz = cha.getZ();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

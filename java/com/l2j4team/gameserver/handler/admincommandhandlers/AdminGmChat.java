@@ -20,7 +20,7 @@ public class AdminGmChat implements IAdminCommandHandler
 		"admin_gmchat",
 		"admin_gmchat_menu"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -34,14 +34,14 @@ public class AdminGmChat implements IAdminCommandHandler
 			{
 				// empty message.. ignore
 			}
-
+			
 			if (command.startsWith("admin_gmchat_menu"))
 				AdminHelpPage.showHelpPage(activeChar, "main_menu.htm");
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

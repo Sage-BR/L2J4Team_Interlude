@@ -19,7 +19,7 @@ public class VoicedTrySkin implements IVoicedCommandHandler
 		"skin",
 		"trySkin"
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -32,23 +32,23 @@ public class VoicedTrySkin implements IVoicedCommandHandler
 				activeChar.sendMessage("This command can only be used within a city.");
 				return false;
 			}
-
+			
 			if (activeChar.getDress() != null)
 			{
 				activeChar.sendMessage("Wait, you are experiencing a skin.");
 				return false;
 			}
-
+			
 			StringTokenizer st = new StringTokenizer(command);
 			st.nextToken();
 			int skinId = Integer.parseInt(st.nextToken());
-
+			
 			final DressMe dress = DressMeData.getInstance().getItemId(skinId);
 			final DressMe dress2 = DressMeData.getInstance().getItemId(0);
-
+			
 			if (dress != null)
 			{
-
+				
 				activeChar.setDress(dress);
 				ThreadPool.schedule(() -> {
 					activeChar.setDress(dress2);
@@ -61,17 +61,17 @@ public class VoicedTrySkin implements IVoicedCommandHandler
 				return false;
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	private static void showTrySkinHtml(Player activeChar)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/menu/trySkin.htm");
 		activeChar.sendPacket(html);
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

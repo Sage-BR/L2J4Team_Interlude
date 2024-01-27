@@ -13,13 +13,13 @@ import com.l2j4team.commons.random.Rnd;
 public class Q663_SeductiveWhispers extends Quest
 {
 	private static final String qn = "Q663_SeductiveWhispers";
-
+	
 	// NPC
 	private static final int WILBERT = 30846;
-
+	
 	// Quest item
 	private static final int SPIRIT_BEAD = 8766;
-
+	
 	// Rewards
 	private static final int ADENA = 57;
 	private static final int ENCHANT_WEAPON_A = 729;
@@ -28,7 +28,7 @@ public class Q663_SeductiveWhispers extends Quest
 	private static final int ENCHANT_ARMOR_B = 948;
 	private static final int ENCHANT_WEAPON_C = 951;
 	private static final int ENCHANT_WEAPON_D = 955;
-
+	
 	private static final int RECIPES[] =
 	{
 		2353,
@@ -42,7 +42,7 @@ public class Q663_SeductiveWhispers extends Quest
 		5006,
 		5007
 	};
-
+	
 	private static final int BLADES[] =
 	{
 		2115,
@@ -56,7 +56,7 @@ public class Q663_SeductiveWhispers extends Quest
 		4120,
 		4121
 	};
-
+	
 	// Text of cards
 	private static final Map<Integer, String> CARDS = new HashMap<>();
 	{
@@ -72,7 +72,7 @@ public class Q663_SeductiveWhispers extends Quest
 		CARDS.put(24, "<font color=\"fff802\"> Moon Card: 4 </font>");
 		CARDS.put(25, "<font color=\"fff802\"> Moon Card: 5 </font>");
 	}
-
+	
 	// Drop chances
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
@@ -104,20 +104,20 @@ public class Q663_SeductiveWhispers extends Quest
 		CHANCES.put(21009, 740000); // Doom Trooper
 		CHANCES.put(21010, 595000); // Doom Warrior
 	}
-
+	
 	public Q663_SeductiveWhispers()
 	{
 		super(663, "Seductive Whispers");
-
+		
 		setItemsIds(SPIRIT_BEAD);
-
+		
 		addStartNpc(WILBERT);
 		addTalkId(WILBERT);
-
+		
 		for (int npcId : CHANCES.keySet())
 			addKillId(npcId);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -125,9 +125,9 @@ public class Q663_SeductiveWhispers extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		int state = st.getInt("state");
-
+		
 		if (event.equalsIgnoreCase("30846-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -157,21 +157,21 @@ public class Q663_SeductiveWhispers extends Quest
 		else if (event.equalsIgnoreCase("30846-14.htm") && (state % 10) == 5 && (state / 1000) == 0)
 		{
 			int i0 = st.getInt("stateEx");
-
+			
 			int i1 = i0 % 10;
 			int i2 = (i0 - i1) / 10;
-
+			
 			int param1 = Rnd.get(2) + 1;
 			int param2 = Rnd.get(5) + 1;
-
+			
 			int i5 = state / 10;
-
+			
 			int param3 = param1 * 10 + param2;
-
+			
 			if (param1 == i2)
 			{
 				int i3 = param2 + i1;
-
+				
 				if (i3 % 5 == 0 && i3 != 10)
 				{
 					if ((state % 100) / 10 >= 7)
@@ -226,18 +226,18 @@ public class Q663_SeductiveWhispers extends Quest
 		else if (event.equalsIgnoreCase("30846-19.htm") && (state % 10) == 6 && (state / 1000) == 0)
 		{
 			int i0 = st.getInt("stateEx");
-
+			
 			int i1 = i0 % 10;
 			int i2 = (i0 - i1) / 10;
-
+			
 			int param1 = Rnd.get(2) + 1;
 			int param2 = Rnd.get(5) + 1;
 			int param3 = param1 * 10 + param2;
-
+			
 			if (param1 == i2)
 			{
 				int i3 = param1 + i1;
-
+				
 				if (i3 % 5 == 0 && i3 != 10)
 				{
 					st.set("state", "1");
@@ -274,7 +274,7 @@ public class Q663_SeductiveWhispers extends Quest
 		else if (event.equalsIgnoreCase("30846-21.htm") && (state % 10) == 7 && (state / 1000) == 0)
 		{
 			int round = state / 10;
-
+			
 			if (round == 0)
 				st.rewardItems(ADENA, 40000);
 			else if (round == 1)
@@ -307,7 +307,7 @@ public class Q663_SeductiveWhispers extends Quest
 				st.rewardItems(ENCHANT_WEAPON_B, 1);
 				st.rewardItems(ENCHANT_ARMOR_B, 1);
 			}
-
+			
 			st.set("state", "1");
 			st.set("stateEx", "0");
 		}
@@ -324,18 +324,18 @@ public class Q663_SeductiveWhispers extends Quest
 		else if (event.equalsIgnoreCase("30846-25.htm") && state == 1005)
 		{
 			int i0 = st.getInt("stateEx");
-
+			
 			int i1 = i0 % 10;
 			int i2 = (i0 - i1) / 10;
-
+			
 			int param1 = Rnd.get(2) + 1;
 			int param2 = Rnd.get(5) + 1;
 			int param3 = param1 * 10 + param2;
-
+			
 			if (param1 == i2)
 			{
 				int i3 = param2 + i1;
-
+				
 				if (i3 % 5 == 0 && i3 != 10)
 				{
 					st.set("state", "1");
@@ -370,18 +370,18 @@ public class Q663_SeductiveWhispers extends Quest
 		else if (event.equalsIgnoreCase("30846-29.htm") && state == 1006)
 		{
 			int i0 = st.getInt("stateEx");
-
+			
 			int i1 = i0 % 10;
 			int i2 = (i0 - i1) / 10;
-
+			
 			int param1 = Rnd.get(2) + 1;
 			int param2 = Rnd.get(5) + 1;
 			int param3 = param1 * 10 + param2;
-
+			
 			if (param1 == i2)
 			{
 				int i3 = param2 + i1;
-
+				
 				if (i3 % 5 == 0 && i3 != 10)
 				{
 					st.set("state", "1");
@@ -417,10 +417,10 @@ public class Q663_SeductiveWhispers extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -428,16 +428,16 @@ public class Q663_SeductiveWhispers extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 50) ? "30846-02.htm" : "30846-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int state = st.getInt("state");
-
+				
 				if (state < 4)
 				{
 					if (st.hasQuestItems(SPIRIT_BEAD))
@@ -454,7 +454,7 @@ public class Q663_SeductiveWhispers extends Quest
 				else if ((state % 10) == 7)
 				{
 					int round = (state % 100) / 10;
-
+					
 					if (round >= 7)
 					{
 						st.rewardItems(ADENA, 2384000);
@@ -470,25 +470,25 @@ public class Q663_SeductiveWhispers extends Quest
 					htmltext = "30846-23.htm";
 				else if (state == 1006)
 					htmltext = "30846-26.htm";
-
+				
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		partyMember.getQuestState(qn).dropItems(SPIRIT_BEAD, 1, 0, CHANCES.get(npc.getNpcId()));
-
+		
 		return null;
 	}
-
+	
 	private String getHTML(String html, int index, int param3, String name)
 	{
 		return getHtmlText(html).replace("%card1pic%", CARDS.get(index)).replace("%card2pic%", CARDS.get(param3)).replace("%name%", name);

@@ -29,7 +29,6 @@ import com.l2j4team.gameserver.model.World;
 import com.l2j4team.gameserver.model.actor.instance.Player;
 import com.l2j4team.gameserver.network.serverpackets.AutoAttackStart;
 import com.l2j4team.gameserver.network.serverpackets.AutoAttackStop;
-import com.l2j4team.gameserver.network.serverpackets.OpenUrl;
 import com.l2j4team.gameserver.network.serverpackets.TutorialCloseHtml;
 import com.l2j4team.gameserver.network.serverpackets.TutorialShowHtml;
 import com.l2j4team.gameserver.taskmanager.PvpFlagTaskManager;
@@ -53,12 +52,12 @@ import phantom.Phantom_TvT;
  */
 public class AdminCustom implements IAdminCommandHandler
 {
-
+	
 	public static final AdminCustom getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_massflag",
@@ -80,14 +79,14 @@ public class AdminCustom implements IAdminCommandHandler
 		"admin_spawn_archer",
 		"admin_bossevent",
 		"admin_walk"
-
+	
 	};
-
+	
 	protected static final Logger _log = Logger.getLogger(AdminCustom.class.getName());
-
+	
 	public static boolean _arena_manual = false;
 	public static boolean _partytask_manual = false;
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -114,11 +113,11 @@ public class AdminCustom implements IAdminCommandHandler
 		{
 			if (activeChar.isPhantom())
 			{
-
+				
 				ThreadPool.schedule(new PhantomWalk2(activeChar), Rnd.get(5200, 48540));
-
+				
 			}
-
+			
 		}
 		else if (command.equals("admin_tournament"))
 		{
@@ -130,7 +129,7 @@ public class AdminCustom implements IAdminCommandHandler
 				ArenaTask._aborted = true;
 				finishEventArena();
 				_arena_manual = true;
-
+				
 				activeChar.sendMessage("SYS: Voce Finalizou Tournament");
 			}
 			else
@@ -153,7 +152,7 @@ public class AdminCustom implements IAdminCommandHandler
 				PartyZoneTask._aborted = true;
 				finishPartyZone();
 				_partytask_manual = true;
-
+				
 				activeChar.sendMessage("SYS: Voce Finalizou " + Config.NAME_EVENT + "");
 			}
 			else
@@ -185,7 +184,7 @@ public class AdminCustom implements IAdminCommandHandler
 					_log.info("[Phantom Town]: Starded!");
 					activeChar.sendMessage("SYS: Voce Ativou phanton town...");
 				}
-
+				
 			}, 1);
 		}
 		else if (command.equals("admin_spawn_phantomtvt"))
@@ -200,7 +199,7 @@ public class AdminCustom implements IAdminCommandHandler
 					_log.info("[Phantom TvT]: Starded!");
 					activeChar.sendMessage("SYS: Voce Ativou phanton TvT...");
 				}
-
+				
 			}, 1);
 		}
 		else if (command.equals("admin_spawn_phantomfarm"))
@@ -215,7 +214,7 @@ public class AdminCustom implements IAdminCommandHandler
 					_log.info("[Phantom Farm]: Starded!");
 					activeChar.sendMessage("SYS: Voce Ativou phanton farm...");
 				}
-
+				
 			}, 1);
 		}
 		else if (command.equals("admin_spawn_phantom"))
@@ -230,7 +229,7 @@ public class AdminCustom implements IAdminCommandHandler
 					_log.info("[Phantom PvP]: Starded!");
 					activeChar.sendMessage("SYS: Voce Ativou phanton PvP...");
 				}
-
+				
 			}, 1);
 		}
 		else if (command.equals("admin_spawn_archer"))
@@ -245,12 +244,12 @@ public class AdminCustom implements IAdminCommandHandler
 					_log.info("[Phantom Archers]: Starded!");
 					activeChar.sendMessage("SYS: Voce Ativou phanton Archers...");
 				}
-
+				
 			}, 1);
 		}
 		return true;
 	}
-
+	
 	private static void initEventArena()
 	{
 		ThreadPool.schedule(new Runnable()
@@ -260,10 +259,10 @@ public class AdminCustom implements IAdminCommandHandler
 			{
 				com.l2j4team.events.ArenaTask.SpawnEvent();
 			}
-
+			
 		}, 1);
 	}
-
+	
 	private static void finishEventArena()
 	{
 		ThreadPool.schedule(new Runnable()
@@ -273,10 +272,10 @@ public class AdminCustom implements IAdminCommandHandler
 			{
 				com.l2j4team.events.ArenaTask.finishEvent();
 			}
-
+			
 		}, 1);
 	}
-
+	
 	private static void initPartyZone()
 	{
 		ThreadPool.schedule(new Runnable()
@@ -288,7 +287,7 @@ public class AdminCustom implements IAdminCommandHandler
 			}
 		}, 1);
 	}
-
+	
 	private static void finishPartyZone()
 	{
 		ThreadPool.schedule(new Runnable()
@@ -300,7 +299,7 @@ public class AdminCustom implements IAdminCommandHandler
 			}
 		}, 1);
 	}
-
+	
 	public static final void showHtml(Player player)
 	{
 		String msg = HtmCache.getInstance().getHtm("data/html/mods/free_vip.htm");
@@ -316,7 +315,7 @@ public class AdminCustom implements IAdminCommandHandler
 		msg = msg.replaceAll("%menu%", menu.toString());
 		player.sendPacket(new TutorialShowHtml(msg));
 	}
-
+	
 	public static final void onVIPLink(Player player, String request)
 	{
 		if (request == null || !request.startsWith("BO"))
@@ -341,13 +340,13 @@ public class AdminCustom implements IAdminCommandHandler
 		}
 		player.sendPacket(TutorialCloseHtml.STATIC_PACKET);
 	}
-
+	
 	public static final void showNewsHtml(Player player)
 	{
 		String msg = HtmCache.getInstance().getHtm("data/html/mods/newsHtml.htm");
 		player.sendPacket(new TutorialShowHtml(msg));
 	}
-
+	
 	public static final void NewsLink5(Player player, String request)
 	{
 		if (request.startsWith("info"))
@@ -355,43 +354,7 @@ public class AdminCustom implements IAdminCommandHandler
 			VoicedMenu.showInfoHtml(player);
 		}
 	}
-
-	public static final void NewsLink(Player player, String request)
-	{
-		if (request.startsWith("news"))
-		{
-			player.sendPacket(new OpenUrl("" + Config.NEWS_1 + ""));
-		}
-	}
-
-	public static final void NewsLink2(Player player, String request)
-	{
-		if (request.startsWith("news2"))
-		{
-			player.sendPacket(new OpenUrl("" + Config.NEWS_2 + ""));
-		}
-	}
-
-	public static final void NewsLink3(Player player, String request)
-	{
-
-		if (request.startsWith("news3"))
-		{
-			player.sendPacket(new OpenUrl("" + Config.NEWS_3 + ""));
-		}
-
-	}
-
-	public static final void NewsLink4(Player player, String request)
-	{
-
-		if (request.startsWith("news4"))
-		{
-			player.sendPacket(new OpenUrl("" + Config.NEWS_4 + ""));
-		}
-
-	}
-
+	
 	public static void VoteZone()
 	{
 		ThreadPool.schedule(new Runnable()
@@ -411,16 +374,16 @@ public class AdminCustom implements IAdminCommandHandler
 			}
 		}, 1L);
 	}
-
+	
 	static class PhantomWalk2 implements Runnable
 	{
 		Player _phantom;
-
+		
 		public PhantomWalk2(Player paramPlayer)
 		{
 			_phantom = paramPlayer;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -428,23 +391,23 @@ public class AdminCustom implements IAdminCommandHandler
 			{
 				if (_phantom.isSpawnProtected())
 					_phantom.setSpawnProtection(false);
-
+				
 				_phantom.walkToNpc();
-
+				
 				// startWalk2(_phantom);
 			}
 		}
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final AdminCustom _instance = new AdminCustom();
 	}
-
+	
 }

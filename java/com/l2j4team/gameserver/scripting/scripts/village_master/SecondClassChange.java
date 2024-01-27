@@ -17,7 +17,7 @@ import java.util.Map;
 public class SecondClassChange extends Quest
 {
 	private static final String qn = "SecondClassChange";
-
+	
 	// 2nd class change items
 	private static final int MARK_OF_CHALLENGER = 2627;
 	private static final int MARK_OF_DUTY = 2633;
@@ -42,7 +42,7 @@ public class SecondClassChange extends Quest
 	private static final int MARK_OF_TRUST = 2734;
 	private static final int MARK_OF_HEALER = 2820;
 	private static final int MARK_OF_LIFE = 3140;
-
+	
 	private static final Map<String, int[]> Classes = new HashMap<>();
 	{
 		// Dark Elfs
@@ -486,7 +486,7 @@ public class SecondClassChange extends Quest
 			26
 		});
 	}
-
+	
 	public static final int[] SECONDCLASSNPCS =
 	{
 		// Dark Elfs
@@ -556,15 +556,15 @@ public class SecondClassChange extends Quest
 		32095,
 		31336
 	};
-
+	
 	public SecondClassChange()
 	{
 		super(-1, "village_master");
-
+		
 		addStartNpc(SECONDCLASSNPCS);
 		addTalkId(SECONDCLASSNPCS);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -572,7 +572,7 @@ public class SecondClassChange extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		String suffix = "";
 		if (Classes.containsKey(event))
 		{
@@ -599,17 +599,17 @@ public class SecondClassChange extends Quest
 					else
 						suffix = "-" + array[5];
 				}
-
+				
 				htmltext = getClassHtml(player) + suffix + ".htm";
 				st.exitQuest(true);
 			}
 			else
 				htmltext = getClassHtml(player) + "-" + array[10] + ".htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -617,13 +617,13 @@ public class SecondClassChange extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (player.isSubClassActive())
 		{
 			st.exitQuest(true);
 			return htmltext;
 		}
-
+		
 		switch (npc.getNpcId())
 		{
 			case 31328: // Dark Elfs
@@ -657,7 +657,7 @@ public class SecondClassChange extends Quest
 				else
 					htmltext = "master_de-56.htm";
 				break;
-
+			
 			case 30513: // Orcs
 			case 30681:
 			case 30704:
@@ -683,7 +683,7 @@ public class SecondClassChange extends Quest
 				else
 					htmltext = "master_orc-34.htm";
 				break;
-
+			
 			case 30511: // Dwarf for Bounty Hunter
 			case 30676:
 			case 30685:
@@ -707,7 +707,7 @@ public class SecondClassChange extends Quest
 				else
 					htmltext = "master_dwarf-15.htm";
 				break;
-
+			
 			case 30512: // Dwarf for Warsmith
 			case 30677:
 			case 30687:
@@ -731,7 +731,7 @@ public class SecondClassChange extends Quest
 				else
 					htmltext = "master_dwarf-22.htm";
 				break;
-
+			
 			case 30109: // Human & Elfs Fighters
 			case 30187:
 			case 30689:
@@ -762,7 +762,7 @@ public class SecondClassChange extends Quest
 				else
 					htmltext = "master_human_elf_fighter-78.htm";
 				break;
-
+			
 			case 30115: // Human & Elfs Mages (nukers)
 			case 30174:
 			case 30176:
@@ -786,7 +786,7 @@ public class SecondClassChange extends Quest
 				else
 					htmltext = "master_human_elf_mystic-40.htm";
 				break;
-
+			
 			case 30120: // Human & Elfs Mages (buffers)
 			case 30191:
 			case 30857:
@@ -817,10 +817,10 @@ public class SecondClassChange extends Quest
 				break;
 		}
 		st.exitQuest(true);
-
+		
 		return htmltext;
 	}
-
+	
 	/**
 	 * @param player : The player to make checks on.
 	 * @return a String corresponding to html directory.
@@ -828,21 +828,21 @@ public class SecondClassChange extends Quest
 	private static String getClassHtml(Player player)
 	{
 		String change = "";
-
+		
 		switch (player.getRace())
 		{
 			case DARK_ELF:
 				change = "master_de";
 				break;
-
+			
 			case DWARF:
 				change = "master_dwarf";
 				break;
-
+			
 			case ORC:
 				change = "master_orc";
 				break;
-
+			
 			case HUMAN:
 			case ELF:
 				if (player.isMageClass())
@@ -851,7 +851,7 @@ public class SecondClassChange extends Quest
 					change = "master_human_elf_fighter";
 				break;
 		}
-
+		
 		return change;
 	}
 }

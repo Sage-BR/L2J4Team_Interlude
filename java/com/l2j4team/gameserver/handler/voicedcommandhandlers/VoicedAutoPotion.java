@@ -16,9 +16,9 @@ import java.util.logging.Logger;
  */
 public class VoicedAutoPotion implements IVoicedCommandHandler
 {
-
+	
 	static final Logger _log = Logger.getLogger(Config.class.getName());
-
+	
 	// *******Config Section*****************/
 	// *********************** Potion ItemID
 	private static final int ID_HEAL_CP = 5592;
@@ -38,13 +38,13 @@ public class VoicedAutoPotion implements IVoicedCommandHandler
 	private static final boolean ACP_MP = true;
 	private static final boolean ACP_HP = true;
 	static final HashMap<String, Thread> userAcpMap = new HashMap<>();
-
+	
 	private static String[] _voicedCommands =
 	{
 		"acpon",
 		"acpoff"
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String params)
 	{
@@ -52,7 +52,7 @@ public class VoicedAutoPotion implements IVoicedCommandHandler
 		{
 			return false;
 		}
-
+		
 		if (command.equals("acpon"))
 		{
 			if (!ACP_ON)
@@ -88,23 +88,23 @@ public class VoicedAutoPotion implements IVoicedCommandHandler
 		}
 		return false;
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
 		return _voicedCommands;
 	}
-
+	
 	private class AcpHealer implements Runnable
 	{
-
+		
 		Player activeChar;
-
+		
 		public AcpHealer(Player activeChar)
 		{
 			this.activeChar = activeChar;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -119,7 +119,7 @@ public class VoicedAutoPotion implements IVoicedCommandHandler
 						ItemInstance cpBottle = activeChar.getInventory().getItemByItemId(ID_HEAL_CP);
 						ItemInstance hpBottle = activeChar.getInventory().getItemByItemId(ID_HEAL_HP);
 						ItemInstance mpBottle = activeChar.getInventory().getItemByItemId(ID_HEAL_MP);
-
+						
 						if (hpBottle != null && hpBottle.getCount() > 0)
 						{
 							// Checking our health

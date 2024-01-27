@@ -32,11 +32,11 @@ public class L2RaidZone extends L2SpawnZone
 	private boolean _checkParty;
 	private boolean _checkClan;
 	private boolean _checkAlly;
-
+	
 	public L2RaidZone(int id)
 	{
 		super(id);
-
+		
 		_maxClanMembers = 0;
 		_maxAllyMembers = 0;
 		_minPartyMembers = 0;
@@ -44,7 +44,7 @@ public class L2RaidZone extends L2SpawnZone
 		_checkClan = false;
 		_checkAlly = false;
 	}
-
+	
 	@Override
 	public void setParameter(String name, String value)
 	{
@@ -63,35 +63,35 @@ public class L2RaidZone extends L2SpawnZone
 		else
 			super.setParameter(name, value);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		character.setInsideZone(ZoneId.RAID, true);
-
+		
 		if (character instanceof Player)
 		{
 			final Player activeChar = (Player) character;
-
+			
 			// activeChar.sendPacket(new ExShowScreenMessage("You have entered a Boss Zone!", 4000, ExShowScreenMessage.SMPOS.MIDDLE_LEFT, false));
 			activeChar.sendMessage("You have entered a Boss Zone!");
-
+			
 			if (Config.ENABLE_FLAGZONE)
 			{
-
+				
 				if (!activeChar.isInObserverMode())
 				{
 					if (activeChar.getPvpFlag() > 0)
 						PvpFlagTaskManager.getInstance().remove(activeChar);
-
+					
 					activeChar.updatePvPFlag(1);
-
+					
 					if (!activeChar.isGM())
 						activeChar.getAppearance().setVisible();
-
+					
 				}
 			}
-
+			
 			if (_checkParty)
 			{
 				if (!activeChar.isInParty() || activeChar.getParty().getMemberCount() < _minPartyMembers)
@@ -100,59 +100,59 @@ public class L2RaidZone extends L2SpawnZone
 					RaidZoneManager.getInstance().RandomTeleport(activeChar);
 				}
 			}
-
+			
 			if (!activeChar.isPhantom())
 				RaidZoneManager.getInstance().checkPlayersArea_ip(activeChar, Integer.valueOf(2), World.getInstance().getPlayers(), Boolean.valueOf(true));
-
+			
 			if (Config.BOSSZONE_HWID_PROTECT && !activeChar.isPhantom())
 				MaxPlayersOnArea(activeChar);
-
+			
 			if (_checkClan)
 				MaxClanMembersOnArea(activeChar);
-
+			
 			if (_checkAlly)
 				MaxAllyMembersOnArea(activeChar);
 		}
 	}
-
+	
 	public boolean MaxPlayersOnArea(Player activeChar)
 	{
 		return RaidZoneManager.getInstance().checkPlayersArea(activeChar, Config.MAX_BOX_IN_BOSSZONE, true);
 	}
-
+	
 	public boolean MaxClanMembersOnArea(Player activeChar)
 	{
 		return RaidZoneManager.getInstance().checkClanArea(activeChar, _maxClanMembers, true);
 	}
-
+	
 	public boolean MaxAllyMembersOnArea(Player activeChar)
 	{
 		return RaidZoneManager.getInstance().checkAllyArea(activeChar, _maxAllyMembers, World.getInstance().getPlayers(), true);
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.RAID, false);
-
+		
 		if (character instanceof Player)
 		{
 			final Player activeChar = (Player) character;
-
+			
 			activeChar.sendMessage("You have left a Boss Zone!");
-
+			
 			if (Config.ENABLE_FLAGZONE)
 			{
 				PvpFlagTaskManager.getInstance().add(activeChar, Config.PVP_NORMAL_TIME);
 			}
 		}
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{

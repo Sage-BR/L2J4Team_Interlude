@@ -24,20 +24,20 @@ import com.l2j4team.commons.random.Rnd;
 public class SagasSuperClass extends Quest
 {
 	public int qnu;
-
+	
 	public int[] NPC = {};
 	public int[] Items = {};
 	public int[] Mob = {};
-
+	
 	public int classid;
 	public int prevclass;
-
+	
 	public int[] X = {};
 	public int[] Y = {};
 	public int[] Z = {};
-
+	
 	private final Map<Npc, Integer> _SpawnList = new HashMap<>();
-
+	
 	private static final String[] Text = new String[]
 	{
 		"PLAYERNAME! Pursued to here! However, I jumped out of the Banshouren boundaries! You look at the giant as the sign of power!",
@@ -59,7 +59,7 @@ public class SagasSuperClass extends Quest
 		"PLAYERNAME. Defeat...by...retaining...and...Mo...Hacker",
 		"....! Fight...Defeat...It...Fight...Defeat...It..."
 	};
-
+	
 	private static final int[] Archon_Hellisha_Norm =
 	{
 		18212,
@@ -68,7 +68,7 @@ public class SagasSuperClass extends Quest
 		18216,
 		18218
 	};
-
+	
 	private static final int[] QuestClass =
 	{
 		0x05,
@@ -103,59 +103,59 @@ public class SagasSuperClass extends Quest
 		0x37,
 		0x39
 	};
-
+	
 	public SagasSuperClass()
 	{
 		// initialize superclass
 		super(-1, "Saga's SuperClass");
 	}
-
+	
 	public SagasSuperClass(int id, String descr)
 	{
 		super(id, descr);
-
+		
 		qnu = id;
 	}
-
+	
 	public void registerNPCs()
 	{
 		addStartNpc(NPC[0]);
 		addAttackId(Mob[2], Mob[1]);
 		addSkillSeeId(Mob[1]);
 		addFirstTalkId(NPC[4]);
-
+		
 		for (int npc : NPC)
 			addTalkId(npc);
-
+		
 		for (int mobid : Mob)
 			addKillId(mobid);
-
+		
 		final int[] questItemIds = Items.clone();
 		questItemIds[0] = 0;
 		questItemIds[2] = 0; // remove Ice Crystal and Divine Stone of Wisdom
 		setItemsIds(questItemIds);
-
+		
 		for (int Archon_Minion = 21646; Archon_Minion < 21652; Archon_Minion++)
 			addKillId(Archon_Minion);
-
+		
 		for (int element : Archon_Hellisha_Norm)
 			addKillId(element);
-
+		
 		for (int Guardian_Angel = 27214; Guardian_Angel < 27217; Guardian_Angel++)
 			addKillId(Guardian_Angel);
 	}
-
+	
 	private static void cast(Npc npc, Creature target, int skillId, int level)
 	{
 		target.broadcastPacket(new MagicSkillUse(target, target, skillId, level, 6000, 1));
 		target.broadcastPacket(new MagicSkillUse(npc, npc, skillId, level, 6000, 1));
 	}
-
+	
 	public void AddSpawn(QuestState st, Npc mob)
 	{
 		_SpawnList.put(mob, st.getPlayer().getObjectId());
 	}
-
+	
 	public void DeleteSpawn(QuestState st, Npc npc)
 	{
 		if (_SpawnList.containsKey(npc))
@@ -164,7 +164,7 @@ public class SagasSuperClass extends Quest
 			npc.deleteMe();
 		}
 	}
-
+	
 	public QuestState findRightState(Npc npc)
 	{
 		if (_SpawnList.containsKey(npc))
@@ -175,7 +175,7 @@ public class SagasSuperClass extends Quest
 		}
 		return null;
 	}
-
+	
 	public void giveHallishaMark(QuestState st2)
 	{
 		if (st2.getInt("spawned") == 0)
@@ -187,7 +187,7 @@ public class SagasSuperClass extends Quest
 				AddSpawn(st2, Archon);
 				st2.set("spawned", "1");
 				startQuestTimer("Archon Hellisha has despawned", 600000, Archon, st2.getPlayer(), false);
-
+				
 				// Attack player
 				((Attackable) Archon).addDamageHate(st2.getPlayer(), 0, 99999);
 				Archon.getAI().setIntention(CtrlIntention.ATTACK, st2.getPlayer(), null);
@@ -199,26 +199,26 @@ public class SagasSuperClass extends Quest
 			}
 		}
 	}
-
+	
 	public QuestState findQuest(Player player)
 	{
 		QuestState st = player.getQuestState(getName());
 		if (st != null && player.getClassId().getId() == QuestClass[qnu - 70])
 			return st;
-
+		
 		return null;
 	}
-
+	
 	public int getClassId(Player player)
 	{
 		return classid;
 	}
-
+	
 	public int getPrevClass(Player player)
 	{
 		return prevclass;
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -258,12 +258,12 @@ public class SagasSuperClass extends Quest
 					st.rewardExpAndSp(2299404, 0);
 					st.giveItems(57, 5000000);
 					st.giveItems(6622, 1);
-
+					
 					int Class = getClassId(player);
 					player.setClassId(Class);
 					if (!player.isSubClassActive() && player.getBaseClass() == getPrevClass(player))
 						player.setBaseClass(Class);
-
+					
 					player.broadcastUserInfo();
 					cast(npc, player, 4339, 1);
 				}
@@ -409,18 +409,18 @@ public class SagasSuperClass extends Quest
 					Npc Mob_2 = addSpawn(NPC[4], X[2], Y[2], Z[2], 0, false, 0, true);
 					AddSpawn(st, Mob_3);
 					AddSpawn(st, Mob_2);
-
+					
 					st.set("Mob_2", String.valueOf(Mob_2.getObjectId()));
-
+					
 					st.set("Quest0", "1");
 					st.set("Quest1", "45");
-
+					
 					startQuestTimer("Mob_3 Timer 1", 500, Mob_3, player, false);
 					startQuestTimer("Mob_2 Timer 1", 500, Mob_2, player, false);
-
+					
 					startQuestTimer("Mob_3 has despawned", 59000, Mob_3, player, false);
 					startQuestTimer("Mob_2 has despawned", 60000, Mob_2, player, false);
-
+					
 					htmltext = "10-02.htm";
 				}
 				else if (st.getInt("Quest1") == 45)
@@ -446,7 +446,7 @@ public class SagasSuperClass extends Quest
 				// Attack player
 				((Attackable) npc).addDamageHate(st.getPlayer(), 0, 99999);
 				npc.getAI().setIntention(CtrlIntention.ATTACK, st.getPlayer(), null);
-
+				
 				npc.broadcastNpcSay(Text[0].replace("PLAYERNAME", player.getName()));
 				return null;
 			}
@@ -469,12 +469,12 @@ public class SagasSuperClass extends Quest
 				Npc Mob_2 = (Npc) World.getInstance().getObject(st.getInt("Mob_2"));
 				if (Mob_2 == null)
 					return null;
-
+				
 				if (_SpawnList.containsKey(Mob_2) && _SpawnList.get(Mob_2) == player.getObjectId())
 				{
 					((Attackable) npc).addDamageHate(Mob_2, 0, 99999);
 					npc.getAI().setIntention(CtrlIntention.ATTACK, Mob_2, null);
-
+					
 					npc.broadcastNpcSay(Text[14]);
 				}
 				return null;
@@ -533,7 +533,7 @@ public class SagasSuperClass extends Quest
 			return null;
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -703,7 +703,7 @@ public class SagasSuperClass extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onFirstTalk(Npc npc, Player player)
 	{
@@ -763,14 +763,14 @@ public class SagasSuperClass extends Quest
 			npc.showChatWindow(player);
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player player, int damage, boolean isPet, L2Skill skill)
 	{
 		QuestState st2 = findRightState(npc);
 		if (st2 == null)
 			return super.onAttack(npc, player, damage, isPet, skill);
-
+		
 		int cond = st2.getInt("cond");
 		QuestState st = player.getQuestState(getName());
 		int npcId = npc.getNpcId();
@@ -800,7 +800,7 @@ public class SagasSuperClass extends Quest
 		}
 		return super.onAttack(npc, player, damage, isPet, skill);
 	}
-
+	
 	@Override
 	public String onSkillSee(Npc npc, Player player, L2Skill skill, WorldObject[] targets, boolean isPet)
 	{
@@ -809,7 +809,7 @@ public class SagasSuperClass extends Quest
 			Player quest_player = World.getInstance().getPlayer(_SpawnList.get(npc));
 			if (quest_player == null)
 				return null;
-
+			
 			for (WorldObject obj : targets)
 			{
 				if (obj == quest_player || obj == npc)
@@ -817,7 +817,7 @@ public class SagasSuperClass extends Quest
 					QuestState st2 = findRightState(npc);
 					if (st2 == null)
 						return null;
-
+					
 					npc.broadcastNpcSay(Text[5]);
 					cancelQuestTimer("Archon Hellisha has despawned", npc, st2.getPlayer());
 					st2.set("spawned", "0");
@@ -827,12 +827,12 @@ public class SagasSuperClass extends Quest
 		}
 		return super.onSkillSee(npc, player, skill, targets, isPet);
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		int npcId = npc.getNpcId();
-
+		
 		for (int Archon_Minion = 21646; Archon_Minion < 21652; Archon_Minion++)
 		{
 			if (npcId == Archon_Minion)
@@ -868,7 +868,7 @@ public class SagasSuperClass extends Quest
 				return super.onKill(npc, player, isPet);
 			}
 		}
-
+		
 		for (int element : Archon_Hellisha_Norm)
 		{
 			if (npcId == element)
@@ -888,7 +888,7 @@ public class SagasSuperClass extends Quest
 				return super.onKill(npc, player, isPet);
 			}
 		}
-
+		
 		for (int Guardian_Angel = 27214; Guardian_Angel < 27217; Guardian_Angel++)
 		{
 			if (npcId == Guardian_Angel)
@@ -911,14 +911,14 @@ public class SagasSuperClass extends Quest
 				return super.onKill(npc, player, isPet);
 			}
 		}
-
+		
 		QuestState st = player.getQuestState(getName());
 		if (st != null && npcId != Mob[2])
 		{
 			QuestState st2 = findRightState(npc);
 			if (st2 == null)
 				return super.onKill(npc, player, isPet);
-
+			
 			int cond = st.getInt("cond");
 			if (npcId == Mob[0] && cond == 8)
 			{

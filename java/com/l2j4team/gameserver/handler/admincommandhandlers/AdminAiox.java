@@ -42,17 +42,17 @@ public class AdminAiox implements IAdminCommandHandler
 	{
 		"admin_setaio",
 		"admin_remove_aio"
-
+	
 	};
-
+	
 	private final static Logger _log = Logger.getLogger(AdminAiox.class.getName());
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (activeChar.getAccessLevel().getLevel() < 7)
 			return false;
-
+		
 		final WorldObject target = activeChar.getTarget();
 		if (target == null || !(target instanceof Player))
 		{
@@ -74,7 +74,7 @@ public class AdminAiox implements IAdminCommandHandler
 					targetPlayer.getStat().addExp(targetPlayer.getStat().getExpForLevel(81));
 					targetPlayer.sendPacket(new CreatureSay(0, 17, "[Aio System]", "Voce se tornou um AIO Buffer ETERNO."));
 					updateDatabase(targetPlayer, true);
-
+					
 					if (Config.ALLOW_AIO_NCOLOR)
 						targetPlayer.getAppearance().setNameColor(Config.AIO_NCOLOR);
 					if (Config.ALLOW_AIO_TCOLOR)
@@ -128,13 +128,13 @@ public class AdminAiox implements IAdminCommandHandler
 				return false;
 			}
 		}
-
+		
 		else if (command.equalsIgnoreCase("admin_remove_Aio"))
 			removeAio(activeChar, (Player) target);
-
+		
 		return true;
 	}
-
+	
 	public static void removeAio(Player activeChar, Player targetChar)
 	{
 		if (!AioManager.getInstance().hasAioPrivileges(targetChar.getObjectId()))
@@ -142,14 +142,14 @@ public class AdminAiox implements IAdminCommandHandler
 			activeChar.sendMessage("Your target does not have Aio privileges.");
 			return;
 		}
-
+		
 		AioManager.getInstance().removeAio(targetChar.getObjectId());
 		activeChar.sendMessage("You have removed Aio privileges from " + targetChar.getName() + ".");
 		targetChar.sendPacket(new ExShowScreenMessage("Your Aio privileges were removed by the admin.", 10000));
 		targetChar.setAio(false);
-
+		
 	}
-
+	
 	public static void nameaio(String ReplaceName, Player player)
 	{
 		if (ReplaceName == null || ReplaceName == "" || player == null)
@@ -162,7 +162,7 @@ public class AdminAiox implements IAdminCommandHandler
 		if (player.getClan() != null)
 			player.getClan().broadcastClanStatus();
 	}
-
+	
 	public static void nameChanger(String ReplaceName, Player player)
 	{
 		if (ReplaceName == null || ReplaceName == "" || player == null)
@@ -174,7 +174,7 @@ public class AdminAiox implements IAdminCommandHandler
 		if (player.getClan() != null)
 			player.getClan().broadcastClanStatus();
 	}
-
+	
 	public static void giveAioItems(Player activeChar)
 	{
 		for (int[] reward : Config.AIO_CHAR_ITENS)
@@ -183,7 +183,7 @@ public class AdminAiox implements IAdminCommandHandler
 			activeChar.getInventory().equipItemAndRecord(PhewPew1);
 		}
 	}
-
+	
 	/**
 	 * @param player
 	 * @param newVip
@@ -193,7 +193,7 @@ public class AdminAiox implements IAdminCommandHandler
 		// prevents any NPE.
 		if (player == null)
 			return;
-
+		
 		Connection con = null;
 		try
 		{
@@ -201,12 +201,12 @@ public class AdminAiox implements IAdminCommandHandler
 			// --------------------------------
 			con = L2DatabaseFactory.getInstance().getConnection();
 			PreparedStatement stmt = con.prepareStatement(newVip ? INSERT_DATA : DEL_DATA);
-
+			
 			// if it is a new donator insert proper data
 			// --------------------------------------------
 			if (newVip)
 			{
-
+				
 				stmt.setInt(1, player.getObjectId());
 				stmt.setString(2, player.getName());
 				stmt.setInt(3, 1);
@@ -232,12 +232,12 @@ public class AdminAiox implements IAdminCommandHandler
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	// Updates That Will be Executed by MySQL
 	// ----------------------------------------
 	static String INSERT_DATA = "REPLACE INTO characters_aio_eterno (obj_Id, char_name, aio) VALUES (?,?,?)";
 	static String DEL_DATA = "UPDATE characters_aio_eterno SET aio = 0 WHERE obj_Id=?";
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

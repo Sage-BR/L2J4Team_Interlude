@@ -9,12 +9,12 @@ import com.l2j4team.gameserver.model.actor.instance.Player;
 public class ExDuelUpdateUserInfo extends L2GameServerPacket
 {
 	private final Player _activeChar;
-
+	
 	public ExDuelUpdateUserInfo(Player cha)
 	{
 		_activeChar = cha;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

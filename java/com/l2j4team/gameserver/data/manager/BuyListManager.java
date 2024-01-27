@@ -28,18 +28,18 @@ import org.w3c.dom.Node;
 public class BuyListManager extends XMLDocument
 {
 	private final Map<Integer, NpcBuyList> _buyLists = new HashMap<>();
-
+	
 	protected BuyListManager()
 	{
 		load();
 	}
-
+	
 	@Override
 	public void load()
 	{
 		loadDocument("./data/xml/buyLists.xml");
 		LOGGER.info("Loaded {} buyLists.", _buyLists.size());
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection(); PreparedStatement ps = con.prepareStatement("SELECT * FROM `buylists`"); ResultSet rs = ps.executeQuery())
 		{
 			while (rs.next())
@@ -48,15 +48,15 @@ public class BuyListManager extends XMLDocument
 				final int itemId = rs.getInt("item_id");
 				final int count = rs.getInt("count");
 				final long nextRestockTime = rs.getLong("next_restock_time");
-
+				
 				final NpcBuyList buyList = _buyLists.get(buyListId);
 				if (buyList == null)
 					continue;
-
+				
 				final Product product = buyList.getProductByItemId(itemId);
 				if (product == null)
 					continue;
-
+				
 				BuyListTaskManager.getInstance().test(product, count, nextRestockTime);
 			}
 		}
@@ -65,60 +65,60 @@ public class BuyListManager extends XMLDocument
 			LOGGER.error("Failed to load buyList data from database.", e);
 		}
 	}
-
+	
 	@Override
 	protected void parseDocument(Document doc, File file)
 	{
 		// StatsSet used to feed informations. Cleaned on every entry.
 		final StatsSet set = new StatsSet();
-
+		
 		// First element is never read.
 		final Node n = doc.getFirstChild();
-
+		
 		for (Node o = n.getFirstChild(); o != null; o = o.getNextSibling())
 		{
 			if (!"buyList".equalsIgnoreCase(o.getNodeName()))
 				continue;
-
+			
 			// Setup a new BuyList.
 			final int buyListId = Integer.parseInt(o.getAttributes().getNamedItem("id").getNodeValue());
 			final NpcBuyList buyList = new NpcBuyList(buyListId);
 			buyList.setNpcId(Integer.parseInt(o.getAttributes().getNamedItem("npcId").getNodeValue()));
-
+			
 			// Read products and feed the BuyList with it.
 			for (Node d = o.getFirstChild(); d != null; d = d.getNextSibling())
 			{
 				if (!"product".equalsIgnoreCase(d.getNodeName()))
 					continue;
-
+				
 				// Parse and feed content.
 				parseAndFeed(d.getAttributes(), set);
-
+				
 				// Feed the list with new data.
 				buyList.addProduct(new Product(buyListId, set));
-
+				
 				// Clear the StatsSet.
 				set.clear();
 			}
 			_buyLists.put(buyListId, buyList);
 		}
 	}
-
+	
 	public NpcBuyList getBuyList(int listId)
 	{
 		return _buyLists.get(listId);
 	}
-
+	
 	public List<NpcBuyList> getBuyListsByNpcId(int npcId)
 	{
 		return _buyLists.values().stream().filter(b -> b.isNpcAllowed(npcId)).collect(Collectors.toList());
 	}
-
+	
 	public static BuyListManager getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final BuyListManager INSTANCE = new BuyListManager();

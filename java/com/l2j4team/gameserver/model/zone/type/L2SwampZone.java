@@ -12,15 +12,15 @@ import com.l2j4team.gameserver.model.zone.ZoneId;
 public class L2SwampZone extends L2CastleZoneType
 {
 	private int _moveBonus;
-
+	
 	public L2SwampZone(int id)
 	{
 		super(id);
-
+		
 		// Setup default speed reduce (in %)
 		_moveBonus = -50;
 	}
-
+	
 	@Override
 	public void setParameter(String name, String value)
 	{
@@ -29,19 +29,19 @@ public class L2SwampZone extends L2CastleZoneType
 		else
 			super.setParameter(name, value);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		// Castle traps are active only during siege, or if they're activated.
 		if (getCastle() != null && (!isEnabled() || !getCastle().getSiege().isInProgress()))
 			return;
-
+		
 		character.setInsideZone(ZoneId.SWAMP, true);
 		if (character instanceof Player)
 			((Player) character).broadcastUserInfo();
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
@@ -53,7 +53,7 @@ public class L2SwampZone extends L2CastleZoneType
 				((Player) character).broadcastUserInfo();
 		}
 	}
-
+	
 	public int getMoveBonus()
 	{
 		return _moveBonus;

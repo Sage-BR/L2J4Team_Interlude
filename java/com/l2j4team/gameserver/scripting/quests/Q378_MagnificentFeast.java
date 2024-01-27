@@ -11,10 +11,10 @@ import java.util.Map;
 public class Q378_MagnificentFeast extends Quest
 {
 	private static final String qn = "Q378_MagnificentFeast";
-
+	
 	// NPC
 	private static final int RANSPO = 30594;
-
+	
 	// Items
 	private static final int WINE_15 = 5956;
 	private static final int WINE_30 = 5957;
@@ -24,7 +24,7 @@ public class Q378_MagnificentFeast extends Quest
 	private static final int SAUCE_RECIPE = 1456;
 	private static final int STEAK_RECIPE = 1457;
 	private static final int RITRON_DESSERT = 5959;
-
+	
 	// Rewards
 	private static final Map<String, int[]> REWARDS = new HashMap<>();
 	{
@@ -83,15 +83,15 @@ public class Q378_MagnificentFeast extends Quest
 			2200
 		});
 	}
-
+	
 	public Q378_MagnificentFeast()
 	{
 		super(378, "Magnificent Feast");
-
+		
 		addStartNpc(RANSPO);
 		addTalkId(RANSPO);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -99,7 +99,7 @@ public class Q378_MagnificentFeast extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30594-2.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -193,10 +193,10 @@ public class Q378_MagnificentFeast extends Quest
 					htmltext = "30594-8.htm";
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -204,13 +204,13 @@ public class Q378_MagnificentFeast extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 20) ? "30594-0.htm" : "30594-1.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				if (cond == 1)
@@ -225,14 +225,14 @@ public class Q378_MagnificentFeast extends Quest
 					if (REWARDS.containsKey(score) && st.hasQuestItems(RITRON_DESSERT))
 					{
 						htmltext = "30594-10.htm";
-
+						
 						st.takeItems(RITRON_DESSERT, 1);
 						st.giveItems(REWARDS.get(score)[0], REWARDS.get(score)[1]);
-
+						
 						int adena = REWARDS.get(score)[2];
 						if (adena > 0)
 							st.rewardItems(57, adena);
-
+						
 						st.playSound(QuestState.SOUND_FINISH);
 						st.exitQuest(true);
 					}
@@ -240,7 +240,7 @@ public class Q378_MagnificentFeast extends Quest
 						htmltext = "30594-9.htm";
 				}
 		}
-
+		
 		return htmltext;
 	}
 }

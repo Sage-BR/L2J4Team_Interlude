@@ -9,14 +9,14 @@ public enum ShotType
 	SPIRITSHOT,
 	BLESSED_SPIRITSHOT,
 	FISH_SOULSHOT;
-
+	
 	private final int _mask;
-
+	
 	private ShotType()
 	{
 		_mask = (1 << ordinal());
 	}
-
+	
 	public int getMask()
 	{
 		return _mask;

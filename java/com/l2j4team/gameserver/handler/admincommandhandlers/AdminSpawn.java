@@ -54,23 +54,23 @@ public class AdminSpawn implements IAdminCommandHandler
 		"admin_deletefence",
 		"admin_listfence"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (activeChar.getAccessLevel().getLevel() < 7)
 			return false;
-
+		
 		if (command.startsWith("admin_list_spawns"))
 		{
 			int npcId = 0;
-
+			
 			try
 			{
 				String[] params = command.split(" ");
 				Pattern pattern = Pattern.compile("[0-9]*");
 				Matcher regexp = pattern.matcher(params[1]);
-
+				
 				if (regexp.matches())
 					npcId = Integer.parseInt(params[1]);
 				else
@@ -86,24 +86,24 @@ public class AdminSpawn implements IAdminCommandHandler
 				if (target instanceof Npc)
 					npcId = ((Npc) target).getNpcId();
 			}
-
+			
 			// Load static Htm.
 			final NpcHtmlMessage html = new NpcHtmlMessage(0);
 			html.setFile("data/html/admin/listspawns.htm");
-
+			
 			// Generate data.
 			final StringBuilder sb = new StringBuilder();
-
+			
 			int index = 0, x, y, z;
 			String name = "";
-
+			
 			for (L2Spawn spawn : SpawnTable.getInstance().getSpawnTable())
 			{
 				if (npcId == spawn.getNpcId())
 				{
 					index++;
 					name = spawn.getTemplate().getName();
-
+					
 					final Npc _npc = spawn.getNpc();
 					if (_npc != null)
 					{
@@ -120,7 +120,7 @@ public class AdminSpawn implements IAdminCommandHandler
 					StringUtil.append(sb, "<tr><td><a action=\"bypass -h admin_move_to ", x, " ", y, " ", z, "\">", index, " - (", x, " ", y, " ", z, ")", "</a></td></tr>");
 				}
 			}
-
+			
 			if (index == 0)
 			{
 				html.replace("%npcid%", "?");
@@ -131,7 +131,7 @@ public class AdminSpawn implements IAdminCommandHandler
 				html.replace("%npcid%", name + " (" + npcId + ")");
 				html.replace("%list%", sb.toString());
 			}
-
+			
 			activeChar.sendPacket(html);
 		}
 		else if (command.equals("admin_show_spawns"))
@@ -219,9 +219,9 @@ public class AdminSpawn implements IAdminCommandHandler
 				int height = 1;
 				if (st.hasMoreTokens())
 					height = Math.min(Integer.parseInt(st.nextToken()), 3);
-
+				
 				FenceManager.getInstance().addFence(activeChar.getX(), activeChar.getY(), activeChar.getZ(), type, sizeX, sizeY, height);
-
+				
 				listFences(activeChar);
 			}
 			catch (Exception e)
@@ -239,7 +239,7 @@ public class AdminSpawn implements IAdminCommandHandler
 				if (object instanceof Fence)
 				{
 					FenceManager.getInstance().removeFence((Fence) object);
-
+					
 					if (st.hasMoreTokens())
 						listFences(activeChar);
 				}
@@ -261,7 +261,7 @@ public class AdminSpawn implements IAdminCommandHandler
 				String cmd = st.nextToken();
 				String id = st.nextToken();
 				int respawnTime = st.hasMoreTokens() ? Integer.parseInt(st.nextToken()) : 0;
-
+				
 				if (cmd.equalsIgnoreCase("admin_spawn_once"))
 					spawn(activeChar, id, respawnTime, false);
 				else
@@ -274,21 +274,21 @@ public class AdminSpawn implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 	private static void spawn(Player activeChar, String monsterId, int respawnTime, boolean permanent)
 	{
 		WorldObject target = activeChar.getTarget();
 		if (target == null)
 			target = activeChar;
-
+		
 		NpcTemplate template;
-
+		
 		if (monsterId.matches("[0-9]*")) // First parameter was an ID number
 			template = NpcTable.getInstance().getTemplate(Integer.parseInt(monsterId));
 		else
@@ -297,13 +297,13 @@ public class AdminSpawn implements IAdminCommandHandler
 			monsterId = monsterId.replace('_', ' ');
 			template = NpcTable.getInstance().getTemplateByName(monsterId);
 		}
-
+		
 		try
 		{
 			L2Spawn spawn = new L2Spawn(template);
 			spawn.setLoc(target.getX(), target.getY(), target.getZ(), activeChar.getHeading());
 			spawn.setRespawnDelay(respawnTime);
-
+			
 			if (RaidBossSpawnManager.getInstance().getValidTemplate(spawn.getNpcId()) != null || RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcId()))
 			{
 				activeChar.sendMessage("It will be spawned but not saved on Database");
@@ -319,71 +319,71 @@ public class AdminSpawn implements IAdminCommandHandler
 				if (permanent)
 					spawn.setRespawnState(true);
 			}
-
+			
 			if (!permanent)
 				spawn.setRespawnState(false);
-
+			
 			activeChar.sendMessage("Spawned " + template.getName() + ".");
-
+			
 		}
 		catch (Exception e)
 		{
 			activeChar.sendPacket(SystemMessageId.APPLICANT_INFORMATION_INCORRECT);
 		}
 	}
-
+	
 	private static void showMonsters(Player activeChar, int level, int from)
 	{
 		final List<NpcTemplate> mobs = NpcTable.getInstance().getTemplates(t -> t.isType("Monster") && t.getLevel() == level);
 		final StringBuilder sb = new StringBuilder(200 + mobs.size() * 100);
-
+		
 		StringUtil.append(sb, "<html><title>Spawn Monster:</title><body><p> Level : ", level, "<br>Total Npc's : ", mobs.size(), "<br>");
-
+		
 		int i = from;
 		for (int j = 0; i < mobs.size() && j < 50; i++, j++)
 			StringUtil.append(sb, "<a action=\"bypass -h admin_spawn ", mobs.get(i).getNpcId(), "\">", mobs.get(i).getName(), "</a><br1>");
-
+		
 		if (i == mobs.size())
 			sb.append("<br><center><button value=\"Back\" action=\"bypass -h admin_show_spawns\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></center></body></html>");
 		else
 			StringUtil.append(sb, "<br><center><button value=\"Next\" action=\"bypass -h admin_spawn_index ", level, " ", i, "\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"><button value=\"Back\" action=\"bypass -h admin_show_spawns\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></center></body></html>");
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setHtml(sb.toString());
 		activeChar.sendPacket(html);
 	}
-
+	
 	private static void showNpcs(Player activeChar, String starting, int from)
 	{
 		final List<NpcTemplate> mobs = NpcTable.getInstance().getTemplates(t -> t.isType("Folk") && t.getName().startsWith(starting));
 		final StringBuilder sb = new StringBuilder(200 + mobs.size() * 100);
-
+		
 		StringUtil.append(sb, "<html><title>Spawn Monster:</title><body><p> There are ", mobs.size(), " Npcs whose name starts with ", starting, ":<br>");
-
+		
 		int i = from;
 		for (int j = 0; i < mobs.size() && j < 50; i++, j++)
 			StringUtil.append(sb, "<a action=\"bypass -h admin_spawn ", mobs.get(i).getNpcId(), "\">", mobs.get(i).getName(), "</a><br1>");
-
+		
 		if (i == mobs.size())
 			sb.append("<br><center><button value=\"Back\" action=\"bypass -h admin_show_npcs\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></center></body></html>");
 		else
 			StringUtil.append(sb, "<br><center><button value=\"Next\" action=\"bypass -h admin_npc_index ", starting, " ", i, "\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"><button value=\"Back\" action=\"bypass -h admin_show_npcs\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></center></body></html>");
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setHtml(sb.toString());
 		activeChar.sendPacket(html);
 	}
-
+	
 	private static void listFences(Player activeChar)
 	{
 		final List<Fence> fences = FenceManager.getInstance().getFences();
 		final StringBuilder sb = new StringBuilder();
-
+		
 		sb.append("<html><body>Total Fences: " + fences.size() + "<br><br>");
 		for (Fence fence : fences)
 			sb.append("<a action=\"bypass -h admin_deletefence " + fence.getObjectId() + " 1\">Fence: " + fence.getObjectId() + " [" + fence.getX() + " " + fence.getY() + " " + fence.getZ() + "]</a><br>");
 		sb.append("</body></html>");
-
+		
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setHtml(sb.toString());
 		activeChar.sendPacket(html);

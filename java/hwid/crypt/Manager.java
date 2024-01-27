@@ -29,18 +29,18 @@ import hwid.HwidConfig;
 public final class Manager
 {
 	protected static Logger _log = Logger.getLogger(Manager.class.getName());
-
+	
 	protected static String _logFile = "Manager";
 	protected static String _logMainFile = "hwid_logs";
 	protected static Manager _instance;
 	protected static ScheduledFuture<?> _GGTask = null;
 	protected static ConcurrentHashMap<String, Manager.InfoSet> _objects = new ConcurrentHashMap<>();
-
+	
 	public Manager()
 	{
 		//
 	}
-
+	
 	public static Manager getInstance()
 	{
 		if (_instance == null)
@@ -48,10 +48,10 @@ public final class Manager
 			System.out.println("- HWID Manager read successfully...");
 			_instance = new Manager();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	public class InfoSet
 	{
 		public String _playerName = "";
@@ -59,7 +59,7 @@ public final class Manager
 		public long _lastGGRecvTime;
 		public int _attempts;
 		public String _HWID = "";
-
+		
 		public InfoSet(String name, String HWID)
 		{
 			_playerName = name;
@@ -69,12 +69,12 @@ public final class Manager
 			_HWID = HWID;
 		}
 	}
-
+	
 	public void addPlayer(L2GameClient client)
 	{
 		_objects.put(client.getPlayerName(), new Manager.InfoSet(client.getPlayerName(), client.getHWID()));
 	}
-
+	
 	public static void removePlayer(String name)
 	{
 		if (!_objects.containsKey(name))
@@ -86,23 +86,23 @@ public final class Manager
 		}
 		else
 			_objects.remove(name);
-
+		
 	}
-
+	
 	public static int getCountByHWID(String HWID)
 	{
 		int result = 0;
 		Iterator<InfoSet> var3 = _objects.values().iterator();
-
+		
 		while (var3.hasNext())
 		{
 			Manager.InfoSet object = var3.next();
-
+			
 			if (object._HWID.equals(HWID))
 				++result;
 		}
-
+		
 		return result;
 	}
-
+	
 }

@@ -8,17 +8,17 @@ import com.l2j4team.gameserver.skills.basefuncs.Func;
 public class FuncHennaMEN extends Func
 {
 	static final FuncHennaMEN _fh_instance = new FuncHennaMEN();
-
+	
 	public static Func getInstance()
 	{
 		return _fh_instance;
 	}
-
+	
 	private FuncHennaMEN()
 	{
 		super(Stats.STAT_MEN, 0x10, null, null);
 	}
-
+	
 	@Override
 	public void calc(Env env)
 	{

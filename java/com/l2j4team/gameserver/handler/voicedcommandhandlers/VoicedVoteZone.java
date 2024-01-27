@@ -18,9 +18,9 @@ public class VoicedVoteZone implements IVoicedCommandHandler
 	{
 		"votezone"
 	};
-
+	
 	static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -43,7 +43,7 @@ public class VoicedVoteZone implements IVoicedCommandHandler
 		}
 		return true;
 	}
-
+	
 	public static void ShowHtml(Player activeChar)
 	{
 		StringBuilder sb = new StringBuilder();
@@ -150,7 +150,7 @@ public class VoicedVoteZone implements IVoicedCommandHandler
 		msg = msg.replaceAll("%time%", "Server Time : <font color=\"00ff00\">" + sdf.format(new Date(System.currentTimeMillis())) + "</font>");
 		activeChar.sendPacket(new TutorialShowHtml(msg));
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

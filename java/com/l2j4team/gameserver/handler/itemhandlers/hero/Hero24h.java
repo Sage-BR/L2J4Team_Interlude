@@ -31,32 +31,32 @@ import java.util.logging.Logger;
  */
 public class Hero24h implements IItemHandler
 {
-
+	
 	protected static final Logger LOGGER = Logger.getLogger(Hero24h.class.getName());
-
+	
 	@Override
 	public void useItem(Playable playable, ItemInstance item, boolean forceUse)
 	{
-
+		
 		if (!(playable instanceof Player))
 			return;
-
+		
 		Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isInOlympiadMode())
 		{
 			activeChar.sendMessage("SYS: Voce nao pode fazer isso.");
 			return;
 		}
-
+		
 		if (activeChar.isHero())
 		{
 			activeChar.sendMessage("SYS: Voce ja esta com status Hero.");
 			return;
 		}
-
+		
 		playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
-
+		
 		int mes = 1;
 		if (HeroManager.getInstance().hasHeroPrivileges(activeChar.getObjectId()))
 		{
@@ -64,9 +64,9 @@ public class Hero24h implements IItemHandler
 			final long now = Calendar.getInstance().getTimeInMillis();
 			long duration = HeroManager.getInstance().getHeroDuration(activeChar.getObjectId());
 			final long endDay = duration;
-
+			
 			_daysleft = ((endDay - now) / 86400000) + mes + 1;
-
+			
 			long end_day;
 			final Calendar calendar = Calendar.getInstance();
 			if (_daysleft >= 30)
@@ -79,7 +79,7 @@ public class Hero24h implements IItemHandler
 					_daysleft -= 30;
 				}
 			}
-
+			
 			if (_daysleft < 30 && _daysleft > 0)
 			{
 				while (_daysleft > 0)
@@ -91,13 +91,13 @@ public class Hero24h implements IItemHandler
 						if (calendar.get(Calendar.MONTH) == 11)
 							calendar.roll(Calendar.YEAR, true);
 						calendar.roll(Calendar.MONTH, true);
-
+						
 					}
 					calendar.roll(Calendar.DATE, true);
 					_daysleft--;
 				}
 			}
-
+			
 			end_day = calendar.getTimeInMillis();
 			HeroManager.getInstance().updateHero(activeChar.getObjectId(), end_day);
 		}
@@ -115,7 +115,7 @@ public class Hero24h implements IItemHandler
 					mes -= 30;
 				}
 			}
-
+			
 			if (mes < 30 && mes > 0)
 			{
 				while (mes > 0)
@@ -127,17 +127,17 @@ public class Hero24h implements IItemHandler
 						if (calendar.get(Calendar.MONTH) == 11)
 							calendar.roll(Calendar.YEAR, true);
 						calendar.roll(Calendar.MONTH, true);
-
+						
 					}
 					calendar.roll(Calendar.DATE, true);
 					mes--;
 				}
 			}
-
+			
 			end_day = calendar.getTimeInMillis();
 			HeroManager.getInstance().addHero(activeChar.getObjectId(), end_day);
 		}
-
+		
 		long _daysleft;
 		final long now = Calendar.getInstance().getTimeInMillis();
 		long duration = HeroManager.getInstance().getHeroDuration(activeChar.getObjectId());
@@ -148,7 +148,7 @@ public class Hero24h implements IItemHandler
 			activeChar.sendPacket(new ExShowScreenMessage("Your Hero privileges ends at " + new SimpleDateFormat("dd MMM, HH:mm").format(new Date(duration)) + ".", 10000));
 			activeChar.sendMessage("Your Hero privileges ends at " + new SimpleDateFormat("dd MMM, HH:mm").format(new Date(duration)) + ".");
 		}
-
+		
 	}
-
+	
 }

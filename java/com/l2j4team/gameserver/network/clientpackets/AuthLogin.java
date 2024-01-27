@@ -32,7 +32,7 @@ public final class AuthLogin extends L2GameClientPacket
 	private int _loginKey1;
 	private int _loginKey2;
 	private final byte[] _data = new byte[48];
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -42,7 +42,7 @@ public final class AuthLogin extends L2GameClientPacket
 		_loginKey1 = readD();
 		_loginKey2 = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
@@ -51,14 +51,14 @@ public final class AuthLogin extends L2GameClientPacket
 			if (!Hwid.doAuthLogin(getClient(), _data, _loginName))
 				return;
 		}
-
+		
 		final SessionKey key = new SessionKey(_loginKey1, _loginKey2, _playKey1, _playKey2);
-
+		
 		if (Config.DEBUG)
 			_log.info("DEBUG " + getType() + ": user: " + _loginName + " key:" + key);
-
+		
 		final L2GameClient client = getClient();
-
+		
 		// avoid potential exploits
 		if (client.getAccountName() == null)
 		{

@@ -14,15 +14,15 @@ public class L2TownZone extends L2SpawnZone
 	private int _townId;
 	private int _castleId;
 	private boolean _isPeaceZone;
-
+	
 	public L2TownZone(int id)
 	{
 		super(id);
-
+		
 		// Default peace zone
 		_isPeaceZone = true;
 	}
-
+	
 	@Override
 	public void setParameter(String name, String value)
 	{
@@ -35,63 +35,63 @@ public class L2TownZone extends L2SpawnZone
 		else
 			super.setParameter(name, value);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		if (character instanceof Player)
 		{
 			final Player player = ((Player) character);
-
+			
 			if (player.getMountType() == 2 && Config.WYVERN_PROTECTION)
 			{
 				player.sendPacket(SystemMessageId.AREA_CANNOT_BE_ENTERED_WHILE_MOUNTED_WYVERN);
 				player.enteredNoLanding(5);
 			}
-
+			
 			if (player.isAio() || AioManager.getInstance().hasAioPrivileges(player.getObjectId()))
 			{
 				player.sendPacket(new EtcStatusUpdate(player));
 				player.sendSkillList();
 				player.broadcastUserInfo();
 			}
-
+			
 			// PVP possible during siege, now for siege participants only
 			// Could also check if this town is in siege, or if any siege is going on
 			if (((Player) character).getSiegeState() != 0 && Config.ZONE_TOWN == 1)
 				return;
 		}
-
+		
 		if (_isPeaceZone && Config.ZONE_TOWN != 2)
 			character.setInsideZone(ZoneId.PEACE, true);
-
+		
 		character.setInsideZone(ZoneId.TOWN, true);
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		if (_isPeaceZone)
 			character.setInsideZone(ZoneId.PEACE, false);
-
+		
 		character.setInsideZone(ZoneId.TOWN, false);
-
+		
 		/*
 		 * if (character instanceof Player) { Player player = (Player)character; if (player.isAio() || AioManager.getInstance().hasAioPrivileges(player.getObjectId())) { ThreadPool.schedule(new AioProtection(player), 7000L); player.sendPacket(new EtcStatusUpdate(player)); player.sendSkillList();
 		 * player.broadcastUserInfo(); } }
 		 */
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 	/**
 	 * @return the zone town id (if any)
 	 */
@@ -99,7 +99,7 @@ public class L2TownZone extends L2SpawnZone
 	{
 		return _townId;
 	}
-
+	
 	/**
 	 * @return the castle id (used to retrieve taxes).
 	 */
@@ -107,7 +107,7 @@ public class L2TownZone extends L2SpawnZone
 	{
 		return _castleId;
 	}
-
+	
 	public final boolean isPeaceZone()
 	{
 		return _isPeaceZone;

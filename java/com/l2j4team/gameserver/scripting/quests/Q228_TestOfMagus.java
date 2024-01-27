@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q228_TestOfMagus extends Quest
 {
 	private static final String qn = "Q228_TestOfMagus";
-
+	
 	// Items
 	private static final int RUKAL_LETTER = 2841;
 	private static final int PARINA_LETTER = 2842;
@@ -35,11 +35,11 @@ public class Q228_TestOfMagus extends Quest
 	private static final int SYLPH_CHARM = 2861;
 	private static final int UNDINE_CHARM = 2862;
 	private static final int SERPENT_CHARM = 2863;
-
+	
 	// Rewards
 	private static final int MARK_OF_MAGUS = 2840;
 	private static final int DIMENSIONAL_DIAMOND = 7562;
-
+	
 	// NPCs
 	private static final int PARINA = 30391;
 	private static final int EARTH_SNAKE = 30409;
@@ -48,7 +48,7 @@ public class Q228_TestOfMagus extends Quest
 	private static final int WATER_UNDINE = 30413;
 	private static final int CASIAN = 30612;
 	private static final int RUKAL = 30629;
-
+	
 	// Monsters
 	private static final int HARPY = 20145;
 	private static final int MARSH_STAKATO = 20157;
@@ -65,19 +65,19 @@ public class Q228_TestOfMagus extends Quest
 	private static final int SINGING_FLOWER_NIGHTMARE = 27096;
 	private static final int SINGING_FLOWER_DARKLING = 27097;
 	private static final int GHOST_FIRE = 27098;
-
+	
 	public Q228_TestOfMagus()
 	{
 		super(228, "Test Of Magus");
-
+		
 		setItemsIds(RUKAL_LETTER, PARINA_LETTER, LILAC_CHARM, GOLDEN_SEED_1, GOLDEN_SEED_2, GOLDEN_SEED_3, SCORE_OF_ELEMENTS, DAZZLING_DROP, FLAME_CRYSTAL, HARPY_FEATHER, WYRM_WINGBONE, WINDSUS_MANE, EN_MONSTEREYE_SHELL, EN_STONEGOLEM_POWDER, EN_IRONGOLEM_SCRAP, TONE_OF_WATER, TONE_OF_FIRE, TONE_OF_WIND, TONE_OF_EARTH, SALAMANDER_CHARM, SYLPH_CHARM, UNDINE_CHARM, SERPENT_CHARM);
-
+		
 		addStartNpc(RUKAL);
 		addTalkId(PARINA, EARTH_SNAKE, FLAME_SALAMANDER, WIND_SYLPH, WATER_UNDINE, CASIAN, RUKAL);
-
+		
 		addKillId(HARPY, MARSH_STAKATO, WYRM, MARSH_STAKATO_WORKER, TOAD_LORD, MARSH_STAKATO_SOLDIER, MARSH_STAKATO_DRONE, WINDSUS, ENCHANTED_MONSTEREYE, ENCHANTED_STONE_GOLEM, ENCHANTED_IRON_GOLEM, SINGING_FLOWER_PHANTASM, SINGING_FLOWER_NIGHTMARE, SINGING_FLOWER_DARKLING, GHOST_FIRE);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -85,7 +85,7 @@ public class Q228_TestOfMagus extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// RUKAL
 		if (event.equalsIgnoreCase("30629-04.htm"))
 		{
@@ -93,7 +93,7 @@ public class Q228_TestOfMagus extends Quest
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(RUKAL_LETTER, 1);
-
+			
 			if (!player.getMemos().getBool("secondClassChange39", false))
 			{
 				htmltext = "30629-04a.htm";
@@ -139,10 +139,10 @@ public class Q228_TestOfMagus extends Quest
 			st.playSound(QuestState.SOUND_ITEMGET);
 			st.giveItems(SERPENT_CHARM, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -150,7 +150,7 @@ public class Q228_TestOfMagus extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -161,7 +161,7 @@ public class Q228_TestOfMagus extends Quest
 				else
 					htmltext = "30629-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -192,7 +192,7 @@ public class Q228_TestOfMagus extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case PARINA:
 						if (cond == 1)
 							htmltext = "30391-01.htm";
@@ -203,7 +203,7 @@ public class Q228_TestOfMagus extends Quest
 						else if (cond > 4)
 							htmltext = "30391-05.htm";
 						break;
-
+					
 					case CASIAN:
 						if (cond == 2)
 							htmltext = "30612-01.htm";
@@ -214,7 +214,7 @@ public class Q228_TestOfMagus extends Quest
 						else if (cond > 4)
 							htmltext = "30612-05.htm";
 						break;
-
+					
 					case WATER_UNDINE:
 						if (cond == 5)
 						{
@@ -228,7 +228,7 @@ public class Q228_TestOfMagus extends Quest
 									st.takeItems(DAZZLING_DROP, 20);
 									st.takeItems(UNDINE_CHARM, 1);
 									st.giveItems(TONE_OF_WATER, 1);
-
+									
 									if (st.hasQuestItems(TONE_OF_FIRE, TONE_OF_WIND, TONE_OF_EARTH))
 									{
 										st.set("cond", "6");
@@ -250,7 +250,7 @@ public class Q228_TestOfMagus extends Quest
 						else if (cond == 6)
 							htmltext = "30413-04.htm";
 						break;
-
+					
 					case FLAME_SALAMANDER:
 						if (cond == 5)
 						{
@@ -264,7 +264,7 @@ public class Q228_TestOfMagus extends Quest
 									st.takeItems(FLAME_CRYSTAL, 5);
 									st.takeItems(SALAMANDER_CHARM, 1);
 									st.giveItems(TONE_OF_FIRE, 1);
-
+									
 									if (st.hasQuestItems(TONE_OF_WATER, TONE_OF_WIND, TONE_OF_EARTH))
 									{
 										st.set("cond", "6");
@@ -285,7 +285,7 @@ public class Q228_TestOfMagus extends Quest
 						else if (cond == 6)
 							htmltext = "30411-04.htm";
 						break;
-
+					
 					case WIND_SYLPH:
 						if (cond == 5)
 						{
@@ -301,7 +301,7 @@ public class Q228_TestOfMagus extends Quest
 									st.takeItems(WINDSUS_MANE, 10);
 									st.takeItems(WYRM_WINGBONE, 10);
 									st.giveItems(TONE_OF_WIND, 1);
-
+									
 									if (st.hasQuestItems(TONE_OF_WATER, TONE_OF_FIRE, TONE_OF_EARTH))
 									{
 										st.set("cond", "6");
@@ -319,7 +319,7 @@ public class Q228_TestOfMagus extends Quest
 						else if (cond == 6)
 							htmltext = "30412-05.htm";
 						break;
-
+					
 					case EARTH_SNAKE:
 						if (cond == 5)
 						{
@@ -335,7 +335,7 @@ public class Q228_TestOfMagus extends Quest
 									st.takeItems(EN_STONEGOLEM_POWDER, 10);
 									st.takeItems(SERPENT_CHARM, 1);
 									st.giveItems(TONE_OF_EARTH, 1);
-
+									
 									if (st.hasQuestItems(TONE_OF_WATER, TONE_OF_FIRE, TONE_OF_WIND))
 									{
 										st.set("cond", "6");
@@ -355,24 +355,24 @@ public class Q228_TestOfMagus extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		int cond = st.getInt("cond");
-
+		
 		if (cond == 3)
 		{
 			switch (npc.getNpcId())
@@ -386,7 +386,7 @@ public class Q228_TestOfMagus extends Quest
 							st.set("cond", "4");
 					}
 					break;
-
+				
 				case SINGING_FLOWER_NIGHTMARE:
 					if (!st.hasQuestItems(GOLDEN_SEED_2))
 					{
@@ -396,7 +396,7 @@ public class Q228_TestOfMagus extends Quest
 							st.set("cond", "4");
 					}
 					break;
-
+				
 				case SINGING_FLOWER_DARKLING:
 					if (!st.hasQuestItems(GOLDEN_SEED_3))
 					{
@@ -416,56 +416,56 @@ public class Q228_TestOfMagus extends Quest
 					if (st.hasQuestItems(SALAMANDER_CHARM))
 						st.dropItems(FLAME_CRYSTAL, 1, 5, 500000);
 					break;
-
+				
 				case TOAD_LORD:
 				case MARSH_STAKATO:
 				case MARSH_STAKATO_WORKER:
 					if (st.hasQuestItems(UNDINE_CHARM))
 						st.dropItems(DAZZLING_DROP, 1, 20, 300000);
 					break;
-
+				
 				case MARSH_STAKATO_SOLDIER:
 					if (st.hasQuestItems(UNDINE_CHARM))
 						st.dropItems(DAZZLING_DROP, 1, 20, 400000);
 					break;
-
+				
 				case MARSH_STAKATO_DRONE:
 					if (st.hasQuestItems(UNDINE_CHARM))
 						st.dropItems(DAZZLING_DROP, 1, 20, 500000);
 					break;
-
+				
 				case HARPY:
 					if (st.hasQuestItems(SYLPH_CHARM))
 						st.dropItemsAlways(HARPY_FEATHER, 1, 20);
 					break;
-
+				
 				case WYRM:
 					if (st.hasQuestItems(SYLPH_CHARM))
 						st.dropItems(WYRM_WINGBONE, 1, 10, 500000);
 					break;
-
+				
 				case WINDSUS:
 					if (st.hasQuestItems(SYLPH_CHARM))
 						st.dropItems(WINDSUS_MANE, 1, 10, 500000);
 					break;
-
+				
 				case ENCHANTED_MONSTEREYE:
 					if (st.hasQuestItems(SERPENT_CHARM))
 						st.dropItemsAlways(EN_MONSTEREYE_SHELL, 1, 10);
 					break;
-
+				
 				case ENCHANTED_STONE_GOLEM:
 					if (st.hasQuestItems(SERPENT_CHARM))
 						st.dropItemsAlways(EN_STONEGOLEM_POWDER, 1, 10);
 					break;
-
+				
 				case ENCHANTED_IRON_GOLEM:
 					if (st.hasQuestItems(SERPENT_CHARM))
 						st.dropItemsAlways(EN_IRONGOLEM_SCRAP, 1, 10);
 					break;
 			}
 		}
-
+		
 		return null;
 	}
 }

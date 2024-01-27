@@ -7,13 +7,13 @@ public final class RequestShowBoard extends L2GameClientPacket
 {
 	@SuppressWarnings("unused")
 	private int _unknown;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_unknown = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{

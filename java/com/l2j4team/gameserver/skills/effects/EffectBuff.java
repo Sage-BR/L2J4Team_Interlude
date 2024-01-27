@@ -13,13 +13,13 @@ public class EffectBuff extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.BUFF;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

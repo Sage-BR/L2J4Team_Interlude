@@ -9,7 +9,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q127_KamaelAWindowToTheFuture extends Quest
 {
 	private static final String qn = "Q127_KamaelAWindowToTheFuture";
-
+	
 	// NPCs
 	private static final int DOMINIC = 31350;
 	private static final int KLAUS = 30187;
@@ -18,7 +18,7 @@ public class Q127_KamaelAWindowToTheFuture extends Quest
 	private static final int OLTLIN = 30862;
 	private static final int JURIS = 30113;
 	private static final int RODEMAI = 30756;
-
+	
 	// Items
 	private static final int MARK_DOMINIC = 8939;
 	private static final int MARK_HUMAN = 8940;
@@ -26,17 +26,17 @@ public class Q127_KamaelAWindowToTheFuture extends Quest
 	private static final int MARK_ORC = 8944;
 	private static final int MARK_DELF = 8943;
 	private static final int MARK_ELF = 8942;
-
+	
 	public Q127_KamaelAWindowToTheFuture()
 	{
 		super(127, "Kamael: A Window to the Future");
-
+		
 		setItemsIds(MARK_DOMINIC, MARK_HUMAN, MARK_DWARF, MARK_ORC, MARK_DELF, MARK_ELF);
-
+		
 		addStartNpc(DOMINIC);
 		addTalkId(DOMINIC, KLAUS, ALDER, AKLAN, OLTLIN, JURIS, RODEMAI);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -44,7 +44,7 @@ public class Q127_KamaelAWindowToTheFuture extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31350-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -108,10 +108,10 @@ public class Q127_KamaelAWindowToTheFuture extends Quest
 			st.set("cond", "9");
 			st.playSound(QuestState.SOUND_MIDDLE);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -119,16 +119,16 @@ public class Q127_KamaelAWindowToTheFuture extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		npc.getNpcId();
 		int cond = st.getInt("cond");
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "31350-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -138,46 +138,46 @@ public class Q127_KamaelAWindowToTheFuture extends Quest
 						else if (cond == 2)
 							htmltext = "30187-06.htm";
 						break;
-
+					
 					case ALDER:
 						if (cond == 3)
 							htmltext = "32092-01.htm";
 						break;
-
+					
 					case AKLAN:
 						if (cond == 4)
 							htmltext = "31288-01.htm";
 						break;
-
+					
 					case OLTLIN:
 						if (cond == 5)
 							htmltext = "30862-01.htm";
 						break;
-
+					
 					case JURIS:
 						if (cond == 6)
 							htmltext = "30113-01.htm";
 						break;
-
+					
 					case RODEMAI:
 						if (cond == 7)
 							htmltext = "30756-01.htm";
 						else if (cond == 8)
 							htmltext = "30756-04.htm";
 						break;
-
+					
 					case DOMINIC:
 						if (cond == 9)
 							htmltext = "31350-05.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				return htmltext;
 		}
-
+		
 		return htmltext;
 	}
 }

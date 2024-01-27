@@ -24,9 +24,9 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket
 	protected int _rhand, _lhand, _chest, _enchantEffect;
 	protected double _collisionHeight, _collisionRadius;
 	protected int _clanCrest, _allyCrest, _allyId, _clanId;
-
+	
 	protected String _name = "", _title = "";
-
+	
 	public AbstractNpcInfo(Creature cha)
 	{
 		_isSummoned = cha.isShowSummonAnimation();
@@ -39,22 +39,22 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket
 		_runSpd = cha.getStat().getBaseRunSpeed();
 		_walkSpd = cha.getStat().getBaseWalkSpeed();
 	}
-
+	
 	/**
 	 * Packet for Npcs
 	 */
 	public static class NpcInfo extends AbstractNpcInfo
 	{
 		private final Npc _npc;
-
+		
 		public NpcInfo(Npc cha, Creature attacker)
 		{
 			super(cha);
 			_npc = cha;
-
+			
 			_enchantEffect = _npc.getEnchantEffect();
 			_isAttackable = _npc.isAutoAttackable(attacker);
-
+			
 			// Support for polymorph.
 			if (_npc.getPolyType() == PolyType.NPC)
 			{
@@ -72,24 +72,24 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket
 				_collisionHeight = _npc.getCollisionHeight();
 				_collisionRadius = _npc.getCollisionRadius();
 			}
-
+			
 			if (_npc.getTemplate().isUsingServerSideName() || _npc._isCTF_throneSpawn)
 				_name = _npc.getName();
-
+			
 			if (_npc.isChampion())
 				_title = "Champion";
-
+			
 			else if (_npc.getTemplate().isUsingServerSideTitle() || _npc._isCTF_Flag || _npc._isCTF_throneSpawn || _npc._isEventMobCTF)
 				_title = _npc.getTitle();
-
+			
 			if (Config.SHOW_NPC_LVL && _npc instanceof Monster && !(_npc.getNpcId() == Config.monsterId) && !(Config.LIST_NPC_CUSTOM_MONSTER.contains(Integer.valueOf(_npc.getNpcId()))) && !(_npc instanceof RaidBoss) && !(_npc instanceof GrandBoss))
 				_title = "Lv " + _npc.getLevel() + (_npc.getTemplate().getAggroRange() > 0 ? "* " : " ") + _title;
-
+			
 			if (Config.LIST_NPC_CUSTOM_MONSTER.contains(Integer.valueOf(_npc.getNpcId())) && _npc.isChampion())
 				_title = "Champion*" + Config.TITLE_MONSTER_SOLO;
 			else if (Config.LIST_NPC_CUSTOM_MONSTER.contains(Integer.valueOf(_npc.getNpcId())))
 				_title = Config.TITLE_MONSTER_SOLO;
-
+			
 			// NPC crest system
 			if (Config.SHOW_NPC_CREST && _npc.getCastle() != null && _npc.getCastle().getOwnerId() != 0)
 			{
@@ -100,26 +100,26 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket
 				_allyId = clan.getAllyId();
 			}
 		}
-
+		
 		@Override
 		protected void writeImpl()
 		{
-
+			
 			// if (getClient().getActiveChar() != null && getClient().getActiveChar().isInOlympiadMode() || getClient().getActiveChar().isInObserverMode())
 			// return;
 			writeC(0x16);
-
+			
 			writeD(_npc.getObjectId());
 			writeD(_idTemplate + 1000000);
 			writeD(_isAttackable ? 1 : 0);
-
+			
 			writeD(_x);
 			writeD(_y);
 			writeD(_z);
 			writeD(_heading);
-
+			
 			writeD(0x00);
-
+			
 			writeD(_mAtkSpd);
 			writeD(_pAtkSpd);
 			writeD(_runSpd);
@@ -130,39 +130,39 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket
 			writeD(_walkSpd);
 			writeD(_runSpd);
 			writeD(_walkSpd);
-
+			
 			writeF(_npc.getStat().getMovementSpeedMultiplier());
 			writeF(_npc.getStat().getAttackSpeedMultiplier());
-
+			
 			writeF(_collisionRadius);
 			writeF(_collisionHeight);
-
+			
 			writeD(_rhand);
 			writeD(_chest);
 			writeD(_lhand);
-
+			
 			writeC(1); // name above char
 			writeC(_npc.isRunning() ? 1 : 0);
 			writeC(_npc.isInCombat() ? 1 : 0);
 			writeC(_npc.isAlikeDead() ? 1 : 0);
 			writeC(_isSummoned ? 2 : 0);
-
+			
 			writeS(_name);
 			writeS(_title);
-
+			
 			writeD(0x00);
 			writeD(0x00);
 			writeD(0x00);
-
+			
 			writeD(_npc.getAbnormalEffect());
-
+			
 			writeD(_clanId);
 			writeD(_clanCrest);
 			writeD(_allyId);
 			writeD(_allyCrest);
-
+			
 			writeC(_npc.isFlying() ? 2 : 0);
-
+			
 			if (Config.LIST_NPC_BLUE_AURA.contains(_npc.getNpcId()))
 			{
 				writeC(0x01);// AURA PARA NPC BLUE
@@ -178,15 +178,15 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket
 				writeC(_npc.isChampion() ? Config.CHAMPION_ENABLE_AURA : 0);
 			// FIM MOBS CHAMPIONS AURA
 			writeC(0x00);
-
+			
 			writeF(_collisionRadius);
 			writeF(_collisionHeight);
-
+			
 			writeD(_enchantEffect);
 			writeD(_npc.isFlying() ? 1 : 0);
 		}
 	}
-
+	
 	/**
 	 * Packet for summons
 	 */
@@ -195,17 +195,17 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket
 		private final Summon _summon;
 		private final Player _owner;
 		private int _summonAnimation = 0;
-
+		
 		public SummonInfo(Summon cha, Player attacker, int val)
 		{
 			super(cha);
 			_summon = cha;
 			_owner = _summon.getOwner();
-
+			
 			_summonAnimation = val;
 			if (_summon.isShowSummonAnimation())
 				_summonAnimation = 2; // override for spawn
-
+				
 			_isAttackable = _summon.isAutoAttackable(attacker);
 			_rhand = _summon.getWeapon();
 			_lhand = 0;
@@ -213,10 +213,10 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket
 			_enchantEffect = _summon.getTemplate().getEnchantEffect();
 			_title = (_owner == null || !_owner.isOnline()) ? "" : _owner.getName();
 			_idTemplate = _summon.getTemplate().getIdTemplate();
-
+			
 			_collisionHeight = _summon.getCollisionHeight();
 			_collisionRadius = _summon.getCollisionRadius();
-
+			
 			// NPC crest system
 			if (Config.SHOW_SUMMON_CREST && _owner != null && _owner.getClan() != null)
 			{
@@ -227,26 +227,26 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket
 				_allyId = clan.getAllyId();
 			}
 		}
-
+		
 		@Override
 		protected void writeImpl()
 		{
 			if (_owner != null && _owner.getAppearance().getInvisible() && !_owner.isOlympiadProtection())
 				return;
-
+			
 			writeC(0x16);
-
+			
 			writeD(_summon.getObjectId());
 			writeD(_idTemplate + 1000000);
 			writeD(_isAttackable ? 1 : 0);
-
+			
 			writeD(_x);
 			writeD(_y);
 			writeD(_z);
 			writeD(_heading);
-
+			
 			writeD(0x00);
-
+			
 			writeD(_mAtkSpd);
 			writeD(_pAtkSpd);
 			writeD(_runSpd);
@@ -257,48 +257,48 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket
 			writeD(_walkSpd);
 			writeD(_runSpd);
 			writeD(_walkSpd);
-
+			
 			writeF(_summon.getStat().getMovementSpeedMultiplier());
 			writeF(_summon.getStat().getAttackSpeedMultiplier());
-
+			
 			writeF(_collisionRadius);
 			writeF(_collisionHeight);
-
+			
 			writeD(_rhand);
 			writeD(_chest);
 			writeD(_lhand);
-
+			
 			writeC(1); // name above char
 			writeC(_summon.isRunning() ? 1 : 0);
 			writeC(_summon.isInCombat() ? 1 : 0);
 			writeC(_summon.isAlikeDead() ? 1 : 0);
 			writeC(_summonAnimation);
-
+			
 			writeS(_name);
 			writeS(_title);
-
+			
 			writeD(_summon instanceof Pet ? 0x00 : 0x01);
 			writeD(_summon.getPvpFlag());
 			writeD(_summon.getKarma());
-
+			
 			writeD(_summon.getAbnormalEffect());
-
+			
 			writeD(_clanId);
 			writeD(_clanCrest);
 			writeD(_allyId);
 			writeD(_allyCrest);
-
+			
 			writeC(0x00);
 			writeC(_summon.getTeam());
-
+			
 			writeF(_collisionRadius);
 			writeF(_collisionHeight);
-
+			
 			writeD(_enchantEffect);
 			writeD(0x00);
 		}
 	}
-
+	
 	/**
 	 * Packet for morphed PCs
 	 */
@@ -307,40 +307,40 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket
 		private final Player _pc;
 		private final NpcTemplate _template;
 		private final int _swimSpd;
-
+		
 		public PcMorphInfo(Player cha, NpcTemplate template)
 		{
 			super(cha);
 			_pc = cha;
 			_template = template;
-
+			
 			_swimSpd = cha.getStat().getBaseSwimSpeed();
-
+			
 			_rhand = _template.getRightHand();
 			_lhand = _template.getLeftHand();
-
+			
 			_collisionHeight = _template.getCollisionHeight();
 			_collisionRadius = _template.getCollisionRadius();
-
+			
 			_enchantEffect = _template.getEnchantEffect();
 		}
-
+		
 		@Override
 		protected void writeImpl()
 		{
 			writeC(0x16);
-
+			
 			writeD(_pc.getObjectId());
 			writeD(_pc.getPolyId() + 1000000);
 			writeD(1);
-
+			
 			writeD(_x);
 			writeD(_y);
 			writeD(_z);
 			writeD(_heading);
-
+			
 			writeD(0x00);
-
+			
 			writeD(_mAtkSpd);
 			writeD(_pAtkSpd);
 			writeD(_runSpd);
@@ -351,43 +351,43 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket
 			writeD(_walkSpd);
 			writeD(_runSpd);
 			writeD(_walkSpd);
-
+			
 			writeF(_pc.getStat().getMovementSpeedMultiplier());
 			writeF(_pc.getStat().getAttackSpeedMultiplier());
-
+			
 			writeF(_collisionRadius);
 			writeF(_collisionHeight);
-
+			
 			writeD(_rhand);
 			writeD(0);
 			writeD(_lhand);
-
+			
 			writeC(1); // name above char
 			writeC(_pc.isRunning() ? 1 : 0);
 			writeC(_pc.isInCombat() ? 1 : 0);
 			writeC(_pc.isAlikeDead() ? 1 : 0);
 			writeC(0); // 0 = teleported, 1 = default, 2 = summoned
-
+			
 			writeS(_name);
 			writeS(_title);
-
+			
 			writeD(0x00);
 			writeD(0x00);
 			writeD(0x00);
-
+			
 			writeD(_pc.getAbnormalEffect());
-
+			
 			writeD(0x00);
 			writeD(0x00);
 			writeD(0x00);
 			writeD(0x00);
-
+			
 			writeC(0x00);
 			writeC(0x00);
-
+			
 			writeF(_collisionRadius);
 			writeF(_collisionHeight);
-
+			
 			writeD(_enchantEffect);
 			writeD(0x00);
 		}

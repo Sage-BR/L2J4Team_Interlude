@@ -10,11 +10,11 @@ public class HeroCirclet extends Quest
 	public HeroCirclet()
 	{
 		super(-1, "custom");
-
+		
 		addStartNpc(31690, 31769, 31770, 31771, 31772);
 		addTalkId(31690, 31769, 31770, 31771, 31772);
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -22,7 +22,7 @@ public class HeroCirclet extends Quest
 		QuestState st = player.getQuestState(getName());
 		if (st == null)
 			st = newQuestState(player);
-
+		
 		if (player.isHero())
 		{
 			if (player.getInventory().getItemByItemId(6842) == null)
@@ -32,7 +32,7 @@ public class HeroCirclet extends Quest
 		}
 		else
 			htmltext = "no_hero.htm";
-
+		
 		st.exitQuest(true);
 		return htmltext;
 	}

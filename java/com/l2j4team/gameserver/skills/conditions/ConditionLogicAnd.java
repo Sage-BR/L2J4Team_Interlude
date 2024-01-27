@@ -8,10 +8,10 @@ import com.l2j4team.gameserver.skills.Env;
  */
 public class ConditionLogicAnd extends Condition
 {
-
+	
 	private static Condition[] _emptyConditions = new Condition[0];
 	public Condition[] conditions = _emptyConditions;
-
+	
 	/**
 	 * Instantiates a new condition logic and.
 	 */
@@ -19,7 +19,7 @@ public class ConditionLogicAnd extends Condition
 	{
 		super();
 	}
-
+	
 	/**
 	 * Adds the.
 	 * @param condition the condition
@@ -36,7 +36,7 @@ public class ConditionLogicAnd extends Condition
 		tmp[len] = condition;
 		conditions = tmp;
 	}
-
+	
 	/**
 	 * Sets the listener.
 	 * @param listener the new listener
@@ -57,7 +57,7 @@ public class ConditionLogicAnd extends Condition
 		}
 		super.setListener(listener);
 	}
-
+	
 	/**
 	 * Test impl.
 	 * @param env the env

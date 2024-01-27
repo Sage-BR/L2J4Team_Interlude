@@ -27,23 +27,23 @@ import java.util.logging.Logger;
  */
 public class NoblesItem implements IItemHandler
 {
-
+	
 	protected static final Logger LOGGER = Logger.getLogger(NoblesItem.class.getName());
-
+	
 	@Override
 	public void useItem(Playable playable, ItemInstance item, boolean forceUse)
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isInOlympiadMode())
 		{
 			activeChar.sendMessage("This Item Cannot Be Used On Olympiad Games.");
 			return;
 		}
-
+		
 		if (activeChar.isNoble())
 		{
 			activeChar.sendMessage("[Noble System]: Voce ja possue o status Nobles.");

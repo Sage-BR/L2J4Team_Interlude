@@ -5,12 +5,12 @@ import com.l2j4team.gameserver.model.pledge.Clan;
 public class PledgeInfo extends L2GameServerPacket
 {
 	private final Clan _clan;
-
+	
 	public PledgeInfo(Clan clan)
 	{
 		_clan = clan;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

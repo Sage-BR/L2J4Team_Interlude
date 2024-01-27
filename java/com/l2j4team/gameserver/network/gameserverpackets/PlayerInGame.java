@@ -10,7 +10,7 @@ public class PlayerInGame extends GameServerBasePacket
 		writeH(1);
 		writeS(player);
 	}
-
+	
 	public PlayerInGame(List<String> players)
 	{
 		writeC(0x02);
@@ -18,7 +18,7 @@ public class PlayerInGame extends GameServerBasePacket
 		for (String pc : players)
 			writeS(pc);
 	}
-
+	
 	@Override
 	public byte[] getContent()
 	{

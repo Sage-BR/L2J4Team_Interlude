@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class Post
 {
 	private static final Logger _log = Logger.getLogger(Post.class.getName());
-
+	
 	public class CPost
 	{
 		public int postId;
@@ -28,9 +28,9 @@ public class Post
 		public int postForumId;
 		public String postTxt;
 	}
-
+	
 	private final List<CPost> _post;
-
+	
 	public Post(String _PostOwner, int _PostOwnerID, long date, int tid, int _PostForumID, String txt)
 	{
 		_post = new ArrayList<>();
@@ -45,7 +45,7 @@ public class Post
 		_post.add(cp);
 		insertindb(cp);
 	}
-
+	
 	public void insertindb(CPost cp)
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -66,13 +66,13 @@ public class Post
 			_log.log(Level.WARNING, "Error while saving new Post to db " + e.getMessage(), e);
 		}
 	}
-
+	
 	public Post(Topic t)
 	{
 		_post = new ArrayList<>();
 		load(t);
 	}
-
+	
 	public CPost getCPost(int id)
 	{
 		int i = 0;
@@ -83,7 +83,7 @@ public class Post
 		}
 		return null;
 	}
-
+	
 	public void deleteMe(Topic t)
 	{
 		PostBBSManager.getInstance().delPostByTopic(t);
@@ -100,7 +100,7 @@ public class Post
 			_log.log(Level.WARNING, "Error while deleting post: " + e.getMessage(), e);
 		}
 	}
-
+	
 	private void load(Topic t)
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -129,7 +129,7 @@ public class Post
 			_log.log(Level.WARNING, "Data error on Post " + t.getForumID() + "/" + t.getID() + " : " + e.getMessage(), e);
 		}
 	}
-
+	
 	public void updateText(int i)
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())

@@ -7,7 +7,7 @@ public class Q096_SagaOfTheSpectralDancer extends SagasSuperClass
 	public Q096_SagaOfTheSpectralDancer()
 	{
 		super(96, "Saga of the Spectral Dancer");
-
+		
 		NPC = new int[]
 		{
 			31582,
@@ -23,7 +23,7 @@ public class Q096_SagaOfTheSpectralDancer extends SagasSuperClass
 			31656,
 			31284
 		};
-
+		
 		Items = new int[]
 		{
 			7080,
@@ -39,38 +39,38 @@ public class Q096_SagaOfTheSpectralDancer extends SagasSuperClass
 			7092,
 			0
 		};
-
+		
 		Mob = new int[]
 		{
 			27272,
 			27245,
 			27264
 		};
-
+		
 		classid = 107;
 		prevclass = 0x22;
-
+		
 		X = new int[]
 		{
 			164650,
 			47429,
 			47391
 		};
-
+		
 		Y = new int[]
 		{
 			-74121,
 			-56923,
 			-56929
 		};
-
+		
 		Z = new int[]
 		{
 			-2871,
 			-2383,
 			-2370
 		};
-
+		
 		registerNPCs();
 	}
 }

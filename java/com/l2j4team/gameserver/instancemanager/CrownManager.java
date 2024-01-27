@@ -30,7 +30,7 @@ public class CrownManager
 {
 	protected static final Logger _log = Logger.getLogger(CrownManager.class.getName());
 	private static CrownManager _instance;
-
+	
 	public static final CrownManager getInstance()
 	{
 		if (_instance == null)
@@ -39,53 +39,53 @@ public class CrownManager
 		}
 		return _instance;
 	}
-
+	
 	public CrownManager()
 	{
 		_log.info("CrownManager: initialized");
 	}
-
+	
 	public void checkCrowns(Clan clan)
 	{
 		if (clan == null)
 			return;
-
+		
 		for (ClanMember member : clan.getMembers())
 		{
 			if (member != null && member.isOnline() && member.getPlayerInstance() != null)
 				checkCrowns(member.getPlayerInstance());
 		}
 	}
-
+	
 	public void checkCrowns(Player activeChar)
 	{
 		boolean isLeader = false;
 		int crownId = -1;
-
+		
 		Clan activeCharClan = activeChar.getClan();
 		ClanMember activeCharClanLeader;
-
+		
 		if (activeCharClan != null)
 			activeCharClanLeader = activeChar.getClan().getLeader();
 		else
 			activeCharClanLeader = null;
-
+		
 		if (activeCharClan != null)
 		{
 			Castle activeCharCastle = CastleManager.getInstance().getCastleByOwner(activeCharClan);
-
+			
 			if (activeCharCastle != null)
 				crownId = CrownTable.getCrownId(activeCharCastle.getCastleId());
-
+			
 			activeCharCastle = null;
-
+			
 			if (activeCharClanLeader != null && activeCharClanLeader.getObjectId() == activeChar.getObjectId())
 				isLeader = true;
 		}
-
+		
 		activeCharClan = null;
 		activeCharClanLeader = null;
-
+		
 		if (crownId > 0)
 		{
 			if (isLeader && activeChar.getInventory().getItemByItemId(6841) == null)
@@ -93,17 +93,17 @@ public class CrownManager
 				activeChar.addItem("Crown", 6841, 1, activeChar, true);
 				activeChar.getInventory().updateDatabase();
 			}
-
+			
 			if (activeChar.getInventory().getItemByItemId(crownId) == null)
 			{
 				activeChar.addItem("Crown", crownId, 1, activeChar, true);
 				activeChar.getInventory().updateDatabase();
 			}
 		}
-
+		
 		boolean alreadyFoundCirclet = false;
 		boolean alreadyFoundCrown = false;
-
+		
 		for (ItemInstance item : activeChar.getInventory().getItems())
 		{
 			if (CrownTable.getCrownList().contains(item.getItemId()))
@@ -127,7 +127,7 @@ public class CrownManager
 						}
 					}
 				}
-
+				
 				activeChar.destroyItem("Removing Crown", item, activeChar, true);
 				activeChar.getInventory().updateDatabase();
 			}

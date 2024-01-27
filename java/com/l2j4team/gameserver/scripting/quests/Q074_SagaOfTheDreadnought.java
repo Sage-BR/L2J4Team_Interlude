@@ -7,7 +7,7 @@ public class Q074_SagaOfTheDreadnought extends SagasSuperClass
 	public Q074_SagaOfTheDreadnought()
 	{
 		super(74, "Saga of the Dreadnought");
-
+		
 		NPC = new int[]
 		{
 			30850,
@@ -23,7 +23,7 @@ public class Q074_SagaOfTheDreadnought extends SagasSuperClass
 			31657,
 			31522
 		};
-
+		
 		Items = new int[]
 		{
 			7080,
@@ -39,38 +39,38 @@ public class Q074_SagaOfTheDreadnought extends SagasSuperClass
 			7097,
 			6480
 		};
-
+		
 		Mob = new int[]
 		{
 			27290,
 			27223,
 			27282
 		};
-
+		
 		classid = 89;
 		prevclass = 0x03;
-
+		
 		X = new int[]
 		{
 			191046,
 			46087,
 			46066
 		};
-
+		
 		Y = new int[]
 		{
 			-40640,
 			-36372,
 			-36396
 		};
-
+		
 		Z = new int[]
 		{
 			-3042,
 			-1685,
 			-1685
 		};
-
+		
 		registerNPCs();
 	}
 }

@@ -12,7 +12,7 @@ public final class ServerList extends L2LoginServerPacket
 {
 	private final List<ServerData> _servers;
 	private final int _lastServer;
-
+	
 	public ServerList(final L2LoginClient client)
 	{
 		_servers = new ArrayList<>();
@@ -25,12 +25,12 @@ public final class ServerList extends L2LoginServerPacket
 			else
 				addServer(client.usesInternalIP() ? gsi.getInternalHost() : gsi.getExternalHost(), gsi.getPort(), gsi.isPvp(), gsi.isTestServer(), gsi.getCurrentPlayerCount(), gsi.getMaxPlayers(), gsi.isShowingBrackets(), gsi.isShowingClock(), 4, gsi.getId());
 	}
-
+	
 	public void addServer(final String ip, final int port, final boolean pvp, final boolean testServer, final int currentPlayer, final int maxPlayer, final boolean brackets, final boolean clock, final int status, final int server_id)
 	{
 		_servers.add(new ServerData(ip, port, pvp, testServer, currentPlayer, maxPlayer, brackets, clock, status, server_id));
 	}
-
+	
 	@Override
 	public void write()
 	{
@@ -72,7 +72,7 @@ public final class ServerList extends L2LoginServerPacket
 			writeC(server._brackets ? 1 : 0);
 		}
 	}
-
+	
 	class ServerData
 	{
 		protected String _ip;
@@ -85,7 +85,7 @@ public final class ServerList extends L2LoginServerPacket
 		protected boolean _clock;
 		protected int _status;
 		protected int _serverId;
-
+		
 		ServerData(final String pIp, final int pPort, final boolean pPvp, final boolean pTestServer, final int pCurrentPlayers, final int pMaxPlayers, final boolean pBrackets, final boolean pClock, final int pStatus, final int pServer_id)
 		{
 			_ip = pIp;

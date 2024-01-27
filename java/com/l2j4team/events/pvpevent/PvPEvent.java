@@ -22,24 +22,24 @@ public class PvPEvent
 {
 	private static final Logger _log;
 	private PvPEventEngineState _state;
-
+	
 	public PvPEvent()
 	{
 		_state = PvPEventEngineState.INACTIVE;
 	}
-
+	
 	public boolean startPartyEvent()
 	{
 		setState(PvPEventEngineState.ACTIVE);
 		return true;
 	}
-
+	
 	public boolean endPartyEvent()
 	{
 		setState(PvPEventEngineState.INACTIVE);
 		return true;
 	}
-
+	
 	private void setState(final PvPEventEngineState state)
 	{
 		synchronized (state)
@@ -47,7 +47,7 @@ public class PvPEvent
 			_state = state;
 		}
 	}
-
+	
 	public boolean isActive()
 	{
 		synchronized (_state)
@@ -55,7 +55,7 @@ public class PvPEvent
 			return _state == PvPEventEngineState.ACTIVE;
 		}
 	}
-
+	
 	public boolean isInactive()
 	{
 		synchronized (_state)
@@ -63,7 +63,7 @@ public class PvPEvent
 			return _state == PvPEventEngineState.INACTIVE;
 		}
 	}
-
+	
 	public void rewardFinish()
 	{
 		if (getTopZonePvpCount() == 0)
@@ -77,7 +77,7 @@ public class PvPEvent
 		}
 		cleanPvpEvent();
 	}
-
+	
 	public static void cleanPvpEvent()
 	{
 		try (final Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -91,7 +91,7 @@ public class PvPEvent
 			e.printStackTrace();
 		}
 	}
-
+	
 	static int getTopZonePlayerReward()
 	{
 		int id = 0;
@@ -112,7 +112,7 @@ public class PvPEvent
 		}
 		return id;
 	}
-
+	
 	static int getTopZonePvpCount()
 	{
 		int id = 0;
@@ -133,7 +133,7 @@ public class PvPEvent
 		}
 		return id;
 	}
-
+	
 	static String getTopZonePvpName()
 	{
 		String name = null;
@@ -154,7 +154,7 @@ public class PvPEvent
 		}
 		return name;
 	}
-
+	
 	public static void addEventPvp(final Player activeChar)
 	{
 		try (final Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -170,7 +170,7 @@ public class PvPEvent
 			e.printStackTrace();
 		}
 	}
-
+	
 	public static int getEventPvp(final Player activeChar)
 	{
 		int id = 0;
@@ -192,7 +192,7 @@ public class PvPEvent
 		}
 		return id;
 	}
-
+	
 	private static void addReward(final int objId)
 	{
 		final Player player = World.getInstance().getPlayer(objId);
@@ -212,7 +212,7 @@ public class PvPEvent
 			}
 		}
 	}
-
+	
 	private static void addOfflineItem(final int ownerId, final int itemId, final int count)
 	{
 		final Item item = ItemTable.getInstance().getTemplate(itemId);
@@ -244,12 +244,12 @@ public class PvPEvent
 			e.printStackTrace();
 		}
 	}
-
+	
 	public static void getTopHtml(final Player activeChar)
 	{
 		if (getInstance().isActive())
 		{
-
+			
 			NpcHtmlMessage htm = new NpcHtmlMessage(5);
 			StringBuilder tb = new StringBuilder();
 			tb.append("<html>");
@@ -263,7 +263,7 @@ public class PvPEvent
 			tb.append("<td><center>Pvp's</center></td>");
 			tb.append("<td><center>Status</center></td>");
 			tb.append("</tr>");
-
+			
 			try (final Connection con = L2DatabaseFactory.getInstance().getConnection())
 			{
 				final PreparedStatement statement = con.prepareStatement("SELECT char_name,event_pvp,accesslevel,online FROM characters ORDER BY event_pvp DESC LIMIT 15");
@@ -282,7 +282,7 @@ public class PvPEvent
 						continue;
 					}
 					final String pl = result.getString("char_name");
-
+					
 					String status;
 					pos++;
 					String statu = result.getString("online");
@@ -309,7 +309,7 @@ public class PvPEvent
 			{
 				PvPEvent._log.warning("Error while selecting top 15 pvp from database: " + e);
 			}
-
+			
 			tb.append("</table>");
 			tb.append("<br>");
 			tb.append("<br>");
@@ -323,21 +323,21 @@ public class PvPEvent
 		}
 		activeChar.sendMessage("PvP Event is not in progress!");
 	}
-
+	
 	public static PvPEvent getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	static
 	{
 		_log = Logger.getLogger(PvPEvent.class.getName());
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final PvPEvent _instance;
-
+		
 		static
 		{
 			_instance = new PvPEvent();

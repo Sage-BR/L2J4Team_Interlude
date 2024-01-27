@@ -10,26 +10,26 @@ import com.l2j4team.commons.random.Rnd;
 public class Q638_SeekersOfTheHolyGrail extends Quest
 {
 	private static final String qn = "Q638_SeekersOfTheHolyGrail";
-
+	
 	// NPC
 	private static final int INNOCENTIN = 31328;
-
+	
 	// Item
 	private static final int PAGAN_TOTEM = 8068;
-
+	
 	public Q638_SeekersOfTheHolyGrail()
 	{
 		super(638, "Seekers of the Holy Grail");
-
+		
 		setItemsIds(PAGAN_TOTEM);
-
+		
 		addStartNpc(INNOCENTIN);
 		addTalkId(INNOCENTIN);
-
+		
 		for (int i = 22138; i < 22175; i++)
 			addKillId(i);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -37,7 +37,7 @@ public class Q638_SeekersOfTheHolyGrail extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31328-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -49,10 +49,10 @@ public class Q638_SeekersOfTheHolyGrail extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -60,20 +60,20 @@ public class Q638_SeekersOfTheHolyGrail extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 73) ? "31328-00.htm" : "31328-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				if (st.getQuestItemsCount(PAGAN_TOTEM) >= 2000)
 				{
 					htmltext = "31328-03.htm";
 					st.playSound(QuestState.SOUND_MIDDLE);
 					st.takeItems(PAGAN_TOTEM, 2000);
-
+					
 					int chance = Rnd.get(3);
 					if (chance == 0)
 						st.rewardItems(959, 1);
@@ -86,19 +86,19 @@ public class Q638_SeekersOfTheHolyGrail extends Quest
 					htmltext = "31328-04.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		partyMember.getQuestState(qn).dropItemsAlways(PAGAN_TOTEM, 1, 0);
-
+		
 		return null;
 	}
 }

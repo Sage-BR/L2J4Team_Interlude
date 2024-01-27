@@ -16,51 +16,51 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class SiegeFlag extends Npc
 {
 	private final Clan _clan;
-
+	
 	public SiegeFlag(Player player, int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
-
+		
 		_clan = player.getClan();
-
+		
 		// Player clan became null during flag initialization ; don't bother setting clan flag.
 		if (_clan != null)
 			_clan.setFlag(this);
-
+		
 		setIsInvul(false);
 	}
-
+	
 	@Override
 	public boolean isAttackable()
 	{
 		return !isInvul();
 	}
-
+	
 	@Override
 	public boolean isAutoAttackable(Creature attacker)
 	{
 		return !isInvul();
 	}
-
+	
 	@Override
 	public boolean doDie(Creature killer)
 	{
 		if (!super.doDie(killer))
 			return false;
-
+		
 		// Reset clan flag to null.
 		if (_clan != null)
 			_clan.setFlag(null);
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public void onForcedAttack(Player player)
 	{
 		onAction(player);
 	}
-
+	
 	@Override
 	public void onAction(Player player)
 	{
@@ -75,13 +75,13 @@ public class SiegeFlag extends Npc
 			{
 				// Rotate the player to face the instance
 				player.sendPacket(new MoveToPawn(player, this, Npc.INTERACTION_DISTANCE));
-
+				
 				// Send ActionFailed to the player in order to avoid he stucks
 				player.sendPacket(ActionFailed.STATIC_PACKET);
 			}
 		}
 	}
-
+	
 	@Override
 	public void reduceCurrentHp(double damage, Creature attacker, L2Skill skill)
 	{
@@ -89,13 +89,13 @@ public class SiegeFlag extends Npc
 		if (_clan != null && isScriptValue(0))
 		{
 			_clan.broadcastToOnlineMembers(SystemMessage.getSystemMessage(SystemMessageId.BASE_UNDER_ATTACK));
-
+			
 			setScriptValue(1);
 			ThreadPool.schedule(() -> setScriptValue(0), 20000);
 		}
 		super.reduceCurrentHp(damage, attacker, skill);
 	}
-
+	
 	@Override
 	public void addFuncsToNewCharacter()
 	{

@@ -13,16 +13,16 @@ import com.l2j4team.gameserver.taskmanager.AttackStanceTaskManager;
 public final class SetPrivateStoreListBuy extends L2GameClientPacket
 {
 	private static final int BATCH_LENGTH = 16; // length of one item
-
+	
 	private Item[] _items = null;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		int count = readD();
 		if (count < 1 || count > Config.MAX_ITEM_IN_PACKET || count * BATCH_LENGTH != _buf.remaining())
 			return;
-
+		
 		_items = new Item[count];
 		for (int i = 0; i < count; i++)
 		{
@@ -31,7 +31,7 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 			readH(); // TODO analyse this
 			int cnt = readD();
 			int price = readD();
-
+			
 			if (itemId < 1 || cnt < 1 || price < 0)
 			{
 				_items = null;
@@ -40,14 +40,14 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 			_items[i] = new Item(itemId, cnt, price);
 		}
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		Player player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		if (_items == null)
 		{
 			player.setStoreType(StoreType.NONE);
@@ -55,13 +55,13 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 			player.sendPacket(new PrivateStoreManageListBuy(player));
 			return;
 		}
-
+		
 		if (!player.getAccessLevel().allowTransaction())
 		{
 			player.sendPacket(SystemMessageId.YOU_ARE_NOT_AUTHORIZED_TO_DO_THAT);
 			return;
 		}
-
+		
 		// Check if player is in Event
 		if (player._inEventTvT || player._inEventCTF || player.isArenaProtection())
 		{
@@ -69,7 +69,7 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 			player.sendPacket(new PrivateStoreManageListBuy(player));
 			return;
 		}
-
+		
 		if (player.ChatProtection(player.getHWID()) && player.isChatBlocked())
 		{
 			player.BlockChatInfo();
@@ -77,24 +77,24 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 			player.sendPacket(new PrivateStoreManageListBuy(player));
 			return;
 		}
-
+		
 		if (AttackStanceTaskManager.getInstance().isInAttackStance(player) || (player.isCastingNow() || player.isCastingSimultaneouslyNow()) || player.isInDuel())
 		{
 			player.sendPacket(SystemMessageId.YOU_ARE_NOT_AUTHORIZED_TO_DO_THAT);
 			player.sendPacket(new PrivateStoreManageListBuy(player));
 			return;
 		}
-
+		
 		if (player.isInsideZone(ZoneId.NO_STORE))
 		{
 			player.sendPacket(SystemMessageId.NO_PRIVATE_STORE_HERE);
 			player.sendPacket(new PrivateStoreManageListBuy(player));
 			return;
 		}
-
+		
 		TradeList tradeList = player.getBuyList();
 		tradeList.clear();
-
+		
 		// Check maximum number of allowed slots for pvt shops
 		if (_items.length > player.getPrivateBuyStoreLimit())
 		{
@@ -102,7 +102,7 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 			player.sendPacket(new PrivateStoreManageListBuy(player));
 			return;
 		}
-
+		
 		long totalCost = 0;
 		for (Item i : _items)
 		{
@@ -112,7 +112,7 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 				player.sendPacket(new PrivateStoreManageListBuy(player));
 				return;
 			}
-
+			
 			totalCost += i.getCost();
 			if (totalCost > Integer.MAX_VALUE || totalCost < 0)
 			{
@@ -121,7 +121,7 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 				return;
 			}
 		}
-
+		
 		// Check for available funds
 		if (totalCost > player.getAdena())
 		{
@@ -129,33 +129,33 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 			player.sendPacket(new PrivateStoreManageListBuy(player));
 			return;
 		}
-
+		
 		player.sitDown();
 		player.setStoreType(StoreType.BUY);
 		player.broadcastUserInfo();
 		player.broadcastPacket(new PrivateStoreMsgBuy(player));
 	}
-
+	
 	private static class Item
 	{
 		private final int _itemId, _count, _price;
-
+		
 		public Item(int id, int num, int pri)
 		{
 			_itemId = id;
 			_count = num;
 			_price = pri;
 		}
-
+		
 		public boolean addToTradeList(TradeList list)
 		{
 			if ((Integer.MAX_VALUE / _count) < _price)
 				return false;
-
+			
 			list.addItemByItemId(_itemId, _count, _price);
 			return true;
 		}
-
+		
 		public long getCost()
 		{
 			return _count * _price;

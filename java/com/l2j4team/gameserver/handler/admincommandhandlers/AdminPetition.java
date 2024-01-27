@@ -20,12 +20,12 @@ public class AdminPetition implements IAdminCommandHandler
 		"admin_reject_petition",
 		"admin_reset_petitions"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		int petitionId = -1;
-
+		
 		try
 		{
 			petitionId = Integer.parseInt(command.split(" ")[1]);
@@ -33,7 +33,7 @@ public class AdminPetition implements IAdminCommandHandler
 		catch (Exception e)
 		{
 		}
-
+		
 		if (command.equals("admin_view_petitions"))
 			PetitionManager.getInstance().sendPendingPetitionList(activeChar);
 		else if (command.startsWith("admin_view_petition"))
@@ -45,13 +45,13 @@ public class AdminPetition implements IAdminCommandHandler
 				activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ONLY_ONE_ACTIVE_PETITION_AT_TIME));
 				return true;
 			}
-
+			
 			if (PetitionManager.getInstance().isPetitionInProcess(petitionId))
 			{
 				activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.PETITION_UNDER_PROCESS));
 				return true;
 			}
-
+			
 			if (!PetitionManager.getInstance().acceptPetition(activeChar, petitionId))
 				activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.NOT_UNDER_PETITION_CONSULTATION));
 		}
@@ -71,7 +71,7 @@ public class AdminPetition implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

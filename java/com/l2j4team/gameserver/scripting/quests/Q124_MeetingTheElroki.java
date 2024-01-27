@@ -8,22 +8,22 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q124_MeetingTheElroki extends Quest
 {
 	public static final String qn = "Q124_MeetingTheElroki";
-
+	
 	// NPCs
 	private static final int MARQUEZ = 32113;
 	private static final int MUSHIKA = 32114;
 	private static final int ASAMAH = 32115;
 	private static final int KARAKAWEI = 32117;
 	private static final int MANTARASA = 32118;
-
+	
 	public Q124_MeetingTheElroki()
 	{
 		super(124, "Meeting the Elroki");
-
+		
 		addStartNpc(MARQUEZ);
 		addTalkId(MARQUEZ, MUSHIKA, ASAMAH, KARAKAWEI, MANTARASA);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -31,7 +31,7 @@ public class Q124_MeetingTheElroki extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("32113-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -69,10 +69,10 @@ public class Q124_MeetingTheElroki extends Quest
 			st.playSound(QuestState.SOUND_MIDDLE);
 			st.giveItems(8778, 1); // Egg
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -80,13 +80,13 @@ public class Q124_MeetingTheElroki extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 75) ? "32113-01a.htm" : "32113-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -97,14 +97,14 @@ public class Q124_MeetingTheElroki extends Quest
 						else if (cond > 1)
 							htmltext = "32113-04a.htm";
 						break;
-
+					
 					case MUSHIKA:
 						if (cond == 2)
 							htmltext = "32114-01.htm";
 						else if (cond > 2)
 							htmltext = "32114-03.htm";
 						break;
-
+					
 					case ASAMAH:
 						if (cond == 3)
 							htmltext = "32115-01.htm";
@@ -117,7 +117,7 @@ public class Q124_MeetingTheElroki extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case KARAKAWEI:
 						if (cond == 4)
 						{
@@ -128,7 +128,7 @@ public class Q124_MeetingTheElroki extends Quest
 						else if (cond > 4)
 							htmltext = "32117-04.htm";
 						break;
-
+					
 					case MANTARASA:
 						if (cond == 5)
 							htmltext = "32118-01.htm";
@@ -137,7 +137,7 @@ public class Q124_MeetingTheElroki extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				if (npc.getNpcId() == ASAMAH)
 					htmltext = "32115-06.htm";
@@ -145,7 +145,7 @@ public class Q124_MeetingTheElroki extends Quest
 					htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

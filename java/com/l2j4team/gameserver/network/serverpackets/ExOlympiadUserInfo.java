@@ -15,7 +15,7 @@ public class ExOlympiadUserInfo extends L2GameServerPacket
 	private final int _maxHp;
 	private final int _curCp;
 	private final int _maxCp;
-
+	
 	public ExOlympiadUserInfo(Player player)
 	{
 		_side = player.getOlympiadSide();
@@ -27,7 +27,7 @@ public class ExOlympiadUserInfo extends L2GameServerPacket
 		_curCp = (int) player.getCurrentCp();
 		_maxCp = player.getMaxCp();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

@@ -7,20 +7,20 @@ public class EquipUpdate extends L2GameServerPacket
 {
 	private final ItemInstance _item;
 	private final int _change;
-
+	
 	public EquipUpdate(ItemInstance item, int change)
 	{
 		_item = item;
 		_change = change;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x4b);
 		writeD(_change);
 		writeD(_item.getObjectId());
-
+		
 		int bodypart = 0;
 		switch (_item.getItem().getBodyPart())
 		{
@@ -70,7 +70,7 @@ public class EquipUpdate extends L2GameServerPacket
 				bodypart = 0x0f;
 				break;
 		}
-
+		
 		writeD(bodypart);
 	}
 }

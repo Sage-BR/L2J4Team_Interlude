@@ -31,38 +31,38 @@ public class ServerStatus
 {
 	protected static final Logger _log = Logger.getLogger("Loader");
 	protected ScheduledFuture<?> _scheduledTask;
-
+	
 	protected ServerStatus()
 	{
 		_scheduledTask = ThreadPool.scheduleAtFixedRate(new ServerStatusTask(), 1800000, 3600000);
 	}
-
+	
 	protected class ServerStatusTask implements Runnable
 	{
 		protected final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
-
+		
 		@Override
 		public void run()
 		{
 			StringUtil.printSection("Server Status");
 			_log.info("Server Time: " + fmt.format(new Date(System.currentTimeMillis())));
 			_log.info("Admins Online: " + World.getAllGMs());
-
+			
 			long usedMem = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576;
 			long totalMem = Runtime.getRuntime().maxMemory() / 1048576;
-
+			
 			_log.info("Free Memory: " + totalMem + " MB");
 			_log.info("Used memory: " + usedMem + " MB");
-
+			
 			StringUtil.printSection("Server Status");
 		}
 	}
-
+	
 	public static ServerStatus getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final ServerStatus _instance = new ServerStatus();

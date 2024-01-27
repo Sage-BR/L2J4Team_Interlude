@@ -10,19 +10,19 @@ public class EffectBlockBuff extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.BLOCK_BUFF;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		return true;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

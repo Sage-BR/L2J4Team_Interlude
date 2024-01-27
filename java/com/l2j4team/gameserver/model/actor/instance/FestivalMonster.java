@@ -11,17 +11,17 @@ import com.l2j4team.gameserver.model.actor.template.NpcTemplate;
 public class FestivalMonster extends Monster
 {
 	protected int _bonusMultiplier = 1;
-
+	
 	public FestivalMonster(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
 	}
-
+	
 	public void setOfferingBonus(int bonusMultiplier)
 	{
 		_bonusMultiplier = bonusMultiplier;
 	}
-
+	
 	/**
 	 * Return True if the attacker is not another L2FestivalMonsterInstance.
 	 */
@@ -30,10 +30,10 @@ public class FestivalMonster extends Monster
 	{
 		if (attacker instanceof FestivalMonster)
 			return false;
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * All mobs in the festival are aggressive, and have high aggro range.
 	 */
@@ -42,7 +42,7 @@ public class FestivalMonster extends Monster
 	{
 		return true;
 	}
-
+	
 	/**
 	 * All mobs in the festival don't need random animation.
 	 */
@@ -51,7 +51,7 @@ public class FestivalMonster extends Monster
 	{
 		return false;
 	}
-
+	
 	/**
 	 * Add a blood offering item to the leader of the party.
 	 */
@@ -61,9 +61,9 @@ public class FestivalMonster extends Monster
 		final Player player = attacker.getActingPlayer();
 		if (player == null || !player.isInParty())
 			return;
-
+		
 		player.getParty().getLeader().addItem("Sign", SevenSignsFestival.FESTIVAL_OFFERING_ID, _bonusMultiplier, attacker, true);
-
+		
 		super.doItemDrop(attacker);
 	}
 }

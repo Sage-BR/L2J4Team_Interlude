@@ -19,12 +19,12 @@ import java.util.Map;
 public class ChatHandler
 {
 	private final Map<Integer, IChatHandler> _datatable = new HashMap<>();
-
+	
 	public static ChatHandler getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected ChatHandler()
 	{
 		registerChatHandler(new ChatAll());
@@ -40,23 +40,23 @@ public class ChatHandler
 		registerChatHandler(new ChatTell());
 		registerChatHandler(new ChatTrade());
 	}
-
+	
 	public void registerChatHandler(IChatHandler handler)
 	{
 		for (int id : handler.getChatTypeList())
 			_datatable.put(id, handler);
 	}
-
+	
 	public IChatHandler getChatHandler(int chatType)
 	{
 		return _datatable.get(chatType);
 	}
-
+	
 	public int size()
 	{
 		return _datatable.size();
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final ChatHandler _instance = new ChatHandler();

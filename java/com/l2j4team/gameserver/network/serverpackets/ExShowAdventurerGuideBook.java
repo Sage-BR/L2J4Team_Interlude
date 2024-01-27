@@ -7,11 +7,11 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ExShowAdventurerGuideBook extends L2GameServerPacket
 {
 	public static final ExShowAdventurerGuideBook STATIC_PACKET = new ExShowAdventurerGuideBook();
-
+	
 	private ExShowAdventurerGuideBook()
 	{
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

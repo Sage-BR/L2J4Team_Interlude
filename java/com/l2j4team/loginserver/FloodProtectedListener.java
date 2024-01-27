@@ -15,10 +15,10 @@ import java.util.logging.Logger;
 public abstract class FloodProtectedListener extends Thread
 {
 	private final Logger _log = Logger.getLogger(FloodProtectedListener.class.getName());
-
+	
 	private final Map<String, ForeignConnection> _floodProtection = new ConcurrentHashMap<>();
 	private final ServerSocket _serverSocket;
-
+	
 	public FloodProtectedListener(String listenIp, int port) throws IOException
 	{
 		if (listenIp.equals("*"))
@@ -26,12 +26,12 @@ public abstract class FloodProtectedListener extends Thread
 		else
 			_serverSocket = new ServerSocket(port, 50, InetAddress.getByName(listenIp));
 	}
-
+	
 	@Override
 	public void run()
 	{
 		Socket connection = null;
-
+		
 		while (true)
 			try
 			{
@@ -46,16 +46,16 @@ public abstract class FloodProtectedListener extends Thread
 						{
 							fConnection.lastConnection = System.currentTimeMillis();
 							fConnection.connectionNumber -= 1;
-
+							
 							connection.close();
-
+							
 							if (!fConnection.isFlooding)
 								_log.warning("Potential Flood from " + connection.getInetAddress().getHostAddress());
-
+							
 							fConnection.isFlooding = true;
 							continue;
 						}
-
+						
 						if (fConnection.isFlooding) // if connection was flooding server but now passed the check
 						{
 							fConnection.isFlooding = false;
@@ -81,7 +81,7 @@ public abstract class FloodProtectedListener extends Thread
 				catch (Exception e2)
 				{
 				}
-
+				
 				if (isInterrupted())
 				{
 					// shutdown?
@@ -97,27 +97,27 @@ public abstract class FloodProtectedListener extends Thread
 				}
 			}
 	}
-
+	
 	protected static class ForeignConnection
 	{
 		public int connectionNumber;
 		public long lastConnection;
 		public boolean isFlooding = false;
-
+		
 		public ForeignConnection(long time)
 		{
 			lastConnection = time;
 			connectionNumber = 1;
 		}
 	}
-
+	
 	public abstract void addClient(Socket s);
-
+	
 	public void removeFloodProtection(String ip)
 	{
 		if (!Config.FLOOD_PROTECTION)
 			return;
-
+		
 		ForeignConnection fConnection = _floodProtection.get(ip);
 		if (fConnection != null)
 		{
@@ -128,7 +128,7 @@ public abstract class FloodProtectedListener extends Thread
 		else
 			_log.warning("Removing a flood protection for a GameServer that was not in the connection map??? :" + ip);
 	}
-
+	
 	public void close()
 	{
 		try

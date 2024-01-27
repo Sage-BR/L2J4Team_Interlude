@@ -8,7 +8,7 @@ public class Dice extends L2GameServerPacket
 	private final int _x;
 	private final int _y;
 	private final int _z;
-
+	
 	public Dice(int charObjId, int itemId, int number, int x, int y, int z)
 	{
 		_charObjId = charObjId;
@@ -18,7 +18,7 @@ public class Dice extends L2GameServerPacket
 		_y = y;
 		_z = z;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

@@ -3,19 +3,19 @@ package com.l2j4team.loginserver.network.serverpackets;
 public final class LoginFail extends L2LoginServerPacket
 {
 	private final LoginFailReason _reason;
-
+	
 	public LoginFail(final LoginFailReason reason)
 	{
 		_reason = reason;
 	}
-
+	
 	@Override
 	protected void write()
 	{
 		writeC(1);
 		writeD(_reason.getCode());
 	}
-
+	
 	public enum LoginFailReason
 	{
 		REASON_SYSTEM_ERROR(1),
@@ -27,14 +27,14 @@ public final class LoginFail extends L2LoginServerPacket
 		REASON_SERVER_MAINTENANCE(16),
 		REASON_TEMP_PASS_EXPIRED(17),
 		REASON_DUAL_BOX(35);
-
+		
 		private final int _code;
-
+		
 		private LoginFailReason(final int code)
 		{
 			_code = code;
 		}
-
+		
 		public final int getCode()
 		{
 			return _code;

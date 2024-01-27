@@ -52,7 +52,7 @@ import phantom.Phantom_Attack;
 public class VoteZone
 {
 	protected static final Logger _log = Logger.getLogger(VoteZone.class.getName());
-
+	
 	public static boolean startzone_1 = false;
 	public static boolean startzone_2 = false;
 	public static boolean startzone_3 = false;
@@ -61,41 +61,41 @@ public class VoteZone
 	public static boolean startzone_6 = false;
 	public static boolean startzone_7 = false;
 	public static boolean startzone_8 = false;
-
+	
 	public static boolean empate = false;
-
+	
 	public static boolean zone_1 = false;
 	public static int _zone_1_locsCount = 0;
 	public static ArrayList<Location> _zone_1_Loc = new ArrayList<>();
-
+	
 	public static boolean zone_2 = false;
 	public static int _zone_2_locsCount = 0;
 	public static ArrayList<Location> _zone_2_Loc = new ArrayList<>();
-
+	
 	public static boolean zone_3 = false;
 	public static int _zone_3_locsCount = 0;
 	public static ArrayList<Location> _zone_3_Loc = new ArrayList<>();
-
+	
 	public static boolean zone_4 = false;
 	public static int _zone_4_locsCount = 0;
 	public static ArrayList<Location> _zone_4_Loc = new ArrayList<>();
-
+	
 	public static boolean zone_5 = false;
 	public static int _zone_5_locsCount = 0;
 	public static ArrayList<Location> _zone_5_Loc = new ArrayList<>();
-
+	
 	public static boolean zone_6 = false;
 	public static int _zone_6_locsCount = 0;
 	public static ArrayList<Location> _zone_6_Loc = new ArrayList<>();
-
+	
 	public static boolean zone_7 = false;
 	public static int _zone_7_locsCount = 0;
 	public static ArrayList<Location> _zone_7_Loc = new ArrayList<>();
-
+	
 	public static boolean zone_8 = false;
 	public static int _zone_8_locsCount = 0;
 	public static ArrayList<Location> _zone_8_Loc = new ArrayList<>();
-
+	
 	public static boolean selected_zone_1 = false;
 	public static boolean selected_zone_2 = false;
 	public static boolean selected_zone_3 = false;
@@ -103,9 +103,9 @@ public class VoteZone
 	public static boolean selected_zone_5 = false;
 	public static boolean selected_zone_6 = false;
 	public static boolean selected_zone_7 = false;
-
+	
 	private static VoteZone _instance;
-
+	
 	public static VoteZone getInstance()
 	{
 		if (_instance == null)
@@ -114,7 +114,7 @@ public class VoteZone
 		}
 		return _instance;
 	}
-
+	
 	public VoteZone()
 	{
 		_log.info("PvpZone: Loading zones...");
@@ -127,7 +127,7 @@ public class VoteZone
 		LocsZone6();
 		LocsZone7();
 	}
-
+	
 	public static void SelectZone()
 	{
 		startzone_1 = false;
@@ -150,7 +150,7 @@ public class VoteZone
 						VoteZoneCommands.ShowResult_init(player);
 					}
 					player.setVotePlayer(false);
-
+					
 					CreatureSay cs = new CreatureSay(0, 2, "VoteZone", "The vote ended with a tie..");
 					player.sendPacket(cs);
 				}
@@ -168,7 +168,7 @@ public class VoteZone
 						VoteZoneCommands.cleanVote_7(0);
 					}
 				}, 500L);
-
+				
 				ThreadPool.schedule(new Runnable()
 				{
 					@SuppressWarnings("resource")
@@ -215,7 +215,7 @@ public class VoteZone
 						}
 					}
 				}, 1000L);
-
+				
 				ThreadPool.schedule(new Runnable()
 				{
 					@Override
@@ -227,7 +227,7 @@ public class VoteZone
 						VoteZone.StartVoteZone();
 					}
 				}, 3000L);
-
+				
 				return;
 			}
 			for (Player player : World.getInstance().getPlayers())
@@ -252,14 +252,14 @@ public class VoteZone
 					Location zone5 = player.getRandomLoc5();
 					Location zone6 = player.getRandomLoc6();
 					Location zone7 = player.getRandomLoc7();
-
+					
 					for (Player bot : World.getInstance().getPlayers())
 					{
 						if (bot.isPhantom() && !bot.isFarmArchMage() && !bot.isFarmMysticMuse() && !bot.isFarmStormScream() && bot.isInsideZone(ZoneId.CUSTOM))
 						{
 							if (bot.isPhantomArchMage() || bot.isPhantomMysticMuse() || bot.isPhantomStormScream())
 								Phantom_Attack.removePhantom(bot);
-
+							
 							final L2GameClient client = bot.getClient();
 							// detach the client from the char so that the connection isnt closed in the deleteMe
 							bot.setClient(null);
@@ -269,7 +269,7 @@ public class VoteZone
 							client.setState(GameClientState.AUTHED);
 						}
 					}
-
+					
 					if (is_zone_1())
 					{
 						int getX = zone1.getX() + Rnd.get(-Config.VOTEZONE_RANDOM_RANGE, Config.VOTEZONE_RANDOM_RANGE);
@@ -312,7 +312,7 @@ public class VoteZone
 						int getY = zone7.getY() + Rnd.get(-Config.VOTEZONE_RANDOM_RANGE, Config.VOTEZONE_RANDOM_RANGE);
 						player.teleToLocation(getX, getY, zone7.getZ(), 20);
 					}
-
+					
 					ThreadPool.schedule(new Runnable()
 					{
 						@Override
@@ -323,7 +323,7 @@ public class VoteZone
 						}
 					}, 3000L);
 				}
-
+				
 				CreatureSay cs = new CreatureSay(0, Config.ANNOUNCE_ID_EVENT, "VoteZone", "The pvp area was changed.");
 				player.sendPacket(cs);
 				CreatureSay cs1 = new CreatureSay(0, Config.ANNOUNCE_ID_EVENT, "VoteZone", "Next VoteZone: " + NewZoneVote.getInstance().getNextTime() + " GMT-3 .");
@@ -333,7 +333,7 @@ public class VoteZone
 					VoteZoneCommands.ShowResult(player);
 				}
 				player.setVotePlayer(false);
-
+				
 				ThreadPool.schedule(new Runnable()
 				{
 					@Override
@@ -369,7 +369,7 @@ public class VoteZone
 						Phantom_Attack.init();
 						_log.info("[Phantom Mass PvP]: Starded!");
 					}
-
+					
 				}, 500);
 			}
 			ThreadPool.schedule(new Runnable()
@@ -446,7 +446,7 @@ public class VoteZone
 					}
 				}
 			}, 2000L);
-
+			
 			ThreadPool.schedule(new Runnable()
 			{
 				@SuppressWarnings("resource")
@@ -493,81 +493,81 @@ public class VoteZone
 					}
 				}
 			}, 1000L);
-
+			
 			Announcement.AnnounceEvents("Next VoteZone: " + NewZoneVote.getInstance().getNextTime() + " GMT-3 .");
 		}
 	}
-
+	
 	public static boolean is_zone_1()
 	{
 		return zone_1;
 	}
-
+	
 	public static boolean is_zone_2()
 	{
 		return zone_2;
 	}
-
+	
 	public static boolean is_zone_3()
 	{
 		return zone_3;
 	}
-
+	
 	public static boolean is_zone_4()
 	{
 		return zone_4;
 	}
-
+	
 	public static boolean is_zone_5()
 	{
 		return zone_5;
 	}
-
+	
 	public static boolean is_zone_6()
 	{
 		return zone_6;
 	}
-
+	
 	public static boolean is_zone_7()
 	{
 		return zone_7;
 	}
-
+	
 	public static boolean selected_zone_1()
 	{
 		return selected_zone_1;
 	}
-
+	
 	public static boolean selected_zone_2()
 	{
 		return selected_zone_2;
 	}
-
+	
 	public static boolean selected_zone_3()
 	{
 		return selected_zone_3;
 	}
-
+	
 	public static boolean selected_zone_4()
 	{
 		return selected_zone_4;
 	}
-
+	
 	public static boolean selected_zone_5()
 	{
 		return selected_zone_5;
 	}
-
+	
 	public static boolean selected_zone_6()
 	{
 		return selected_zone_6;
 	}
-
+	
 	public static boolean selected_zone_7()
 	{
 		return selected_zone_7;
 	}
-
+	
 	@SuppressWarnings("resource")
 	private static void LocsZone1()
 	{
@@ -623,7 +623,7 @@ public class VoteZone
 			}
 		}
 	}
-
+	
 	@SuppressWarnings("resource")
 	private static void LocsZone2()
 	{
@@ -679,7 +679,7 @@ public class VoteZone
 			}
 		}
 	}
-
+	
 	@SuppressWarnings("resource")
 	private static void LocsZone3()
 	{
@@ -735,7 +735,7 @@ public class VoteZone
 			}
 		}
 	}
-
+	
 	@SuppressWarnings("resource")
 	private static void LocsZone4()
 	{
@@ -791,7 +791,7 @@ public class VoteZone
 			}
 		}
 	}
-
+	
 	@SuppressWarnings("resource")
 	private static void LocsZone5()
 	{
@@ -847,7 +847,7 @@ public class VoteZone
 			}
 		}
 	}
-
+	
 	@SuppressWarnings("resource")
 	private static void LocsZone6()
 	{
@@ -903,7 +903,7 @@ public class VoteZone
 			}
 		}
 	}
-
+	
 	@SuppressWarnings("resource")
 	private static void LocsZone7()
 	{
@@ -959,7 +959,7 @@ public class VoteZone
 			}
 		}
 	}
-
+	
 	public void getInitRandomZone()
 	{
 		if (Config.PVPZONE_INIT == 1)
@@ -1002,9 +1002,9 @@ public class VoteZone
 			zone_2 = true;
 			startzone_2 = true;
 		}
-
+		
 	}
-
+	
 	public static void getRandomZone()
 	{
 		if (VoteZoneCommands.getVote_1() > VoteZoneCommands.getVote_2() && VoteZoneCommands.getVote_1() > VoteZoneCommands.getVote_3() && VoteZoneCommands.getVote_1() > VoteZoneCommands.getVote_4() && VoteZoneCommands.getVote_1() > VoteZoneCommands.getVote_5() && VoteZoneCommands.getVote_1() > VoteZoneCommands.getVote_6() && VoteZoneCommands.getVote_1() > VoteZoneCommands.getVote_7())
@@ -1250,7 +1250,7 @@ public class VoteZone
 			empate = true;
 		}
 	}
-
+	
 	public static void StartVoteZone()
 	{
 		ThreadPool.schedule(new Runnable()
@@ -1269,5 +1269,5 @@ public class VoteZone
 			}
 		}, 1L);
 	}
-
+	
 }

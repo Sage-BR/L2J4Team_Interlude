@@ -8,7 +8,7 @@ public class SessionKey
 	public int playOkID2;
 	public int loginOkID1;
 	public int loginOkID2;
-
+	
 	public SessionKey(final int loginOK1, final int loginOK2, final int playOK1, final int playOK2)
 	{
 		playOkID1 = playOK1;
@@ -16,18 +16,18 @@ public class SessionKey
 		loginOkID1 = loginOK1;
 		loginOkID2 = loginOK2;
 	}
-
+	
 	@Override
 	public String toString()
 	{
 		return "PlayOk: " + playOkID1 + " " + playOkID2 + " LoginOk:" + loginOkID1 + " " + loginOkID2;
 	}
-
+	
 	public boolean checkLoginPair(final int loginOk1, final int loginOk2)
 	{
 		return loginOkID1 == loginOk1 && loginOkID2 == loginOk2;
 	}
-
+	
 	public boolean equals(final SessionKey key)
 	{
 		if (Config.SHOW_LICENCE)

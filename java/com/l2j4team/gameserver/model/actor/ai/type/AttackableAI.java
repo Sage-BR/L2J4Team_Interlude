@@ -41,36 +41,36 @@ public class AttackableAI extends CreatureAI implements Runnable
 {
 	protected static final int RANDOM_WALK_RATE = 30;
 	protected static final int MAX_ATTACK_TIMEOUT = 90000; // 1m30
-
+	
 	/** The L2Attackable AI task executed every 1s (call onEvtThink method) */
 	protected Future<?> _aiTask;
-
+	
 	/** The delay after wich the attacked is stopped */
 	protected long _attackTimeout;
-
+	
 	/** The L2Attackable aggro counter */
 	protected int _globalAggro;
-
+	
 	/** The flag used to indicate that a thinking action is in progress ; prevent recursive thinking */
 	protected boolean _thinking;
-
+	
 	private int _chaostime = 0;
-
+	
 	public AttackableAI(Attackable attackable)
 	{
 		super(attackable);
-
+		
 		_attackTimeout = Long.MAX_VALUE;
 		_globalAggro = -10; // 10 seconds timeout of ATTACK after respawn
 	}
-
+	
 	@Override
 	public void run()
 	{
 		// Launch actions corresponding to the Event Think
 		onEvtThink();
 	}
-
+	
 	/**
 	 * <B><U> Actor is a L2GuardInstance</U> :</B>
 	 * <ul>
@@ -110,16 +110,16 @@ public class AttackableAI extends CreatureAI implements Runnable
 		// Check if the target isn't null, a Door or dead.
 		if (target == null || target instanceof Door || target.isAlikeDead())
 			return false;
-
+		
 		final Attackable me = getActiveChar();
-
+		
 		if (target instanceof Playable)
 		{
 			// Check if target is in the Aggro range
 			// Check if the AI isn't a Raid Boss, can See Silent Moving players and the target isn't in silent move mode
 			if (!me.isInsideRadius(target, me.getTemplate().getAggroRange(), true, false) || (!(me.isRaid()) && !(me.canSeeThroughSilentMove()) && ((Playable) target).isSilentMoving()))
 				return false;
-
+			
 			// Check if the target is a Player
 			Player targetPlayer = target.getActingPlayer();
 			if (targetPlayer != null)
@@ -127,41 +127,38 @@ public class AttackableAI extends CreatureAI implements Runnable
 				// GM checks ; check if the target is invisible or got access level
 				if (targetPlayer.isGM() && (targetPlayer.getAppearance().getInvisible() || !targetPlayer.getAccessLevel().canTakeAggro()))
 					return false;
-
+				
 				// Check if player is an allied Varka.
-				if (ArraysUtil.contains(me.getTemplate().getClans(), "varka_silenos_clan") && targetPlayer.isAlliedWithVarka())
-					return false;
-
 				// Check if player is an allied Ketra.
-				if (ArraysUtil.contains(me.getTemplate().getClans(), "ketra_orc_clan") && targetPlayer.isAlliedWithKetra())
+				if ((ArraysUtil.contains(me.getTemplate().getClans(), "varka_silenos_clan") && targetPlayer.isAlliedWithVarka()) || (ArraysUtil.contains(me.getTemplate().getClans(), "ketra_orc_clan") && targetPlayer.isAlliedWithKetra()))
 					return false;
-
+				
 				// check if the target is within the grace period for JUST getting up from fake death
 				if (targetPlayer.isRecentFakeDeath())
 					return false;
-
+				
 				if (targetPlayer.isInParty() && targetPlayer.getParty().isInDimensionalRift())
 				{
 					byte riftType = targetPlayer.getParty().getDimensionalRift().getType();
 					byte riftRoom = targetPlayer.getParty().getDimensionalRift().getCurrentRoom();
-
+					
 					if (me instanceof RiftInvader && !DimensionalRiftManager.getInstance().getRoom(riftType, riftRoom).checkIfInZone(me.getX(), me.getY(), me.getZ()))
 						return false;
 				}
 			}
 		}
-
+		
 		// Check if the actor is a L2GuardInstance
 		if (me instanceof Guard)
 		{
 			// Check if the Player target has karma (=PK)
 			if (target instanceof Player && ((Player) target).getKarma() > 0)
 				return GeoEngine.getInstance().canSeeTarget(me, target);
-
+			
 			// Check if the L2MonsterInstance target is aggressive
 			if (target instanceof Monster && Config.GUARD_ATTACK_AGGRO_MOB)
 				return (((Monster) target).isAggressive() && GeoEngine.getInstance().canSeeTarget(me, target));
-
+			
 			return false;
 		}
 		// The actor is a L2FriendlyMobInstance
@@ -170,7 +167,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 			// Check if the Player target has karma (=PK)
 			if (target instanceof Player && ((Player) target).getKarma() > 0)
 				return GeoEngine.getInstance().canSeeTarget(me, target); // Los Check
-
+				
 			return false;
 		}
 		// The actor is a L2Npc
@@ -178,17 +175,17 @@ public class AttackableAI extends CreatureAI implements Runnable
 		{
 			if (target instanceof Attackable && me.isConfused())
 				return GeoEngine.getInstance().canSeeTarget(me, target);
-
+				
 			// depending on config, do not allow mobs to attack _new_ players in peacezones,
 			// unless they are already following those players from outside the peacezone.
 			if ((target instanceof Npc) || (!Config.ALT_MOB_AGRO_IN_PEACEZONE && target.isInsideZone(ZoneId.PEACE)))
 				return false;
-
+			
 			// Check if the actor is Aggressive
 			return (me.isAggressive() && GeoEngine.getInstance().canSeeTarget(me, target));
 		}
 	}
-
+	
 	@Override
 	public void stopAITask()
 	{
@@ -199,7 +196,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 		}
 		super.stopAITask();
 	}
-
+	
 	/**
 	 * Set the Intention of this CreatureAI and create an AI Task executed every 1s (call onEvtThink method) for this L2Attackable.<BR>
 	 * <BR>
@@ -231,29 +228,29 @@ public class AttackableAI extends CreatureAI implements Runnable
 					}
 				}
 			}
-
+			
 			if (intention == CtrlIntention.IDLE)
 			{
 				// Set the Intention of this L2AttackableAI to IDLE
 				super.changeIntention(CtrlIntention.IDLE, null, null);
-
+				
 				// Stop AI task and detach AI from NPC
 				stopAITask();
-
+				
 				// Cancel the AI
 				_actor.detachAI();
 				return;
 			}
 		}
-
+		
 		// Set the Intention of this L2AttackableAI to intention
 		super.changeIntention(intention, arg0, arg1);
-
+		
 		// If not idle - create an AI task (schedule onEvtThink repeatedly)
 		if (_aiTask == null)
 			_aiTask = ThreadPool.scheduleAtFixedRate(this, 1000, 1000);
 	}
-
+	
 	/**
 	 * Manage the Attack Intention :
 	 * <ul>
@@ -268,14 +265,14 @@ public class AttackableAI extends CreatureAI implements Runnable
 	{
 		// Calculate the attack timeout
 		_attackTimeout = System.currentTimeMillis() + MAX_ATTACK_TIMEOUT;
-
+		
 		// Check buff.
 		checkBuffAndSetBackTarget(target);
-
+		
 		// Manage the attack intention : stop current attack (if necessary), start a new attack and launch Think event.
 		super.onIntentionAttack(target);
 	}
-
+	
 	private void thinkCast()
 	{
 		if (checkTargetLost(getTarget()))
@@ -283,15 +280,15 @@ public class AttackableAI extends CreatureAI implements Runnable
 			setTarget(null);
 			return;
 		}
-
+		
 		if (maybeMoveToPawn(getTarget(), _skill.getCastRange()))
 			return;
-
+		
 		clientStopMoving(null);
 		setIntention(CtrlIntention.ACTIVE);
 		_actor.doCast(_skill);
 	}
-
+	
 	/**
 	 * Manage AI standard thinks of a L2Attackable (called by onEvtThink).
 	 * <ul>
@@ -304,7 +301,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 	protected void thinkActive()
 	{
 		final Attackable npc = getActiveChar();
-
+		
 		// Update every 1s the _globalAggro counter to come close to 0
 		if (_globalAggro != 0)
 		{
@@ -313,7 +310,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 			else
 				_globalAggro--;
 		}
-
+		
 		// Add all autoAttackable Creature in L2Attackable Aggro Range to its _aggroList with 0 damage and 1 hate
 		// A L2Attackable isn't aggressive during 10s after its spawn because _globalAggro is set to -10
 		if (_globalAggro >= 0)
@@ -327,7 +324,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 					if (!((Player) target).isFestivalParticipant())
 						continue;
 				}
-
+				
 				// For each Creature check if the target is autoattackable
 				if (autoAttackCondition(target)) // check aggression
 				{
@@ -336,7 +333,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 						npc.addDamageHate(target, 0, 0);
 				}
 			}
-
+			
 			if (!npc.isCoreAIDisabled())
 			{
 				// Chose a target from its aggroList and order to attack the target
@@ -348,7 +345,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 					{
 						// Set the Creature movement type to run and send Server->Client packet ChangeMoveType to all others Player
 						npc.setRunning();
-
+						
 						// Set the AI Intention to ATTACK
 						setIntention(CtrlIntention.ATTACK, hated);
 					}
@@ -356,41 +353,41 @@ public class AttackableAI extends CreatureAI implements Runnable
 				}
 			}
 		}
-
+		
 		// If this is a festival monster, then it remains in the same location.
 		// Check buffs.
 		if ((npc instanceof FestivalMonster) || checkBuffAndSetBackTarget(_actor.getTarget()))
 			return;
-
+		
 		// Minions following leader
 		final Attackable leader = npc.getLeader();
 		if (leader != null && !leader.isAlikeDead())
 		{
 			final int offset = (int) (100 + npc.getCollisionRadius() + leader.getCollisionRadius());
 			final int minRadius = (int) (leader.getCollisionRadius() + 30);
-
+			
 			if (leader.isRunning())
 				npc.setRunning();
 			else
 				npc.setWalking();
-
+			
 			if (npc.getPlanDistanceSq(leader.getX(), leader.getY()) > offset * offset)
 			{
 				int x1 = Rnd.get(minRadius * 2, offset * 2); // x
 				int y1 = Rnd.get(x1, offset * 2); // distance
-
+				
 				y1 = (int) Math.sqrt(y1 * y1 - x1 * x1); // y
-
+				
 				if (x1 > offset + minRadius)
 					x1 = leader.getX() + x1 - offset;
 				else
 					x1 = leader.getX() - x1 + minRadius;
-
+				
 				if (y1 > offset + minRadius)
 					y1 = leader.getY() + y1 - offset;
 				else
 					y1 = leader.getY() - y1 + minRadius;
-
+				
 				// Move the actor to Location (x,y,z) server side AND client side by sending Server->Client packet CharMoveToLocation (broadcast)
 				moveTo(x1, y1, leader.getZ());
 				return;
@@ -401,29 +398,29 @@ public class AttackableAI extends CreatureAI implements Runnable
 			// Return to home if too far.
 			if (npc.returnHome(false))
 				return;
-
+			
 			// Random walk otherwise.
 			if (npc.getSpawn() != null && !npc.isNoRndWalk() && Rnd.get(RANDOM_WALK_RATE) == 0)
 			{
 				int x1 = npc.getSpawn().getLocX();
 				int y1 = npc.getSpawn().getLocY();
 				int z1 = npc.getSpawn().getLocZ();
-
+				
 				final int range = Config.MAX_DRIFT_RANGE;
-
+				
 				x1 = Rnd.get(range * 2); // x
 				y1 = Rnd.get(x1, range * 2); // distance
 				y1 = (int) Math.sqrt(y1 * y1 - x1 * x1); // y
 				x1 += npc.getSpawn().getLocX() - range;
 				y1 += npc.getSpawn().getLocY() - range;
 				z1 = npc.getZ();
-
+				
 				// Move the actor to Location (x,y,z)
 				moveTo(x1, y1, z1);
 			}
 		}
 	}
-
+	
 	/**
 	 * Manage AI attack thoughts of a L2Attackable (called by onEvtThink).
 	 * <ul>
@@ -438,10 +435,10 @@ public class AttackableAI extends CreatureAI implements Runnable
 		final Attackable npc = getActiveChar();
 		if (npc.isCastingNow())
 			return;
-
+		
 		// Pickup most hated character.
 		Creature attackTarget = npc.getMostHated();
-
+		
 		// If target doesn't exist, is too far or if timeout is expired.
 		if (attackTarget == null || _attackTimeout < System.currentTimeMillis() || MathUtil.calculateDistance(npc, attackTarget, true) > 2000)
 		{
@@ -451,11 +448,11 @@ public class AttackableAI extends CreatureAI implements Runnable
 			npc.setWalking();
 			return;
 		}
-
+		
 		// Corpse AIs, as AI scripts, are stopped here.
 		if (npc.isCoreAIDisabled())
 			return;
-
+		
 		if ((npc instanceof Monster) && (attackTarget instanceof Player) && !(npc instanceof RaidBoss) && !(npc instanceof GrandBoss) && !npc.isDead() && !npc.isRaidMinion() && npc.isInsideZone(ZoneId.NO_MONSTER) && attackTarget.isInsideZone(ZoneId.NO_MONSTER))
 		{
 			setIntention(CtrlIntention.ACTIVE);
@@ -463,7 +460,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 			npc.abortAttack();
 			npc.abortCast();
 			npc.setTarget(null);
-
+			
 			if (npc.getSpawn() != null)
 				npc.teleToLocation(npc.getSpawn().getLoc(), 0);
 			else if (npc.isMinion())
@@ -482,7 +479,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 			npc.abortAttack();
 			npc.abortCast();
 			npc.setTarget(null);
-
+			
 			if (npc.getSpawn() != null)
 				npc.teleToLocation(npc.getSpawn().getLoc(), 0);
 			else if (npc.isMinion())
@@ -502,18 +499,18 @@ public class AttackableAI extends CreatureAI implements Runnable
 				npc.abortAttack();
 				npc.abortCast();
 				npc.setTarget(null);
-
+				
 				if (npc.getSpawn() != null)
 					npc.teleToLocation(npc.getSpawn().getLoc(), 0);
 			}
 			return;
 		}
-
+		
 		/**
 		 * TARGET CHECKS<br>
 		 * Chaos time for RB/minions.
 		 */
-
+		
 		if (npc.isRaid() || npc.isRaidMinion())
 		{
 			_chaostime++;
@@ -537,26 +534,26 @@ public class AttackableAI extends CreatureAI implements Runnable
 				_chaostime = 0;
 			}
 		}
-
+		
 		setTarget(attackTarget);
 		npc.setTarget(attackTarget);
-
+		
 		/**
 		 * COMMON INFORMATIONS<br>
 		 * Used for range and distance check.
 		 */
-
+		
 		final int actorCollision = (int) npc.getCollisionRadius();
 		final int combinedCollision = (int) (actorCollision + attackTarget.getCollisionRadius());
 		final double dist = Math.sqrt(npc.getPlanDistanceSq(attackTarget.getX(), attackTarget.getY()));
-
+		
 		int range = combinedCollision;
 		if (attackTarget.isMoving())
 			range += 15;
-
+		
 		if (npc.isMoving())
 			range += 15;
-
+		
 		/**
 		 * CAST CHECK<br>
 		 * The mob succeeds a skill check ; make all possible checks to define the skill to launch. If nothing is found, go in MELEE CHECK.<br>
@@ -569,12 +566,12 @@ public class AttackableAI extends CreatureAI implements Runnable
 		 * <li>damage skill, in that order : short range and long range</li>
 		 * </ul>
 		 */
-
+		
 		if (willCastASpell())
 		{
 			// This list is used in order to avoid multiple calls on skills lists. Tests are made one after the other, and content is replaced when needed.
 			List<L2Skill> defaultList;
-
+			
 			// -------------------------------------------------------------------------------
 			// Suicide possibility if HPs are < 15%.
 			defaultList = npc.getTemplate().getSkills(SkillType.SUICIDE);
@@ -584,7 +581,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 				if (cast(skill, dist, range + skill.getSkillRadius()))
 					return;
 			}
-
+			
 			// -------------------------------------------------------------------------------
 			// Heal
 			defaultList = npc.getTemplate().getSkills(SkillType.HEAL);
@@ -600,14 +597,14 @@ public class AttackableAI extends CreatureAI implements Runnable
 						{
 							if ((sk.getTargetType() == SkillTargetType.TARGET_SELF) || !checkSkillCastConditions(sk))
 								continue;
-
+							
 							final int overallRange = (int) (sk.getCastRange() + actorCollision + leader.getCollisionRadius());
 							if (!MathUtil.checkIfInRange(overallRange, npc, leader, false) && sk.getTargetType() != SkillTargetType.TARGET_PARTY && !npc.isMovementDisabled())
 							{
 								moveToPawn(leader, overallRange);
 								return;
 							}
-
+							
 							if (GeoEngine.getInstance().canSeeTarget(npc, leader))
 							{
 								clientStopMoving(null);
@@ -618,7 +615,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 						}
 					}
 				}
-
+				
 				// Second priority is to heal himself.
 				if (npc.getCurrentHp() / npc.getMaxHp() < 0.75)
 				{
@@ -626,19 +623,19 @@ public class AttackableAI extends CreatureAI implements Runnable
 					{
 						if (!checkSkillCastConditions(sk))
 							continue;
-
+						
 						clientStopMoving(null);
 						npc.setTarget(npc);
 						npc.doCast(sk);
 						return;
 					}
 				}
-
+				
 				for (L2Skill sk : defaultList)
 				{
 					if (!checkSkillCastConditions(sk))
 						continue;
-
+					
 					if (sk.getTargetType() == SkillTargetType.TARGET_ONE)
 					{
 						final String[] actorClans = npc.getTemplate().getClans();
@@ -646,7 +643,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 						{
 							if (obj.isDead() || !ArraysUtil.contains(actorClans, obj.getTemplate().getClans()))
 								continue;
-
+							
 							if (obj.getCurrentHp() / obj.getMaxHp() < 0.75)
 							{
 								if (GeoEngine.getInstance().canSeeTarget(npc, obj))
@@ -658,7 +655,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 								}
 							}
 						}
-
+						
 						if (sk.getTargetType() == SkillTargetType.TARGET_PARTY)
 						{
 							clientStopMoving(null);
@@ -668,7 +665,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 					}
 				}
 			}
-
+			
 			// -------------------------------------------------------------------------------
 			// Buff
 			defaultList = npc.getTemplate().getSkills(SkillType.BUFF);
@@ -678,11 +675,11 @@ public class AttackableAI extends CreatureAI implements Runnable
 				{
 					if (!checkSkillCastConditions(sk))
 						continue;
-
+					
 					if (npc.getFirstEffect(sk) == null)
 					{
 						clientStopMoving(null);
-
+						
 						npc.setTarget(npc);
 						npc.doCast(sk);
 						npc.setTarget(attackTarget);
@@ -690,7 +687,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 					}
 				}
 			}
-
+			
 			// -------------------------------------------------------------------------------
 			// Debuff - 10% luck to get debuffed.
 			defaultList = npc.getTemplate().getSkills(SkillType.DEBUFF);
@@ -700,7 +697,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 				{
 					if (!checkSkillCastConditions(sk) || (sk.getCastRange() + npc.getCollisionRadius() + attackTarget.getCollisionRadius() <= dist && !canAura(sk)) || !GeoEngine.getInstance().canSeeTarget(npc, attackTarget))
 						continue;
-
+					
 					if (attackTarget.getFirstEffect(sk) == null)
 					{
 						clientStopMoving(null);
@@ -709,7 +706,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 					}
 				}
 			}
-
+			
 			// -------------------------------------------------------------------------------
 			// General attack skill - short range is checked, then long range.
 			defaultList = npc.getTemplate().getSkills(SkillType.SHORT_RANGE);
@@ -730,33 +727,33 @@ public class AttackableAI extends CreatureAI implements Runnable
 				}
 			}
 		}
-
+		
 		/**
 		 * MELEE CHECK<br>
 		 * The mob failed a skill check ; make him flee if AI authorizes it, else melee attack.
 		 */
-
+		
 		// The range takes now in consideration physical attack range.
 		range += npc.getPhysicalAttackRange();
-
+		
 		if (npc.isMovementDisabled())
 		{
 			// If distance is too big, choose another target.
 			if (dist > range)
 				attackTarget = targetReconsider(range, true);
-
+			
 			// Any AI type, even healer or mage, will try to melee attack if it can't do anything else (desesperate situation).
 			if (attackTarget != null)
 				_actor.doAttack(attackTarget);
-
+			
 			return;
 		}
-
+		
 		/**
 		 * MOVE AROUND CHECK<br>
 		 * In case many mobs are trying to hit from same place, move a bit, circling around the target
 		 */
-
+		
 		if (Rnd.get(100) <= 3)
 		{
 			for (Attackable nearby : npc.getKnownTypeInRadius(Attackable.class, actorCollision))
@@ -768,13 +765,13 @@ public class AttackableAI extends CreatureAI implements Runnable
 						newX = attackTarget.getX() + newX;
 					else
 						newX = attackTarget.getX() - newX;
-
+					
 					int newY = combinedCollision + Rnd.get(40);
 					if (Rnd.nextBoolean())
 						newY = attackTarget.getY() + newY;
 					else
 						newY = attackTarget.getY() - newY;
-
+					
 					if (!npc.isInsideRadius(newX, newY, actorCollision, false))
 					{
 						int newZ = npc.getZ() + 30;
@@ -785,58 +782,58 @@ public class AttackableAI extends CreatureAI implements Runnable
 				}
 			}
 		}
-
+		
 		/**
 		 * FLEE CHECK<br>
 		 * Test the flee possibility. Archers got 25% chance to flee.
 		 */
-
+		
 		if (npc.getTemplate().getAiType() == AIType.ARCHER && dist <= (60 + combinedCollision) && Rnd.get(4) > 1)
 		{
 			final int posX = npc.getX() + ((attackTarget.getX() < npc.getX()) ? 300 : -300);
 			final int posY = npc.getY() + ((attackTarget.getY() < npc.getY()) ? 300 : -300);
 			final int posZ = npc.getZ() + 30;
-
+			
 			if (GeoEngine.getInstance().canMoveToTarget(npc.getX(), npc.getY(), npc.getZ(), posX, posY, posZ))
 			{
 				setIntention(CtrlIntention.MOVE_TO, new Location(posX, posY, posZ));
 				return;
 			}
 		}
-
+		
 		/**
 		 * BASIC MELEE ATTACK
 		 */
-
+		
 		if (dist > range || !GeoEngine.getInstance().canSeeTarget(npc, attackTarget))
 		{
 			if (attackTarget.isMoving())
 				range -= 30;
-
+			
 			if (range < 5)
 				range = 5;
-
+			
 			moveToPawn(attackTarget, range);
 			return;
 		}
-
+		
 		_actor.doAttack((Creature) getTarget());
 	}
-
+	
 	protected boolean cast(L2Skill sk, double distance, int range)
 	{
 		if (sk == null)
 			return false;
-
+		
 		final Attackable caster = getActiveChar();
-
+		
 		if ((caster.isCastingNow() && !sk.isSimultaneousCast()) || !checkSkillCastConditions(sk))
 			return false;
-
+		
 		Creature attackTarget = (Creature) getTarget();
 		if (attackTarget == null)
 			return false;
-
+		
 		switch (sk.getSkillType())
 		{
 			case BUFF:
@@ -848,12 +845,12 @@ public class AttackableAI extends CreatureAI implements Runnable
 					caster.doCast(sk);
 					return true;
 				}
-
+				
 				// ----------------------------------------
 				// If actor already have buff, start looking at others same faction mob to cast
 				if (sk.getTargetType() == SkillTargetType.TARGET_SELF)
 					return false;
-
+				
 				if (sk.getTargetType() == SkillTargetType.TARGET_ONE)
 				{
 					Creature target = targetReconsider(sk.getCastRange(), true);
@@ -867,7 +864,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 						return true;
 					}
 				}
-
+				
 				if (canParty(sk))
 				{
 					clientStopMoving(null);
@@ -879,7 +876,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 				}
 				break;
 			}
-
+			
 			case HEAL:
 			case HOT:
 			case HEAL_PERCENT:
@@ -895,7 +892,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 						final int overallRange = (int) (sk.getCastRange() + caster.getCollisionRadius() + leader.getCollisionRadius());
 						if (!MathUtil.checkIfInRange(overallRange, caster, leader, false) && sk.getTargetType() != SkillTargetType.TARGET_PARTY && !caster.isMovementDisabled())
 							moveToPawn(leader, overallRange);
-
+						
 						if (GeoEngine.getInstance().canSeeTarget(caster, leader))
 						{
 							clientStopMoving(null);
@@ -905,7 +902,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 						}
 					}
 				}
-
+				
 				// Personal case.
 				double percentage = caster.getCurrentHp() / caster.getMaxHp() * 100;
 				if (Rnd.get(100) < (100 - percentage) / 3)
@@ -915,17 +912,14 @@ public class AttackableAI extends CreatureAI implements Runnable
 					caster.doCast(sk);
 					return true;
 				}
-
+				
 				if (sk.getTargetType() == SkillTargetType.TARGET_ONE)
 				{
 					for (Attackable obj : caster.getKnownTypeInRadius(Attackable.class, (int) (sk.getCastRange() + caster.getCollisionRadius())))
 					{
-						if (obj.isDead())
+						if (obj.isDead() || !ArraysUtil.contains(caster.getTemplate().getClans(), obj.getTemplate().getClans()))
 							continue;
-
-						if (!ArraysUtil.contains(caster.getTemplate().getClans(), obj.getTemplate().getClans()))
-							continue;
-
+						
 						percentage = obj.getCurrentHp() / obj.getMaxHp() * 100;
 						if (Rnd.get(100) < (100 - percentage) / 10)
 						{
@@ -939,14 +933,14 @@ public class AttackableAI extends CreatureAI implements Runnable
 						}
 					}
 				}
-
+				
 				if (sk.getTargetType() == SkillTargetType.TARGET_PARTY)
 				{
 					for (Attackable obj : caster.getKnownTypeInRadius(Attackable.class, (int) (sk.getSkillRadius() + caster.getCollisionRadius())))
 					{
 						if (!ArraysUtil.contains(caster.getTemplate().getClans(), obj.getTemplate().getClans()))
 							continue;
-
+						
 						if (obj.getCurrentHp() < obj.getMaxHp() && Rnd.get(100) <= 20)
 						{
 							clientStopMoving(null);
@@ -958,7 +952,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 				}
 				break;
 			}
-
+			
 			case DEBUFF:
 			case POISON:
 			case DOT:
@@ -982,7 +976,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 						caster.doCast(sk);
 						return true;
 					}
-
+					
 					if ((sk.getTargetType() == SkillTargetType.TARGET_AREA || sk.getTargetType() == SkillTargetType.TARGET_BEHIND_AREA || sk.getTargetType() == SkillTargetType.TARGET_FRONT_AREA) && GeoEngine.getInstance().canSeeTarget(caster, attackTarget) && !attackTarget.isDead() && distance <= range)
 					{
 						clientStopMoving(null);
@@ -1002,7 +996,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 				}
 				break;
 			}
-
+			
 			case SLEEP:
 			{
 				if (sk.getTargetType() == SkillTargetType.TARGET_ONE)
@@ -1019,7 +1013,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 							}
 						}
 					}
-
+					
 					Creature target = targetReconsider(sk.getCastRange(), true);
 					if (target != null)
 					{
@@ -1036,7 +1030,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 						caster.doCast(sk);
 						return true;
 					}
-
+					
 					if ((sk.getTargetType() == SkillTargetType.TARGET_AREA || sk.getTargetType() == SkillTargetType.TARGET_BEHIND_AREA || sk.getTargetType() == SkillTargetType.TARGET_FRONT_AREA) && GeoEngine.getInstance().canSeeTarget(caster, attackTarget) && !attackTarget.isDead() && distance <= range)
 					{
 						clientStopMoving(null);
@@ -1046,7 +1040,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 				}
 				break;
 			}
-
+			
 			case ROOT:
 			case STUN:
 			case PARALYZE:
@@ -1087,7 +1081,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 				}
 				break;
 			}
-
+			
 			case MUTE:
 			case FEAR:
 			{
@@ -1108,7 +1102,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 						caster.doCast(sk);
 						return true;
 					}
-
+					
 					if ((sk.getTargetType() == SkillTargetType.TARGET_AREA || sk.getTargetType() == SkillTargetType.TARGET_BEHIND_AREA || sk.getTargetType() == SkillTargetType.TARGET_FRONT_AREA) && GeoEngine.getInstance().canSeeTarget(caster, attackTarget) && !attackTarget.isDead() && distance <= range)
 					{
 						clientStopMoving(null);
@@ -1128,14 +1122,14 @@ public class AttackableAI extends CreatureAI implements Runnable
 				}
 				break;
 			}
-
+			
 			case CANCEL:
 			case NEGATE:
 			{
 				// decrease cancel probability
 				if (Rnd.get(50) != 0)
 					return true;
-
+				
 				if (sk.getTargetType() == SkillTargetType.TARGET_ONE)
 				{
 					if (attackTarget.getFirstEffect(L2EffectType.BUFF) != null && GeoEngine.getInstance().canSeeTarget(caster, attackTarget) && !attackTarget.isDead() && distance <= range)
@@ -1144,7 +1138,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 						caster.doCast(sk);
 						return true;
 					}
-
+					
 					Creature target = targetReconsider(sk.getCastRange(), true);
 					if (target != null)
 					{
@@ -1173,7 +1167,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 				}
 				break;
 			}
-
+			
 			default:
 			{
 				if (!canAura(sk))
@@ -1184,7 +1178,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 						caster.doCast(sk);
 						return true;
 					}
-
+					
 					Creature target = targetReconsider(sk.getCastRange(), true);
 					if (target != null)
 					{
@@ -1205,10 +1199,10 @@ public class AttackableAI extends CreatureAI implements Runnable
 			}
 				break;
 		}
-
+		
 		return false;
 	}
-
+	
 	/**
 	 * @param skill the skill to check.
 	 * @return {@code true} if the skill is available for casting {@code false} otherwise.
@@ -1219,14 +1213,14 @@ public class AttackableAI extends CreatureAI implements Runnable
 		// Character is in "skill disabled" mode.
 		if ((skill.getMpConsume() >= getActiveChar().getCurrentMp()) || getActiveChar().isSkillDisabled(skill))
 			return false;
-
+		
 		// Is a magic skill and character is magically muted or is a physical skill and character is physically muted.
 		if ((skill.isMagic() && getActiveChar().isMuted()) || getActiveChar().isPhysicalMuted())
 			return false;
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * This method checks if the actor will cast a skill or not.
 	 * @return true if the actor will cast a spell, false otherwise.
@@ -1238,14 +1232,14 @@ public class AttackableAI extends CreatureAI implements Runnable
 			case HEALER:
 			case MAGE:
 				return !getActiveChar().isMuted();
-
+			
 			default:
 				if (getActiveChar().isPhysicalMuted())
 					return false;
 		}
 		return Rnd.get(100) < 10;
 	}
-
+	
 	/**
 	 * Method used when the actor can't attack his current target (immobilize state, for exemple).
 	 * <ul>
@@ -1259,42 +1253,42 @@ public class AttackableAI extends CreatureAI implements Runnable
 	protected Creature targetReconsider(int range, boolean rangeCheck)
 	{
 		final Attackable actor = getActiveChar();
-
+		
 		// Verify first if aggro list is empty, if not search a victim following his aggro position.
 		if (!actor.getAggroList().isEmpty())
 		{
 			// Store aggro value && most hated, in order to add it to the random target we will choose.
 			final Creature previousMostHated = actor.getMostHated();
 			final int aggroMostHated = actor.getHating(previousMostHated);
-
+			
 			for (Creature obj : actor.getHateList())
 			{
 				if (!autoAttackCondition(obj))
 					continue;
-
+				
 				if (rangeCheck)
 				{
 					// Verify the distance, -15 if the victim is moving, -15 if the npc is moving.
 					double dist = Math.sqrt(actor.getPlanDistanceSq(obj.getX(), obj.getY())) - obj.getCollisionRadius();
 					if (actor.isMoving())
 						dist -= 15;
-
+					
 					if (obj.isMoving())
 						dist -= 15;
-
+					
 					if (dist > range)
 						continue;
 				}
-
+				
 				// Stop to hate the most hated.
 				actor.stopHating(previousMostHated);
-
+				
 				// Add previous most hated aggro to that new victim.
 				actor.addDamageHate(obj, 0, (aggroMostHated > 0) ? aggroMostHated : 2000);
 				return obj;
 			}
 		}
-
+		
 		// If hate list gave nothing, then verify first if the actor is aggressive, and then pickup a victim from his knownlist.
 		if (actor.isAggressive())
 		{
@@ -1302,31 +1296,31 @@ public class AttackableAI extends CreatureAI implements Runnable
 			{
 				if (!autoAttackCondition(target))
 					continue;
-
+				
 				if (rangeCheck)
 				{
 					// Verify the distance, -15 if the victim is moving, -15 if the npc is moving.
 					double dist = Math.sqrt(actor.getPlanDistanceSq(target.getX(), target.getY())) - target.getCollisionRadius();
 					if (actor.isMoving())
 						dist -= 15;
-
+					
 					if (target.isMoving())
 						dist -= 15;
-
+					
 					if (dist > range)
 						continue;
 				}
-
+				
 				// Only 1 aggro, as the hate list is supposed to be cleaned. Simulate an aggro range entrance.
 				actor.addDamageHate(target, 0, 1);
 				return target;
 			}
 		}
-
+		
 		// Return null if no new victim has been found.
 		return null;
 	}
-
+	
 	/**
 	 * Method used for chaotic mode (RBs / GBs and their minions).<br>
 	 * @param oldTarget The previous target, reused if no available target is found.
@@ -1335,20 +1329,20 @@ public class AttackableAI extends CreatureAI implements Runnable
 	protected Creature aggroReconsider(Creature oldTarget)
 	{
 		final Attackable actor = getActiveChar();
-
+		
 		// Choose a new victim, and make checks to see if it fits.
 		for (Creature victim : actor.getHateList())
 		{
 			if (!autoAttackCondition(victim))
 				continue;
-
+			
 			// Add most hated aggro to the victim aggro.
 			actor.addDamageHate(victim, 0, actor.getHating(actor.getMostHated()));
 			return victim;
 		}
 		return oldTarget;
 	}
-
+	
 	/**
 	 * Manage AI thinking actions of a L2Attackable.
 	 */
@@ -1358,10 +1352,10 @@ public class AttackableAI extends CreatureAI implements Runnable
 		// Check if the thinking action is already in progress.
 		if (_thinking || _actor.isAllSkillsDisabled())
 			return;
-
+		
 		// Start thinking action.
 		_thinking = true;
-
+		
 		try
 		{
 			// Manage AI thoughts.
@@ -1384,7 +1378,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 			_thinking = false;
 		}
 	}
-
+	
 	/**
 	 * Launch actions corresponding to the Event Attacked.
 	 * <ul>
@@ -1398,30 +1392,30 @@ public class AttackableAI extends CreatureAI implements Runnable
 	protected void onEvtAttacked(Creature attacker)
 	{
 		final Attackable me = getActiveChar();
-
+		
 		// Calculate the attack timeout
 		_attackTimeout = System.currentTimeMillis() + MAX_ATTACK_TIMEOUT;
-
+		
 		// Set the _globalAggro to 0 to permit attack even just after spawn
 		if (_globalAggro < 0)
 			_globalAggro = 0;
-
+		
 		// Add the attacker to the _aggroList of the actor
 		me.addDamageHate(attacker, 0, 1);
-
+		
 		// Set the Creature movement type to run and send Server->Client packet ChangeMoveType to all others Player
 		me.setRunning();
-
+		
 		// Set the Intention to ATTACK
 		if (getIntention() != CtrlIntention.ATTACK)
 			setIntention(CtrlIntention.ATTACK, attacker);
 		else if (me.getMostHated() != getTarget())
 			setIntention(CtrlIntention.ATTACK, attacker);
-
+		
 		if (me instanceof Monster)
 		{
 			Monster master = (Monster) me;
-
+			
 			if (master.hasMinions())
 				master.getMinionList().onAssist(me, attacker);
 			else
@@ -1431,7 +1425,7 @@ public class AttackableAI extends CreatureAI implements Runnable
 					master.getMinionList().onAssist(me, attacker);
 			}
 		}
-
+		
 		if (attacker != null)
 		{
 			// Faction check.
@@ -1442,12 +1436,11 @@ public class AttackableAI extends CreatureAI implements Runnable
 				{
 					// Caller hasn't AI or is dead.
 					
-
 					// Caller clan doesn't correspond to the called clan.
 					// Called mob doesnt care about that type of caller id (the bitch !).
 					if (!called.hasAI() || called.isDead() || !ArraysUtil.contains(actorClans, called.getTemplate().getClans()) || ArraysUtil.contains(called.getTemplate().getIgnoredIds(), me.getNpcId()))
 						continue;
-
+					
 					// Check if the WorldObject is inside the Faction Range of the actor
 					final CtrlIntention calledIntention = called.getAI().getIntention();
 					if ((calledIntention == CtrlIntention.IDLE || calledIntention == CtrlIntention.ACTIVE || (calledIntention == CtrlIntention.MOVE_TO && !called.isRunning())) && GeoEngine.getInstance().canSeeTarget(me, called))
@@ -1472,10 +1465,10 @@ public class AttackableAI extends CreatureAI implements Runnable
 				}
 			}
 		}
-
+		
 		super.onEvtAttacked(attacker);
 	}
-
+	
 	/**
 	 * Launch actions corresponding to the Event Aggression.
 	 * <ul>
@@ -1489,23 +1482,23 @@ public class AttackableAI extends CreatureAI implements Runnable
 	protected void onEvtAggression(Creature target, int aggro)
 	{
 		final Attackable me = getActiveChar();
-
+		
 		// Add the target to the actor _aggroList or update hate if already present
 		me.addDamageHate(target, 0, aggro);
-
+		
 		// Set the actor AI Intention to ATTACK
 		if (getIntention() != CtrlIntention.ATTACK)
 		{
 			// Set the Creature movement type to run and send Server->Client packet ChangeMoveType to all others Player
 			me.setRunning();
-
+			
 			setIntention(CtrlIntention.ATTACK, target);
 		}
-
+		
 		if (me instanceof Monster)
 		{
 			Monster master = (Monster) me;
-
+			
 			if (master.hasMinions())
 				master.getMinionList().onAssist(me, target);
 			else
@@ -1515,10 +1508,10 @@ public class AttackableAI extends CreatureAI implements Runnable
 					master.getMinionList().onAssist(me, target);
 			}
 		}
-
+		
 		if (target == null)
 			return;
-
+		
 		// Faction check.
 		final String[] actorClans = me.getTemplate().getClans();
 		if (actorClans != null && me.getAttackByList().contains(target))
@@ -1527,12 +1520,11 @@ public class AttackableAI extends CreatureAI implements Runnable
 			{
 				// Caller hasn't AI or is dead.
 				
-
 				// Caller clan doesn't correspond to the called clan.
 				// Called mob doesnt care about that type of caller id (the bitch !).
 				if (!called.hasAI() || called.isDead() || !ArraysUtil.contains(actorClans, called.getTemplate().getClans()) || ArraysUtil.contains(called.getTemplate().getIgnoredIds(), me.getNpcId()))
 					continue;
-
+				
 				// Check if the WorldObject is inside the Faction Range of the actor
 				final CtrlIntention calledIntention = called.getAI().getIntention();
 				if ((calledIntention == CtrlIntention.IDLE || calledIntention == CtrlIntention.ACTIVE || (calledIntention == CtrlIntention.MOVE_TO && !called.isRunning())) && GeoEngine.getInstance().canSeeTarget(me, called))
@@ -1557,38 +1549,38 @@ public class AttackableAI extends CreatureAI implements Runnable
 			}
 		}
 	}
-
+	
 	@Override
 	protected void onIntentionActive()
 	{
 		// Cancel attack timeout
 		_attackTimeout = Long.MAX_VALUE;
-
+		
 		super.onIntentionActive();
 	}
-
+	
 	public void setGlobalAggro(int value)
 	{
 		_globalAggro = value;
 	}
-
+	
 	private Attackable getActiveChar()
 	{
 		return (Attackable) _actor;
 	}
-
+	
 	private boolean checkBuffAndSetBackTarget(WorldObject target)
 	{
 		if (Rnd.get(RANDOM_WALK_RATE) != 0)
 			return false;
-
+		
 		for (L2Skill sk : getActiveChar().getTemplate().getSkills(SkillType.BUFF))
 		{
 			if (getActiveChar().getFirstEffect(sk) != null)
 				continue;
-
+			
 			clientStopMoving(null);
-
+			
 			_actor.setTarget(_actor);
 			_actor.doCast(sk);
 			_actor.setTarget(target);

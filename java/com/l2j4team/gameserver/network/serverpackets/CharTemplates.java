@@ -8,23 +8,23 @@ import java.util.List;
 public class CharTemplates extends L2GameServerPacket
 {
 	private final List<PlayerTemplate> _chars = new ArrayList<>();
-
+	
 	public void addChar(PlayerTemplate template)
 	{
 		_chars.add(template);
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x17);
 		writeD(_chars.size());
-
+		
 		for (PlayerTemplate temp : _chars)
 		{
 			if (temp == null)
 				continue;
-
+			
 			writeD(temp.getRace().ordinal());
 			writeD(temp.getClassId().getId());
 			writeD(0x46);

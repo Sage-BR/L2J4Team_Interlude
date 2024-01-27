@@ -25,11 +25,11 @@ import com.l2j4team.commons.random.Rnd;
 public class FishingChampionshipManager
 {
 	protected static final Logger _log = Logger.getLogger(FishingChampionshipManager.class.getName());
-
+	
 	private static final String INSERT = "INSERT INTO fishing_championship(player_name,fish_length,rewarded) VALUES (?,?,?)";
 	private static final String DELETE = "DELETE FROM fishing_championship";
 	private static final String SELECT = "SELECT `player_name`, `fish_length`, `rewarded` FROM fishing_championship";
-
+	
 	protected long _enddate = 0;
 	protected final List<String> _playersName = new ArrayList<>();
 	protected final List<String> _fishLength = new ArrayList<>();
@@ -39,13 +39,13 @@ public class FishingChampionshipManager
 	protected final List<Fisher> _winPlayers = new ArrayList<>();
 	protected double _minFishLength = 0;
 	protected boolean _needRefresh = true;
-
+	
 	protected FishingChampionshipManager()
 	{
 		restoreData();
 		refreshWinResult();
 		recalculateMinLength();
-
+		
 		if (_enddate <= System.currentTimeMillis())
 		{
 			_enddate = System.currentTimeMillis();
@@ -54,7 +54,7 @@ public class FishingChampionshipManager
 		else
 			ThreadPool.schedule(new finishChamp(), _enddate - System.currentTimeMillis());
 	}
-
+	
 	protected void setEndOfChamp()
 	{
 		Calendar finishtime = Calendar.getInstance();
@@ -66,11 +66,11 @@ public class FishingChampionshipManager
 		finishtime.set(Calendar.HOUR_OF_DAY, 19);
 		_enddate = finishtime.getTimeInMillis();
 	}
-
+	
 	private void restoreData()
 	{
 		_enddate = ServerMemoTable.getInstance().getLong("fishChampionshipEnd", 0);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement(SELECT);
@@ -91,18 +91,18 @@ public class FishingChampionshipManager
 			_log.log(Level.WARNING, "FishingChampionshipManager: can't restore fishing championship info: " + e.getMessage(), e);
 		}
 	}
-
+	
 	public synchronized void newFish(Player pl, int lureId)
 	{
 		if (!Config.ALT_FISH_CHAMPIONSHIP_ENABLED)
 			return;
-
+		
 		double len = Rnd.get(60, 89) + (Rnd.get(0, 1000) / 1000.);
 		if (lureId >= 8484 && lureId <= 8486)
 			len += Rnd.get(0, 3000) / 1000.;
-
+		
 		pl.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.CAUGHT_FISH_S1_LENGTH).addString(String.valueOf(len)));
-
+		
 		if (_tmpPlayers.size() < 5)
 		{
 			for (Fisher fisher : _tmpPlayers)
@@ -137,7 +137,7 @@ public class FishingChampionshipManager
 					return;
 				}
 			}
-
+			
 			Fisher minFisher = null;
 			double minLen = 99999.;
 			for (Fisher fisher : _tmpPlayers)
@@ -154,7 +154,7 @@ public class FishingChampionshipManager
 			recalculateMinLength();
 		}
 	}
-
+	
 	private void recalculateMinLength()
 	{
 		double minLen = 99999.;
@@ -165,44 +165,44 @@ public class FishingChampionshipManager
 		}
 		_minFishLength = minLen;
 	}
-
+	
 	public long getTimeRemaining()
 	{
 		return (_enddate - System.currentTimeMillis()) / 60000;
 	}
-
+	
 	public String getWinnerName(int par)
 	{
 		if (_winPlayersName.size() >= par)
 			return _winPlayersName.get(par - 1);
-
+		
 		return "None";
 	}
-
+	
 	public String getCurrentName(int par)
 	{
 		if (_playersName.size() >= par)
 			return _playersName.get(par - 1);
-
+		
 		return "None";
 	}
-
+	
 	public String getFishLength(int par)
 	{
 		if (_winFishLength.size() >= par)
 			return _winFishLength.get(par - 1);
-
+		
 		return "0";
 	}
-
+	
 	public String getCurrentFishLength(int par)
 	{
 		if (_fishLength.size() >= par)
 			return _fishLength.get(par - 1);
-
+		
 		return "0";
 	}
-
+	
 	public boolean isWinner(String playerName)
 	{
 		for (String name : _winPlayersName)
@@ -212,7 +212,7 @@ public class FishingChampionshipManager
 		}
 		return false;
 	}
-
+	
 	public void getReward(Player pl)
 	{
 		for (Fisher fisher : _winPlayers)
@@ -231,19 +231,19 @@ public class FishingChampionshipManager
 								case 0:
 									rewardCnt = Config.ALT_FISH_CHAMPIONSHIP_REWARD_1;
 									break;
-
+								
 								case 1:
 									rewardCnt = Config.ALT_FISH_CHAMPIONSHIP_REWARD_2;
 									break;
-
+								
 								case 2:
 									rewardCnt = Config.ALT_FISH_CHAMPIONSHIP_REWARD_3;
 									break;
-
+								
 								case 3:
 									rewardCnt = Config.ALT_FISH_CHAMPIONSHIP_REWARD_4;
 									break;
-
+								
 								case 4:
 									rewardCnt = Config.ALT_FISH_CHAMPIONSHIP_REWARD_5;
 									break;
@@ -254,7 +254,7 @@ public class FishingChampionshipManager
 					if (rewardCnt > 0)
 					{
 						pl.addItem("fishing_reward", Config.ALT_FISH_CHAMPIONSHIP_REWARD_ITEM, rewardCnt, null, true);
-
+						
 						final NpcHtmlMessage html = new NpcHtmlMessage(0);
 						html.setFile("data/html/fisherman/championship/fish_event_reward001.htm");
 						pl.sendPacket(html);
@@ -263,23 +263,23 @@ public class FishingChampionshipManager
 			}
 		}
 	}
-
+	
 	public void showMidResult(Player pl)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
-
+		
 		if (_needRefresh)
 		{
 			html.setFile("data/html/fisherman/championship/fish_event003.htm");
 			pl.sendPacket(html);
-
+			
 			refreshResult();
 			ThreadPool.schedule(new needRefresh(), 60000);
 			return;
 		}
-
+		
 		html.setFile("data/html/fisherman/championship/fish_event002.htm");
-
+		
 		String str = null;
 		for (int x = 1; x <= 5; x++)
 		{
@@ -296,12 +296,12 @@ public class FishingChampionshipManager
 		html.replace("%prizeFive%", Config.ALT_FISH_CHAMPIONSHIP_REWARD_5);
 		pl.sendPacket(html);
 	}
-
+	
 	public void showChampScreen(Player pl, int objectId)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(objectId);
 		html.setFile("data/html/fisherman/championship/fish_event001.htm");
-
+		
 		String str = null;
 		for (int x = 1; x <= 5; x++)
 		{
@@ -320,17 +320,17 @@ public class FishingChampionshipManager
 		html.replace("%objectId%", objectId);
 		pl.sendPacket(html);
 	}
-
+	
 	public void shutdown()
 	{
 		ServerMemoTable.getInstance().set("fishChampionshipEnd", _enddate);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement(DELETE);
 			statement.execute();
 			statement.close();
-
+			
 			for (Fisher fisher : _winPlayers)
 			{
 				statement = con.prepareStatement(INSERT);
@@ -340,7 +340,7 @@ public class FishingChampionshipManager
 				statement.execute();
 				statement.close();
 			}
-
+			
 			for (Fisher fisher : _tmpPlayers)
 			{
 				statement = con.prepareStatement(INSERT);
@@ -356,17 +356,17 @@ public class FishingChampionshipManager
 			_log.log(Level.WARNING, "FishingChampionshipManager: can't update infos: " + e.getMessage(), e);
 		}
 	}
-
+	
 	private synchronized void refreshResult()
 	{
 		_needRefresh = false;
-
+		
 		_playersName.clear();
 		_fishLength.clear();
-
+		
 		Fisher fisher1;
 		Fisher fisher2;
-
+		
 		for (int x = 0; x <= _tmpPlayers.size() - 1; x++)
 		{
 			for (int y = 0; y <= _tmpPlayers.size() - 2; y++)
@@ -380,22 +380,22 @@ public class FishingChampionshipManager
 				}
 			}
 		}
-
+		
 		for (int x = 0; x <= _tmpPlayers.size() - 1; x++)
 		{
 			_playersName.add(_tmpPlayers.get(x).getName());
 			_fishLength.add(String.valueOf(_tmpPlayers.get(x).getLength()));
 		}
 	}
-
+	
 	protected void refreshWinResult()
 	{
 		_winPlayersName.clear();
 		_winFishLength.clear();
-
+		
 		Fisher fisher1;
 		Fisher fisher2;
-
+		
 		for (int x = 0; x <= _winPlayers.size() - 1; x++)
 		{
 			for (int y = 0; y <= _winPlayers.size() - 2; y++)
@@ -409,21 +409,21 @@ public class FishingChampionshipManager
 				}
 			}
 		}
-
+		
 		for (int x = 0; x <= _winPlayers.size() - 1; x++)
 		{
 			_winPlayersName.add(_winPlayers.get(x).getName());
 			_winFishLength.add(String.valueOf(_winPlayers.get(x).getLength()));
 		}
 	}
-
+	
 	private class finishChamp implements Runnable
 	{
 		protected finishChamp()
 		{
 			// Do nothing
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -434,74 +434,74 @@ public class FishingChampionshipManager
 				_winPlayers.add(fisher);
 			}
 			_tmpPlayers.clear();
-
+			
 			refreshWinResult();
 			setEndOfChamp();
 			shutdown();
-
+			
 			_log.info("FishingChampionshipManager : new event period start.");
 			ThreadPool.schedule(new finishChamp(), _enddate - System.currentTimeMillis());
 		}
 	}
-
+	
 	private class needRefresh implements Runnable
 	{
 		protected needRefresh()
 		{
 			// Do nothing
 		}
-
+		
 		@Override
 		public void run()
 		{
 			_needRefresh = true;
 		}
 	}
-
+	
 	private class Fisher
 	{
 		private double _length;
 		private final String _name;
 		private int _reward;
-
+		
 		public Fisher(String name, double length, int rewardType)
 		{
 			_name = name;
 			_length = length;
 			_reward = rewardType;
 		}
-
+		
 		public void setLength(double value)
 		{
 			_length = value;
 		}
-
+		
 		public void setRewardType(int value)
 		{
 			_reward = value;
 		}
-
+		
 		public String getName()
 		{
 			return _name;
 		}
-
+		
 		public int getRewardType()
 		{
 			return _reward;
 		}
-
+		
 		public double getLength()
 		{
 			return _length;
 		}
 	}
-
+	
 	public static final FishingChampionshipManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final FishingChampionshipManager _instance = new FishingChampionshipManager();

@@ -11,7 +11,7 @@ public final class Trainer extends Folk
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -20,7 +20,7 @@ public final class Trainer extends Folk
 			filename = "" + npcId;
 		else
 			filename = npcId + "-" + val;
-
+		
 		return "data/html/trainer/" + filename + ".htm";
 	}
 }

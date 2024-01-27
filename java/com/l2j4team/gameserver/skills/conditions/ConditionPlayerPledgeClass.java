@@ -9,7 +9,7 @@ import com.l2j4team.gameserver.skills.Env;
 public final class ConditionPlayerPledgeClass extends Condition
 {
 	private final int _pledgeClass;
-
+	
 	/**
 	 * Instantiates a new condition player pledge class.
 	 * @param pledgeClass the pledge class
@@ -18,7 +18,7 @@ public final class ConditionPlayerPledgeClass extends Condition
 	{
 		_pledgeClass = pledgeClass;
 	}
-
+	
 	/**
 	 * Test impl.
 	 * @param env the env
@@ -29,10 +29,10 @@ public final class ConditionPlayerPledgeClass extends Condition
 	{
 		if ((env.getPlayer() == null) || (env.getPlayer().getClan() == null))
 			return false;
-
+		
 		if (_pledgeClass == -1)
 			return env.getPlayer().isClanLeader();
-
+		
 		return env.getPlayer().getPledgeClass() >= _pledgeClass;
 	}
 }

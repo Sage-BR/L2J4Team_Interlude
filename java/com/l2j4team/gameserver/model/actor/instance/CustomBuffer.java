@@ -41,13 +41,13 @@ public final class CustomBuffer extends Npc
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
 		StringTokenizer st = new StringTokenizer(command, " ");
 		String actualCommand = st.nextToken();
-
+		
 		int buffid = 0;
 		int bufflevel = 1;
 		String nextWindow = null;
@@ -75,7 +75,7 @@ public final class CustomBuffer extends Npc
 					player.broadcastPacket(new MagicSkillUse(this, player, buffid, bufflevel, 5, 0));
 					SkillTable.getInstance().getInfo(buffid, bufflevel).getEffects(this, player);
 					player.sendPacket(new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT).addSkillName(buffid, bufflevel));
-
+					
 					showMessageWindow(player);
 					showChatWindow(player, nextWindow);
 				}
@@ -104,7 +104,7 @@ public final class CustomBuffer extends Npc
 				player.broadcastPacket(new MagicSkillUse(this, player, buffid, bufflevel, 5, 0));
 				SkillTable.getInstance().getInfo(buffid, bufflevel).getEffects(this, player);
 				player.sendPacket(new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT).addSkillName(buffid, bufflevel));
-
+				
 				showMessageWindow(player);
 				showChatWindow(player, nextWindow);
 			}
@@ -126,7 +126,7 @@ public final class CustomBuffer extends Npc
 					player.broadcastPacket(new MagicSkillUse(this, player, buffid, bufflevel, 5, 0));
 					SkillTable.getInstance().getInfo(buffid, bufflevel).getEffects(this, player);
 					player.sendPacket(new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT).addSkillName(buffid, bufflevel));
-
+					
 					showMessageWindow(player);
 					showChatWindow(player, nextWindow);
 				}
@@ -156,7 +156,7 @@ public final class CustomBuffer extends Npc
 					player.broadcastPacket(new MagicSkillUse(this, player, buffid, bufflevel, 5, 0));
 					SkillTable.getInstance().getInfo(buffid, bufflevel).getEffects(this, player);
 					player.sendPacket(new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT).addSkillName(buffid, bufflevel));
-
+					
 					showMessageWindow(player);
 					showChatWindow(player, nextWindow);
 				}
@@ -184,7 +184,7 @@ public final class CustomBuffer extends Npc
 				player.broadcastPacket(new MagicSkillUse(this, player, buffid, bufflevel, 5, 0));
 				SkillTable.getInstance().getInfo(buffid, bufflevel).getEffects(this, player);
 				player.sendPacket(new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT).addSkillName(buffid, bufflevel));
-
+				
 				showMessageWindow(player);
 				showChatWindow(player, nextWindow);
 			}
@@ -200,7 +200,7 @@ public final class CustomBuffer extends Npc
 			super.onBypassFeedback(player, command);
 		}
 	}
-
+	
 	@Override
 	public void onAction(Player player)
 	{
@@ -224,11 +224,11 @@ public final class CustomBuffer extends Npc
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 		}
 	}
-
+	
 	private void showMessageWindow(Player player)
 	{
 		String filename = "data/html/CustomBuffer/" + getNpcId() + ".htm";
-
+		
 		filename = getHtmlPath(getNpcId(), 0);
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
@@ -236,7 +236,7 @@ public final class CustomBuffer extends Npc
 		html.replace("%npcname%", getName());
 		player.sendPacket(html);
 	}
-
+	
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{

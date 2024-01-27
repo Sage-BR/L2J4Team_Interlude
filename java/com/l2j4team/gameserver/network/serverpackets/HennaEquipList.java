@@ -9,13 +9,13 @@ public class HennaEquipList extends L2GameServerPacket
 {
 	private final Player _player;
 	private final List<Henna> _hennaEquipList;
-
+	
 	public HennaEquipList(Player player, List<Henna> hennaEquipList)
 	{
 		_player = player;
 		_hennaEquipList = hennaEquipList;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -23,7 +23,7 @@ public class HennaEquipList extends L2GameServerPacket
 		writeD(_player.getAdena());
 		writeD(3);
 		writeD(_hennaEquipList.size());
-
+		
 		for (Henna temp : _hennaEquipList)
 		{
 			// Player must have at least one dye in inventory to be able to see the henna that can be applied with it.

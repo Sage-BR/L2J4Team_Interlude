@@ -16,26 +16,26 @@ import com.l2j4team.gameserver.network.serverpackets.ClanHallDecoration;
 public class L2ClanHallZone extends L2SpawnZone
 {
 	private int _clanHallId;
-
+	
 	public L2ClanHallZone(int id)
 	{
 		super(id);
 	}
-
+	
 	@Override
 	public void setParameter(String name, String value)
 	{
 		if (name.equals("clanHallId"))
 		{
 			_clanHallId = Integer.parseInt(value);
-
+			
 			// Register self to the correct clan hall
 			ClanHallManager.getInstance().getClanHallById(_clanHallId).setZone(this);
 		}
 		else
 			super.setParameter(name, value);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
@@ -43,34 +43,34 @@ public class L2ClanHallZone extends L2SpawnZone
 		{
 			// Set as in clan hall
 			character.setInsideZone(ZoneId.CLAN_HALL, true);
-
+			
 			ClanHall clanHall = ClanHallManager.getInstance().getClanHallById(_clanHallId);
 			if (clanHall == null)
 				return;
-
+			
 			// Send decoration packet
 			ClanHallDecoration deco = new ClanHallDecoration(clanHall);
 			((Player) character).sendPacket(deco);
 		}
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		if (character instanceof Player)
 			character.setInsideZone(ZoneId.CLAN_HALL, false);
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 	/**
 	 * Removes all foreigners from the clan hall
 	 * @param owningClanId
@@ -81,11 +81,11 @@ public class L2ClanHallZone extends L2SpawnZone
 		{
 			if (player.getClanId() == owningClanId)
 				continue;
-
+			
 			player.teleToLocation(TeleportType.TOWN);
 		}
 	}
-
+	
 	/**
 	 * @return the clanHallId
 	 */

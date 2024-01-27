@@ -15,24 +15,24 @@ import java.sql.PreparedStatement;
 public final class RequestAnswerFriendInvite extends L2GameClientPacket
 {
 	private int _response;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_response = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		final Player requestor = player.getActiveRequester();
 		if (requestor == null)
 			return;
-
+		
 		if (_response == 1)
 		{
 			try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -44,17 +44,17 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 				statement.setInt(4, requestor.getObjectId());
 				statement.execute();
 				statement.close();
-
+				
 				requestor.sendPacket(SystemMessageId.YOU_HAVE_SUCCEEDED_INVITING_FRIEND);
-
+				
 				// Player added to your friendlist
 				requestor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_ADDED_TO_FRIENDS).addCharName(player));
 				requestor.getFriendList().add(player.getObjectId());
-
+				
 				// has joined as friend.
 				player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_JOINED_AS_FRIEND).addCharName(requestor));
 				player.getFriendList().add(requestor.getObjectId());
-
+				
 				// update friendLists *heavy method*
 				requestor.sendPacket(new FriendList(requestor));
 				player.sendPacket(new FriendList(player));
@@ -66,7 +66,7 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 		}
 		else
 			requestor.sendPacket(SystemMessageId.FAILED_TO_INVITE_A_FRIEND);
-
+		
 		player.setActiveRequester(null);
 		requestor.onTransactionResponse();
 	}

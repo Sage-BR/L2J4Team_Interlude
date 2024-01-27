@@ -22,10 +22,10 @@ import java.util.logging.Logger;
 public final class EffectTemplate
 {
 	static Logger _log = Logger.getLogger(EffectTemplate.class.getName());
-
+	
 	private final Class<?> _func;
 	private final Constructor<?> _constructor;
-
+	
 	public final Condition attachCond;
 	public final Condition applayCond;
 	public final Lambda lambda;
@@ -38,11 +38,11 @@ public final class EffectTemplate
 	public final boolean icon;
 	public final double effectPower; // to handle chance
 	public final L2SkillType effectType; // to handle resistances etc...
-
+	
 	public final int triggeredId;
 	public final int triggeredLevel;
 	public final ChanceCondition chanceCondition;
-
+	
 	public EffectTemplate(Condition pAttachCond, Condition pApplayCond, String func, Lambda pLambda, int pCounter, int pPeriod, AbnormalEffect pAbnormalEffect, String pStackType, float pStackOrder, boolean showicon, double ePower, L2SkillType eType, int trigId, int trigLvl, ChanceCondition chanceCond)
 	{
 		attachCond = pAttachCond;
@@ -56,11 +56,11 @@ public final class EffectTemplate
 		icon = showicon;
 		effectPower = ePower;
 		effectType = eType;
-
+		
 		triggeredId = trigId;
 		triggeredLevel = trigLvl;
 		chanceCondition = chanceCond;
-
+		
 		try
 		{
 			_func = Class.forName("com.l2j4team.gameserver.skills.effects.Effect" + func);
@@ -69,7 +69,7 @@ public final class EffectTemplate
 		{
 			throw new RuntimeException(e);
 		}
-
+		
 		try
 		{
 			_constructor = _func.getConstructor(Env.class, EffectTemplate.class);
@@ -79,7 +79,7 @@ public final class EffectTemplate
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public L2Effect getEffect(Env env)
 	{
 		if (attachCond != null && !attachCond.test(env))
@@ -105,12 +105,12 @@ public final class EffectTemplate
 			return null;
 		}
 	}
-
+	
 	public void attach(FuncTemplate f)
 	{
 		if (funcTemplates == null)
 			funcTemplates = new ArrayList<>();
-
+		
 		funcTemplates.add(f);
 	}
 }

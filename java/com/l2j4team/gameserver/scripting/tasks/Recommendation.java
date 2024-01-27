@@ -11,7 +11,7 @@ public final class Recommendation extends ScheduledQuest
 	{
 		super(-1, "tasks");
 	}
-
+	
 	@Override
 	public final void onStart()
 	{
@@ -20,10 +20,10 @@ public final class Recommendation extends ScheduledQuest
 			player.restartRecom();
 			player.sendPacket(new UserInfo(player));
 		}
-
+		
 		_log.config("Recommendation: Recommendation has been reset.");
 	}
-
+	
 	@Override
 	public final void onEnd()
 	{

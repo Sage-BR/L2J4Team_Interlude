@@ -8,27 +8,27 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q151_CureForFeverDisease extends Quest
 {
 	private static final String qn = "Q151_CureForFeverDisease";
-
+	
 	// Items
 	private static final int POISON_SAC = 703;
 	private static final int FEVER_MEDICINE = 704;
-
+	
 	// NPCs
 	private static final int ELIAS = 30050;
 	private static final int YOHANES = 30032;
-
+	
 	public Q151_CureForFeverDisease()
 	{
 		super(151, "Cure for Fever Disease");
-
+		
 		setItemsIds(FEVER_MEDICINE, POISON_SAC);
-
+		
 		addStartNpc(ELIAS);
 		addTalkId(ELIAS, YOHANES);
-
+		
 		addKillId(20103, 20106, 20108);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -36,17 +36,17 @@ public class Q151_CureForFeverDisease extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30050-03.htm"))
 		{
 			st.setState(STATE_STARTED);
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -54,13 +54,13 @@ public class Q151_CureForFeverDisease extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 15) ? "30050-01.htm" : "30050-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -79,7 +79,7 @@ public class Q151_CureForFeverDisease extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case YOHANES:
 						if (cond == 2)
 						{
@@ -94,25 +94,25 @@ public class Q151_CureForFeverDisease extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "1");
 		if (st == null)
 			return null;
-
+		
 		if (st.dropItems(POISON_SAC, 1, 1, 200000))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

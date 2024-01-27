@@ -35,16 +35,16 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class VipManager
 {
 	private static final Logger _log = Logger.getLogger(VipManager.class.getName());
-
+	
 	private final Map<Integer, Long> _vips;
 	protected final Map<Integer, Long> _vipsTask;
 	private ScheduledFuture<?> _scheduler;
-
+	
 	public static VipManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected VipManager()
 	{
 		_vips = new ConcurrentHashMap<>();
@@ -52,7 +52,7 @@ public class VipManager
 		_scheduler = ThreadPool.scheduleAtFixedRate(new VipTask(), 1000, 1000);
 		load();
 	}
-
+	
 	public void reload()
 	{
 		_vips.clear();
@@ -62,7 +62,7 @@ public class VipManager
 		_scheduler = ThreadPool.scheduleAtFixedRate(new VipTask(), 1000, 1000);
 		load();
 	}
-
+	
 	public void load()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -78,16 +78,16 @@ public class VipManager
 		{
 			_log.warning("Exception: VipManager load: " + e.getMessage());
 		}
-
+		
 		_log.info("VipManager: Loaded " + _vips.size() + " characters with vip privileges.");
 	}
-
+	
 	public void addVip(int objectId, long duration)
 	{
 		_vips.put(objectId, duration);
 		_vipsTask.put(objectId, duration);
 		addVipPrivileges(objectId, true);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("INSERT INTO character_vip (objectId, duration) VALUES (?, ?)");
@@ -101,12 +101,12 @@ public class VipManager
 			_log.warning("Exception: VipManager addVip: " + e.getMessage());
 		}
 	}
-
+	
 	public void updateVip(int objectId, long duration)
 	{
 		_vips.put(objectId, duration);
 		_vipsTask.put(objectId, duration);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("UPDATE character_vip SET duration = ? WHERE objectId = ?");
@@ -120,13 +120,13 @@ public class VipManager
 			_log.warning("Exception: VipManager updateVip: " + e.getMessage());
 		}
 	}
-
+	
 	public void removeVip(int objectId)
 	{
 		_vips.remove(objectId);
 		_vipsTask.remove(objectId);
 		removeVipPrivileges(objectId, false);
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("DELETE FROM character_vip WHERE objectId = ?");
@@ -139,41 +139,41 @@ public class VipManager
 			_log.warning("Exception: VipManager removeVip: " + e.getMessage());
 		}
 	}
-
+	
 	public boolean hasVipPrivileges(int objectId)
 	{
 		return _vips.containsKey(objectId);
 	}
-
+	
 	public long getVipDuration(int objectId)
 	{
 		return _vips.get(objectId);
 	}
-
+	
 	public void addVipTask(int objectId, long duration)
 	{
 		_vipsTask.put(objectId, duration);
 	}
-
+	
 	public void removeVipTask(int objectId)
 	{
 		_vipsTask.remove(objectId);
 	}
-
+	
 	public void addVipPrivileges(int objectId, boolean apply)
 	{
 		final Player player = World.getInstance().getPlayer(objectId);
 		player.setVip(true);
 		player.broadcastUserInfo();
 	}
-
+	
 	public void removeVipPrivileges(int objectId, boolean apply)
 	{
 		final Player player = World.getInstance().getPlayer(objectId);
 		player.setVip(false);
 		player.broadcastUserInfo();
 	}
-
+	
 	public class VipTask implements Runnable
 	{
 		@Override
@@ -181,7 +181,7 @@ public class VipManager
 		{
 			if (_vipsTask.isEmpty())
 				return;
-
+			
 			for (Map.Entry<Integer, Long> entry : _vipsTask.entrySet())
 			{
 				final long duration = entry.getValue();
@@ -189,14 +189,14 @@ public class VipManager
 				{
 					final int objectId = entry.getKey();
 					removeVip(objectId);
-
+					
 					final Player player = World.getInstance().getPlayer(objectId);
 					player.sendPacket(new ExShowScreenMessage("Your Vip privileges were removed.", 10000));
 				}
 			}
 		}
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final VipManager _instance = new VipManager();

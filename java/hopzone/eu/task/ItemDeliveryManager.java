@@ -51,16 +51,16 @@ public class ItemDeliveryManager implements Runnable
 {
 	// logger
 	private static final Logs _log = new Logs(ItemDeliveryManager.class.getSimpleName());
-	
+
 	private final static String UPDATE = "UPDATE user_item_delivery SET status=1 WHERE id=?;";
 	private final static String SELECT = "SELECT id, item_id, item_count, char_name FROM user_item_delivery WHERE status=0;";
-	
+
 	@Override
 	public void run()
 	{
 		start();
 	}
-	
+
 	/**
 	 * Deliver item on player
 	 */
@@ -74,12 +74,12 @@ public class ItemDeliveryManager implements Runnable
 				final Player player = World.getInstance().getPlayer(rset.getString("char_name"));
 				final int item_id = rset.getInt("item_id");
 				final int item_count = rset.getInt("item_count");
-				
+
 				Optional.ofNullable(player).ifPresent(s -> {
 					if (updateItemStatus(id))
 					{
 						final Item item = ItemTable.getInstance().getTemplate(item_id);
-						
+
 						if (Objects.nonNull(item))
 						{
 							Gui.getInstance().ConsoleWrite("Delivery: " + player.getName() + " received " + item_count + "x " + item.getName());
@@ -94,7 +94,7 @@ public class ItemDeliveryManager implements Runnable
 		{
 			String error = e.getMessage();
 			_log.warn("Item delivery failed. " + error);
-			
+
 			if (error.contains("doesn't exist") && error.contains("user_item_delivery"))
 			{
 				Utilities.deleteTable(Utilities.DELETE_DELIVERY_TABLE, "user_item_delivery");
@@ -102,7 +102,7 @@ public class ItemDeliveryManager implements Runnable
 			}
 		}
 	}
-	
+
 	/**
 	 * Update Item Status from Delivery on database
 	 * @param id int
@@ -121,7 +121,7 @@ public class ItemDeliveryManager implements Runnable
 			_log.warn("Failed to update the Delivery on database, id: " + id);
 			_log.warn(e.getMessage());
 		}
-		
+
 		return false;
 	}
 }

@@ -29,13 +29,13 @@ public class L2TournamentZone extends L2SpawnZone
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		character.setInsideZone(ZoneId.PEACE, true);
 		character.setInsideZone(ZoneId.TOURNAMENT, true);
-
+		
 		if (character instanceof Player)
 		{
 			final Player player = (Player) character;
@@ -46,42 +46,42 @@ public class L2TournamentZone extends L2SpawnZone
 				player.getAppearance().setInvisible();
 				player.broadcastUserInfo();
 			}
-
+			
 		}
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.TOURNAMENT, false);
 		character.setInsideZone(ZoneId.PEACE, false);
-
+		
 		if (character instanceof Player)
 		{
 			final Player player = (Player) character;
-
+			
 			if (!player.isArenaProtection() && !player.isOlympiadProtection())
 			{
 				player.setTournamentTeleport(false);
-
+				
 				if (!player.isInObserverMode() && !player.isOlympiadProtection() && !player.isGM())
 					player.getAppearance().setVisible();
-
+				
 				player.sendMessage("You left a Tournament zone.");
 				player.broadcastUserInfo();
 			}
-
+			
 		}
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 }

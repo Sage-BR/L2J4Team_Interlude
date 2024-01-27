@@ -11,7 +11,7 @@ public final class RequestShortCutReg extends L2GameClientPacket
 	private int _slot;
 	private int _page;
 	private int _characterType;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -19,18 +19,18 @@ public final class RequestShortCutReg extends L2GameClientPacket
 		int slot = readD();
 		_id = readD();
 		_characterType = readD();
-
+		
 		_slot = slot % 12;
 		_page = slot / 12;
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if ((activeChar == null) || _page > 10 || _page < 0)
 			return;
-
+		
 		switch (_type)
 		{
 			case 0x01: // item

@@ -32,12 +32,12 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class IPManager
 {
 	private static final Logger _log = Logger.getLogger(IPManager.class.getName());
-
+	
 	public IPManager()
 	{
 		_log.log(Level.INFO, "IPManager - Loaded.");
 	}
-
+	
 	private static boolean multiboxKickTask(Player activeChar, Integer numberBox, Collection<Player> world)
 	{
 		Map<String, List<Player>> ipMap = new HashMap<>();
@@ -47,21 +47,21 @@ public class IPManager
 				continue;
 			String ip = activeChar.getClient().getConnection().getInetAddress().getHostAddress();
 			String playerIp = player.getClient().getConnection().getInetAddress().getHostAddress();
-
+			
 			if (ip.equals(playerIp))
 			{
 				if (ipMap.get(ip) == null)
 					ipMap.put(ip, new ArrayList<Player>());
-
+				
 				ipMap.get(ip).add(player);
-
+				
 				if (ipMap.get(ip).size() >= numberBox)
 					return true;
 			}
 		}
 		return false;
 	}
-
+	
 	public boolean validBox(Player activeChar, Integer numberBox, Collection<Player> world, Boolean forcedLogOut)
 	{
 		if (multiboxKickTask(activeChar, numberBox, world))
@@ -80,12 +80,12 @@ public class IPManager
 		}
 		return false;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final IPManager _instance = new IPManager();
 	}
-
+	
 	public static final IPManager getInstance()
 	{
 		return SingletonHolder._instance;

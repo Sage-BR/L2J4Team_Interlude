@@ -7,11 +7,11 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ExShowSlideshowKamael extends L2GameServerPacket
 {
 	public static final ExShowSlideshowKamael STATIC_PACKET = new ExShowSlideshowKamael();
-
+	
 	private ExShowSlideshowKamael()
 	{
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

@@ -36,13 +36,13 @@ public class VoicedPassword implements IVoicedCommandHandler
 		"password",
 		"change_password"
 	};
-
+	
 	public static final Logger LOGGER = Logger.getLogger(VoicedPassword.class.getName());
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
-
+		
 		if (command.startsWith("password"))
 			ShowHtml(activeChar);
 		if (command.startsWith("change_password"))
@@ -73,7 +73,7 @@ public class VoicedPassword implements IVoicedCommandHandler
 		}
 		return true;
 	}
-
+	
 	@SuppressWarnings("null")
 	public static boolean changePassword(String currPass, String newPass, String repeatNewPass, Player activeChar)
 	{
@@ -92,7 +92,7 @@ public class VoicedPassword implements IVoicedCommandHandler
 			activeChar.sendMessage("Repeated password doesn't match the new password.");
 			return false;
 		}
-
+		
 		Connection con = null;
 		String password = null;
 		try
@@ -101,7 +101,7 @@ public class VoicedPassword implements IVoicedCommandHandler
 			byte[] raw = currPass.getBytes("UTF-8");
 			raw = md.digest(raw);
 			String currPassEncoded = Base64.getEncoder().encodeToString(raw);
-
+			
 			con = L2DatabaseFactory.getInstance().getConnection();
 			PreparedStatement statement = con.prepareStatement("SELECT password FROM accounts WHERE login=?");
 			statement.setString(1, activeChar.getAccountName());
@@ -117,13 +117,13 @@ public class VoicedPassword implements IVoicedCommandHandler
 			{
 				password2 = newPass.getBytes("UTF-8");
 				password2 = md.digest(password2);
-
+				
 				PreparedStatement statement2 = con.prepareStatement("UPDATE accounts SET password=? WHERE login=?");
 				statement2.setString(1, Base64.getEncoder().encodeToString(password2));
 				statement2.setString(2, activeChar.getAccountName());
 				statement2.executeUpdate();
 				statement2.close();
-
+				
 				activeChar.sendMessage("Your password has been changed successfully! For security reasons, You will be disconnected. Please login again!");
 				try
 				{
@@ -132,14 +132,14 @@ public class VoicedPassword implements IVoicedCommandHandler
 				catch (Exception e)
 				{
 				}
-
+				
 				activeChar.deleteMe();
 				activeChar.sendPacket(new LeaveWorld());
 			}
 			else
 			{
 				activeChar.sendMessage("The current password you've inserted is incorrect! Please try again!");
-
+				
 				return password2 != null;
 			}
 		}
@@ -151,10 +151,10 @@ public class VoicedPassword implements IVoicedCommandHandler
 		{
 			CloseUtil.close(con);
 		}
-
+		
 		return true;
 	}
-
+	
 	private static void ShowHtml(Player activeChar)
 	{
 		String htmFile = "data/html/mods/menu/password.htm";
@@ -162,11 +162,11 @@ public class VoicedPassword implements IVoicedCommandHandler
 		msg.setFile(htmFile);
 		activeChar.sendPacket(msg);
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
 		return _voicedCommands;
 	}
-
+	
 }

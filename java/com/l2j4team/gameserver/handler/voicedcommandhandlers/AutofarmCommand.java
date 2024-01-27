@@ -7,7 +7,7 @@ import com.l2j4team.gameserver.model.actor.instance.Player;
 
 public class AutofarmCommand implements IVoicedCommandHandler
 {
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String params)
 	{
@@ -21,7 +21,7 @@ public class AutofarmCommand implements IVoicedCommandHandler
 			activeChar.sendMessage("Auto farm is only for Vip Players!");
 			return false;
 		}
-
+		
 		switch (command)
 		{
 			case "farm":
@@ -36,7 +36,7 @@ public class AutofarmCommand implements IVoicedCommandHandler
 		}
 		return false;
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

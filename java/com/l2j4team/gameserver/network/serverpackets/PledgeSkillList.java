@@ -10,17 +10,17 @@ import com.l2j4team.gameserver.model.pledge.Clan;
 public class PledgeSkillList extends L2GameServerPacket
 {
 	private final Clan _clan;
-
+	
 	public PledgeSkillList(Clan clan)
 	{
 		_clan = clan;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
 		L2Skill[] skills = _clan.getClanSkills();
-
+		
 		writeC(0xfe);
 		writeH(0x39);
 		writeD(skills.length);
@@ -28,7 +28,7 @@ public class PledgeSkillList extends L2GameServerPacket
 		{
 			if (sk == null)
 				continue;
-
+			
 			writeD(sk.getId());
 			writeD(sk.getLevel());
 		}

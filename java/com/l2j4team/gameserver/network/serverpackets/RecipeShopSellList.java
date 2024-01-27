@@ -7,13 +7,13 @@ import com.l2j4team.gameserver.model.actor.instance.Player;
 public class RecipeShopSellList extends L2GameServerPacket
 {
 	private final Player _buyer, _manufacturer;
-
+	
 	public RecipeShopSellList(Player buyer, Player manufacturer)
 	{
 		_buyer = buyer;
 		_manufacturer = manufacturer;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -26,7 +26,7 @@ public class RecipeShopSellList extends L2GameServerPacket
 			writeD(_manufacturer.getMaxMp());// Creator's MP
 			writeD(_buyer.getAdena());// Buyer Adena
 			writeD(createList.size());
-
+			
 			for (L2ManufactureItem item : createList.getList())
 			{
 				writeD(item.getRecipeId());

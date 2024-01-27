@@ -18,20 +18,20 @@ public class DungeonGatekeeper extends Folk
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
-
+		
 		StringTokenizer st = new StringTokenizer(command, " ");
 		String actualCommand = st.nextToken(); // Get actual command
-
+		
 		final CabalType sealAvariceOwner = SevenSigns.getInstance().getSealOwner(SealType.AVARICE);
 		final CabalType sealGnosisOwner = SevenSigns.getInstance().getSealOwner(SealType.GNOSIS);
 		final CabalType playerCabal = SevenSigns.getInstance().getPlayerCabal(player.getObjectId());
 		final CabalType winningCabal = SevenSigns.getInstance().getCabalHighestScore();
-
+		
 		if (actualCommand.startsWith("necro"))
 		{
 			boolean canPort = true;
@@ -57,7 +57,7 @@ public class DungeonGatekeeper extends Folk
 				if (playerCabal == CabalType.NORMAL)
 					canPort = false;
 			}
-
+			
 			if (!canPort)
 			{
 				final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
@@ -95,7 +95,7 @@ public class DungeonGatekeeper extends Folk
 				if (playerCabal == CabalType.NORMAL)
 					canPort = false;
 			}
-
+			
 			if (!canPort)
 			{
 				final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
@@ -120,7 +120,7 @@ public class DungeonGatekeeper extends Folk
 		else
 			super.onBypassFeedback(player, command);
 	}
-
+	
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -129,10 +129,10 @@ public class DungeonGatekeeper extends Folk
 			filename = "" + npcId;
 		else
 			filename = npcId + "-" + val;
-
+		
 		return "data/html/teleporter/" + filename + ".htm";
 	}
-
+	
 	private static void doTeleport(Player player, int val)
 	{
 		TeleportLocation list = TeleportLocationData.getInstance().getTeleportLocation(val);
@@ -140,12 +140,12 @@ public class DungeonGatekeeper extends Folk
 		{
 			if (player.isAlikeDead())
 				return;
-
+			
 			player.teleToLocation(list, 20);
 		}
 		else
 			_log.warning("No teleport destination with id:" + val);
-
+		
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 }

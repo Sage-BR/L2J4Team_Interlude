@@ -16,7 +16,7 @@ public class RequestAcquireSkillInfo extends L2GameClientPacket
 	private int _skillId;
 	private int _skillLevel;
 	private int _skillType;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -24,39 +24,33 @@ public class RequestAcquireSkillInfo extends L2GameClientPacket
 		_skillLevel = readD();
 		_skillType = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		if (_skillId <= 0 || _skillLevel <= 0)
 			return;
-
+		
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		final Npc trainer = activeChar.getCurrentFolkNPC();
 		if ((trainer == null) || (!activeChar.isInsideRadius(trainer, Npc.INTERACTION_DISTANCE, false, false) && !activeChar.isGM()))
 			return;
-
+		
 		final L2Skill skill = SkillTable.getInstance().getInfo(_skillId, _skillLevel);
 		if (skill == null)
 			return;
-
+		
 		switch (_skillType)
 		{
 			// General skills
 			case 0:
 				int skillLvl = activeChar.getSkillLevel(_skillId);
-				if (skillLvl >= _skillLevel)
+				if ((skillLvl >= _skillLevel) || (Math.max(skillLvl, 0) + 1 != _skillLevel) || !trainer.getTemplate().canTeach(activeChar.getSkillLearningClassId()))
 					return;
-
-				if (Math.max(skillLvl, 0) + 1 != _skillLevel)
-					return;
-
-				if (!trainer.getTemplate().canTeach(activeChar.getSkillLearningClassId()))
-					return;
-
+				
 				for (L2SkillLearn sl : SkillTreeTable.getInstance().getAvailableSkills(activeChar, activeChar.getSkillLearningClassId()))
 				{
 					if (sl.getId() == _skillId && sl.getLevel() == _skillLevel)
@@ -75,10 +69,10 @@ public class RequestAcquireSkillInfo extends L2GameClientPacket
 				skillLvl = activeChar.getSkillLevel(_skillId);
 				if (skillLvl >= _skillLevel)
 					return;
-
+				
 				if (Math.max(skillLvl, 0) + 1 != _skillLevel)
 					return;
-
+				
 				for (L2SkillLearn sl : SkillTreeTable.getInstance().getAvailableFishingDwarvenCraftSkills(activeChar))
 				{
 					if (sl.getId() == _skillId && sl.getLevel() == _skillLevel)
@@ -94,7 +88,7 @@ public class RequestAcquireSkillInfo extends L2GameClientPacket
 			case 2:
 				if (!activeChar.isClanLeader())
 					return;
-
+				
 				for (L2PledgeSkillLearn psl : SkillTreeTable.getInstance().getAvailablePledgeSkills(activeChar))
 				{
 					if (psl.getId() == _skillId && psl.getLevel() == _skillLevel)

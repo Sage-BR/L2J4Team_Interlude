@@ -17,10 +17,10 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class BoatGludinRune implements Runnable
 {
 	private static final Logger _log = Logger.getLogger(BoatGludinRune.class.getName());
-
+	
 	private static final Location OUST_LOC_1 = new Location(-90015, 150422, -3610);
 	private static final Location OUST_LOC_2 = new Location(34513, -38009, -3640);
-
+	
 	// Time: 1151s
 	private static final VehicleLocation[] GLUDIN_TO_RUNE =
 	{
@@ -52,12 +52,12 @@ public class BoatGludinRune implements Runnable
 		new VehicleLocation(40576, -31616, -3610, 250, 800),
 		new VehicleLocation(36819, -35315, -3610, 220, 800)
 	};
-
+	
 	private static final VehicleLocation[] RUNE_DOCK =
 	{
 		new VehicleLocation(34381, -37680, -3610, 200, 800)
 	};
-
+	
 	// Time: 967s
 	private static final VehicleLocation[] RUNE_TO_GLUDIN =
 	{
@@ -84,16 +84,16 @@ public class BoatGludinRune implements Runnable
 		new VehicleLocation(-95686, 147717, -3610, 250, 800),
 		new VehicleLocation(-95686, 148218, -3610, 200, 800)
 	};
-
+	
 	private static final VehicleLocation[] GLUDIN_DOCK =
 	{
 		new VehicleLocation(-95686, 150514, -3610, 150, 800)
 	};
-
+	
 	private final Vehicle _boat;
 	private int _cycle = 0;
 	private int _shoutCount = 0;
-
+	
 	private final CreatureSay ARRIVED_AT_GLUDIN;
 	private final CreatureSay ARRIVED_AT_GLUDIN_2;
 	private final CreatureSay LEAVE_GLUDIN5;
@@ -107,7 +107,7 @@ public class BoatGludinRune implements Runnable
 	private final CreatureSay LEAVING_RUNE;
 	private final CreatureSay BUSY_GLUDIN;
 	private final CreatureSay BUSY_RUNE;
-
+	
 	private final CreatureSay ARRIVAL_RUNE15;
 	private final CreatureSay ARRIVAL_RUNE10;
 	private final CreatureSay ARRIVAL_RUNE5;
@@ -116,26 +116,26 @@ public class BoatGludinRune implements Runnable
 	private final CreatureSay ARRIVAL_GLUDIN10;
 	private final CreatureSay ARRIVAL_GLUDIN5;
 	private final CreatureSay ARRIVAL_GLUDIN1;
-
+	
 	private final PlaySound GLUDIN_SOUND;
 	private final PlaySound RUNE_SOUND;
-
+	
 	private final PlaySound GLUDIN_SOUND_LEAVE_5MIN;
 	private final PlaySound GLUDIN_SOUND_LEAVE_1MIN;
-
+	
 	private final PlaySound RUNE_SOUND_LEAVE_5MIN;
 	private final PlaySound RUNE_SOUND_LEAVE_1MIN;
-
+	
 	public BoatGludinRune(Vehicle boat)
 	{
 		_boat = boat;
-
+		
 		ARRIVED_AT_GLUDIN = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_ARRIVED_AT_GLUDIN);
 		ARRIVED_AT_GLUDIN_2 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.DEPARTURE_FOR_RUNE_10_MINUTES);
 		LEAVE_GLUDIN5 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.DEPARTURE_FOR_RUNE_5_MINUTES);
 		LEAVE_GLUDIN1 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.DEPARTURE_FOR_RUNE_1_MINUTE);
 		LEAVING_GLUDIN = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.DEPARTURE_FOR_RUNE_NOW);
-
+		
 		ARRIVED_AT_RUNE = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.ARRIVED_AT_RUNE);
 		ARRIVED_AT_RUNE_2 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_LEAVE_FOR_GLUDIN_AFTER_10_MINUTES);
 		LEAVE_RUNE5 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.DEPARTURE_FOR_GLUDIN_5_MINUTES);
@@ -144,7 +144,7 @@ public class BoatGludinRune implements Runnable
 		LEAVING_RUNE = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.DEPARTURE_FOR_GLUDIN_NOW);
 		BUSY_GLUDIN = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_RUNE_GLUDIN_DELAYED);
 		BUSY_RUNE = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_GLUDIN_RUNE_DELAYED);
-
+		
 		ARRIVAL_RUNE15 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_FROM_GLUDIN_AT_RUNE_15_MINUTES);
 		ARRIVAL_RUNE10 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_FROM_GLUDIN_AT_RUNE_10_MINUTES);
 		ARRIVAL_RUNE5 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_FROM_GLUDIN_AT_RUNE_5_MINUTES);
@@ -153,17 +153,17 @@ public class BoatGludinRune implements Runnable
 		ARRIVAL_GLUDIN10 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_FROM_RUNE_AT_GLUDIN_10_MINUTES);
 		ARRIVAL_GLUDIN5 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_FROM_RUNE_AT_GLUDIN_5_MINUTES);
 		ARRIVAL_GLUDIN1 = new CreatureSay(0, Say2.BOAT, 801, SystemMessageId.FERRY_FROM_RUNE_AT_GLUDIN_1_MINUTE);
-
+		
 		GLUDIN_SOUND = new PlaySound(0, "itemsound.ship_arrival_departure", _boat);
 		RUNE_SOUND = new PlaySound(0, "itemsound.ship_arrival_departure", _boat);
-
+		
 		GLUDIN_SOUND_LEAVE_5MIN = new PlaySound(0, "itemsound.ship_5min", _boat);
 		GLUDIN_SOUND_LEAVE_1MIN = new PlaySound(0, "itemsound.ship_1min", _boat);
-
+		
 		RUNE_SOUND_LEAVE_5MIN = new PlaySound(0, "itemsound.ship_5min", _boat);
 		RUNE_SOUND_LEAVE_1MIN = new PlaySound(0, "itemsound.ship_1min", _boat);
 	}
-
+	
 	@Override
 	public void run()
 	{
@@ -209,11 +209,11 @@ public class BoatGludinRune implements Runnable
 					{
 						if (_shoutCount == 0)
 							BoatManager.getInstance().broadcastPacket(RUNE_DOCK[0], GLUDIN_DOCK[0], BUSY_RUNE);
-
+						
 						_shoutCount++;
 						if (_shoutCount > 35)
 							_shoutCount = 0;
-
+						
 						ThreadPool.schedule(this, 5000);
 						return;
 					}
@@ -268,11 +268,11 @@ public class BoatGludinRune implements Runnable
 					{
 						if (_shoutCount == 0)
 							BoatManager.getInstance().broadcastPacket(GLUDIN_DOCK[0], RUNE_DOCK[0], BUSY_GLUDIN);
-
+						
 						_shoutCount++;
 						if (_shoutCount > 35)
 							_shoutCount = 0;
-
+						
 						ThreadPool.schedule(this, 5000);
 						return;
 					}
@@ -295,7 +295,7 @@ public class BoatGludinRune implements Runnable
 			_log.log(Level.WARNING, e.getMessage());
 		}
 	}
-
+	
 	public static void load()
 	{
 		final Vehicle boat = BoatManager.getInstance().getNewBoat(3, -95686, 150514, -3610, 16723);

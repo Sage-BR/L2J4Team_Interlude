@@ -9,13 +9,13 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q045_ToTalkingIsland extends Quest
 {
 	private static final String qn = "Q045_ToTalkingIsland";
-
+	
 	// Npcs
 	private static final int GALLADUCCI = 30097;
 	private static final int GENTLER = 30094;
 	private static final int SANDRA = 30090;
 	private static final int DUSTIN = 30116;
-
+	
 	// Items
 	private static final int ORDER_DOCUMENT_1 = 7563;
 	private static final int ORDER_DOCUMENT_2 = 7564;
@@ -25,17 +25,17 @@ public class Q045_ToTalkingIsland extends Quest
 	private static final int PURIFIED_MAGIC_NECKLACE = 7566;
 	private static final int MARK_OF_TRAVELER = 7570;
 	private static final int SCROLL_OF_ESCAPE_SPECIAL = 7554;
-
+	
 	public Q045_ToTalkingIsland()
 	{
 		super(45, "To Talking Island");
-
+		
 		setItemsIds(ORDER_DOCUMENT_1, ORDER_DOCUMENT_2, ORDER_DOCUMENT_3, MAGIC_SWORD_HILT, GEMSTONE_POWDER, PURIFIED_MAGIC_NECKLACE);
-
+		
 		addStartNpc(GALLADUCCI);
 		addTalkId(GALLADUCCI, GENTLER, SANDRA, DUSTIN);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -43,7 +43,7 @@ public class Q045_ToTalkingIsland extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30097-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -94,10 +94,10 @@ public class Q045_ToTalkingIsland extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -105,7 +105,7 @@ public class Q045_ToTalkingIsland extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -119,7 +119,7 @@ public class Q045_ToTalkingIsland extends Quest
 				else
 					htmltext = "30097-01a.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -138,21 +138,21 @@ public class Q045_ToTalkingIsland extends Quest
 						else if (cond == 6)
 							htmltext = "30097-11.htm";
 						break;
-
+					
 					case GENTLER:
 						if (cond == 1)
 							htmltext = "30094-01.htm";
 						else if (cond > 1)
 							htmltext = "30094-03.htm";
 						break;
-
+					
 					case SANDRA:
 						if (cond == 3)
 							htmltext = "30090-01.htm";
 						else if (cond > 3)
 							htmltext = "30090-03.htm";
 						break;
-
+					
 					case DUSTIN:
 						if (cond == 5)
 							htmltext = "30116-01.htm";
@@ -161,12 +161,12 @@ public class Q045_ToTalkingIsland extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

@@ -22,33 +22,33 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class NewZoneVote
 {
 	protected static ArrayList<L2Spawn> npc = new ArrayList<>();
-
+	
 	public static boolean _started = false;
-
+	
 	public static boolean _vote = false;
-
+	
 	private static NewZoneVote _instance = null;
-
+	
 	protected static final Logger _log = Logger.getLogger(NewZoneVote.class.getName());
-
+	
 	private Calendar NextEvent;
-
+	
 	private final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-
+	
 	public static NewZoneVote getInstance()
 	{
 		if (_instance == null)
 			_instance = new NewZoneVote();
 		return _instance;
 	}
-
+	
 	public String getNextTime()
 	{
 		if (NextEvent.getTime() != null)
 			return format.format(NextEvent.getTime());
 		return "Erro";
 	}
-
+	
 	public void StartNextEventTime()
 	{
 		try
@@ -88,7 +88,7 @@ public class NewZoneVote
 			System.out.println("VoteZone: " + e);
 		}
 	}
-
+	
 	class StartEventTask implements Runnable
 	{
 		@Override
@@ -97,7 +97,7 @@ public class NewZoneVote
 			NewZoneVote.Vote();
 		}
 	}
-
+	
 	static void Vote()
 	{
 		ThreadPool.schedule(new Runnable()
@@ -121,7 +121,7 @@ public class NewZoneVote
 		Announcement.Announce("VoteZone: Command .votezone");
 		NextEvent();
 	}
-
+	
 	public static void NextEvent()
 	{
 		ThreadPool.schedule(new Runnable()
@@ -133,7 +133,7 @@ public class NewZoneVote
 			}
 		}, 1000L);
 	}
-
+	
 	public static void waiter(long interval)
 	{
 		long startWaiterTime = System.currentTimeMillis();
@@ -212,12 +212,12 @@ public class NewZoneVote
 			}
 		}
 	}
-
+	
 	public static boolean is_started()
 	{
 		return _started;
 	}
-
+	
 	public static boolean is_vote()
 	{
 		return _vote;

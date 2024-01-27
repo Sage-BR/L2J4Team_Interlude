@@ -6,12 +6,12 @@ import com.l2j4team.gameserver.model.actor.instance.Player;
 public class NewsHtml implements Runnable
 {
 	private final Player _activeChar;
-
+	
 	public NewsHtml(Player activeChar)
 	{
 		_activeChar = activeChar;
 	}
-
+	
 	@Override
 	public void run()
 	{

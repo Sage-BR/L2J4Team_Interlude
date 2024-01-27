@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q408_PathToAnElvenWizard extends Quest
 {
 	private static final String qn = "Q408_PathToAnElvenWizard";
-
+	
 	// Items
 	private static final int ROSELLA_LETTER = 1218;
 	private static final int RED_DOWN = 1219;
@@ -26,25 +26,25 @@ public class Q408_PathToAnElvenWizard extends Quest
 	private static final int CHARM_OF_GRAIN = 1272;
 	private static final int SAP_OF_THE_MOTHER_TREE = 1273;
 	private static final int LUCKY_POTPOURRI = 1274;
-
+	
 	// NPCs
 	private static final int ROSELLA = 30414;
 	private static final int GREENIS = 30157;
 	private static final int THALIA = 30371;
 	private static final int NORTHWIND = 30423;
-
+	
 	public Q408_PathToAnElvenWizard()
 	{
 		super(408, "Path to an Elven Wizard");
-
+		
 		setItemsIds(ROSELLA_LETTER, RED_DOWN, MAGICAL_POWERS_RUBY, PURE_AQUAMARINE, APPETIZING_APPLE, GOLD_LEAVES, IMMORTAL_LOVE, AMETHYST, NOBILITY_AMETHYST, FERTILITY_PERIDOT, CHARM_OF_GRAIN, SAP_OF_THE_MOTHER_TREE, LUCKY_POTPOURRI);
-
+		
 		addStartNpc(ROSELLA);
 		addTalkId(ROSELLA, GREENIS, THALIA, NORTHWIND);
-
+		
 		addKillId(20047, 20019, 20466);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -52,7 +52,7 @@ public class Q408_PathToAnElvenWizard extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30414-06.htm"))
 		{
 			if (player.getClassId() != ClassId.ELVEN_MYSTIC)
@@ -111,10 +111,10 @@ public class Q408_PathToAnElvenWizard extends Quest
 			st.takeItems(APPETIZING_APPLE, 1);
 			st.giveItems(SAP_OF_THE_MOTHER_TREE, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -122,13 +122,13 @@ public class Q408_PathToAnElvenWizard extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "30414-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -176,7 +176,7 @@ public class Q408_PathToAnElvenWizard extends Quest
 						else
 							htmltext = "30414-11.htm";
 						break;
-
+					
 					case GREENIS:
 						if (st.hasQuestItems(ROSELLA_LETTER))
 							htmltext = "30157-01.htm";
@@ -191,7 +191,7 @@ public class Q408_PathToAnElvenWizard extends Quest
 						else if (st.hasQuestItems(CHARM_OF_GRAIN))
 							htmltext = "30157-03.htm";
 						break;
-
+					
 					case THALIA:
 						if (st.hasQuestItems(APPETIZING_APPLE))
 							htmltext = "30371-01.htm";
@@ -206,7 +206,7 @@ public class Q408_PathToAnElvenWizard extends Quest
 						else if (st.hasQuestItems(SAP_OF_THE_MOTHER_TREE))
 							htmltext = "30371-03.htm";
 						break;
-
+					
 					case NORTHWIND:
 						if (st.hasQuestItems(IMMORTAL_LOVE))
 						{
@@ -229,35 +229,35 @@ public class Q408_PathToAnElvenWizard extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case 20019:
 				if (st.hasQuestItems(SAP_OF_THE_MOTHER_TREE))
 					st.dropItems(GOLD_LEAVES, 1, 5, 400000);
 				break;
-
+			
 			case 20047:
 				if (st.hasQuestItems(LUCKY_POTPOURRI))
 					st.dropItems(AMETHYST, 1, 2, 400000);
 				break;
-
+			
 			case 20466:
 				if (st.hasQuestItems(CHARM_OF_GRAIN))
 					st.dropItems(RED_DOWN, 1, 5, 700000);
 				break;
 		}
-
+		
 		return null;
 	}
 }

@@ -28,7 +28,7 @@ public class TopPKMonument extends L2PcPolymorph
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onSpawn()
 	{
@@ -36,7 +36,7 @@ public class TopPKMonument extends L2PcPolymorph
 		if (Config.CKM_ENABLED)
 			CharacterKillingManager.getInstance().addPKMorphListener(this);
 	}
-
+	
 	@Override
 	public void deleteMe()
 	{

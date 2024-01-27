@@ -13,21 +13,21 @@ public class GMViewWarehouseWithdrawList extends L2GameServerPacket
 	private final Set<ItemInstance> _items;
 	private final String _playerName;
 	private final int _money;
-
+	
 	public GMViewWarehouseWithdrawList(Player player)
 	{
 		_items = player.getWarehouse().getItems();
 		_playerName = player.getName();
 		_money = player.getWarehouse().getAdena();
 	}
-
+	
 	public GMViewWarehouseWithdrawList(Clan clan)
 	{
 		_playerName = clan.getLeaderName();
 		_items = clan.getWarehouse().getItems();
 		_money = clan.getWarehouse().getAdena();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -35,11 +35,11 @@ public class GMViewWarehouseWithdrawList extends L2GameServerPacket
 		writeS(_playerName);
 		writeD(_money);
 		writeH(_items.size());
-
+		
 		for (ItemInstance temp : _items)
 		{
 			Item item = temp.getItem();
-
+			
 			writeH(item.getType1());
 			writeD(temp.getObjectId());
 			writeD(temp.getItemId());

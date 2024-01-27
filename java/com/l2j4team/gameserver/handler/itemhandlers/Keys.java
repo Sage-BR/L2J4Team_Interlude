@@ -21,42 +21,42 @@ public class Keys implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final Player activeChar = (Player) playable;
 		if (activeChar.isSitting())
 		{
 			activeChar.sendPacket(SystemMessageId.CANT_MOVE_SITTING);
 			return;
 		}
-
+		
 		if (activeChar.isMovementDisabled())
 			return;
-
+		
 		final Creature target = (Creature) activeChar.getTarget();
-
+		
 		// Target must be a valid chest (not dead or already interacted).
 		if (!(target instanceof Chest) || target.isDead() || ((Chest) target).isInteracted())
 		{
 			activeChar.sendPacket(SystemMessageId.INCORRECT_TARGET);
 			return;
 		}
-
+		
 		final IntIntHolder[] skills = item.getEtcItem().getSkills();
 		if (skills == null)
 		{
 			_log.info(item.getName() + " does not have registered any skill for handler.");
 			return;
 		}
-
+		
 		for (IntIntHolder skillInfo : skills)
 		{
 			if (skillInfo == null)
 				continue;
-
+			
 			final L2Skill itemSkill = skillInfo.getSkill();
 			if (itemSkill == null)
 				continue;
-
+			
 			// Key consumption is made on skill call, not on item call.
 			playable.useMagic(itemSkill, false, false);
 		}

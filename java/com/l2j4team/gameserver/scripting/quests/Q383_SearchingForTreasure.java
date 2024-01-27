@@ -10,23 +10,23 @@ import com.l2j4team.commons.random.Rnd;
 public class Q383_SearchingForTreasure extends Quest
 {
 	private static final String qn = "Q383_SearchingForTreasure";
-
+	
 	// NPCs
 	private static final int ESPEN = 30890;
 	private static final int PIRATE_CHEST = 31148;
-
+	
 	// Items
 	private static final int PIRATE_TREASURE_MAP = 5915;
 	private static final int THIEF_KEY = 1661;
-
+	
 	public Q383_SearchingForTreasure()
 	{
 		super(383, "Searching for Treasure");
-
+		
 		addStartNpc(ESPEN);
 		addTalkId(ESPEN, PIRATE_CHEST);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -34,7 +34,7 @@ public class Q383_SearchingForTreasure extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30890-04.htm"))
 		{
 			// Sell the map.
@@ -75,10 +75,10 @@ public class Q383_SearchingForTreasure extends Quest
 			if (st.hasQuestItems(THIEF_KEY))
 			{
 				st.takeItems(THIEF_KEY, 1);
-
+				
 				// Adena reward.
 				int i1 = 0;
-
+				
 				int i0 = Rnd.get(100);
 				if (i0 < 5)
 					st.giveItems(2450, 1);
@@ -90,7 +90,7 @@ public class Q383_SearchingForTreasure extends Quest
 					st.giveItems(952, 1);
 				else
 					i1 += 500;
-
+				
 				i0 = Rnd.get(1000);
 				if (i0 < 25)
 					st.giveItems(4481, 1);
@@ -118,7 +118,7 @@ public class Q383_SearchingForTreasure extends Quest
 					st.giveItems(4492, 1);
 				else
 					i1 += 300;
-
+				
 				i0 = Rnd.get(100);
 				if (i0 < 4)
 					st.giveItems(1337, 1);
@@ -136,7 +136,7 @@ public class Q383_SearchingForTreasure extends Quest
 					st.giveItems(3456, 1);
 				else
 					i1 += 500;
-
+				
 				i0 = Rnd.get(100);
 				if (i0 < 20)
 					st.giveItems(4408, 1);
@@ -148,19 +148,19 @@ public class Q383_SearchingForTreasure extends Quest
 					st.giveItems(4419, 1);
 				else
 					i1 += 500;
-
+				
 				st.rewardItems(57, i1);
-
+				
 				st.playSound(QuestState.SOUND_FINISH);
 				st.exitQuest(true);
 			}
 			else
 				htmltext = "31148-03.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -168,13 +168,13 @@ public class Q383_SearchingForTreasure extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 42 || !st.hasQuestItems(PIRATE_TREASURE_MAP)) ? "30890-01.htm" : "30890-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -185,7 +185,7 @@ public class Q383_SearchingForTreasure extends Quest
 						else
 							htmltext = "30890-12.htm";
 						break;
-
+					
 					case PIRATE_CHEST:
 						if (cond == 2)
 							htmltext = "31148-01.htm";
@@ -193,7 +193,7 @@ public class Q383_SearchingForTreasure extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

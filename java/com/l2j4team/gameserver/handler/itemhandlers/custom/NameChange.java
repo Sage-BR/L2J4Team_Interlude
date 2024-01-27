@@ -31,17 +31,17 @@ public class NameChange implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		final Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isOlympiadProtection())
 		{
 			activeChar.sendMessage("You can not do that.");
 			return;
 		}
-
+		
 		activeChar.setNameChangeItemId(item.getItemId());
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/Coin Custom/NameChange.htm");
 		activeChar.sendPacket(html);

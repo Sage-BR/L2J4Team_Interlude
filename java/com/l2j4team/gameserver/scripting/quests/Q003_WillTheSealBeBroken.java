@@ -9,27 +9,27 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q003_WillTheSealBeBroken extends Quest
 {
 	private static final String qn = "Q003_WillTheSealBeBroken";
-
+	
 	// Items
 	private static final int ONYX_BEAST_EYE = 1081;
 	private static final int TAINT_STONE = 1082;
 	private static final int SUCCUBUS_BLOOD = 1083;
-
+	
 	// Reward
 	private static final int SCROLL_ENCHANT_ARMOR_D = 956;
-
+	
 	public Q003_WillTheSealBeBroken()
 	{
 		super(3, "Will the Seal be Broken?");
-
+		
 		setItemsIds(ONYX_BEAST_EYE, TAINT_STONE, SUCCUBUS_BLOOD);
-
+		
 		addStartNpc(30141); // Talloth
 		addTalkId(30141);
-
+		
 		addKillId(20031, 20041, 20046, 20048, 20052, 20057);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -37,17 +37,17 @@ public class Q003_WillTheSealBeBroken extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30141-03.htm"))
 		{
 			st.setState(STATE_STARTED);
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -55,7 +55,7 @@ public class Q003_WillTheSealBeBroken extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -66,7 +66,7 @@ public class Q003_WillTheSealBeBroken extends Quest
 				else
 					htmltext = "30141-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				if (cond == 1)
@@ -82,35 +82,35 @@ public class Q003_WillTheSealBeBroken extends Quest
 					st.exitQuest(false);
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "1");
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case 20031:
 				if (st.dropItemsAlways(ONYX_BEAST_EYE, 1, 1) && st.hasQuestItems(TAINT_STONE, SUCCUBUS_BLOOD))
 					st.set("cond", "2");
 				break;
-
+			
 			case 20041:
 			case 20046:
 				if (st.dropItemsAlways(TAINT_STONE, 1, 1) && st.hasQuestItems(ONYX_BEAST_EYE, SUCCUBUS_BLOOD))
 					st.set("cond", "2");
 				break;
-
+			
 			case 20048:
 			case 20052:
 			case 20057:
@@ -118,7 +118,7 @@ public class Q003_WillTheSealBeBroken extends Quest
 					st.set("cond", "2");
 				break;
 		}
-
+		
 		return null;
 	}
 }

@@ -17,36 +17,36 @@ public class CombatPointHeal implements ISkillHandler
 	{
 		L2SkillType.COMBATPOINTHEAL
 	};
-
+	
 	@Override
 	public void useSkill(Creature actChar, L2Skill skill, WorldObject[] targets)
 	{
 		// check for other effects
 		ISkillHandler handler = SkillHandler.getInstance().getSkillHandler(L2SkillType.BUFF);
-
+		
 		if (handler != null)
 			handler.useSkill(actChar, skill, targets);
-
+		
 		for (WorldObject obj : targets)
 		{
 			if (!(obj instanceof Creature))
 				continue;
-
+			
 			final Creature target = (Creature) obj;
 			if (target.isDead() || target.isInvul())
 				continue;
-
+			
 			double cp = skill.getPower();
-
+			
 			if ((target.getCurrentCp() + cp) >= target.getMaxCp())
 				cp = target.getMaxCp() - target.getCurrentCp();
-
+			
 			target.setCurrentCp(cp + target.getCurrentCp());
-
+			
 			StatusUpdate sump = new StatusUpdate(target);
 			sump.addAttribute(StatusUpdate.CUR_CP, (int) target.getCurrentCp());
 			target.sendPacket(sump);
-
+			
 			if (target instanceof Player)
 			{
 				if (actChar instanceof Player && actChar != target)
@@ -54,10 +54,10 @@ public class CombatPointHeal implements ISkillHandler
 				else
 					target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_CP_WILL_BE_RESTORED).addNumber((int) cp));
 			}
-
+			
 		}
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

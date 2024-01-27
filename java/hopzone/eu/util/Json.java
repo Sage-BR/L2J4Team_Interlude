@@ -42,7 +42,7 @@ public class Json
 	private final Map<String, String> data = new HashMap<>();
 	private int i;
 	private String[] split;
-	
+
 	/**
 	 * set body of json array
 	 * @param text string
@@ -61,7 +61,7 @@ public class Json
 			{
 				if (s == null)
 					continue;
-				
+
 				if (TYPE == VDSystem.VoteType.GLOBAL)
 					setGlobalVars(TOPSITE, s);
 				if (TYPE == VDSystem.VoteType.INDIVIDUAL)
@@ -71,11 +71,11 @@ public class Json
 		// put l2jbrasil votes after the loop finish
 		if (TOPSITE.equals("L2JBRASIL") && TYPE == VDSystem.VoteType.GLOBAL)
 			data.putIfAbsent(TOPSITE.toLowerCase() + "_votes", "" + i);
-		
+
 		if (Configurations.DEBUG)
 			_log.info("------------");
 	}
-	
+
 	/**
 	 * Set global variables
 	 * @param TOPSITE string
@@ -87,7 +87,7 @@ public class Json
 		{
 			if (Configurations.DEBUG)
 				_log.info(TOPSITE + " Original line:" + s);
-			
+
 			if (TOPSITE.equals("HOPZONE"))
 			{
 				split = s.split(":");
@@ -97,7 +97,7 @@ public class Json
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_votes", split[1].trim());
 				return;
 			}
-			
+
 			if (TOPSITE.equals("ITOPZ"))
 			{
 				split = s.split(":");
@@ -114,7 +114,7 @@ public class Json
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_next_rank", split[1].trim());
 				return;
 			}
-			
+
 			// when noob hopzone return date time using ":" symbol in json.. instead of milliseconds
 			if (TOPSITE.equals("HOPZONENET"))
 			{
@@ -125,7 +125,7 @@ public class Json
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_votes", split[1].trim());
 				return;
 			}
-			
+
 			if (TOPSITE.equals("L2TOPGAMESERVER"))
 			{
 				if (s.contains("true"))
@@ -137,7 +137,7 @@ public class Json
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_votes", split[1].trim());
 				return;
 			}
-			
+
 			// this guy thinks -1 on empty page is api
 			if (TOPSITE.equals("L2NETWORK"))
 			{
@@ -146,7 +146,7 @@ public class Json
 				data.putIfAbsent(TOPSITE.toLowerCase() + "_votes", s.trim());
 				return;
 			}
-			
+
 			// now there is a special place in hell for these guys.
 			// 2023 note they broke again this api, global asks for player id and shit.
 			if (TOPSITE.equals("L2JBRASIL"))
@@ -157,7 +157,7 @@ public class Json
 					i++;
 				return;
 			}
-			
+
 			// still learning what api key is
 			if (TOPSITE.equals("L2VOTES"))
 			{
@@ -168,7 +168,7 @@ public class Json
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_votes", split[1]);
 				return;
 			}
-			
+
 			if (TOPSITE.equals("HOTSERVERS"))
 			{
 				split = s.split(":");
@@ -177,7 +177,7 @@ public class Json
 				if (split[0].contains("server_votes"))
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_votes", split[1].trim());
 			}
-			
+
 			if (TOPSITE.equals("L2RANKZONE"))
 			{
 				split = s.split(":");
@@ -186,7 +186,7 @@ public class Json
 				if (split[0].contains("currentVotes"))
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_votes", split[1].trim());
 			}
-			
+
 			if (TOPSITE.equals("TOP4TEAMBR"))
 			{
 				split = s.split(":");
@@ -210,7 +210,7 @@ public class Json
 			Gui.getInstance().ConsoleWrite("IOOBE: " + e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * set individual variables
 	 * @param TOPSITE string
@@ -222,7 +222,7 @@ public class Json
 		{
 			if (Configurations.DEBUG)
 				_log.info(TOPSITE + " Original line:" + s);
-			
+
 			if (TOPSITE.equals("HOPZONE"))
 			{
 				split = s.split(":");
@@ -235,7 +235,7 @@ public class Json
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_vote_time", split[1].trim());
 				if (split[0].contains("server_time"))
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_server_time", split[1].trim());
-				
+
 				// vote ip check
 				if (split[0].contains("isVoted"))
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_voted", split[1].trim());
@@ -245,7 +245,7 @@ public class Json
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_server_time", split[1].trim());
 				return;
 			}
-			
+
 			if (TOPSITE.equals("ITOPZ"))
 			{
 				split = s.split(":");
@@ -259,7 +259,7 @@ public class Json
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_server_time", split[1].trim());
 				return;
 			}
-			
+
 			// when noob hopzone return date time using ":" symbol in json.. instead of milliseconds
 			if (TOPSITE.equals("HOPZONENET"))
 			{
@@ -274,7 +274,7 @@ public class Json
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_server_time", split[1].trim() + ":" + split[2].trim() + ":" + split[3].trim());
 				return;
 			}
-			
+
 			if (TOPSITE.equals("L2TOPGAMESERVER"))
 			{
 				if (s.equals("true"))
@@ -292,7 +292,7 @@ public class Json
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_server_time", split[1].trim() + ":" + split[2].trim() + ":" + split[3].trim());
 				return;
 			}
-			
+
 			// this guy thinks showing with post request -1 on empty page is api
 			if (TOPSITE.equals("L2NETWORK"))
 			{
@@ -301,7 +301,7 @@ public class Json
 				data.putIfAbsent(TOPSITE.toLowerCase() + "_voted", s.trim());
 				return;
 			}
-			
+
 			// this time they did it.. but still stupid as hopzone
 			if (TOPSITE.equals("L2JBRASIL"))
 			{
@@ -315,7 +315,7 @@ public class Json
 				if (split[0].contains("server_time") && split.length >= 3)
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_server_time", split[1].trim() + ":" + split[2].trim() + ":" + split[3].trim());
 			}
-			
+
 			// still learning what api key is
 			if (TOPSITE.equals("L2VOTES"))
 			{
@@ -326,7 +326,7 @@ public class Json
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_voted", split[1].trim());
 				return;
 			}
-			
+
 			// another guy who copied hopzone mistake.
 			if (TOPSITE.equals("HOTSERVERS"))
 			{
@@ -340,7 +340,7 @@ public class Json
 				if (split[0].contains("server_time") && split.length >= 3)
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_server_time", split[1].trim() + ":" + split[2].trim() + ":" + split[3].trim());
 			}
-			
+
 			if (TOPSITE.equals("L2RANKZONE"))
 			{
 				split = s.split(":");
@@ -353,7 +353,7 @@ public class Json
 				if (split[0].contains("serverTime") && split.length >= 3)
 					data.putIfAbsent(TOPSITE.toLowerCase() + "_server_time", split[1].trim() + ":" + split[2].trim() + ":" + split[3].trim());
 			}
-			
+
 			if (TOPSITE.equals("TOP4TEAMBR"))
 			{
 				if (Configurations.DEBUG)
@@ -375,7 +375,7 @@ public class Json
 			Gui.getInstance().ConsoleWrite("IOOBE: " + e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * return string value from map
 	 * @param key String
@@ -385,7 +385,7 @@ public class Json
 	{
 		return data.containsKey(key) ? String.valueOf(data.getOrDefault(key, "-2")) : "NONE";
 	}
-	
+
 	/**
 	 * return integer value from map
 	 * @param key String
@@ -395,7 +395,7 @@ public class Json
 	{
 		return data.containsKey(key) ? Integer.parseInt(data.getOrDefault(key, "-2")) : -2;
 	}
-	
+
 	/**
 	 * Return boolean value from map
 	 * @param key String
@@ -405,7 +405,7 @@ public class Json
 	{
 		return data.containsKey(key) ? Boolean.parseBoolean(data.getOrDefault(key, "false")) || data.getOrDefault(key, "false").equals("1") : false;
 	}
-	
+
 	/**
 	 * Return long value from map
 	 * @param key String

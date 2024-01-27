@@ -24,18 +24,18 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class AioManager
 {
 	private static final Logger _log = Logger.getLogger(AioManager.class.getName());
-
+	
 	private final Map<Integer, Long> _aios;
-
+	
 	protected final Map<Integer, Long> _aiosTask;
-
+	
 	private ScheduledFuture<?> _scheduler;
-
+	
 	public static AioManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected AioManager()
 	{
 		_aios = new ConcurrentHashMap<>();
@@ -43,7 +43,7 @@ public class AioManager
 		_scheduler = ThreadPool.scheduleAtFixedRate(new AioTask(), 1000L, 1000L);
 		load();
 	}
-
+	
 	public void reload()
 	{
 		_aios.clear();
@@ -53,7 +53,7 @@ public class AioManager
 		_scheduler = ThreadPool.scheduleAtFixedRate(new AioTask(), 1000L, 1000L);
 		load();
 	}
-
+	
 	public void load()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -71,7 +71,7 @@ public class AioManager
 		}
 		_log.info("AioManager: Loaded " + _aios.size() + " characters with aio privileges.");
 	}
-
+	
 	public void addAio(int objectId, long duration)
 	{
 		_aios.put(Integer.valueOf(objectId), Long.valueOf(duration));
@@ -90,7 +90,7 @@ public class AioManager
 			_log.warning("Exception: AioManager addAio: " + e.getMessage());
 		}
 	}
-
+	
 	public void updateAio(int objectId, long duration)
 	{
 		duration += _aios.get(Integer.valueOf(objectId)).longValue();
@@ -109,7 +109,7 @@ public class AioManager
 			_log.warning("Exception: AioManager updateAio: " + e.getMessage());
 		}
 	}
-
+	
 	public void removeAio(int objectId)
 	{
 		_aios.remove(Integer.valueOf(objectId));
@@ -127,27 +127,27 @@ public class AioManager
 			_log.warning("Exception: AioManager removeAio: " + e.getMessage());
 		}
 	}
-
+	
 	public boolean hasAioPrivileges(int objectId)
 	{
 		return _aios.containsKey(Integer.valueOf(objectId));
 	}
-
+	
 	public long getAioDuration(int objectId)
 	{
 		return _aios.get(Integer.valueOf(objectId)).longValue();
 	}
-
+	
 	public void addAioTask(int objectId, long duration)
 	{
 		_aiosTask.put(Integer.valueOf(objectId), Long.valueOf(duration));
 	}
-
+	
 	public void removeAioTask(int objectId)
 	{
 		_aiosTask.remove(Integer.valueOf(objectId));
 	}
-
+	
 	public void addAioPrivileges(int objectId, boolean apply)
 	{
 		Player player = World.getInstance().getPlayer(objectId);
@@ -165,7 +165,7 @@ public class AioManager
 		player.giveAvailableSkills();
 		player.sendSkillList();
 	}
-
+	
 	public void removeAioPrivileges(int objectId, boolean apply)
 	{
 		Player player = World.getInstance().getPlayer(objectId);
@@ -175,18 +175,18 @@ public class AioManager
 		player.sendPacket(new ItemList(player, true));
 		player.getInventory().reloadEquippedItems();
 		InventoryUpdate iu = new InventoryUpdate();
-
+		
 		player.getAppearance().setNameColor(16777215);
 		player.getAppearance().setTitleColor(16777215);
 		if (Config.CHANGE_AIO_NAME)
 			AdminAiox.nameaio("[AIO]", player);
-
+		
 		iu.addItem(item);
 		player.lostAioSkills();
 		player.giveAvailableSkills();
 		player.sendSkillList();
 	}
-
+	
 	public class AioTask implements Runnable
 	{
 		@Override
@@ -207,7 +207,7 @@ public class AioManager
 			}
 		}
 	}
-
+	
 	public static void giveAioItems(Player activeChar)
 	{
 		for (int[] reward : Config.AIO_CHAR_ITENS)
@@ -216,7 +216,7 @@ public class AioManager
 			activeChar.getInventory().equipItemAndRecord(PhewPew1);
 		}
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final AioManager _instance = new AioManager();

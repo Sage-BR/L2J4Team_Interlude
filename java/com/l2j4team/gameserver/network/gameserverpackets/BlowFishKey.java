@@ -9,7 +9,7 @@ import javax.crypto.Cipher;
 public class BlowFishKey extends GameServerBasePacket
 {
 	private static Logger _log = Logger.getLogger(BlowFishKey.class.getName());
-
+	
 	public BlowFishKey(byte[] blowfishKey, RSAPublicKey publicKey)
 	{
 		writeC(0x00);
@@ -19,7 +19,7 @@ public class BlowFishKey extends GameServerBasePacket
 			Cipher rsaCipher = Cipher.getInstance("RSA/ECB/nopadding");
 			rsaCipher.init(Cipher.ENCRYPT_MODE, publicKey);
 			encrypted = rsaCipher.doFinal(blowfishKey);
-
+			
 			writeD(encrypted.length);
 			writeB(encrypted);
 		}
@@ -29,7 +29,7 @@ public class BlowFishKey extends GameServerBasePacket
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Override
 	public byte[] getContent()
 	{

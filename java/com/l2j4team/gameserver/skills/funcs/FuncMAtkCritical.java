@@ -10,17 +10,17 @@ import com.l2j4team.gameserver.skills.basefuncs.Func;
 public class FuncMAtkCritical extends Func
 {
 	static final FuncMAtkCritical _fac_instance = new FuncMAtkCritical();
-
+	
 	public static Func getInstance()
 	{
 		return _fac_instance;
 	}
-
+	
 	private FuncMAtkCritical()
 	{
 		super(Stats.MCRITICAL_RATE, 0x30, null, null);
 	}
-
+	
 	@Override
 	public void calc(Env env)
 	{

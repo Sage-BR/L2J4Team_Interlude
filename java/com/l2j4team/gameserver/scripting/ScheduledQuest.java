@@ -21,30 +21,30 @@ public abstract class ScheduledQuest extends Quest
 		MONTHLY_WEEK(Calendar.MONTH),
 		YEARLY_DAY(Calendar.YEAR),
 		YEARLY_WEEK(Calendar.YEAR);
-
+		
 		private final int _period;
-
+		
 		private Schedule(int period)
 		{
 			_period = period;
 		}
-
+		
 		public final int getPeriod()
 		{
 			return _period;
 		}
 	}
-
+	
 	private Schedule _type;
 	private Calendar _start;
 	private Calendar _end;
 	private boolean _started;
-
+	
 	public ScheduledQuest(int questId, String descr)
 	{
 		super(questId, descr);
 	}
-
+	
 	/**
 	 * Return true, when a {@link ScheduledQuest} is started.
 	 * @return boolean : True, when started.
@@ -53,7 +53,7 @@ public abstract class ScheduledQuest extends Quest
 	{
 		return _started;
 	}
-
+	
 	/**
 	 * Set up schedule system for the script. Returns true, when successfully done.
 	 * @param type : Type of the schedule.
@@ -69,14 +69,14 @@ public abstract class ScheduledQuest extends Quest
 			_start = parseTimeStamp(start);
 			_end = parseTimeStamp(end);
 			_started = false;
-
+			
 			final long st = _start.getTimeInMillis();
 			final long now = System.currentTimeMillis();
 			if (_end == null || _end.getTimeInMillis() == st)
 			{
 				// start and end events are at same time, consider as one-event script
 				_end = null;
-
+				
 				// schedule next start
 				if (st < now)
 					_start.add(_type.getPeriod(), 1);
@@ -115,7 +115,7 @@ public abstract class ScheduledQuest extends Quest
 					// last schedule has not started yet, do nothing
 				}
 			}
-
+			
 			// initialize script and return
 			return init();
 		}
@@ -129,15 +129,15 @@ public abstract class ScheduledQuest extends Quest
 			return false;
 		}
 	}
-
+	
 	private final Calendar parseTimeStamp(String value) throws Exception
 	{
 		if (value == null)
 			return null;
-
+		
 		final Calendar calendar = Calendar.getInstance();
 		String[] timeStamp;
-
+		
 		switch (_type)
 		{
 			case HOURLY:
@@ -147,26 +147,26 @@ public abstract class ScheduledQuest extends Quest
 				calendar.set(Calendar.SECOND, Integer.valueOf(timeStamp[1]));
 				calendar.set(Calendar.MILLISECOND, 0);
 				return calendar;
-
+			
 			case DAILY:
 				// DAILY, "16:20:10", "17:20:00"
 				timeStamp = value.split(":");
 				break;
-
+			
 			case WEEKLY:
 				// WEEKLY, "MON 6:20:10", "FRI 17:20:00"
 				String[] params = value.split(" ");
 				timeStamp = params[1].split(":");
 				calendar.set(Calendar.DAY_OF_WEEK, getDayOfWeek(params[0]));
 				break;
-
+			
 			case MONTHLY_DAY:
 				// MONTHLY_DAY, "1 6:20:10", "2 17:20:00"
 				params = value.split(" ");
 				timeStamp = params[1].split(":");
 				calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(params[0]));
 				break;
-
+			
 			case MONTHLY_WEEK:
 				// MONTHLY_WEEK, "MON-1 6:20:10", "FRI-2 17:20:00"
 				params = value.split(" ");
@@ -175,7 +175,7 @@ public abstract class ScheduledQuest extends Quest
 				calendar.set(Calendar.DAY_OF_WEEK, getDayOfWeek(date[0]));
 				calendar.set(Calendar.WEEK_OF_MONTH, Integer.valueOf(date[1]));
 				break;
-
+			
 			case YEARLY_DAY:
 				// YEARLY_DAY, "23-02 6:20:10", "25-03 17:20:00"
 				params = value.split(" ");
@@ -184,7 +184,7 @@ public abstract class ScheduledQuest extends Quest
 				calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(date[0]));
 				calendar.set(Calendar.MONTH, Integer.valueOf(date[1]) - 1);
 				break;
-
+			
 			case YEARLY_WEEK:
 				// YEARLY_WEEK, "MON-1 6:20:10", "FRI-2 17:20:00"
 				params = value.split(" ");
@@ -193,20 +193,20 @@ public abstract class ScheduledQuest extends Quest
 				calendar.set(Calendar.DAY_OF_WEEK, getDayOfWeek(date[0]));
 				calendar.set(Calendar.WEEK_OF_YEAR, Integer.valueOf(date[1]));
 				break;
-
+			
 			default:
 				return null;
 		}
-
+		
 		// set hour, minute and second
 		calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(timeStamp[0]));
 		calendar.set(Calendar.MINUTE, Integer.valueOf(timeStamp[1]));
 		calendar.set(Calendar.SECOND, Integer.valueOf(timeStamp[2]));
 		calendar.set(Calendar.MILLISECOND, 0);
-
+		
 		return calendar;
 	}
-
+	
 	/**
 	 * Returns time of next action of the script.
 	 * @return long : Time in milliseconds.
@@ -215,10 +215,10 @@ public abstract class ScheduledQuest extends Quest
 	{
 		if (_type == null)
 			return 0;
-
+		
 		return _started ? _end.getTimeInMillis() : _start.getTimeInMillis();
 	}
-
+	
 	/**
 	 * Notify and schedule next action of the script.
 	 */
@@ -226,7 +226,7 @@ public abstract class ScheduledQuest extends Quest
 	{
 		if (_type == null)
 			return;
-
+		
 		// notify one-action script
 		if (_end == null)
 		{
@@ -239,13 +239,13 @@ public abstract class ScheduledQuest extends Quest
 			{
 				_log.warning(getName() + ": Error while starting the script: " + e.getMessage());
 			}
-
+			
 			// schedule next start
 			_start.add(_type.getPeriod(), 1);
 			print(_start);
 			return;
 		}
-
+		
 		// notify two-action script
 		if (_started)
 		{
@@ -259,7 +259,7 @@ public abstract class ScheduledQuest extends Quest
 			{
 				_log.warning(getName() + ": Error while ending the script: " + e.getMessage());
 			}
-
+			
 			// schedule start
 			_start.add(_type.getPeriod(), 1);
 			print(_start);
@@ -276,13 +276,13 @@ public abstract class ScheduledQuest extends Quest
 			{
 				_log.warning(getName() + ": Error while starting the script: " + e.getMessage());
 			}
-
+			
 			// schedule end
 			_end.add(_type.getPeriod(), 1);
 			print(_end);
 		}
 	}
-
+	
 	/**
 	 * Initializes a script and returns information about script to be scheduled or not. Set internal values, parameters, etc...
 	 * @return boolean : True, when script was initialized and can be scheduled.
@@ -292,20 +292,20 @@ public abstract class ScheduledQuest extends Quest
 		// the script was initialized as started, run start event
 		if (_started)
 			onStart();
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Starts a script. Handles spawns, announcements, loads variables, etc...
 	 */
 	protected abstract void onStart();
-
+	
 	/**
 	 * Ends a script. Handles spawns, announcements, saves variables, etc...
 	 */
 	protected abstract void onEnd();
-
+	
 	/**
 	 * Convert text representation of day {@link Calendar} day.
 	 * @param day : String representation of day.
@@ -331,12 +331,12 @@ public abstract class ScheduledQuest extends Quest
 		else
 			throw new Exception();
 	}
-
+	
 	private final void print(Calendar c)
 	{
 		if (!Config.DEBUG)
 			return;
-
+		
 		_log.info(getName() + (c == _start ? ": Next start = " : ": Next end = ") + String.format("%d.%d.%d %d:%02d:%02d", c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH) + 1, c.get(Calendar.YEAR), c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)));
 	}
 }

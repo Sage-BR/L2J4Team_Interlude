@@ -15,19 +15,19 @@ public class AdminManor implements IAdminCommandHandler
 	{
 		"admin_manor"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (command.startsWith("admin_manor"))
 		{
 			final CastleManorManager manor = CastleManorManager.getInstance();
-
+			
 			final NpcHtmlMessage msg = new NpcHtmlMessage(0);
 			msg.setFile("data/html/admin/manor.htm");
 			msg.replace("%status%", manor.getCurrentModeName());
 			msg.replace("%change%", manor.getNextModeChange());
-
+			
 			final StringBuilder sb = new StringBuilder(3400);
 			for (Castle c : CastleManager.getInstance().getCastles())
 			{
@@ -38,13 +38,13 @@ public class AdminManor implements IAdminCommandHandler
 			}
 			msg.replace("%castleInfo%", sb.toString());
 			activeChar.sendPacket(msg);
-
+			
 			sb.setLength(0);
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

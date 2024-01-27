@@ -13,7 +13,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q403_PathToARogue extends Quest
 {
 	private static final String qn = "Q403_PathToARogue";
-
+	
 	// Items
 	private static final int BEZIQUE_LETTER = 1180;
 	private static final int NETI_BOW = 1181;
@@ -26,23 +26,23 @@ public class Q403_PathToARogue extends Quest
 	private static final int STOLEN_RING = 1188;
 	private static final int STOLEN_NECKLACE = 1189;
 	private static final int BEZIQUE_RECOMMENDATION = 1190;
-
+	
 	// NPCs
 	private static final int BEZIQUE = 30379;
 	private static final int NETI = 30425;
-
+	
 	public Q403_PathToARogue()
 	{
 		super(403, "Path to a Rogue");
-
+		
 		setItemsIds(BEZIQUE_LETTER, NETI_BOW, NETI_DAGGER, SPARTOI_BONES, HORSESHOE_OF_LIGHT, MOST_WANTED_LIST, STOLEN_JEWELRY, STOLEN_TOMES, STOLEN_RING, STOLEN_NECKLACE);
-
+		
 		addStartNpc(BEZIQUE);
 		addTalkId(BEZIQUE, NETI);
-
+		
 		addKillId(20035, 20042, 20045, 20051, 20054, 20060, 27038);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -50,7 +50,7 @@ public class Q403_PathToARogue extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30379-05.htm"))
 		{
 			if (player.getClassId() != ClassId.HUMAN_FIGHTER)
@@ -74,10 +74,10 @@ public class Q403_PathToARogue extends Quest
 			st.giveItems(NETI_BOW, 1);
 			st.giveItems(NETI_DAGGER, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -85,13 +85,13 @@ public class Q403_PathToARogue extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "30379-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -127,7 +127,7 @@ public class Q403_PathToARogue extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case NETI:
 						if (cond == 1)
 							htmltext = "30425-01.htm";
@@ -147,21 +147,21 @@ public class Q403_PathToARogue extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int equippedItemId = st.getItemEquipped(Inventory.PAPERDOLL_RHAND);
 		if (equippedItemId != NETI_BOW || equippedItemId != NETI_DAGGER)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case 20035:
@@ -170,27 +170,27 @@ public class Q403_PathToARogue extends Quest
 				if (st.getInt("cond") == 2 && st.dropItems(SPARTOI_BONES, 1, 10, 200000))
 					st.set("cond", "3");
 				break;
-
+			
 			case 20042:
 				if (st.getInt("cond") == 2 && st.dropItems(SPARTOI_BONES, 1, 10, 300000))
 					st.set("cond", "3");
 				break;
-
+			
 			case 20054:
 			case 20060:
 				if (st.getInt("cond") == 2 && st.dropItems(SPARTOI_BONES, 1, 10, 800000))
 					st.set("cond", "3");
 				break;
-
+			
 			case 27038:
 				if (st.getInt("cond") == 5)
 				{
 					final int randomItem = Rnd.get(STOLEN_JEWELRY, STOLEN_NECKLACE);
-
+					
 					if (!st.hasQuestItems(randomItem))
 					{
 						st.giveItems(randomItem, 1);
-
+						
 						if (st.hasQuestItems(STOLEN_JEWELRY, STOLEN_TOMES, STOLEN_RING, STOLEN_NECKLACE))
 						{
 							st.set("cond", "6");
@@ -202,7 +202,7 @@ public class Q403_PathToARogue extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
 }

@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q406_PathToAnElvenKnight extends Quest
 {
 	private static final String qn = "Q406_PathToAnElvenKnight";
-
+	
 	// Items
 	private static final int SORIUS_LETTER = 1202;
 	private static final int KLUTO_BOX = 1203;
@@ -18,23 +18,23 @@ public class Q406_PathToAnElvenKnight extends Quest
 	private static final int TOPAZ_PIECE = 1205;
 	private static final int EMERALD_PIECE = 1206;
 	private static final int KLUTO_MEMO = 1276;
-
+	
 	// NPCs
 	private static final int SORIUS = 30327;
 	private static final int KLUTO = 30317;
-
+	
 	public Q406_PathToAnElvenKnight()
 	{
 		super(406, "Path to an Elven Knight");
-
+		
 		setItemsIds(SORIUS_LETTER, KLUTO_BOX, TOPAZ_PIECE, EMERALD_PIECE, KLUTO_MEMO);
-
+		
 		addStartNpc(SORIUS);
 		addTalkId(SORIUS, KLUTO);
-
+		
 		addKillId(20035, 20042, 20045, 20051, 20054, 20060, 20782);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -42,7 +42,7 @@ public class Q406_PathToAnElvenKnight extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30327-05.htm"))
 		{
 			if (player.getClassId() != ClassId.ELVEN_FIGHTER)
@@ -65,10 +65,10 @@ public class Q406_PathToAnElvenKnight extends Quest
 			st.takeItems(SORIUS_LETTER, 1);
 			st.giveItems(KLUTO_MEMO, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -76,13 +76,13 @@ public class Q406_PathToAnElvenKnight extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "30327-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -111,7 +111,7 @@ public class Q406_PathToAnElvenKnight extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case KLUTO:
 						if (cond == 3)
 							htmltext = "30317-01.htm";
@@ -132,17 +132,17 @@ public class Q406_PathToAnElvenKnight extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case 20035:
@@ -154,13 +154,13 @@ public class Q406_PathToAnElvenKnight extends Quest
 				if (st.getInt("cond") == 1 && st.dropItems(TOPAZ_PIECE, 1, 20, 700000))
 					st.set("cond", "2");
 				break;
-
+			
 			case 20782:
 				if (st.getInt("cond") == 4 && st.dropItems(EMERALD_PIECE, 1, 20, 500000))
 					st.set("cond", "5");
 				break;
 		}
-
+		
 		return null;
 	}
 }

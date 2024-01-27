@@ -28,20 +28,20 @@ public final class Guard extends Attackable
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public boolean isAutoAttackable(Creature attacker)
 	{
 		return attacker instanceof Monster;
 	}
-
+	
 	@Override
 	public void onSpawn()
 	{
 		setIsNoRndWalk(true);
 		super.onSpawn();
 	}
-
+	
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -50,10 +50,10 @@ public final class Guard extends Attackable
 			filename = "" + npcId;
 		else
 			filename = npcId + "-" + val;
-
+		
 		return "data/html/guard/" + filename + ".htm";
 	}
-
+	
 	@Override
 	public void onAction(Player player)
 	{
@@ -72,10 +72,10 @@ public final class Guard extends Attackable
 			{
 				// Rotate the player to face the instance
 				player.sendPacket(new MoveToPawn(player, this, Npc.INTERACTION_DISTANCE));
-
+				
 				// Send a Server->Client ActionFailed to the Player in order to avoid that the client wait another packet
 				player.sendPacket(ActionFailed.STATIC_PACKET);
-
+				
 				// Some guards have no HTMs on retail. Bypass the chat window if such guard is met.
 				switch (getNpcId())
 				{
@@ -91,14 +91,14 @@ public final class Guard extends Attackable
 					case 31674:
 						return;
 				}
-
+				
 				if (hasRandomAnimation())
 					onRandomAnimation(Rnd.get(8));
-
+				
 				List<Quest> qlsa = getTemplate().getEventQuests(EventType.QUEST_START);
 				if (qlsa != null && !qlsa.isEmpty())
 					player.setLastQuestNpcObject(getObjectId());
-
+				
 				List<Quest> qlst = getTemplate().getEventQuests(EventType.ON_FIRST_TALK);
 				if (qlst != null && qlst.size() == 1)
 					qlst.get(0).notifyFirstTalk(this, player);
@@ -107,13 +107,13 @@ public final class Guard extends Attackable
 			}
 		}
 	}
-
+	
 	@Override
 	public boolean isGuard()
 	{
 		return true;
 	}
-
+	
 	@Override
 	public int getDriftRange()
 	{

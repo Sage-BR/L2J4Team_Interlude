@@ -18,12 +18,7 @@ public class AioEterno implements IItemHandler
 		if (!(playable instanceof Player) || !Config.ENABLE_AIO_SYSTEM)
 			return;
 		Player activeChar = (Player) playable;
-		if (activeChar.isInOlympiadMode())
-		{
-			activeChar.sendMessage("SYS: Voce nao pode fazer isso.");
-			return;
-		}
-		if (activeChar.isAioEterno())
+		if (activeChar.isInOlympiadMode() || activeChar.isAioEterno())
 		{
 			activeChar.sendMessage("SYS: Voce nao pode fazer isso.");
 			return;
@@ -32,7 +27,7 @@ public class AioEterno implements IItemHandler
 		activeChar.setAio(true);
 		activeChar.setNoble(true, true);
 		AdminAiox.updateDatabase(activeChar, true);
-
+		
 		if (Config.CHANGE_AIO_NAME)
 			AdminAiox.nameChanger("[AIO]", activeChar);
 		if (Config.ALLOW_AIO_NCOLOR)
@@ -42,11 +37,11 @@ public class AioEterno implements IItemHandler
 		activeChar.rewardAioSkills();
 		if (Config.ALLOW_AIOX_SET_ITEM)
 			AdminAiox.giveAioItems(activeChar);
-
+		
 		activeChar.getStat().addExp(activeChar.getStat().getExpForLevel(81));
-
+		
 		activeChar.broadcastUserInfo();
-
+		
 		for (Player allgms : World.getAllGMs())
 			allgms.sendPacket(new CreatureSay(0, Say2.SHOUT, "(Aio Manager)", activeChar.getName() + " ativou Aio Eterno."));
 	}

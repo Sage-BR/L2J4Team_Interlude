@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.skills.Env;
 public class ConditionPlayerWeight extends Condition
 {
 	private final int _weight;
-
+	
 	/**
 	 * Instantiates a new condition player weight.
 	 * @param weight the weight
@@ -19,7 +19,7 @@ public class ConditionPlayerWeight extends Condition
 	{
 		_weight = weight;
 	}
-
+	
 	@Override
 	public boolean testImpl(Env env)
 	{

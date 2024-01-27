@@ -12,31 +12,31 @@ import com.l2j4team.gameserver.network.serverpackets.SkillCoolTime;
 public class ItemPassiveSkillsListener implements OnEquipListener
 {
 	private static ItemPassiveSkillsListener instance = new ItemPassiveSkillsListener();
-
+	
 	public static ItemPassiveSkillsListener getInstance()
 	{
 		return instance;
 	}
-
+	
 	@Override
 	public void onEquip(int slot, ItemInstance item, Playable actor)
 	{
 		final Player player = (Player) actor;
 		final Item it = item.getItem();
-
+		
 		boolean update = false;
 		boolean updateTimeStamp = false;
-
+		
 		if (it instanceof Weapon)
 		{
 			// Apply augmentation bonuses on equip
 			if (item.isAugmented())
 				item.getAugmentation().applyBonus(player);
-
+			
 			// Verify if the grade penalty is occuring. If yes, then forget +4 dual skills and SA attached to weapon.
 			if (player.getExpertiseIndex() < it.getCrystalType().getId())
 				return;
-
+			
 			// Add skills bestowed from +4 Duals
 			if (item.getEnchantLevel() >= 4)
 			{
@@ -48,7 +48,7 @@ public class ItemPassiveSkillsListener implements OnEquipListener
 				}
 			}
 		}
-
+		
 		final IntIntHolder[] skills = it.getSkills();
 		if (skills != null)
 		{
@@ -56,12 +56,12 @@ public class ItemPassiveSkillsListener implements OnEquipListener
 			{
 				if (skillInfo == null)
 					continue;
-
+				
 				final L2Skill itemSkill = skillInfo.getSkill();
 				if (itemSkill != null)
 				{
 					player.addSkill(itemSkill, false);
-
+					
 					if (itemSkill.isActive())
 					{
 						if (!player.getReuseTimeStamp().containsKey(itemSkill.getReuseHashCode()))
@@ -79,30 +79,30 @@ public class ItemPassiveSkillsListener implements OnEquipListener
 				}
 			}
 		}
-
+		
 		if (update)
 		{
 			player.sendSkillList();
-
+			
 			if (updateTimeStamp)
 				player.sendPacket(new SkillCoolTime(player));
 		}
 	}
-
+	
 	@Override
 	public void onUnequip(int slot, ItemInstance item, Playable actor)
 	{
 		final Player player = (Player) actor;
 		final Item it = item.getItem();
-
+		
 		boolean update = false;
-
+		
 		if (it instanceof Weapon)
 		{
 			// Remove augmentation bonuses on unequip
 			if (item.isAugmented())
 				item.getAugmentation().removeBonus(player);
-
+			
 			// Remove skills bestowed from +4 Duals
 			if (item.getEnchantLevel() >= 4)
 			{
@@ -114,7 +114,7 @@ public class ItemPassiveSkillsListener implements OnEquipListener
 				}
 			}
 		}
-
+		
 		final IntIntHolder[] skills = it.getSkills();
 		if (skills != null)
 		{
@@ -122,12 +122,12 @@ public class ItemPassiveSkillsListener implements OnEquipListener
 			{
 				if (skillInfo == null)
 					continue;
-
+				
 				final L2Skill itemSkill = skillInfo.getSkill();
 				if (itemSkill != null)
 				{
 					boolean found = false;
-
+					
 					for (ItemInstance pItem : player.getInventory().getPaperdollItems())
 					{
 						if (pItem != null && it.getItemId() == pItem.getItemId())
@@ -136,7 +136,7 @@ public class ItemPassiveSkillsListener implements OnEquipListener
 							break;
 						}
 					}
-
+					
 					if (!found)
 					{
 						player.removeSkill(itemSkill, false, itemSkill.isPassive());
@@ -145,7 +145,7 @@ public class ItemPassiveSkillsListener implements OnEquipListener
 				}
 			}
 		}
-
+		
 		if (update)
 			player.sendSkillList();
 	}

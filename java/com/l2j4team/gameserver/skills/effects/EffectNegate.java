@@ -15,18 +15,18 @@ public class EffectNegate extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.NEGATE;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		L2Skill skill = getSkill();
-
+		
 		for (int negateSkillId : skill.getNegateId())
 		{
 			if (negateSkillId != 0)
@@ -38,7 +38,7 @@ public class EffectNegate extends L2Effect
 		}
 		return true;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

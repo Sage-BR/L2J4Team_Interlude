@@ -12,37 +12,37 @@ public final class AbsorbInfo
 	private boolean _registered;
 	private int _itemId;
 	private int _absorbedHpPercent;
-
+	
 	public AbsorbInfo(int itemId)
 	{
 		_itemId = itemId;
 	}
-
+	
 	public boolean isRegistered()
 	{
 		return _registered;
 	}
-
+	
 	public void setRegistered(boolean state)
 	{
 		_registered = state;
 	}
-
+	
 	public int getItemId()
 	{
 		return _itemId;
 	}
-
+	
 	public void setItemId(int itemId)
 	{
 		_itemId = itemId;
 	}
-
+	
 	public void setAbsorbedHpPercent(int percent)
 	{
 		_absorbedHpPercent = percent;
 	}
-
+	
 	public boolean isValid(int itemId)
 	{
 		return _itemId == itemId && _absorbedHpPercent < 50;

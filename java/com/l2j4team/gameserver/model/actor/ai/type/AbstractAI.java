@@ -27,41 +27,41 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 abstract class AbstractAI
 {
 	protected static final Logger _log = Logger.getLogger(AbstractAI.class.getName());
-
+	
 	/** The character that this AI manages */
 	protected final Creature _actor;
-
+	
 	/** Current long-term intention */
 	protected CtrlIntention _intention = CtrlIntention.IDLE;
 	protected Object _intentionArg0 = null;
 	protected Object _intentionArg1 = null;
-
+	
 	private NextAction _nextAction;
-
+	
 	/** Flags about client's state, in order to know which messages to send */
 	protected volatile boolean _clientMoving;
 	protected volatile boolean _clientAutoAttacking;
-
+	
 	/** Different targets this AI maintains */
 	private WorldObject _target;
 	protected Creature _followTarget;
-
+	
 	/** The skill we are currently casting by INTENTION_CAST */
 	protected L2Skill _skill;
-
+	
 	/** Different internal state flags */
 	private long _moveToPawnTimeout;
 	protected int _clientMovingToPawnOffset;
-
+	
 	protected Future<?> _followTask = null;
 	private static final int FOLLOW_INTERVAL = 1000;
 	private static final int ATTACK_FOLLOW_INTERVAL = 500;
-
+	
 	protected AbstractAI(Creature character)
 	{
 		_actor = character;
 	}
-
+	
 	/**
 	 * @return the user of this AI.
 	 */
@@ -69,7 +69,7 @@ abstract class AbstractAI
 	{
 		return _actor;
 	}
-
+	
 	/**
 	 * @return the current Intention.
 	 */
@@ -77,7 +77,7 @@ abstract class AbstractAI
 	{
 		return _intention;
 	}
-
+	
 	/**
 	 * Set the Intention of this AbstractAI.<BR>
 	 * <BR>
@@ -97,7 +97,7 @@ abstract class AbstractAI
 		_intentionArg0 = arg0;
 		_intentionArg1 = arg1;
 	}
-
+	
 	/**
 	 * Launch the CreatureAI onIntention method corresponding to the new Intention.<BR>
 	 * <BR>
@@ -109,7 +109,7 @@ abstract class AbstractAI
 	{
 		setIntention(intention, null, null);
 	}
-
+	
 	/**
 	 * Launch the CreatureAI onIntention method corresponding to the new Intention.<BR>
 	 * <BR>
@@ -122,7 +122,7 @@ abstract class AbstractAI
 	{
 		setIntention(intention, arg0, null);
 	}
-
+	
 	/**
 	 * Launch the CreatureAI onIntention method corresponding to the new Intention.<BR>
 	 * <BR>
@@ -137,7 +137,7 @@ abstract class AbstractAI
 		// Stop the follow mode if necessary
 		if (intention != CtrlIntention.FOLLOW && intention != CtrlIntention.ATTACK)
 			stopFollow();
-
+		
 		// Launch the onIntention method of the CreatureAI corresponding to the new Intention
 		switch (intention)
 		{
@@ -169,12 +169,12 @@ abstract class AbstractAI
 				onIntentionInteract((WorldObject) arg0);
 				break;
 		}
-
+		
 		// If do move or follow intention drop next action.
 		if (_nextAction != null && _nextAction.getIntention() == intention)
 			_nextAction = null;
 	}
-
+	
 	/**
 	 * Launch the CreatureAI onEvt method corresponding to the Event.<BR>
 	 * <BR>
@@ -186,7 +186,7 @@ abstract class AbstractAI
 	{
 		notifyEvent(evt, null, null);
 	}
-
+	
 	/**
 	 * Launch the CreatureAI onEvt method corresponding to the Event.<BR>
 	 * <BR>
@@ -199,7 +199,7 @@ abstract class AbstractAI
 	{
 		notifyEvent(evt, arg0, null);
 	}
-
+	
 	/**
 	 * Launch the CreatureAI onEvt method corresponding to the Event.<BR>
 	 * <BR>
@@ -213,7 +213,7 @@ abstract class AbstractAI
 	{
 		if ((!_actor.isVisible() && !_actor.isTeleporting()) || !_actor.hasAI())
 			return;
-
+		
 		switch (evt)
 		{
 			case EVT_THINK:
@@ -270,7 +270,7 @@ abstract class AbstractAI
 				onEvtFinishCasting();
 				break;
 		}
-
+		
 		// Do next action.
 		if (_nextAction != null && _nextAction.getEvent() == evt)
 		{
@@ -278,59 +278,59 @@ abstract class AbstractAI
 			_nextAction = null;
 		}
 	}
-
+	
 	protected abstract void onIntentionIdle();
-
+	
 	protected abstract void onIntentionActive();
-
+	
 	protected abstract void onIntentionRest();
-
+	
 	protected abstract void onIntentionAttack(Creature target);
-
+	
 	protected abstract void onIntentionCast(L2Skill skill, WorldObject target);
-
+	
 	protected abstract void onIntentionMoveTo(Location loc);
-
+	
 	protected abstract void onIntentionFollow(Creature target);
-
+	
 	protected abstract void onIntentionPickUp(WorldObject item);
-
+	
 	protected abstract void onIntentionInteract(WorldObject object);
-
+	
 	protected abstract void onEvtThink();
-
+	
 	protected abstract void onEvtAttacked(Creature attacker);
-
+	
 	protected abstract void onEvtAggression(Creature target, int aggro);
-
+	
 	protected abstract void onEvtStunned(Creature attacker);
-
+	
 	protected abstract void onEvtParalyzed(Creature attacker);
-
+	
 	protected abstract void onEvtSleeping(Creature attacker);
-
+	
 	protected abstract void onEvtRooted(Creature attacker);
-
+	
 	protected abstract void onEvtConfused(Creature attacker);
-
+	
 	protected abstract void onEvtMuted(Creature attacker);
-
+	
 	protected abstract void onEvtEvaded(Creature attacker);
-
+	
 	protected abstract void onEvtReadyToAct();
-
+	
 	protected abstract void onEvtArrived();
-
+	
 	protected abstract void onEvtArrivedBlocked(SpawnLocation loc);
-
+	
 	protected abstract void onEvtCancel();
-
+	
 	protected abstract void onEvtDead();
-
+	
 	protected abstract void onEvtFakeDeath();
-
+	
 	protected abstract void onEvtFinishCasting();
-
+	
 	/**
 	 * Cancel action client side by sending Server->Client packet ActionFailed to the Player actor.<BR>
 	 * <BR>
@@ -340,7 +340,7 @@ abstract class AbstractAI
 	protected void clientActionFailed()
 	{
 	}
-
+	
 	/**
 	 * Move the actor to Pawn server side AND client side by sending Server->Client packet MoveToPawn <I>(broadcast)</I>.<BR>
 	 * <BR>
@@ -356,7 +356,7 @@ abstract class AbstractAI
 		{
 			if (offset < 10)
 				offset = 10;
-
+			
 			// prevent possible extra calls to this function (there is none?), also don't send movetopawn packets too often
 			boolean sendPacket = true;
 			if (_clientMoving && (_target == pawn))
@@ -365,7 +365,7 @@ abstract class AbstractAI
 				{
 					if (System.currentTimeMillis() < _moveToPawnTimeout)
 						return;
-
+					
 					sendPacket = false;
 				}
 				else if (_actor.isOnGeodataPath())
@@ -375,25 +375,25 @@ abstract class AbstractAI
 						return;
 				}
 			}
-
+			
 			// Set AI movement data
 			_clientMoving = true;
 			_clientMovingToPawnOffset = offset;
 			_target = pawn;
 			_moveToPawnTimeout = System.currentTimeMillis() + 1000;
-
+			
 			if (pawn == null)
 				return;
-
+			
 			// Calculate movement data for a move to location action and add the actor to movingObjects of GameTimeController
 			_actor.moveToLocation(pawn.getX(), pawn.getY(), pawn.getZ(), offset);
-
+			
 			if (!_actor.isMoving())
 			{
 				clientActionFailed();
 				return;
 			}
-
+			
 			// Broadcast MoveToPawn/MoveToLocation packet
 			if (pawn instanceof Creature)
 			{
@@ -411,7 +411,7 @@ abstract class AbstractAI
 		else
 			clientActionFailed();
 	}
-
+	
 	/**
 	 * Move the actor to Location (x,y,z) server side AND client side by sending Server->Client packet CharMoveToLocation <I>(broadcast)</I>.<br>
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : Low level function, used by AI subclasses</B></FONT>
@@ -427,18 +427,18 @@ abstract class AbstractAI
 			// Set AI movement data
 			_clientMoving = true;
 			_clientMovingToPawnOffset = 0;
-
+			
 			// Calculate movement data for a move to location action and add the actor to movingObjects of GameTimeController
 			_actor.moveToLocation(x, y, z, 0);
-
+			
 			// Broadcast MoveToLocation packet
 			_actor.broadcastPacket(new MoveToLocation(_actor));
-
+			
 		}
 		else
 			clientActionFailed();
 	}
-
+	
 	/**
 	 * Stop the actor movement server side AND client side by sending Server->Client packet StopMove/StopRotation <I>(broadcast)</I>.<BR>
 	 * <BR>
@@ -451,20 +451,20 @@ abstract class AbstractAI
 		// Stop movement of the Creature
 		if (_actor.isMoving())
 			_actor.stopMove(loc);
-
+		
 		_clientMovingToPawnOffset = 0;
-
+		
 		if (_clientMoving || loc != null)
 		{
 			_clientMoving = false;
-
+			
 			_actor.broadcastPacket(new StopMove(_actor));
-
+			
 			if (loc != null)
 				_actor.broadcastPacket(new StopRotation(_actor.getObjectId(), loc.getHeading(), 0));
 		}
 	}
-
+	
 	// Client has already arrived to target, no need to force StopMove packet
 	protected void clientStoppedMoving()
 	{
@@ -475,12 +475,12 @@ abstract class AbstractAI
 		}
 		_clientMoving = false;
 	}
-
+	
 	public boolean isAutoAttacking()
 	{
 		return _clientAutoAttacking;
 	}
-
+	
 	public void setAutoAttacking(boolean isAutoAttacking)
 	{
 		if (_actor instanceof Summon)
@@ -492,7 +492,7 @@ abstract class AbstractAI
 		}
 		_clientAutoAttacking = isAutoAttacking;
 	}
-
+	
 	/**
 	 * Start the actor Auto Attack client side by sending Server->Client packet AutoAttackStart <I>(broadcast)</I>.<BR>
 	 * <BR>
@@ -506,18 +506,18 @@ abstract class AbstractAI
 			_actor.getActingPlayer().getAI().clientStartAutoAttack();
 			return;
 		}
-
+		
 		if (!isAutoAttacking())
 		{
 			if (_actor instanceof Player && ((Player) _actor).getPet() != null)
 				((Player) _actor).getPet().broadcastPacket(new AutoAttackStart(((Player) _actor).getPet().getObjectId()));
-
+			
 			_actor.broadcastPacket(new AutoAttackStart(_actor.getObjectId()));
 			setAutoAttacking(true);
 		}
 		AttackStanceTaskManager.getInstance().add(_actor);
 	}
-
+	
 	/**
 	 * Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop <I>(broadcast)</I>.<BR>
 	 * <BR>
@@ -530,7 +530,7 @@ abstract class AbstractAI
 			_actor.getActingPlayer().getAI().clientStopAutoAttack();
 			return;
 		}
-
+		
 		if (_actor instanceof Player)
 		{
 			if (!AttackStanceTaskManager.getInstance().isInAttackStance(_actor) && isAutoAttacking())
@@ -542,7 +542,7 @@ abstract class AbstractAI
 			setAutoAttacking(false);
 		}
 	}
-
+	
 	/**
 	 * Kill the actor client side by sending Server->Client packet AutoAttackStop, StopMove/StopRotation, Die <I>(broadcast)</I>.<BR>
 	 * <BR>
@@ -553,15 +553,15 @@ abstract class AbstractAI
 	{
 		// Broadcast Die packet
 		_actor.broadcastPacket(new Die(_actor));
-
+		
 		// Init AI
 		_intention = CtrlIntention.IDLE;
 		_target = null;
-
+		
 		// Cancel the follow task if necessary
 		stopFollow();
 	}
-
+	
 	/**
 	 * Update the state of this actor client side by sending Server->Client packet MoveToPawn/MoveToLocation and AutoAttackStart to the Player player.<BR>
 	 * <BR>
@@ -579,7 +579,7 @@ abstract class AbstractAI
 				player.sendPacket(new MoveToLocation(_actor));
 		}
 	}
-
+	
 	/**
 	 * Create and Launch an AI Follow Task to execute every 1s.<BR>
 	 * <BR>
@@ -592,12 +592,12 @@ abstract class AbstractAI
 			_followTask.cancel(false);
 			_followTask = null;
 		}
-
+		
 		// Create and Launch an AI Follow Task to execute every 1s
 		_followTarget = target;
 		_followTask = ThreadPool.scheduleAtFixedRate(new FollowTask(), 5, FOLLOW_INTERVAL);
 	}
-
+	
 	/**
 	 * Create and Launch an AI Follow Task to execute every 0.5s, following at specified range.
 	 * @param target The Creature to follow
@@ -610,11 +610,11 @@ abstract class AbstractAI
 			_followTask.cancel(false);
 			_followTask = null;
 		}
-
+		
 		_followTarget = target;
 		_followTask = ThreadPool.scheduleAtFixedRate(new FollowTask(range), 5, ATTACK_FOLLOW_INTERVAL);
 	}
-
+	
 	/**
 	 * Stop an AI Follow Task.
 	 */
@@ -628,22 +628,22 @@ abstract class AbstractAI
 		}
 		_followTarget = null;
 	}
-
+	
 	protected Creature getFollowTarget()
 	{
 		return _followTarget;
 	}
-
+	
 	public WorldObject getTarget()
 	{
 		return _target;
 	}
-
+	
 	protected void setTarget(WorldObject target)
 	{
 		_target = target;
 	}
-
+	
 	/**
 	 * Stop all Ai tasks and futures.
 	 */
@@ -651,7 +651,7 @@ abstract class AbstractAI
 	{
 		stopFollow();
 	}
-
+	
 	/**
 	 * @param nextAction the _nextAction to set
 	 */
@@ -659,42 +659,42 @@ abstract class AbstractAI
 	{
 		_nextAction = nextAction;
 	}
-
+	
 	@Override
 	public String toString()
 	{
 		return "Actor: " + _actor;
 	}
-
+	
 	private class FollowTask implements Runnable
 	{
 		protected int _range = 70;
-
+		
 		public FollowTask()
 		{
 		}
-
+		
 		public FollowTask(int range)
 		{
 			_range = range;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			if (_followTask == null)
 				return;
-
+			
 			Creature followTarget = _followTarget;
 			if (followTarget == null)
 			{
 				if (_actor instanceof Summon)
 					((Summon) _actor).setFollowStatus(false);
-
+				
 				setIntention(CtrlIntention.IDLE);
 				return;
 			}
-
+			
 			if (!_actor.isInsideRadius(followTarget, _range, true, false))
 				moveToPawn(followTarget, _range);
 		}

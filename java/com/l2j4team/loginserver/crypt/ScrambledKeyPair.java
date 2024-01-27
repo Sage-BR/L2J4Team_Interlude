@@ -8,23 +8,23 @@ public class ScrambledKeyPair
 {
 	private final KeyPair _pair;
 	private final byte[] _scrambledModulus;
-
+	
 	public ScrambledKeyPair(final KeyPair pPair)
 	{
 		_pair = pPair;
 		_scrambledModulus = scrambleModulus(((RSAPublicKey) _pair.getPublic()).getModulus());
 	}
-
+	
 	public KeyPair getKeyPair()
 	{
 		return _pair;
 	}
-
+	
 	public byte[] getScrambledModulus()
 	{
 		return _scrambledModulus;
 	}
-
+	
 	private static final byte[] scrambleModulus(final BigInteger modulus)
 	{
 		byte[] scrambledMod = modulus.toByteArray();

@@ -8,12 +8,12 @@ import java.util.List;
 public class SiegeAttackerList extends L2GameServerPacket
 {
 	private final Castle _castle;
-
+	
 	public SiegeAttackerList(Castle castle)
 	{
 		_castle = castle;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -22,15 +22,15 @@ public class SiegeAttackerList extends L2GameServerPacket
 		writeD(0x00); // 0
 		writeD(0x01); // 1
 		writeD(0x00); // 0
-
+		
 		final List<Clan> attackers = _castle.getSiege().getAttackerClans();
 		final int size = attackers.size();
-
+		
 		if (size > 0)
 		{
 			writeD(size);
 			writeD(size);
-
+			
 			for (Clan clan : attackers)
 			{
 				writeD(clan.getClanId());

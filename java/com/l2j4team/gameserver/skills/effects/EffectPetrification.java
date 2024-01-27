@@ -12,13 +12,13 @@ public class EffectPetrification extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.PETRIFICATION;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
@@ -27,7 +27,7 @@ public class EffectPetrification extends L2Effect
 		getEffected().setIsInvul(true);
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
@@ -35,13 +35,13 @@ public class EffectPetrification extends L2Effect
 		getEffected().stopParalyze(false);
 		getEffected().setIsInvul(false);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

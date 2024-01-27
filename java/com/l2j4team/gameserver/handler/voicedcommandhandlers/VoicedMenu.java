@@ -23,7 +23,6 @@ import com.l2j4team.gameserver.model.actor.instance.Player;
 import com.l2j4team.gameserver.model.olympiad.Olympiad;
 import com.l2j4team.gameserver.model.zone.ZoneId;
 import com.l2j4team.gameserver.network.serverpackets.NpcHtmlMessage;
-import com.l2j4team.gameserver.network.serverpackets.OpenUrl;
 import com.l2j4team.gameserver.taskmanager.AutoGoldBar;
 
 import java.sql.Date;
@@ -34,7 +33,7 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 
 public class VoicedMenu implements IVoicedCommandHandler
 {
-
+	
 	private static final String[] VOICED_COMMANDS =
 	{
 		"menu",
@@ -65,20 +64,20 @@ public class VoicedMenu implements IVoicedCommandHandler
 		"bp_changedressmestatus",
 		"disable_Helm",
 		"disable_skin"
-
+	
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
-
+		
 		if (command.equals("menu") || command.equals("MENU"))
 			showMenuHtml(activeChar);
 		else if (command.equals("partyon"))
 		{
 			if (activeChar.isPartyInvProt())
 				return false;
-
+			
 			activeChar.setIsPartyInvProt(true);
 			showMenuHtml(activeChar);
 		}
@@ -108,14 +107,14 @@ public class VoicedMenu implements IVoicedCommandHandler
 		}
 		else if (command.equals("disable_Helm"))
 		{
-
+			
 			if (!activeChar.isVip())
 			{
 				activeChar.sendMessage("Exclusive command for Vip's");
 			}
-
+			
 			DressMe dress = activeChar.getDress();
-
+			
 			if (activeChar.getDress() == null)
 			{
 				activeChar.sendMessage("you are not equipped with dressme.");
@@ -129,12 +128,12 @@ public class VoicedMenu implements IVoicedCommandHandler
 		}
 		else if (command.equals("disable_skin"))
 		{
-
+			
 			if (!activeChar.isVip())
 			{
 				activeChar.sendMessage("Exclusive command for Vip's");
 			}
-
+			
 			if (activeChar.getDress() == null)
 			{
 				activeChar.sendMessage("you are not equipped with dressme.");
@@ -150,7 +149,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 		{
 			if (!activeChar.isPartyInvProt())
 				return false;
-
+			
 			activeChar.setIsPartyInvProt(false);
 			showMenuHtml(activeChar);
 		}
@@ -158,7 +157,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 		{
 			if (activeChar.getTradeRefusal())
 				return false;
-
+			
 			activeChar.setTradeRefusal(true);
 			showMenuHtml(activeChar);
 		}
@@ -166,7 +165,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 		{
 			if (!activeChar.getTradeRefusal())
 				return false;
-
+			
 			activeChar.setTradeRefusal(false);
 			showMenuHtml(activeChar);
 		}
@@ -174,7 +173,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 		{
 			if (activeChar.getMessageRefusal())
 				return false;
-
+			
 			activeChar.setMessageRefusal(true);
 			showMenuHtml(activeChar);
 		}
@@ -182,7 +181,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 		{
 			if (!activeChar.getMessageRefusal())
 				return false;
-
+			
 			activeChar.setMessageRefusal(false);
 			showMenuHtml(activeChar);
 		}
@@ -190,7 +189,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 		{
 			if (activeChar.isBuffProtected())
 				return false;
-
+			
 			activeChar.useMagic(SkillTable.getInstance().getInfo(8000, 1), false, false);
 			showMenuHtml(activeChar);
 		}
@@ -239,7 +238,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 				activeChar.setMessageRefusal(false);
 			else
 				activeChar.setMessageRefusal(true);
-
+			
 			showMenuHtml(activeChar);
 		}
 		else if (command.equals("setBuffProtection"))
@@ -255,19 +254,15 @@ public class VoicedMenu implements IVoicedCommandHandler
 		{
 			showMissionHtml(activeChar);
 		}
-		else if (command.startsWith("info_url"))
-		{
-			activeChar.sendPacket(new OpenUrl("" + Config.INFO_URL + ""));
-		}
 		else if (command.startsWith("hair"))
 		{
-
+			
 			if (activeChar.getDress() == null)
 			{
 				activeChar.sendMessage("You are not wearing a skin.");
 				return false;
 			}
-
+			
 			if (activeChar.getDress() != null)
 			{
 				activeChar.getDress().setHairId(0);
@@ -298,13 +293,13 @@ public class VoicedMenu implements IVoicedCommandHandler
 		else if (command.startsWith("trySkin"))
 			if (activeChar.isVip())
 			{
-
+				
 				StringTokenizer st = new StringTokenizer(command);
 				st.nextToken();
 				int skinId = Integer.parseInt(st.nextToken());
-
+				
 				final DressMe dress = DressMeData.getInstance().getItemId(skinId);
-
+				
 				if (dress != null)
 				{
 					activeChar.setDress(dress);
@@ -324,20 +319,20 @@ public class VoicedMenu implements IVoicedCommandHandler
 					activeChar.sendMessage("This command can only be used within a city.");
 					return false;
 				}
-
+				
 				if (activeChar.getDress() != null)
 				{
 					activeChar.sendMessage("Wait, you are experiencing a skin.");
 					return false;
 				}
-
+				
 				StringTokenizer st = new StringTokenizer(command);
 				st.nextToken();
 				int skinId = Integer.parseInt(st.nextToken());
-
+				
 				final DressMe dress = DressMeData.getInstance().getItemId(skinId);
 				final DressMe dress2 = DressMeData.getInstance().getItemId(0);
-
+				
 				if (dress != null)
 				{
 					activeChar.setDress(dress);
@@ -355,12 +350,12 @@ public class VoicedMenu implements IVoicedCommandHandler
 			}
 		return true;
 	}
-
+	
 	static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-
+	
 	static void showMenuHtml(Player activeChar)
 	{
-
+		
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/menu/Menu.htm");
 		html.replace("%dat%", (new SimpleDateFormat("dd/MM/yyyy")).format(new Date(System.currentTimeMillis())));
@@ -373,7 +368,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 		html.replace("%buff%", activeChar.isBuffProtected() ? "checked" : "unable");
 		html.replace("%optimize%", activeChar.isOptimizeFPS() ? "checked" : "unable");
 		html.replace("%name%", activeChar.getName());
-
+		
 		if (Config.PVP_EVENT_ENABLED)
 		{
 			if (PvPEvent.getInstance().isActive())
@@ -408,7 +403,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 			html.replace("%mission%", MissionReset.getInstance().getNextTime().toString());
 		if (Config.RESTART_BY_TIME_OF_DAY)
 			html.replace("%restart%", Restart.getInstance().getRestartNextTime().toString());
-
+		
 		if (Config.START_AUTO_PARTY)
 		{
 			if (PartyZoneTask.is_started())
@@ -422,37 +417,37 @@ public class VoicedMenu implements IVoicedCommandHandler
 		countDown = (countDown - numMins) / 60D;
 		int numHours = (int) Math.floor(countDown % 24D);
 		int numDays = (int) Math.floor((countDown - numHours) / 24D);
-
+		
 		if (Olympiad._validationEnd == 0 || Olympiad._period == 0)
 			html.replace("%olym%", "Olym over: " + numDays + " day(s), " + numHours + " hour(s), " + numMins + " minute(s).");
 		else
 			html.replace("%olym%", "Olym start: " + numDays + " day(s), " + numHours + " hour(s), " + numMins + " minute(s).");
-
+		
 		if (activeChar.isBuffProtected())
 			html.replace("%html_buff%", "<td align=center width=5><button value=\"\" action=\"bypass voiced_setBuffProtection\" width=16 height=16 back=\"L2UI_CH3.joypad_lock_down\" fore=\"L2UI_CH3.joypad_lock\"></td>");
 		else
 			html.replace("%html_buff%", "<td align=center width=5><button value=\"\" action=\"bypass voiced_setBuffProtection\" width=16 height=16 back=\"L2UI_CH3.joypad_unlock_down\" fore=\"L2UI_CH3.joypad_unlock\"></td>");
-
+		
 		if (activeChar.isPartyInvProt())
 			html.replace("%html_party%", "<td align=center width=5><button value=\"\" action=\"bypass voiced_setPartyRefuse\" width=16 height=16 back=\"L2UI_CH3.joypad_lock_down\" fore=\"L2UI_CH3.joypad_lock\"></td>");
 		else
 			html.replace("%html_party%", "<td align=center width=5><button value=\"\" action=\"bypass voiced_setPartyRefuse\" width=16 height=16 back=\"L2UI_CH3.joypad_unlock_down\" fore=\"L2UI_CH3.joypad_unlock\"></td>");
-
+		
 		if (activeChar.getTradeRefusal())
 			html.replace("%html_trade%", "<td align=center width=5><button value=\"\" action=\"bypass voiced_setTradeRefuse\" width=16 height=16 back=\"L2UI_CH3.joypad_lock_down\" fore=\"L2UI_CH3.joypad_lock\"></td>");
 		else
 			html.replace("%html_trade%", "<td align=center width=5><button value=\"\" action=\"bypass voiced_setTradeRefuse\" width=16 height=16 back=\"L2UI_CH3.joypad_unlock_down\" fore=\"L2UI_CH3.joypad_unlock\"></td>");
-
+		
 		if (activeChar.getMessageRefusal())
 			html.replace("%html_message%", "<td align=center width=5><button value=\"\" action=\"bypass voiced_setMessageRefuse\" width=16 height=16 back=\"L2UI_CH3.joypad_lock_down\" fore=\"L2UI_CH3.joypad_lock\"></td>");
 		else
 			html.replace("%html_message%", "<td align=center width=5><button value=\"\" action=\"bypass voiced_setMessageRefuse\" width=16 height=16 back=\"L2UI_CH3.joypad_unlock_down\" fore=\"L2UI_CH3.joypad_unlock\"></td>");
-
+		
 		if (activeChar.isDisableGlowWeapon())
 			html.replace("%html_glow%", "<td align=center width=5><button value=\"\" action=\"bypass voiced_setDisableGlowWeapon\" width=16 height=16 back=\"L2UI_CH3.joypad_lock_down\" fore=\"L2UI_CH3.joypad_lock\"></td>");
 		else
 			html.replace("%html_glow%", "<td align=center width=5><button value=\"\" action=\"bypass voiced_setDisableGlowWeapon\" width=16 height=16 back=\"L2UI_CH3.joypad_unlock_down\" fore=\"L2UI_CH3.joypad_unlock\"></td>");
-
+		
 		if (activeChar.isDressMeEnabled())
 		{
 			html.replace("%html_message%", "<td width=5><button value=\"\" action=\"bypass voiced_setDressMeEnabled\" width=16 height=16 back=\"L2UI_CH3.joypad_lock_down\" fore=\"L2UI_CH3.joypad_lock\"></td>");
@@ -461,55 +456,55 @@ public class VoicedMenu implements IVoicedCommandHandler
 		{
 			html.replace("%html_message%", "<td width=5><button value=\"\" action=\"bypass voiced_setDressMeEnabled\" width=16 height=16 back=\"L2UI_CH3.joypad_unlock_down\" fore=\"L2UI_CH3.joypad_unlock\"></td>");
 		}
-
+		
 		activeChar.sendPacket(html);
 	}
-
+	
 	public static void sendVipWindow(Player activeChar)
 	{
 		String autofarmOn = "<button width=38 height=38 back=\"L2UI_NewTex.AutomaticPlay.CombatBTNOff_Over\" fore=\"L2UI_NewTex.AutomaticPlay.CombatBTNON_Normal\" action=\"bypass voiced_farm\" value=\"\">";
 		String autofarmOff = "<button width=38 height=38 back=\"L2UI_NewTex.AutomaticPlay.CombatBTNON_Over\" fore=\"L2UI_NewTex.AutomaticPlay.CombatBTNOff_Normal\" action=\"bypass voiced_farm\" value=\"\">";
-
+		
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/menu/AutoFarm.htm");
 		html.replace("%AutoFarmActived%", AutofarmManager.INSTANCE.isAutofarming(activeChar) ? "<img src=\"panel.online\" width=\"16\" height=\"16\">" : "<img src=\"panel.offline\" width=\"16\" height=\"16\">");
 		html.replace("%autoFarmButton%", AutofarmManager.INSTANCE.isAutofarming(activeChar) ? autofarmOn : autofarmOff);
 		activeChar.sendPacket(html);
 	}
-
+	
 	public static void showInfoHtml(Player activeChar)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/menu/Info_Server.htm");
 		html.replace("%time%", sdf.format(new Date(System.currentTimeMillis())));
-
+		
 		long milliToEnd = Olympiad._period != 0 ? Olympiad.getMillisToValidationEnd() / 1000L : Olympiad.getMillisToOlympiadEnd() / 1000L;
 		double countDown = (milliToEnd - milliToEnd % 60L) / 60L;
 		int numMins = (int) Math.floor(countDown % 60D);
 		countDown = (countDown - numMins) / 60D;
 		int numHours = (int) Math.floor(countDown % 24D);
 		int numDays = (int) Math.floor((countDown - numHours) / 24D);
-
+		
 		if (Olympiad._validationEnd == 0 || Olympiad._period == 0)
 			html.replace("%olym%", "Olym over: " + numDays + " day(s), " + numHours + " hour(s), " + numMins + " minute(s).");
 		else
 			html.replace("%olym%", "Olym start: " + numDays + " day(s), " + numHours + " hour(s), " + numMins + " minute(s).");
-
+		
 		activeChar.sendPacket(html);
 	}
-
+	
 	public static void showDonateHtml(Player activeChar)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/menu/Donate.htm");
 		activeChar.sendPacket(html);
 	}
-
+	
 	public static void showMissionHtml(Player activeChar)
 	{
-
+		
 		StringBuilder sb = new StringBuilder();
-
+		
 		sb.append("<br>");
 		sb.append("<center><img src=\"L2UI.SquareGray\" width=300 height=1></center>");
 		sb.append("<table width=\"300\" bgcolor=\"000000\">");
@@ -521,11 +516,11 @@ public class VoicedMenu implements IVoicedCommandHandler
 		sb.append("</tr>");
 		sb.append("</table>");
 		sb.append("<center><img src=\"L2UI.SquareGray\" width=300 height=1></center>");
-
+		
 		sb.append("<table><tr><td height=7>");
 		sb.append("<img src=\"L2UI.SquareGray\" width=300 height=1>");
 		sb.append("</td></tr></table>");
-
+		
 		if (Config.ACTIVE_MISSION_TVT)
 			if (activeChar.isTvTCompleted() || activeChar.check_tvt_hwid(activeChar.getHWID()))
 			{
@@ -559,16 +554,16 @@ public class VoicedMenu implements IVoicedCommandHandler
 				sb.append("<tr>");
 				sb.append("<td width=\"150\" align=\"left\">TvT Event x <font color=\"ff4d4d\">( " + Config.MISSION_TVT_CONT + " ) / (" + activeChar.getTvTCont() + ")</font></td>");
 				sb.append("<td width=\"50\" align=\"right\"><a action=\"bypass voiced_select_m tvt\">View</a></td>");
-
+				
 				sb.append("<td width=\"100\" align=\"center\"><font color=\"ff0000\">Not Completed</font></td>");
-
+				
 				sb.append("</tr>");
 				sb.append("</table>");
 				sb.append("<table><tr><td height=7>");
 				sb.append("<img src=\"L2UI.SquareGray\" width=300 height=1>");
 				sb.append("</td></tr></table>");
 			}
-
+		
 		if (Config.ACTIVE_MISSION_PVP)
 			if (activeChar.isPvPCompleted() || activeChar.check_pvp_hwid(activeChar.getHWID()))
 			{
@@ -609,7 +604,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 				sb.append("<img src=\"L2UI.SquareGray\" width=300 height=1>");
 				sb.append("</td></tr></table>");
 			}
-
+		
 		if (Config.ACTIVE_MISSION_RAID)
 			if (activeChar.isRaidCompleted() || activeChar.check_raid_hwid(activeChar.getHWID()))
 			{
@@ -650,7 +645,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 				sb.append("<img src=\"L2UI.SquareGray\" width=300 height=1>");
 				sb.append("</td></tr></table>");
 			}
-
+		
 		if (Config.ACTIVE_MISSION_1X1)
 			if (activeChar.is1x1Completed() || activeChar.check_1x1_hwid(activeChar.getHWID()))
 			{
@@ -691,7 +686,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 				sb.append("<img src=\"L2UI.SquareGray\" width=300 height=1>");
 				sb.append("</td></tr></table>");
 			}
-
+		
 		if (Config.ACTIVE_MISSION_2X2)
 			if (activeChar.is2x2Completed() || activeChar.check_2x2_hwid(activeChar.getHWID()))
 			{
@@ -812,7 +807,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 				sb.append("<img src=\"L2UI.SquareGray\" width=300 height=1>");
 				sb.append("</td></tr></table>");
 			}
-
+		
 		if (Config.ACTIVE_MISSION_PARTY_MOB)
 			if (activeChar.isPartyMobCompleted() || activeChar.check_party_mob_hwid(activeChar.getHWID()))
 			{
@@ -853,7 +848,7 @@ public class VoicedMenu implements IVoicedCommandHandler
 				sb.append("<img src=\"L2UI.SquareGray\" width=300 height=1>");
 				sb.append("</td></tr></table>");
 			}
-
+		
 		if (Config.ACTIVE_MISSION_MOB)
 			if (activeChar.isMobCompleted() || activeChar.check_mob_hwid(activeChar.getHWID()))
 			{
@@ -894,17 +889,17 @@ public class VoicedMenu implements IVoicedCommandHandler
 				sb.append("<img src=\"L2UI.SquareGray\" width=300 height=1>");
 				sb.append("</td></tr></table>");
 			}
-
+		
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/menu/Mission.htm");
 		html.replace("%mission%", sb.toString());
 		activeChar.sendPacket(html);
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;
 	}
-
+	
 }

@@ -11,18 +11,18 @@ import com.l2j4team.commons.random.Rnd;
 public class PetInventory extends Inventory
 {
 	private final Pet _owner;
-
+	
 	public PetInventory(Pet owner)
 	{
 		_owner = owner;
 	}
-
+	
 	@Override
 	public Pet getOwner()
 	{
 		return _owner;
 	}
-
+	
 	@Override
 	public int getOwnerId()
 	{
@@ -37,55 +37,55 @@ public class PetInventory extends Inventory
 		}
 		return id;
 	}
-
+	
 	@Override
 	protected void refreshWeight()
 	{
 		super.refreshWeight();
-
+		
 		getOwner().updateAndBroadcastStatus(1);
 		getOwner().sendPetInfosToOwner();
 	}
-
+	
 	public boolean validateCapacity(ItemInstance item)
 	{
 		int slots = 0;
-
+		
 		if (!(item.isStackable() && getItemByItemId(item.getItemId()) != null) && item.getItemType() != EtcItemType.HERB)
 			slots++;
-
+		
 		return validateCapacity(slots);
 	}
-
+	
 	@Override
 	public boolean validateCapacity(int slots)
 	{
 		return _items.size() + slots <= _owner.getInventoryLimit();
 	}
-
+	
 	public boolean validateWeight(ItemInstance item, int count)
 	{
 		return validateWeight(count * item.getItem().getWeight());
 	}
-
+	
 	@Override
 	public boolean validateWeight(int weight)
 	{
 		return _totalWeight + weight <= _owner.getMaxLoad();
 	}
-
+	
 	@Override
 	protected ItemLocation getBaseLocation()
 	{
 		return ItemLocation.PET;
 	}
-
+	
 	@Override
 	protected ItemLocation getEquipLocation()
 	{
 		return ItemLocation.PET_EQUIP;
 	}
-
+	
 	@Override
 	public void deleteMe()
 	{
@@ -101,7 +101,7 @@ public class PetInventory extends Inventory
 					final ItemInstance droppedItem = dropItem("drop", item.getObjectId(), item.getCount(), petOwner, getOwner());
 					droppedItem.dropMe(getOwner(), getOwner().getX() + Rnd.get(-70, 70), getOwner().getY() + Rnd.get(-70, 70), getOwner().getZ() + 30);
 				}
-
+				
 			}
 		}
 		_items.clear();

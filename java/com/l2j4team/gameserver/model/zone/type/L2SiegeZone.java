@@ -23,15 +23,15 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public class L2SiegeZone extends L2SpawnZone
 {
 	private static final int DISMOUNT_DELAY = 5;
-
+	
 	private int _siegableId = -1;
 	private boolean _isActiveSiege = false;
-
+	
 	public L2SiegeZone(int id)
 	{
 		super(id);
 	}
-
+	
 	@Override
 	public void setParameter(String name, String value)
 	{
@@ -40,7 +40,7 @@ public class L2SiegeZone extends L2SpawnZone
 		else
 			super.setParameter(name, value);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
@@ -49,15 +49,15 @@ public class L2SiegeZone extends L2SpawnZone
 			character.setInsideZone(ZoneId.PVP, true);
 			character.setInsideZone(ZoneId.SIEGE, true);
 			character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, true);
-
+			
 			if (character instanceof Player)
 			{
 				Player activeChar = (Player) character;
-
+				
 				activeChar.setIsInSiege(true); // in siege
-
+				
 				activeChar.sendPacket(SystemMessageId.ENTERED_COMBAT_ZONE);
-
+				
 				if (activeChar.isAio() || AioManager.getInstance().hasAioPrivileges(activeChar.getObjectId()))
 				{
 					activeChar.sendPacket(new ExShowScreenMessage("Classe nao liberada nessa Area..", 6000, 2, true));
@@ -71,7 +71,7 @@ public class L2SiegeZone extends L2SpawnZone
 						}
 					}, 4000);
 				}
-
+				
 				if (activeChar.getMountType() == 2)
 				{
 					activeChar.sendPacket(SystemMessageId.AREA_CANNOT_BE_ENTERED_WHILE_MOUNTED_WYVERN);
@@ -80,48 +80,48 @@ public class L2SiegeZone extends L2SpawnZone
 			}
 		}
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.PVP, false);
 		character.setInsideZone(ZoneId.SIEGE, false);
 		character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, false);
-
+		
 		if (character instanceof Player)
 		{
 			final Player activeChar = (Player) character;
-
+			
 			if (_isActiveSiege)
 			{
 				activeChar.sendPacket(SystemMessageId.LEFT_COMBAT_ZONE);
-
+				
 				if (activeChar.getMountType() == 2)
 					activeChar.exitedNoLanding();
-
+				
 				PvpFlagTaskManager.getInstance().add(activeChar, Config.PVP_NORMAL_TIME);
-
+				
 				// Set pvp flag
 				if (activeChar.getPvpFlag() == 0)
 					activeChar.updatePvPFlag(1);
 			}
-
+			
 			activeChar.setIsInSiege(false);
 		}
 		else if (character instanceof SiegeSummon)
 			((SiegeSummon) character).unSummon(((SiegeSummon) character).getOwner());
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 	public void updateZoneStatusForCharactersInside()
 	{
 		if (_isActiveSiege)
@@ -136,13 +136,13 @@ public class L2SiegeZone extends L2SpawnZone
 				character.setInsideZone(ZoneId.PVP, false);
 				character.setInsideZone(ZoneId.SIEGE, false);
 				character.setInsideZone(ZoneId.NO_SUMMON_FRIEND, false);
-
+				
 				if (character instanceof Player)
 				{
 					final Player player = ((Player) character);
-
+					
 					player.sendPacket(SystemMessageId.LEFT_COMBAT_ZONE);
-
+					
 					if (player.getMountType() == 2)
 						player.exitedNoLanding();
 				}
@@ -151,7 +151,7 @@ public class L2SiegeZone extends L2SpawnZone
 			}
 		}
 	}
-
+	
 	/**
 	 * Sends a message to all players in this zone
 	 * @param message
@@ -161,22 +161,22 @@ public class L2SiegeZone extends L2SpawnZone
 		for (Player player : getKnownTypeInside(Player.class))
 			player.sendMessage(message);
 	}
-
+	
 	public int getSiegeObjectId()
 	{
 		return _siegableId;
 	}
-
+	
 	public boolean isActive()
 	{
 		return _isActiveSiege;
 	}
-
+	
 	public void setIsActive(boolean val)
 	{
 		_isActiveSiege = val;
 	}
-
+	
 	/**
 	 * Removes all foreigners from the zone
 	 * @param owningClanId
@@ -185,12 +185,12 @@ public class L2SiegeZone extends L2SpawnZone
 	{
 		if (_characterList.isEmpty())
 			return;
-
+		
 		for (Player player : getKnownTypeInside(Player.class))
 		{
 			if (player.getClanId() == owningClanId)
 				continue;
-
+			
 			player.teleToLocation((player.getKarma() > 0) ? getChaoticSpawnLoc() : getSpawnLoc(), 20);
 		}
 	}

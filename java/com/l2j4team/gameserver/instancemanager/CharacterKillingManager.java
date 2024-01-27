@@ -53,15 +53,15 @@ public final class CharacterKillingManager
 	private int _winnerPvPKillsCount;
 	private int _winnerPKKills;
 	private int _winnerPKKillsCount;
-
+	
 	private volatile CharSelectInfoPackage _winnerPvPKillsInfo;
 	private volatile CharSelectInfoPackage _winnerPKKillsInfo;
-
+	
 	private ScheduledFuture<?> _scheduledKillingCycleTask = null;
-
+	
 	private final List<L2PcPolymorph> pvpMorphListeners = new CopyOnWriteArrayList<>();
 	private final List<L2PcPolymorph> pkMorphListeners = new CopyOnWriteArrayList<>();
-
+	
 	public synchronized void init()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection();
@@ -82,24 +82,24 @@ public final class CharacterKillingManager
 		{
 			_log.log(Level.WARNING, "Could not load characters killing cycle: " + e.getMessage(), e);
 		}
-
+		
 		broadcastMorphUpdate();
-
+		
 		if (_scheduledKillingCycleTask != null)
 			_scheduledKillingCycleTask.cancel(true);
 		long millisToNextCycle = _cycleStart + Config.CKM_CYCLE_LENGTH - System.currentTimeMillis();
 		_scheduledKillingCycleTask = ThreadPool.schedule(new CharacterKillingCycleTask(), millisToNextCycle);
-
+		
 		_log.info(getClass().getSimpleName() + ": Started! Cycle: " + _cycle + " - Next cycle in: " + _scheduledKillingCycleTask.getDelay(TimeUnit.SECONDS) + "s");
 	}
-
+	
 	public synchronized void newKillingCycle()
 	{
 		_cycleStart = System.currentTimeMillis();
 		computateCyclePvPWinner();
 		computateCyclePKWinner();
 		refreshKillingSnapshot();
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection();
 			PreparedStatement st = con.prepareStatement("INSERT INTO character_kills_info (cycle_start, winner_pvpkills, winner_pvpkills_count, winner_pkkills, winner_pkkills_count) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS))
 		{
@@ -109,7 +109,7 @@ public final class CharacterKillingManager
 			st.setInt(4, _winnerPKKills);
 			st.setInt(5, _winnerPKKillsCount);
 			st.execute();
-
+			
 			try (ResultSet rs = st.getGeneratedKeys())
 			{
 				if (rs.next())
@@ -120,20 +120,20 @@ public final class CharacterKillingManager
 		{
 			_log.log(Level.WARNING, "Could not create characters killing cycle: " + e.getMessage(), e);
 		}
-
+		
 		broadcastMorphUpdate();
-
+		
 		if (_scheduledKillingCycleTask != null)
 			_scheduledKillingCycleTask.cancel(true);
 		_scheduledKillingCycleTask = ThreadPool.schedule(new CharacterKillingCycleTask(), Config.CKM_CYCLE_LENGTH);
 	}
-
+	
 	private void computateCyclePvPWinner()
 	{
 		_winnerPvPKills = 0;
 		_winnerPvPKillsCount = 0;
 		_winnerPvPKillsInfo = null;
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection();
 			PreparedStatement st = con.prepareStatement("SELECT c.obj_Id, (c.pvpkills - COALESCE(ck.pvpkills, 0)) pvpkills FROM characters c LEFT JOIN character_kills_snapshot ck ON ck.charId = c.obj_Id WHERE accesslevel = 0 ORDER BY pvpkills DESC LIMIT 1");
 			ResultSet rs = st.executeQuery();)
@@ -146,7 +146,7 @@ public final class CharacterKillingManager
 					_winnerPvPKills = rs.getInt(1);
 					_winnerPvPKillsCount = kills;
 				}
-
+				
 				if (_winnerPvPKills == 0)
 					addReward(_winnerPvPKills, true);
 				else
@@ -158,13 +158,13 @@ public final class CharacterKillingManager
 			_log.log(Level.WARNING, "Could not computate characters killing cycle winners: " + e.getMessage(), e);
 		}
 	}
-
+	
 	private void computateCyclePKWinner()
 	{
 		_winnerPKKills = 0;
 		_winnerPKKillsCount = 0;
 		_winnerPKKillsInfo = null;
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection();
 			PreparedStatement st = con.prepareStatement("SELECT c.obj_Id, (c.pkkills - COALESCE(ck.pkkills, 0)) pkkills FROM characters c LEFT JOIN character_kills_snapshot ck ON ck.charId = c.obj_Id WHERE accesslevel = 0 ORDER BY pkkills DESC LIMIT 1");
 			ResultSet rs = st.executeQuery();)
@@ -188,7 +188,7 @@ public final class CharacterKillingManager
 			_log.log(Level.WARNING, "Could not computate characters killing cycle winners: " + e.getMessage(), e);
 		}
 	}
-
+	
 	private static void refreshKillingSnapshot()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection();
@@ -203,18 +203,18 @@ public final class CharacterKillingManager
 			_log.log(Level.WARNING, "Could not refresh characters killing snapshot: " + e.getMessage(), e);
 		}
 	}
-
+	
 	public void broadcastMorphUpdate()
 	{
 		final CharSelectInfoPackage winnerPvPKillsInfo = getWinnerPvPKillsInfo();
 		for (L2PcPolymorph npc : pvpMorphListeners)
 			broadcastPvPMorphUpdate(npc, winnerPvPKillsInfo);
-
+		
 		final CharSelectInfoPackage winnerPKKillsInfo = getWinnerPKKillsInfo();
 		for (L2PcPolymorph npc : pkMorphListeners)
 			broadcastPKMorphUpdate(npc, winnerPKKillsInfo);
 	}
-
+	
 	private void broadcastPvPMorphUpdate(L2PcPolymorph npc, CharSelectInfoPackage winnerPvPKillsInfo)
 	{
 		if (winnerPvPKillsInfo == null)
@@ -222,14 +222,14 @@ public final class CharacterKillingManager
 			npc.setPolymorphInfo(null);
 			return;
 		}
-
+		
 		npc.setVisibleTitle(Config.CKM_PVP_NPC_TITLE.replaceAll("%kills%", String.valueOf(_winnerPvPKillsCount)));
 		npc.setTitleColor(Config.CKM_PVP_NPC_TITLE_COLOR);
 		npc.setNameColor(Config.CKM_PVP_NPC_NAME_COLOR);
 		npc.setPolymorphInfo(winnerPvPKillsInfo);
 		npc.broadcastPacket(new SocialAction(npc, 16));
 	}
-
+	
 	private void broadcastPKMorphUpdate(L2PcPolymorph npc, CharSelectInfoPackage winnerPKKillsInfo)
 	{
 		if (winnerPKKillsInfo == null)
@@ -237,42 +237,42 @@ public final class CharacterKillingManager
 			npc.setPolymorphInfo(null);
 			return;
 		}
-
+		
 		npc.setVisibleTitle(Config.CKM_PK_NPC_TITLE.replaceAll("%kills%", String.valueOf(_winnerPKKillsCount)));
 		npc.setTitleColor(Config.CKM_PK_NPC_TITLE_COLOR);
 		npc.setNameColor(Config.CKM_PK_NPC_NAME_COLOR);
 		npc.setPolymorphInfo(winnerPKKillsInfo);
 		npc.broadcastPacket(new SocialAction(npc, 16));
 	}
-
+	
 	public boolean addPvPMorphListener(L2PcPolymorph npc)
 	{
 		if (npc == null)
 			return false;
-
+		
 		broadcastPvPMorphUpdate(npc, getWinnerPvPKillsInfo());
 		return pvpMorphListeners.add(npc);
 	}
-
+	
 	public boolean removePvPMorphListener(L2PcPolymorph npc)
 	{
 		return pvpMorphListeners.remove(npc);
 	}
-
+	
 	public boolean addPKMorphListener(L2PcPolymorph npc)
 	{
 		if (npc == null)
 			return false;
-
+		
 		broadcastPKMorphUpdate(npc, getWinnerPKKillsInfo());
 		return pkMorphListeners.add(npc);
 	}
-
+	
 	public boolean removePKMorphListener(L2PcPolymorph npc)
 	{
 		return pkMorphListeners.remove(npc);
 	}
-
+	
 	private CharSelectInfoPackage getWinnerPvPKillsInfo()
 	{
 		if (_winnerPvPKills != 0 && _winnerPvPKillsInfo == null)
@@ -283,7 +283,7 @@ public final class CharacterKillingManager
 			}
 		return _winnerPvPKillsInfo;
 	}
-
+	
 	private CharSelectInfoPackage getWinnerPKKillsInfo()
 	{
 		if (_winnerPKKills != 0 && _winnerPKKillsInfo == null)
@@ -294,7 +294,7 @@ public final class CharacterKillingManager
 			}
 		return _winnerPKKillsInfo;
 	}
-
+	
 	public static class CharacterKillingCycleTask implements Runnable
 	{
 		@Override
@@ -303,21 +303,21 @@ public final class CharacterKillingManager
 			CharacterKillingManager.getInstance().newKillingCycle();
 		}
 	}
-
+	
 	public static CharacterKillingManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final CharacterKillingManager _instance = new CharacterKillingManager();
 	}
-
+	
 	private static void addReward(int obj_id, boolean duple)
 	{
 		Player player = World.getInstance().getPlayer(obj_id);
-
+		
 		for (int[] reward : Config.CKM_PLAYER_REWARDS)
 			if (player != null && player.isOnline())
 			{
@@ -332,17 +332,17 @@ public final class CharacterKillingManager
 			else
 				addOfflineItem(obj_id, reward[0], duple ? reward[1] * 2 : reward[1]);
 	}
-
+	
 	private static void addOfflineItem(int owner_id, int item_id, int count)
 	{
 		Item item = ItemTable.getInstance().getTemplate(item_id);
 		int objectId = IdFactory.getInstance().getNextId();
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			if (count > 1 && !item.isStackable())
 				return;
-
+			
 			PreparedStatement statement = con.prepareStatement("INSERT INTO items (owner_id,item_id,count,loc,loc_data,enchant_level,object_id,custom_type1,custom_type2,mana_left,time) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 			statement.setInt(1, owner_id);
 			statement.setInt(2, item.getItemId());

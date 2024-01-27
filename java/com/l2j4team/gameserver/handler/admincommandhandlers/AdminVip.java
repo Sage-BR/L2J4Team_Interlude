@@ -38,17 +38,17 @@ public class AdminVip implements IAdminCommandHandler
 	{
 		"admin_setvip",
 		"admin_remove_vip"
-
+	
 	};
-
+	
 	private final static Logger _log = Logger.getLogger(AdminVip.class.getName());
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (activeChar.getAccessLevel().getLevel() < 7)
 			return false;
-
+		
 		final WorldObject target = activeChar.getTarget();
 		if (target == null || !(target instanceof Player))
 		{
@@ -61,47 +61,47 @@ public class AdminVip implements IAdminCommandHandler
 			{
 				Player targetPlayer = (Player) target;
 				boolean newVip = !targetPlayer.isVip();
-
+				
 				if (newVip)
 				{
 					if (VipManager.getInstance().hasVipPrivileges(targetPlayer.getObjectId()))
 					{
 						removeVip(activeChar, targetPlayer);
 					}
-
+					
 					targetPlayer.setVip(true);
 					targetPlayer.sendPacket(new CreatureSay(0, Say2.HERO_VOICE, "[Vip System]", "Voce se tornou um Vip ETERNO."));
 					updateDatabase(targetPlayer, true);
 					targetPlayer.broadcastUserInfo();
-
+					
 				}
 				else
 				{
 					targetPlayer.setVip(false);
 					targetPlayer.sendMessage("[Vip System]: Seu Vip ETERNO foi removido.");
 					updateDatabase(targetPlayer, false);
-
+					
 					targetPlayer.broadcastUserInfo();
 				}
-
+				
 				targetPlayer = null;
 			}
 			else
 			{
 				activeChar.sendMessage("[Vip System]: Impossible to set a non Player Target as Vip.");
 				_log.info("[Vip System]: GM: " + activeChar.getName() + " is trying to set a non Player Target as Vip.");
-
+				
 				return false;
 			}
-
+			
 		}
-
+		
 		else if (command.equalsIgnoreCase("admin_remove_vip"))
 			removeVip(activeChar, (Player) target);
-
+		
 		return true;
 	}
-
+	
 	public static void removeVip(Player activeChar, Player targetChar)
 	{
 		if (!VipManager.getInstance().hasVipPrivileges(targetChar.getObjectId()))
@@ -109,14 +109,14 @@ public class AdminVip implements IAdminCommandHandler
 			activeChar.sendMessage("Your target does not have Vip privileges.");
 			return;
 		}
-
+		
 		VipManager.getInstance().removeVip(targetChar.getObjectId());
 		activeChar.sendMessage("You have removed Vip privileges from " + targetChar.getName() + ".");
 		targetChar.sendPacket(new ExShowScreenMessage("Your Vip privileges were removed by the admin.", 10000));
 		targetChar.setVip(false);
-
+		
 	}
-
+	
 	/**
 	 * @param player
 	 * @param newVip
@@ -126,7 +126,7 @@ public class AdminVip implements IAdminCommandHandler
 		// prevents any NPE.
 		if (player == null)
 			return;
-
+		
 		Connection con = null;
 		try
 		{
@@ -134,12 +134,12 @@ public class AdminVip implements IAdminCommandHandler
 			// --------------------------------
 			con = L2DatabaseFactory.getInstance().getConnection();
 			PreparedStatement stmt = con.prepareStatement(newVip ? INSERT_DATA : DEL_DATA);
-
+			
 			// if it is a new donator insert proper data
 			// --------------------------------------------
 			if (newVip)
 			{
-
+				
 				stmt.setInt(1, player.getObjectId());
 				stmt.setString(2, player.getName());
 				stmt.setInt(3, 1);
@@ -165,12 +165,12 @@ public class AdminVip implements IAdminCommandHandler
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	// Updates That Will be Executed by MySQL
 	// ----------------------------------------
 	static String INSERT_DATA = "REPLACE INTO characters_vip_eterno (obj_Id, char_name, vip) VALUES (?,?,?)";
 	static String DEL_DATA = "UPDATE characters_vip_eterno SET vip = 0 WHERE obj_Id=?";
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

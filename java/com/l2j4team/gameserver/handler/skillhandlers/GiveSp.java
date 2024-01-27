@@ -15,7 +15,7 @@ public class GiveSp implements ISkillHandler
 	{
 		L2SkillType.GIVE_SP
 	};
-
+	
 	@Override
 	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
 	{
@@ -29,7 +29,7 @@ public class GiveSp implements ISkillHandler
 			}
 		}
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

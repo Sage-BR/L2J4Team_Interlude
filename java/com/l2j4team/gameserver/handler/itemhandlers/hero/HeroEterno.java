@@ -33,37 +33,37 @@ import java.util.logging.Logger;
  */
 public class HeroEterno implements IItemHandler
 {
-
+	
 	protected static final Logger LOGGER = Logger.getLogger(HeroEterno.class.getName());
-
+	
 	@Override
 	public void useItem(Playable playable, ItemInstance item, boolean forceUse)
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isInOlympiadMode())
 		{
 			activeChar.sendMessage("SYS: This Item Cannot Be Used On Olympiad Games.");
 			return;
 		}
-
+		
 		if (activeChar.isHero())
 		{
 			activeChar.sendMessage("SYS: Voce ja esta com status Hero.");
 			return;
 		}
-
+		
 		if (HeroManager.getInstance().hasHeroPrivileges(activeChar.getObjectId()))
 			AdminHero.removeHero(activeChar, activeChar);
-
+		
 		playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 		activeChar.setHero(true);
 		activeChar.setNoble(true, true);
 		AdminHero.updateDatabase(activeChar, true);
-
+		
 		activeChar.sendPacket(new CreatureSay(0, Say2.HERO_VOICE, "[Hero System]", "Voce se tornou um HERO ETERNO."));
 		if (activeChar.isSubClassActive())
 		{
@@ -72,10 +72,10 @@ public class HeroEterno implements IItemHandler
 		}
 		activeChar.sendSkillList();
 		activeChar.broadcastUserInfo();
-
+		
 		for (Player allgms : World.getAllGMs())
 			allgms.sendPacket(new CreatureSay(0, Say2.SHOUT, "(Donate Manager)", activeChar.getName() + " ativou Hero Eterno."));
-
+		
 	}
-
+	
 }

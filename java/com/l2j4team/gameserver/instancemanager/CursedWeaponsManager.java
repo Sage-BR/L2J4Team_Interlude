@@ -39,29 +39,29 @@ import org.w3c.dom.Node;
 public class CursedWeaponsManager
 {
 	private static final Logger _log = Logger.getLogger(CursedWeaponsManager.class.getName());
-
+	
 	private final Map<Integer, CursedWeapon> _cursedWeapons = new HashMap<>();
-
+	
 	public static final CursedWeaponsManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	public CursedWeaponsManager()
 	{
 		load();
 	}
-
+	
 	public void reload()
 	{
 		// Drop existing CWs.
 		for (CursedWeapon cw : _cursedWeapons.values())
 			cw.endOfLife();
-
+		
 		_cursedWeapons.clear();
 		load();
 	}
-
+	
 	private void load()
 	{
 		if (!Config.ALLOW_CURSED_WEAPONS)
@@ -69,12 +69,12 @@ public class CursedWeaponsManager
 			_log.info("CursedWeaponsManager: Skipping loading.");
 			return;
 		}
-
+		
 		try
 		{
 			File file = new File("./data/xml/cursed_weapons.xml");
 			Document doc = XMLDocumentFactory.getInstance().loadDocument(file);
-
+			
 			Node n = doc.getFirstChild();
 			for (Node d = n.getFirstChild(); d != null; d = d.getNextSibling())
 			{
@@ -84,9 +84,9 @@ public class CursedWeaponsManager
 					int id = Integer.parseInt(attrs.getNamedItem("id").getNodeValue());
 					int skillId = Integer.parseInt(attrs.getNamedItem("skillId").getNodeValue());
 					String name = attrs.getNamedItem("name").getNodeValue();
-
+					
 					CursedWeapon cw = new CursedWeapon(id, skillId, name);
-
+					
 					int val;
 					for (Node cd = d.getFirstChild(); cd != null; cd = cd.getNextSibling())
 					{
@@ -121,15 +121,15 @@ public class CursedWeaponsManager
 							cw.setStageKills(val);
 						}
 					}
-
+					
 					// load data from SQL
 					cw.loadData();
-
+					
 					// Store cursed weapon
 					_cursedWeapons.put(id, cw);
 				}
 			}
-
+			
 			_log.info("CursedWeaponsManager: Loaded " + _cursedWeapons.size() + " cursed weapons.");
 		}
 		catch (Exception e)
@@ -137,7 +137,7 @@ public class CursedWeaponsManager
 			_log.log(Level.SEVERE, "Error parsing cursed_weapons.xml: ", e);
 		}
 	}
-
+	
 	/**
 	 * Checks if a CW can drop. Verify if CW is already active, or if the L2Attackable you killed was a good type.
 	 * @param attackable : The target to test.
@@ -147,17 +147,17 @@ public class CursedWeaponsManager
 	{
 		if (attackable instanceof SiegeGuard || attackable instanceof RiftInvader || attackable instanceof FestivalMonster || attackable instanceof GrandBoss || attackable instanceof FeedableBeast)
 			return;
-
+		
 		for (CursedWeapon cw : _cursedWeapons.values())
 		{
 			if (cw.isActive())
 				continue;
-
+			
 			if (cw.checkDrop(attackable, player))
 				break;
 		}
 	}
-
+	
 	/**
 	 * Assimilate a weapon if you already possess one (and rank up possessed weapon), or activate it otherwise.
 	 * @param player : The player to test.
@@ -169,32 +169,32 @@ public class CursedWeaponsManager
 		if (player.isCursedWeaponEquipped()) // cannot own 2 cursed swords
 		{
 			_cursedWeapons.get(player.getCursedWeaponEquippedId()).rankUp();
-
+			
 			// Setup the player in order to drop the weapon from inventory.
 			cw.setPlayer(player);
-
+			
 			// erase the newly obtained cursed weapon
 			cw.endOfLife();
 		}
 		else
 			cw.activate(player, item);
 	}
-
+	
 	public void drop(int itemId, Creature killer)
 	{
 		_cursedWeapons.get(itemId).dropIt(killer);
 	}
-
+	
 	public void increaseKills(int itemId)
 	{
 		_cursedWeapons.get(itemId).increaseKills();
 	}
-
+	
 	public int getCurrentStage(int itemId)
 	{
 		return _cursedWeapons.get(itemId).getCurrentStage();
 	}
-
+	
 	/**
 	 * This method is used on EnterWorld in order to check if the player is equipped with a CW.
 	 * @param player
@@ -203,7 +203,7 @@ public class CursedWeaponsManager
 	{
 		if (player == null)
 			return;
-
+		
 		for (CursedWeapon cw : _cursedWeapons.values())
 		{
 			if (cw.isActivated() && player.getObjectId() == cw.getPlayerId())
@@ -215,27 +215,27 @@ public class CursedWeaponsManager
 			}
 		}
 	}
-
+	
 	public boolean isCursed(int itemId)
 	{
 		return _cursedWeapons.containsKey(itemId);
 	}
-
+	
 	public Collection<CursedWeapon> getCursedWeapons()
 	{
 		return _cursedWeapons.values();
 	}
-
+	
 	public Set<Integer> getCursedWeaponsIds()
 	{
 		return _cursedWeapons.keySet();
 	}
-
+	
 	public CursedWeapon getCursedWeapon(int itemId)
 	{
 		return _cursedWeapons.get(itemId);
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final CursedWeaponsManager _instance = new CursedWeaponsManager();

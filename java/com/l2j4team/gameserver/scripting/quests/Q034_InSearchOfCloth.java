@@ -8,37 +8,37 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q034_InSearchOfCloth extends Quest
 {
 	private static final String qn = "Q034_InSearchOfCloth";
-
+	
 	// NPCs
 	private static final int RADIA = 30088;
 	private static final int RALFORD = 30165;
 	private static final int VARAN = 30294;
-
+	
 	// Monsters
 	private static final int TRISALIM_SPIDER = 20560;
 	private static final int TRISALIM_TARANTULA = 20561;
-
+	
 	// Items
 	private static final int SPINNERET = 7528;
 	private static final int SUEDE = 1866;
 	private static final int THREAD = 1868;
 	private static final int SPIDERSILK = 7161;
-
+	
 	// Rewards
 	private static final int MYSTERIOUS_CLOTH = 7076;
-
+	
 	public Q034_InSearchOfCloth()
 	{
 		super(34, "In Search of Cloth");
-
+		
 		setItemsIds(SPINNERET, SPIDERSILK);
-
+		
 		addStartNpc(RADIA);
 		addTalkId(RADIA, RALFORD, VARAN);
-
+		
 		addKillId(TRISALIM_SPIDER, TRISALIM_TARANTULA);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -46,7 +46,7 @@ public class Q034_InSearchOfCloth extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30088-1.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -89,10 +89,10 @@ public class Q034_InSearchOfCloth extends Quest
 			else
 				htmltext = "30088-4a.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -100,7 +100,7 @@ public class Q034_InSearchOfCloth extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -115,7 +115,7 @@ public class Q034_InSearchOfCloth extends Quest
 				else
 					htmltext = "30088-0b.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -135,14 +135,14 @@ public class Q034_InSearchOfCloth extends Quest
 								htmltext = "30088-4.htm";
 						}
 						break;
-
+					
 					case VARAN:
 						if (cond == 1)
 							htmltext = "30294-0.htm";
 						else if (cond > 1)
 							htmltext = "30294-1a.htm";
 						break;
-
+					
 					case RALFORD:
 						if (cond == 3)
 							htmltext = "30165-0.htm";
@@ -155,25 +155,25 @@ public class Q034_InSearchOfCloth extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "4");
 		if (st == null)
 			return null;
-
+		
 		if (st.dropItems(SPINNERET, 1, 10, 500000))
 			st.set("cond", "5");
-
+		
 		return null;
 	}
 }

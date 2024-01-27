@@ -15,14 +15,14 @@ import com.l2j4team.commons.util.ArraysUtil;
 public class Q384_WarehouseKeepersPastime extends Quest
 {
 	private static final String qn = "Q384_WarehouseKeepersPastime";
-
+	
 	// NPCs
 	private static final int CLIFF = 30182;
 	private static final int BAXT = 30685;
-
+	
 	// Items
 	private static final int MEDAL = 5964;
-
+	
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
 		CHANCES.put(20947, 160000); // Connabi
@@ -52,7 +52,7 @@ public class Q384_WarehouseKeepersPastime extends Quest
 		CHANCES.put(20677, 340000); // Tulben
 		CHANCES.put(20605, 150000); // Weird Drake
 	}
-
+	
 	private static final int[][] INDEX_MAP =
 	{
 		{
@@ -96,7 +96,7 @@ public class Q384_WarehouseKeepersPastime extends Quest
 			7
 		}, // diagonal 2
 	};
-
+	
 	private static final int[][] _rewards_10_win =
 	{
 		{
@@ -129,7 +129,7 @@ public class Q384_WarehouseKeepersPastime extends Quest
 		}
 		// Scroll: Enchant Weapon (C)
 	};
-
+	
 	private static final int[][] _rewards_10_lose =
 	{
 		{
@@ -150,7 +150,7 @@ public class Q384_WarehouseKeepersPastime extends Quest
 		}
 		// Necklace of Mermaid
 	};
-
+	
 	private static final int[][] _rewards_100_win =
 	{
 		{
@@ -171,7 +171,7 @@ public class Q384_WarehouseKeepersPastime extends Quest
 		}
 		// Drake Leather Armor
 	};
-
+	
 	private static final int[][] _rewards_100_lose =
 	{
 		{
@@ -192,20 +192,20 @@ public class Q384_WarehouseKeepersPastime extends Quest
 		}
 		// Samurai Longsword
 	};
-
+	
 	public Q384_WarehouseKeepersPastime()
 	{
 		super(384, "Warehouse Keeper's Pastime");
-
+		
 		setItemsIds(MEDAL);
-
+		
 		addStartNpc(CLIFF);
 		addTalkId(CLIFF, BAXT);
-
+		
 		for (int npcId : CHANCES.keySet())
 			addKillId(npcId);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -213,7 +213,7 @@ public class Q384_WarehouseKeepersPastime extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		final int npcId = npc.getNpcId();
 		if (event.equalsIgnoreCase("30182-05.htm"))
 		{
@@ -252,7 +252,7 @@ public class Q384_WarehouseKeepersPastime extends Quest
 		{
 			// Register the first char.
 			st.set("playerArray", event.substring(9));
-
+			
 			// Send back the finalized HTM with dynamic content.
 			htmltext = fillBoard(st, getHtmlText(npcId + "-14.htm"));
 		}
@@ -260,10 +260,10 @@ public class Q384_WarehouseKeepersPastime extends Quest
 		{
 			// Stores the current event for future use.
 			String number = event.substring(9);
-
+			
 			// Restore the player array.
 			String playerArray = st.get("playerArray");
-
+			
 			// Verify if the given number is already on the player array, if yes, it's invalid, otherwise register it.
 			if (ArraysUtil.contains(playerArray.split(""), number))
 				htmltext = fillBoard(st, getHtmlText(npcId + "-" + String.valueOf(14 + 2 * playerArray.length()) + ".htm"));
@@ -271,7 +271,7 @@ public class Q384_WarehouseKeepersPastime extends Quest
 			{
 				// Stores the final String.
 				st.set("playerArray", playerArray.concat(number));
-
+				
 				htmltext = fillBoard(st, getHtmlText(npcId + "-" + String.valueOf(11 + 2 * (playerArray.length() + 1)) + ".htm"));
 			}
 		}
@@ -279,10 +279,10 @@ public class Q384_WarehouseKeepersPastime extends Quest
 		{
 			// Stores the current event for future use.
 			String number = event.substring(9);
-
+			
 			// Restore the player array.
 			String playerArray = st.get("playerArray");
-
+			
 			// Verify if the given number is already on the player array, if yes, it's invalid, otherwise calculate reward.
 			if (ArraysUtil.contains(playerArray.split(""), number))
 				htmltext = fillBoard(st, getHtmlText(npcId + "-26.htm"));
@@ -290,29 +290,29 @@ public class Q384_WarehouseKeepersPastime extends Quest
 			{
 				// No need to store the String on player db, but still need to update it.
 				final String[] playerChoice = playerArray.concat(number).split("");
-
+				
 				// Transform the generated board (9 string length) into a 2d matrice (3x3 int).
 				final String[] board = st.get("board").split("");
-
+				
 				// test for all line combination
 				int winningLines = 0;
-
+				
 				for (int[] map : INDEX_MAP)
 				{
 					// test line combination
 					boolean won = true;
 					for (int index : map)
 						won &= ArraysUtil.contains(playerChoice, board[index]);
-
+					
 					// cut the loop, when you won
 					if (won)
 						winningLines++;
 				}
-
+				
 				if (winningLines == 3)
 				{
 					htmltext = getHtmlText(npcId + "-23.htm");
-
+					
 					final int chance = Rnd.get(100);
 					for (int[] reward : ((st.get("bet") == "10") ? _rewards_10_win : _rewards_100_win))
 					{
@@ -321,7 +321,7 @@ public class Q384_WarehouseKeepersPastime extends Quest
 							st.giveItems(reward[1], 1);
 							if (reward[1] == 2437)
 								st.giveItems(2463, 1);
-
+							
 							break;
 						}
 					}
@@ -329,7 +329,7 @@ public class Q384_WarehouseKeepersPastime extends Quest
 				else if (winningLines == 0)
 				{
 					htmltext = getHtmlText(npcId + "-25.htm");
-
+					
 					final int chance = Rnd.get(100);
 					for (int[] reward : ((st.get("bet") == "10") ? _rewards_10_lose : _rewards_100_lose))
 					{
@@ -342,7 +342,7 @@ public class Q384_WarehouseKeepersPastime extends Quest
 				}
 				else
 					htmltext = getHtmlText(npcId + "-24.htm");
-
+				
 				for (int i = 1; i < 10; i++)
 				{
 					htmltext = htmltext.replace("<?Cell" + i + "?>", board[i]);
@@ -350,10 +350,10 @@ public class Q384_WarehouseKeepersPastime extends Quest
 				}
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -361,50 +361,50 @@ public class Q384_WarehouseKeepersPastime extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 40) ? "30182-04.htm" : "30182-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
 					case CLIFF:
 						htmltext = (st.getQuestItemsCount(MEDAL) < 10) ? "30182-06.htm" : "30182-07.htm";
 						break;
-
+					
 					case BAXT:
 						htmltext = (st.getQuestItemsCount(MEDAL) < 10) ? "30685-01.htm" : "30685-02.htm";
 						break;
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		partyMember.getQuestState(qn).dropItems(MEDAL, 1, 0, CHANCES.get(npc.getNpcId()));
-
+		
 		return null;
 	}
-
+	
 	private static final String fillBoard(QuestState st, String htmltext)
 	{
 		final String[] playerArray = st.get("playerArray").split("");
 		final String[] board = st.get("board").split("");
-
+		
 		for (int i = 1; i < 10; i++)
 			htmltext = htmltext.replace("<?Cell" + i + "?>", (ArraysUtil.contains(playerArray, board[i])) ? board[i] : "?");
-
+		
 		return htmltext;
 	}
 }

@@ -12,12 +12,12 @@ public class GameServerListener extends FloodProtectedListener
 {
 	private static Logger _log;
 	private static List<GameServerThread> _gameServers;
-
+	
 	public GameServerListener() throws IOException
 	{
 		super(Config.GAME_SERVER_LOGIN_HOST, Config.GAME_SERVER_LOGIN_PORT);
 	}
-
+	
 	@Override
 	public void addClient(final Socket s)
 	{
@@ -26,12 +26,12 @@ public class GameServerListener extends FloodProtectedListener
 		final GameServerThread gst = new GameServerThread(s);
 		GameServerListener._gameServers.add(gst);
 	}
-
+	
 	public void removeGameServer(final GameServerThread gst)
 	{
 		GameServerListener._gameServers.remove(gst);
 	}
-
+	
 	static
 	{
 		GameServerListener._log = Logger.getLogger(GameServerListener.class.getName());

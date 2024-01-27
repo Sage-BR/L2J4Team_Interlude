@@ -10,16 +10,16 @@ import com.l2j4team.commons.random.Rnd;
 public class Q660_AidingTheFloranVillage extends Quest
 {
 	private static final String qn = "Q660_AidingTheFloranVillage";
-
+	
 	// NPCs
 	private static final int MARIA = 30608;
 	private static final int ALEX = 30291;
-
+	
 	// Items
 	private static final int WATCHING_EYES = 8074;
 	private static final int GOLEM_SHARD = 8075;
 	private static final int LIZARDMEN_SCALE = 8076;
-
+	
 	// Mobs
 	private static final int PLAIN_WATCHMAN = 21102;
 	private static final int ROCK_GOLEM = 21103;
@@ -28,24 +28,24 @@ public class Q660_AidingTheFloranVillage extends Quest
 	private static final int CURSED_SEER = 21106;
 	private static final int LIZARDMEN_COMMANDER = 21107;
 	private static final int LIZARDMEN_SHAMAN = 20781;
-
+	
 	// Rewards
 	private static final int ADENA = 57;
 	private static final int ENCHANT_WEAPON_D = 955;
 	private static final int ENCHANT_ARMOR_D = 956;
-
+	
 	public Q660_AidingTheFloranVillage()
 	{
 		super(660, "Aiding the Floran Village");
-
+		
 		setItemsIds(WATCHING_EYES, LIZARDMEN_SCALE, GOLEM_SHARD);
-
+		
 		addStartNpc(MARIA, ALEX);
 		addTalkId(MARIA, ALEX);
-
+		
 		addKillId(CURSED_SEER, PLAIN_WATCHMAN, ROCK_GOLEM, LIZARDMEN_SHAMAN, LIZARDMEN_SUPPLIER, LIZARDMEN_COMMANDER, LIZARDMEN_AGENT);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -53,7 +53,7 @@ public class Q660_AidingTheFloranVillage extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30608-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -151,10 +151,10 @@ public class Q660_AidingTheFloranVillage extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -162,7 +162,7 @@ public class Q660_AidingTheFloranVillage extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -171,20 +171,20 @@ public class Q660_AidingTheFloranVillage extends Quest
 					case MARIA:
 						htmltext = (player.getLevel() < 30) ? "30608-01.htm" : "30608-02.htm";
 						break;
-
+					
 					case ALEX:
 						htmltext = "30291-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
 					case MARIA:
 						htmltext = "30608-06.htm";
 						break;
-
+					
 					case ALEX:
 						final int cond = st.getInt("cond");
 						if (cond == 1)
@@ -199,30 +199,30 @@ public class Q660_AidingTheFloranVillage extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMember(player, npc, "2");
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		switch (npc.getNpcId())
 		{
 			case PLAIN_WATCHMAN:
 			case CURSED_SEER:
 				st.dropItems(WATCHING_EYES, 1, 0, 790000);
 				break;
-
+			
 			case ROCK_GOLEM:
 				st.dropItems(GOLEM_SHARD, 1, 0, 750000);
 				break;
-
+			
 			case LIZARDMEN_SHAMAN:
 			case LIZARDMEN_SUPPLIER:
 			case LIZARDMEN_AGENT:
@@ -230,10 +230,10 @@ public class Q660_AidingTheFloranVillage extends Quest
 				st.dropItems(LIZARDMEN_SCALE, 1, 0, 670000);
 				break;
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * This method drops items following current counts.
 	 * @param st The QuestState to affect.
@@ -245,16 +245,16 @@ public class Q660_AidingTheFloranVillage extends Quest
 		final int eyes = st.getQuestItemsCount(WATCHING_EYES);
 		final int scale = st.getQuestItemsCount(LIZARDMEN_SCALE);
 		final int shard = st.getQuestItemsCount(GOLEM_SHARD);
-
+		
 		if (eyes + scale + shard < numberToVerify)
 			return false;
-
+		
 		if (eyes >= numberToVerify)
 			st.takeItems(WATCHING_EYES, numberToVerify);
 		else
 		{
 			int currentNumber = numberToVerify - eyes;
-
+			
 			st.takeItems(WATCHING_EYES, -1);
 			if (scale >= currentNumber)
 				st.takeItems(LIZARDMEN_SCALE, currentNumber);

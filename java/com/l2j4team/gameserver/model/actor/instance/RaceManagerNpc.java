@@ -32,12 +32,12 @@ public class RaceManagerNpc extends Folk
 		50000,
 		100000
 	};
-
+	
 	public RaceManagerNpc(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
@@ -49,22 +49,22 @@ public class RaceManagerNpc extends Folk
 				super.onBypassFeedback(player, "Chat 0");
 				return;
 			}
-
+			
 			int val = Integer.parseInt(command.substring(10));
 			if (val == 0)
 			{
 				player.setRace(0, 0);
 				player.setRace(1, 0);
 			}
-
+			
 			if ((val == 10 && player.getRace(0) == 0) || (val == 20 && player.getRace(0) == 0 && player.getRace(1) == 0))
 				val = 0;
-
+			
 			int npcId = getTemplate().getNpcId();
 			String search, replace;
-
+			
 			final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
-
+			
 			if (val < 10)
 			{
 				html.setFile(getHtmlPath(npcId, 2));
@@ -87,14 +87,14 @@ public class RaceManagerNpc extends Folk
 			{
 				if (player.getRace(0) == 0)
 					return;
-
+				
 				html.setFile(getHtmlPath(npcId, 3));
 				html.replace("0place", player.getRace(0));
 				search = "Mob1";
 				replace = MonsterRace.getInstance().getMonsters()[player.getRace(0) - 1].getTemplate().getName();
 				html.replace(search, replace);
 				search = "0adena";
-
+				
 				if (val == 10)
 					html.replace(search, "");
 				else
@@ -107,7 +107,7 @@ public class RaceManagerNpc extends Folk
 			{
 				if (player.getRace(0) == 0 || player.getRace(1) == 0)
 					return;
-
+				
 				html.setFile(getHtmlPath(npcId, 4));
 				html.replace("0place", player.getRace(0));
 				search = "Mob1";
@@ -127,25 +127,25 @@ public class RaceManagerNpc extends Folk
 			{
 				if (player.getRace(0) == 0 || player.getRace(1) == 0)
 					return;
-
+				
 				int ticket = player.getRace(0);
 				int priceId = player.getRace(1);
-
+				
 				if (!player.reduceAdena("Race", TICKET_PRICES[priceId - 1], this, true))
 					return;
-
+				
 				player.setRace(0, 0);
 				player.setRace(1, 0);
-
+				
 				ItemInstance item = new ItemInstance(IdFactory.getInstance().getNextId(), 4443);
 				item.setCount(1);
 				item.setEnchantLevel(MonsterRace.getInstance().getRaceNumber());
 				item.setCustomType1(ticket);
 				item.setCustomType2(TICKET_PRICES[priceId - 1] / 100);
-
+				
 				player.addItem("Race", item, player, false);
 				player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_S2).addNumber(MonsterRace.getInstance().getRaceNumber()).addItemName(4443));
-
+				
 				// Refresh lane bet.
 				MonsterRace.getInstance().setBetOnLane(ticket, TICKET_PRICES[priceId - 1], true);
 				super.onBypassFeedback(player, "Chat 0");
@@ -164,15 +164,15 @@ public class RaceManagerNpc extends Folk
 				super.onBypassFeedback(player, "Chat 0");
 				return;
 			}
-
+			
 			final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 			html.setFile(getHtmlPath(getTemplate().getNpcId(), 5));
 			for (int i = 0; i < 8; i++)
 			{
 				final int n = i + 1;
-
+				
 				html.replace("Mob" + n, MonsterRace.getInstance().getMonsters()[i].getTemplate().getName());
-
+				
 				// Odd
 				final double odd = MonsterRace.getInstance().getOdds().get(i);
 				html.replace("Odd" + n, (odd > 0D) ? String.format(Locale.ENGLISH, "%.1f", odd) : "&$804;");
@@ -186,7 +186,7 @@ public class RaceManagerNpc extends Folk
 		{
 			final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 			html.setFile(getHtmlPath(getTemplate().getNpcId(), 6));
-
+			
 			for (int i = 0; i < 8; i++)
 			{
 				int n = i + 1;
@@ -201,17 +201,17 @@ public class RaceManagerNpc extends Folk
 		{
 			// Generate data.
 			final StringBuilder sb = new StringBuilder();
-
+			
 			// Retrieve player's tickets.
 			for (ItemInstance ticket : player.getInventory().getAllItemsByItemId(4443))
 			{
 				// Don't list current race tickets.
 				if (ticket.getEnchantLevel() == MonsterRace.getInstance().getRaceNumber())
 					continue;
-
+				
 				StringUtil.append(sb, "<tr><td><a action=\"bypass -h npc_%objectId%_ShowTicket ", ticket.getObjectId(), "\">", ticket.getEnchantLevel(), " Race Number</a></td><td align=right><font color=\"LEVEL\">", ticket.getCustomType1(), "</font> Number</td><td align=right><font color=\"LEVEL\">", ticket.getCustomType2() * 100, "</font> Adena</td></tr>");
 			}
-
+			
 			final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 			html.setFile(getHtmlPath(getTemplate().getNpcId(), 7));
 			html.replace("%tickets%", sb.toString());
@@ -228,7 +228,7 @@ public class RaceManagerNpc extends Folk
 				super.onBypassFeedback(player, "Chat 0");
 				return;
 			}
-
+			
 			// Retrieve ticket on player's inventory.
 			final ItemInstance ticket = player.getInventory().getItemByObjectId(val);
 			if (ticket == null)
@@ -236,11 +236,11 @@ public class RaceManagerNpc extends Folk
 				super.onBypassFeedback(player, "Chat 0");
 				return;
 			}
-
+			
 			final int raceId = ticket.getEnchantLevel();
 			final int lane = ticket.getCustomType1();
 			final int bet = ticket.getCustomType2() * 100;
-
+			
 			// Retrieve HistoryInfo for that race.
 			final HistoryInfo info = MonsterRace.getInstance().getHistory().get(raceId - 1);
 			if (info == null)
@@ -248,7 +248,7 @@ public class RaceManagerNpc extends Folk
 				super.onBypassFeedback(player, "Chat 0");
 				return;
 			}
-
+			
 			final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 			html.setFile(getHtmlPath(getTemplate().getNpcId(), 8));
 			html.replace("%raceId%", raceId);
@@ -270,7 +270,7 @@ public class RaceManagerNpc extends Folk
 				super.onBypassFeedback(player, "Chat 0");
 				return;
 			}
-
+			
 			// Delete ticket on player's inventory.
 			final ItemInstance ticket = player.getInventory().getItemByObjectId(val);
 			if (ticket == null)
@@ -278,11 +278,11 @@ public class RaceManagerNpc extends Folk
 				super.onBypassFeedback(player, "Chat 0");
 				return;
 			}
-
+			
 			final int raceId = ticket.getEnchantLevel();
 			final int lane = ticket.getCustomType1();
 			final int bet = ticket.getCustomType2() * 100;
-
+			
 			// Retrieve HistoryInfo for that race.
 			final HistoryInfo info = MonsterRace.getInstance().getHistory().get(raceId - 1);
 			if (info == null)
@@ -290,11 +290,11 @@ public class RaceManagerNpc extends Folk
 				super.onBypassFeedback(player, "Chat 0");
 				return;
 			}
-
+			
 			// Destroy the ticket.
 			if (player.destroyItem("MonsterTrack", ticket, this, true))
 				player.addAdena("MonsterTrack", (int) (bet * ((lane == info.getFirst()) ? info.getOddRate() : 0.01)), this, true);
-
+			
 			super.onBypassFeedback(player, "Chat 0");
 			return;
 		}
@@ -302,7 +302,7 @@ public class RaceManagerNpc extends Folk
 		{
 			// Generate data.
 			final StringBuilder sb = new StringBuilder();
-
+			
 			// Use whole history, pickup from 'last element' and stop at 'latest element - 7'.
 			final List<HistoryInfo> history = MonsterRace.getInstance().getHistory();
 			for (int i = history.size() - 1; i >= Math.max(0, history.size() - 7); i--)
@@ -310,7 +310,7 @@ public class RaceManagerNpc extends Folk
 				final HistoryInfo info = history.get(i);
 				StringUtil.append(sb, "<tr><td><font color=\"LEVEL\">", info.getRaceId(), "</font> th</td><td><font color=\"LEVEL\">", info.getFirst(), "</font> Lane </td><td><font color=\"LEVEL\">", info.getSecond(), "</font> Lane</td><td align=right><font color=00ffff>", String.format(Locale.ENGLISH, "%.2f", info.getOddRate()), "</font> Times</td></tr>");
 			}
-
+			
 			final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 			html.setFile(getHtmlPath(getTemplate().getNpcId(), 9));
 			html.replace("%infos%", sb.toString());
@@ -321,23 +321,23 @@ public class RaceManagerNpc extends Folk
 		else
 			super.onBypassFeedback(player, command);
 	}
-
+	
 	@Override
 	public void addKnownObject(WorldObject object)
 	{
 		if (object instanceof Player)
 			((Player) object).sendPacket(MonsterRace.getInstance().getRacePacket());
 	}
-
+	
 	@Override
 	public void removeKnownObject(WorldObject object)
 	{
 		super.removeKnownObject(object);
-
+		
 		if (object instanceof Player)
 		{
 			final Player player = ((Player) object);
-
+			
 			for (Npc npc : MonsterRace.getInstance().getMonsters())
 				player.sendPacket(new DeleteObject(npc));
 		}

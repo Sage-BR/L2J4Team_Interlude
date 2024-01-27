@@ -9,21 +9,21 @@ public class Q118_ToLeadAndBeLed extends Quest
 {
 	private static final String qn = "Q118_ToLeadAndBeLed";
 	private static final String qn2 = "Q123_TheLeaderAndTheFollower";
-
+	
 	// Npc
 	private static final int PINTER = 30298;
-
+	
 	// Mobs
 	private static final int MAILLE_LIZARDMAN = 20919;
 	private static final int MAILLE_LIZARDMAN_SCOUT = 20920;
 	private static final int MAILLE_LIZARDMAN_GUARD = 20921;
 	private static final int KING_OF_THE_ARANEID = 20927;
-
+	
 	// Items
 	private static final int BLOOD_OF_MAILLE_LIZARDMAN = 8062;
 	private static final int LEG_OF_KING_ARANEID = 8063;
 	private static final int CRYSTAL_D = 1458;
-
+	
 	// Rewards
 	private static final int CLAN_OATH_HELM = 7850;
 	private static final int CLAN_OATH_ARMOR = 7851;
@@ -35,19 +35,19 @@ public class Q118_ToLeadAndBeLed extends Quest
 	private static final int CLAN_OATH_AKETON = 7857;
 	private static final int CLAN_OATH_PADDED_GLOVES = 7858;
 	private static final int CLAN_OATH_SANDALS = 7859;
-
+	
 	public Q118_ToLeadAndBeLed()
 	{
 		super(118, "To Lead and Be Led");
-
+		
 		setItemsIds(BLOOD_OF_MAILLE_LIZARDMAN, LEG_OF_KING_ARANEID);
-
+		
 		addStartNpc(PINTER);
 		addTalkId(PINTER);
-
+		
 		addKillId(MAILLE_LIZARDMAN, MAILLE_LIZARDMAN_SCOUT, MAILLE_LIZARDMAN_GUARD, KING_OF_THE_ARANEID);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -55,7 +55,7 @@ public class Q118_ToLeadAndBeLed extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30298-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -132,10 +132,10 @@ public class Q118_ToLeadAndBeLed extends Quest
 				}
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -143,7 +143,7 @@ public class Q118_ToLeadAndBeLed extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -176,7 +176,7 @@ public class Q118_ToLeadAndBeLed extends Quest
 						htmltext = "30298-09.htm";
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				final int state = st.getInt("state");
 				if (state == 1)
@@ -220,10 +220,10 @@ public class Q118_ToLeadAndBeLed extends Quest
 					if (st.getQuestItemsCount(LEG_OF_KING_ARANEID) > 7)
 					{
 						htmltext = "30298-17.htm";
-
+						
 						st.takeItems(LEG_OF_KING_ARANEID, -1);
 						st.giveItems(CLAN_OATH_HELM, 1);
-
+						
 						switch (st.getInt("stateEx"))
 						{
 							case 1:
@@ -231,20 +231,20 @@ public class Q118_ToLeadAndBeLed extends Quest
 								st.giveItems(CLAN_OATH_GAUNTLETS, 1);
 								st.giveItems(CLAN_OATH_SABATON, 1);
 								break;
-
+							
 							case 2:
 								st.giveItems(CLAN_OATH_BRIGANDINE, 1);
 								st.giveItems(CLAN_OATH_LEATHER_GLOVES, 1);
 								st.giveItems(CLAN_OATH_BOOTS, 1);
 								break;
-
+							
 							case 3:
 								st.giveItems(CLAN_OATH_AKETON, 1);
 								st.giveItems(CLAN_OATH_PADDED_GLOVES, 1);
 								st.giveItems(CLAN_OATH_SANDALS, 1);
 								break;
 						}
-
+						
 						st.playSound(QuestState.SOUND_FINISH);
 						st.exitQuest(false);
 					}
@@ -252,28 +252,28 @@ public class Q118_ToLeadAndBeLed extends Quest
 						htmltext = "30298-16.htm";
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		if (player.getSponsor() == 0)
 		{
 			st.exitQuest(true);
 			return null;
 		}
-
+		
 		final int cond = st.getInt("cond");
 		switch (npc.getNpcId())
 		{
@@ -283,13 +283,13 @@ public class Q118_ToLeadAndBeLed extends Quest
 				if (cond == 1 && st.dropItems(BLOOD_OF_MAILLE_LIZARDMAN, 1, 10, 700000))
 					st.set("cond", "2");
 				break;
-
+			
 			case KING_OF_THE_ARANEID:
 				if (cond == 7 && getSponsor(player) && st.dropItems(LEG_OF_KING_ARANEID, 1, 8, 700000))
 					st.set("cond", "8");
 				break;
 		}
-
+		
 		return null;
 	}
 }

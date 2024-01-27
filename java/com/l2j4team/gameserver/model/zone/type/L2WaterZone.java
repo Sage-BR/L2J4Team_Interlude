@@ -14,12 +14,12 @@ public class L2WaterZone extends L2ZoneType
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		character.setInsideZone(ZoneId.WATER, true);
-
+		
 		if (character instanceof Player)
 			((Player) character).broadcastUserInfo();
 		else if (character instanceof Npc)
@@ -33,12 +33,12 @@ public class L2WaterZone extends L2ZoneType
 			}
 		}
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.WATER, false);
-
+		
 		if (character instanceof Player)
 			((Player) character).broadcastUserInfo();
 		else if (character instanceof Npc)
@@ -52,17 +52,17 @@ public class L2WaterZone extends L2ZoneType
 			}
 		}
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 	public int getWaterZ()
 	{
 		return getZone().getHighZ();

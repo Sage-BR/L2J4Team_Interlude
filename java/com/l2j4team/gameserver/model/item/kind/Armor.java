@@ -9,7 +9,7 @@ import com.l2j4team.gameserver.templates.StatsSet;
 public final class Armor extends Item
 {
 	private ArmorType _type;
-
+	
 	/**
 	 * Constructor for Armor.<BR>
 	 * <BR>
@@ -24,7 +24,7 @@ public final class Armor extends Item
 	{
 		super(set);
 		_type = ArmorType.valueOf(set.getString("armor_type", "none").toUpperCase());
-
+		
 		int _bodyPart = getBodyPart();
 		if (_bodyPart == Item.SLOT_NECK || _bodyPart == Item.SLOT_FACE || _bodyPart == Item.SLOT_HAIR || _bodyPart == Item.SLOT_HAIRALL || (_bodyPart & Item.SLOT_L_EAR) != 0 || (_bodyPart & Item.SLOT_L_FINGER) != 0 || (_bodyPart & Item.SLOT_BACK) != 0)
 		{
@@ -35,12 +35,12 @@ public final class Armor extends Item
 		{
 			if (_type == ArmorType.NONE && getBodyPart() == Item.SLOT_L_HAND) // retail define shield as NONE
 				_type = ArmorType.SHIELD;
-
+			
 			_type1 = Item.TYPE1_SHIELD_ARMOR;
 			_type2 = Item.TYPE2_SHIELD_ARMOR;
 		}
 	}
-
+	
 	/**
 	 * Returns the type of the armor.
 	 * @return ArmorType
@@ -50,7 +50,7 @@ public final class Armor extends Item
 	{
 		return _type;
 	}
-
+	
 	/**
 	 * Returns the ID of the item after applying the mask.
 	 * @return int : ID of the item

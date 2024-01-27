@@ -3,12 +3,12 @@ package com.l2j4team.gameserver.network.serverpackets;
 public final class TutorialShowQuestionMark extends L2GameServerPacket
 {
 	private final int _markId;
-
+	
 	public TutorialShowQuestionMark(int blink)
 	{
 		_markId = blink;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

@@ -13,7 +13,7 @@ public class SpecialXMas implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		playable.sendPacket(new ShowXMasSeal(item.getItemId()));
 	}
 }

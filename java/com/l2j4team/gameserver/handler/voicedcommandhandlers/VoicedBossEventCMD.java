@@ -17,13 +17,19 @@ public class VoicedBossEventCMD implements IVoicedCommandHandler
 				activeChar.sendMessage("Boss Event is not running!");
 				return false;
 			}
+			// Check if the player's level is at least 76
+			if (activeChar.getLevel() < 76)
+			{
+				activeChar.sendMessage("You need to be level 76 or higher to participate in the Boss Event!");
+				return false;
+			}
 			if (!BossEvent.getInstance().isRegistered(activeChar))
 			{
 				if (BossEvent.getInstance().addPlayer(activeChar))
 				{
 					activeChar.sendMessage("You have been successfully registered in Boss Event!");
 				}
-
+				
 			}
 			else
 			{
@@ -35,15 +41,15 @@ public class VoicedBossEventCMD implements IVoicedCommandHandler
 		}
 		return false;
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
-
+		
 		return new String[]
 		{
 			"bossevent"
 		};
 	}
-
+	
 }

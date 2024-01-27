@@ -20,24 +20,24 @@ public class SearchingMaster extends L2AttackableAIScript
 		20972,
 		20973
 	};
-
+	
 	public SearchingMaster()
 	{
 		super("ai/group");
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addAttackId(MOBS);
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player player, int damage, boolean isPet, L2Skill skill)
 	{
 		if (player == null)
 			return null;
-
+		
 		attack(((Attackable) npc), player);
 		return super.onAttack(npc, player, damage, isPet, skill);
 	}

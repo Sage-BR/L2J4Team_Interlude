@@ -8,13 +8,13 @@ public class NpcStat extends CreatureStat
 	{
 		super(activeChar);
 	}
-
+	
 	@Override
 	public byte getLevel()
 	{
 		return getActiveChar().getTemplate().getLevel();
 	}
-
+	
 	@Override
 	public Npc getActiveChar()
 	{

@@ -8,7 +8,7 @@ public class PlayableStatus extends CreatureStatus
 	{
 		super(activeChar);
 	}
-
+	
 	@Override
 	public Playable getActiveChar()
 	{

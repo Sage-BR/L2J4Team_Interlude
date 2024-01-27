@@ -10,7 +10,7 @@ public final class CannotMoveAnymore extends L2GameClientPacket
 	private int _y;
 	private int _z;
 	private int _heading;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -19,14 +19,14 @@ public final class CannotMoveAnymore extends L2GameClientPacket
 		_z = readD();
 		_heading = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Creature player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		if (player.hasAI())
 			player.getAI().notifyEvent(CtrlEvent.EVT_ARRIVED_BLOCKED, new SpawnLocation(_x, _y, _z, _heading));
 	}

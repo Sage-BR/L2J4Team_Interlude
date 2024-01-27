@@ -14,18 +14,18 @@ public class CastleGatekeeper extends Folk
 {
 	protected boolean _currentTask;
 	private int _delay;
-
+	
 	public CastleGatekeeper(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
 		StringTokenizer st = new StringTokenizer(command, " ");
 		String actualCommand = st.nextToken(); // Get actual command
-
+		
 		if (actualCommand.equalsIgnoreCase("tele"))
 		{
 			if (!_currentTask)
@@ -39,11 +39,11 @@ public class CastleGatekeeper extends Folk
 				}
 				else
 					_delay = 0;
-
+				
 				_currentTask = true;
 				ThreadPool.schedule(new oustAllPlayers(), _delay);
 			}
-
+			
 			final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 			html.setFile("data/html/castleteleporter/MassGK-1.htm");
 			html.replace("%delay%", getDelayInSeconds());
@@ -52,7 +52,7 @@ public class CastleGatekeeper extends Folk
 		else
 			super.onBypassFeedback(player, command);
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player)
 	{
@@ -66,14 +66,14 @@ public class CastleGatekeeper extends Folk
 		}
 		else
 			filename = "data/html/castleteleporter/MassGK-1.htm";
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", getObjectId());
 		html.replace("%delay%", getDelayInSeconds());
 		player.sendPacket(html);
 	}
-
+	
 	protected class oustAllPlayers implements Runnable
 	{
 		@Override
@@ -84,7 +84,7 @@ public class CastleGatekeeper extends Folk
 			{
 				final NpcSay cs = new NpcSay(getObjectId(), 1, getNpcId(), "The defenders of " + getCastle().getName() + " castle have been teleported to the inner castle.");
 				final int region = MapRegionTable.getInstance().getMapRegion(getX(), getY());
-
+				
 				for (Player player : World.getInstance().getPlayers())
 				{
 					if (region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
@@ -95,7 +95,7 @@ public class CastleGatekeeper extends Folk
 			_currentTask = false;
 		}
 	}
-
+	
 	private final int getDelayInSeconds()
 	{
 		return (_delay > 0) ? _delay / 1000 : 0;

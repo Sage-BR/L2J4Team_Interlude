@@ -13,7 +13,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q171_ActsOfEvil extends Quest
 {
 	private static final String qn = "Q171_ActsOfEvil";
-
+	
 	// Items
 	private static final int BLADE_MOLD = 4239;
 	private static final int TYRA_BILL = 4240;
@@ -26,7 +26,7 @@ public class Q171_ActsOfEvil extends Quest
 	private static final int CERTIFICATE = 4247;
 	private static final int CARGO_BOX = 4248;
 	private static final int OL_MAHUM_HEAD = 4249;
-
+	
 	// NPCs
 	private static final int ALVAH = 30381;
 	private static final int ARODIN = 30207;
@@ -34,7 +34,7 @@ public class Q171_ActsOfEvil extends Quest
 	private static final int ROLENTO = 30437;
 	private static final int NETI = 30425;
 	private static final int BURAI = 30617;
-
+	
 	// Turek Orcs drop chances
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
@@ -43,19 +43,19 @@ public class Q171_ActsOfEvil extends Quest
 		CHANCES.put(20498, 510000);
 		CHANCES.put(20499, 500000);
 	}
-
+	
 	public Q171_ActsOfEvil()
 	{
 		super(171, "Acts of Evil");
-
+		
 		setItemsIds(BLADE_MOLD, TYRA_BILL, RANGER_REPORT_1, RANGER_REPORT_2, RANGER_REPORT_3, RANGER_REPORT_4, WEAPON_TRADE_CONTRACT, ATTACK_DIRECTIVES, CERTIFICATE, CARGO_BOX, OL_MAHUM_HEAD);
-
+		
 		addStartNpc(ALVAH);
 		addTalkId(ALVAH, ARODIN, TYRA, ROLENTO, NETI, BURAI);
-
+		
 		addKillId(20496, 20497, 20498, 20499, 20062, 20064, 20066, 20438);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -63,7 +63,7 @@ public class Q171_ActsOfEvil extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30381-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -101,10 +101,10 @@ public class Q171_ActsOfEvil extends Quest
 			st.takeItems(CARGO_BOX, 1);
 			st.takeItems(CERTIFICATE, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -112,13 +112,13 @@ public class Q171_ActsOfEvil extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 27) ? "30381-01a.htm" : "30381-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -160,7 +160,7 @@ public class Q171_ActsOfEvil extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case ARODIN:
 						if (cond == 1)
 							htmltext = "30207-01.htm";
@@ -181,7 +181,7 @@ public class Q171_ActsOfEvil extends Quest
 						else if (cond > 3)
 							htmltext = "30207-03a.htm";
 						break;
-
+					
 					case TYRA:
 						if (cond == 2)
 						{
@@ -201,7 +201,7 @@ public class Q171_ActsOfEvil extends Quest
 						else if (cond > 3)
 							htmltext = "30420-02.htm";
 						break;
-
+					
 					case NETI:
 						if (cond == 7)
 						{
@@ -212,14 +212,14 @@ public class Q171_ActsOfEvil extends Quest
 						else if (cond > 7)
 							htmltext = "30425-02.htm";
 						break;
-
+					
 					case ROLENTO:
 						if (cond == 8)
 							htmltext = "30437-01.htm";
 						else if (cond > 8)
 							htmltext = "30437-03a.htm";
 						break;
-
+					
 					case BURAI:
 						if (cond == 9 && st.hasQuestItems(CERTIFICATE, CARGO_BOX, ATTACK_DIRECTIVES))
 							htmltext = "30617-01.htm";
@@ -239,24 +239,24 @@ public class Q171_ActsOfEvil extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int npcId = npc.getNpcId();
-
+		
 		switch (npcId)
 		{
 			case 20496:
@@ -270,7 +270,7 @@ public class Q171_ActsOfEvil extends Quest
 						addSpawn(27190, player, false, 0, true);
 				}
 				break;
-
+			
 			case 20062:
 			case 20064:
 				if (st.getInt("cond") == 5)
@@ -300,7 +300,7 @@ public class Q171_ActsOfEvil extends Quest
 					}
 				}
 				break;
-
+			
 			case 20438:
 				if (st.getInt("cond") == 6 && Rnd.get(100) < 10 && !st.hasQuestItems(WEAPON_TRADE_CONTRACT, ATTACK_DIRECTIVES))
 				{
@@ -309,13 +309,13 @@ public class Q171_ActsOfEvil extends Quest
 					st.giveItems(ATTACK_DIRECTIVES, 1);
 				}
 				break;
-
+			
 			case 20066:
 				if (st.getInt("cond") == 10)
 					st.dropItems(OL_MAHUM_HEAD, 1, 30, 500000);
 				break;
 		}
-
+		
 		return null;
 	}
 }

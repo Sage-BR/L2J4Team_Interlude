@@ -14,11 +14,11 @@ public class ExShowCropSetting extends L2GameServerPacket
 	private final Set<Seed> _seeds;
 	private final Map<Integer, CropProcure> _current = new HashMap<>();
 	private final Map<Integer, CropProcure> _next = new HashMap<>();
-
+	
 	public ExShowCropSetting(int manorId)
 	{
 		final CastleManorManager manor = CastleManorManager.getInstance();
-
+		
 		_manorId = manorId;
 		_seeds = manor.getSeedsForCastle(_manorId);
 		for (Seed s : _seeds)
@@ -27,23 +27,23 @@ public class ExShowCropSetting extends L2GameServerPacket
 			CropProcure cp = manor.getCropProcure(manorId, s.getCropId(), false);
 			if (cp != null)
 				_current.put(s.getCropId(), cp);
-
+			
 			// Next period
 			cp = manor.getCropProcure(manorId, s.getCropId(), true);
 			if (cp != null)
 				_next.put(s.getCropId(), cp);
 		}
 	}
-
+	
 	@Override
 	public void writeImpl()
 	{
 		writeC(0xFE); // Id
 		writeH(0x20); // SubId
-
+		
 		writeD(_manorId); // manor id
 		writeD(_seeds.size()); // size
-
+		
 		CropProcure cp;
 		for (Seed s : _seeds)
 		{
@@ -53,12 +53,12 @@ public class ExShowCropSetting extends L2GameServerPacket
 			writeD(s.getReward(1)); // reward 1 id
 			writeC(1);
 			writeD(s.getReward(2)); // reward 2 id
-
+			
 			writeD(s.getCropLimit()); // next sale limit
 			writeD(0); // ???
 			writeD(s.getCropMinPrice()); // min crop price
 			writeD(s.getCropMaxPrice()); // max crop price
-
+			
 			// Current period
 			if (_current.containsKey(s.getCropId()))
 			{

@@ -12,21 +12,21 @@ public class GMViewItemList extends L2GameServerPacket
 	private final Set<ItemInstance> _items;
 	private final int _limit;
 	private final String _playerName;
-
+	
 	public GMViewItemList(Player cha)
 	{
 		_items = cha.getInventory().getItems();
 		_playerName = cha.getName();
 		_limit = cha.getInventoryLimit();
 	}
-
+	
 	public GMViewItemList(Pet cha)
 	{
 		_items = cha.getInventory().getItems();
 		_playerName = cha.getName();
 		_limit = cha.getInventoryLimit();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -35,11 +35,11 @@ public class GMViewItemList extends L2GameServerPacket
 		writeD(_limit);
 		writeH(0x01); // show window ??
 		writeH(_items.size());
-
+		
 		for (ItemInstance temp : _items)
 		{
 			Item item = temp.getItem();
-
+			
 			writeH(item.getType1());
 			writeD(temp.getObjectId());
 			writeD(temp.getItemId());

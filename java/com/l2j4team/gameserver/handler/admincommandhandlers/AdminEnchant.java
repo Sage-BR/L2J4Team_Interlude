@@ -37,19 +37,19 @@ public class AdminEnchant implements IAdminCommandHandler
 		"admin_setba", // 13
 		"admin_enchant"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (activeChar.getAccessLevel().getLevel() < 7)
 			return false;
-
+		
 		if (command.equals("admin_enchant"))
 			showMainPage(activeChar);
 		else
 		{
 			int armorType = -1;
-
+			
 			if (command.startsWith("admin_seteh"))
 				armorType = Inventory.PAPERDOLL_HEAD;
 			else if (command.startsWith("admin_setec"))
@@ -78,13 +78,13 @@ public class AdminEnchant implements IAdminCommandHandler
 				armorType = Inventory.PAPERDOLL_UNDER;
 			else if (command.startsWith("admin_setba"))
 				armorType = Inventory.PAPERDOLL_BACK;
-
+			
 			if (armorType != -1)
 			{
 				try
 				{
 					int ench = Integer.parseInt(command.substring(12));
-
+					
 					// check value
 					if (ench < 0 || ench > 65535)
 						activeChar.sendMessage("You must set the enchant level to be between 0-65535.");
@@ -96,36 +96,36 @@ public class AdminEnchant implements IAdminCommandHandler
 					activeChar.sendMessage("Please specify a new enchant value.");
 				}
 			}
-
+			
 			// show the enchant menu after an action
 			showMainPage(activeChar);
 		}
-
+		
 		return true;
 	}
-
+	
 	private static void setEnchant(Player activeChar, int ench, int armorType)
 	{
 		WorldObject target = activeChar.getTarget();
 		if (!(target instanceof Player))
 			target = activeChar;
-
+		
 		final Player player = (Player) target;
-
+		
 		final ItemInstance item = player.getInventory().getPaperdollItem(armorType);
 		if (item != null && item.getLocationSlot() == armorType)
 		{
 			final Item it = item.getItem();
 			final int oldEnchant = item.getEnchantLevel();
-
+			
 			item.setEnchantLevel(ench);
 			item.updateDatabase();
-
+			
 			// If item is equipped, verify the skill obtention/drop (+4 duals, +6 armorset).
 			if (item.isEquipped())
 			{
 				final int currentEnchant = item.getEnchantLevel();
-
+				
 				// Skill bestowed by +4 duals.
 				if (it instanceof Weapon)
 				{
@@ -201,19 +201,19 @@ public class AdminEnchant implements IAdminCommandHandler
 					}
 				}
 			}
-
+			
 			player.sendPacket(new ItemList(player, false));
 			player.broadcastUserInfo();
-
+			
 			activeChar.sendMessage("Changed enchantment of " + player.getName() + "'s " + it.getName() + " from " + oldEnchant + " to " + ench + ".");
 		}
 	}
-
+	
 	private static void showMainPage(Player activeChar)
 	{
 		AdminHelpPage.showHelpPage(activeChar, "enchant.htm");
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

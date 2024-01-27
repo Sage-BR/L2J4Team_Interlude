@@ -8,18 +8,18 @@ import com.l2j4team.gameserver.model.itemcontainer.Inventory;
 public class BowRodListener implements OnEquipListener
 {
 	private static BowRodListener instance = new BowRodListener();
-
+	
 	public static BowRodListener getInstance()
 	{
 		return instance;
 	}
-
+	
 	@Override
 	public void onEquip(int slot, ItemInstance item, Playable actor)
 	{
 		if (slot != Inventory.PAPERDOLL_RHAND)
 			return;
-
+		
 		if (item.getItemType() == WeaponType.BOW)
 		{
 			final ItemInstance arrow = actor.getInventory().findArrowForBow(item.getItem());
@@ -27,13 +27,13 @@ public class BowRodListener implements OnEquipListener
 				actor.getInventory().setPaperdollItem(Inventory.PAPERDOLL_LHAND, arrow);
 		}
 	}
-
+	
 	@Override
 	public void onUnequip(int slot, ItemInstance item, Playable actor)
 	{
 		if (slot != Inventory.PAPERDOLL_RHAND)
 			return;
-
+		
 		if (item.getItemType() == WeaponType.BOW)
 		{
 			final ItemInstance arrow = actor.getInventory().getPaperdollItem(Inventory.PAPERDOLL_LHAND);

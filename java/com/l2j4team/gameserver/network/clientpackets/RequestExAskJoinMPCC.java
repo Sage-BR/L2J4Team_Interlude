@@ -29,25 +29,25 @@ import com.l2j4team.gameserver.network.serverpackets.SystemMessage;
 public final class RequestExAskJoinMPCC extends L2GameClientPacket
 {
 	private String _name;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_name = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		Player player = World.getInstance().getPlayer(_name);
 		// You can't invite yourself
 		if ((player == null) || (activeChar.isInParty() && player.isInParty() && activeChar.getParty().equals(player.getParty())))
 			return;
-
+		
 		// activeChar is in a Party?
 		if (activeChar.isInParty())
 		{
@@ -94,11 +94,11 @@ public final class RequestExAskJoinMPCC extends L2GameClientPacket
 				activeChar.sendPacket(SystemMessageId.CANNOT_INVITE_TO_COMMAND_CHANNEL);
 		}
 	}
-
+	
 	private static void askJoinMPCC(Player requestor, Player target)
 	{
 		boolean hasRight = false;
-
+		
 		if (requestor.getClan() != null && requestor.getClan().getLeaderId() == requestor.getObjectId() && requestor.getClan().getLevel() >= 5) // Clanleader of lvl5 Clan or higher
 			hasRight = true;
 		else if (requestor.getInventory().getItemByItemId(8871) != null) // 8871 Strategy Guide. Should destroyed after sucessfull invite?
@@ -115,13 +115,13 @@ public final class RequestExAskJoinMPCC extends L2GameClientPacket
 				}
 			}
 		}
-
+		
 		if (!hasRight)
 		{
 			requestor.sendPacket(SystemMessageId.COMMAND_CHANNEL_ONLY_BY_LEVEL_5_CLAN_LEADER_PARTY_LEADER);
 			return;
 		}
-
+		
 		// Get the target's party leader, and do whole actions on him.
 		Player targetLeader = target.getParty().getLeader();
 		if (!targetLeader.isProcessingRequest())

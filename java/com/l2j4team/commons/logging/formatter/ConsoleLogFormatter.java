@@ -11,9 +11,9 @@ public class ConsoleLogFormatter extends MasterFormatter
 	public String format(LogRecord record)
 	{
 		final StringBuilder sb = new StringBuilder(500);
-
+		
 		StringUtil.append(sb, record.getMessage(), CRLF);
-
+		
 		final Throwable throwable = record.getThrown();
 		if (throwable != null)
 		{

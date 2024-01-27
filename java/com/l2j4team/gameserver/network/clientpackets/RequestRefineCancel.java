@@ -10,30 +10,30 @@ import com.l2j4team.gameserver.network.serverpackets.SystemMessage;
 public final class RequestRefineCancel extends L2GameClientPacket
 {
 	private int _targetItemObjId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_targetItemObjId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		final ItemInstance targetItem = activeChar.getInventory().getItemByObjectId(_targetItemObjId);
 		if (targetItem == null)
 		{
 			activeChar.sendPacket(new ExVariationCancelResult(0));
 			return;
 		}
-
+		
 		if (targetItem.getOwnerId() != activeChar.getObjectId())
 			return;
-
+		
 		// cannot remove augmentation from a not augmented item
 		if (!targetItem.isAugmented())
 		{
@@ -41,7 +41,7 @@ public final class RequestRefineCancel extends L2GameClientPacket
 			activeChar.sendPacket(new ExVariationCancelResult(0));
 			return;
 		}
-
+		
 		// get the price
 		int price = 0;
 		switch (targetItem.getItem().getCrystalType())
@@ -54,14 +54,14 @@ public final class RequestRefineCancel extends L2GameClientPacket
 				else
 					price = 210000;
 				break;
-
+			
 			case B:
 				if (targetItem.getCrystalCount() < 1746)
 					price = 240000;
 				else
 					price = 270000;
 				break;
-
+			
 			case A:
 				if (targetItem.getCrystalCount() < 2160)
 					price = 330000;
@@ -70,39 +70,39 @@ public final class RequestRefineCancel extends L2GameClientPacket
 				else
 					price = 420000;
 				break;
-
+			
 			case S:
 				price = 480000;
 				break;
-
+			
 			// any other item type is not augmentable
 			default:
 				activeChar.sendPacket(new ExVariationCancelResult(0));
 				return;
 		}
-
+		
 		// try to reduce the players adena
 		if (!activeChar.reduceAdena("RequestRefineCancel", price, null, true))
 		{
 			activeChar.sendPacket(new ExVariationCancelResult(0));
 			return;
 		}
-
+		
 		// unequip item
 		if (targetItem.isEquipped())
 			activeChar.disarmWeapons();
-
+		
 		// remove the augmentation
 		targetItem.removeAugmentation();
-
+		
 		// send ExVariationCancelResult
 		activeChar.sendPacket(new ExVariationCancelResult(1));
-
+		
 		// send inventory update
 		InventoryUpdate iu = new InventoryUpdate();
 		iu.addModifiedItem(targetItem);
 		activeChar.sendPacket(iu);
-
+		
 		// send system message
 		SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.AUGMENTATION_HAS_BEEN_SUCCESSFULLY_REMOVED_FROM_YOUR_S1);
 		sm.addItemName(targetItem);

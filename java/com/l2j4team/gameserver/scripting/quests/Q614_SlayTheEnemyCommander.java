@@ -8,24 +8,24 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q614_SlayTheEnemyCommander extends Quest
 {
 	private static final String qn = "Q614_SlayTheEnemyCommander";
-
+	
 	// Quest Items
 	private static final int HEAD_OF_TAYR = 7241;
 	private static final int FEATHER_OF_WISDOM = 7230;
 	private static final int VARKA_ALLIANCE_4 = 7224;
-
+	
 	public Q614_SlayTheEnemyCommander()
 	{
 		super(614, "Slay the enemy commander!");
-
+		
 		setItemsIds(HEAD_OF_TAYR);
-
+		
 		addStartNpc(31377); // Ashas Varka Durai
 		addTalkId(31377);
-
+		
 		addKillId(25302); // Tayr
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -33,7 +33,7 @@ public class Q614_SlayTheEnemyCommander extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31377-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -57,10 +57,10 @@ public class Q614_SlayTheEnemyCommander extends Quest
 				st.playSound(QuestState.SOUND_ACCEPT);
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -68,7 +68,7 @@ public class Q614_SlayTheEnemyCommander extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -82,15 +82,15 @@ public class Q614_SlayTheEnemyCommander extends Quest
 				else
 					htmltext = "31377-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				htmltext = (st.hasQuestItems(HEAD_OF_TAYR)) ? "31377-05.htm" : "31377-06.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
@@ -107,7 +107,7 @@ public class Q614_SlayTheEnemyCommander extends Quest
 				}
 			}
 		}
-
+		
 		return null;
 	}
 }

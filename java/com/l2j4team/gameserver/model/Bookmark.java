@@ -10,7 +10,7 @@ public class Bookmark
 	private final int _x;
 	private final int _y;
 	private final int _z;
-
+	
 	public Bookmark(String name, int objId, int x, int y, int z)
 	{
 		_name = name;
@@ -19,27 +19,27 @@ public class Bookmark
 		_y = y;
 		_z = z;
 	}
-
+	
 	public String getName()
 	{
 		return _name;
 	}
-
+	
 	public int getId()
 	{
 		return _objId;
 	}
-
+	
 	public int getX()
 	{
 		return _x;
 	}
-
+	
 	public int getY()
 	{
 		return _y;
 	}
-
+	
 	public int getZ()
 	{
 		return _z;

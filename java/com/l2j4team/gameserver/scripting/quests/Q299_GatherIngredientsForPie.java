@@ -8,29 +8,29 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q299_GatherIngredientsForPie extends Quest
 {
 	private static final String qn = "Q299_GatherIngredientsForPie";
-
+	
 	// NPCs
 	private static final int LARA = 30063;
 	private static final int BRIGHT = 30466;
 	private static final int EMILY = 30620;
-
+	
 	// Items
 	private static final int FRUIT_BASKET = 7136;
 	private static final int AVELLAN_SPICE = 7137;
 	private static final int HONEY_POUCH = 7138;
-
+	
 	public Q299_GatherIngredientsForPie()
 	{
 		super(299, "Gather Ingredients for Pie");
-
+		
 		setItemsIds(FRUIT_BASKET, AVELLAN_SPICE, HONEY_POUCH);
-
+		
 		addStartNpc(EMILY);
 		addTalkId(EMILY, LARA, BRIGHT);
-
+		
 		addKillId(20934, 20935); // Wasp Worker, Wasp Leader
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -38,7 +38,7 @@ public class Q299_GatherIngredientsForPie extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30620-1.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -82,10 +82,10 @@ public class Q299_GatherIngredientsForPie extends Quest
 			else
 				st.set("cond", "5");
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -93,13 +93,13 @@ public class Q299_GatherIngredientsForPie extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 34) ? "30620-0a.htm" : "30620-0.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -134,14 +134,14 @@ public class Q299_GatherIngredientsForPie extends Quest
 						else if (cond == 6)
 							htmltext = "30620-6.htm";
 						break;
-
+					
 					case LARA:
 						if (cond == 3)
 							htmltext = "30063-0.htm";
 						else if (cond > 3)
 							htmltext = "30063-1a.htm";
 						break;
-
+					
 					case BRIGHT:
 						if (cond == 5)
 							htmltext = "30466-0.htm";
@@ -151,22 +151,22 @@ public class Q299_GatherIngredientsForPie extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMember(player, npc, "1");
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		if (st.dropItems(HONEY_POUCH, 1, 100, (npc.getNpcId() == 20934) ? 571000 : 625000))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

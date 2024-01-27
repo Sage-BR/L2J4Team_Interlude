@@ -47,36 +47,36 @@ public class AdminSiege implements IAdminCommandHandler
 		"admin_clanhallteleportself",
 		"admin_reset_certificates"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
 		if (activeChar.getAccessLevel().getLevel() < 7)
 			return false;
-
+		
 		StringTokenizer st = new StringTokenizer(command, " ");
 		command = st.nextToken(); // Get actual command
-
+		
 		// Get castle
 		Castle castle = null;
 		ClanHall clanhall = null;
-
+		
 		if (command.startsWith("admin_clanhall"))
 			clanhall = ClanHallManager.getInstance().getClanHallById(Integer.parseInt(st.nextToken()));
 		else if (st.hasMoreTokens())
 			castle = CastleManager.getInstance().getCastleByName(st.nextToken());
-
+		
 		if (clanhall == null && (castle == null || castle.getCastleId() < 0))
 		{
 			showCastleSelectPage(activeChar);
 			return true;
 		}
-
+		
 		WorldObject target = activeChar.getTarget();
 		Player player = null;
 		if (target instanceof Player)
 			player = (Player) target;
-
+		
 		if (castle != null)
 		{
 			if (command.equalsIgnoreCase("admin_add_attacker"))
@@ -139,7 +139,7 @@ public class AdminSiege implements IAdminCommandHandler
 			{
 				castle.setLeftCertificates(300, true);
 			}
-
+			
 			final NpcHtmlMessage html = new NpcHtmlMessage(0);
 			html.setFile("data/html/admin/castle.htm");
 			html.replace("%castleName%", castle.getName());
@@ -149,30 +149,30 @@ public class AdminSiege implements IAdminCommandHandler
 			html.replace("%droppedTicketsNumber%", castle.getDroppedTickets().size());
 			html.replace("%npcsNumber%", castle.getRelatedNpcIds().size());
 			html.replace("%certificates%", castle.getLeftCertificates());
-
+			
 			final StringBuilder sb = new StringBuilder();
-
+			
 			// Feed Control Tower infos.
 			for (TowerSpawnLocation spawn : castle.getControlTowers())
 			{
 				final String teleLoc = spawn.toString().replaceAll(",", "");
 				StringUtil.append(sb, "<a action=\"bypass -h admin_move_to ", teleLoc, "\">", teleLoc, "</a><br1>");
 			}
-
+			
 			html.replace("%ct%", sb.toString());
-
+			
 			// Cleanup the sb to reuse it.
 			sb.setLength(0);
-
+			
 			// Feed Flame Tower infos.
 			for (TowerSpawnLocation spawn : castle.getFlameTowers())
 			{
 				final String teleLoc = spawn.toString().replaceAll(",", "");
 				StringUtil.append(sb, "<a action=\"bypass -h admin_move_to ", teleLoc, "\">", teleLoc, "</a><br1>");
 			}
-
+			
 			html.replace("%ft%", sb.toString());
-
+			
 			activeChar.sendPacket(html);
 		}
 		else if (clanhall != null)
@@ -216,9 +216,9 @@ public class AdminSiege implements IAdminCommandHandler
 				if (zone != null)
 					activeChar.teleToLocation(zone.getSpawnLoc(), 0);
 			}
-
+			
 			final Clan owner = ClanTable.getInstance().getClan(clanhall.getOwnerId());
-
+			
 			final NpcHtmlMessage html = new NpcHtmlMessage(0);
 			html.setFile("data/html/admin/clanhall.htm");
 			html.replace("%clanhallName%", clanhall.getName());
@@ -228,14 +228,14 @@ public class AdminSiege implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	private static void showCastleSelectPage(Player activeChar)
 	{
 		int i = 0;
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/admin/castles.htm");
-
+		
 		final StringBuilder sb = new StringBuilder();
 		for (Castle castle : CastleManager.getInstance().getCastles())
 		{
@@ -244,7 +244,7 @@ public class AdminSiege implements IAdminCommandHandler
 				StringUtil.append(sb, "<td fixwidth=90><a action=\"bypass -h admin_siege ", castle.getName(), "\">", castle.getName(), "</a></td>");
 				i++;
 			}
-
+			
 			if (i > 2)
 			{
 				sb.append("</tr><tr>");
@@ -252,11 +252,11 @@ public class AdminSiege implements IAdminCommandHandler
 			}
 		}
 		html.replace("%castles%", sb.toString());
-
+		
 		// Cleanup sb.
 		sb.setLength(0);
 		i = 0;
-
+		
 		for (ClanHall clanhall : ClanHallManager.getInstance().getClanHalls().values())
 		{
 			if (clanhall != null)
@@ -264,7 +264,7 @@ public class AdminSiege implements IAdminCommandHandler
 				StringUtil.append(sb, "<td fixwidth=134><a action=\"bypass -h admin_clanhall ", clanhall.getId(), "\">", clanhall.getName(), "</a></td>");
 				i++;
 			}
-
+			
 			if (i > 1)
 			{
 				sb.append("</tr><tr>");
@@ -272,11 +272,11 @@ public class AdminSiege implements IAdminCommandHandler
 			}
 		}
 		html.replace("%clanhalls%", sb.toString());
-
+		
 		// Cleanup sb.
 		sb.setLength(0);
 		i = 0;
-
+		
 		for (ClanHall clanhall : ClanHallManager.getInstance().getFreeClanHalls().values())
 		{
 			if (clanhall != null)
@@ -284,7 +284,7 @@ public class AdminSiege implements IAdminCommandHandler
 				StringUtil.append(sb, "<td fixwidth=134><a action=\"bypass -h admin_clanhall ", clanhall.getId(), "\">", clanhall.getName(), "</a></td>");
 				i++;
 			}
-
+			
 			if (i > 1)
 			{
 				sb.append("</tr><tr>");
@@ -294,7 +294,7 @@ public class AdminSiege implements IAdminCommandHandler
 		html.replace("%freeclanhalls%", sb.toString());
 		activeChar.sendPacket(html);
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

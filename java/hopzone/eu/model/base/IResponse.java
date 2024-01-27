@@ -49,18 +49,18 @@ import hopzone.eu.vote.VDSystem;
 public abstract class IResponse
 {
 	private static final Logs _log = new Logs(IResponse.class.getSimpleName());
-	
+
 	private final String _url;
-	
+
 	public IResponse(final String url)
 	{
 		_url = url;
 	}
-	
+
 	public abstract void onFetch(final String TOPSITE, final int responseCode, final Json response);
-	
+
 	public abstract String replaceURL(final String retailURL);
-	
+
 	/**
 	 * Return connection
 	 * @param TOPSITE

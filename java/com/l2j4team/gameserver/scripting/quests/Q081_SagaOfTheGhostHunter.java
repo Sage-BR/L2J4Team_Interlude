@@ -7,7 +7,7 @@ public class Q081_SagaOfTheGhostHunter extends SagasSuperClass
 	public Q081_SagaOfTheGhostHunter()
 	{
 		super(81, "Saga of the Ghost Hunter");
-
+		
 		NPC = new int[]
 		{
 			31603,
@@ -23,7 +23,7 @@ public class Q081_SagaOfTheGhostHunter extends SagasSuperClass
 			31656,
 			31616
 		};
-
+		
 		Items = new int[]
 		{
 			7080,
@@ -39,38 +39,38 @@ public class Q081_SagaOfTheGhostHunter extends SagasSuperClass
 			7104,
 			0
 		};
-
+		
 		Mob = new int[]
 		{
 			27301,
 			27230,
 			27304
 		};
-
+		
 		classid = 108;
 		prevclass = 0x24;
-
+		
 		X = new int[]
 		{
 			164650,
 			47391,
 			47429
 		};
-
+		
 		Y = new int[]
 		{
 			-74121,
 			-56929,
 			-56923
 		};
-
+		
 		Z = new int[]
 		{
 			-2871,
 			-2370,
 			-2383
 		};
-
+		
 		registerNPCs();
 	}
 }

@@ -3,12 +3,12 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class AutoAttackStart extends L2GameServerPacket
 {
 	private final int _targetObjId;
-
+	
 	public AutoAttackStart(int targetId)
 	{
 		_targetObjId = targetId;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

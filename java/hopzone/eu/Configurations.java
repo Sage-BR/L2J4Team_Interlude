@@ -44,12 +44,12 @@ public class Configurations
 {
 	// logger
 	private static final Logs _log = new Logs(Configurations.class.getSimpleName());
-	
+
 	public static boolean DEBUG;
-	
+
 	// set delivery manager variables
 	public static boolean ITEM_DELIVERY_MANAGER;
-	
+
 	// set console variables
 	public static boolean VDS_CONSOLE_ENABLE;
 	public static String VDS_CONSOLE_FONT;
@@ -59,7 +59,7 @@ public class Configurations
 	public static int VDS_CONSOLE_COLOR_B;
 	public static int VDS_CONSOLE_WIDTH;
 	public static int VDS_CONSOLE_HEIGHT;
-	
+
 	// set https://hopzone.eu global reward variables
 	public static boolean HOPZONE_EU_GLOBAL_REWARD;
 	public static int HOPZONE_EU_SERVER_ID;
@@ -71,7 +71,7 @@ public class Configurations
 	// set https://hopzone.eu individual variables
 	public static boolean HOPZONE_EU_INDIVIDUAL_REWARD;
 	public static Map<Integer, List<Integer[]>> HOPZONE_EU_INDIVIDUAL_REWARDS = new HashMap<>();
-	
+
 	// set itopz global reward variables
 	public static boolean ITOPZ_GLOBAL_REWARD;
 	public static int ITOPZ_SERVER_ID;
@@ -83,7 +83,7 @@ public class Configurations
 	// set itopz individual variables
 	public static boolean ITOPZ_INDIVIDUAL_REWARD;
 	public static Map<Integer, List<Integer[]>> ITOPZ_INDIVIDUAL_REWARDS = new HashMap<>();
-	
+
 	// set hopzone net global reward variables
 	public static boolean HOPZONE_NET_GLOBAL_REWARD;
 	public static String HOPZONE_NET_SERVER_API_KEY;
@@ -94,7 +94,7 @@ public class Configurations
 	// set hopzone net individual variables
 	public static boolean HOPZONE_NET_INDIVIDUAL_REWARD;
 	public static Map<Integer, List<Integer[]>> HOPZONE_NET_INDIVIDUAL_REWARDS = new HashMap<>();
-	
+
 	// set l2topgameserver global reward variables
 	public static boolean L2TOPGAMESERVER_GLOBAL_REWARD;
 	public static String L2TOPGAMESERVER_API_KEY;
@@ -105,7 +105,7 @@ public class Configurations
 	// set l2topgameserver individual variables
 	public static boolean L2TOPGAMESERVER_INDIVIDUAL_REWARD;
 	public static Map<Integer, List<Integer[]>> L2TOPGAMESERVER_INDIVIDUAL_REWARDS = new HashMap<>();
-	
+
 	// set l2jbrasil global reward variables
 	public static boolean L2JBRASIL_GLOBAL_REWARD;
 	public static String L2JBRASIL_USER_NAME;
@@ -116,7 +116,7 @@ public class Configurations
 	// set l2jbrasil individual variables
 	public static boolean L2JBRASIL_INDIVIDUAL_REWARD;
 	public static Map<Integer, List<Integer[]>> L2JBRASIL_INDIVIDUAL_REWARDS = new HashMap<>();
-	
+
 	// set l2network global reward variables
 	public static boolean L2NETWORK_GLOBAL_REWARD;
 	public static String L2NETWORK_API_KEY;
@@ -128,7 +128,7 @@ public class Configurations
 	// set l2network individual variables
 	public static boolean L2NETWORK_INDIVIDUAL_REWARD;
 	public static Map<Integer, List<Integer[]>> L2NETWORK_INDIVIDUAL_REWARDS = new HashMap<>();
-	
+
 	// set hotservers global reward variables
 	public static boolean HOTSERVERS_GLOBAL_REWARD;
 	public static String HOTSERVERS_API_KEY;
@@ -141,7 +141,7 @@ public class Configurations
 	// set hotservers individual variables
 	public static boolean HOTSERVERS_INDIVIDUAL_REWARD;
 	public static Map<Integer, List<Integer[]>> HOTSERVERS_INDIVIDUAL_REWARDS = new HashMap<>();
-	
+
 	// set l2votes global reward variables
 	public static boolean L2VOTES_GLOBAL_REWARD;
 	public static String L2VOTES_API_KEY;
@@ -152,7 +152,7 @@ public class Configurations
 	// set l2votes individual variables
 	public static boolean L2VOTES_INDIVIDUAL_REWARD;
 	public static Map<Integer, List<Integer[]>> L2VOTES_INDIVIDUAL_REWARDS = new HashMap<>();
-	
+
 	// set l2rankzone global reward variables
 	public static boolean L2RANKZONE_GLOBAL_REWARD;
 	public static String L2RANKZONE_API_KEY;
@@ -163,7 +163,7 @@ public class Configurations
 	// set l2rankzone individual variables
 	public static boolean L2RANKZONE_INDIVIDUAL_REWARD;
 	public static Map<Integer, List<Integer[]>> L2RANKZONE_INDIVIDUAL_REWARDS = new HashMap<>();
-	
+
 	// set top4teambr global reward variables
 	public static boolean TOP4TEAMBR_GLOBAL_REWARD;
 	public static String TOP4TEAMBR_API_KEY;
@@ -175,7 +175,7 @@ public class Configurations
 	// set l2rankzone individual variables
 	public static boolean TOP4TEAMBR_INDIVIDUAL_REWARD;
 	public static Map<Integer, List<Integer[]>> TOP4TEAMBR_INDIVIDUAL_REWARDS = new HashMap<>();
-	
+
 	/**
 	 * load config variables
 	 */
@@ -183,10 +183,10 @@ public class Configurations
 	{
 		// load configuration file
 		ExProperties ep = initProperties("./config/custom/VDSystem.properties");
-		
+
 		// debug messages
 		DEBUG = ep.getProperty("VDS_DEBUG", false);
-		
+
 		// set console variables
 		VDS_CONSOLE_ENABLE = ep.getProperty("ConsoleEnable", true);
 		VDS_CONSOLE_FONT = ep.getProperty("ConsoleFont", "Arial");
@@ -196,10 +196,10 @@ public class Configurations
 		VDS_CONSOLE_COLOR_B = ep.getProperty("ConsoleColorB", 241);
 		VDS_CONSOLE_WIDTH = ep.getProperty("ConsoleWidth", 400);
 		VDS_CONSOLE_HEIGHT = ep.getProperty("ConsoleHeight", 350);
-		
+
 		// set delivery manager variables
 		ITEM_DELIVERY_MANAGER = ep.getProperty("DeliveryManager", true);
-		
+
 		/* set https://hopzone.eu global reward variables */
 		HOPZONE_EU_GLOBAL_REWARD = ep.getProperty("HopZoneEuGlobalVoteReward", false);
 		HOPZONE_EU_SERVER_ID = ep.getProperty("HopZoneEuServerID", 325339);
@@ -245,7 +245,7 @@ public class Configurations
 				HOPZONE_EU_INDIVIDUAL_REWARDS.put(Integer.parseInt(parts[0]), temp);
 			}
 		}
-		
+
 		// set itopz global reward variables
 		ITOPZ_GLOBAL_REWARD = ep.getProperty("iTopZGlobalVoteReward", false);
 		ITOPZ_SERVER_ID = ep.getProperty("ServerID", 325339);
@@ -291,7 +291,7 @@ public class Configurations
 				ITOPZ_INDIVIDUAL_REWARDS.put(Integer.parseInt(parts[0]), temp);
 			}
 		}
-		
+
 		// set hopzone global reward variables
 		HOPZONE_NET_GLOBAL_REWARD = ep.getProperty("HopzoneGlobalVoteReward", false);
 		HOPZONE_NET_SERVER_API_KEY = ep.getProperty("HopzoneApiKey", "DEMO");
@@ -336,7 +336,7 @@ public class Configurations
 				HOPZONE_NET_INDIVIDUAL_REWARDS.put(Integer.parseInt(parts[0]), temp);
 			}
 		}
-		
+
 		// set l2topgameserver global reward variables
 		L2TOPGAMESERVER_GLOBAL_REWARD = ep.getProperty("L2TopGSGlobalVoteReward", false);
 		L2TOPGAMESERVER_API_KEY = ep.getProperty("L2TopGSApiKey", "DEMO");
@@ -381,7 +381,7 @@ public class Configurations
 				L2TOPGAMESERVER_INDIVIDUAL_REWARDS.put(Integer.parseInt(parts[0]), temp);
 			}
 		}
-		
+
 		// set l2jbrasil global reward variables
 		L2JBRASIL_GLOBAL_REWARD = ep.getProperty("L2JBrasilGlobalVoteReward", false);
 		L2JBRASIL_USER_NAME = ep.getProperty("L2JBrasilUserName", "DEMO");
@@ -426,7 +426,7 @@ public class Configurations
 				L2JBRASIL_INDIVIDUAL_REWARDS.put(Integer.parseInt(parts[0]), temp);
 			}
 		}
-		
+
 		// set l2network global reward variables
 		L2NETWORK_GLOBAL_REWARD = ep.getProperty("L2NetworkGlobalVoteReward", false);
 		L2NETWORK_API_KEY = ep.getProperty("L2NetworkApiKey", "Hi");
@@ -472,7 +472,7 @@ public class Configurations
 				L2NETWORK_INDIVIDUAL_REWARDS.put(Integer.parseInt(parts[0]), temp);
 			}
 		}
-		
+
 		// set hotservers global reward variables
 		HOTSERVERS_GLOBAL_REWARD = ep.getProperty("HotServersGlobalVoteReward", false);
 		HOTSERVERS_API_KEY = ep.getProperty("HotServersApiKey", "Hi");
@@ -519,7 +519,7 @@ public class Configurations
 				HOTSERVERS_INDIVIDUAL_REWARDS.put(Integer.parseInt(parts[0]), temp);
 			}
 		}
-		
+
 		// set l2votes global reward variables
 		L2VOTES_GLOBAL_REWARD = ep.getProperty("L2VotesGlobalVoteReward", false);
 		L2VOTES_API_KEY = ep.getProperty("L2VotesApiKey", "Hi");
@@ -564,7 +564,7 @@ public class Configurations
 				L2VOTES_INDIVIDUAL_REWARDS.put(Integer.parseInt(parts[0]), temp);
 			}
 		}
-		
+
 		// set l2rankzone global reward variables
 		L2RANKZONE_GLOBAL_REWARD = ep.getProperty("L2RankZoneGlobalVoteReward", false);
 		L2RANKZONE_API_KEY = ep.getProperty("L2RankZoneApiKey", "Hi");
@@ -609,7 +609,7 @@ public class Configurations
 				L2RANKZONE_INDIVIDUAL_REWARDS.put(Integer.parseInt(parts[0]), temp);
 			}
 		}
-		
+
 		// set top4teambr global reward variables
 		TOP4TEAMBR_GLOBAL_REWARD = Boolean.parseBoolean(ep.getProperty("Top4TeamBRGlobalVoteReward", "false"));
 		TOP4TEAMBR_API_KEY = ep.getProperty("Top4TeamBRApiKey", "Hi");
@@ -655,10 +655,10 @@ public class Configurations
 				TOP4TEAMBR_INDIVIDUAL_REWARDS.put(Integer.parseInt(parts[0]), temp);
 			}
 		}
-		
+
 		_log.info(Configurations.class.getSimpleName() + ": loaded.");
 	}
-	
+
 	/**
 	 * try to load itopz.properties
 	 * @param filename String
@@ -667,7 +667,7 @@ public class Configurations
 	private static ExProperties initProperties(String filename)
 	{
 		ExProperties result = new ExProperties();
-		
+
 		try
 		{
 			result.load(new File(filename));
@@ -676,7 +676,7 @@ public class Configurations
 		{
 			_log.warn(Configurations.class.getSimpleName() + ": Error loading " + filename + " config.");
 		}
-		
+
 		return result;
 	}
 }

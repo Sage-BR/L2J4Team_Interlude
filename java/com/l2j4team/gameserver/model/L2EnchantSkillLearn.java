@@ -7,7 +7,7 @@ public final class L2EnchantSkillLearn
 	private final int _baseLvl;
 	private final int _prevLevel;
 	private final int _enchant;
-
+	
 	public L2EnchantSkillLearn(int id, int lvl, int baseLvl, int prevLvl, int enchant)
 	{
 		_id = id;
@@ -16,7 +16,7 @@ public final class L2EnchantSkillLearn
 		_prevLevel = prevLvl;
 		_enchant = enchant;
 	}
-
+	
 	/**
 	 * @return Returns the id.
 	 */
@@ -24,7 +24,7 @@ public final class L2EnchantSkillLearn
 	{
 		return _id;
 	}
-
+	
 	/**
 	 * @return Returns the level.
 	 */
@@ -32,7 +32,7 @@ public final class L2EnchantSkillLearn
 	{
 		return _level;
 	}
-
+	
 	/**
 	 * @return Returns the minLevel.
 	 */
@@ -40,7 +40,7 @@ public final class L2EnchantSkillLearn
 	{
 		return _baseLvl;
 	}
-
+	
 	/**
 	 * @return Returns the minSkillLevel.
 	 */
@@ -48,7 +48,7 @@ public final class L2EnchantSkillLearn
 	{
 		return _prevLevel;
 	}
-
+	
 	/**
 	 * @return Returns the minSkillLevel.
 	 */

@@ -12,7 +12,7 @@ public class ExConfirmCancelItem extends L2GameServerPacket
 	private final int _itemAug1;
 	private final int _itemAug2;
 	private final int _price;
-
+	
 	public ExConfirmCancelItem(ItemInstance item, int price)
 	{
 		_itemObjId = item.getObjectId();
@@ -21,7 +21,7 @@ public class ExConfirmCancelItem extends L2GameServerPacket
 		_itemAug1 = ((short) item.getAugmentation().getAugmentationId());
 		_itemAug2 = item.getAugmentation().getAugmentationId() >> 16;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

@@ -8,31 +8,31 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q618_IntoTheFlame extends Quest
 {
 	private static final String qn = "Q618_IntoTheFlame";
-
+	
 	// NPCs
 	private static final int KLEIN = 31540;
 	private static final int HILDA = 31271;
-
+	
 	// Items
 	private static final int VACUALITE_ORE = 7265;
 	private static final int VACUALITE = 7266;
-
+	
 	// Reward
 	private static final int FLOATING_STONE = 7267;
-
+	
 	public Q618_IntoTheFlame()
 	{
 		super(618, "Into The Flame");
-
+		
 		setItemsIds(VACUALITE_ORE, VACUALITE);
-
+		
 		addStartNpc(KLEIN);
 		addTalkId(KLEIN, HILDA);
-
+		
 		// Kookaburras, Bandersnatches, Grendels
 		addKillId(21274, 21275, 21276, 21277, 21282, 21283, 21284, 21285, 21290, 21291, 21292, 21293);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -40,7 +40,7 @@ public class Q618_IntoTheFlame extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31540-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -66,10 +66,10 @@ public class Q618_IntoTheFlame extends Quest
 			st.takeItems(VACUALITE_ORE, -1);
 			st.giveItems(VACUALITE, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -77,13 +77,13 @@ public class Q618_IntoTheFlame extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 60) ? "31540-01.htm" : "31540-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -91,7 +91,7 @@ public class Q618_IntoTheFlame extends Quest
 					case KLEIN:
 						htmltext = (cond == 4) ? "31540-04.htm" : "31540-03.htm";
 						break;
-
+					
 					case HILDA:
 						if (cond == 1)
 							htmltext = "31271-01.htm";
@@ -105,22 +105,22 @@ public class Q618_IntoTheFlame extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMember(player, npc, "2");
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		if (st.dropItems(VACUALITE_ORE, 1, 50, 500000))
 			st.set("cond", "3");
-
+		
 		return null;
 	}
 }

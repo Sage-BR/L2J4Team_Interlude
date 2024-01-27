@@ -10,13 +10,13 @@ public class EffectBlockDebuff extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.BLOCK_DEBUFF;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

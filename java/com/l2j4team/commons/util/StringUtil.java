@@ -137,11 +137,11 @@ package com.l2j4team.commons.util;
  */
 public final class StringUtil
 {
-
+	
 	private StringUtil()
 	{
 	}
-
+	
 	/**
 	 * Concatenates strings.
 	 * @param strings strings to be concatenated
@@ -153,10 +153,10 @@ public final class StringUtil
 		final StringBuilder sbString = new StringBuilder();
 		for (final String string : strings)
 			sbString.append(string);
-
+		
 		return sbString.toString();
 	}
-
+	
 	/**
 	 * Creates new string builder with size initializated to <code>sizeHint</code>, unless total length of strings is greater than <code>sizeHint</code>.
 	 * @param sizeHint hint for string builder size allocation
@@ -168,13 +168,13 @@ public final class StringUtil
 	{
 		final int length = getLength(strings);
 		final StringBuilder sbString = new StringBuilder(sizeHint > length ? sizeHint : length);
-
+		
 		for (final String string : strings)
 			sbString.append(string);
-
+		
 		return sbString;
 	}
-
+	
 	/**
 	 * Appends strings to existing string builder.
 	 * @param sbString string builder
@@ -184,11 +184,11 @@ public final class StringUtil
 	public static void append(final StringBuilder sbString, final String... strings)
 	{
 		sbString.ensureCapacity(sbString.length() + getLength(strings));
-
+		
 		for (final String string : strings)
 			sbString.append(string);
 	}
-
+	
 	/**
 	 * Counts total length of all the strings.
 	 * @param strings array of strings

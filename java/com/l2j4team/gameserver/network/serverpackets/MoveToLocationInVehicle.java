@@ -12,7 +12,7 @@ public class MoveToLocationInVehicle extends L2GameServerPacket
 	private final int _originX;
 	private final int _originY;
 	private final int _originZ;
-
+	
 	public MoveToLocationInVehicle(Player player, int targetX, int targetY, int targetZ, int originX, int originY, int originZ)
 	{
 		_objectId = player.getObjectId();
@@ -24,7 +24,7 @@ public class MoveToLocationInVehicle extends L2GameServerPacket
 		_originY = originY;
 		_originZ = originZ;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

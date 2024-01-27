@@ -8,22 +8,22 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q317_CatchTheWind extends Quest
 {
 	private static final String qn = "Q317_CatchTheWind";
-
+	
 	// Item
 	private static final int WIND_SHARD = 1078;
-
+	
 	public Q317_CatchTheWind()
 	{
 		super(317, "Catch the Wind");
-
+		
 		setItemsIds(WIND_SHARD);
-
+		
 		addStartNpc(30361); // Rizraell
 		addTalkId(30361);
-
+		
 		addKillId(20036, 20044);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -31,7 +31,7 @@ public class Q317_CatchTheWind extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30361-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -43,10 +43,10 @@ public class Q317_CatchTheWind extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -54,13 +54,13 @@ public class Q317_CatchTheWind extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 18) ? "30361-02.htm" : "30361-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int shards = st.getQuestItemsCount(WIND_SHARD);
 				if (shards == 0)
@@ -73,19 +73,19 @@ public class Q317_CatchTheWind extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		st.dropItems(WIND_SHARD, 1, 0, 500000);
-
+		
 		return null;
 	}
 }

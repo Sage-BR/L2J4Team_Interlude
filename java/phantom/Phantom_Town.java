@@ -34,7 +34,7 @@ import com.l2j4team.commons.random.Rnd;
 
 public class Phantom_Town
 {
-
+	
 	static final Logger _log = Logger.getLogger(Phantom_Town.class.getName());
 	static int _PhantomsCount = 0;
 	static int _PhantomsLimit = 0;
@@ -43,24 +43,24 @@ public class Phantom_Town
 	static Phantom_Town _instance;
 	static int _locsCount = 0;
 	static ArrayList<Location> _PhantomsTownLoc = new ArrayList<>();
-
+	
 	public static int _zone_1_locsCount = 0;
 	public static ArrayList<Location> _zone_1_Loc = new ArrayList<>();
-
+	
 	public static Phantom_Town getInstance()
 	{
 		return _instance;
 	}
-
+	
 	private void load()
 	{
 		parceArmors();
 		cacheFantoms();
 		parceTownLocs();
 		LocsZone1();
-
+		
 	}
-
+	
 	@SuppressWarnings("resource")
 	private static void LocsZone1()
 	{
@@ -116,7 +116,7 @@ public class Phantom_Town
 			}
 		}
 	}
-
+	
 	@SuppressWarnings("resource")
 	private static void parceTownLocs()
 	{
@@ -172,38 +172,38 @@ public class Phantom_Town
 			}
 		}
 	}
-
+	
 	public void reload()
 	{
 		parceArmors();
 	}
-
+	
 	public static void init()
 	{
 		_instance = new Phantom_Town();
 		_instance.load();
 	}
-
+	
 	static int getFaceEquipe()
 	{
 		return Config.LIST_PHANTOM_FACE.get(Rnd.get(Config.LIST_PHANTOM_FACE.size()));
 	}
-
+	
 	static int getHairEquipe()
 	{
 		return Config.LIST_PHANTOM_HAIR.get(Rnd.get(Config.LIST_PHANTOM_HAIR.size()));
 	}
-
+	
 	static String getNameColor()
 	{
 		return Config.PHANTOM_PLAYERS_NAME_CLOLORS.get(Rnd.get(Config.PHANTOM_PLAYERS_NAME_CLOLORS.size()));
 	}
-
+	
 	static String getTitleColor()
 	{
 		return Config.PHANTOM_PLAYERS_TITLE_CLOLORS.get(Rnd.get(Config.PHANTOM_PLAYERS_TITLE_CLOLORS.size()));
 	}
-
+	
 	@SuppressWarnings("resource")
 	private static void parceArmors()
 	{
@@ -262,7 +262,7 @@ public class Phantom_Town
 			}
 		}
 	}
-
+	
 	private void cacheFantoms()
 	{
 		new Thread(new Runnable()
@@ -274,12 +274,12 @@ public class Phantom_Town
 			}
 		}).start();
 	}
-
+	
 	static L2Set getRandomSet()
 	{
 		return _sets.get(Rnd.get(_setsCount));
 	}
-
+	
 	static class L2Set
 	{
 		public int _body;
@@ -289,7 +289,7 @@ public class Phantom_Town
 		public int _weapon;
 		public int _custom;
 		public int _grade;
-
+		
 		L2Set(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6, int paramInt7)
 		{
 			_body = paramInt1;
@@ -301,23 +301,23 @@ public class Phantom_Town
 			_custom = paramInt7;
 		}
 	}
-
+	
 	public static ArrayList<Player> _add_phantom = new ArrayList<>();
-
+	
 	public static int getPhantomCount()
 	{
 		if (_add_phantom != null)
 			return _add_phantom.size();
-
+		
 		return 0;
 	}
-
+	
 	public static void removePhantom(Player spec)
 	{
 		if (_add_phantom != null && _add_phantom.contains(spec))
 			_add_phantom.remove(spec);
 	}
-
+	
 	static class L2Fantome
 	{
 		public String name;
@@ -325,7 +325,7 @@ public class Phantom_Town
 		public int x;
 		public int y;
 		public int z;
-
+		
 		L2Fantome(String paramString1, String paramString2, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
 		{
 			name = paramString1;
@@ -335,32 +335,32 @@ public class Phantom_Town
 			z = paramInt3;
 		}
 	}
-
+	
 	static SimpleDateFormat sdf = new SimpleDateFormat("HH");
-
+	
 	public class FantomTask implements Runnable
 	{
 		public int _task;
-
+		
 		public FantomTask(int paramInt)
 		{
 			_task = paramInt;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			WhileLoopExample.spawn();
 		}
 	}
-
+	
 	static class WhileLoopExample
 	{
 		public static void spawn()
 		{
-
+			
 			int i = Config.COUNT_TOWN;
-
+			
 			while (i > 0)
 			{
 				Acount_1();
@@ -375,13 +375,13 @@ public class Phantom_Town
 			}
 		}
 	}
-
+	
 	public static PhantomOld createRandomFakePlayer()
 	{
 		int objectId = IdFactory.getInstance().getNextId();
 		String accountName = "AutoPilot";
 		String playerName = PhantomNameManager.INSTANCE.getRandomAvailableName();
-
+		
 		int[] classes =
 		{
 			10,
@@ -389,54 +389,54 @@ public class Phantom_Town
 			38,
 			49
 		};
-
+		
 		int classId = classes[Rnd.get(classes.length)];
-
+		
 		final PlayerTemplate template = CharTemplateTable.getInstance().getTemplate(classId);
 		PcAppearance app = getRandomAppearance(template.getRace());
 		PhantomOld player = new PhantomOld(objectId, template, accountName, app);
-
+		
 		player.setName(playerName);
-
+		
 		player.setAccessLevel(Config.DEFAULT_ACCESS_LEVEL);
 		PlayerNameTable.getInstance().addPlayer(objectId, accountName, playerName, player.getAccessLevel().getLevel());
 		player.setBaseClass(player.getClassId());
 		setLevel(player, 81);
 		player.heal();
-
+		
 		return player;
 	}
-
+	
 	public static PcAppearance getRandomAppearance(ClassRace race)
 	{
-
+		
 		Sex randomSex = Rnd.get(1, 2) == 1 ? Sex.MALE : Sex.FEMALE;
 		int hairStyle = Rnd.get(0, randomSex == Sex.MALE ? 4 : 6);
 		int hairColor = Rnd.get(0, 3);
 		int faceId = Rnd.get(0, 2);
-
+		
 		return new PcAppearance((byte) faceId, (byte) hairColor, (byte) hairStyle, randomSex);
 	}
-
+	
 	public static void setLevel(PhantomOld player, int level)
 	{
 		if (level >= 1 && level <= Experience.MAX_LEVEL)
 		{
 			long pXp = player.getExp();
 			long tXp = Experience.LEVEL[81];
-
+			
 			if (pXp > tXp)
 				player.removeExpAndSp(pXp - tXp, 0);
 			else if (pXp < tXp)
 				player.addExpAndSp(tXp - pXp, 0);
 		}
 	}
-
+	
 	public static PhantomOld Acount_1()
 	{
 		L2GameClient client = new L2GameClient(null);
 		client.setDetached(true);
-
+		
 		PhantomOld activeChar = createRandomFakePlayer();
 		activeChar.setClient(client);
 		client.setActiveChar(activeChar);
@@ -447,7 +447,7 @@ public class Phantom_Town
 		activeChar.setIsPhantom(true);
 		ItemInstance WINGS = ItemTable.getInstance().createDummyItem(getFaceEquipe());
 		ItemInstance HAIR = ItemTable.getInstance().createDummyItem(getHairEquipe());
-
+		
 		if (Config.ALLOW_PHANTOM_RETAIL_ARMOR)
 		{
 			if (activeChar.getClassId().getId() == 0 || activeChar.getClassId().getId() == 18 || activeChar.getClassId().getId() == 31 || activeChar.getClassId().getId() == 44)
@@ -455,7 +455,7 @@ public class Phantom_Town
 				ItemInstance item_1 = ItemTable.getInstance().createDummyItem(1146);
 				ItemInstance item_2 = ItemTable.getInstance().createDummyItem(1147);
 				ItemInstance item_3 = ItemTable.getInstance().createDummyItem(2369);
-
+				
 				activeChar.getInventory().equipItemAndRecord(item_1);
 				activeChar.getInventory().equipItemAndRecord(item_2);
 				activeChar.getInventory().equipItemAndRecord(item_3);
@@ -465,7 +465,7 @@ public class Phantom_Town
 				ItemInstance item_1 = ItemTable.getInstance().createDummyItem(425);
 				ItemInstance item_2 = ItemTable.getInstance().createDummyItem(461);
 				ItemInstance item_3 = ItemTable.getInstance().createDummyItem(6);
-
+				
 				activeChar.getInventory().equipItemAndRecord(item_1);
 				activeChar.getInventory().equipItemAndRecord(item_2);
 				activeChar.getInventory().equipItemAndRecord(item_3);
@@ -475,7 +475,7 @@ public class Phantom_Town
 				ItemInstance item_1 = ItemTable.getInstance().createDummyItem(425);
 				ItemInstance item_2 = ItemTable.getInstance().createDummyItem(461);
 				ItemInstance item_3 = ItemTable.getInstance().createDummyItem(2368);
-
+				
 				activeChar.getInventory().equipItemAndRecord(item_1);
 				activeChar.getInventory().equipItemAndRecord(item_2);
 				activeChar.getInventory().equipItemAndRecord(item_3);
@@ -485,12 +485,12 @@ public class Phantom_Town
 				ItemInstance item_1 = ItemTable.getInstance().createDummyItem(1146);
 				ItemInstance item_2 = ItemTable.getInstance().createDummyItem(1147);
 				ItemInstance item_3 = ItemTable.getInstance().createDummyItem(2370);
-
+				
 				activeChar.getInventory().equipItemAndRecord(item_1);
 				activeChar.getInventory().equipItemAndRecord(item_2);
 				activeChar.getInventory().equipItemAndRecord(item_3);
 			}
-
+			
 		}
 		else
 		{
@@ -505,33 +505,33 @@ public class Phantom_Town
 			activeChar.getInventory().equipItemAndRecord(localL2ItemInstance2);
 			activeChar.getInventory().equipItemAndRecord(localL2ItemInstance3);
 			activeChar.getInventory().equipItemAndRecord(localL2ItemInstance4);
-
+			
 			if (localL2Set._custom > 0)
 			{
 				localL2ItemInstance6 = ItemTable.getInstance().createDummyItem(localL2Set._custom);
 				activeChar.getInventory().equipItemAndRecord(localL2ItemInstance6);
 			}
-
+			
 			activeChar.getInventory().equipItemAndRecord(localL2ItemInstance5);
-
+			
 			if (Rnd.get(100) < 30 && Config.PHANTOM_PLAYERS_ARGUMENT_ANIM)
 			{
 				localL2ItemInstance5.setAugmentation(new L2Augmentation(1067847165, 3250, 1));
 			}
-
+			
 			localL2ItemInstance5.setEnchantLevel(Rnd.get(Config.PHANTOM_PLAYERS_ENCHANT_MIN, Config.PHANTOM_PLAYERS_ENCHANT_MAX));
-
+			
 		}
-
+		
 		if (Config.ALLOW_PHANTOM_FACE)
 			activeChar.getInventory().equipItemAndRecord(WINGS);
-
+		
 		if (Config.ALLOW_PHANTOM_HAIR)
 			activeChar.getInventory().equipItemAndRecord(HAIR);
-
+		
 		if (Config.PLAYER_SPAWN_PROTECTION > 0)
 			activeChar.setSpawnProtection(true);
-
+		
 		if (Rnd.get(100) < Config.PHANTOM_PLAYERS_CREST && Config.ALLOW_PHANTOM_CREST)
 		{
 			activeChar.setClan(ClanTable.getInstance().getClan(getRandomClan()));
@@ -544,7 +544,7 @@ public class Phantom_Town
 			activeChar.getAppearance().setTitleColor(Integer.decode("0x" + Config.TITLE_COLOR));
 		}
 		String playerTitle = PhantomTitleManager.INSTANCE.getRandomAvailableTitle();
-
+		
 		if (Config.PHANTOM_TITLE_PHANTOM_ATK)
 		{
 			if (Config.PHANTOM_TITLE_CONFIG)
@@ -552,7 +552,7 @@ public class Phantom_Town
 			else if (Rnd.get(100) < Config.PHANTOM_CHANCE_TITLE)
 				activeChar.setTitle(playerTitle);
 		}
-
+		
 		if (Rnd.get(100) < Config.PHANTOM_CHANCE_SIT)
 			startSit(activeChar);
 		else
@@ -562,7 +562,7 @@ public class Phantom_Town
 				L2Skill skill = SkillTable.getInstance().getInfo(4554, 4);
 				skill.getEffects(activeChar, activeChar);
 			}
-
+			
 		}
 		if (Rnd.get(100) < Config.PHANTOM_RANDOM_WALK && Config.WALK_PHANTOM_TOWN)
 		{
@@ -586,35 +586,35 @@ public class Phantom_Town
 			{
 			}
 		}
-
+		
 		activeChar.addSkill(SkillTable.getInstance().getInfo(9901, 1), true);
-
+		
 		if (Rnd.get(100) < Config.PHANTOM_CHANCE_MALARIA)
 		{
 			L2Skill skill = SkillTable.getInstance().getInfo(4554, 4);
 			skill.getEffects(activeChar, activeChar);
 		}
-
+		
 		Disconect(activeChar);
-
+		
 		Location localLocation = getRandomLoc();
-
+		
 		activeChar.spawnMe(localLocation.getX() + Rnd.get(-80, 80), localLocation.getY() + Rnd.get(-80, 80), localLocation.getZ());
-
+		
 		activeChar.setLastCords(activeChar.getX(), activeChar.getY(), activeChar.getZ());
-
+		
 		activeChar.onPlayerEnter();
-
+		
 		activeChar.heal();
-
+		
 		return activeChar;
 	}
-
+	
 	public static PhantomOld Acount_2()
 	{
 		L2GameClient client = new L2GameClient(null);
 		client.setDetached(true);
-
+		
 		PhantomOld activeChar = createRandomFakePlayer();
 		activeChar.setClient(client);
 		client.setActiveChar(activeChar);
@@ -630,39 +630,39 @@ public class Phantom_Town
 		ItemInstance localL2ItemInstance4 = ItemTable.getInstance().createDummyItem(localL2Set._boots);
 		ItemInstance localL2ItemInstance5 = ItemTable.getInstance().createDummyItem(localL2Set._weapon);
 		ItemInstance localL2ItemInstance6 = null;
-
+		
 		ItemInstance WINGS = ItemTable.getInstance().createDummyItem(getFaceEquipe());
 		ItemInstance HAIR = ItemTable.getInstance().createDummyItem(getHairEquipe());
-
+		
 		activeChar.getInventory().equipItemAndRecord(localL2ItemInstance1);
 		activeChar.getInventory().equipItemAndRecord(localL2ItemInstance2);
 		activeChar.getInventory().equipItemAndRecord(localL2ItemInstance3);
 		activeChar.getInventory().equipItemAndRecord(localL2ItemInstance4);
-
+		
 		if (Config.ALLOW_PHANTOM_FACE)
 			activeChar.getInventory().equipItemAndRecord(WINGS);
-
+		
 		if (Config.ALLOW_PHANTOM_HAIR)
 			activeChar.getInventory().equipItemAndRecord(HAIR);
-
+		
 		if (localL2Set._custom > 0)
 		{
 			localL2ItemInstance6 = ItemTable.getInstance().createDummyItem(localL2Set._custom);
 			activeChar.getInventory().equipItemAndRecord(localL2ItemInstance6);
 		}
-
+		
 		activeChar.getInventory().equipItemAndRecord(localL2ItemInstance5);
-
+		
 		if (Rnd.get(100) < 30 && Config.PHANTOM_PLAYERS_ARGUMENT_ANIM)
 		{
 			localL2ItemInstance5.setAugmentation(new L2Augmentation(1067847165, 3250, 1));
 		}
-
+		
 		localL2ItemInstance5.setEnchantLevel(Rnd.get(Config.PHANTOM_PLAYERS_ENCHANT_MIN, Config.PHANTOM_PLAYERS_ENCHANT_MAX));
-
+		
 		if (Config.PLAYER_SPAWN_PROTECTION > 0)
 			activeChar.setSpawnProtection(true);
-
+		
 		if (Rnd.get(100) < Config.PHANTOM_PLAYERS_CREST_ATK && Config.ALLOW_PHANTOM_CREST_ATK)
 		{
 			activeChar.setClan(ClanTable.getInstance().getClan(getRandomClan()));
@@ -675,7 +675,7 @@ public class Phantom_Town
 			activeChar.getAppearance().setTitleColor(Integer.decode("0x" + Config.TITLE_COLOR));
 		}
 		String playerTitle = PhantomTitleManager.INSTANCE.getRandomAvailableTitle();
-
+		
 		if (Config.PHANTOM_TITLE_PHANTOM_ATK)
 		{
 			if (Config.PHANTOM_TITLE_CONFIG)
@@ -683,7 +683,7 @@ public class Phantom_Town
 			else if (Rnd.get(100) < Config.PHANTOM_CHANCE_TITLE)
 				activeChar.setTitle(playerTitle);
 		}
-
+		
 		if (Rnd.get(100) < Config.PHANTOM_CHANCE_SIT)
 			startSit(activeChar);
 		else
@@ -694,7 +694,7 @@ public class Phantom_Town
 				skill.getEffects(activeChar, activeChar);
 			}
 		}
-
+		
 		if (Rnd.get(100) < Config.PHANTOM_RANDOM_WALK && Config.WALK_PHANTOM_TOWN)
 		{
 			startWalk(activeChar);
@@ -717,33 +717,33 @@ public class Phantom_Town
 			{
 			}
 		}
-
+		
 		Disconect(activeChar);
-
+		
 		activeChar.addSkill(SkillTable.getInstance().getInfo(9900, 1), false);
-
+		
 		Location localLocation = getRandomLoc();
 		activeChar.spawnMe(localLocation.getX() + Rnd.get(-80, 80), localLocation.getY() + Rnd.get(-80, 80), localLocation.getZ());
-
+		
 		activeChar.setLastCords(activeChar.getX(), activeChar.getY(), activeChar.getZ());
-
+		
 		activeChar.onPlayerEnter();
-
+		
 		activeChar.heal();
-
+		
 		return activeChar;
 	}
-
+	
 	public static int getRandomClan()
 	{
 		return Config.LIST_CLAN_ID.get(Rnd.get(Config.LIST_CLAN_ID.size()));
 	}
-
+	
 	static String getFixTitle()
 	{
 		return Config.PHANTOM_TITLE.get(Rnd.get(Config.PHANTOM_TITLE.size()));
 	}
-
+	
 	@SuppressWarnings("null")
 	static Location getRandomLoc()
 	{
@@ -752,21 +752,21 @@ public class Phantom_Town
 			loc = _PhantomsTownLoc.get(Rnd.get(0, _locsCount));
 		return loc;
 	}
-
+	
 	public static void startSit(Player paramPlayer)
 	{
 		ThreadPool.schedule(new PhantomSit(paramPlayer), Rnd.get(10000, 15000));
 	}
-
+	
 	static class PhantomSit implements Runnable
 	{
 		Player _phantom;
-
+		
 		public PhantomSit(Player paramPlayer)
 		{
 			_phantom = paramPlayer;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -774,31 +774,31 @@ public class Phantom_Town
 				_phantom.sitDown();
 		}
 	}
-
+	
 	public static void startWalk(Player paramPlayer)
 	{
 		ThreadPool.schedule(new PhantomWalk(paramPlayer), Rnd.get(5200, 48540));
 	}
-
+	
 	public static void startWalk2(Player paramPlayer)
 	{
 		ThreadPool.schedule(new PhantomWalk2(paramPlayer), Rnd.get(5200, 48540));
 	}
-
+	
 	public static void Disconect(Player paramPlayer)
 	{
 		ThreadPool.schedule(new PhantomDelete(paramPlayer), Config.DISCONNETC_DELAY * 1000);
 	}
-
+	
 	static class PhantomDelete implements Runnable
 	{
 		Player _phantom;
-
+		
 		public PhantomDelete(Player paramPlayer)
 		{
 			_phantom = paramPlayer;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -811,21 +811,21 @@ public class Phantom_Town
 				_phantom.deleteMe();
 				client.setActiveChar(null);
 				client.setState(GameClientState.AUTHED);
-
+				
 				Acount_2();
 			}
 		}
 	}
-
+	
 	static class PhantomWalk implements Runnable
 	{
 		Player _phantom;
-
+		
 		public PhantomWalk(Player paramPlayer)
 		{
 			_phantom = paramPlayer;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -833,23 +833,23 @@ public class Phantom_Town
 			{
 				if (_phantom.isSpawnProtected())
 					_phantom.setSpawnProtection(false);
-
+				
 				_phantom.rndWalk();
-
+				
 				startWalk(_phantom);
 			}
 		}
 	}
-
+	
 	static class PhantomWalk2 implements Runnable
 	{
 		Player _phantom;
-
+		
 		public PhantomWalk2(Player paramPlayer)
 		{
 			_phantom = paramPlayer;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -857,12 +857,12 @@ public class Phantom_Town
 			{
 				if (_phantom.isSpawnProtected())
 					_phantom.setSpawnProtection(false);
-
+				
 				_phantom.walkToNpc();
-
+				
 				startWalk2(_phantom);
 			}
 		}
 	}
-
+	
 }

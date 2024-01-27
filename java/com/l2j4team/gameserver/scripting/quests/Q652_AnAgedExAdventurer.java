@@ -13,17 +13,17 @@ import com.l2j4team.commons.random.Rnd;
 public class Q652_AnAgedExAdventurer extends Quest
 {
 	private static final String qn = "Q652_AnAgedExAdventurer";
-
+	
 	// NPCs
 	private static final int TANTAN = 32012;
 	private static final int SARA = 30180;
-
+	
 	// Item
 	private static final int SOULSHOT_C = 1464;
-
+	
 	// Reward
 	private static final int ENCHANT_ARMOR_D = 956;
-
+	
 	// Table of possible spawns
 	private static final SpawnLocation[] SPAWNS =
 	{
@@ -33,20 +33,20 @@ public class Q652_AnAgedExAdventurer extends Quest
 		new SpawnLocation(94500, -10129, -3290, 0),
 		new SpawnLocation(96534, -1237, -3677, 0)
 	};
-
+	
 	// Current position
 	private int _currentPosition = 0;
-
+	
 	public Q652_AnAgedExAdventurer()
 	{
 		super(652, "An Aged Ex-Adventurer");
-
+		
 		addStartNpc(TANTAN);
 		addTalkId(TANTAN, SARA);
-
+		
 		addSpawn(TANTAN, 78355, -1325, -3659, 0, false, 0, false);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -54,7 +54,7 @@ public class Q652_AnAgedExAdventurer extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("32012-02.htm"))
 		{
 			if (st.getQuestItemsCount(SOULSHOT_C) >= 100)
@@ -63,7 +63,7 @@ public class Q652_AnAgedExAdventurer extends Quest
 				st.set("cond", "1");
 				st.playSound(QuestState.SOUND_ACCEPT);
 				st.takeItems(SOULSHOT_C, 100);
-
+				
 				npc.getAI().setIntention(CtrlIntention.MOVE_TO, new Location(85326, 7869, -3620));
 				startQuestTimer("apparition_npc", 6000, npc, player, false);
 			}
@@ -76,22 +76,22 @@ public class Q652_AnAgedExAdventurer extends Quest
 		else if (event.equalsIgnoreCase("apparition_npc"))
 		{
 			int chance = Rnd.get(5);
-
+			
 			// Loop to avoid to spawn to the same place.
 			while (chance == _currentPosition)
 				chance = Rnd.get(5);
-
+			
 			// Register new position.
 			_currentPosition = chance;
-
+			
 			npc.deleteMe();
 			addSpawn(TANTAN, SPAWNS[chance], false, 0, false);
 			return null;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -99,13 +99,13 @@ public class Q652_AnAgedExAdventurer extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 46) ? "32012-00.htm" : "32012-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -124,14 +124,14 @@ public class Q652_AnAgedExAdventurer extends Quest
 						st.playSound(QuestState.SOUND_FINISH);
 						st.exitQuest(true);
 						break;
-
+					
 					case TANTAN:
 						htmltext = "32012-04a.htm";
 						break;
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

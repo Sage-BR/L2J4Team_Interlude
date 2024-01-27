@@ -14,13 +14,13 @@ public class EffectRecovery extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.BUFF;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
@@ -31,12 +31,12 @@ public class EffectRecovery extends L2Effect
 		}
 		return false;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

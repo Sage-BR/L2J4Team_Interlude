@@ -9,30 +9,30 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q116_BeyondTheHillsOfWinter extends Quest
 {
 	private static final String qn = "Q116_BeyondTheHillsOfWinter";
-
+	
 	// NPCs
 	private static final int FILAUR = 30535;
 	private static final int OBI = 32052;
-
+	
 	// Items
 	private static final int BANDAGE = 1833;
 	private static final int ENERGY_STONE = 5589;
 	private static final int THIEF_KEY = 1661;
 	private static final int GOODS = 8098;
-
+	
 	// Reward
 	private static final int SSD = 1463;
-
+	
 	public Q116_BeyondTheHillsOfWinter()
 	{
 		super(116, "Beyond the Hills of Winter");
-
+		
 		setItemsIds(GOODS);
-
+		
 		addStartNpc(FILAUR);
 		addTalkId(FILAUR, OBI);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -40,7 +40,7 @@ public class Q116_BeyondTheHillsOfWinter extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30535-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -69,10 +69,10 @@ public class Q116_BeyondTheHillsOfWinter extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -80,13 +80,13 @@ public class Q116_BeyondTheHillsOfWinter extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 30 || player.getRace() != ClassRace.DWARF) ? "30535-00.htm" : "30535-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -107,14 +107,14 @@ public class Q116_BeyondTheHillsOfWinter extends Quest
 						else if (cond == 2)
 							htmltext = "30535-05.htm";
 						break;
-
+					
 					case OBI:
 						if (cond == 2)
 							htmltext = "32052-00.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;

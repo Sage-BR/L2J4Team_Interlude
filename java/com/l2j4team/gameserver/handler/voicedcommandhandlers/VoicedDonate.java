@@ -20,7 +20,6 @@ import com.l2j4team.gameserver.network.serverpackets.HennaInfo;
 import com.l2j4team.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2j4team.gameserver.network.serverpackets.ItemList;
 import com.l2j4team.gameserver.network.serverpackets.NpcHtmlMessage;
-import com.l2j4team.gameserver.network.serverpackets.OpenUrl;
 import com.l2j4team.gameserver.network.serverpackets.PlaySound;
 import com.l2j4team.gameserver.templates.StatsSet;
 
@@ -64,9 +63,9 @@ public class VoicedDonate implements IVoicedCommandHandler
 		"arg_skills",
 		"add_arg",
 		"donate_url"
-
+	
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -83,23 +82,19 @@ public class VoicedDonate implements IVoicedCommandHandler
 		}
 		else if (command.startsWith("setnoble_"))
 		{
-
+			
 			if (activeChar.isNoble())
 			{
 				activeChar.sendMessage("SYS: Voce ja esta com status Noble.");
 				return false;
 			}
-
+			
 			if (activeChar.destroyItemByItemId("Donate Coin", Config.DONATE_COIN_ID, Config.DONATE_NOBLE_PRICE, null, true))
 			{
 				activeChar.setNoble(true, true);
 			}
 			else
 				Incorrect_item(activeChar);
-		}
-		if (command.startsWith("donate_url"))
-		{
-			activeChar.sendPacket(new OpenUrl("" + Config.DONATE_URL + ""));
 		}
 		if (command.startsWith("arg_status"))
 		{
@@ -133,21 +128,21 @@ public class VoicedDonate implements IVoicedCommandHandler
 		}
 		else if (command.startsWith("add_arg"))
 		{
-
+			
 			StringTokenizer st1 = new StringTokenizer(command);
 			command = st1.nextToken();
-
+			
 			final int id = Integer.parseInt(st1.nextToken());
-
+			
 			int count = 1;
-
+			
 			if (st1.hasMoreTokens())
 			{
 				count = Integer.parseInt(st1.nextToken());
 			}
-
+			
 			addargument(activeChar, id, count);
-
+			
 		}
 		else if (command.startsWith("multisell"))
 		{
@@ -177,14 +172,14 @@ public class VoicedDonate implements IVoicedCommandHandler
 		{
 			Sex male = Sex.MALE;
 			Sex female = Sex.FEMALE;
-
+			
 			if (activeChar.getAppearance().getSex() == male)
 				activeChar._sex_id = 1;
 			else if (activeChar.getAppearance().getSex() == female)
 				activeChar._sex_id = 2;
-
+			
 			sex_select(activeChar);
-
+			
 		}
 		else if (command.startsWith("setsex_"))
 		{
@@ -192,7 +187,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 			{
 				Sex male = Sex.MALE;
 				Sex female = Sex.FEMALE;
-
+				
 				if (activeChar.getAppearance().getSex() == male)
 				{
 					activeChar.getAppearance().setSex(female);
@@ -209,10 +204,10 @@ public class VoicedDonate implements IVoicedCommandHandler
 					activeChar.decayMe();
 					activeChar.spawnMe();
 				}
-
+				
 				ThreadPool.schedule(new Runnable()
 				{
-
+					
 					@Override
 					public void run()
 					{
@@ -222,7 +217,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 			}
 			else
 				Incorrect_item(activeChar);
-
+			
 		}
 		else if (command.startsWith("name_select"))
 			name_select(activeChar);
@@ -233,9 +228,9 @@ public class VoicedDonate implements IVoicedCommandHandler
 			try
 			{
 				String name = st.nextToken();
-
+				
 				activeChar._change_Name = name;
-
+				
 				if (activeChar._change_Name.length() > 16)
 				{
 					activeChar.sendMessage("The chosen name cannot exceed 16 characters in length.");
@@ -260,7 +255,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 					showMainHtml(activeChar);
 					return false;
 				}
-
+				
 				name_finish(activeChar);
 			}
 			catch (Exception e)
@@ -294,7 +289,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 				showMainHtml(activeChar);
 				return false;
 			}
-
+			
 			if (activeChar.destroyItemByItemId("Donate Coin", Config.DONATE_COIN_ID, Config.DONATE_NAME_PRICE, null, true))
 			{
 				activeChar.setName(activeChar._change_Name);
@@ -306,7 +301,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 			}
 			else
 				Incorrect_item(activeChar);
-
+			
 		}
 		else if (command.startsWith("class_select"))
 			class_select(activeChar);
@@ -329,13 +324,13 @@ public class VoicedDonate implements IVoicedCommandHandler
 		{
 			activeChar.abortAttack();
 			activeChar.abortCast();
-
+			
 			if (activeChar.isInCombat())
 			{
 				activeChar.sendMessage("You can not be in combat mode..");
 				return false;
 			}
-
+			
 			if (activeChar.getBaseClass() != activeChar.getClassId().getId())
 			{
 				activeChar.sendMessage("You is not with its base class.");
@@ -357,15 +352,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(88);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(88);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 2)
@@ -375,15 +370,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(89);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(89);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 3)
@@ -393,15 +388,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(90);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(90);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 4)
@@ -411,15 +406,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(91);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(91);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 5)
@@ -429,15 +424,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(92);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(92);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 6)
@@ -447,15 +442,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(93);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(93);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 7)
@@ -465,15 +460,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(94);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(94);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 8)
@@ -483,15 +478,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(95);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(95);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 9)
@@ -501,15 +496,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(96);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(96);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 10)
@@ -519,15 +514,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(97);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(97);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 11)
@@ -537,15 +532,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(98);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(98);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 12)
@@ -555,15 +550,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(99);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(99);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 13)
@@ -573,15 +568,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(100);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(100);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 14)
@@ -591,15 +586,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(101);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(101);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 15)
@@ -609,15 +604,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(102);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(102);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 16)
@@ -627,14 +622,14 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(103);
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(103);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 17)
@@ -644,15 +639,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(104);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(104);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 18)
@@ -662,15 +657,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(105);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(105);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 19)
@@ -680,15 +675,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(106);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(106);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 20)
@@ -698,15 +693,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(107);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(107);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 21)
@@ -716,15 +711,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(108);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(108);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 22)
@@ -734,15 +729,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(109);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(109);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 23)
@@ -752,15 +747,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(110);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(110);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 24)
@@ -770,15 +765,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(111);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(111);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 25)
@@ -788,15 +783,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(112);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(112);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 26)
@@ -806,15 +801,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(113);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(113);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 27)
@@ -824,15 +819,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(114);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(114);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 28)
@@ -842,15 +837,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(115);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(115);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 29)
@@ -860,15 +855,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(116);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(116);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 30)
@@ -878,15 +873,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(117);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(117);
-
+					
 					Finish(activeChar);
 				}
 				else if (activeChar._class_id == 31)
@@ -896,24 +891,24 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Desculpe, voce ja esta com a Classe " + nameclasse + ".");
 						return false;
 					}
-
+					
 					for (L2Skill skill : activeChar.getSkills().values())
 						activeChar.removeSkill(skill);
-
+					
 					activeChar.setClassId(118);
-
+					
 					if (!activeChar.isSubClassActive())
 						activeChar.setBaseClass(118);
-
+					
 					Finish(activeChar);
 				}
 				else
 					activeChar.sendMessage("ERROR , CONTATE O ADMINISTRADOR");
-
+				
 			}
 			else
 				Incorrect_item(activeChar);
-
+			
 		}
 		else if (command.startsWith("vip_"))
 		{
@@ -944,7 +939,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Please select another value!");
 						showMainHtml(activeChar);
 						break;
-
+					
 				}
 			}
 			catch (Exception e)
@@ -964,9 +959,9 @@ public class VoicedDonate implements IVoicedCommandHandler
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = VipManager.getInstance().getVipDuration(activeChar.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + activeChar._vip_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -979,7 +974,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -991,13 +986,13 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().updateVip(activeChar.getObjectId(), end_day);
 					}
@@ -1015,7 +1010,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								activeChar._vip_days -= 30;
 							}
 						}
-
+						
 						if (activeChar._vip_days < 30 && activeChar._vip_days > 0)
 						{
 							while (activeChar._vip_days > 0)
@@ -1027,17 +1022,17 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								activeChar._vip_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().addVip(activeChar.getObjectId(), end_day);
 					}
-
+					
 					long _daysleft;
 					final long now = Calendar.getInstance().getTimeInMillis();
 					long duration = VipManager.getInstance().getVipDuration(activeChar.getObjectId());
@@ -1051,7 +1046,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 				}
 				else
 					Incorrect_item(activeChar);
-
+				
 			}
 			else if (activeChar._vip_days == 60)
 			{
@@ -1063,9 +1058,9 @@ public class VoicedDonate implements IVoicedCommandHandler
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = VipManager.getInstance().getVipDuration(activeChar.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + activeChar._vip_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1078,7 +1073,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1090,13 +1085,13 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().updateVip(activeChar.getObjectId(), end_day);
 					}
@@ -1114,7 +1109,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								activeChar._vip_days -= 30;
 							}
 						}
-
+						
 						if (activeChar._vip_days < 30 && activeChar._vip_days > 0)
 						{
 							while (activeChar._vip_days > 0)
@@ -1126,17 +1121,17 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								activeChar._vip_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().addVip(activeChar.getObjectId(), end_day);
 					}
-
+					
 					long _daysleft;
 					final long now = Calendar.getInstance().getTimeInMillis();
 					long duration = VipManager.getInstance().getVipDuration(activeChar.getObjectId());
@@ -1150,7 +1145,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 				}
 				else
 					Incorrect_item(activeChar);
-
+				
 			}
 			else if (activeChar._vip_days == 90)
 			{
@@ -1162,9 +1157,9 @@ public class VoicedDonate implements IVoicedCommandHandler
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = VipManager.getInstance().getVipDuration(activeChar.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + activeChar._vip_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1177,7 +1172,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1189,13 +1184,13 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().updateVip(activeChar.getObjectId(), end_day);
 					}
@@ -1213,7 +1208,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								activeChar._vip_days -= 30;
 							}
 						}
-
+						
 						if (activeChar._vip_days < 30 && activeChar._vip_days > 0)
 						{
 							while (activeChar._vip_days > 0)
@@ -1225,17 +1220,17 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								activeChar._vip_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().addVip(activeChar.getObjectId(), end_day);
 					}
-
+					
 					long _daysleft;
 					final long now = Calendar.getInstance().getTimeInMillis();
 					long duration = VipManager.getInstance().getVipDuration(activeChar.getObjectId());
@@ -1249,22 +1244,22 @@ public class VoicedDonate implements IVoicedCommandHandler
 				}
 				else
 					Incorrect_item(activeChar);
-
+				
 			}
 			else if (activeChar._vip_days == 999)
 			{
 				if (activeChar.destroyItemByItemId("Donate Coin", Config.DONATE_COIN_ID, Config.VIP_ETERNAL_PRICE, null, true))
 				{
-
+					
 					if (VipManager.getInstance().hasVipPrivileges(activeChar.getObjectId()))
 					{
 						long _daysleft;
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = VipManager.getInstance().getVipDuration(activeChar.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + activeChar._vip_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1277,7 +1272,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1289,13 +1284,13 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().updateVip(activeChar.getObjectId(), end_day);
 					}
@@ -1313,7 +1308,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								activeChar._vip_days -= 30;
 							}
 						}
-
+						
 						if (activeChar._vip_days < 30 && activeChar._vip_days > 0)
 						{
 							while (activeChar._vip_days > 0)
@@ -1325,29 +1320,29 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								activeChar._vip_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						VipManager.getInstance().addVip(activeChar.getObjectId(), end_day);
 					}
-
+					
 					activeChar.sendPacket(new ExShowScreenMessage("Congratulations! You have activated Eternal VIP.", 10000));
 					activeChar.sendMessage("Congratulations! You have activated Eternal VIP.");
 				}
 				else
 					Incorrect_item(activeChar);
-
+				
 			}
 			else
 			{
 				activeChar.sendMessage("ERROR , CONTATE O ADMINISTRADOR");
 			}
-
+			
 		}
 		else if (command.startsWith("hero_"))
 		{
@@ -1378,7 +1373,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 						activeChar.sendMessage("Please select another value!");
 						showMainHtml(activeChar);
 						break;
-
+					
 				}
 			}
 			catch (Exception e)
@@ -1398,9 +1393,9 @@ public class VoicedDonate implements IVoicedCommandHandler
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = HeroManager.getInstance().getHeroDuration(activeChar.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + activeChar._hero_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1413,7 +1408,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1425,13 +1420,13 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().updateHero(activeChar.getObjectId(), end_day);
 					}
@@ -1449,7 +1444,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								activeChar._hero_days -= 30;
 							}
 						}
-
+						
 						if (activeChar._hero_days < 30 && activeChar._hero_days > 0)
 						{
 							while (activeChar._hero_days > 0)
@@ -1461,17 +1456,17 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								activeChar._hero_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().addHero(activeChar.getObjectId(), end_day);
 					}
-
+					
 					long _daysleft;
 					final long now = Calendar.getInstance().getTimeInMillis();
 					long duration = HeroManager.getInstance().getHeroDuration(activeChar.getObjectId());
@@ -1485,7 +1480,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 				}
 				else
 					Incorrect_item(activeChar);
-
+				
 			}
 			else if (activeChar._hero_days == 60)
 			{
@@ -1497,9 +1492,9 @@ public class VoicedDonate implements IVoicedCommandHandler
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = HeroManager.getInstance().getHeroDuration(activeChar.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + activeChar._hero_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1512,7 +1507,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1524,13 +1519,13 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().updateHero(activeChar.getObjectId(), end_day);
 					}
@@ -1548,7 +1543,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								activeChar._hero_days -= 30;
 							}
 						}
-
+						
 						if (activeChar._hero_days < 30 && activeChar._hero_days > 0)
 						{
 							while (activeChar._hero_days > 0)
@@ -1560,17 +1555,17 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								activeChar._hero_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().addHero(activeChar.getObjectId(), end_day);
 					}
-
+					
 					long _daysleft;
 					final long now = Calendar.getInstance().getTimeInMillis();
 					long duration = HeroManager.getInstance().getHeroDuration(activeChar.getObjectId());
@@ -1584,7 +1579,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 				}
 				else
 					Incorrect_item(activeChar);
-
+				
 			}
 			else if (activeChar._hero_days == 90)
 			{
@@ -1596,9 +1591,9 @@ public class VoicedDonate implements IVoicedCommandHandler
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = HeroManager.getInstance().getHeroDuration(activeChar.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + activeChar._hero_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1611,7 +1606,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1623,13 +1618,13 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().updateHero(activeChar.getObjectId(), end_day);
 					}
@@ -1647,7 +1642,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								activeChar._hero_days -= 30;
 							}
 						}
-
+						
 						if (activeChar._hero_days < 30 && activeChar._hero_days > 0)
 						{
 							while (activeChar._hero_days > 0)
@@ -1659,17 +1654,17 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								activeChar._hero_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().addHero(activeChar.getObjectId(), end_day);
 					}
-
+					
 					long _daysleft;
 					final long now = Calendar.getInstance().getTimeInMillis();
 					long duration = HeroManager.getInstance().getHeroDuration(activeChar.getObjectId());
@@ -1683,22 +1678,22 @@ public class VoicedDonate implements IVoicedCommandHandler
 				}
 				else
 					Incorrect_item(activeChar);
-
+				
 			}
 			else if (activeChar._hero_days == 999)
 			{
 				if (activeChar.destroyItemByItemId("Donate Coin", Config.DONATE_COIN_ID, Config.HERO_ETERNAL_PRICE, null, true))
 				{
-
+					
 					if (HeroManager.getInstance().hasHeroPrivileges(activeChar.getObjectId()))
 					{
 						long _daysleft;
 						final long now = Calendar.getInstance().getTimeInMillis();
 						long duration = HeroManager.getInstance().getHeroDuration(activeChar.getObjectId());
 						final long endDay = duration;
-
+						
 						_daysleft = ((endDay - now) / 86400000) + activeChar._hero_days + 1;
-
+						
 						long end_day;
 						final Calendar calendar = Calendar.getInstance();
 						if (_daysleft >= 30)
@@ -1711,7 +1706,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								_daysleft -= 30;
 							}
 						}
-
+						
 						if (_daysleft < 30 && _daysleft > 0)
 						{
 							while (_daysleft > 0)
@@ -1723,13 +1718,13 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								_daysleft--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().updateHero(activeChar.getObjectId(), end_day);
 					}
@@ -1747,7 +1742,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 								activeChar._hero_days -= 30;
 							}
 						}
-
+						
 						if (activeChar._hero_days < 30 && activeChar._hero_days > 0)
 						{
 							while (activeChar._hero_days > 0)
@@ -1759,59 +1754,59 @@ public class VoicedDonate implements IVoicedCommandHandler
 									if (calendar.get(Calendar.MONTH) == 11)
 										calendar.roll(Calendar.YEAR, true);
 									calendar.roll(Calendar.MONTH, true);
-
+									
 								}
 								calendar.roll(Calendar.DATE, true);
 								activeChar._hero_days--;
 							}
 						}
-
+						
 						end_day = calendar.getTimeInMillis();
 						HeroManager.getInstance().addHero(activeChar.getObjectId(), end_day);
 					}
-
+					
 					activeChar.sendPacket(new ExShowScreenMessage("Congratulations! You have activated Eternal Hero.", 10000));
 					activeChar.sendMessage("Congratulations! You have activated Eternal Hero.");
 				}
 				else
 					Incorrect_item(activeChar);
-
+				
 			}
 			else
 			{
 				activeChar.sendMessage("ERROR , CONTATE O ADMINISTRADOR");
 			}
-
+			
 		}
 		else if (command.startsWith("back_home"))
 			showMainHtml(activeChar);
-
+		
 		return true;
 	}
-
+	
 	@SuppressWarnings("null")
 	public static void addargument(Player activeChar, int id, int lvl)
 	{
 		ItemInstance rhand = activeChar.getInventory().getPaperdollItem(7);
-
+		
 		if (rhand == null)
 		{
 			activeChar.sendMessage("SYS: Voce nao esta equipado com a arma.");
 			return;
 		}
-
+		
 		if (rhand.isAugmented())
 		{
 			activeChar.sendMessage("SYS: Esta arma ja esta Argumentada.");
 			return;
 		}
-
+		
 		if (rhand != null)
 		{
 			if (activeChar.getInventory().getInventoryItemCount(Config.DONATE_ITEM_SKILL, 0) >= Config.DONATE_ITEM_COUNT_SKILL)
 			{
 				activeChar.destroyItemByItemId("Consume", Config.DONATE_ITEM_SKILL, Config.DONATE_ITEM_COUNT_SKILL, activeChar, true);
-
+				
 				rhand.setAugmentation(new L2Augmentation(596378492, id, lvl));
 				ItemInstance[] unequipped = activeChar.getInventory().unEquipItemInBodySlotAndRecord(rhand.getItem().getBodyPart());
 				InventoryUpdate iu = new InventoryUpdate();
@@ -1826,15 +1821,15 @@ public class VoicedDonate implements IVoicedCommandHandler
 				activeChar.sendMessage("Voce nao tem tickets donate suficiente.");
 			}
 		}
-
+		
 		// Apply augmentation bonuses on equip
 		if (rhand.isAugmented())
 			rhand.getAugmentation().applyBonus(activeChar);
-
+		
 		activeChar.sendPacket(new ItemList(activeChar, true));
 		activeChar.broadcastUserInfo();
 	}
-
+	
 	@SuppressWarnings("null")
 	public static void add(Player activeChar, int id)
 	{
@@ -1860,13 +1855,13 @@ public class VoicedDonate implements IVoicedCommandHandler
 			return;
 		}
 		ItemInstance rhand = activeChar.getInventory().getPaperdollItem(7);
-
+		
 		if (rhand == null)
 		{
 			activeChar.sendMessage("SYS: Voce nao esta equipado com a arma.");
 			return;
 		}
-
+		
 		if (rhand.isAugmented())
 		{
 			activeChar.sendMessage("SYS: Esta arma ja esta Argumentada.");
@@ -1877,7 +1872,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 			if (activeChar.getInventory().getInventoryItemCount(Config.DONATE_ITEM, 0) >= Config.DONATE_ITEM_COUNT)
 			{
 				activeChar.destroyItemByItemId("Consume", Config.DONATE_ITEM, Config.DONATE_ITEM_COUNT, activeChar, true);
-
+				
 				rhand.setAugmentation(new L2Augmentation(id, 0, 0));
 				ItemInstance[] unequipped = activeChar.getInventory().unEquipItemInBodySlotAndRecord(rhand.getItem().getBodyPart());
 				InventoryUpdate iu = new InventoryUpdate();
@@ -1899,28 +1894,28 @@ public class VoicedDonate implements IVoicedCommandHandler
 		activeChar.sendPacket(new ItemList(activeChar, true));
 		activeChar.broadcastCharInfo();
 	}
-
+	
 	static void Disabled(Player activeChar)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/donate/disabled.htm");
 		activeChar.sendPacket(html);
 	}
-
+	
 	public static void showMainStatusHtml(Player activeChar)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/donate/arg_status.htm");
 		activeChar.sendPacket(html);
 	}
-
+	
 	public static void showMainSkillsHtml(Player activeChar)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/mods/donate/augmentweapon.htm");
 		activeChar.sendPacket(html);
 	}
-
+	
 	public static void showMainHtml(Player activeChar)
 	{
 		activeChar._class_id = 0;
@@ -1930,7 +1925,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 		html.setFile("data/html/mods/donate/index.htm");
 		activeChar.sendPacket(html);
 	}
-
+	
 	public static void showNobleHtml(Player activeChar)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
@@ -1938,7 +1933,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 		html.replace("%coin%", "<font color=\"00FF00\">" + Config.DONATE_NOBLE_PRICE + "</font>");
 		activeChar.sendPacket(html);
 	}
-
+	
 	public void class_select(Player activeChar)
 	{
 		activeChar._class_id = 0;
@@ -1948,7 +1943,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 		html.setFile(filename);
 		activeChar.sendPacket(html);
 	}
-
+	
 	public void class_finish(Player activeChar)
 	{
 		activeChar.sendPacket(ActionFailed.STATIC_PACKET);
@@ -1956,7 +1951,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile(filename);
 		html.replace("%coin%", "<font color=\"00FF00\">" + Config.DONATE_CLASS_PRICE + "</font>");
-
+		
 		if (activeChar._class_id == 1)
 			html.replace("%class_name%", "Duelist");
 		else if (activeChar._class_id == 2)
@@ -2019,7 +2014,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 			html.replace("%class_name%", "Fortune Seeker");
 		else if (activeChar._class_id == 31)
 			html.replace("%class_name%", "Maestro");
-
+		
 		if (activeChar._class_id >= 1 && activeChar._class_id <= 6)
 			html.replace("%race%", "Human Fighter");
 		else if (activeChar._class_id >= 7 && activeChar._class_id <= 11)
@@ -2038,10 +2033,10 @@ public class VoicedDonate implements IVoicedCommandHandler
 			html.replace("%race%", "Orc Mystic");
 		else if (activeChar._class_id >= 30 && activeChar._class_id <= 31)
 			html.replace("%race%", "Dwarf Fighter");
-
+		
 		activeChar.sendPacket(html);
 	}
-
+	
 	public void name_select(Player activeChar)
 	{
 		activeChar._change_Name = "";
@@ -2052,7 +2047,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 		html.replace("%name%", activeChar.getName());
 		activeChar.sendPacket(html);
 	}
-
+	
 	public void name_finish(Player activeChar)
 	{
 		activeChar.sendPacket(ActionFailed.STATIC_PACKET);
@@ -2064,28 +2059,28 @@ public class VoicedDonate implements IVoicedCommandHandler
 		html.replace("%coin%", "<font color=\"00FF00\">" + Config.DONATE_NAME_PRICE + "</font>");
 		activeChar.sendPacket(html);
 	}
-
+	
 	public void sex_select(Player activeChar)
 	{
 		activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 		String filename = "data/html/mods/donate/sex.htm";
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile(filename);
-
+		
 		if (activeChar.getAppearance().getSex() == Sex.MALE)
 			html.replace("%old_sex%", "Male / Masculino");
 		else
 			html.replace("%old_sex%", "Female / Feminino");
-
+		
 		if (activeChar._sex_id == 1)
 			html.replace("%new_sex%", "Female / Feminino");
 		else
 			html.replace("%new_sex%", "Male / Masculino");
-
+		
 		html.replace("%coin%", "<font color=\"00FF00\">" + Config.DONATE_SEX_PRICE + "</font>");
 		activeChar.sendPacket(html);
 	}
-
+	
 	public void Incorrect_item(Player activeChar)
 	{
 		activeChar._vip_days = 0;
@@ -2099,14 +2094,14 @@ public class VoicedDonate implements IVoicedCommandHandler
 		html.setFile(filename);
 		activeChar.sendPacket(html);
 	}
-
+	
 	public static void Finish(Player activeChar)
 	{
 		String newclass = activeChar.getTemplate().getClassName();
-
+		
 		activeChar.sendMessage(activeChar.getName() + " is now a " + newclass + ".");
 		activeChar.sendPacket(new ExShowScreenMessage("Congratulations. You is now a " + newclass + ".", 6000, 0x02, true));
-
+		
 		activeChar.refreshOverloaded();
 		activeChar.store();
 		activeChar.sendPacket(new HennaInfo(activeChar));
@@ -2114,7 +2109,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 		activeChar.broadcastUserInfo();
 		activeChar.removeItens();
 		activeChar.sendPacket(new PlaySound("ItemSound.quest_finish"));
-
+		
 		if (activeChar.isNoble())
 		{
 			StatsSet playerStat = Olympiad.getNobleStats(activeChar.getObjectId());
@@ -2132,13 +2127,13 @@ public class VoicedDonate implements IVoicedCommandHandler
 				{
 					System.out.println("Class Item: " + e);
 				}
-
+				
 				Olympiad.removeNobleStats(activeChar.getObjectId());
 				AdminEditChar.DeleteHero(activeChar);
 				activeChar.sendMessage("You now has " + Olympiad.getInstance().getNoblePoints(activeChar.getObjectId()) + " Olympiad points.");
 			}
 		}
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			// Remove all henna info stored for this sub-class.
@@ -2152,10 +2147,10 @@ public class VoicedDonate implements IVoicedCommandHandler
 		{
 			System.out.println("Class Item: " + e);
 		}
-
+		
 		ThreadPool.schedule(new Runnable()
 		{
-
+			
 			@Override
 			public void run()
 			{
@@ -2163,14 +2158,14 @@ public class VoicedDonate implements IVoicedCommandHandler
 			}
 		}, 3000);
 	}
-
+	
 	public void Buy_Vip(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 		String filename = "data/html/mods/donate/vip.htm";
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile(filename);
-
+		
 		if (player._vip_days == 0)
 			html.replace("%coin%", "0");
 		else if (player._vip_days == 30)
@@ -2181,7 +2176,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 			html.replace("%coin%", "<font color=\"00FF00\">" + Config.VIP_90_DAYS_PRICE + "</font>");
 		else if (player._vip_days >= 360)
 			html.replace("%coin%", "<font color=\"00FF00\">" + Config.VIP_ETERNAL_PRICE + "</font>");
-
+		
 		if (player._vip_days == 0)
 			html.replace("%vip_days%", "0");
 		else if (player._vip_days == 30)
@@ -2192,17 +2187,17 @@ public class VoicedDonate implements IVoicedCommandHandler
 			html.replace("%vip_days%", "<font color=\"00FF00\">90</font> Days");
 		else if (player._vip_days >= 360)
 			html.replace("%vip_days%", "<font color=\"00FF00\">Eternal</font>");
-
+		
 		player.sendPacket(html);
 	}
-
+	
 	public void Buy_Hero(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 		String filename = "data/html/mods/donate/hero.htm";
 		NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile(filename);
-
+		
 		if (player._hero_days == 0)
 			html.replace("%coin%", "0");
 		else if (player._hero_days == 30)
@@ -2213,7 +2208,7 @@ public class VoicedDonate implements IVoicedCommandHandler
 			html.replace("%coin%", "<font color=\"00FF00\">" + Config.HERO_90_DAYS_PRICE + "</font>");
 		else if (player._hero_days >= 360)
 			html.replace("%coin%", "<font color=\"00FF00\">" + Config.HERO_ETERNAL_PRICE + "</font>");
-
+		
 		if (player._hero_days == 0)
 			html.replace("%hero_days%", "0");
 		else if (player._hero_days == 30)
@@ -2224,10 +2219,10 @@ public class VoicedDonate implements IVoicedCommandHandler
 			html.replace("%hero_days%", "<font color=\"00FF00\">90</font> Days");
 		else if (player._hero_days >= 360)
 			html.replace("%hero_days%", "<font color=\"00FF00\">Eternal</font>");
-
+		
 		player.sendPacket(html);
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

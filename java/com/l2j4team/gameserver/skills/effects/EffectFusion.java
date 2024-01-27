@@ -12,26 +12,26 @@ public class EffectFusion extends L2Effect
 {
 	public int _effect;
 	public int _maxEffect;
-
+	
 	public EffectFusion(Env env, EffectTemplate template)
 	{
 		super(env, template);
 		_effect = getSkill().getLevel();
 		_maxEffect = SkillTable.getInstance().getMaxLevel(getSkill().getId());
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return true;
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.FUSION;
 	}
-
+	
 	public void increaseEffect()
 	{
 		if (_effect < _maxEffect)
@@ -40,7 +40,7 @@ public class EffectFusion extends L2Effect
 			updateBuff();
 		}
 	}
-
+	
 	public void decreaseForce()
 	{
 		_effect--;
@@ -49,7 +49,7 @@ public class EffectFusion extends L2Effect
 		else
 			updateBuff();
 	}
-
+	
 	private void updateBuff()
 	{
 		exit();

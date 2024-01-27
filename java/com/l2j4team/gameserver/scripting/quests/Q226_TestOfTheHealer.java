@@ -12,7 +12,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q226_TestOfTheHealer extends Quest
 {
 	private static final String qn = "Q226_TestOfTheHealer";
-
+	
 	// Items
 	private static final int REPORT_OF_PERRIN = 2810;
 	private static final int KRISTINA_LETTER = 2811;
@@ -24,11 +24,11 @@ public class Q226_TestOfTheHealer extends Quest
 	private static final int SECRET_LETTER_2 = 2817;
 	private static final int SECRET_LETTER_3 = 2818;
 	private static final int SECRET_LETTER_4 = 2819;
-
+	
 	// Rewards
 	private static final int MARK_OF_HEALER = 2820;
 	private static final int DIMENSIONAL_DIAMOND = 7562;
-
+	
 	// NPCs
 	private static final int BANDELLOS = 30473;
 	private static final int SORIUS = 30327;
@@ -43,7 +43,7 @@ public class Q226_TestOfTheHealer extends Quest
 	private static final int KAIN_FLYING_KNIFE = 30664;
 	private static final int KRISTINA = 30665;
 	private static final int DAURIN_HAMMERCRUSH = 30674;
-
+	
 	// Monsters
 	private static final int LETO_LIZARDMAN_LEADER = 27123;
 	private static final int LETO_LIZARDMAN_ASSASSIN = 27124;
@@ -51,22 +51,22 @@ public class Q226_TestOfTheHealer extends Quest
 	private static final int LETO_LIZARDMAN_WIZARD = 27126;
 	private static final int LETO_LIZARDMAN_LORD = 27127;
 	private static final int TATOMA = 27134;
-
+	
 	private Npc _tatoma;
 	private Npc _letoLeader;
-
+	
 	public Q226_TestOfTheHealer()
 	{
 		super(226, "Test of the Healer");
-
+		
 		setItemsIds(REPORT_OF_PERRIN, KRISTINA_LETTER, PICTURE_OF_WINDY, GOLDEN_STATUE, WINDY_PEBBLES, ORDER_OF_SORIUS, SECRET_LETTER_1, SECRET_LETTER_2, SECRET_LETTER_3, SECRET_LETTER_4);
-
+		
 		addStartNpc(BANDELLOS);
 		addTalkId(BANDELLOS, SORIUS, ALLANA, PERRIN, GUPU, ORPHAN_GIRL, WINDY_SHAORING, MYSTERIOUS_DARKELF, PIPER_LONGBOW, SLEIN_SHINING_BLADE, KAIN_FLYING_KNIFE, KRISTINA, DAURIN_HAMMERCRUSH);
-
+		
 		addKillId(LETO_LIZARDMAN_LEADER, LETO_LIZARDMAN_ASSASSIN, LETO_LIZARDMAN_SNIPER, LETO_LIZARDMAN_WIZARD, LETO_LIZARDMAN_LORD, TATOMA);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -74,7 +74,7 @@ public class Q226_TestOfTheHealer extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// BANDELLOS
 		if (event.equalsIgnoreCase("30473-04.htm"))
 		{
@@ -82,7 +82,7 @@ public class Q226_TestOfTheHealer extends Quest
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(REPORT_OF_PERRIN, 1);
-
+			
 			if (!player.getMemos().getBool("secondClassChange39", false))
 			{
 				htmltext = "30473-04a.htm";
@@ -104,7 +104,7 @@ public class Q226_TestOfTheHealer extends Quest
 		{
 			st.set("cond", "2");
 			st.playSound(QuestState.SOUND_MIDDLE);
-
+			
 			if (_tatoma == null)
 			{
 				_tatoma = addSpawn(TATOMA, -93254, 147559, -2679, 0, false, 0, false);
@@ -145,7 +145,7 @@ public class Q226_TestOfTheHealer extends Quest
 			st.set("cond", "11");
 			st.playSound(QuestState.SOUND_BEFORE_BATTLE);
 			st.takeItems(ORDER_OF_SORIUS, 1);
-
+			
 			if (_letoLeader == null)
 			{
 				_letoLeader = addSpawn(LETO_LIZARDMAN_LEADER, -97441, 106585, -3405, 0, false, 0, false);
@@ -176,10 +176,10 @@ public class Q226_TestOfTheHealer extends Quest
 			_letoLeader = null;
 			return null;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -187,7 +187,7 @@ public class Q226_TestOfTheHealer extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -198,7 +198,7 @@ public class Q226_TestOfTheHealer extends Quest
 				else
 					htmltext = "30473-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -221,7 +221,7 @@ public class Q226_TestOfTheHealer extends Quest
 								htmltext = "30473-07.htm";
 						}
 						break;
-
+					
 					case PERRIN:
 						if (cond < 3)
 							htmltext = "30428-01.htm";
@@ -235,11 +235,11 @@ public class Q226_TestOfTheHealer extends Quest
 						else
 							htmltext = "30428-04.htm";
 						break;
-
+					
 					case ORPHAN_GIRL:
 						htmltext = "30659-0" + Rnd.get(1, 5) + ".htm";
 						break;
-
+					
 					case ALLANA:
 						if (cond == 4)
 						{
@@ -250,7 +250,7 @@ public class Q226_TestOfTheHealer extends Quest
 						else if (cond > 4)
 							htmltext = "30424-02.htm";
 						break;
-
+					
 					case GUPU:
 						if (st.getInt("gupu") == 1 && cond != 9)
 						{
@@ -278,14 +278,14 @@ public class Q226_TestOfTheHealer extends Quest
 						else if (cond > 8)
 							htmltext = "30658-07.htm";
 						break;
-
+					
 					case WINDY_SHAORING:
 						if (cond == 7)
 							htmltext = "30660-01.htm";
 						else if (st.hasQuestItems(WINDY_PEBBLES))
 							htmltext = "30660-04.htm";
 						break;
-
+					
 					case SORIUS:
 						if (cond == 9)
 						{
@@ -306,7 +306,7 @@ public class Q226_TestOfTheHealer extends Quest
 						else if (cond == 23)
 							htmltext = "30327-04.htm";
 						break;
-
+					
 					case DAURIN_HAMMERCRUSH:
 						if (cond == 10)
 							htmltext = "30674-01.htm";
@@ -328,7 +328,7 @@ public class Q226_TestOfTheHealer extends Quest
 						else if (cond > 12)
 							htmltext = "30674-04.htm";
 						break;
-
+					
 					case PIPER_LONGBOW:
 					case SLEIN_SHINING_BLADE:
 					case KAIN_FLYING_KNIFE:
@@ -343,7 +343,7 @@ public class Q226_TestOfTheHealer extends Quest
 							st.playSound(QuestState.SOUND_MIDDLE);
 						}
 						break;
-
+					
 					case MYSTERIOUS_DARKELF:
 						if (cond == 13)
 						{
@@ -387,7 +387,7 @@ public class Q226_TestOfTheHealer extends Quest
 						else if (cond == 20 || cond == 21)
 							htmltext = "30661-04.htm";
 						break;
-
+					
 					case KRISTINA:
 						if (cond > 18 && cond < 22)
 							htmltext = "30665-01.htm";
@@ -398,22 +398,22 @@ public class Q226_TestOfTheHealer extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int cond = st.getInt("cond");
 		switch (npc.getNpcId())
 		{
@@ -426,7 +426,7 @@ public class Q226_TestOfTheHealer extends Quest
 				_tatoma = null;
 				cancelQuestTimer("tatoma_despawn", null, player);
 				break;
-
+			
 			case LETO_LIZARDMAN_LEADER:
 				if (cond == 10 || cond == 11)
 				{
@@ -437,7 +437,7 @@ public class Q226_TestOfTheHealer extends Quest
 				_letoLeader = null;
 				cancelQuestTimer("leto_leader_despawn", null, player);
 				break;
-
+			
 			case LETO_LIZARDMAN_ASSASSIN:
 				if (cond == 13 || cond == 14)
 				{
@@ -446,7 +446,7 @@ public class Q226_TestOfTheHealer extends Quest
 					st.giveItems(SECRET_LETTER_2, 1);
 				}
 				break;
-
+			
 			case LETO_LIZARDMAN_SNIPER:
 				if (cond == 15 || cond == 16)
 				{
@@ -455,7 +455,7 @@ public class Q226_TestOfTheHealer extends Quest
 					st.giveItems(SECRET_LETTER_3, 1);
 				}
 				break;
-
+			
 			case LETO_LIZARDMAN_LORD:
 				if (cond == 17 || cond == 18)
 				{
@@ -465,7 +465,7 @@ public class Q226_TestOfTheHealer extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
 }

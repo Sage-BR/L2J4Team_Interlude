@@ -9,19 +9,19 @@ public class ExColosseumFenceInfo extends L2GameServerPacket
 {
 	private final int _objectId;
 	private final Fence _fence;
-
+	
 	public ExColosseumFenceInfo(int objectId, Fence fence)
 	{
 		_objectId = objectId;
 		_fence = fence;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
 		writeC(0xFE);
 		writeH(0x09);
-
+		
 		writeD(_objectId);
 		writeD(_fence.getType());
 		writeD(_fence.getX());

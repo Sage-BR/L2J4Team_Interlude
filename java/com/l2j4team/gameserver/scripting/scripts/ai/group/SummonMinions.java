@@ -25,9 +25,9 @@ public class SummonMinions extends L2AttackableAIScript
 		"Show yourselves!",
 		"Forces of darkness! Follow me!"
 	};
-
+	
 	private static final Map<Integer, int[]> MINIONS = new HashMap<>();
-
+	
 	static
 	{
 		MINIONS.put(20767, new int[]
@@ -49,18 +49,18 @@ public class SummonMinions extends L2AttackableAIScript
 			21540
 		}); // Wailing of Splendor
 	}
-
+	
 	public SummonMinions()
 	{
 		super("ai/group");
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addEventIds(MINIONS.keySet(), EventType.ON_ATTACK, EventType.ON_KILL);
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
@@ -79,12 +79,12 @@ public class SummonMinions extends L2AttackableAIScript
 			{
 				for (int val : MINIONS.get(npcId))
 					addSpawn(val, npc, true, 0, false);
-
+				
 				npc.broadcastNpcSay(Rnd.get(ORCS_WORDS));
 			}
 			npc.setScriptValue(1);
 		}
-
+		
 		return super.onAttack(npc, attacker, damage, isPet, skill);
 	}
 }

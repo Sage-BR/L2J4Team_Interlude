@@ -17,11 +17,11 @@ public class L2SkillTeleport extends L2Skill
 {
 	private final String _recallType;
 	private final Location _loc;
-
+	
 	public L2SkillTeleport(StatsSet set)
 	{
 		super(set);
-
+		
 		_recallType = set.getString("recallType", "");
 		String coords = set.getString("teleCoords", null);
 		if (coords != null)
@@ -32,7 +32,7 @@ public class L2SkillTeleport extends L2Skill
 		else
 			_loc = null;
 	}
-
+	
 	@Override
 	public void useSkill(Creature activeChar, WorldObject[] targets)
 	{
@@ -42,37 +42,37 @@ public class L2SkillTeleport extends L2Skill
 			if (activeChar.isAfraid() || ((Player) activeChar).isInOlympiadMode())
 				return;
 		}
-
+		
 		boolean bsps = activeChar.isChargedShot(ShotType.BLESSED_SPIRITSHOT);
-
+		
 		for (WorldObject obj : targets)
 		{
 			if (!(obj instanceof Creature))
 				continue;
-
+			
 			final Creature target = ((Creature) obj);
-
+			
 			if (target instanceof Player)
 			{
 				Player targetChar = (Player) target;
-
+				
 				// Check invalid states.
 				if (targetChar.isFestivalParticipant() || targetChar.isInJail() || targetChar.isInDuel())
 					continue;
-
+				
 				if ((TvT.is_started() && targetChar._inEventTvT) || (CTF.is_started() && targetChar._inEventCTF) || targetChar.isArenaProtection())
 				{
 					targetChar.sendMessage("You can't use escape skill in Event.");
 					continue;
 				}
-
+				
 				if (targetChar != activeChar)
 				{
 					if (targetChar.isInOlympiadMode())
 						continue;
 				}
 			}
-
+			
 			Location loc = null;
 			if (getSkillType() == L2SkillType.TELEPORT)
 			{
@@ -91,16 +91,16 @@ public class L2SkillTeleport extends L2Skill
 				else
 					loc = MapRegionTable.getInstance().getLocationToTeleport(target, TeleportType.TOWN);
 			}
-
+			
 			if (loc != null)
 			{
 				if (target instanceof Player)
 					((Player) target).setIsIn7sDungeon(false);
-
+				
 				target.teleToLocation(loc, 20);
 			}
 		}
-
+		
 		activeChar.setChargedShot(bsps ? ShotType.BLESSED_SPIRITSHOT : ShotType.SPIRITSHOT, isStaticReuse());
 	}
 }

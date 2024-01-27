@@ -8,7 +8,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q363_SorrowfulSoundOfFlute extends Quest
 {
 	private static final String qn = "Q363_SorrowfulSoundOfFlute";
-
+	
 	// NPCs
 	private static final int NANARIN = 30956;
 	private static final int OPIX = 30595;
@@ -17,25 +17,25 @@ public class Q363_SorrowfulSoundOfFlute extends Quest
 	private static final int HOLVAS = 30058;
 	private static final int BARBADO = 30959;
 	private static final int POITAN = 30458;
-
+	
 	// Item
 	private static final int NANARIN_FLUTE = 4319;
 	private static final int BLACK_BEER = 4320;
 	private static final int CLOTHES = 4318;
-
+	
 	// Reward
 	private static final int THEME_OF_SOLITUDE = 4420;
-
+	
 	public Q363_SorrowfulSoundOfFlute()
 	{
 		super(363, "Sorrowful Sound of Flute");
-
+		
 		setItemsIds(NANARIN_FLUTE, BLACK_BEER, CLOTHES);
-
+		
 		addStartNpc(NANARIN);
 		addTalkId(NANARIN, OPIX, ALDO, RANSPO, HOLVAS, BARBADO, POITAN);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -43,7 +43,7 @@ public class Q363_SorrowfulSoundOfFlute extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30956-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -68,10 +68,10 @@ public class Q363_SorrowfulSoundOfFlute extends Quest
 			st.playSound(QuestState.SOUND_MIDDLE);
 			st.giveItems(BLACK_BEER, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -79,13 +79,13 @@ public class Q363_SorrowfulSoundOfFlute extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 15) ? "30956-03.htm" : "30956-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -113,7 +113,7 @@ public class Q363_SorrowfulSoundOfFlute extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case OPIX:
 					case POITAN:
 					case ALDO:
@@ -126,13 +126,13 @@ public class Q363_SorrowfulSoundOfFlute extends Quest
 							st.playSound(QuestState.SOUND_MIDDLE);
 						}
 						break;
-
+					
 					case BARBADO:
 						if (cond == 3)
 						{
 							st.set("cond", "4");
 							st.playSound(QuestState.SOUND_MIDDLE);
-
+							
 							if (st.hasQuestItems(NANARIN_FLUTE))
 							{
 								htmltext = "30959-02.htm";
@@ -140,7 +140,7 @@ public class Q363_SorrowfulSoundOfFlute extends Quest
 							}
 							else
 								htmltext = "30959-01.htm";
-
+							
 							st.takeItems(BLACK_BEER, -1);
 							st.takeItems(CLOTHES, -1);
 							st.takeItems(NANARIN_FLUTE, -1);
@@ -150,7 +150,7 @@ public class Q363_SorrowfulSoundOfFlute extends Quest
 						break;
 				}
 		}
-
+		
 		return htmltext;
 	}
 }

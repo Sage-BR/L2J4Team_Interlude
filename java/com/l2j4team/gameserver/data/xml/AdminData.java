@@ -34,33 +34,33 @@ public final class AdminData extends XMLDocument
 	private final Map<Integer, AccessLevel> _accessLevels = new HashMap<>();
 	private final Map<String, Integer> _adminCommandAccessRights = new HashMap<>();
 	private final Map<Player, Boolean> _gmList = new ConcurrentHashMap<>();
-
+	
 	private final int _highestLevel = 0;
-
+	
 	protected AdminData()
 	{
 		load();
 	}
-
+	
 	@Override
 	protected void load()
 	{
 		loadDocument("./data/xml/accessLevels.xml");
 		LOGGER.info("Loaded {} access levels.", _accessLevels.size());
-
+		
 		loadDocument("./data/xml/adminCommands.xml");
 		LOGGER.info("Loaded {} admin command rights.", _adminCommandAccessRights.size());
 	}
-
+	
 	@Override
 	protected void parseDocument(Document doc, File file)
 	{
 		// StatsSet used to feed informations. Cleaned on every entry.
 		final StatsSet set = new StatsSet();
-
+		
 		// First element is never read.
 		final Node n = doc.getFirstChild();
-
+		
 		for (Node o = n.getFirstChild(); o != null; o = o.getNextSibling())
 		{
 			// Parse and feed access levels.
@@ -68,10 +68,10 @@ public final class AdminData extends XMLDocument
 			{
 				// Parse and feed content.
 				parseAndFeed(o.getAttributes(), set);
-
+				
 				// Feed the map with new data.
 				_accessLevels.put(set.getInteger("level"), new AccessLevel(set));
-
+				
 				// Clear the StatsSet.
 				set.clear();
 			}
@@ -80,24 +80,24 @@ public final class AdminData extends XMLDocument
 			{
 				// Parse and feed content.
 				parseAndFeed(o.getAttributes(), set);
-
+				
 				// Feed the map with new data.
 				_adminCommandAccessRights.put(set.getString("name"), set.getInteger("accessLevel"));
-
+				
 				// Clear the StatsSet.
 				set.clear();
 			}
 		}
 	}
-
+	
 	public void reload()
 	{
 		_accessLevels.clear();
 		_adminCommandAccessRights.clear();
-
+		
 		load();
 	}
-
+	
 	/**
 	 * @param level : The level to check.
 	 * @return the {@link AccessLevel} based on its level.
@@ -106,10 +106,10 @@ public final class AdminData extends XMLDocument
 	{
 		if (level < 0)
 			return _accessLevels.get(-1);
-
+		
 		return _accessLevels.get(level);
 	}
-
+	
 	/**
 	 * @return the master {@link AccessLevel}. It is always the AccessLevel with the highest level.
 	 */
@@ -117,7 +117,7 @@ public final class AdminData extends XMLDocument
 	{
 		return _accessLevels.get(_highestLevel);
 	}
-
+	
 	/**
 	 * @param level : The level to check.
 	 * @return true if an {@link AccessLevel} exists.
@@ -126,7 +126,7 @@ public final class AdminData extends XMLDocument
 	{
 		return _accessLevels.containsKey(level);
 	}
-
+	
 	public boolean hasAccess(String command, AccessLevel accessToCheck)
 	{
 		final Integer level = _adminCommandAccessRights.get(command);
@@ -135,11 +135,11 @@ public final class AdminData extends XMLDocument
 			LOGGER.info("No rights defined for admin command " + command + " !");
 			return false;
 		}
-
+		
 		final AccessLevel access = AdminData.getInstance().getAccessLevel(level);
 		return access != null && (access.getLevel() == accessToCheck.getLevel() || accessToCheck.hasChildAccess(access));
 	}
-
+	
 	/**
 	 * @param includeHidden : If true, we add hidden GMs.
 	 * @return the List of GM {@link Player}s. This List can include or not hidden GMs.
@@ -154,7 +154,7 @@ public final class AdminData extends XMLDocument
 		}
 		return list;
 	}
-
+	
 	/**
 	 * @param includeHidden : If true, we add hidden GMs.
 	 * @return the List of GM {@link Player}s names. This List can include or not hidden GMs.
@@ -171,7 +171,7 @@ public final class AdminData extends XMLDocument
 		}
 		return list;
 	}
-
+	
 	/**
 	 * Add a {@link Player} to the _gmList map.
 	 * @param player : The Player to add on the map.
@@ -181,7 +181,7 @@ public final class AdminData extends XMLDocument
 	{
 		_gmList.put(player, hidden);
 	}
-
+	
 	/**
 	 * Delete a {@link Player} from the _gmList map..
 	 * @param player : The Player to remove from the map.
@@ -190,7 +190,7 @@ public final class AdminData extends XMLDocument
 	{
 		_gmList.remove(player);
 	}
-
+	
 	/**
 	 * Refresh hidden state for a GM {@link Player}.
 	 * @param player : The GM to affect.
@@ -200,7 +200,7 @@ public final class AdminData extends XMLDocument
 	{
 		return _gmList.computeIfPresent(player, (k, v) -> !v);
 	}
-
+	
 	/**
 	 * @param includeHidden : Include or not hidden GM Players.
 	 * @return true if at least one GM {@link Player} is online.
@@ -214,7 +214,7 @@ public final class AdminData extends XMLDocument
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param player : The player to test.
 	 * @return true if this {@link Player} is registered as GM.
@@ -223,7 +223,7 @@ public final class AdminData extends XMLDocument
 	{
 		return _gmList.containsKey(player);
 	}
-
+	
 	/**
 	 * Send the GM list of current online GM {@link Player}s to the Player set as parameter.
 	 * @param player : The Player to send list.
@@ -233,7 +233,7 @@ public final class AdminData extends XMLDocument
 		if (isGmOnline(player.isGM()))
 		{
 			player.sendPacket(SystemMessageId.GM_LIST);
-
+			
 			for (String name : getAllGmNames(player.isGM()))
 				player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.GM_S1).addString(name));
 		}
@@ -243,7 +243,7 @@ public final class AdminData extends XMLDocument
 			player.sendPacket(new PlaySound("systemmsg_e.702"));
 		}
 	}
-
+	
 	/**
 	 * Broadcast to GM {@link Player}s a specific packet set as parameter.
 	 * @param packet : The {@link L2GameServerPacket} packet to broadcast.
@@ -253,7 +253,7 @@ public final class AdminData extends XMLDocument
 		for (Player gm : getAllGms(true))
 			gm.sendPacket(packet);
 	}
-
+	
 	/**
 	 * Broadcast a message to GM {@link Player}s.
 	 * @param message : The String message to broadcast.
@@ -263,12 +263,12 @@ public final class AdminData extends XMLDocument
 		for (Player gm : getAllGms(true))
 			gm.sendMessage(message);
 	}
-
+	
 	public static AdminData getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final AdminData INSTANCE = new AdminData();

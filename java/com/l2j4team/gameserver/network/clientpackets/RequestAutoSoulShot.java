@@ -10,27 +10,27 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 {
 	private int _itemId;
 	private int _type; // 1 = on : 0 = off;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_itemId = readD();
 		_type = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		if (!activeChar.isInStoreMode() && activeChar.getActiveRequester() == null && !activeChar.isDead())
 		{
 			ItemInstance item = activeChar.getInventory().getItemByItemId(_itemId);
 			if (item == null)
 				return;
-
+			
 			if (_type == 1)
 			{
 				// Fishingshots are not automatic on retail
@@ -47,7 +47,7 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 								activeChar.sendPacket(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT);
 								return;
 							}
-
+							
 							if (_itemId == 6645)
 							{
 								if (activeChar.getPet().getSoulShotsPerHit() > item.getCount())
@@ -64,7 +64,7 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 									return;
 								}
 							}
-
+							
 							// start the auto soulshot use
 							activeChar.addAutoSoulShot(_itemId);
 							activeChar.sendPacket(new ExAutoSoulShot(_itemId, _type));
@@ -83,11 +83,11 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 							activeChar.sendPacket(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT);
 							return;
 						}
-
+						
 						// Activate the visual effect
 						activeChar.addAutoSoulShot(_itemId);
 						activeChar.sendPacket(new ExAutoSoulShot(_itemId, _type));
-
+						
 						// start the auto soulshot use
 						if (activeChar.getActiveWeaponItem() != activeChar.getFistsWeaponItem() && item.getItem().getCrystalType() == activeChar.getActiveWeaponItem().getCrystalType())
 							activeChar.rechargeShots(true, true);
@@ -98,7 +98,7 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 							else
 								activeChar.sendPacket(SystemMessageId.SOULSHOTS_GRADE_MISMATCH);
 						}
-
+						
 						// In both cases (match/mismatch), that message is displayed.
 						activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.USE_OF_S1_WILL_BE_AUTO).addItemName(_itemId));
 					}

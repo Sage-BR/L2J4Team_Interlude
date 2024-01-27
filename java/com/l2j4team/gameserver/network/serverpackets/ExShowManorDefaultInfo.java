@@ -9,13 +9,13 @@ public class ExShowManorDefaultInfo extends L2GameServerPacket
 {
 	private final List<Seed> _crops;
 	private final boolean _hideButtons;
-
+	
 	public ExShowManorDefaultInfo(boolean hideButtons)
 	{
 		_crops = CastleManorManager.getInstance().getCrops();
 		_hideButtons = hideButtons;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

@@ -6,7 +6,7 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ExOlympiadMode extends L2GameServerPacket
 {
 	private final int _mode;
-
+	
 	/**
 	 * @param mode (0 = return, 1 = side 1, 2 = side 2, 3 = spectate)
 	 */
@@ -14,7 +14,7 @@ public class ExOlympiadMode extends L2GameServerPacket
 	{
 		_mode = mode;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

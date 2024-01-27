@@ -14,7 +14,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q419_GetAPet extends Quest
 {
 	private static final String qn = "Q419_GetAPet";
-
+	
 	// Items
 	private static final int ANIMAL_LOVER_LIST = 3417;
 	private static final int ANIMAL_SLAYER_LIST_1 = 3418;
@@ -27,16 +27,16 @@ public class Q419_GetAPet extends Quest
 	private static final int BLOODY_NAIL = 3425;
 	private static final int BLOODY_KASHA_FANG = 3426;
 	private static final int BLOODY_TARANTULA_NAIL = 3427;
-
+	
 	// Reward
 	private static final int WOLF_COLLAR = 2375;
-
+	
 	// NPCs
 	private static final int MARTIN = 30731;
 	private static final int BELLA = 30256;
 	private static final int METTY = 30072;
 	private static final int ELLIE = 30091;
-
+	
 	// Droplist
 	private static final Map<Integer, int[]> DROPLIST = new HashMap<>();
 	{
@@ -111,20 +111,20 @@ public class Q419_GetAPet extends Quest
 			1000000
 		});
 	}
-
+	
 	public Q419_GetAPet()
 	{
 		super(419, "Get a Pet");
-
+		
 		setItemsIds(ANIMAL_LOVER_LIST, ANIMAL_SLAYER_LIST_1, ANIMAL_SLAYER_LIST_2, ANIMAL_SLAYER_LIST_3, ANIMAL_SLAYER_LIST_4, ANIMAL_SLAYER_LIST_5, BLOODY_FANG, BLOODY_CLAW, BLOODY_NAIL, BLOODY_KASHA_FANG, BLOODY_TARANTULA_NAIL);
-
+		
 		addStartNpc(MARTIN);
 		addTalkId(MARTIN, BELLA, ELLIE, METTY);
-
+		
 		for (int npcId : DROPLIST.keySet())
 			addKillId(npcId);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -132,11 +132,11 @@ public class Q419_GetAPet extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("task"))
 		{
 			final int race = player.getRace().ordinal();
-
+			
 			htmltext = "30731-0" + (race + 4) + ".htm";
 			st.setState(STATE_STARTED);
 			st.set("cond", "1");
@@ -192,10 +192,10 @@ public class Q419_GetAPet extends Quest
 			st.set("correct", String.valueOf(st.getInt("correct") + 1));
 			return checkQuestions(st);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -203,13 +203,13 @@ public class Q419_GetAPet extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 15) ? "30731-01.htm" : "30731-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -229,40 +229,40 @@ public class Q419_GetAPet extends Quest
 						else
 							htmltext = "30731-16.htm";
 						break;
-
+					
 					case BELLA:
 						htmltext = "30256-01.htm";
 						break;
-
+					
 					case METTY:
 						htmltext = "30072-01.htm";
 						break;
-
+					
 					case ELLIE:
 						htmltext = "30091-01.htm";
 						break;
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int[] drop = DROPLIST.get(npc.getNpcId());
-
+		
 		if (st.hasQuestItems(drop[0] - 5))
 			st.dropItems(drop[0], 1, 50, drop[1]);
-
+		
 		return null;
 	}
-
+	
 	private static String checkQuestions(QuestState st)
 	{
 		final int answers = st.getInt("correct") + (st.getInt("wrong"));
@@ -271,16 +271,16 @@ public class Q419_GetAPet extends Quest
 			String[] questions = st.get("quiz").split(" ");
 			int index = Rnd.get(questions.length - 1);
 			String question = questions[index];
-
+			
 			if (questions.length > 10 - answers)
 			{
 				questions[index] = questions[questions.length - 1];
-
+				
 				st.set("quiz", String.join(" ", Arrays.copyOf(questions, questions.length - 1)));
 			}
 			return "30731-" + question + ".htm";
 		}
-
+		
 		if (st.getInt("wrong") > 0)
 		{
 			st.unset("progress");
@@ -290,12 +290,12 @@ public class Q419_GetAPet extends Quest
 			st.unset("correct");
 			return "30731-14.htm";
 		}
-
+		
 		st.takeItems(ANIMAL_LOVER_LIST, 1);
 		st.giveItems(WOLF_COLLAR, 1);
 		st.playSound(QuestState.SOUND_FINISH);
 		st.exitQuest(true);
-
+		
 		return "30731-15.htm";
 	}
 }

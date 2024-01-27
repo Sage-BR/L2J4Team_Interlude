@@ -29,9 +29,9 @@ public class VoicedEvent implements IVoicedCommandHandler
 		"ctfleave",
 		"register",
 		"unregister"
-
+	
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -70,24 +70,24 @@ public class VoicedEvent implements IVoicedCommandHandler
 				LeaveCTF(activeChar);
 			else
 				activeChar.sendMessage("There are no CTF events currently available!");
-
+			
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;
 	}
-
+	
 	public static boolean JoinTvT(Player activeChar)
 	{
 		if (activeChar == null)
 		{
 			return false;
 		}
-
+		
 		if (!TvT.is_joining())
 		{
 			activeChar.sendMessage("There are no events currently available.");
@@ -134,14 +134,14 @@ public class VoicedEvent implements IVoicedCommandHandler
 			return false;
 		}
 	}
-
+	
 	public boolean LeaveTvT(Player activeChar)
 	{
 		if (activeChar == null)
 		{
 			return false;
 		}
-
+		
 		if (!TvT.is_joining())
 		{
 			activeChar.sendMessage("There are no events currently available.");
@@ -163,14 +163,14 @@ public class VoicedEvent implements IVoicedCommandHandler
 			return true;
 		}
 	}
-
+	
 	public static boolean JoinCTF(Player activeChar)
 	{
 		if (activeChar == null)
 		{
 			return false;
 		}
-
+		
 		if (!CTF.is_joining())
 		{
 			activeChar.sendMessage("There are no events currently available.");
@@ -217,14 +217,14 @@ public class VoicedEvent implements IVoicedCommandHandler
 			return false;
 		}
 	}
-
+	
 	public boolean LeaveCTF(Player activeChar)
 	{
 		if (activeChar == null)
 		{
 			return false;
 		}
-
+		
 		if (!CTF.is_joining())
 		{
 			activeChar.sendMessage("There are no events currently available.");

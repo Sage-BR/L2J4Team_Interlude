@@ -24,7 +24,7 @@ import org.w3c.dom.Node;
 public class CharTemplateTable
 {
 	private static final Logger _log = Logger.getLogger(CharTemplateTable.class.getName());
-
+	
 	private final Map<Integer, PlayerTemplate> _templates = new HashMap<>();
 	private static final String[] CHAR_CLASSES =
 	{
@@ -148,12 +148,12 @@ public class CharTemplateTable
 		"Fortune Seeker",
 		"Maestro"
 	};
-
+	
 	public static CharTemplateTable getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected CharTemplateTable()
 	{
 		final File mainDir = new File("./data/xml/classes");
@@ -162,23 +162,23 @@ public class CharTemplateTable
 			_log.log(Level.SEVERE, "CharTemplateTable: Main dir " + mainDir.getAbsolutePath() + " hasn't been found.");
 			return;
 		}
-
+		
 		for (final File file : mainDir.listFiles())
 		{
 			if (file.isFile() && file.getName().endsWith(".xml"))
 				loadFileClass(file);
 		}
-
+		
 		_log.log(Level.INFO, "CharTemplateTable: Loaded " + _templates.size() + " character templates.");
 		_log.log(Level.INFO, "CharTemplateTable: Loaded " + SkillTreeTable.getInstance().getSkillTreesSize() + " classes skills trees.");
 	}
-
+	
 	private void loadFileClass(final File f)
 	{
 		try
 		{
 			Document doc = XMLDocumentFactory.getInstance().loadDocument(f);
-
+			
 			Node n = doc.getFirstChild();
 			for (Node d = n.getFirstChild(); d != null; d = d.getNextSibling())
 			{
@@ -186,10 +186,10 @@ public class CharTemplateTable
 				{
 					NamedNodeMap attrs = d.getAttributes();
 					StatsSet set = new StatsSet();
-
+					
 					final ClassId classId = ClassId.VALUES[Integer.parseInt(attrs.getNamedItem("id").getNodeValue())];
 					String items = null;
-
+					
 					for (Node cd = d.getFirstChild(); cd != null; cd = cd.getNextSibling())
 					{
 						if ("set".equalsIgnoreCase(cd.getNodeName()))
@@ -225,7 +225,7 @@ public class CharTemplateTable
 						}
 					}
 					PlayerTemplate pcT = new PlayerTemplate(classId, set);
-
+					
 					// Add items listed in "items" if class possess a filled "items" string.
 					if (items != null)
 					{
@@ -233,7 +233,7 @@ public class CharTemplateTable
 						for (String element : itemsSplit)
 							pcT.addItem(Integer.parseInt(element));
 					}
-
+					
 					_templates.put(pcT.getClassId().getId(), pcT);
 				}
 			}
@@ -243,43 +243,43 @@ public class CharTemplateTable
 			_log.log(Level.WARNING, "CharTemplateTable: Error loading from file: " + f.getName(), e);
 		}
 	}
-
+	
 	public PlayerTemplate getTemplate(ClassId classId)
 	{
 		return _templates.get(classId.getId());
 	}
-
+	
 	public PlayerTemplate getTemplate(int classId)
 	{
 		return _templates.get(classId);
 	}
-
+	
 	public final String getClassNameById(int classId)
 	{
 		PlayerTemplate pcTemplate = _templates.get(classId);
 		if (pcTemplate == null)
 			throw new IllegalArgumentException("No template for classId: " + classId);
-
+		
 		return pcTemplate.getClassName();
 	}
-
+	
 	public static final int getClassIdByName(String className)
 	{
 		int currId = 1;
-
+		
 		for (String name : CHAR_CLASSES)
 		{
 			if (name.equalsIgnoreCase(className))
 			{
 				break;
 			}
-
+			
 			currId++;
 		}
-
+		
 		return currId;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final CharTemplateTable _instance = new CharTemplateTable();

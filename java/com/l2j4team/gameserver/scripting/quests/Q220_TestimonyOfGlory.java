@@ -11,7 +11,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q220_TestimonyOfGlory extends Quest
 {
 	private static final String qn = "Q220_TestimonyOfGlory";
-
+	
 	// Items
 	private static final int VOKIAN_ORDER_1 = 3204;
 	private static final int MANASHEN_SHARD = 3205;
@@ -47,11 +47,11 @@ public class Q220_TestimonyOfGlory extends Quest
 	private static final int TANAPI_ORDER = 3235;
 	private static final int SCEPTER_OF_TANTOS = 3236;
 	private static final int RITUAL_BOX = 3237;
-
+	
 	// Rewards
 	private static final int MARK_OF_GLORY = 3203;
 	private static final int DIMENSIONAL_DIAMOND = 7562;
-
+	
 	// NPCs
 	private static final int KASMAN = 30501;
 	private static final int VOKIAN = 30514;
@@ -64,7 +64,7 @@ public class Q220_TestimonyOfGlory extends Quest
 	private static final int HARAK = 30618;
 	private static final int DRIKO = 30619;
 	private static final int CHIANTA = 30642;
-
+	
 	// Monsters
 	private static final int TYRANT = 20192;
 	private static final int MARSH_STAKATO_DRONE = 20234;
@@ -85,25 +85,25 @@ public class Q220_TestimonyOfGlory extends Quest
 	private static final int ENKU_ORC_OVERLORD = 27082;
 	private static final int MAKUM_BUGBEAR_THUG = 27083;
 	private static final int REVENANT_OF_TANTOS_CHIEF = 27086;
-
+	
 	// Checks & Instances
 	private static boolean _sonsOfVoltar = false;
 	private static boolean _enkuOrcOverlords = false;
 	private static boolean _makumBugbearThugs = false;
-
+	
 	public Q220_TestimonyOfGlory()
 	{
 		super(220, "Testimony Of Glory");
-
+		
 		setItemsIds(VOKIAN_ORDER_1, MANASHEN_SHARD, TYRANT_TALON, GUARDIAN_BASILISK_FANG, VOKIAN_ORDER_2, NECKLACE_OF_AUTHORITY, CHIANTA_ORDER_1, SCEPTER_OF_BREKA, SCEPTER_OF_ENKU, SCEPTER_OF_VUKU, SCEPTER_OF_TUREK, SCEPTER_OF_TUNATH, CHIANTA_ORDER_2, CHIANTA_ORDER_3, TAMLIN_ORC_SKULL, TIMAK_ORC_HEAD, SCEPTER_BOX, PASHIKA_HEAD, VULTUS_HEAD, GLOVE_OF_VOLTAR, ENKU_OVERLORD_HEAD, GLOVE_OF_KEPRA, MAKUM_BUGBEAR_HEAD, GLOVE_OF_BURAI, MANAKIA_LETTER_1, MANAKIA_LETTER_2, KASMAN_LETTER_1, KASMAN_LETTER_2, KASMAN_LETTER_3, DRIKO_CONTRACT, STAKATO_DRONE_HUSK, TANAPI_ORDER, SCEPTER_OF_TANTOS, RITUAL_BOX);
-
+		
 		addStartNpc(VOKIAN);
 		addTalkId(KASMAN, VOKIAN, MANAKIA, KAKAI, TANAPI, VOLTAR, KEPRA, BURAI, HARAK, DRIKO, CHIANTA);
-
+		
 		addAttackId(RAGNA_ORC_OVERLORD, RAGNA_ORC_SEER, REVENANT_OF_TANTOS_CHIEF);
 		addKillId(TYRANT, MARSH_STAKATO_DRONE, GUARDIAN_BASILISK, MANASHEN_GARGOYLE, TIMAK_ORC, TIMAK_ORC_ARCHER, TIMAK_ORC_SOLDIER, TIMAK_ORC_WARRIOR, TIMAK_ORC_SHAMAN, TIMAK_ORC_OVERLORD, TAMLIN_ORC, TAMLIN_ORC_ARCHER, RAGNA_ORC_OVERLORD, RAGNA_ORC_SEER, PASHIKA_SON_OF_VOLTAR, VULTUS_SON_OF_VOLTAR, ENKU_ORC_OVERLORD, MAKUM_BUGBEAR_THUG, REVENANT_OF_TANTOS_CHIEF);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -111,7 +111,7 @@ public class Q220_TestimonyOfGlory extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// VOKIAN
 		if (event.equalsIgnoreCase("30514-05.htm"))
 		{
@@ -119,7 +119,7 @@ public class Q220_TestimonyOfGlory extends Quest
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(VOKIAN_ORDER_1, 1);
-
+			
 			if (!player.getMemos().getBool("secondClassChange37", false))
 			{
 				htmltext = "30514-05a.htm";
@@ -146,7 +146,7 @@ public class Q220_TestimonyOfGlory extends Quest
 			st.takeItems(SCEPTER_OF_TUNATH, 1);
 			st.takeItems(SCEPTER_OF_TUREK, 1);
 			st.takeItems(SCEPTER_OF_VUKU, 1);
-
+			
 			if (player.getLevel() >= 37)
 			{
 				st.set("cond", "6");
@@ -228,13 +228,13 @@ public class Q220_TestimonyOfGlory extends Quest
 			st.playSound(QuestState.SOUND_ITEMGET);
 			st.takeItems(MANAKIA_LETTER_1, 1);
 			st.giveItems(GLOVE_OF_VOLTAR, 1);
-
+			
 			if (!_sonsOfVoltar)
 			{
 				addSpawn(PASHIKA_SON_OF_VOLTAR, 80117, 120039, -2259, 0, false, 200000, true);
 				addSpawn(VULTUS_SON_OF_VOLTAR, 80058, 120038, -2259, 0, false, 200000, true);
 				_sonsOfVoltar = true;
-
+				
 				// Resets Sons Of Voltar
 				startQuestTimer("voltar_sons_cleanup", 201000, null, player, false);
 			}
@@ -245,7 +245,7 @@ public class Q220_TestimonyOfGlory extends Quest
 			st.playSound(QuestState.SOUND_ITEMGET);
 			st.takeItems(MANAKIA_LETTER_2, 1);
 			st.giveItems(GLOVE_OF_KEPRA, 1);
-
+			
 			if (!_enkuOrcOverlords)
 			{
 				addSpawn(ENKU_ORC_OVERLORD, 19894, 189743, -3074, 0, false, 200000, true);
@@ -253,7 +253,7 @@ public class Q220_TestimonyOfGlory extends Quest
 				addSpawn(ENKU_ORC_OVERLORD, 19818, 189818, -3047, 0, false, 200000, true);
 				addSpawn(ENKU_ORC_OVERLORD, 19753, 189837, -3027, 0, false, 200000, true);
 				_enkuOrcOverlords = true;
-
+				
 				// Resets Enku Orc Overlords
 				startQuestTimer("enku_orcs_cleanup", 201000, null, player, false);
 			}
@@ -264,13 +264,13 @@ public class Q220_TestimonyOfGlory extends Quest
 			st.playSound(QuestState.SOUND_ITEMGET);
 			st.takeItems(KASMAN_LETTER_2, 1);
 			st.giveItems(GLOVE_OF_BURAI, 1);
-
+			
 			if (!_makumBugbearThugs)
 			{
 				addSpawn(MAKUM_BUGBEAR_THUG, -94292, 110781, -3701, 0, false, 200000, true);
 				addSpawn(MAKUM_BUGBEAR_THUG, -94293, 110861, -3701, 0, false, 200000, true);
 				_makumBugbearThugs = true;
-
+				
 				// Resets Makum Bugbear Thugs
 				startQuestTimer("makum_bugbears_cleanup", 201000, null, player, false);
 			}
@@ -280,7 +280,7 @@ public class Q220_TestimonyOfGlory extends Quest
 		{
 			st.takeItems(KASMAN_LETTER_3, 1);
 			st.giveItems(SCEPTER_OF_TUNATH, 1);
-
+			
 			if (st.hasQuestItems(SCEPTER_OF_BREKA, SCEPTER_OF_ENKU, SCEPTER_OF_VUKU, SCEPTER_OF_TUREK))
 			{
 				st.set("cond", "5");
@@ -320,10 +320,10 @@ public class Q220_TestimonyOfGlory extends Quest
 			_makumBugbearThugs = false;
 			return null;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -331,7 +331,7 @@ public class Q220_TestimonyOfGlory extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -344,7 +344,7 @@ public class Q220_TestimonyOfGlory extends Quest
 				else
 					htmltext = "30514-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -369,7 +369,7 @@ public class Q220_TestimonyOfGlory extends Quest
 						else if (cond == 8)
 							htmltext = "30514-10.htm";
 						break;
-
+					
 					case CHIANTA:
 						if (cond == 3)
 							htmltext = "30642-01.htm";
@@ -411,21 +411,21 @@ public class Q220_TestimonyOfGlory extends Quest
 						else if (cond > 8)
 							htmltext = "30642-13.htm";
 						break;
-
+					
 					case KASMAN:
 						if (st.hasQuestItems(CHIANTA_ORDER_1))
 							htmltext = "30501-01.htm";
 						else if (cond > 4)
 							htmltext = "30501-11.htm";
 						break;
-
+					
 					case MANAKIA:
 						if (st.hasQuestItems(CHIANTA_ORDER_1))
 							htmltext = "30515-01.htm";
 						else if (cond > 4)
 							htmltext = "30515-08.htm";
 						break;
-
+					
 					case VOLTAR:
 						if (cond > 3)
 						{
@@ -442,7 +442,7 @@ public class Q220_TestimonyOfGlory extends Quest
 									addSpawn(PASHIKA_SON_OF_VOLTAR, 80117, 120039, -2259, 0, false, 200000, true);
 									addSpawn(VULTUS_SON_OF_VOLTAR, 80058, 120038, -2259, 0, false, 200000, true);
 									_sonsOfVoltar = true;
-
+									
 									// Resets Sons Of Voltar
 									startQuestTimer("voltar_sons_cleanup", 201000, null, player, false);
 								}
@@ -453,7 +453,7 @@ public class Q220_TestimonyOfGlory extends Quest
 								st.takeItems(PASHIKA_HEAD, 1);
 								st.takeItems(VULTUS_HEAD, 1);
 								st.giveItems(SCEPTER_OF_BREKA, 1);
-
+								
 								if (st.hasQuestItems(SCEPTER_OF_ENKU, SCEPTER_OF_VUKU, SCEPTER_OF_TUREK, SCEPTER_OF_TUNATH))
 								{
 									st.set("cond", "5");
@@ -470,7 +470,7 @@ public class Q220_TestimonyOfGlory extends Quest
 								htmltext = "30615-08.htm";
 						}
 						break;
-
+					
 					case KEPRA:
 						if (cond > 3)
 						{
@@ -482,7 +482,7 @@ public class Q220_TestimonyOfGlory extends Quest
 							else if (st.hasQuestItems(GLOVE_OF_KEPRA))
 							{
 								htmltext = "30616-05.htm";
-
+								
 								if (!_enkuOrcOverlords)
 								{
 									addSpawn(ENKU_ORC_OVERLORD, 19894, 189743, -3074, 0, false, 200000, true);
@@ -490,7 +490,7 @@ public class Q220_TestimonyOfGlory extends Quest
 									addSpawn(ENKU_ORC_OVERLORD, 19818, 189818, -3047, 0, false, 200000, true);
 									addSpawn(ENKU_ORC_OVERLORD, 19753, 189837, -3027, 0, false, 200000, true);
 									_enkuOrcOverlords = true;
-
+									
 									// Resets Enku Orc Overlords
 									startQuestTimer("enku_orcs_cleanup", 201000, null, player, false);
 								}
@@ -500,7 +500,7 @@ public class Q220_TestimonyOfGlory extends Quest
 								htmltext = "30616-06.htm";
 								st.takeItems(ENKU_OVERLORD_HEAD, 4);
 								st.giveItems(SCEPTER_OF_ENKU, 1);
-
+								
 								if (st.hasQuestItems(SCEPTER_OF_BREKA, SCEPTER_OF_VUKU, SCEPTER_OF_TUREK, SCEPTER_OF_TUNATH))
 								{
 									st.set("cond", "5");
@@ -517,7 +517,7 @@ public class Q220_TestimonyOfGlory extends Quest
 								htmltext = "30616-08.htm";
 						}
 						break;
-
+					
 					case BURAI:
 						if (cond > 3)
 						{
@@ -529,13 +529,13 @@ public class Q220_TestimonyOfGlory extends Quest
 							else if (st.hasQuestItems(GLOVE_OF_BURAI))
 							{
 								htmltext = "30617-04.htm";
-
+								
 								if (!_makumBugbearThugs)
 								{
 									addSpawn(MAKUM_BUGBEAR_THUG, -94292, 110781, -3701, 0, false, 200000, true);
 									addSpawn(MAKUM_BUGBEAR_THUG, -94293, 110861, -3701, 0, false, 200000, true);
 									_makumBugbearThugs = true;
-
+									
 									// Resets Makum Bugbear Thugs
 									startQuestTimer("makum_bugbears_cleanup", 201000, null, player, false);
 								}
@@ -545,7 +545,7 @@ public class Q220_TestimonyOfGlory extends Quest
 								htmltext = "30617-05.htm";
 								st.takeItems(MAKUM_BUGBEAR_HEAD, 2);
 								st.giveItems(SCEPTER_OF_TUREK, 1);
-
+								
 								if (st.hasQuestItems(SCEPTER_OF_BREKA, SCEPTER_OF_VUKU, SCEPTER_OF_ENKU, SCEPTER_OF_TUNATH))
 								{
 									st.set("cond", "5");
@@ -562,7 +562,7 @@ public class Q220_TestimonyOfGlory extends Quest
 								htmltext = "30617-07.htm";
 						}
 						break;
-
+					
 					case HARAK:
 						if (cond > 3)
 						{
@@ -579,7 +579,7 @@ public class Q220_TestimonyOfGlory extends Quest
 								htmltext = "30618-05.htm";
 						}
 						break;
-
+					
 					case DRIKO:
 						if (cond > 3)
 						{
@@ -596,7 +596,7 @@ public class Q220_TestimonyOfGlory extends Quest
 									st.takeItems(DRIKO_CONTRACT, 1);
 									st.takeItems(STAKATO_DRONE_HUSK, 30);
 									st.giveItems(SCEPTER_OF_VUKU, 1);
-
+									
 									if (st.hasQuestItems(SCEPTER_OF_BREKA, SCEPTER_OF_TUREK, SCEPTER_OF_ENKU, SCEPTER_OF_TUNATH))
 									{
 										st.set("cond", "5");
@@ -616,7 +616,7 @@ public class Q220_TestimonyOfGlory extends Quest
 								htmltext = "30619-07.htm";
 						}
 						break;
-
+					
 					case TANAPI:
 						if (cond == 8)
 							htmltext = "30571-01.htm";
@@ -634,7 +634,7 @@ public class Q220_TestimonyOfGlory extends Quest
 						else if (cond == 11)
 							htmltext = "30571-06.htm";
 						break;
-
+					
 					case KAKAI:
 						if (cond > 7 && cond < 11)
 							htmltext = "30565-01.htm";
@@ -651,24 +651,24 @@ public class Q220_TestimonyOfGlory extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
 		QuestState st = checkPlayerState(attacker, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int cond = st.getInt("cond");
-
+		
 		switch (npc.getNpcId())
 		{
 			case RAGNA_ORC_OVERLORD:
@@ -679,7 +679,7 @@ public class Q220_TestimonyOfGlory extends Quest
 					npc.setScriptValue(1);
 				}
 				break;
-
+			
 			case REVENANT_OF_TANTOS_CHIEF:
 				if (cond == 9)
 				{
@@ -696,41 +696,41 @@ public class Q220_TestimonyOfGlory extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int cond = st.getInt("cond");
-
+		
 		switch (npc.getNpcId())
 		{
 			case TYRANT:
 				if (cond == 1 && st.dropItems(TYRANT_TALON, 1, 10, 500000) && st.getQuestItemsCount(GUARDIAN_BASILISK_FANG) + st.getQuestItemsCount(MANASHEN_SHARD) == 20)
 					st.set("cond", "2");
 				break;
-
+			
 			case GUARDIAN_BASILISK:
 				if (cond == 1 && st.dropItems(GUARDIAN_BASILISK_FANG, 1, 10, 500000) && st.getQuestItemsCount(TYRANT_TALON) + st.getQuestItemsCount(MANASHEN_SHARD) == 20)
 					st.set("cond", "2");
 				break;
-
+			
 			case MANASHEN_GARGOYLE:
 				if (cond == 1 && st.dropItems(MANASHEN_SHARD, 1, 10, 750000) && st.getQuestItemsCount(TYRANT_TALON) + st.getQuestItemsCount(GUARDIAN_BASILISK_FANG) == 20)
 					st.set("cond", "2");
 				break;
-
+			
 			case MARSH_STAKATO_DRONE:
 				if (st.hasQuestItems(DRIKO_CONTRACT))
 					st.dropItems(STAKATO_DRONE_HUSK, 1, 30, 750000);
 				break;
-
+			
 			case PASHIKA_SON_OF_VOLTAR:
 				if (st.hasQuestItems(GLOVE_OF_VOLTAR) && !st.hasQuestItems(PASHIKA_HEAD))
 				{
@@ -744,7 +744,7 @@ public class Q220_TestimonyOfGlory extends Quest
 						st.playSound(QuestState.SOUND_ITEMGET);
 				}
 				break;
-
+			
 			case VULTUS_SON_OF_VOLTAR:
 				if (st.hasQuestItems(GLOVE_OF_VOLTAR) && !st.hasQuestItems(VULTUS_HEAD))
 				{
@@ -758,17 +758,17 @@ public class Q220_TestimonyOfGlory extends Quest
 						st.playSound(QuestState.SOUND_ITEMGET);
 				}
 				break;
-
+			
 			case ENKU_ORC_OVERLORD:
 				if (st.hasQuestItems(GLOVE_OF_KEPRA) && st.dropItemsAlways(ENKU_OVERLORD_HEAD, 1, 4))
 					st.takeItems(GLOVE_OF_KEPRA, 1);
 				break;
-
+			
 			case MAKUM_BUGBEAR_THUG:
 				if (st.hasQuestItems(GLOVE_OF_BURAI) && st.dropItemsAlways(MAKUM_BUGBEAR_HEAD, 1, 2))
 					st.takeItems(GLOVE_OF_BURAI, 1);
 				break;
-
+			
 			case TIMAK_ORC:
 			case TIMAK_ORC_ARCHER:
 			case TIMAK_ORC_SOLDIER:
@@ -778,17 +778,17 @@ public class Q220_TestimonyOfGlory extends Quest
 				if (cond == 6 && st.dropItems(TIMAK_ORC_HEAD, 1, 20, 500000 + ((npc.getNpcId() - 20583) * 100000)) && st.getQuestItemsCount(TAMLIN_ORC_SKULL) == 20)
 					st.set("cond", "7");
 				break;
-
+			
 			case TAMLIN_ORC:
 				if (cond == 6 && st.dropItems(TAMLIN_ORC_SKULL, 1, 20, 500000) && st.getQuestItemsCount(TIMAK_ORC_HEAD) == 20)
 					st.set("cond", "7");
 				break;
-
+			
 			case TAMLIN_ORC_ARCHER:
 				if (cond == 6 && st.dropItems(TAMLIN_ORC_SKULL, 1, 20, 600000) && st.getQuestItemsCount(TIMAK_ORC_HEAD) == 20)
 					st.set("cond", "7");
 				break;
-
+			
 			case RAGNA_ORC_OVERLORD:
 			case RAGNA_ORC_SEER:
 				if (cond == 9)
@@ -797,7 +797,7 @@ public class Q220_TestimonyOfGlory extends Quest
 					addSpawn(REVENANT_OF_TANTOS_CHIEF, npc, true, 200000, true);
 				}
 				break;
-
+			
 			case REVENANT_OF_TANTOS_CHIEF:
 				if (cond == 9 && st.dropItemsAlways(SCEPTER_OF_TANTOS, 1, 1))
 				{
@@ -806,7 +806,7 @@ public class Q220_TestimonyOfGlory extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
 }

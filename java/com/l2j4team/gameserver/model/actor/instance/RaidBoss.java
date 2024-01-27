@@ -35,7 +35,7 @@ public class RaidBoss extends Monster
 {
 	private StatusEnum _raidStatus;
 	private ScheduledFuture<?> _maintenanceTask;
-
+	
 	/**
 	 * Constructor of L2RaidBossInstance (use Creature and L2NpcInstance constructor).
 	 * <ul>
@@ -51,26 +51,26 @@ public class RaidBoss extends Monster
 		super(objectId, template);
 		setIsRaid(true);
 	}
-
+	
 	@Override
 	public void onSpawn()
 	{
 		setIsNoRndWalk(true);
 		super.onSpawn();
 	}
-
+	
 	@Override
 	public boolean doDie(Creature killer)
 	{
 		if (!super.doDie(killer))
 			return false;
-
+		
 		if (_maintenanceTask != null)
 		{
 			_maintenanceTask.cancel(false);
 			_maintenanceTask = null;
 		}
-
+		
 		if (killer != null)
 		{
 			final Player player = killer.getActingPlayer();
@@ -78,10 +78,10 @@ public class RaidBoss extends Monster
 			{
 				broadcastPacket(SystemMessage.getSystemMessage(SystemMessageId.RAID_WAS_SUCCESSFUL));
 				broadcastPacket(new PlaySound("systemmsg_e.1209"));
-
+				
 				if (player.getClan() != null && Config.RAID_INFO_IDS_LIST.contains(Integer.valueOf(getNpcId())))
 					player.getClan().addclanBossScore(1);
-
+				
 				final L2Party party = player.getParty();
 				if (party != null)
 				{
@@ -98,7 +98,7 @@ public class RaidBoss extends Monster
 					if (player.isNoble())
 						Hero.getInstance().setRBkilled(player.getObjectId(), getNpcId());
 				}
-
+				
 				if (!player.isGM())
 				{
 					for (Player pl : World.getInstance().getPlayers())
@@ -107,7 +107,7 @@ public class RaidBoss extends Monster
 							pl.sendChatMessage(0, Config.ANNOUNCE_ID, "Raid Boss ", getName() + " was killed by " + player.getName() + " of the clan " + player.getClan().getName());
 						else
 							pl.sendChatMessage(0, Config.ANNOUNCE_ID, "Raid Boss ", getName() + " was killed by " + player.getName());
-
+						
 						if (Config.EARTH_QUAKE)
 						{
 							pl.broadcastPacket(new ExRedSky(10));
@@ -115,7 +115,7 @@ public class RaidBoss extends Monster
 						}
 					}
 				}
-
+				
 				ThreadPool.schedule(new Runnable()
 				{
 					@Override
@@ -128,7 +128,7 @@ public class RaidBoss extends Monster
 						}
 					}
 				}, 3000);
-
+				
 				if (Config.ALLOW_AUTO_NOBLESS_FROM_BOSS && getNpcId() == Config.BOSS_ID)
 				{
 					if (player.getParty() != null)
@@ -148,7 +148,7 @@ public class RaidBoss extends Monster
 								member.sendMessage("Your party killed " + getName() + "! But you were to far away and earned nothing...");
 							}
 						}
-
+						
 					}
 					else if (player.getParty() == null && !player.isNoble())
 					{
@@ -157,14 +157,14 @@ public class RaidBoss extends Monster
 					}
 				}
 			}
-
+			
 		}
-
+		
 		if (!getSpawn().is_customBossInstance())
 			RaidBossSpawnManager.getInstance().updateStatus(this, true);
 		return true;
 	}
-
+	
 	@Override
 	public void deleteMe()
 	{
@@ -173,10 +173,10 @@ public class RaidBoss extends Monster
 			_maintenanceTask.cancel(false);
 			_maintenanceTask = null;
 		}
-
+		
 		super.deleteMe();
 	}
-
+	
 	/**
 	 * Spawn minions.<br>
 	 * Also if boss is too far from home location at the time of this check, teleport it to home.
@@ -185,7 +185,7 @@ public class RaidBoss extends Monster
 	protected void startMaintenanceTask()
 	{
 		super.startMaintenanceTask();
-
+		
 		_maintenanceTask = ThreadPool.scheduleAtFixedRate(new Runnable()
 		{
 			@Override
@@ -194,19 +194,19 @@ public class RaidBoss extends Monster
 				// If the boss is dead, movement disabled, is Gordon or is in combat, return.
 				if (isDead() || isMovementDisabled() || getNpcId() == 29095 || isInCombat())
 					return;
-
+				
 				// Spawn must exist.
 				final L2Spawn spawn = getSpawn();
 				if (spawn == null)
 					return;
-
+				
 				// If the boss is above drift range (or 200 minimum), teleport him on his spawn.
 				if (!isInsideRadius(spawn.getLocX(), spawn.getLocY(), spawn.getLocZ(), Math.max(Config.MAX_DRIFT_RANGE, 200), true, false))
 					teleToLocation(spawn.getLoc(), 0);
 			}
 		}, 60000, 30000);
 	}
-
+	
 	protected static L2Spawn spawnNPC(int xPos, int yPos, int zPos, int npcId)
 	{
 		NpcTemplate template = NpcTable.getInstance().getTemplate(npcId);
@@ -215,9 +215,9 @@ public class RaidBoss extends Monster
 			final L2Spawn spawn = new L2Spawn(template);
 			spawn.setLoc(xPos, yPos, zPos, 0);
 			spawn.setRespawnDelay(0);
-
+			
 			SpawnTable.getInstance().addNewSpawn(spawn, false);
-
+			
 			spawn.setRespawnState(true);
 			spawn.doSpawn(false);
 			spawn.getNpc().isAggressive();
@@ -231,26 +231,26 @@ public class RaidBoss extends Monster
 			return null;
 		}
 	}
-
+	
 	public static void Announce(String text)
 	{
 		CreatureSay cs = new CreatureSay(0, Config.ANNOUNCE_ID, "", "" + text);
-
+		
 		for (Player player : World.getInstance().getPlayers())
 		{
 			if (player != null)
 				if (player.isOnline())
 					player.sendPacket(cs);
-
+				
 		}
 		cs = null;
 	}
-
+	
 	public StatusEnum getRaidStatus()
 	{
 		return _raidStatus;
 	}
-
+	
 	public void setRaidStatus(StatusEnum status)
 	{
 		_raidStatus = status;

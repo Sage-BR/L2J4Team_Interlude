@@ -54,7 +54,7 @@ public class BossEvent
 	public boolean bossKilled = false;
 	public L2Spawn eventNpc = null;
 	public long startTime;
-
+	
 	public enum EventState
 	{
 		REGISTRATION,
@@ -64,40 +64,40 @@ public class BossEvent
 		FINISHING,
 		INACTIVE
 	}
-
+	
 	public BossEvent()
 	{
 		VoicedCommandHandler.getInstance().registerVoicedCommandHandler(new VoicedBossEventCMD());
 		NextBossEvent.getInstance().startCalculationOfNextEventTime();
 		_log.info("Boss Event loaded.");
 	}
-
+	
 	public boolean addPlayer(Player player)
 	{
 		return eventPlayers.add(player);
 	}
-
+	
 	public boolean removePlayer(Player player)
 	{
 		return eventPlayers.remove(player);
 	}
-
+	
 	public boolean isRegistered(Player player)
 	{
 		return eventPlayers.contains(player);
 	}
-
+	
 	class Registration implements Runnable
 	{
 		@Override
 		public void run()
 		{
 			startRegistration();
-
+			
 		}
-
+		
 	}
-
+	
 	public void teleToTown()
 	{
 		for (Player p : eventPlayers)
@@ -107,7 +107,7 @@ public class BossEvent
 		}
 		setState(EventState.INACTIVE);
 	}
-
+	
 	public void delay(int delay)
 	{
 		try
@@ -120,18 +120,18 @@ public class BossEvent
 			e.printStackTrace();
 		}
 	}
-
+	
 	class Teleporting implements Runnable
 	{
 		Location teleTo;
 		List<Player> toTeleport = new ArrayList<>();
-
+		
 		public Teleporting(List<Player> toTeleport, Location teleTo)
 		{
 			this.teleTo = teleTo;
 			this.toTeleport = toTeleport;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -141,26 +141,26 @@ public class BossEvent
 				setState(EventState.TELEPORTING);
 				announce("Event Started!", false);
 				startCountDown(Config.BOSS_EVENT_TIME_TO_TELEPORT_PLAYERS, true);
-
+				
 				for (Player p : toTeleport)
 				{
 					ThreadPool.schedule(new Runnable()
 					{
-
+						
 						@Override
 						public void run()
 						{
 							p.teleToLocation(teleTo, 300);
-
+							
 						}
 					}, Config.BOSS_EVENT_TIME_TO_TELEPORT_PLAYERS * 1000);
-
+					
 				}
 				delay(Config.BOSS_EVENT_TIME_TO_TELEPORT_PLAYERS * 1000);
 				setState(EventState.WAITING);
 				startCountDown(Config.BOSS_EVENT_TIME_TO_WAIT, true);
 				ThreadPool.schedule(new Fighting(bossId, teleTo), Config.BOSS_EVENT_TIME_TO_WAIT * 1000);
-
+				
 			}
 			else
 			{
@@ -169,23 +169,23 @@ public class BossEvent
 				despawnNpc(eventNpc);
 				eventPlayers.clear();
 				objectId = 0;
-
+				
 			}
-
+			
 		}
-
+		
 	}
-
+	
 	public void reward(Player p, Map<Integer, Integer> rewardType)
 	{
-
+		
 		for (Map.Entry<Integer, Integer> entry : rewardType.entrySet())
 		{
 			p.addItem("BossEventReward", entry.getKey(), entry.getValue(), null, true);
 		}
-
+		
 	}
-
+	
 	public void rewardPlayers()
 	{
 		for (Player p : eventPlayers)
@@ -200,7 +200,7 @@ public class BossEvent
 				p.sendMessage("You didn't caused min damage to receive rewards! Min. Damage: " + Config.BOSS_EVENT_MIN_DAMAGE_TO_OBTAIN_REWARD + ". Your Damage: " + p.getBossEventDamage());
 			}
 		}
-
+		
 		if (Config.BOSS_EVENT_REWARD_MAIN_DAMAGE_DEALER)
 		{
 			if (getMainDamageDealer() != null)
@@ -208,10 +208,10 @@ public class BossEvent
 				reward(getMainDamageDealer(), mainDamageDealerRewards);
 				getMainDamageDealer().sendChatMessage(0, Say2.CRITICAL_ANNOUNCE, "[Boss Event]", "Congratulations, you was the damage dealer! So you will receive wonderful rewards.");
 			}
-
+			
 		}
 	}
-
+	
 	public void finishEvent()
 	{
 		started = false;
@@ -233,7 +233,7 @@ public class BossEvent
 				announce("LastAttacker: " + lastAttacker.getName(), false);
 			}
 		}
-
+		
 		if (Config.BOSS_EVENT_REWARD_MAIN_DAMAGE_DEALER)
 		{
 			if (getMainDamageDealer() != null)
@@ -243,16 +243,16 @@ public class BossEvent
 		}
 		ThreadPool.schedule(new Runnable()
 		{
-
+			
 			@Override
 			public void run()
 			{
 				teleToTown();
 				eventPlayers.clear();
-
+				
 			}
 		}, Config.BOSS_EVENT_TIME_TO_TELEPORT_PLAYERS * 1000);
-
+		
 		setState(EventState.FINISHING);
 		startCountDown(Config.BOSS_EVENT_TIME_TO_TELEPORT_PLAYERS, true);
 		if (despawnBoss != null)
@@ -261,20 +261,20 @@ public class BossEvent
 			despawnBoss = null;
 		}
 		objectId = 0;
-
+		
 	}
-
+	
 	class Fighting implements Runnable
 	{
 		int bossId;
 		Location spawnLoc;
-
+		
 		public Fighting(int bossId, Location spawnLoc)
 		{
 			this.bossId = bossId;
 			this.spawnLoc = spawnLoc;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -291,13 +291,13 @@ public class BossEvent
 				{
 					p.sendPacket(new ExShowScreenMessage("Boss " + bossSpawn.getNpc().getName() + " has been spawned. Go and Defeat him!", 5000));
 				}
-
+				
 			}
-
+			
 		}
-
+		
 	}
-
+	
 	public void despawnNpc(L2Spawn spawn)
 	{
 		if (spawn != null)
@@ -306,18 +306,18 @@ public class BossEvent
 			spawn.setRespawnState(false);
 			SpawnTable.getInstance().deleteSpawn(spawn, true);
 		}
-
+		
 	}
-
+	
 	class DespawnBossTask implements Runnable
 	{
 		L2Spawn spawn;
-
+		
 		public DespawnBossTask(L2Spawn spawn)
 		{
 			this.spawn = spawn;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -329,7 +329,7 @@ public class BossEvent
 				despawnNpc(spawn);
 				ThreadPool.schedule(new Runnable()
 				{
-
+					
 					@Override
 					public void run()
 					{
@@ -337,14 +337,14 @@ public class BossEvent
 						eventPlayers.clear();
 						setState(EventState.INACTIVE);
 						objectId = 0;
-
+						
 					}
 				}, 10000);
 			}
 		}
-
+		
 	}
-
+	
 	public void startRegistration()
 	{
 		try
@@ -369,9 +369,9 @@ public class BossEvent
 				announce("[Boss Event] Registration started!", false);
 				announce("[Boss Event] Joinable in giran or use command \".bossevent\" to register to event", false);
 				startCountDown(Config.BOSS_EVENT_REGISTRATION_TIME, false);
-
+				
 				ThreadPool.schedule(new Teleporting(eventPlayers, loc), Config.BOSS_EVENT_REGISTRATION_TIME * 1000);
-
+				
 			}
 			else
 			{
@@ -384,14 +384,14 @@ public class BossEvent
 			_log.warning("[Boss Event]: Couldn't be started");
 			e.printStackTrace();
 		}
-
+		
 	}
-
+	
 	public int timeInMillisToStart()
 	{
 		return (int) (startTime - System.currentTimeMillis()) / 1000;
 	}
-
+	
 	public void startCountDownEnterWorld(Player player)
 	{
 		if (getState() == EventState.REGISTRATION)
@@ -399,19 +399,19 @@ public class BossEvent
 			ThreadPool.schedule(new Countdown(player, timeInMillisToStart(), getState()), 0);
 		}
 	}
-
+	
 	public boolean spawnNpc(int npcId, int x, int y, int z)
 	{
 		NpcTemplate tmpl = NpcTable.getInstance().getTemplate(npcId);
 		try
 		{
 			bossSpawn = new L2Spawn(tmpl);
-
+			
 			bossSpawn.setLoc(x, y, z, Rnd.get(65535));
 			bossSpawn.setRespawnDelay(1);
-
+			
 			SpawnTable.getInstance().addNewSpawn(bossSpawn, false);
-
+			
 			bossSpawn.setRespawnState(false);
 			bossSpawn.doSpawn(false);
 			bossSpawn.getNpc().isAggressive();
@@ -426,7 +426,7 @@ public class BossEvent
 			return false;
 		}
 	}
-
+	
 	public void resetPlayersDamage()
 	{
 		for (Player p : World.getInstance().getPlayers())
@@ -434,7 +434,7 @@ public class BossEvent
 			p.setBossEventDamage(0);
 		}
 	}
-
+	
 	public L2Spawn spawnEventNpc(int x, int y, int z)
 	{
 		L2Spawn spawn = null;
@@ -442,12 +442,12 @@ public class BossEvent
 		try
 		{
 			spawn = new L2Spawn(tmpl);
-
+			
 			spawn.setLoc(x, y, z, Rnd.get(65535));
 			spawn.setRespawnDelay(1);
-
+			
 			SpawnTable.getInstance().addNewSpawn(spawn, false);
-
+			
 			spawn.setRespawnState(false);
 			spawn.doSpawn(false);
 			spawn.getNpc().isAggressive();
@@ -462,7 +462,7 @@ public class BossEvent
 			return spawn;
 		}
 	}
-
+	
 	public final Player getMainDamageDealer()
 	{
 		int dmg = 0;
@@ -477,17 +477,17 @@ public class BossEvent
 		}
 		return mainDamageDealer;
 	}
-
+	
 	public static BossEvent getInstance()
 	{
 		return SingleTonHolder._instance;
 	}
-
+	
 	private static class SingleTonHolder
 	{
 		protected static final BossEvent _instance = new BossEvent();
 	}
-
+	
 	public void startCountDown(int time, boolean eventOnly)
 	{
 		Collection<Player> players = new ArrayList<>();
@@ -496,9 +496,9 @@ public class BossEvent
 		{
 			ThreadPool.schedule(new Countdown(player, time, getState()), 0L);
 		}
-
+		
 	}
-
+	
 	public void announce(String text, boolean eventOnly)
 	{
 		Collection<Player> players = new ArrayList<>();
@@ -508,7 +508,7 @@ public class BossEvent
 			player.sendPacket(new CreatureSay(0, Say2.CRITICAL_ANNOUNCE, "[Boss Event]", text));
 		}
 	}
-
+	
 	public void announceScreen(String text, boolean eventOnly)
 	{
 		Collection<Player> players = new ArrayList<>();
@@ -518,7 +518,7 @@ public class BossEvent
 			player.sendPacket(new ExShowScreenMessage(text, 4000));
 		}
 	}
-
+	
 	/**
 	 * @return the state
 	 */
@@ -526,7 +526,7 @@ public class BossEvent
 	{
 		return state;
 	}
-
+	
 	/**
 	 * @param state the state to set
 	 */
@@ -534,7 +534,7 @@ public class BossEvent
 	{
 		this.state = state;
 	}
-
+	
 	/**
 	 * @return the lastAttacker
 	 */
@@ -542,7 +542,7 @@ public class BossEvent
 	{
 		return lastAttacker;
 	}
-
+	
 	/**
 	 * @param lastAttacker the lastAttacker to set
 	 */
@@ -550,14 +550,14 @@ public class BossEvent
 	{
 		this.lastAttacker = lastAttacker;
 	}
-
+	
 	protected class Countdown implements Runnable
 	{
 		private final Player _player;
 		private final int _time;
 		private String text = "";
 		EventState evtState;
-
+		
 		public Countdown(Player player, int time, EventState evtState)
 		{
 			_time = time;
@@ -579,7 +579,7 @@ public class BossEvent
 			}
 			this.evtState = evtState;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -597,7 +597,7 @@ public class BossEvent
 					case FINISHING:
 						switch (_time)
 						{
-
+							
 							case 60:
 							case 120:
 							case 180:
@@ -616,7 +616,7 @@ public class BossEvent
 							case 1:
 								_player.sendPacket(new CreatureSay(0, Say2.CRITICAL_ANNOUNCE, "[Boss Event]", text + _time + " second(s)"));
 								break;
-
+							
 						}
 						if (_time > 1)
 						{
@@ -627,7 +627,7 @@ public class BossEvent
 						int minutes = _time / 60;
 						int second = _time % 60;
 						String timing = ((minutes < 10) ? ("0" + minutes) : minutes) + ":" + ((second < 10) ? ("0" + second) : second);
-
+						
 						_player.sendPacket(new ExShowScreenMessage("Time Left: " + timing, 1100, SMPOS.BOTTOM_RIGHT, true));
 						if (_time > 1)
 						{
@@ -635,9 +635,9 @@ public class BossEvent
 						}
 						break;
 				}
-
+				
 			}
 		}
 	}
-
+	
 }

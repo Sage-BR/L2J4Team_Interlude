@@ -10,14 +10,14 @@ import com.l2j4team.commons.random.Rnd;
 public class Q372_LegacyOfInsolence extends Quest
 {
 	private static final String qn = "Q372_LegacyOfInsolence";
-
+	
 	// NPCs
 	private static final int WALDERAL = 30844;
 	private static final int PATRIN = 30929;
 	private static final int HOLLY = 30839;
 	private static final int CLAUDIA = 31001;
 	private static final int DESMOND = 30855;
-
+	
 	// Monsters
 	private static final int[][] MONSTERS_DROPS =
 	{
@@ -49,7 +49,7 @@ public class Q372_LegacyOfInsolence extends Quest
 			250000
 		}
 	};
-
+	
 	// Items
 	private static final int[][] SCROLLS =
 	{
@@ -79,7 +79,7 @@ public class Q372_LegacyOfInsolence extends Quest
 			5978
 		}
 	};
-
+	
 	// Rewards matrice.
 	private static final int[][][] REWARDS_MATRICE =
 	{
@@ -268,17 +268,17 @@ public class Q372_LegacyOfInsolence extends Quest
 			}
 		}
 	};
-
+	
 	public Q372_LegacyOfInsolence()
 	{
 		super(372, "Legacy of Insolence");
-
+		
 		addStartNpc(WALDERAL);
 		addTalkId(WALDERAL, PATRIN, HOLLY, CLAUDIA, DESMOND);
-
+		
 		addKillId(MONSTERS_DROPS[0]);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -286,7 +286,7 @@ public class Q372_LegacyOfInsolence extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30844-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -321,10 +321,10 @@ public class Q372_LegacyOfInsolence extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -332,51 +332,51 @@ public class Q372_LegacyOfInsolence extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 59) ? "30844-01.htm" : "30844-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
 					case WALDERAL:
 						htmltext = "30844-05.htm";
 						break;
-
+					
 					case HOLLY:
 						htmltext = checkAndRewardItems(st, 1, 4, HOLLY);
 						break;
-
+					
 					case PATRIN:
 						htmltext = checkAndRewardItems(st, 2, 5, PATRIN);
 						break;
-
+					
 					case CLAUDIA:
 						htmltext = checkAndRewardItems(st, 3, 6, CLAUDIA);
 						break;
-
+					
 					case DESMOND:
 						htmltext = checkAndRewardItems(st, 4, 7, DESMOND);
 						break;
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		final int npcId = npc.getNpcId();
-
+		
 		for (int i = 0; i < MONSTERS_DROPS[0].length; i++)
 		{
 			if (MONSTERS_DROPS[0][i] == npcId)
@@ -387,25 +387,25 @@ public class Q372_LegacyOfInsolence extends Quest
 		}
 		return null;
 	}
-
+	
 	private static String checkAndRewardItems(QuestState st, int itemType, int rewardType, int npcId)
 	{
 		// Retrieve array with items to check.
 		final int[] itemsToCheck = SCROLLS[itemType];
-
+		
 		// Check set of items.
 		for (int item = itemsToCheck[0]; item <= itemsToCheck[1]; item++)
 			if (!st.hasQuestItems(item))
 				return npcId + ((npcId == WALDERAL) ? "-07a.htm" : "-01.htm");
-
+			
 		// Remove set of items.
 		for (int item = itemsToCheck[0]; item <= itemsToCheck[1]; item++)
 			st.takeItems(item, 1);
-
+		
 		// Retrieve array with rewards.
 		final int[][] rewards = REWARDS_MATRICE[rewardType];
 		final int chance = Rnd.get(100);
-
+		
 		for (int[] reward : rewards)
 		{
 			if (chance < reward[0])
@@ -414,7 +414,7 @@ public class Q372_LegacyOfInsolence extends Quest
 				return npcId + "-02.htm";
 			}
 		}
-
+		
 		return npcId + ((npcId == WALDERAL) ? "-07a.htm" : "-01.htm");
 	}
 }

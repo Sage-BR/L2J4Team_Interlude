@@ -8,25 +8,25 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q432_BirthdayPartySong extends Quest
 {
 	private static final String qn = "Q432_BirthdayPartySong";
-
+	
 	// NPC
 	private static final int OCTAVIA = 31043;
-
+	
 	// Item
 	private static final int RED_CRYSTAL = 7541;
-
+	
 	public Q432_BirthdayPartySong()
 	{
 		super(432, "Birthday Party Song");
-
+		
 		setItemsIds(RED_CRYSTAL);
-
+		
 		addStartNpc(OCTAVIA);
 		addTalkId(OCTAVIA);
-
+		
 		addKillId(21103);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -34,7 +34,7 @@ public class Q432_BirthdayPartySong extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31043-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -52,10 +52,10 @@ public class Q432_BirthdayPartySong extends Quest
 				st.exitQuest(true);
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -63,33 +63,33 @@ public class Q432_BirthdayPartySong extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 31) ? "31043-00.htm" : "31043-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				htmltext = (st.getQuestItemsCount(RED_CRYSTAL) < 50) ? "31043-03.htm" : "31043-04.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMember(player, npc, "1");
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		if (st.dropItems(RED_CRYSTAL, 1, 50, 500000))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

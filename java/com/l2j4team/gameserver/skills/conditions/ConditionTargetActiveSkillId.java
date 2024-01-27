@@ -8,7 +8,7 @@ import com.l2j4team.gameserver.skills.Env;
 public class ConditionTargetActiveSkillId extends Condition
 {
 	private final int _skillId;
-
+	
 	/**
 	 * Instantiates a new condition target active skill id.
 	 * @param skillId the skill id
@@ -17,7 +17,7 @@ public class ConditionTargetActiveSkillId extends Condition
 	{
 		_skillId = skillId;
 	}
-
+	
 	@Override
 	public boolean testImpl(Env env)
 	{

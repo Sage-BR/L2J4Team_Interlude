@@ -29,9 +29,9 @@ public class ChangeNameLog
 	{
 		new File("log/Player Log/ChangeNameLog").mkdirs();
 	}
-
+	
 	private static final Logger _log = Logger.getLogger(ChangeNameLog.class.getName());
-
+	
 	public static void auditGMAction(int i, String Name, String action, String ip, String params)
 	{
 		final File file = new File("log/Player Log/ChangeNameLog/" + i + ".txt");
@@ -43,7 +43,7 @@ public class ChangeNameLog
 			catch (IOException e)
 			{
 			}
-
+		
 		try (FileWriter save = new FileWriter(file, true))
 		{
 			save.write(MathUtil.formatDate(new Date(), "dd/MM/yyyy H:mm:ss") + " >>>>> ID: [" + i + "] >> Nome Atual: [" + Name + "] >> Modificou para: [" + action + "] >> IP: [" + ip + "]\r\n");
@@ -53,7 +53,7 @@ public class ChangeNameLog
 			_log.log(Level.SEVERE, "ChangeNameLog for Player " + Name + " could not be saved: ", e);
 		}
 	}
-
+	
 	public static void auditGMAction(int i, String Name, String action, String ip)
 	{
 		auditGMAction(i, Name, action, ip, "");

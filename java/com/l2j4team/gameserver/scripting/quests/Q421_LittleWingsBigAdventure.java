@@ -28,27 +28,27 @@ import com.l2j4team.commons.random.Rnd;
 public class Q421_LittleWingsBigAdventure extends Quest
 {
 	private static final String qn = "Q421_LittleWingsBigAdventure";
-
+	
 	// NPCs
 	private static final int CRONOS = 30610;
 	private static final int MIMYU = 30747;
-
+	
 	// Item
 	private static final int FAIRY_LEAF = 4325;
-
+	
 	public Q421_LittleWingsBigAdventure()
 	{
 		super(421, "Little Wing's Big Adventure");
-
+		
 		setItemsIds(FAIRY_LEAF);
-
+		
 		addStartNpc(CRONOS);
 		addTalkId(CRONOS, MIMYU);
-
+		
 		addAttackId(27185, 27186, 27187, 27188);
 		addKillId(27185, 27186, 27187, 27188);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -56,7 +56,7 @@ public class Q421_LittleWingsBigAdventure extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30610-06.htm"))
 		{
 			if (st.getQuestItemsCount(3500) + st.getQuestItemsCount(3501) + st.getQuestItemsCount(3502) == 1)
@@ -76,7 +76,7 @@ public class Q421_LittleWingsBigAdventure extends Quest
 					}
 				}
 			}
-
+			
 			// Exit quest if you got more than one flute, or the flute level doesn't meat requirements.
 			st.exitQuest(true);
 		}
@@ -99,10 +99,10 @@ public class Q421_LittleWingsBigAdventure extends Quest
 				st.giveItems(FAIRY_LEAF, 4);
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -110,7 +110,7 @@ public class Q421_LittleWingsBigAdventure extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -129,19 +129,19 @@ public class Q421_LittleWingsBigAdventure extends Quest
 						if (item != null && item.getEnchantLevel() >= 55)
 							return "30610-04.htm";
 					}
-
+					
 					// Invalid level.
 					htmltext = "30610-03.htm";
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
 					case CRONOS:
 						htmltext = "30610-07.htm";
 						break;
-
+					
 					case MIMYU:
 						final int id = st.getInt("iCond");
 						if (id == 1)
@@ -163,10 +163,10 @@ public class Q421_LittleWingsBigAdventure extends Quest
 							final Summon summon = player.getPet();
 							if (summon == null)
 								return "30747-12.htm";
-
+							
 							if (summon.getControlItemId() != st.getInt("summonOid"))
 								return "30747-14.htm";
-
+							
 							htmltext = "30747-13.htm";
 							st.set("iCond", "100");
 						}
@@ -175,10 +175,10 @@ public class Q421_LittleWingsBigAdventure extends Quest
 							final Summon summon = player.getPet();
 							if (summon != null && summon.getControlItemId() == st.getInt("summonOid"))
 								return "30747-15.htm";
-
+							
 							if (st.getQuestItemsCount(3500) + st.getQuestItemsCount(3501) + st.getQuestItemsCount(3502) > 1)
 								return "30747-17.htm";
-
+							
 							for (int i = 3500; i < 3503; i++)
 							{
 								final ItemInstance item = player.getInventory().getItemByItemId(i);
@@ -191,10 +191,10 @@ public class Q421_LittleWingsBigAdventure extends Quest
 									return "30747-16.htm";
 								}
 							}
-
+							
 							// Curse if the registered objectId is the wrong one (switch flutes).
 							htmltext = "30747-18.htm";
-
+							
 							final L2Skill skill = SkillTable.getInstance().getInfo(4167, 1);
 							if (skill != null && player.getFirstEffect(skill) == null)
 								skill.getEffects(npc, player);
@@ -203,10 +203,10 @@ public class Q421_LittleWingsBigAdventure extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
@@ -219,12 +219,12 @@ public class Q421_LittleWingsBigAdventure extends Quest
 					ghost.broadcastNpcSay("We must protect the fairy tree!");
 			}
 		}
-
+		
 		// Condition required : 2.
 		QuestState st = checkPlayerCondition(attacker, npc, "cond", "2");
 		if (st == null)
 			return null;
-
+		
 		// A pet was the attacker, and the objectId is the good one.
 		if (isPet && attacker.getPet().getControlItemId() == st.getInt("summonOid"))
 		{
@@ -233,15 +233,15 @@ public class Q421_LittleWingsBigAdventure extends Quest
 			{
 				final int idMask = (int) Math.pow(2, (npc.getNpcId() - 27182) - 1);
 				final int iCond = st.getInt("iCond");
-
+				
 				if ((iCond | idMask) != iCond)
 				{
 					st.set("iCond", String.valueOf(iCond | idMask));
-
+					
 					npc.broadcastNpcSay("Give me a Fairy Leaf...!");
 					st.takeItems(FAIRY_LEAF, 1);
 					npc.broadcastNpcSay("Leave now, before you incur the wrath of the guardian ghost...");
-
+					
 					// Four leafs have been used ; update quest state.
 					if (st.getInt("iCond") == 63)
 					{
@@ -253,15 +253,15 @@ public class Q421_LittleWingsBigAdventure extends Quest
 				}
 			}
 		}
-
+		
 		return null;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player killer, boolean isPet)
 	{
 		final Creature originalKiller = isPet ? killer.getPet() : killer;
-
+		
 		// Tree curses the killer.
 		if (Rnd.get(100) < 30)
 		{
@@ -272,17 +272,17 @@ public class Q421_LittleWingsBigAdventure extends Quest
 					skill.getEffects(npc, originalKiller);
 			}
 		}
-
+		
 		// Spawn 20 ghosts, attacking the killer.
 		for (int i = 0; i < 20; i++)
 		{
 			final Attackable newNpc = (Attackable) addSpawn(27189, npc, true, 300000, false);
-
+			
 			newNpc.setRunning();
 			newNpc.addDamageHate(originalKiller, 0, 999);
 			newNpc.getAI().setIntention(CtrlIntention.ATTACK, originalKiller);
 		}
-
+		
 		return null;
 	}
 }

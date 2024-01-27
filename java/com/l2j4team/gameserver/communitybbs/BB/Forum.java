@@ -22,31 +22,31 @@ public class Forum
 	public static final int CLAN = 2;
 	public static final int MEMO = 3;
 	public static final int MAIL = 4;
-
+	
 	// Permissions
 	public static final int INVISIBLE = 0;
 	public static final int ALL = 1;
 	public static final int CLANMEMBERONLY = 2;
 	public static final int OWNERONLY = 3;
-
+	
 	private static final Logger _log = Logger.getLogger(Forum.class.getName());
-
+	
 	private final List<Forum> _children;
 	private final Map<Integer, Topic> _topic;
-
+	
 	private final int _forumId;
 	private String _forumName;
-
+	
 	private int _forumType;
 	private int _forumPost;
 	private int _forumPerm;
-
+	
 	private final Forum _fParent;
-
+	
 	private int _ownerID;
-
+	
 	private boolean _loaded = false;
-
+	
 	public Forum(int Forumid, Forum FParent)
 	{
 		_forumId = Forumid;
@@ -54,12 +54,12 @@ public class Forum
 		_children = new ArrayList<>();
 		_topic = new HashMap<>();
 	}
-
+	
 	public Forum(String name, Forum parent, int type, int perm, int OwnerID)
 	{
 		_forumName = name;
 		_forumId = ForumsBBSManager.getInstance().getANewID();
-
+		
 		_forumType = type;
 		_forumPost = 0;
 		_forumPerm = perm;
@@ -71,7 +71,7 @@ public class Forum
 		ForumsBBSManager.getInstance().addForum(this);
 		_loaded = true;
 	}
-
+	
 	private void load()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -79,15 +79,15 @@ public class Forum
 			PreparedStatement statement = con.prepareStatement("SELECT * FROM forums WHERE forum_id=?");
 			statement.setInt(1, _forumId);
 			ResultSet result = statement.executeQuery();
-
+			
 			if (result.next())
 			{
 				_forumName = result.getString("forum_name");
-
+				
 				_forumPost = result.getInt("forum_post");
 				_forumType = result.getInt("forum_type");
 				_forumPerm = result.getInt("forum_perm");
-
+				
 				_ownerID = result.getInt("forum_owner_id");
 			}
 			result.close();
@@ -97,19 +97,19 @@ public class Forum
 		{
 			_log.log(Level.WARNING, "Data error on Forum " + _forumId + " : " + e.getMessage(), e);
 		}
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("SELECT * FROM topic WHERE topic_forum_id=? ORDER BY topic_id DESC");
 			statement.setInt(1, _forumId);
 			ResultSet result = statement.executeQuery();
-
+			
 			while (result.next())
 			{
 				Topic t = new Topic(Topic.ConstructorType.RESTORE, result.getInt("topic_id"), result.getInt("topic_forum_id"), result.getString("topic_name"), result.getLong("topic_date"), result.getString("topic_ownername"), result.getInt("topic_ownerid"), result.getInt("topic_type"), result.getInt("topic_reply"));
-
+				
 				_topic.put(t.getID(), t);
-
+				
 				if (t.getID() > TopicBBSManager.getInstance().getMaxID(this))
 					TopicBBSManager.getInstance().setMaxID(t.getID(), this);
 			}
@@ -121,7 +121,7 @@ public class Forum
 			_log.log(Level.WARNING, "Data error on Forum " + _forumId + " : " + e.getMessage(), e);
 		}
 	}
-
+	
 	private void getChildren()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -129,12 +129,12 @@ public class Forum
 			PreparedStatement statement = con.prepareStatement("SELECT forum_id FROM forums WHERE forum_parent=?");
 			statement.setInt(1, _forumId);
 			ResultSet result = statement.executeQuery();
-
+			
 			while (result.next())
 			{
 				Forum f = new Forum(result.getInt("forum_id"), this);
 				_children.add(f);
-
+				
 				ForumsBBSManager.getInstance().addForum(f);
 			}
 			result.close();
@@ -145,42 +145,42 @@ public class Forum
 			_log.log(Level.WARNING, "Data error on Forum (children): " + e.getMessage(), e);
 		}
 	}
-
+	
 	public int getTopicSize()
 	{
 		vload();
 		return _topic.size();
 	}
-
+	
 	public Topic getTopic(int j)
 	{
 		vload();
 		return _topic.get(j);
 	}
-
+	
 	public void addTopic(Topic t)
 	{
 		vload();
 		_topic.put(t.getID(), t);
 	}
-
+	
 	public int getID()
 	{
 		return _forumId;
 	}
-
+	
 	public String getName()
 	{
 		vload();
 		return _forumName;
 	}
-
+	
 	public int getType()
 	{
 		vload();
 		return _forumType;
 	}
-
+	
 	public Forum getChildByName(String name)
 	{
 		vload();
@@ -191,12 +191,12 @@ public class Forum
 		}
 		return null;
 	}
-
+	
 	public void rmTopicByID(int id)
 	{
 		_topic.remove(id);
 	}
-
+	
 	public void insertIntoDb()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -217,7 +217,7 @@ public class Forum
 			_log.log(Level.WARNING, "Error while saving new Forum to db " + e.getMessage(), e);
 		}
 	}
-
+	
 	public void vload()
 	{
 		if (!_loaded)

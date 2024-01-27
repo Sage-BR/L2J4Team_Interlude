@@ -9,7 +9,7 @@ public final class NpcSay extends L2GameServerPacket
 	private final int _textType;
 	private final int _npcId;
 	private final String _text;
-
+	
 	public NpcSay(int objectId, int messageType, int npcId, String text)
 	{
 		_objectId = objectId;
@@ -17,7 +17,7 @@ public final class NpcSay extends L2GameServerPacket
 		_npcId = 1000000 + npcId;
 		_text = text;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

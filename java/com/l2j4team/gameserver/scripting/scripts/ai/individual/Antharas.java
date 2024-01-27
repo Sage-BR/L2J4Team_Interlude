@@ -34,35 +34,35 @@ import com.l2j4team.commons.random.Rnd;
 public class Antharas extends L2AttackableAIScript
 {
 	private static final L2BossZone ANTHARAS_LAIR = ZoneManager.getInstance().getZoneById(110001, L2BossZone.class);
-
+	
 	private static final int[] ANTHARAS_IDS =
 	{
 		29066,
 		29067,
 		29068
 	};
-
+	
 	public static final int ANTHARAS = 29019; // Dummy Antharas id used for status updates only.
-
+	
 	public static final byte DORMANT = 0; // No one has entered yet. Entry is unlocked.
 	public static final byte WAITING = 1; // Someone has entered, triggering a 30 minute window for additional people to enter. Entry is unlocked.
 	public static final byte FIGHTING = 2; // Antharas is engaged in battle, annihilating his foes. Entry is locked.
 	public static final byte DEAD = 3; // Antharas has been killed. Entry is locked.
-
+	
 	private long _timeTracker = 0; // Time tracker for last attack on Antharas.
 	private Player _actualVictim; // Actual target of Antharas.
 	private final List<Npc> _monsters = new CopyOnWriteArrayList<>(); // amount of Antharas minions.
-
+	
 	private int _antharasId; // The current Antharas, used when server shutdowns.
 	private L2Skill _skillRegen; // The regen skill used by Antharas.
 	private int _minionTimer; // The timer used by minions in order to spawn.
-
+	
 	public Antharas()
 	{
 		super("ai/individual");
-
+		
 		final StatsSet info = GrandBossManager.getInstance().getStatsSet(ANTHARAS);
-
+		
 		switch (GrandBossManager.getInstance().getBossStatus(ANTHARAS))
 		{
 			case DEAD: // Launch the timer to set DORMANT, or set DORMANT directly if timer expired while offline.
@@ -72,11 +72,11 @@ public class Antharas extends L2AttackableAIScript
 				else
 					GrandBossManager.getInstance().setBossStatus(ANTHARAS, DORMANT);
 				break;
-
+			
 			case WAITING: // Launch beginning timer.
 				startQuestTimer("beginning", Config.WAIT_TIME_ANTHARAS, null, null, false);
 				break;
-
+			
 			case FIGHTING:
 				final int loc_x = info.getInteger("loc_x");
 				final int loc_y = info.getInteger("loc_y");
@@ -84,33 +84,33 @@ public class Antharas extends L2AttackableAIScript
 				final int heading = info.getInteger("heading");
 				final int hp = info.getInteger("currentHP");
 				final int mp = info.getInteger("currentMP");
-
+				
 				// Update Antharas informations.
 				updateAntharas();
-
+				
 				final Npc antharas = addSpawn(_antharasId, loc_x, loc_y, loc_z, heading, false, 0, false);
 				GrandBossManager.getInstance().addBoss(ANTHARAS, (GrandBoss) antharas);
-
+				
 				antharas.setCurrentHpMp(hp, mp);
 				antharas.setRunning();
-
+				
 				// stores current time for inactivity task.
 				_timeTracker = System.currentTimeMillis();
-
+				
 				startQuestTimer("regen_task", 60000, antharas, null, true);
 				startQuestTimer("skill_task", 2000, antharas, null, true);
 				startQuestTimer("minions_spawn", _minionTimer, antharas, null, true);
 				break;
 		}
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addEventIds(ANTHARAS_IDS, EventType.ON_ATTACK, EventType.ON_SPAWN);
 		addKillId(29066, 29067, 29068, 29069, 29070, 29071, 29072, 29073, 29074, 29075, 29076);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -122,13 +122,13 @@ public class Antharas extends L2AttackableAIScript
 			{
 				// Set it dormant.
 				GrandBossManager.getInstance().setBossStatus(ANTHARAS, DORMANT);
-
+				
 				// Drop all players from the zone.
 				ANTHARAS_LAIR.oustAllPlayers();
-
+				
 				// Drop tasks.
 				dropTimers(npc);
-
+				
 				// Delete current instance of Antharas.
 				npc.deleteMe();
 				return null;
@@ -156,11 +156,11 @@ public class Antharas extends L2AttackableAIScript
 		{
 			// stores current time for inactivity task.
 			_timeTracker = System.currentTimeMillis();
-
+			
 			GrandBossManager.getInstance().setBossStatus(ANTHARAS, FIGHTING);
 			npc.setIsInvul(false);
 			npc.setRunning();
-
+			
 			startQuestTimer("regen_task", 60000, npc, null, true);
 			startQuestTimer("skill_task", 2000, npc, null, true);
 			startQuestTimer("minions_spawn", _minionTimer, npc, null, true);
@@ -171,23 +171,23 @@ public class Antharas extends L2AttackableAIScript
 		{
 			boolean isBehemoth = Rnd.get(100) < 60;
 			int mobNumber = isBehemoth ? 2 : 3;
-
+			
 			// Set spawn.
 			for (int i = 0; i < mobNumber; i++)
 			{
 				if (_monsters.size() > 9)
 					break;
-
+				
 				final int npcId = isBehemoth ? 29069 : Rnd.get(29070, 29076);
 				final Npc dragon = addSpawn(npcId, npc.getX() + Rnd.get(-200, 200), npc.getY() + Rnd.get(-200, 200), npc.getZ(), 0, false, 0, true);
 				((Attackable) dragon).setIsRaidMinion(true);
-
+				
 				_monsters.add(dragon);
-
+				
 				final Player victim = getRandomPlayer(dragon);
 				if (victim != null)
 					attack(((Attackable) dragon), victim);
-
+				
 				if (!isBehemoth)
 					startQuestTimer("self_destruct", (_minionTimer / 3), dragon, null, false);
 			}
@@ -214,11 +214,11 @@ public class Antharas extends L2AttackableAIScript
 		else if (event.equalsIgnoreCase("beginning"))
 		{
 			updateAntharas();
-
+			
 			final Npc antharas = addSpawn(_antharasId, 181323, 114850, -7623, 32542, false, 0, false);
 			GrandBossManager.getInstance().addBoss(ANTHARAS, (GrandBoss) antharas);
 			antharas.setIsInvul(true);
-
+			
 			// Launch the cinematic, and tasks (regen + skill).
 			startQuestTimer("spawn_1", 16, antharas, null, false);
 			startQuestTimer("spawn_2", 3016, antharas, null, false);
@@ -237,23 +237,23 @@ public class Antharas extends L2AttackableAIScript
 			GrandBossManager.getInstance().setBossStatus(ANTHARAS, DORMANT);
 		else if (event.equalsIgnoreCase("remove_players"))
 			ANTHARAS_LAIR.oustAllPlayers();
-
+		
 		return super.onAdvEvent(event, npc, player);
 	}
-
+	
 	@Override
 	public String onSpawn(Npc npc)
 	{
 		npc.disableCoreAI(true);
 		return super.onSpawn(npc);
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
 		if (npc.isInvul())
 			return null;
-
+		
 		// Debuff strider-mounted players.
 		if (attacker.getMountType() == 1)
 		{
@@ -265,10 +265,10 @@ public class Antharas extends L2AttackableAIScript
 			}
 		}
 		_timeTracker = System.currentTimeMillis();
-
+		
 		return super.onAttack(npc, attacker, damage, isPet, skill);
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player killer, boolean isPet)
 	{
@@ -276,14 +276,14 @@ public class Antharas extends L2AttackableAIScript
 		{
 			// Drop tasks.
 			dropTimers(npc);
-
+			
 			// // Launch death animation.
 			// ANTHARAS_LAIR.broadcastPacket(new SpecialCamera(npc.getObjectId(), 1200, 20, -10, 10000, 13000, 0, 0, 0, 0));
 			ANTHARAS_LAIR.broadcastPacket(new PlaySound(1, "BS01_D", npc));
 			startQuestTimer("die_1", 8000, null, null, false);
-
+			
 			GrandBossManager.getInstance().setBossStatus(ANTHARAS, DEAD);
-
+			
 			long respawnTime;
 			if (Config.ANTHARAS_CUSTOM_SPAWN_ENABLED && Config.FindNext(Config.ANTHARAS_CUSTOM_SPAWN_TIMES) != null)
 			{
@@ -294,9 +294,9 @@ public class Antharas extends L2AttackableAIScript
 				respawnTime = (long) Config.SPAWN_INTERVAL_ANTHARAS + Rnd.get(-Config.RANDOM_SPAWN_TIME_ANTHARAS, Config.RANDOM_SPAWN_TIME_ANTHARAS);
 				respawnTime *= 3600000;
 			}
-
+			
 			startQuestTimer("antharas_unlock", respawnTime, null, null, false);
-
+			
 			StatsSet info = GrandBossManager.getInstance().getStatsSet(ANTHARAS);
 			info.set("respawn_time", System.currentTimeMillis() + respawnTime);
 			GrandBossManager.getInstance().setStatsSet(ANTHARAS, info);
@@ -306,19 +306,19 @@ public class Antharas extends L2AttackableAIScript
 			cancelQuestTimer("self_destruct", npc, null);
 			_monsters.remove(npc);
 		}
-
+		
 		return super.onKill(npc, killer, isPet);
 	}
-
+	
 	private void callSkillAI(Npc npc)
 	{
 		if (npc.isInvul() || npc.isCastingNow())
 			return;
-
+		
 		// Pickup a target if no or dead victim. 10% luck he decides to reconsiders his target.
 		if (_actualVictim == null || _actualVictim.isDead() || !(npc.getKnownType(Player.class).contains(_actualVictim)) || !GeoEngine.getInstance().canSeeTarget(npc, _actualVictim) || Rnd.get(10) == 0)
 			_actualVictim = getRandomPlayer(npc);
-
+		
 		// If result is still null, Antharas will roam. Don't go deeper in skill AI.
 		if (_actualVictim == null)
 		{
@@ -327,18 +327,18 @@ public class Antharas extends L2AttackableAIScript
 				int x = npc.getX();
 				int y = npc.getY();
 				int z = npc.getZ();
-
+				
 				int posX = x + Rnd.get(-1400, 1400);
 				int posY = y + Rnd.get(-1400, 1400);
-
+				
 				if (GeoEngine.getInstance().canMoveToTarget(x, y, z, posX, posY, z))
 					npc.getAI().setIntention(CtrlIntention.MOVE_TO, new Location(posX, posY, z));
 			}
 			return;
 		}
-
+		
 		final L2Skill skill = getRandomSkill(npc);
-
+		
 		// Cast the skill or follow the target.
 		if (MathUtil.checkIfInRange((skill.getCastRange() < 600) ? 600 : skill.getCastRange(), npc, _actualVictim, true))
 		{
@@ -349,7 +349,7 @@ public class Antharas extends L2AttackableAIScript
 		else
 			npc.getAI().setIntention(CtrlIntention.FOLLOW, _actualVictim, null);
 	}
-
+	
 	/**
 	 * Pick a random skill.<br>
 	 * The use is based on current HPs ratio.
@@ -359,27 +359,27 @@ public class Antharas extends L2AttackableAIScript
 	private static L2Skill getRandomSkill(Npc npc)
 	{
 		final double hpRatio = npc.getCurrentHp() / npc.getMaxHp();
-
+		
 		// Find enemies surrounding Antharas.
 		final int[] playersAround = getPlayersCountInPositions(1100, npc, false);
-
+		
 		if (hpRatio < 0.25)
 		{
 			if (Rnd.get(100) < 30)
 				return FrequentSkill.ANTHARAS_MOUTH.getSkill();
-
+			
 			if (playersAround[1] >= 10 && Rnd.get(100) < 80)
 				return FrequentSkill.ANTHARAS_TAIL.getSkill();
-
+			
 			if (playersAround[0] >= 10)
 			{
 				// if (Rnd.get(100) < 40)
 				// return FrequentSkill.ANTHARAS_DEBUFF.getSkill();
-
+				
 				if (Rnd.get(100) < 10)
 					return FrequentSkill.ANTHARAS_JUMP.getSkill();
 			}
-
+			
 			if (Rnd.get(100) < 10)
 				return FrequentSkill.ANTHARAS_METEOR.getSkill();
 		}
@@ -387,16 +387,16 @@ public class Antharas extends L2AttackableAIScript
 		{
 			if (playersAround[1] >= 10 && Rnd.get(100) < 80)
 				return FrequentSkill.ANTHARAS_TAIL.getSkill();
-
+			
 			if (playersAround[0] >= 10)
 			{
 				// if (Rnd.get(100) < 40)
 				// return FrequentSkill.ANTHARAS_DEBUFF.getSkill();
-
+				
 				if (Rnd.get(100) < 10)
 					return FrequentSkill.ANTHARAS_JUMP.getSkill();
 			}
-
+			
 			if (Rnd.get(100) < 7)
 				return FrequentSkill.ANTHARAS_METEOR.getSkill();
 		}
@@ -404,10 +404,10 @@ public class Antharas extends L2AttackableAIScript
 		{
 			if (playersAround[1] >= 10 && Rnd.get(100) < 80)
 				return FrequentSkill.ANTHARAS_TAIL.getSkill();
-
+			
 			if (playersAround[0] >= 10 && Rnd.get(100) < 10)
 				return FrequentSkill.ANTHARAS_JUMP.getSkill();
-
+			
 			if (Rnd.get(100) < 5)
 				return FrequentSkill.ANTHARAS_METEOR.getSkill();
 		}
@@ -415,17 +415,17 @@ public class Antharas extends L2AttackableAIScript
 		{
 			if (playersAround[1] >= 10 && Rnd.get(100) < 80)
 				return FrequentSkill.ANTHARAS_TAIL.getSkill();
-
+			
 			if (Rnd.get(100) < 3)
 				return FrequentSkill.ANTHARAS_METEOR.getSkill();
 		}
-
+		
 		if (Rnd.get(100) < 6)
 			return FrequentSkill.ANTHARAS_BREATH.getSkill();
-
+		
 		if (Rnd.get(100) < 50)
 			return FrequentSkill.ANTHARAS_NORMAL_ATTACK.getSkill();
-
+			
 		// if (Rnd.get(100) < 5)
 		// {
 		// if (Rnd.get(100) < 50)
@@ -433,10 +433,10 @@ public class Antharas extends L2AttackableAIScript
 		//
 		// return FrequentSkill.ANTHARAS_SHORT_FEAR.getSkill();
 		// }
-
+		
 		return FrequentSkill.ANTHARAS_NORMAL_ATTACK_EX.getSkill();
 	}
-
+	
 	/**
 	 * Update Antharas informations depending about how much players joined the fight.<br>
 	 * Used when server restarted and Antharas is fighting, or used while the cinematic occurs (after the 30min timer).
@@ -463,7 +463,7 @@ public class Antharas extends L2AttackableAIScript
 			_minionTimer = 120000;
 		}
 	}
-
+	
 	/**
 	 * Drop timers, meaning Antharas is dead or inactivity task occured.
 	 * @param npc : The NPC to affect.
@@ -473,7 +473,7 @@ public class Antharas extends L2AttackableAIScript
 		cancelQuestTimer("regen_task", npc, null);
 		cancelQuestTimer("skill_task", npc, null);
 		cancelQuestTimer("minions_spawn", npc, null);
-
+		
 		for (Npc mob : _monsters)
 		{
 			cancelQuestTimer("self_destruct", mob, null);
@@ -481,16 +481,16 @@ public class Antharas extends L2AttackableAIScript
 		}
 		_monsters.clear();
 	}
-
+	
 	public static void waiter(long interval)
 	{
 		long startWaiterTime = System.currentTimeMillis();
 		int seconds = (int) (interval / 1000);
-
+		
 		while (startWaiterTime + interval > System.currentTimeMillis() && GrandBossManager._announce)
 		{
 			seconds--; // Here because we don't want to see two time announce at the same time
-
+			
 			switch (seconds)
 			{
 				case 3600: // 1 hour left
@@ -505,7 +505,7 @@ public class Antharas extends L2AttackableAIScript
 				case 299: // 10 minutes left
 					GrandBossManager.AnnounceGrandBoss("Spawn Antharas in 5 minute(s) !");
 					break;
-
+				
 				case 1500: // 25 minutes left
 				case 1200: // 20 minutes left
 				case 900: // 15 minutes left
@@ -523,7 +523,7 @@ public class Antharas extends L2AttackableAIScript
 				case 15: // 15 seconds left
 					GrandBossManager.AnnounceGrandBoss("Spawn Antharas in " + seconds + " second(s) !");
 					break;
-
+				
 				case 6: // 3 seconds left
 				case 5: // 3 seconds left
 				case 4: // 3 seconds left
@@ -531,7 +531,7 @@ public class Antharas extends L2AttackableAIScript
 				case 2: // 1 seconds left
 					GrandBossManager.AnnounceGrandBoss("Spawn Antharas in " + (seconds - 1) + " second(s) !");
 					break;
-
+				
 				case 1: // 1 seconds left
 				{
 					if (GrandBossManager._announce)
@@ -540,9 +540,9 @@ public class Antharas extends L2AttackableAIScript
 				}
 					break;
 			}
-
+			
 			long startOneSecondWaiterStartTime = System.currentTimeMillis();
-
+			
 			// Only the try catch with Thread.sleep(1000) give bad countdown on high wait times
 			while (startOneSecondWaiterStartTime + 1000 > System.currentTimeMillis())
 			{
@@ -556,5 +556,5 @@ public class Antharas extends L2AttackableAIScript
 			}
 		}
 	}
-
+	
 }

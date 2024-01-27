@@ -8,12 +8,12 @@ import com.l2j4team.gameserver.model.WorldObject;
 public class Revive extends L2GameServerPacket
 {
 	private final int _objectId;
-
+	
 	public Revive(WorldObject obj)
 	{
 		_objectId = obj.getObjectId();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

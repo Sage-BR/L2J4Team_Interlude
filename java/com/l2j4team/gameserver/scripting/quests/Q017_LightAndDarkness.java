@@ -8,27 +8,27 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q017_LightAndDarkness extends Quest
 {
 	private static final String qn = "Q017_LightAndDarkness";
-
+	
 	// Items
 	private static final int BLOOD_OF_SAINT = 7168;
-
+	
 	// NPCs
 	private static final int HIERARCH = 31517;
 	private static final int SAINT_ALTAR_1 = 31508;
 	private static final int SAINT_ALTAR_2 = 31509;
 	private static final int SAINT_ALTAR_3 = 31510;
 	private static final int SAINT_ALTAR_4 = 31511;
-
+	
 	public Q017_LightAndDarkness()
 	{
 		super(17, "Light and Darkness");
-
+		
 		setItemsIds(BLOOD_OF_SAINT);
-
+		
 		addStartNpc(HIERARCH);
 		addTalkId(HIERARCH, SAINT_ALTAR_1, SAINT_ALTAR_2, SAINT_ALTAR_3, SAINT_ALTAR_4);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -36,7 +36,7 @@ public class Q017_LightAndDarkness extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31517-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -88,10 +88,10 @@ public class Q017_LightAndDarkness extends Quest
 			else
 				htmltext = "31511-03.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -99,13 +99,13 @@ public class Q017_LightAndDarkness extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 61) ? "31517-03.htm" : "31517-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -129,28 +129,28 @@ public class Q017_LightAndDarkness extends Quest
 							}
 						}
 						break;
-
+					
 					case SAINT_ALTAR_1:
 						if (cond == 1)
 							htmltext = "31508-01.htm";
 						else if (cond > 1)
 							htmltext = "31508-04.htm";
 						break;
-
+					
 					case SAINT_ALTAR_2:
 						if (cond == 2)
 							htmltext = "31509-01.htm";
 						else if (cond > 2)
 							htmltext = "31509-04.htm";
 						break;
-
+					
 					case SAINT_ALTAR_3:
 						if (cond == 3)
 							htmltext = "31510-01.htm";
 						else if (cond > 3)
 							htmltext = "31510-04.htm";
 						break;
-
+					
 					case SAINT_ALTAR_4:
 						if (cond == 4)
 							htmltext = "31511-01.htm";
@@ -159,12 +159,12 @@ public class Q017_LightAndDarkness extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

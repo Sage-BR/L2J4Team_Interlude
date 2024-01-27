@@ -11,21 +11,21 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q606_WarWithVarkaSilenos extends Quest
 {
 	private static final String qn = "Q606_WarWithVarkaSilenos";
-
+	
 	// Items
 	private static final int HORN_OF_BUFFALO = 7186;
 	private static final int VARKA_MANE = 7233;
-
+	
 	public Q606_WarWithVarkaSilenos()
 	{
 		super(606, "War with Varka Silenos");
-
+		
 		setItemsIds(VARKA_MANE);
-
+		
 		addStartNpc(31370); // Kadun Zu Ketra
 		addTalkId(31370);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -33,7 +33,7 @@ public class Q606_WarWithVarkaSilenos extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31370-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -56,10 +56,10 @@ public class Q606_WarWithVarkaSilenos extends Quest
 			st.takeItems(VARKA_MANE, -1);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -67,18 +67,18 @@ public class Q606_WarWithVarkaSilenos extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() >= 74 && player.isAlliedWithKetra()) ? "31370-01.htm" : "31370-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				htmltext = (st.hasQuestItems(VARKA_MANE)) ? "31370-04.htm" : "31370-05.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

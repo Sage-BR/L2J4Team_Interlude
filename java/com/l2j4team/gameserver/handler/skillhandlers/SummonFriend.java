@@ -23,53 +23,52 @@ public class SummonFriend implements ISkillHandler
 	{
 		L2SkillType.SUMMON_FRIEND
 	};
-
+	
 	@Override
 	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
 	{
 		if (!(activeChar instanceof Player))
 			return;
-
+		
 		final Player player = (Player) activeChar;
-
+		
 		// Check player status.
 		if (!Player.checkSummonerStatus(player))
 			return;
-
+		
 		if (player.isArenaProtection())
 		{
 			player.sendMessage("You cannot use this skill in Tournament Event.");
 			return;
 		}
-
+		
 		if ((TvT.is_started() && player._inEventTvT) || (CTF.is_started() && player._inEventCTF))
 		{
 			player.sendMessage("You cannot use this skill in Event.");
 			return;
 		}
-
+		
 		for (WorldObject obj : targets)
 		{
 			// The target must be a player.
 			if (!(obj instanceof Player))
 				continue;
-
+			
 			// Can't summon yourself.
 			final Player target = ((Player) obj);
 			
-
 			// Check target status.
 			// Check target distance.
 			if ((activeChar == target) || !Player.checkSummonTargetStatus(target, player) || MathUtil.checkIfInRange(50, activeChar, target, false))
 				continue;
-
+			
 			// Check target teleport request status.
 			if (!target.teleportRequest(player, skill))
 			{
 				player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_ALREADY_SUMMONED).addCharName(target));
 				continue;
 			}
-
+			
 			// Send a request for Summon Friend skill.
 			if (skill.getId() == 1403)
 			{
@@ -87,7 +86,7 @@ public class SummonFriend implements ISkillHandler
 			}
 		}
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

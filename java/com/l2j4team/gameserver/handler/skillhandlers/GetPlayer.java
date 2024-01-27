@@ -16,23 +16,23 @@ public class GetPlayer implements ISkillHandler
 	{
 		L2SkillType.GET_PLAYER
 	};
-
+	
 	@Override
 	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
 	{
 		if (activeChar.isAlikeDead())
 			return;
-
+		
 		for (WorldObject target : targets)
 		{
 			final Player victim = target.getActingPlayer();
 			if (victim == null || victim.isAlikeDead())
 				continue;
-
+			
 			victim.teleToLocation(activeChar.getX(), activeChar.getY(), activeChar.getZ(), 0);
 		}
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

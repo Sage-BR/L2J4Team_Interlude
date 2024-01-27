@@ -19,16 +19,16 @@ public enum WeaponType implements ItemType
 	FISHINGROD(40),
 	BIGBLUNT(40),
 	PET(40);
-
+	
 	private final int _mask;
 	private final int _range;
-
+	
 	private WeaponType(int range)
 	{
 		_mask = 1 << ordinal();
 		_range = range;
 	}
-
+	
 	/**
 	 * Returns the ID of the item after applying the mask.
 	 * @return int : ID of the item
@@ -38,7 +38,7 @@ public enum WeaponType implements ItemType
 	{
 		return _mask;
 	}
-
+	
 	public int getRange()
 	{
 		return _range;

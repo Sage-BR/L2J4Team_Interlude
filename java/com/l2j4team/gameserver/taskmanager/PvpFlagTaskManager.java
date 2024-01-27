@@ -16,18 +16,18 @@ import com.l2j4team.commons.concurrent.ThreadPool;
 public final class PvpFlagTaskManager implements Runnable
 {
 	private final Map<Player, Long> _players = new ConcurrentHashMap<>();
-
+	
 	public static final PvpFlagTaskManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected PvpFlagTaskManager()
 	{
 		// Run task each second.
 		ThreadPool.scheduleAtFixedRate(this, 1000, 1000);
 	}
-
+	
 	/**
 	 * Adds {@link Player} to the PvpFlagTask.
 	 * @param player : Player to be added and checked.
@@ -37,7 +37,7 @@ public final class PvpFlagTaskManager implements Runnable
 	{
 		_players.put(player, System.currentTimeMillis() + time);
 	}
-
+	
 	/**
 	 * Removes {@link Player} from the PvpFlagTask.
 	 * @param player : {@link Player} to be removed.
@@ -46,7 +46,7 @@ public final class PvpFlagTaskManager implements Runnable
 	{
 		_players.remove(player);
 	}
-
+	
 	@Override
 	public final void run()
 	{
@@ -56,13 +56,13 @@ public final class PvpFlagTaskManager implements Runnable
 		for (Map.Entry<Player, Long> entry : _players.entrySet())
 		{
 			Player player = entry.getKey();
-
+			
 			if (Config.ENABLE_FLAGZONE && (player.isInsideZone(ZoneId.FLAG) || player.isInsideZone(ZoneId.RAID)))
 			{
 				_players.remove(player);
 				continue;
 			}
-
+			
 			long timeLeft = entry.getValue().longValue();
 			if (currentTime > timeLeft)
 			{
@@ -78,7 +78,7 @@ public final class PvpFlagTaskManager implements Runnable
 			player.updatePvPFlag(1);
 		}
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final PvpFlagTaskManager _instance = new PvpFlagTaskManager();

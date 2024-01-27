@@ -18,7 +18,7 @@ public class Fish
 	private final int _gutsCheckTime;
 	private final int _waitTime;
 	private final int _combatTime;
-
+	
 	public Fish(StatsSet set)
 	{
 		_id = set.getInteger("id");
@@ -32,60 +32,60 @@ public class Fish
 		_waitTime = set.getInteger("waitTime");
 		_combatTime = set.getInteger("combatTime");
 	}
-
+	
 	public int getId()
 	{
 		return _id;
 	}
-
+	
 	public int getLevel()
 	{
 		return _level;
 	}
-
+	
 	public int getHp()
 	{
 		return _hp;
 	}
-
+	
 	public int getHpRegen()
 	{
 		return _hpRegen;
 	}
-
+	
 	public int getType()
 	{
 		return _type;
 	}
-
+	
 	public int getType(boolean isLureNight)
 	{
 		if (!GameTimeTaskManager.getInstance().isNight() && isLureNight)
 			return -1;
-
+		
 		return _type;
 	}
-
+	
 	public int getGroup()
 	{
 		return _group;
 	}
-
+	
 	public int getGuts()
 	{
 		return _guts;
 	}
-
+	
 	public int getGutsCheckTime()
 	{
 		return _gutsCheckTime;
 	}
-
+	
 	public int getWaitTime()
 	{
 		return _waitTime;
 	}
-
+	
 	public int getCombatTime()
 	{
 		return _combatTime;

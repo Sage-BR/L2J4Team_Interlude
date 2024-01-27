@@ -7,7 +7,7 @@ public class Q080_SagaOfTheWindRider extends SagasSuperClass
 	public Q080_SagaOfTheWindRider()
 	{
 		super(80, "Saga of the Wind Rider");
-
+		
 		NPC = new int[]
 		{
 			31603,
@@ -23,7 +23,7 @@ public class Q080_SagaOfTheWindRider extends SagasSuperClass
 			31659,
 			31616
 		};
-
+		
 		Items = new int[]
 		{
 			7080,
@@ -39,38 +39,38 @@ public class Q080_SagaOfTheWindRider extends SagasSuperClass
 			7103,
 			0
 		};
-
+		
 		Mob = new int[]
 		{
 			27300,
 			27229,
 			27303
 		};
-
+		
 		classid = 101;
 		prevclass = 0x17;
-
+		
 		X = new int[]
 		{
 			161719,
 			124314,
 			124355
 		};
-
+		
 		Y = new int[]
 		{
 			-92823,
 			82155,
 			82155
 		};
-
+		
 		Z = new int[]
 		{
 			-1893,
 			-2803,
 			-2803
 		};
-
+		
 		registerNPCs();
 	}
 }

@@ -10,7 +10,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q409_PathToAnElvenOracle extends Quest
 {
 	private static final String qn = "Q409_PathToAnElvenOracle";
-
+	
 	// Items
 	private static final int CRYSTAL_MEDALLION = 1231;
 	private static final int SWINDLER_MONEY = 1232;
@@ -19,24 +19,24 @@ public class Q409_PathToAnElvenOracle extends Quest
 	private static final int LEAF_OF_ORACLE = 1235;
 	private static final int HALF_OF_DIARY = 1236;
 	private static final int TAMIL_NECKLACE = 1275;
-
+	
 	// NPCs
 	private static final int MANUEL = 30293;
 	private static final int ALLANA = 30424;
 	private static final int PERRIN = 30428;
-
+	
 	public Q409_PathToAnElvenOracle()
 	{
 		super(409, "Path to an Elven Oracle");
-
+		
 		setItemsIds(CRYSTAL_MEDALLION, SWINDLER_MONEY, ALLANA_DIARY, LIZARD_CAPTAIN_ORDER, HALF_OF_DIARY, TAMIL_NECKLACE);
-
+		
 		addStartNpc(MANUEL);
 		addTalkId(MANUEL, ALLANA, PERRIN);
-
+		
 		addKillId(27032, 27033, 27034, 27035);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -44,7 +44,7 @@ public class Q409_PathToAnElvenOracle extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30293-05.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -63,10 +63,10 @@ public class Q409_PathToAnElvenOracle extends Quest
 		}
 		else if (event.equalsIgnoreCase("30428-06.htm"))
 			addSpawn(27035, -93194, 147587, -2672, 2000, false, 0, true);
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -74,7 +74,7 @@ public class Q409_PathToAnElvenOracle extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -87,7 +87,7 @@ public class Q409_PathToAnElvenOracle extends Quest
 				else
 					htmltext = "30293-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -113,7 +113,7 @@ public class Q409_PathToAnElvenOracle extends Quest
 							st.exitQuest(true);
 						}
 						break;
-
+					
 					case ALLANA:
 						if (cond == 1)
 							htmltext = "30424-01.htm";
@@ -139,7 +139,7 @@ public class Q409_PathToAnElvenOracle extends Quest
 						else if (cond == 7)
 							htmltext = "30424-05.htm";
 						break;
-
+					
 					case PERRIN:
 						if (cond == 4)
 							htmltext = "30428-01.htm";
@@ -157,17 +157,17 @@ public class Q409_PathToAnElvenOracle extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		if (npc.getNpcId() == 27035)
 		{
 			if (st.getInt("cond") == 4)
@@ -183,7 +183,7 @@ public class Q409_PathToAnElvenOracle extends Quest
 			st.playSound(QuestState.SOUND_MIDDLE);
 			st.giveItems(LIZARD_CAPTAIN_ORDER, 1);
 		}
-
+		
 		return null;
 	}
 }

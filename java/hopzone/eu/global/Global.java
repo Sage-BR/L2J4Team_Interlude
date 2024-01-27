@@ -55,14 +55,14 @@ public class Global
 {
 	// logger
 	private static final Logs _log = new Logs(Global.class.getSimpleName());
-	
+
 	// global server vars
 	private static int storedVotes, serverVotes, serverRank, serverNeededVotes, serverNextRank;
 	private static int responseCode;
-	
+
 	// ip array list
 	private final List<String> FINGERPRINT = new ArrayList<>();
-	
+
 	/**
 	 * Global reward main function
 	 */
@@ -74,63 +74,63 @@ public class Global
 			VDSThreadPool.scheduleAtFixedRate(() -> execute("HOPZONE"), 100, Configurations.HOPZONE_EU_VOTE_CHECK_DELAY * 1000);
 			_log.info(Global.class.getSimpleName() + ": HOPZONE reward started.");
 		}
-		
+
 		// check if allowed the ITOPZ reward to start
 		if (Configurations.ITOPZ_GLOBAL_REWARD)
 		{
 			VDSThreadPool.scheduleAtFixedRate(() -> execute("ITOPZ"), 100, Configurations.ITOPZ_VOTE_CHECK_DELAY * 1000);
 			_log.info(Global.class.getSimpleName() + ": ITOPZ reward started.");
 		}
-		
+
 		// check if allowed the HOPZONENET reward to start
 		if (Configurations.HOPZONE_NET_GLOBAL_REWARD)
 		{
 			VDSThreadPool.scheduleAtFixedRate(() -> execute("HOPZONENET"), 100, Configurations.HOPZONE_NET_VOTE_CHECK_DELAY * 1000);
 			_log.info(Global.class.getSimpleName() + ": HOPZONENET reward started.");
 		}
-		
+
 		// check if allowed the L2TOPGAMESERVER reward to start
 		if (Configurations.L2TOPGAMESERVER_GLOBAL_REWARD)
 		{
 			VDSThreadPool.scheduleAtFixedRate(() -> execute("L2TOPGAMESERVER"), 100, Configurations.L2TOPGAMESERVER_VOTE_CHECK_DELAY * 1000);
 			_log.info(Global.class.getSimpleName() + ": L2TOPGAMESERVER reward started.");
 		}
-		
+
 		// check if allowed the L2JBRASIL reward to start
 		if (Configurations.L2JBRASIL_GLOBAL_REWARD)
 		{
 			VDSThreadPool.scheduleAtFixedRate(() -> execute("L2JBRASIL"), 100, Configurations.L2JBRASIL_VOTE_CHECK_DELAY * 1000);
 			_log.info(Global.class.getSimpleName() + ": L2JBRASIL reward started.");
 		}
-		
+
 		// check if allowed the L2NETWORK reward to start
 		if (Configurations.L2NETWORK_GLOBAL_REWARD)
 		{
 			VDSThreadPool.scheduleAtFixedRate(() -> execute("L2NETWORK"), 100, Configurations.L2NETWORK_VOTE_CHECK_DELAY * 1000);
 			_log.info(Global.class.getSimpleName() + ": L2NETWORK reward started.");
 		}
-		
+
 		// check if allowed the HOTSERVERS reward to start
 		if (Configurations.HOTSERVERS_GLOBAL_REWARD)
 		{
 			VDSThreadPool.scheduleAtFixedRate(() -> execute("HOTSERVERS"), 100, Configurations.HOTSERVERS_VOTE_CHECK_DELAY * 1000);
 			_log.info(Global.class.getSimpleName() + ": HOTSERVERS reward started.");
 		}
-		
+
 		// check if allowed the L2VOTES reward to start
 		if (Configurations.L2VOTES_GLOBAL_REWARD)
 		{
 			VDSThreadPool.scheduleAtFixedRate(() -> execute("L2VOTES"), 100, Configurations.L2VOTES_VOTE_CHECK_DELAY * 1000);
 			_log.info(Global.class.getSimpleName() + ": L2VOTES reward started.");
 		}
-		
+
 		// check if allowed the L2RANKZONE reward to start
 		if (Configurations.L2RANKZONE_GLOBAL_REWARD)
 		{
 			VDSThreadPool.scheduleAtFixedRate(() -> execute("L2RANKZONE"), 100, Configurations.L2RANKZONE_VOTE_CHECK_DELAY * 1000);
 			_log.info(Global.class.getSimpleName() + ": L2RANKZONE reward started.");
 		}
-		
+
 		// check if allowed the TOP4TEAMBR reward to start
 		if (Configurations.TOP4TEAMBR_GLOBAL_REWARD)
 		{
@@ -138,7 +138,7 @@ public class Global
 			_log.info(Global.class.getSimpleName() + ": TOP4TEAMBR reward started.");
 		}
 	}
-	
+
 	/**
 	 * set server information vars
 	 * @param TOPSITE
@@ -163,7 +163,7 @@ public class Global
 				Gui.getInstance().ConsoleWrite(TOPSITE + " RESPONSE:" + responseCode + " VOTES:" + serverVotes);
 			return;
 		}
-		
+
 		// write console info from response
 		switch (TOPSITE)
 		{
@@ -209,7 +209,7 @@ public class Global
 				break;
 		}
 		storedVotes = Utilities.selectGlobalVar(TOPSITE, "votes");
-		
+
 		// check if default return value is -1 (failed)
 		if (storedVotes == -1)
 		{
@@ -219,7 +219,7 @@ public class Global
 			Utilities.saveGlobalVar(TOPSITE, "votes", serverVotes);
 			return;
 		}
-		
+
 		// check stored votes are lower than server votes
 		if (storedVotes < serverVotes)
 		{
@@ -228,7 +228,7 @@ public class Global
 			// save votes
 			Utilities.saveGlobalVar(TOPSITE, "votes", storedVotes);
 		}
-		
+
 		// monthly reset
 		if (storedVotes > serverVotes)
 		{
@@ -237,7 +237,7 @@ public class Global
 			// save votes
 			Utilities.saveGlobalVar(TOPSITE, "votes", serverVotes);
 		}
-		
+
 		// announce current votes
 		switch (TOPSITE)
 		{
@@ -363,7 +363,7 @@ public class Global
 				break;
 		}
 	}
-	
+
 	/**
 	 * reward players
 	 * @param TOPSITE
@@ -384,7 +384,7 @@ public class Global
 				e.printStackTrace();
 				continue;
 			}
-			
+
 			// if key exists ignore player
 			if (FINGERPRINT.contains(key))
 			{
@@ -392,7 +392,7 @@ public class Global
 			}
 			// add the key on ignore list
 			FINGERPRINT.add(key);
-			
+
 			for (final int itemId : Rewards.from(TOPSITE + "_GLOBAL_REWARDS").keys())
 			{
 				// check if the item id exists
@@ -420,9 +420,9 @@ public class Global
 				}
 			}
 		}
-		
+
 		FINGERPRINT.clear();
-		
+
 		// announce the reward
 		Utilities.announce(TOPSITE, "Thanks for voting! Players rewarded!");
 		// save votes
@@ -430,12 +430,12 @@ public class Global
 		// write on console
 		Gui.getInstance().ConsoleWrite(TOPSITE + ": Players rewarded!");
 	}
-	
+
 	public static Global getInstance()
 	{
 		return Global.SingletonHolder._instance;
 	}
-	
+
 	private static class SingletonHolder
 	{
 		protected static final Global _instance = new Global();

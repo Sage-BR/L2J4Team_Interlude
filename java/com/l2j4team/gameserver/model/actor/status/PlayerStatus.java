@@ -23,12 +23,12 @@ import com.l2j4team.commons.random.Rnd;
 public class PlayerStatus extends PlayableStatus
 {
 	private double _currentCp = 0;
-
+	
 	public PlayerStatus(Player activeChar)
 	{
 		super(activeChar);
 	}
-
+	
 	@Override
 	public final void reduceCp(int value)
 	{
@@ -37,24 +37,24 @@ public class PlayerStatus extends PlayableStatus
 		else
 			setCurrentCp(0);
 	}
-
+	
 	@Override
 	public final void reduceHp(double value, Creature attacker)
 	{
 		reduceHp(value, attacker, true, false, false, false);
 	}
-
+	
 	@Override
 	public final void reduceHp(double value, Creature attacker, boolean awake, boolean isDOT, boolean isHPConsumption)
 	{
 		reduceHp(value, attacker, awake, isDOT, isHPConsumption, false);
 	}
-
+	
 	public final void reduceHp(double value, Creature attacker, boolean awake, boolean isDOT, boolean isHPConsumption, boolean ignoreCP)
 	{
 		if (getActiveChar().isDead())
 			return;
-
+		
 		// invul handling
 		if (getActiveChar().isInvul())
 		{
@@ -63,22 +63,22 @@ public class PlayerStatus extends PlayableStatus
 			if ((attacker != getActiveChar()) || (!isDOT && !isHPConsumption))
 				return;
 		}
-
+		
 		if (!isHPConsumption)
 		{
 			getActiveChar().stopEffectsOnDamage(awake);
 			getActiveChar().forceStandUp();
-
+			
 			if (!isDOT)
 			{
 				if (getActiveChar().isStunned() && Rnd.get(10) == 0)
 					getActiveChar().stopStunning(true);
 			}
 		}
-
+		
 		int fullValue = (int) value;
 		int tDmg = 0;
-
+		
 		if (attacker != null && attacker != getActiveChar())
 		{
 			final Player attackerPlayer = attacker.getActingPlayer();
@@ -86,25 +86,25 @@ public class PlayerStatus extends PlayableStatus
 			{
 				if (attackerPlayer.isGM() && !attackerPlayer.getAccessLevel().canGiveDamage())
 					return;
-
+				
 				if (getActiveChar().isInDuel())
 				{
 					final DuelState playerState = getActiveChar().getDuelState();
 					if (playerState == DuelState.DEAD || playerState == DuelState.WINNER)
 						return;
-
+					
 					// Cancel duel if player got hit by another player that is not part of the duel or if player isn't in duel state.
 					if (attackerPlayer.getDuelId() != getActiveChar().getDuelId() || playerState != DuelState.DUELLING)
 						getActiveChar().setDuelState(DuelState.INTERRUPTED);
 				}
 			}
-
+			
 			// Check and calculate transfered damage
 			final Summon summon = getActiveChar().getPet();
 			if (summon != null && summon instanceof Servitor && MathUtil.checkIfInRange(900, getActiveChar(), summon, true))
 			{
 				tDmg = (int) value * (int) getActiveChar().getStat().calcStat(Stats.TRANSFER_DAMAGE_PERCENT, 0, null, null) / 100;
-
+				
 				// Only transfer dmg up to current HP, it should not be killed
 				tDmg = Math.min((int) summon.getCurrentHp() - 1, tDmg);
 				if (tDmg > 0)
@@ -114,7 +114,7 @@ public class PlayerStatus extends PlayableStatus
 					fullValue = (int) value; // reduce the announced value here as player will get a message about summon damage
 				}
 			}
-
+			
 			if (!ignoreCP && attacker instanceof Playable)
 			{
 				if (getCurrentCp() >= value)
@@ -128,21 +128,21 @@ public class PlayerStatus extends PlayableStatus
 					setCurrentCp(0, false); // Set Cp to 0
 				}
 			}
-
+			
 			if (fullValue > 0 && !isDOT)
 			{
 				SystemMessage smsg = SystemMessage.getSystemMessage(SystemMessageId.S1_GAVE_YOU_S2_DMG);
 				smsg.addCharName(attacker);
 				smsg.addNumber(fullValue);
 				getActiveChar().sendPacket(smsg);
-
+				
 				if (tDmg > 0)
 				{
 					smsg = SystemMessage.getSystemMessage(SystemMessageId.SUMMON_RECEIVED_DAMAGE_S2_BY_S1);
 					smsg.addCharName(attacker);
 					smsg.addNumber(tDmg);
 					getActiveChar().sendPacket(smsg);
-
+					
 					if (attackerPlayer != null)
 					{
 						smsg = SystemMessage.getSystemMessage(SystemMessageId.GIVEN_S1_DAMAGE_TO_YOUR_TARGET_AND_S2_DAMAGE_TO_SERVITOR);
@@ -153,7 +153,7 @@ public class PlayerStatus extends PlayableStatus
 				}
 			}
 		}
-
+		
 		if (value > 0)
 		{
 			value = getCurrentHp() - value;
@@ -165,13 +165,13 @@ public class PlayerStatus extends PlayableStatus
 					{
 						getActiveChar().disableAllSkills();
 						stopHpMpRegeneration();
-
+						
 						if (attacker != null)
 						{
 							attacker.getAI().setIntention(CtrlIntention.ACTIVE);
 							attacker.sendPacket(ActionFailed.STATIC_PACKET);
 						}
-
+						
 						// let the DuelManager know of his defeat
 						DuelManager.getInstance().onPlayerDefeat(getActiveChar());
 					}
@@ -182,25 +182,25 @@ public class PlayerStatus extends PlayableStatus
 			}
 			setCurrentHp(value);
 		}
-
+		
 		if (getActiveChar().getCurrentHp() < 0.5)
 		{
 			getActiveChar().abortAttack();
 			getActiveChar().abortCast();
-
+			
 			if (getActiveChar().isInOlympiadMode())
 			{
 				stopHpMpRegeneration();
 				getActiveChar().setIsDead(true);
-
+				
 				if (getActiveChar().getPet() != null)
 					getActiveChar().getPet().getAI().setIntention(CtrlIntention.IDLE, null);
-
+				
 				return;
 			}
-
+			
 			getActiveChar().doDie(attacker);
-
+			
 			if (!Config.DISABLE_TUTORIAL)
 			{
 				QuestState qs = getActiveChar().getQuestState("Tutorial");
@@ -209,12 +209,12 @@ public class PlayerStatus extends PlayableStatus
 			}
 		}
 	}
-
+	
 	@Override
 	public final void setCurrentHp(double newHp, boolean broadcastPacket)
 	{
 		super.setCurrentHp(newHp, broadcastPacket);
-
+		
 		if (!Config.DISABLE_TUTORIAL && getCurrentHp() <= getActiveChar().getStat().getMaxHp() * .3)
 		{
 			QuestState qs = getActiveChar().getQuestState("Tutorial");
@@ -222,37 +222,37 @@ public class PlayerStatus extends PlayableStatus
 				qs.getQuest().notifyEvent("CE45", null, getActiveChar());
 		}
 	}
-
+	
 	@Override
 	public final double getCurrentCp()
 	{
 		return _currentCp;
 	}
-
+	
 	@Override
 	public final void setCurrentCp(double newCp)
 	{
 		setCurrentCp(newCp, true);
 	}
-
+	
 	public final void setCurrentCp(double newCp, boolean broadcastPacket)
 	{
 		int maxCp = getActiveChar().getStat().getMaxCp();
-
+		
 		synchronized (this)
 		{
 			if (getActiveChar().isDead())
 				return;
-
+			
 			if (newCp < 0)
 				newCp = 0;
-
+			
 			if (newCp >= maxCp)
 			{
 				// Set the RegenActive flag to false
 				_currentCp = maxCp;
 				_flagsRegenActive &= ~REGEN_FLAG_CP;
-
+				
 				// Stop the HP/MP/CP Regeneration task
 				if (_flagsRegenActive == 0)
 					stopHpMpRegeneration();
@@ -262,37 +262,37 @@ public class PlayerStatus extends PlayableStatus
 				// Set the RegenActive flag to true
 				_currentCp = newCp;
 				_flagsRegenActive |= REGEN_FLAG_CP;
-
+				
 				// Start the HP/MP/CP Regeneration task with Medium priority
 				startHpMpRegeneration();
 			}
 		}
-
+		
 		if (broadcastPacket)
 			getActiveChar().broadcastStatusUpdate();
 	}
-
+	
 	@Override
 	protected void doRegeneration()
 	{
 		final PlayerStat pcStat = getActiveChar().getStat();
-
+		
 		// Modify the current CP of the Creature.
 		if (getCurrentCp() < pcStat.getMaxCp())
 			setCurrentCp(getCurrentCp() + Formulas.calcCpRegen(getActiveChar()), false);
-
+		
 		// Modify the current HP of the Creature.
 		if (getCurrentHp() < pcStat.getMaxHp())
 			setCurrentHp(getCurrentHp() + Formulas.calcHpRegen(getActiveChar()), false);
-
+		
 		// Modify the current MP of the Creature.
 		if (getCurrentMp() < pcStat.getMaxMp())
 			setCurrentMp(getCurrentMp() + Formulas.calcMpRegen(getActiveChar()), false);
-
+		
 		// Send the StatusUpdate packet.
 		getActiveChar().broadcastStatusUpdate();
 	}
-
+	
 	@Override
 	public Player getActiveChar()
 	{

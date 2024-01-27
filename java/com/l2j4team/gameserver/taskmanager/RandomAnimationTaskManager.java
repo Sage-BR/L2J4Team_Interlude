@@ -16,18 +16,18 @@ import com.l2j4team.commons.random.Rnd;
 public final class RandomAnimationTaskManager implements Runnable
 {
 	private final Map<Npc, Long> _characters = new ConcurrentHashMap<>();
-
+	
 	public static final RandomAnimationTaskManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected RandomAnimationTaskManager()
 	{
 		// Run task each second.
 		ThreadPool.scheduleAtFixedRate(this, 1000, 1000);
 	}
-
+	
 	/**
 	 * Adds {@link Npc} to the RandomAnimationTask with additional interval.
 	 * @param character : {@link Npc} to be added.
@@ -37,26 +37,26 @@ public final class RandomAnimationTaskManager implements Runnable
 	{
 		_characters.put(character, System.currentTimeMillis() + interval * 1000);
 	}
-
+	
 	@Override
 	public final void run()
 	{
 		// List is empty, skip.
 		if (_characters.isEmpty())
 			return;
-
+		
 		// Get current time.
 		final long time = System.currentTimeMillis();
-
+		
 		// Loop all characters.
 		for (Map.Entry<Npc, Long> entry : _characters.entrySet())
 		{
 			// Time hasn't passed yet, skip.
 			if (time < entry.getValue())
 				continue;
-
+			
 			final Npc character = entry.getKey();
-
+			
 			// Cancels timer on specific cases.
 			if (character.isMob())
 			{
@@ -75,16 +75,16 @@ public final class RandomAnimationTaskManager implements Runnable
 					continue;
 				}
 			}
-
+			
 			if (!(character.isDead() || character.isStunned() || character.isSleeping() || character.isParalyzed()))
 				character.onRandomAnimation(Rnd.get(2, 3));
-
+			
 			// Renew the timer.
 			final int timer = (character.isMob()) ? Rnd.get(Config.MIN_MONSTER_ANIMATION, Config.MAX_MONSTER_ANIMATION) : Rnd.get(Config.MIN_NPC_ANIMATION, Config.MAX_NPC_ANIMATION);
 			add(character, timer);
 		}
 	}
-
+	
 	private static final class SingletonHolder
 	{
 		protected static final RandomAnimationTaskManager _instance = new RandomAnimationTaskManager();

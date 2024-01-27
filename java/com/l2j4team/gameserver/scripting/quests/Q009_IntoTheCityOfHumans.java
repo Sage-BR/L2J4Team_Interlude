@@ -9,24 +9,24 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q009_IntoTheCityOfHumans extends Quest
 {
 	private static final String qn = "Q009_IntoTheCityOfHumans";
-
+	
 	// NPCs
 	public final int PETUKAI = 30583;
 	public final int TANAPI = 30571;
 	public final int TAMIL = 30576;
-
+	
 	// Rewards
 	public final int MARK_OF_TRAVELER = 7570;
 	public final int SOE_GIRAN = 7126;
-
+	
 	public Q009_IntoTheCityOfHumans()
 	{
 		super(9, "Into the City of Humans");
-
+		
 		addStartNpc(PETUKAI);
 		addTalkId(PETUKAI, TANAPI, TAMIL);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -34,7 +34,7 @@ public class Q009_IntoTheCityOfHumans extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30583-01.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -53,10 +53,10 @@ public class Q009_IntoTheCityOfHumans extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -64,7 +64,7 @@ public class Q009_IntoTheCityOfHumans extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -73,7 +73,7 @@ public class Q009_IntoTheCityOfHumans extends Quest
 				else
 					htmltext = "30583-00a.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -82,26 +82,26 @@ public class Q009_IntoTheCityOfHumans extends Quest
 						if (cond == 1)
 							htmltext = "30583-01a.htm";
 						break;
-
+					
 					case TANAPI:
 						if (cond == 1)
 							htmltext = "30571-00.htm";
 						else if (cond == 2)
 							htmltext = "30571-01a.htm";
 						break;
-
+					
 					case TAMIL:
 						if (cond == 2)
 							htmltext = "30576-00.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

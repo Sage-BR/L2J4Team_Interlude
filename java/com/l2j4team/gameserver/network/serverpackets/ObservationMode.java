@@ -3,14 +3,14 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class ObservationMode extends L2GameServerPacket
 {
 	private final int _x, _y, _z;
-
+	
 	public ObservationMode(int x, int y, int z)
 	{
 		_x = x;
 		_y = y;
 		_z = z;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

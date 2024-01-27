@@ -5,12 +5,12 @@ import com.l2j4team.gameserver.model.actor.instance.Player;
 public class RecipeShopMsg extends L2GameServerPacket
 {
 	private final Player _activeChar;
-
+	
 	public RecipeShopMsg(Player player)
 	{
 		_activeChar = player;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

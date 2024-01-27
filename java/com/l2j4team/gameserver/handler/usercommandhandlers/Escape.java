@@ -15,7 +15,7 @@ public class Escape implements IUserCommandHandler
 	{
 		52
 	};
-
+	
 	@Override
 	public boolean useUserCommand(int id, Player activeChar)
 	{
@@ -24,21 +24,21 @@ public class Escape implements IUserCommandHandler
 			activeChar.sendPacket(SystemMessageId.NO_UNSTUCK_PLEASE_SEND_PETITION);
 			return false;
 		}
-
+		
 		if ((TvT.is_started() && activeChar._inEventTvT) || (CTF.is_started() && activeChar._inEventCTF))
 		{
 			activeChar.sendMessage("You may not use an escape skill in event.");
 			return false;
 		}
-
+		
 		if (activeChar.isArenaProtection() || activeChar.isInsideZone(ZoneId.TOURNAMENT))
 		{
 			activeChar.sendMessage("You cannot use this skill in Tournament Event/Zone.");
 			return false;
 		}
-
+		
 		activeChar.stopMove(null);
-
+		
 		// Official timer 5 minutes, for GM 1 second
 		if (activeChar.isGM())
 			activeChar.doCast(SkillTable.getInstance().getInfo(2100, 1));
@@ -48,10 +48,10 @@ public class Escape implements IUserCommandHandler
 			activeChar.doCast(SkillTable.getInstance().getInfo(2099, 1));
 			activeChar.sendMessage("You use Escape: 30 secunds");
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public int[] getUserCommandList()
 	{

@@ -17,7 +17,7 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 {
 	private static final String qn = "Q605_AllianceWithKetraOrcs";
 	private static final String qn2 = "Q606_WarWithVarkaSilenos";
-
+	
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
 		CHANCES.put(21350, 500000);
@@ -42,7 +42,7 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 		CHANCES.put(21374, 626000);
 		CHANCES.put(21375, 626000);
 	}
-
+	
 	private static final Map<Integer, Integer> CHANCES_MANE = new HashMap<>();
 	{
 		CHANCES_MANE.put(21350, 500000);
@@ -61,36 +61,36 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 		CHANCES_MANE.put(21371, 713000);
 		CHANCES_MANE.put(21373, 738000);
 	}
-
+	
 	// Quest Items
 	private static final int VARKA_BADGE_SOLDIER = 7216;
 	private static final int VARKA_BADGE_OFFICER = 7217;
 	private static final int VARKA_BADGE_CAPTAIN = 7218;
-
+	
 	private static final int KETRA_ALLIANCE_1 = 7211;
 	private static final int KETRA_ALLIANCE_2 = 7212;
 	private static final int KETRA_ALLIANCE_3 = 7213;
 	private static final int KETRA_ALLIANCE_4 = 7214;
 	private static final int KETRA_ALLIANCE_5 = 7215;
-
+	
 	private static final int TOTEM_OF_VALOR = 7219;
 	private static final int TOTEM_OF_WISDOM = 7220;
-
+	
 	private static final int VARKA_MANE = 7233;
-
+	
 	public Q605_AllianceWithKetraOrcs()
 	{
 		super(605, "Alliance with Ketra Orcs");
-
+		
 		setItemsIds(VARKA_BADGE_SOLDIER, VARKA_BADGE_OFFICER, VARKA_BADGE_CAPTAIN);
-
+		
 		addStartNpc(31371); // Wahkan
 		addTalkId(31371);
-
+		
 		for (int mobs : CHANCES.keySet())
 			addKillId(mobs);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -98,7 +98,7 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31371-03a.htm"))
 		{
 			if (player.isAlliedWithVarka())
@@ -197,10 +197,10 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 			player.setAllianceWithVarkaKetra(0);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -208,7 +208,7 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -221,7 +221,7 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 					player.setAllianceWithVarkaKetra(0);
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				if (cond == 1)
@@ -274,19 +274,19 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 					htmltext = "31371-08.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		final int npcId = npc.getNpcId();
-
+		
 		// Support for Q606.
 		QuestState st = partyMember.getQuestState(qn2);
 		if (st != null && Rnd.nextBoolean() && CHANCES_MANE.containsKey(npcId))
@@ -294,13 +294,13 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 			st.dropItems(VARKA_MANE, 1, 0, CHANCES_MANE.get(npcId));
 			return null;
 		}
-
+		
 		st = partyMember.getQuestState(qn);
-
+		
 		int cond = st.getInt("cond");
 		if (cond == 6)
 			return null;
-
+		
 		switch (npcId)
 		{
 			case 21350:
@@ -317,7 +317,7 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 				else if (cond == 5)
 					st.dropItems(VARKA_BADGE_SOLDIER, 1, 400, CHANCES.get(npcId));
 				break;
-
+			
 			case 21357:
 			case 21358:
 			case 21360:
@@ -335,7 +335,7 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 				else if (cond == 5)
 					st.dropItems(VARKA_BADGE_OFFICER, 1, 400, CHANCES.get(npcId));
 				break;
-
+			
 			case 21365:
 			case 21366:
 			case 21368:
@@ -350,7 +350,7 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 					st.dropItems(VARKA_BADGE_CAPTAIN, 1, 200, CHANCES.get(npcId));
 				break;
 		}
-
+		
 		return null;
 	}
 }

@@ -31,25 +31,25 @@ public class ArenaEvent
 	protected static final Logger _log = Logger.getLogger(ArenaEvent.class.getName());
 	private Calendar NextEvent;
 	private final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-
+	
 	public static ArenaEvent getInstance()
 	{
 		if (_instance == null)
 			_instance = new ArenaEvent();
 		return _instance;
 	}
-
+	
 	public String getNextTime()
 	{
 		if (NextEvent.getTime() != null)
 			return format.format(NextEvent.getTime());
 		return "Erro";
 	}
-
+	
 	private ArenaEvent()
 	{
 	}
-
+	
 	public void StartCalculationOfNextEventTime()
 	{
 		try
@@ -58,7 +58,7 @@ public class ArenaEvent
 			Calendar testStartTime = null;
 			long flush2 = 0, timeL = 0;
 			int count = 0;
-
+			
 			for (String timeOfDay : Config.TOURNAMENT_EVENT_INTERVAL_BY_TIME_OF_DAY)
 			{
 				testStartTime = Calendar.getInstance();
@@ -71,21 +71,21 @@ public class ArenaEvent
 				{
 					testStartTime.add(Calendar.DAY_OF_MONTH, 1);
 				}
-
+				
 				timeL = testStartTime.getTimeInMillis() - currentTime.getTimeInMillis();
-
+				
 				if (count == 0)
 				{
 					flush2 = timeL;
 					NextEvent = testStartTime;
 				}
-
+				
 				if (timeL < flush2)
 				{
 					flush2 = timeL;
 					NextEvent = testStartTime;
 				}
-
+				
 				count++;
 			}
 			_log.info("Tournament: Proximo Evento: " + NextEvent.getTime().toString());
@@ -96,7 +96,7 @@ public class ArenaEvent
 			System.out.println("Tournament: " + e);
 		}
 	}
-
+	
 	class StartEventTask implements Runnable
 	{
 		@Override

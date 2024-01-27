@@ -10,7 +10,7 @@ import com.l2j4team.commons.random.Rnd;
 public class Q333_HuntOfTheBlackLion extends Quest
 {
 	private static final String qn = "Q333_HuntOfTheBlackLion";
-
+	
 	// NPCs
 	private static final int SOPHYA = 30735;
 	private static final int REDFOOT = 30736;
@@ -18,10 +18,10 @@ public class Q333_HuntOfTheBlackLion extends Quest
 	private static final int UNDRIAS = 30130;
 	private static final int LOCKIRIN = 30531;
 	private static final int MORGAN = 30737;
-
+	
 	// Needs for start
 	private static final int BLACK_LION_MARK = 1369;
-
+	
 	// Quest items
 	private static final int LION_CLAW = 3675;
 	private static final int LION_EYE = 3676;
@@ -34,7 +34,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 	private static final int SOPHYA_LETTER_2 = 3672;
 	private static final int SOPHYA_LETTER_3 = 3673;
 	private static final int SOPHYA_LETTER_4 = 3674;
-
+	
 	private static final int CARGO_BOX_1 = 3440;
 	private static final int CARGO_BOX_2 = 3441;
 	private static final int CARGO_BOX_3 = 3442;
@@ -62,7 +62,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 	private static final int TABLET_FRAGMENT_3 = 3464;
 	private static final int TABLET_FRAGMENT_4 = 3465;
 	private static final int COMPLETE_TABLET = 3466;
-
+	
 	// Neutral items
 	private static final int ADENA = 57;
 	private static final int SWIFT_ATTACK_POTION = 735;
@@ -70,7 +70,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 	private static final int HEALING_POTION = 1061;
 	private static final int SOULSHOT_D = 1463;
 	private static final int SPIRITSHOT_D = 2510;
-
+	
 	// Tabs: Part, NpcId, ItemId, Item Chance, Box Id, Box Chance
 	private static final int[][] DROPLIST =
 	{
@@ -123,7 +123,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 			CARGO_BOX_1,
 			110000
 		}, // Ghoul
-
+		
 		// Part #2 - Partisan Hideaway
 		{
 			SOPHYA_LETTER_2,
@@ -165,7 +165,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 			CARGO_BOX_2,
 			100000
 		}, // Ol Mahum Captain
-
+		
 		// Part #3 - Near Giran Town
 		{
 			SOPHYA_LETTER_3,
@@ -191,7 +191,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 			CARGO_BOX_3,
 			120000
 		}, // Delu Lizardman Warrior
-
+		
 		// Part #4 - Cruma Area
 		{
 			SOPHYA_LETTER_4,
@@ -227,20 +227,20 @@ public class Q333_HuntOfTheBlackLion extends Quest
 		}
 		// Marsh Stakato Drone
 	};
-
+	
 	public Q333_HuntOfTheBlackLion()
 	{
 		super(333, "Hunt Of The Black Lion");
-
+		
 		setItemsIds(LION_CLAW, LION_EYE, GUILD_COIN, UNDEAD_ASH, BLOODY_AXE_INSIGNIA, DELU_FANG, STAKATO_TALON, SOPHYA_LETTER_1, SOPHYA_LETTER_2, SOPHYA_LETTER_3, SOPHYA_LETTER_4);
-
+		
 		addStartNpc(SOPHYA);
 		addTalkId(SOPHYA, REDFOOT, RUPIO, UNDRIAS, LOCKIRIN, MORGAN);
-
+		
 		for (int[] i : DROPLIST)
 			addKillId(i[1]);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -248,7 +248,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30735-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -292,14 +292,14 @@ public class Q333_HuntOfTheBlackLion extends Quest
 			if (st.getQuestItemsCount(LION_CLAW) > 9)
 			{
 				st.takeItems(LION_CLAW, 10);
-
+				
 				final int eyes = st.getQuestItemsCount(LION_EYE);
 				if (eyes < 5)
 				{
 					htmltext = "30735-17a.htm";
-
+					
 					st.giveItems(LION_EYE, 1);
-
+					
 					final int random = Rnd.get(100);
 					if (random < 25)
 						st.giveItems(HEALING_POTION, 20);
@@ -313,9 +313,9 @@ public class Q333_HuntOfTheBlackLion extends Quest
 				else if (eyes < 9)
 				{
 					htmltext = "30735-18b.htm";
-
+					
 					st.giveItems(LION_EYE, 1);
-
+					
 					final int random = Rnd.get(100);
 					if (random < 25)
 						st.giveItems(HEALING_POTION, 25);
@@ -329,7 +329,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 				else
 				{
 					htmltext = "30735-19b.htm";
-
+					
 					final int random = Rnd.get(100);
 					if (random < 25)
 						st.giveItems(HEALING_POTION, 50);
@@ -369,11 +369,11 @@ public class Q333_HuntOfTheBlackLion extends Quest
 			final boolean cargo2 = st.hasQuestItems(CARGO_BOX_2);
 			final boolean cargo3 = st.hasQuestItems(CARGO_BOX_3);
 			final boolean cargo4 = st.hasQuestItems(CARGO_BOX_4);
-
+			
 			if ((cargo1 || cargo2 || cargo3 || cargo4) && player.getAdena() > 649)
 			{
 				st.takeItems(ADENA, 650);
-
+				
 				if (cargo1)
 					st.takeItems(CARGO_BOX_1, 1);
 				else if (cargo2)
@@ -382,7 +382,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 					st.takeItems(CARGO_BOX_3, 1);
 				else
 					st.takeItems(CARGO_BOX_4, 1);
-
+				
 				final int i0 = Rnd.get(100);
 				final int i1 = Rnd.get(100);
 				if (i0 < 40)
@@ -465,7 +465,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 				else if (Rnd.nextBoolean())
 				{
 					htmltext = "30736-04n.htm";
-
+					
 					if (i1 < 25)
 						st.giveItems(STATUE_SHILIEN_HEAD, 1);
 					else if (i1 < 50)
@@ -478,7 +478,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 				else
 				{
 					htmltext = "30736-04o.htm";
-
+					
 					if (i1 < 25)
 						st.giveItems(TABLET_FRAGMENT_1, 1);
 					else if (i1 < 50)
@@ -540,7 +540,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 						htmltext = "30736-08s.htm";
 					else
 						htmltext = "30736-08t.htm";
-
+					
 					st.takeItems(ADENA, 200 + state * 200);
 					st.set("state", String.valueOf(state + 1));
 				}
@@ -556,7 +556,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 				st.takeItems(STATUE_SHILIEN_TORSO, 1);
 				st.takeItems(STATUE_SHILIEN_ARM, 1);
 				st.takeItems(STATUE_SHILIEN_LEG, 1);
-
+				
 				if (Rnd.nextBoolean())
 				{
 					htmltext = "30471-04.htm";
@@ -574,7 +574,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 				st.takeItems(TABLET_FRAGMENT_2, 1);
 				st.takeItems(TABLET_FRAGMENT_3, 1);
 				st.takeItems(TABLET_FRAGMENT_4, 1);
-
+				
 				if (Rnd.nextBoolean())
 				{
 					htmltext = "30471-07.htm";
@@ -600,7 +600,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 			final boolean cargo2 = st.hasQuestItems(CARGO_BOX_2);
 			final boolean cargo3 = st.hasQuestItems(CARGO_BOX_3);
 			final boolean cargo4 = st.hasQuestItems(CARGO_BOX_4);
-
+			
 			if (cargo1 || cargo2 || cargo3 || cargo4)
 			{
 				if (cargo1)
@@ -611,7 +611,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 					st.takeItems(CARGO_BOX_3, 1);
 				else
 					st.takeItems(CARGO_BOX_4, 1);
-
+				
 				final int coins = st.getQuestItemsCount(GUILD_COIN);
 				if (coins < 40)
 				{
@@ -628,15 +628,15 @@ public class Q333_HuntOfTheBlackLion extends Quest
 					htmltext = "30737-05.htm";
 					st.giveItems(ADENA, 300);
 				}
-
+				
 				if (coins < 80)
 					st.giveItems(GUILD_COIN, 1);
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -644,7 +644,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -655,7 +655,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 				else
 					htmltext = "30735-03.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				switch (npc.getNpcId())
 				{
@@ -669,67 +669,67 @@ public class Q333_HuntOfTheBlackLion extends Quest
 							else
 							{
 								final int count = st.getQuestItemsCount(UNDEAD_ASH) + st.getQuestItemsCount(BLOODY_AXE_INSIGNIA) + st.getQuestItemsCount(DELU_FANG) + st.getQuestItemsCount(STAKATO_TALON);
-
+								
 								st.takeItems(UNDEAD_ASH, -1);
 								st.takeItems(BLOODY_AXE_INSIGNIA, -1);
 								st.takeItems(DELU_FANG, -1);
 								st.takeItems(STAKATO_TALON, -1);
 								st.giveItems(ADENA, count * 35);
-
+								
 								if (count >= 20 && count < 50)
 									st.giveItems(LION_CLAW, 1);
 								else if (count >= 50 && count < 100)
 									st.giveItems(LION_CLAW, 2);
 								else if (count >= 100)
 									st.giveItems(LION_CLAW, 3);
-
+								
 								htmltext = st.hasAtLeastOneQuestItem(CARGO_BOX_1, CARGO_BOX_2, CARGO_BOX_3, CARGO_BOX_4) ? "30735-23.htm" : "30735-22.htm";
 							}
 						}
 						break;
-
+					
 					case REDFOOT:
 						htmltext = st.hasAtLeastOneQuestItem(CARGO_BOX_1, CARGO_BOX_2, CARGO_BOX_3, CARGO_BOX_4) ? "30736-02.htm" : "30736-01.htm";
 						break;
-
+					
 					case RUPIO:
 						if (st.hasQuestItems(STATUE_SHILIEN_HEAD, STATUE_SHILIEN_TORSO, STATUE_SHILIEN_ARM, STATUE_SHILIEN_LEG) || st.hasQuestItems(TABLET_FRAGMENT_1, TABLET_FRAGMENT_2, TABLET_FRAGMENT_3, TABLET_FRAGMENT_4))
 							htmltext = "30471-02.htm";
 						else
 							htmltext = "30471-01.htm";
 						break;
-
+					
 					case UNDRIAS:
 						if (!st.hasQuestItems(COMPLETE_STATUE))
 							htmltext = st.hasQuestItems(STATUE_SHILIEN_HEAD, STATUE_SHILIEN_TORSO, STATUE_SHILIEN_ARM, STATUE_SHILIEN_LEG) ? "30130-02.htm" : "30130-01.htm";
 						else
 							htmltext = "30130-03.htm";
 						break;
-
+					
 					case LOCKIRIN:
 						if (!st.hasQuestItems(COMPLETE_TABLET))
 							htmltext = st.hasQuestItems(TABLET_FRAGMENT_1, TABLET_FRAGMENT_2, TABLET_FRAGMENT_3, TABLET_FRAGMENT_4) ? "30531-02.htm" : "30531-01.htm";
 						else
 							htmltext = "30531-03.htm";
 						break;
-
+					
 					case MORGAN:
 						htmltext = st.hasAtLeastOneQuestItem(CARGO_BOX_1, CARGO_BOX_2, CARGO_BOX_3, CARGO_BOX_4) ? "30737-02.htm" : "30737-01.htm";
 						break;
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		for (int[] info : DROPLIST)
 		{
 			if (st.hasQuestItems(info[0]) && npc.getNpcId() == info[1])
@@ -739,7 +739,7 @@ public class Q333_HuntOfTheBlackLion extends Quest
 				break;
 			}
 		}
-
+		
 		return null;
 	}
 }

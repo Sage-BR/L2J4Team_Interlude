@@ -9,29 +9,29 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q006_StepIntoTheFuture extends Quest
 {
 	private static final String qn = "Q006_StepIntoTheFuture";
-
+	
 	// NPCs
 	private static final int ROXXY = 30006;
 	private static final int BAULRO = 30033;
 	private static final int SIR_COLLIN = 30311;
-
+	
 	// Items
 	private static final int BAULRO_LETTER = 7571;
-
+	
 	// Rewards
 	private static final int MARK_TRAVELER = 7570;
 	private static final int SOE_GIRAN = 7559;
-
+	
 	public Q006_StepIntoTheFuture()
 	{
 		super(6, "Step into the Future");
-
+		
 		setItemsIds(BAULRO_LETTER);
-
+		
 		addStartNpc(ROXXY);
 		addTalkId(ROXXY, BAULRO, SIR_COLLIN);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -39,7 +39,7 @@ public class Q006_StepIntoTheFuture extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30006-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -70,10 +70,10 @@ public class Q006_StepIntoTheFuture extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -81,7 +81,7 @@ public class Q006_StepIntoTheFuture extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -90,7 +90,7 @@ public class Q006_StepIntoTheFuture extends Quest
 				else
 					htmltext = "30006-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -101,7 +101,7 @@ public class Q006_StepIntoTheFuture extends Quest
 						else if (cond == 3)
 							htmltext = "30006-05.htm";
 						break;
-
+					
 					case BAULRO:
 						if (cond == 1)
 							htmltext = "30033-01.htm";
@@ -110,7 +110,7 @@ public class Q006_StepIntoTheFuture extends Quest
 						else
 							htmltext = "30033-04.htm";
 						break;
-
+					
 					case SIR_COLLIN:
 						if (cond == 2)
 							htmltext = "30311-01.htm";
@@ -119,12 +119,12 @@ public class Q006_StepIntoTheFuture extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

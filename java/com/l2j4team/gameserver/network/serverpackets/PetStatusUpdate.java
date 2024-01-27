@@ -9,7 +9,7 @@ public class PetStatusUpdate extends L2GameServerPacket
 	private final Summon _summon;
 	private final int _maxHp, _maxMp;
 	private int _maxFed, _curFed;
-
+	
 	public PetStatusUpdate(Summon summon)
 	{
 		_summon = summon;
@@ -28,7 +28,7 @@ public class PetStatusUpdate extends L2GameServerPacket
 			_maxFed = sum.getTotalLifeTime();
 		}
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

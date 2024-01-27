@@ -11,7 +11,7 @@ public class PrivateStoreListSell extends L2GameServerPacket
 	private final Player _storePlayer;
 	private final List<TradeItem> _items;
 	private final boolean _packageSale;
-
+	
 	public PrivateStoreListSell(Player player, Player storePlayer)
 	{
 		_playerAdena = player.getAdena();
@@ -19,7 +19,7 @@ public class PrivateStoreListSell extends L2GameServerPacket
 		_items = _storePlayer.getSellList().getItems();
 		_packageSale = _storePlayer.getSellList().isPackaged();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -28,7 +28,7 @@ public class PrivateStoreListSell extends L2GameServerPacket
 		writeD(_packageSale ? 1 : 0);
 		writeD(_playerAdena);
 		writeD(_items.size());
-
+		
 		for (TradeItem item : _items)
 		{
 			writeD(item.getItem().getType2());

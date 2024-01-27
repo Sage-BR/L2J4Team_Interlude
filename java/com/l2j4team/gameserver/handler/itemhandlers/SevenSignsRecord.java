@@ -17,7 +17,7 @@ public class SevenSignsRecord implements IItemHandler
 	{
 		if (!(playable instanceof Player))
 			return;
-
+		
 		playable.sendPacket(new SSQStatus(playable.getObjectId(), 1));
 	}
 }

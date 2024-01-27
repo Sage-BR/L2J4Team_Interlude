@@ -43,30 +43,30 @@ public class NewbieTravelToken extends Quest
 			-3729
 		}); // TI
 	}
-
+	
 	private static final int TOKEN = 8542;
-
+	
 	public NewbieTravelToken()
 	{
 		super(-1, "teleports");
-
+		
 		addStartNpc(30598, 30599, 30600, 30601, 30602);
 		addTalkId(30598, 30599, 30600, 30601, 30602);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
 		QuestState st = player.getQuestState(getName());
 		if (st == null)
 			st = newQuestState(player);
-
+		
 		if (data.containsKey(event))
 		{
 			int x = data.get(event)[0];
 			int y = data.get(event)[1];
 			int z = data.get(event)[2];
-
+			
 			if (st.getQuestItemsCount(TOKEN) != 0)
 			{
 				st.takeItems(TOKEN, 1);
@@ -78,14 +78,14 @@ public class NewbieTravelToken extends Quest
 		st.exitQuest(true);
 		return super.onAdvEvent(event, npc, player);
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
 		String htmltext = "";
 		QuestState st = player.getQuestState(getName());
 		int npcId = npc.getNpcId();
-
+		
 		if (player.getLevel() >= 20)
 		{
 			htmltext = "wronglevel.htm";
@@ -93,7 +93,7 @@ public class NewbieTravelToken extends Quest
 		}
 		else
 			htmltext = npcId + ".htm";
-
+		
 		return htmltext;
 	}
 }

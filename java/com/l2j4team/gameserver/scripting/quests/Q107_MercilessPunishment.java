@@ -10,11 +10,11 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q107_MercilessPunishment extends Quest
 {
 	private static final String qn = "Q107_MercilessPunishment";
-
+	
 	// NPCs
 	private static final int HATOS = 30568;
 	private static final int PARUGON = 30580;
-
+	
 	// Items
 	private static final int HATOS_ORDER_1 = 1553;
 	private static final int HATOS_ORDER_2 = 1554;
@@ -22,7 +22,7 @@ public class Q107_MercilessPunishment extends Quest
 	private static final int LETTER_TO_HUMAN = 1557;
 	private static final int LETTER_TO_DARKELF = 1556;
 	private static final int LETTER_TO_ELF = 1558;
-
+	
 	// Rewards
 	private static final int BUTCHER_SWORD = 1510;
 	private static final int SPIRITSHOT_FOR_BEGINNERS = 5790;
@@ -33,19 +33,19 @@ public class Q107_MercilessPunishment extends Quest
 	private static final int ECHO_FEAST = 4415;
 	private static final int ECHO_CELEBRATION = 4416;
 	private static final int LESSER_HEALING_POTION = 1060;
-
+	
 	public Q107_MercilessPunishment()
 	{
 		super(107, "Merciless Punishment");
-
+		
 		setItemsIds(HATOS_ORDER_1, HATOS_ORDER_2, HATOS_ORDER_3, LETTER_TO_HUMAN, LETTER_TO_DARKELF, LETTER_TO_ELF);
-
+		
 		addStartNpc(HATOS);
 		addTalkId(HATOS, PARUGON);
-
+		
 		addKillId(27041); // Baranka's Messenger
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -53,7 +53,7 @@ public class Q107_MercilessPunishment extends Quest
 		String htmltext = event;
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30568-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -80,10 +80,10 @@ public class Q107_MercilessPunishment extends Quest
 			st.takeItems(HATOS_ORDER_2, 1);
 			st.giveItems(HATOS_ORDER_3, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -91,7 +91,7 @@ public class Q107_MercilessPunishment extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -102,7 +102,7 @@ public class Q107_MercilessPunishment extends Quest
 				else
 					htmltext = "30568-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -123,10 +123,10 @@ public class Q107_MercilessPunishment extends Quest
 							st.takeItems(LETTER_TO_DARKELF, -1);
 							st.takeItems(LETTER_TO_HUMAN, -1);
 							st.takeItems(LETTER_TO_ELF, -1);
-
+							
 							st.giveItems(BUTCHER_SWORD, 1);
 							st.giveItems(LESSER_HEALING_POTION, 100);
-
+							
 							if (player.isNewbie())
 							{
 								st.showQuestionMark(26);
@@ -141,7 +141,7 @@ public class Q107_MercilessPunishment extends Quest
 									st.giveItems(SOULSHOT_FOR_BEGINNERS, 6000);
 								}
 							}
-
+							
 							st.giveItems(ECHO_BATTLE, 10);
 							st.giveItems(ECHO_LOVE, 10);
 							st.giveItems(ECHO_SOLITUDE, 10);
@@ -152,7 +152,7 @@ public class Q107_MercilessPunishment extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case PARUGON:
 						htmltext = "30580-01.htm";
 						if (cond == 1)
@@ -163,24 +163,24 @@ public class Q107_MercilessPunishment extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		int cond = st.getInt("cond");
-
+		
 		if (cond == 2)
 		{
 			st.set("cond", "3");
@@ -199,7 +199,7 @@ public class Q107_MercilessPunishment extends Quest
 			st.playSound(QuestState.SOUND_MIDDLE);
 			st.giveItems(LETTER_TO_ELF, 1);
 		}
-
+		
 		return null;
 	}
 }

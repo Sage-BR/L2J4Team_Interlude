@@ -37,19 +37,19 @@ public enum ZoneId
 	NO_BISHOP(28),
 	SOLO_CUSTOM(29),
 	RAID_NO_FLAG(30);
-
+	
 	private final int _id;
-
+	
 	private ZoneId(int id)
 	{
 		_id = id;
 	}
-
+	
 	public int getId()
 	{
 		return _id;
 	}
-
+	
 	public static int getZoneCount()
 	{
 		return values().length;

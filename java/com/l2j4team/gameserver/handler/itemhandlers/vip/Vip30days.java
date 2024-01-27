@@ -31,43 +31,43 @@ import java.util.logging.Logger;
  */
 public class Vip30days implements IItemHandler
 {
-
+	
 	protected static final Logger LOGGER = Logger.getLogger(Vip30days.class.getName());
-
+	
 	@Override
 	public void useItem(Playable playable, ItemInstance item, boolean forceUse)
 	{
-
+		
 		if (!(playable instanceof Player))
 			return;
-
+		
 		Player activeChar = (Player) playable;
-
+		
 		if (activeChar.isInOlympiadMode())
 		{
 			activeChar.sendMessage("SYS: Voce nao pode fazer isso.");
 			return;
 		}
-
+		
 		if (activeChar.isVip())
 		{
 			activeChar.sendMessage("SYS: Voce ja esta com status Vip.");
 			return;
 		}
-
+		
 		playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
-
+		
 		int mes = 30;
-
+		
 		if (VipManager.getInstance().hasVipPrivileges(activeChar.getObjectId()))
 		{
 			long _daysleft;
 			final long now = Calendar.getInstance().getTimeInMillis();
 			long duration = VipManager.getInstance().getVipDuration(activeChar.getObjectId());
 			final long endDay = duration;
-
+			
 			_daysleft = ((endDay - now) / 86400000) + mes + 1;
-
+			
 			long end_day;
 			final Calendar calendar = Calendar.getInstance();
 			if (_daysleft >= 30)
@@ -80,7 +80,7 @@ public class Vip30days implements IItemHandler
 					_daysleft -= 30;
 				}
 			}
-
+			
 			if (_daysleft < 30 && _daysleft > 0)
 			{
 				while (_daysleft > 0)
@@ -92,13 +92,13 @@ public class Vip30days implements IItemHandler
 						if (calendar.get(Calendar.MONTH) == 11)
 							calendar.roll(Calendar.YEAR, true);
 						calendar.roll(Calendar.MONTH, true);
-
+						
 					}
 					calendar.roll(Calendar.DATE, true);
 					_daysleft--;
 				}
 			}
-
+			
 			end_day = calendar.getTimeInMillis();
 			VipManager.getInstance().updateVip(activeChar.getObjectId(), end_day);
 		}
@@ -116,7 +116,7 @@ public class Vip30days implements IItemHandler
 					mes -= 30;
 				}
 			}
-
+			
 			if (mes < 30 && mes > 0)
 			{
 				while (mes > 0)
@@ -128,17 +128,17 @@ public class Vip30days implements IItemHandler
 						if (calendar.get(Calendar.MONTH) == 11)
 							calendar.roll(Calendar.YEAR, true);
 						calendar.roll(Calendar.MONTH, true);
-
+						
 					}
 					calendar.roll(Calendar.DATE, true);
 					mes--;
 				}
 			}
-
+			
 			end_day = calendar.getTimeInMillis();
 			VipManager.getInstance().addVip(activeChar.getObjectId(), end_day);
 		}
-
+		
 		long _daysleft;
 		final long now = Calendar.getInstance().getTimeInMillis();
 		long duration = VipManager.getInstance().getVipDuration(activeChar.getObjectId());
@@ -149,7 +149,7 @@ public class Vip30days implements IItemHandler
 			activeChar.sendPacket(new ExShowScreenMessage("Your Vip privileges ends at " + new SimpleDateFormat("dd MMM, HH:mm").format(new Date(duration)) + ".", 10000));
 			activeChar.sendMessage("Your vip privileges ends at " + new SimpleDateFormat("dd MMM, HH:mm").format(new Date(duration)) + ".");
 		}
-
+		
 	}
-
+	
 }

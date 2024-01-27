@@ -13,47 +13,47 @@ import com.l2j4team.gameserver.network.serverpackets.PartyMatchList;
 public final class RequestOustFromPartyRoom extends L2GameClientPacket
 {
 	private int _charid;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_charid = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		final Player member = World.getInstance().getPlayer(_charid);
 		if (member == null)
 			return;
-
+		
 		final PartyMatchRoom _room = PartyMatchRoomList.getInstance().getPlayerRoom(member);
 		if ((_room == null) || (_room.getOwner() != activeChar))
 			return;
-
+		
 		if (activeChar.isInParty() && member.isInParty() && activeChar.getParty().getPartyLeaderOID() == member.getParty().getPartyLeaderOID())
 			activeChar.sendPacket(SystemMessageId.CANNOT_DISMISS_PARTY_MEMBER);
 		else
 		{
 			_room.deleteMember(member);
 			member.setPartyRoom(0);
-
+			
 			// Close the PartyRoom window
 			member.sendPacket(ExClosePartyRoom.STATIC_PACKET);
-
+			
 			// Add player back on waiting list
 			PartyMatchWaitingList.getInstance().addPlayer(member);
-
+			
 			// Send Room list
 			member.sendPacket(new PartyMatchList(member, 0, MapRegionTable.getInstance().getClosestLocation(member.getX(), member.getY()), member.getLevel()));
-
+			
 			// Clean player's LFP title
 			member.broadcastUserInfo();
-
+			
 			member.sendPacket(SystemMessageId.OUSTED_FROM_PARTY_ROOM);
 		}
 	}

@@ -22,14 +22,14 @@ public final class PartySmallWindowAdd extends L2GameServerPacket
 	private final Player _member;
 	private final int _leaderId;
 	private final int _distribution;
-
+	
 	public PartySmallWindowAdd(Player member, L2Party party)
 	{
 		_member = member;
 		_leaderId = party.getPartyLeaderOID();
 		_distribution = party.getLootDistribution();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

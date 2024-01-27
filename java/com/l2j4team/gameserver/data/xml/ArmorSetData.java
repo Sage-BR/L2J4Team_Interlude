@@ -19,59 +19,59 @@ import org.w3c.dom.Node;
 public class ArmorSetData extends XMLDocument
 {
 	private final Map<Integer, ArmorSet> _armorSets = new HashMap<>();
-
+	
 	protected ArmorSetData()
 	{
 		load();
 	}
-
+	
 	@Override
 	protected void load()
 	{
 		loadDocument("./data/xml/armorSets.xml");
 		LOGGER.info("Loaded {} armor sets.", _armorSets.size());
 	}
-
+	
 	@Override
 	protected void parseDocument(Document doc, File file)
 	{
 		// StatsSet used to feed informations. Cleaned on every entry.
 		final StatsSet set = new StatsSet();
-
+		
 		// First element is never read.
 		final Node n = doc.getFirstChild();
-
+		
 		for (Node o = n.getFirstChild(); o != null; o = o.getNextSibling())
 		{
 			if (!"armorset".equalsIgnoreCase(o.getNodeName()))
 				continue;
-
+			
 			// Parse and feed content.
 			parseAndFeed(o.getAttributes(), set);
-
+			
 			// Feed the map with new data.
 			_armorSets.put(set.getInteger("chest"), new ArmorSet(set));
-
+			
 			// Clear the StatsSet.
 			set.clear();
 		}
 	}
-
+	
 	public ArmorSet getSet(int chestId)
 	{
 		return _armorSets.get(chestId);
 	}
-
+	
 	public Collection<ArmorSet> getSets()
 	{
 		return _armorSets.values();
 	}
-
+	
 	public static ArmorSetData getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final ArmorSetData INSTANCE = new ArmorSetData();

@@ -13,9 +13,9 @@ import com.l2j4team.commons.random.Rnd;
 public class Q426_QuestForFishingShot extends Quest
 {
 	private static final String qn = "Q426_QuestForFishingShot";
-
+	
 	private static final int SWEET_FLUID = 7586;
-
+	
 	private static final Map<Integer, Integer> MOBS1 = new HashMap<>();
 	{
 		MOBS1.put(20005, 45);
@@ -189,7 +189,7 @@ public class Q426_QuestForFishingShot extends Quest
 		MOBS1.put(21641, 195);
 		MOBS1.put(21644, 170);
 	}
-
+	
 	private static final Map<Integer, Integer> MOBS2 = new HashMap<>();
 	{
 		MOBS2.put(20579, 420);
@@ -219,7 +219,7 @@ public class Q426_QuestForFishingShot extends Quest
 		MOBS2.put(21518, 255);
 		MOBS2.put(21636, 950);
 	}
-
+	
 	private static final Map<Integer, Integer> MOBS3 = new HashMap<>();
 	{
 		MOBS3.put(20655, 110);
@@ -239,7 +239,7 @@ public class Q426_QuestForFishingShot extends Quest
 		MOBS3.put(21081, 955);
 		MOBS3.put(21264, 920);
 	}
-
+	
 	private static final Map<Integer, Integer> MOBS4 = new HashMap<>();
 	{
 		MOBS4.put(20815, 205);
@@ -262,7 +262,7 @@ public class Q426_QuestForFishingShot extends Quest
 		MOBS4.put(21655, 640);
 		MOBS4.put(21657, 935);
 	}
-
+	
 	private static final Map<Integer, Integer> MOBS5 = new HashMap<>();
 	{
 		MOBS5.put(20828, 935);
@@ -274,7 +274,7 @@ public class Q426_QuestForFishingShot extends Quest
 		MOBS5.put(21654, 400);
 		MOBS5.put(21656, 750);
 	}
-
+	
 	private static final Map<Integer, int[]> MOBSspecial = new HashMap<>();
 	{
 		MOBSspecial.put(20829, new int[]
@@ -303,16 +303,16 @@ public class Q426_QuestForFishingShot extends Quest
 			12
 		});
 	}
-
+	
 	public Q426_QuestForFishingShot()
 	{
 		super(426, "Quest for Fishing Shot");
-
+		
 		setItemsIds(SWEET_FLUID);
-
+		
 		addStartNpc(31562, 31563, 31564, 31565, 31566, 31567, 31568, 31569, 31570, 31571, 31572, 31573, 31574, 31575, 31576, 31577, 31578, 31579, 31696, 31697, 31989, 32007);
 		addTalkId(31562, 31563, 31564, 31565, 31566, 31567, 31568, 31569, 31570, 31571, 31572, 31573, 31574, 31575, 31576, 31577, 31578, 31579, 31696, 31697, 31989, 32007);
-
+		
 		for (int mob : MOBS1.keySet())
 			addKillId(mob);
 		for (int mob : MOBS2.keySet())
@@ -326,7 +326,7 @@ public class Q426_QuestForFishingShot extends Quest
 		for (int mob : MOBSspecial.keySet())
 			addKillId(mob);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -334,7 +334,7 @@ public class Q426_QuestForFishingShot extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -346,10 +346,10 @@ public class Q426_QuestForFishingShot extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -357,33 +357,33 @@ public class Q426_QuestForFishingShot extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			st = newQuestState(player);
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = "01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				htmltext = (st.hasQuestItems(SWEET_FLUID)) ? "05.htm" : "04.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
 		int npcId = npc.getNpcId();
 		int drop = 0;
 		int chance = 0;
-
+		
 		if (MOBS1.containsKey(npcId))
 			chance = MOBS1.get(npcId);
 		else if (MOBS2.containsKey(npcId))
@@ -411,10 +411,10 @@ public class Q426_QuestForFishingShot extends Quest
 			chance = MOBSspecial.get(npcId)[0];
 			drop = MOBSspecial.get(npcId)[1];
 		}
-
+		
 		if (Rnd.get(1000) <= chance)
 			drop++;
-
+		
 		if (drop != 0)
 		{
 			st.playSound(QuestState.SOUND_ITEMGET);

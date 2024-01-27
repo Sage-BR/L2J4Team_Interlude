@@ -16,11 +16,11 @@ import java.util.Scanner;
 public class GameServerRegister
 {
 	private static String _choice;
-
+	
 	public static void main(String[] args)
 	{
 		Config.loadGameServerRegistration();
-
+		
 		try (Scanner _scn = new Scanner(System.in))
 		{
 			System.out.println();
@@ -33,13 +33,13 @@ public class GameServerRegister
 			System.out.println("          clean : unregister a specified gameserver.");
 			System.out.println("          cleanall : unregister all gameservers.");
 			System.out.println("          exit : exit the program.");
-
+			
 			while (true)
 			{
 				System.out.println();
 				System.out.print("Your choice? ");
 				_choice = _scn.next();
-
+				
 				if (_choice.equalsIgnoreCase("list"))
 				{
 					System.out.println();
@@ -49,7 +49,7 @@ public class GameServerRegister
 				else if (_choice.equalsIgnoreCase("clean"))
 				{
 					System.out.println();
-
+					
 					if (GameServerTable.getInstance().getServerNames().isEmpty())
 						System.out.println("No server names available, be sure 'servername.xml' is in the LoginServer directory.");
 					else
@@ -57,15 +57,15 @@ public class GameServerRegister
 						System.out.println("UNREGISTER a specific server. Here's the current list :");
 						for (GameServerInfo entry : GameServerTable.getInstance().getRegisteredGameServers().values())
 							System.out.println(entry.getId() + ": " + GameServerTable.getInstance().getServerNames().get(entry.getId()));
-
+						
 						System.out.println();
 						System.out.print("Your choice? ");
-
+						
 						_choice = _scn.next();
 						try
 						{
 							final int id = Integer.parseInt(_choice);
-
+							
 							if (!GameServerTable.getInstance().getRegisteredGameServers().containsKey(id))
 								System.out.println("This server id isn't used.");
 							else
@@ -82,7 +82,7 @@ public class GameServerRegister
 									System.out.println("SQL error while cleaning registered server: " + e);
 								}
 								GameServerTable.getInstance().getRegisteredGameServers().remove(id);
-
+								
 								System.out.println("You successfully dropped gameserver #" + id + ".");
 							}
 						}
@@ -96,9 +96,9 @@ public class GameServerRegister
 				{
 					System.out.println();
 					System.out.print("UNREGISTER ALL servers. Are you sure? (y/n) ");
-
+					
 					_choice = _scn.next();
-
+					
 					if (_choice.equals("y"))
 					{
 						try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -112,7 +112,7 @@ public class GameServerRegister
 							System.out.println("SQL error while cleaning registered servers: " + e);
 						}
 						GameServerTable.getInstance().getRegisteredGameServers().clear();
-
+						
 						System.out.println("You successfully dropped all registered gameservers.");
 					}
 					else
@@ -125,13 +125,13 @@ public class GameServerRegister
 					try
 					{
 						System.out.println();
-
+						
 						if (GameServerTable.getInstance().getServerNames().isEmpty())
 							System.out.println("No server names available, be sure 'servername.xml' is in the LoginServer directory.");
 						else
 						{
 							final int id = Integer.parseInt(_choice);
-
+							
 							if (GameServerTable.getInstance().getServerNames().get(id) == null)
 								System.out.println("No name for server id: " + id + ".");
 							else if (GameServerTable.getInstance().getRegisteredGameServers().containsKey(id))
@@ -139,11 +139,11 @@ public class GameServerRegister
 							else
 							{
 								byte[] hexId = LoginServerThread.generateHex(16);
-
+								
 								GameServerTable.getInstance().getRegisteredGameServers().put(id, new GameServerInfo(id, hexId));
 								GameServerTable.getInstance().registerServerOnDB(hexId, id, "");
 								Config.saveHexid(id, new BigInteger(hexId).toString(16), "hexid(server " + id + ").txt");
-
+								
 								System.out.println("Server registered under 'hexid(server " + id + ").txt'.");
 								System.out.println("Put this file in /config gameserver folder and rename it 'hexid.txt'.");
 							}

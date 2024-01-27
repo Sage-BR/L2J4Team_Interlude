@@ -6,7 +6,7 @@ public class ValidateLocation extends L2GameServerPacket
 {
 	private final int _charObjId;
 	private final int _x, _y, _z, _heading;
-
+	
 	public ValidateLocation(Creature cha)
 	{
 		_charObjId = cha.getObjectId();
@@ -15,7 +15,7 @@ public class ValidateLocation extends L2GameServerPacket
 		_z = cha.getZ();
 		_heading = cha.getHeading();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

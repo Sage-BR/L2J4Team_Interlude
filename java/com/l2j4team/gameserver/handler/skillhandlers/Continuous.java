@@ -43,39 +43,39 @@ public class Continuous implements ISkillHandler
 		L2SkillType.AGGDEBUFF,
 		L2SkillType.FUSION
 	};
-
+	
 	@Override
 	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
 	{
 		final Player player = activeChar.getActingPlayer();
-
+		
 		if (skill.getEffectId() != 0)
 		{
 			L2Skill sk = SkillTable.getInstance().getInfo(skill.getEffectId(), skill.getEffectLvl() == 0 ? 1 : skill.getEffectLvl());
 			if (sk != null)
 				skill = sk;
 		}
-
+		
 		final boolean ss = activeChar.isChargedShot(ShotType.SOULSHOT);
 		final boolean sps = activeChar.isChargedShot(ShotType.SPIRITSHOT);
 		final boolean bsps = activeChar.isChargedShot(ShotType.BLESSED_SPIRITSHOT);
-
+		
 		for (WorldObject obj : targets)
 		{
 			if (!(obj instanceof Creature))
 				continue;
-
+			
 			Creature target = ((Creature) obj);
 			if (Formulas.calcSkillReflect(target, skill) == Formulas.SKILL_REFLECT_SUCCEED)
 				target = activeChar;
-
+			
 			switch (skill.getSkillType())
 			{
 				case BUFF:
 					// Target under buff immunity.
 					if (target.getFirstEffect(L2EffectType.BLOCK_BUFF) != null)
 						continue;
-
+					
 					final L2Party party = activeChar.getParty();
 					if (!(activeChar instanceof Player && target instanceof Player && party != null && party.getPartyMembers().contains(target)))
 					{
@@ -91,7 +91,7 @@ public class Continuous implements ISkillHandler
 							continue;
 						}
 					}
-
+					
 					// Player holding a cursed weapon can't be buffed and can't buff
 					if (!(activeChar instanceof ClanHallManagerNpc) && target != activeChar)
 					{
@@ -104,7 +104,7 @@ public class Continuous implements ISkillHandler
 							continue;
 					}
 					break;
-
+				
 				case HOT:
 				case CPHOT:
 				case MPHOT:
@@ -112,25 +112,25 @@ public class Continuous implements ISkillHandler
 						continue;
 					break;
 			}
-
+			
 			// Target under debuff immunity.
 			if (skill.isOffensive() && target.getFirstEffect(L2EffectType.BLOCK_DEBUFF) != null)
 				continue;
-
+			
 			boolean acted = true;
 			byte shld = 0;
-
+			
 			if (skill.isOffensive() || skill.isDebuff())
 			{
 				shld = Formulas.calcShldUse(activeChar, target, skill);
 				acted = Formulas.calcSkillSuccess(activeChar, target, skill, shld, bsps);
 			}
-
+			
 			if (acted)
 			{
 				if (skill.isToggle())
 					target.stopSkillEffects(skill.getId());
-
+					
 				// if this is a debuff let the duel manager know about it so the debuff
 				// can be removed after the duel (player & target must be in the same duel)
 				if (target instanceof Player && ((Player) target).isInDuel() && (skill.getSkillType() == L2SkillType.DEBUFF || skill.getSkillType() == L2SkillType.BUFF) && player != null && player.getDuelId() == ((Player) target).getDuelId())
@@ -142,7 +142,7 @@ public class Continuous implements ISkillHandler
 				}
 				else
 					skill.getEffects(activeChar, target, new Env(shld, ss, sps, bsps));
-
+				
 				if (skill.getSkillType() == L2SkillType.AGGDEBUFF)
 				{
 					if (target instanceof Attackable)
@@ -158,24 +158,24 @@ public class Continuous implements ISkillHandler
 			}
 			else
 				activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ATTACK_FAILED));
-
+			
 			// Possibility of a lethal strike
 			Formulas.calcLethalHit(activeChar, target, skill);
 		}
-
+		
 		if (skill.hasSelfEffects())
 		{
 			final L2Effect effect = activeChar.getFirstEffect(skill.getId());
 			if (effect != null && effect.isSelfEffect())
 				effect.exit();
-
+			
 			skill.getEffectsSelf(activeChar);
 		}
-
+		
 		if (!skill.isPotion())
 			activeChar.setChargedShot(bsps ? ShotType.BLESSED_SPIRITSHOT : ShotType.SPIRITSHOT, skill.isStaticReuse());
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

@@ -17,7 +17,7 @@ public class VoicedClanNotice implements IVoicedCommandHandler
 		"setmes",
 		"clannotice"
 	};
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
@@ -95,7 +95,7 @@ public class VoicedClanNotice implements IVoicedCommandHandler
 				catch (Exception e)
 				{
 					e.printStackTrace();
-
+					
 					return true;
 				}
 			}
@@ -104,7 +104,7 @@ public class VoicedClanNotice implements IVoicedCommandHandler
 		}
 		return true;
 	}
-
+	
 	private static String getNoticetxt(Clan activeChar)
 	{
 		String result = "Notice Disabled";
@@ -114,7 +114,7 @@ public class VoicedClanNotice implements IVoicedCommandHandler
 		}
 		return result;
 	}
-
+	
 	public static void mainHtml(Player activeChar)
 	{
 		String htmFile = "data/html/mods/menu/ClanNotice.htm";
@@ -124,7 +124,7 @@ public class VoicedClanNotice implements IVoicedCommandHandler
 		msg.replace("%mes%", activeChar.getClan().getNotice());
 		activeChar.sendPacket(msg);
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

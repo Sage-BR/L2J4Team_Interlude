@@ -19,11 +19,11 @@ package com.l2j4team.events.manager;
  */
 public interface EventTask extends Runnable
 {
-
+	
 	public String getEventIdentifier();
-
+	
 	public String getEventStartTime(); // hh:mm (es. 01:05)
-
+	
 	// public void notifyEventStart();
-
+	
 }

@@ -63,7 +63,7 @@ public class AdminAdmin implements IAdminCommandHandler
 		"admin_tradeoff",
 		"admin_reload"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, Player activeChar)
 	{
@@ -75,7 +75,7 @@ public class AdminAdmin implements IAdminCommandHandler
 		{
 			StringTokenizer st = new StringTokenizer(command, " ");
 			st.nextToken(); // skip command
-
+			
 			if (!st.hasMoreTokens())
 			{
 				final WorldObject obj = activeChar.getTarget();
@@ -83,10 +83,10 @@ public class AdminAdmin implements IAdminCommandHandler
 					activeChar.sendPacket(SystemMessageId.INCORRECT_TARGET);
 				else
 					kill(activeChar, (Creature) obj);
-
+				
 				return true;
 			}
-
+			
 			String firstParam = st.nextToken();
 			Player player = World.getInstance().getPlayer(firstParam);
 			if (player != null)
@@ -101,7 +101,7 @@ public class AdminAdmin implements IAdminCommandHandler
 						{
 							if (knownChar.equals(activeChar))
 								continue;
-
+							
 							kill(activeChar, knownChar);
 						}
 						activeChar.sendMessage("Killed all characters within a " + radius + " unit radius around " + player.getName() + ".");
@@ -117,7 +117,7 @@ public class AdminAdmin implements IAdminCommandHandler
 				int radius = Integer.parseInt(firstParam);
 				for (Creature knownChar : activeChar.getKnownTypeInRadius(Creature.class, radius))
 					kill(activeChar, knownChar);
-
+				
 				activeChar.sendMessage("Killed all characters within a " + radius + " unit radius.");
 			}
 		}
@@ -187,7 +187,7 @@ public class AdminAdmin implements IAdminCommandHandler
 					{
 						Config.loadGameServer();
 						activeChar.sendMessage("Configs files have been reloaded.");
-
+						
 						if (Config.ENABLE_PVP_COLOR)
 							PvpColorTable.getInstance().reload();
 						if (Config.ENABLE_PK_COLOR)
@@ -290,13 +290,13 @@ public class AdminAdmin implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 	private static void kill(Player activeChar, Creature target)
 	{
 		if (target instanceof Player)
@@ -306,7 +306,7 @@ public class AdminAdmin implements IAdminCommandHandler
 		else
 			target.reduceCurrentHp(target.getMaxHp() + 1, activeChar, null);
 	}
-
+	
 	static void showMainPage(Player activeChar, String command)
 	{
 		int mode = 0;
@@ -318,7 +318,7 @@ public class AdminAdmin implements IAdminCommandHandler
 		catch (Exception e)
 		{
 		}
-
+		
 		switch (mode)
 		{
 			case 1:

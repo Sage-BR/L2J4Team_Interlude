@@ -10,10 +10,10 @@ import com.l2j4team.commons.lang.StringUtil;
 public class Q644_GraveRobberAnnihilation extends Quest
 {
 	private static final String qn = "Q644_GraveRobberAnnihilation";
-
+	
 	// Item
 	private static final int ORC_GRAVE_GOODS = 8088;
-
+	
 	// Rewards
 	private static final int[][] REWARDS =
 	{
@@ -42,22 +42,22 @@ public class Q644_GraveRobberAnnihilation extends Quest
 			30
 		}
 	};
-
+	
 	// NPC
 	private static final int KARUDA = 32017;
-
+	
 	public Q644_GraveRobberAnnihilation()
 	{
 		super(644, "Grave Robber Annihilation");
-
+		
 		setItemsIds(ORC_GRAVE_GOODS);
-
+		
 		addStartNpc(KARUDA);
 		addTalkId(KARUDA);
-
+		
 		addKillId(22003, 22004, 22005, 22006, 22008);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -65,7 +65,7 @@ public class Q644_GraveRobberAnnihilation extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("32017-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -76,17 +76,17 @@ public class Q644_GraveRobberAnnihilation extends Quest
 		{
 			htmltext = "32017-04.htm";
 			st.takeItems(ORC_GRAVE_GOODS, -1);
-
+			
 			final int reward[] = REWARDS[Integer.parseInt(event)];
 			st.rewardItems(reward[0], reward[1]);
-
+			
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -94,13 +94,13 @@ public class Q644_GraveRobberAnnihilation extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 20) ? "32017-06.htm" : "32017-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				if (cond == 1)
@@ -109,22 +109,22 @@ public class Q644_GraveRobberAnnihilation extends Quest
 					htmltext = "32017-07.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMember(player, npc, "1");
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		if (st.dropItems(ORC_GRAVE_GOODS, 1, 120, 500000))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

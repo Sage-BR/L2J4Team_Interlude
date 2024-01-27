@@ -12,7 +12,7 @@ import java.util.List;
 public final class ConditionPlayerHasClanHall extends Condition
 {
 	private final List<Integer> _clanHall;
-
+	
 	/**
 	 * Instantiates a new condition player has clan hall.
 	 * @param clanHall the clan hall
@@ -21,7 +21,7 @@ public final class ConditionPlayerHasClanHall extends Condition
 	{
 		_clanHall = clanHall;
 	}
-
+	
 	/**
 	 * @param env the env
 	 * @return true, if successful
@@ -32,15 +32,15 @@ public final class ConditionPlayerHasClanHall extends Condition
 	{
 		if (env.getPlayer() == null)
 			return false;
-
+		
 		final Clan clan = env.getPlayer().getClan();
 		if (clan == null)
 			return (_clanHall.size() == 1 && _clanHall.get(0) == 0);
-
+		
 		// All Clan Hall
 		if (_clanHall.size() == 1 && _clanHall.get(0) == -1)
 			return clan.hasHideout();
-
+		
 		return _clanHall.contains(clan.getHideoutId());
 	}
 }

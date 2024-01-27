@@ -8,25 +8,25 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q052_WilliesSpecialBait extends Quest
 {
 	private static final String qn = "Q052_WilliesSpecialBait";
-
+	
 	// Item
 	private static final int TARLK_EYE = 7623;
-
+	
 	// Reward
 	private static final int EARTH_FISHING_LURE = 7612;
-
+	
 	public Q052_WilliesSpecialBait()
 	{
 		super(52, "Willie's Special Bait");
-
+		
 		setItemsIds(TARLK_EYE);
-
+		
 		addStartNpc(31574); // Willie
 		addTalkId(31574);
-
+		
 		addKillId(20573); // Tarlk Basilik
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -34,7 +34,7 @@ public class Q052_WilliesSpecialBait extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31574-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -49,10 +49,10 @@ public class Q052_WilliesSpecialBait extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -60,35 +60,35 @@ public class Q052_WilliesSpecialBait extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 48) ? "31574-02.htm" : "31574-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				htmltext = (st.getQuestItemsCount(TARLK_EYE) == 100) ? "31574-04.htm" : "31574-05.htm";
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "1");
 		if (st == null)
 			return null;
-
+		
 		if (st.dropItems(TARLK_EYE, 1, 100, 500000))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

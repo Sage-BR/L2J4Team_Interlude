@@ -5,12 +5,12 @@ import com.l2j4team.gameserver.model.actor.instance.Player;
 public class PartySmallWindowDelete extends L2GameServerPacket
 {
 	private final Player _member;
-
+	
 	public PartySmallWindowDelete(Player member)
 	{
 		_member = member;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

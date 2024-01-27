@@ -13,7 +13,7 @@ public class ShopPreviewList extends L2GameServerPacket
 	private final int _money;
 	private final int _expertise;
 	private final Collection<Product> _list;
-
+	
 	public ShopPreviewList(NpcBuyList list, int currentMoney, int expertiseIndex)
 	{
 		_listId = list.getListId();
@@ -21,7 +21,7 @@ public class ShopPreviewList extends L2GameServerPacket
 		_money = currentMoney;
 		_expertise = expertiseIndex;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -32,7 +32,7 @@ public class ShopPreviewList extends L2GameServerPacket
 		writeC(0x00); // ?
 		writeD(_money); // current money
 		writeD(_listId);
-
+		
 		int newlength = 0;
 		for (Product product : _list)
 		{
@@ -40,19 +40,19 @@ public class ShopPreviewList extends L2GameServerPacket
 				newlength++;
 		}
 		writeH(newlength);
-
+		
 		for (Product product : _list)
 		{
 			if (product.getItem().getCrystalType().getId() <= _expertise && product.getItem().isEquipable())
 			{
 				writeD(product.getItemId());
 				writeH(product.getItem().getType2()); // item type2
-
+				
 				if (product.getItem().getType1() != Item.TYPE1_ITEM_QUESTITEM_ADENA)
 					writeH(product.getItem().getBodyPart()); // slot
 				else
 					writeH(0x00); // slot
-
+					
 				writeD(Config.WEAR_PRICE);
 			}
 		}

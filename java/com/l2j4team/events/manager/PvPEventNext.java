@@ -32,37 +32,37 @@ import java.util.logging.Logger;
 public class PvPEventNext
 {
 	protected static final Logger _log = Logger.getLogger(PvPEventNext.class.getName());
-
+	
 	public static ArrayList<String> PVP_EVENT_INTERVAL;
-
+	
 	private static PvPEventNext instance = null;
-
+	
 	private PvPEventNext()
 	{
 		loadPvPConfig();
 	}
-
+	
 	private Calendar NextEvent;
 	private final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-
+	
 	public String getNextTime()
 	{
 		if (NextEvent.getTime() != null)
 			return format.format(NextEvent.getTime());
 		return "Erro";
 	}
-
+	
 	public static PvPEventNext getInstance()
 	{
-
+		
 		if (instance == null)
 		{
 			instance = new PvPEventNext();
 		}
 		return instance;
-
+		
 	}
-
+	
 	public void StartCalculationOfNextEventTime()
 	{
 		try
@@ -71,7 +71,7 @@ public class PvPEventNext
 			Calendar testStartTime = null;
 			long flush2 = 0, timeL = 0;
 			int count = 0;
-
+			
 			for (String timeOfDay : PVP_EVENT_INTERVAL)
 			{
 				testStartTime = Calendar.getInstance();
@@ -84,21 +84,21 @@ public class PvPEventNext
 				{
 					testStartTime.add(Calendar.DAY_OF_MONTH, 1);
 				}
-
+				
 				timeL = testStartTime.getTimeInMillis() - currentTime.getTimeInMillis();
-
+				
 				if (count == 0)
 				{
 					flush2 = timeL;
 					NextEvent = testStartTime;
 				}
-
+				
 				if (timeL < flush2)
 				{
 					flush2 = timeL;
 					NextEvent = testStartTime;
 				}
-
+				
 				count++;
 			}
 			_log.info("PvP Event Proximo Evento: " + NextEvent.getTime().toString());
@@ -108,34 +108,34 @@ public class PvPEventNext
 			System.out.println(" PvP Next Event Info: " + e);
 		}
 	}
-
+	
 	public static void loadPvPConfig()
 	{
-
+		
 		InputStream is = null;
 		try
 		{
 			Properties eventSettings = new Properties();
 			is = new FileInputStream(new File(Config.PVP_EVENT_FILE));
 			eventSettings.load(is);
-
+			
 			// ============================================================
-
+			
 			PVP_EVENT_INTERVAL = new ArrayList<>();
-
+			
 			String[] propertySplit;
 			propertySplit = eventSettings.getProperty("PvPZEventInterval", "").split(",");
-
+			
 			for (String time : propertySplit)
 			{
 				PVP_EVENT_INTERVAL.add(time);
 			}
-
+			
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-
+			
 		}
 		finally
 		{
@@ -151,7 +151,7 @@ public class PvPEventNext
 				}
 			}
 		}
-
+		
 	}
-
+	
 }

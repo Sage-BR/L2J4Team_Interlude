@@ -8,27 +8,27 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q362_BardsMandolin extends Quest
 {
 	private static final String qn = "Q362_BardsMandolin";
-
+	
 	// Items
 	private static final int SWAN_FLUTE = 4316;
 	private static final int SWAN_LETTER = 4317;
-
+	
 	// NPCs
 	private static final int SWAN = 30957;
 	private static final int NANARIN = 30956;
 	private static final int GALION = 30958;
 	private static final int WOODROW = 30837;
-
+	
 	public Q362_BardsMandolin()
 	{
 		super(362, "Bard's Mandolin");
-
+		
 		setItemsIds(SWAN_FLUTE, SWAN_LETTER);
-
+		
 		addStartNpc(SWAN);
 		addTalkId(SWAN, NANARIN, GALION, WOODROW);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -36,7 +36,7 @@ public class Q362_BardsMandolin extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30957-3.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -50,10 +50,10 @@ public class Q362_BardsMandolin extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -61,13 +61,13 @@ public class Q362_BardsMandolin extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 15) ? "30957-2.htm" : "30957-1.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -87,7 +87,7 @@ public class Q362_BardsMandolin extends Quest
 						else if (cond == 5)
 							htmltext = "30957-6.htm";
 						break;
-
+					
 					case WOODROW:
 						if (cond == 1)
 						{
@@ -100,7 +100,7 @@ public class Q362_BardsMandolin extends Quest
 						else if (cond > 2)
 							htmltext = "30837-3.htm";
 						break;
-
+					
 					case GALION:
 						if (cond == 2)
 						{
@@ -112,7 +112,7 @@ public class Q362_BardsMandolin extends Quest
 						else if (cond > 2)
 							htmltext = "30958-2.htm";
 						break;
-
+					
 					case NANARIN:
 						if (cond == 4)
 						{
@@ -128,7 +128,7 @@ public class Q362_BardsMandolin extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

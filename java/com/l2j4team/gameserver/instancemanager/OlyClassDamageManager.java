@@ -34,15 +34,15 @@ import java.util.logging.Logger;
 public class OlyClassDamageManager
 {
 	private static final Logger _log = Logger.getLogger(OlyClassDamageManager.class.getName());
-
+	
 	private static Hashtable<Integer, Double> damage_to_mage = new Hashtable<>();
 	private static Hashtable<Integer, Double> damage_to_fighter = new Hashtable<>();
 	private static Hashtable<Integer, Double> damage_by_mage = new Hashtable<>();
 	private static Hashtable<Integer, Double> damage_by_fighter = new Hashtable<>();
-
+	
 	private static Hashtable<Integer, String> id_to_name = new Hashtable<>();
 	private static Hashtable<String, Integer> name_to_id = new Hashtable<>();
-
+	
 	public static void loadConfig()
 	{
 		final String SCRIPT = Config.OLY_CLASS_DAMAGES_FILE;
@@ -54,27 +54,27 @@ public class OlyClassDamageManager
 			file = new File(SCRIPT);
 			is = new FileInputStream(file);
 			scriptSetting.load(is);
-
+			
 			Set<Object> key_set = scriptSetting.keySet();
-
+			
 			for (Object key : key_set)
 			{
 				String key_string = (String) key;
-
+				
 				String[] class_and_type = key_string.split("__");
-
+				
 				String class_name = class_and_type[0].replace("_", " ");
-
+				
 				if (class_name.equals("Eva s Saint"))
 					class_name = "Eva's Saint";
-
+				
 				String type = class_and_type[1];
-
+				
 				Integer class_id = CharTemplateTable.getClassIdByName(class_name) - 1;
-
+				
 				id_to_name.put(class_id, class_name);
 				name_to_id.put(class_name, class_id);
-
+				
 				if (type.equals("ToFighter"))
 				{
 					damage_to_fighter.put(class_id, Double.parseDouble(scriptSetting.getProperty(key_string)));
@@ -92,9 +92,9 @@ public class OlyClassDamageManager
 					damage_by_mage.put(class_id, Double.parseDouble(scriptSetting.getProperty(key_string)));
 				}
 			}
-
+			
 			_log.info("Loaded " + id_to_name.size() + " oly classes Damages configurations");
-
+			
 		}
 		catch (Exception e)
 		{
@@ -115,16 +115,16 @@ public class OlyClassDamageManager
 			}
 		}
 	}
-
+	
 	public static double getClassDamageToMage(int id)
 	{
 		Double multiplier = damage_to_mage.get(id);
-
+		
 		if (multiplier != null)
 			return multiplier;
 		return 1;
 	}
-
+	
 	public static double getClassDamageToFighter(int id)
 	{
 		Double multiplier = damage_to_fighter.get(id);
@@ -132,7 +132,7 @@ public class OlyClassDamageManager
 			return multiplier;
 		return 1;
 	}
-
+	
 	public static double getClassDamageByMage(int id)
 	{
 		Double multiplier = damage_by_mage.get(id);
@@ -140,7 +140,7 @@ public class OlyClassDamageManager
 			return multiplier;
 		return 1;
 	}
-
+	
 	public static double getClassDamageByFighter(int id)
 	{
 		Double multiplier = damage_by_fighter.get(id);
@@ -148,7 +148,7 @@ public class OlyClassDamageManager
 			return multiplier;
 		return 1;
 	}
-
+	
 	public static int getIdByName(String name)
 	{
 		Integer id = name_to_id.get(name);
@@ -156,7 +156,7 @@ public class OlyClassDamageManager
 			return id;
 		return 0;
 	}
-
+	
 	public static String getNameById(int id)
 	{
 		String name = id_to_name.get(id);
@@ -164,7 +164,7 @@ public class OlyClassDamageManager
 			return name;
 		return "";
 	}
-
+	
 	/**
 	 * return the product between the attackerMultiplier and attackedMultiplier configured into the classDamages.properties
 	 * @param attacker
@@ -175,23 +175,23 @@ public class OlyClassDamageManager
 	{
 		if (attacker == null || attacked == null)
 			return 1;
-
+		
 		double attackerMulti = 1;
-
+		
 		if (attacked.isMageClass())
 			attackerMulti = getClassDamageToMage(attacker.getClassId().getId());
 		else
 			attackerMulti = getClassDamageToFighter(attacker.getClassId().getId());
-
+		
 		double attackedMulti = 1;
-
+		
 		if (attacker.isMageClass())
 			attackedMulti = getClassDamageByMage(attacked.getClassId().getId());
 		else
 			attackedMulti = getClassDamageByFighter(attacked.getClassId().getId());
-
+		
 		double output = attackerMulti * attackedMulti;
-
+		
 		return output;
 	}
 }

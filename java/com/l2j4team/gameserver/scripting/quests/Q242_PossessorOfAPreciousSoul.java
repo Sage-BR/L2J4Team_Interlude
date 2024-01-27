@@ -9,7 +9,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q242_PossessorOfAPreciousSoul extends Quest
 {
 	private static final String qn = "Q242_PossessorOfAPreciousSoul";
-
+	
 	// NPCs
 	private static final int VIRGIL = 31742;
 	private static final int KASSANDRA = 31743;
@@ -21,31 +21,31 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 	private static final int CORNERSTONE = 31748;
 	private static final int FALLEN_UNICORN = 31746;
 	private static final int PURE_UNICORN = 31747;
-
+	
 	// Monsters
 	private static final int RESTRAINER_OF_GLORY = 27317;
-
+	
 	// Items
 	private static final int VIRGIL_LETTER = 7677;
 	private static final int GOLDEN_HAIR = 7590;
 	private static final int SORCERY_INGREDIENT = 7596;
 	private static final int ORB_OF_BINDING = 7595;
 	private static final int CARADINE_LETTER = 7678;
-
+	
 	private static boolean _unicorn = false;
-
+	
 	public Q242_PossessorOfAPreciousSoul()
 	{
 		super(242, "Possessor of a Precious Soul - 2");
-
+		
 		setItemsIds(GOLDEN_HAIR, SORCERY_INGREDIENT, ORB_OF_BINDING);
-
+		
 		addStartNpc(VIRGIL);
 		addTalkId(VIRGIL, KASSANDRA, OGMAR, MYSTERIOUS_KNIGHT, ANGEL_CORPSE, KALIS, MATILD, CORNERSTONE, FALLEN_UNICORN, PURE_UNICORN);
-
+		
 		addKillId(RESTRAINER_OF_GLORY);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -53,7 +53,7 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// Kasandra
 		if (event.equalsIgnoreCase("31743-05.htm"))
 		{
@@ -110,7 +110,7 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 			{
 				npc.deleteMe();
 				st.takeItems(ORB_OF_BINDING, 1);
-
+				
 				int cornerstones = st.getInt("cornerstone");
 				cornerstones++;
 				if (cornerstones == 4)
@@ -147,10 +147,10 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 			npc.getSpawn().setRespawnState(true);
 			return null;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -158,7 +158,7 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -176,11 +176,11 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 					}
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				if (!player.isSubClassActive())
 					break;
-
+				
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
 				{
@@ -190,7 +190,7 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 						else if (cond == 2)
 							htmltext = "31742-05.htm";
 						break;
-
+					
 					case KASSANDRA:
 						if (cond == 1)
 							htmltext = "31743-01.htm";
@@ -206,14 +206,14 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case OGMAR:
 						if (cond == 2)
 							htmltext = "31744-01.htm";
 						else if (cond == 3)
 							htmltext = "31744-03.htm";
 						break;
-
+					
 					case MYSTERIOUS_KNIGHT:
 						if (cond == 3)
 							htmltext = "31751-01.htm";
@@ -236,14 +236,14 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 						else if (cond == 6)
 							htmltext = "31751-05.htm";
 						break;
-
+					
 					case ANGEL_CORPSE:
 						if (cond == 4)
 						{
 							npc.deleteMe();
 							int hair = st.getInt("angel");
 							hair++;
-
+							
 							if (hair == 4)
 							{
 								htmltext = "31752-02.htm";
@@ -261,7 +261,7 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 						else if (cond == 5)
 							htmltext = "31752-01.htm";
 						break;
-
+					
 					case KALIS:
 						if (cond == 6)
 							htmltext = "30759-01.htm";
@@ -280,14 +280,14 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 						else if (cond == 9)
 							htmltext = "30759-06.htm";
 						break;
-
+					
 					case MATILD:
 						if (cond == 7)
 							htmltext = "30738-01.htm";
 						else if (cond == 8)
 							htmltext = "30738-03.htm";
 						break;
-
+					
 					case CORNERSTONE:
 						if (cond == 9)
 						{
@@ -297,7 +297,7 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 								htmltext = "31748-01.htm";
 						}
 						break;
-
+					
 					case FALLEN_UNICORN:
 						if (cond == 9)
 							htmltext = "31746-01.htm";
@@ -313,7 +313,7 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 							htmltext = "31746-02.htm";
 						}
 						break;
-
+					
 					case PURE_UNICORN:
 						if (cond == 10)
 						{
@@ -331,21 +331,21 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "9");
 		if (st == null || !player.isSubClassActive())
 			return null;
-
+		
 		int orbs = st.getInt("orb"); // check orbs internally, because player can use them before he gets them all
 		if (orbs < 4)
 		{
@@ -354,7 +354,7 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 			st.playSound(QuestState.SOUND_ITEMGET);
 			st.giveItems(ORB_OF_BINDING, 1);
 		}
-
+		
 		return null;
 	}
 }

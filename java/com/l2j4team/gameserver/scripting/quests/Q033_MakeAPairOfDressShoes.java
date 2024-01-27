@@ -8,28 +8,28 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q033_MakeAPairOfDressShoes extends Quest
 {
 	private static final String qn = "Q033_MakeAPairOfDressShoes";
-
+	
 	// NPCs
 	private static final int WOODLEY = 30838;
 	private static final int IAN = 30164;
 	private static final int LEIKAR = 31520;
-
+	
 	// Items
 	private static final int LEATHER = 1882;
 	private static final int THREAD = 1868;
 	private static final int ADENA = 57;
-
+	
 	// Rewards
 	public static int DRESS_SHOES_BOX = 7113;
-
+	
 	public Q033_MakeAPairOfDressShoes()
 	{
 		super(33, "Make a Pair of Dress Shoes");
-
+		
 		addStartNpc(WOODLEY);
 		addTalkId(WOODLEY, IAN, LEIKAR);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -37,7 +37,7 @@ public class Q033_MakeAPairOfDressShoes extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30838-1.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -84,10 +84,10 @@ public class Q033_MakeAPairOfDressShoes extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -95,7 +95,7 @@ public class Q033_MakeAPairOfDressShoes extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -110,7 +110,7 @@ public class Q033_MakeAPairOfDressShoes extends Quest
 				else
 					htmltext = "30838-0b.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -132,14 +132,14 @@ public class Q033_MakeAPairOfDressShoes extends Quest
 						else if (cond == 5)
 							htmltext = "30838-6.htm";
 						break;
-
+					
 					case LEIKAR:
 						if (cond == 1)
 							htmltext = "31520-0.htm";
 						else if (cond > 1)
 							htmltext = "31520-1a.htm";
 						break;
-
+					
 					case IAN:
 						if (cond == 4)
 							htmltext = "30164-0.htm";
@@ -148,12 +148,12 @@ public class Q033_MakeAPairOfDressShoes extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

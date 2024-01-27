@@ -30,31 +30,31 @@ public final class DocumentSkill extends DocumentBase
 		public List<L2Skill> skills = new ArrayList<>();
 		public List<L2Skill> currentSkills = new ArrayList<>();
 	}
-
+	
 	private Skill _currentSkill;
 	private final List<L2Skill> _skillsInFile = new ArrayList<>();
-
+	
 	public DocumentSkill(File file)
 	{
 		super(file);
 	}
-
+	
 	private void setCurrentSkill(Skill skill)
 	{
 		_currentSkill = skill;
 	}
-
+	
 	@Override
 	protected StatsSet getStatsSet()
 	{
 		return _currentSkill.sets[_currentSkill.currentLevel];
 	}
-
+	
 	public List<L2Skill> getSkills()
 	{
 		return _skillsInFile;
 	}
-
+	
 	@Override
 	protected String getTableValue(String name)
 	{
@@ -68,7 +68,7 @@ public final class DocumentSkill extends DocumentBase
 			return "";
 		}
 	}
-
+	
 	@Override
 	protected String getTableValue(String name, int idx)
 	{
@@ -82,7 +82,7 @@ public final class DocumentSkill extends DocumentBase
 			return "";
 		}
 	}
-
+	
 	@Override
 	protected void parseDocument(Document doc)
 	{
@@ -109,7 +109,7 @@ public final class DocumentSkill extends DocumentBase
 			}
 		}
 	}
-
+	
 	protected void parseSkill(Node n)
 	{
 		NamedNodeMap attrs = n.getAttributes();
@@ -123,13 +123,13 @@ public final class DocumentSkill extends DocumentBase
 			enchantLevels1 = Integer.parseInt(attrs.getNamedItem("enchantLevels1").getNodeValue());
 		if (attrs.getNamedItem("enchantLevels2") != null)
 			enchantLevels2 = Integer.parseInt(attrs.getNamedItem("enchantLevels2").getNodeValue());
-
+		
 		_currentSkill.id = skillId;
 		_currentSkill.name = skillName;
 		_currentSkill.sets = new StatsSet[lastLvl];
 		_currentSkill.enchsets1 = new StatsSet[enchantLevels1];
 		_currentSkill.enchsets2 = new StatsSet[enchantLevels2];
-
+		
 		for (int i = 0; i < lastLvl; i++)
 		{
 			_currentSkill.sets[i] = new StatsSet();
@@ -137,10 +137,10 @@ public final class DocumentSkill extends DocumentBase
 			_currentSkill.sets[i].set("level", i + 1);
 			_currentSkill.sets[i].set("name", _currentSkill.name);
 		}
-
+		
 		if (_currentSkill.sets.length != lastLvl)
 			throw new RuntimeException("Skill id=" + skillId + " number of levels missmatch, " + lastLvl + " levels expected");
-
+		
 		Node first = n.getFirstChild();
 		for (n = first; n != null; n = n.getNextSibling())
 		{
@@ -163,23 +163,23 @@ public final class DocumentSkill extends DocumentBase
 			_currentSkill.enchsets1[i].set("level", i + 101);
 			_currentSkill.enchsets1[i].set("name", _currentSkill.name);
 			// currentSkill.enchsets1[i].set("skillType", "NOTDONE");
-
+			
 			for (n = first; n != null; n = n.getNextSibling())
 			{
 				if ("set".equalsIgnoreCase(n.getNodeName()))
 					parseBeanSet(n, _currentSkill.enchsets1[i], _currentSkill.sets.length);
 			}
-
+			
 			for (n = first; n != null; n = n.getNextSibling())
 			{
 				if ("enchant1".equalsIgnoreCase(n.getNodeName()))
 					parseBeanSet(n, _currentSkill.enchsets1[i], i + 1);
 			}
 		}
-
+		
 		if (_currentSkill.enchsets1.length != enchantLevels1)
 			throw new RuntimeException("Skill id=" + skillId + " number of levels missmatch, " + enchantLevels1 + " levels expected");
-
+		
 		for (int i = 0; i < enchantLevels2; i++)
 		{
 			_currentSkill.enchsets2[i] = new StatsSet();
@@ -188,23 +188,23 @@ public final class DocumentSkill extends DocumentBase
 			_currentSkill.enchsets2[i].set("level", i + 141);
 			_currentSkill.enchsets2[i].set("name", _currentSkill.name);
 			// currentSkill.enchsets2[i].set("skillType", "NOTDONE");
-
+			
 			for (n = first; n != null; n = n.getNextSibling())
 			{
 				if ("set".equalsIgnoreCase(n.getNodeName()))
 					parseBeanSet(n, _currentSkill.enchsets2[i], _currentSkill.sets.length);
 			}
-
+			
 			for (n = first; n != null; n = n.getNextSibling())
 			{
 				if ("enchant2".equalsIgnoreCase(n.getNodeName()))
 					parseBeanSet(n, _currentSkill.enchsets2[i], i + 1);
 			}
 		}
-
+		
 		if (_currentSkill.enchsets2.length != enchantLevels2)
 			throw new RuntimeException("Skill id=" + skillId + " number of levels missmatch, " + enchantLevels2 + " levels expected");
-
+		
 		makeSkills();
 		for (int i = 0; i < lastLvl; i++)
 		{
@@ -319,12 +319,12 @@ public final class DocumentSkill extends DocumentBase
 		}
 		_currentSkill.skills.addAll(_currentSkill.currentSkills);
 	}
-
+	
 	private void makeSkills()
 	{
 		int count = 0;
 		_currentSkill.currentSkills = new ArrayList<>(_currentSkill.sets.length + _currentSkill.enchsets1.length + _currentSkill.enchsets2.length);
-
+		
 		for (int i = 0; i < _currentSkill.sets.length; i++)
 		{
 			try

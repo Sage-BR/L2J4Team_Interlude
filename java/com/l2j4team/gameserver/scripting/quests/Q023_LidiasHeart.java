@@ -8,7 +8,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q023_LidiasHeart extends Quest
 {
 	private static final String qn = "Q023_LidiasHeart";
-
+	
 	// NPCs
 	private static final int INNOCENTIN = 31328;
 	private static final int BROKEN_BOOKSHELF = 31526;
@@ -16,27 +16,27 @@ public class Q023_LidiasHeart extends Quest
 	private static final int TOMBSTONE = 31523;
 	private static final int VIOLET = 31386;
 	private static final int BOX = 31530;
-
+	
 	// NPC instance
 	private Npc _ghost = null;
-
+	
 	// Items
 	private static final int FOREST_OF_DEADMAN_MAP = 7063;
 	private static final int SILVER_KEY = 7149;
 	private static final int LIDIA_HAIRPIN = 7148;
 	private static final int LIDIA_DIARY = 7064;
 	private static final int SILVER_SPEAR = 7150;
-
+	
 	public Q023_LidiasHeart()
 	{
 		super(23, "Lidia's Heart");
-
+		
 		setItemsIds(FOREST_OF_DEADMAN_MAP, SILVER_KEY, LIDIA_DIARY, SILVER_SPEAR);
-
+		
 		addStartNpc(INNOCENTIN);
 		addTalkId(INNOCENTIN, BROKEN_BOOKSHELF, GHOST_OF_VON_HELLMANN, VIOLET, BOX, TOMBSTONE);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -44,7 +44,7 @@ public class Q023_LidiasHeart extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31328-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -141,7 +141,7 @@ public class Q023_LidiasHeart extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -149,7 +149,7 @@ public class Q023_LidiasHeart extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -164,7 +164,7 @@ public class Q023_LidiasHeart extends Quest
 				else
 					htmltext = "31328-00.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -179,7 +179,7 @@ public class Q023_LidiasHeart extends Quest
 						else if (cond > 5)
 							htmltext = "31328-21.htm";
 						break;
-
+					
 					case BROKEN_BOOKSHELF:
 						if (cond == 2)
 						{
@@ -197,14 +197,14 @@ public class Q023_LidiasHeart extends Quest
 						else if (cond > 3)
 							htmltext = "31526-13.htm";
 						break;
-
+					
 					case GHOST_OF_VON_HELLMANN:
 						if (cond == 6)
 							htmltext = "31524-01.htm";
 						else if (cond > 6)
 							htmltext = "31524-05.htm";
 						break;
-
+					
 					case TOMBSTONE:
 						if (cond == 6)
 							htmltext = (_ghost == null) ? "31523-01.htm" : "31523-03.htm";
@@ -213,7 +213,7 @@ public class Q023_LidiasHeart extends Quest
 						else if (cond > 7)
 							htmltext = "31523-06.htm";
 						break;
-
+					
 					case VIOLET:
 						if (cond == 8)
 						{
@@ -240,7 +240,7 @@ public class Q023_LidiasHeart extends Quest
 							}
 						}
 						break;
-
+					
 					case BOX:
 						if (cond == 9)
 							htmltext = "31530-01.htm";
@@ -249,7 +249,7 @@ public class Q023_LidiasHeart extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				if (npc.getNpcId() == VIOLET)
 					htmltext = "31386-04.htm";
@@ -257,7 +257,7 @@ public class Q023_LidiasHeart extends Quest
 					htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

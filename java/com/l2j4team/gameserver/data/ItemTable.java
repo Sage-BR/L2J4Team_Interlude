@@ -35,14 +35,14 @@ public class ItemTable
 {
 	private static final Logger _log = Logger.getLogger(ItemTable.class.getName());
 	private static final Logger ITEM_LOG = Logger.getLogger("item");
-
+	
 	public static final Map<String, Integer> _slots = new HashMap<>();
-
+	
 	private Item[] _allTemplates;
 	private static final Map<Integer, Armor> _armors = new HashMap<>();
 	private static final Map<Integer, EtcItem> _etcItems = new HashMap<>();
 	private static final Map<Integer, Weapon> _weapons = new HashMap<>();
-
+	
 	static
 	{
 		_slots.put("chest", Item.SLOT_CHEST);
@@ -70,17 +70,17 @@ public class ItemTable
 		_slots.put("strider", Item.SLOT_STRIDER); // for strider
 		_slots.put("babypet", Item.SLOT_BABYPET); // for babypet
 	}
-
+	
 	public static ItemTable getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected ItemTable()
 	{
 		load();
 	}
-
+	
 	private static void hashFiles(String dirname, List<File> hash)
 	{
 		File dir = new File("./data/xml/" + dirname);
@@ -98,7 +98,7 @@ public class ItemTable
 			}
 		}
 	}
-
+	
 	private void load()
 	{
 		List<File> files = new ArrayList<>();
@@ -108,7 +108,7 @@ public class ItemTable
 		hashFiles("items/weapons", files);
 		hashFiles("items/jewels", files);
 		hashFiles("items/etcitems", files);
-
+		
 		int highest = 0;
 		for (File file : files)
 		{
@@ -135,7 +135,7 @@ public class ItemTable
 			}
 		}
 		_log.info("ItemTable: Highest used itemID : " + highest);
-
+		
 		_allTemplates = new Item[highest + 1];
 		for (Armor item : _armors.values())
 		{
@@ -150,7 +150,7 @@ public class ItemTable
 			_allTemplates[item.getItemId()] = item;
 		}
 	}
-
+	
 	/**
 	 * @param id : int designating the item
 	 * @return the item corresponding to the item ID.
@@ -159,10 +159,10 @@ public class ItemTable
 	{
 		if (id >= _allTemplates.length)
 			return null;
-
+		
 		return _allTemplates[id];
 	}
-
+	
 	/**
 	 * Create the ItemInstance corresponding to the Item Identifier and quantitiy add logs the activity.
 	 * @param process : String Identifier of process triggering this action
@@ -176,7 +176,7 @@ public class ItemTable
 	{
 		// Create and Init the ItemInstance corresponding to the Item Identifier
 		ItemInstance item = new ItemInstance(IdFactory.getInstance().getNextId(), itemId);
-
+		
 		if (process.equalsIgnoreCase("loot"))
 		{
 			ScheduledFuture<?> itemLootShedule;
@@ -197,14 +197,14 @@ public class ItemTable
 				item.setItemLootShedule(itemLootShedule);
 			}
 		}
-
+		
 		// Add the ItemInstance object to _objects of World.
 		World.getInstance().addObject(item);
-
+		
 		// Set Item parameters
 		if (item.isStackable() && count > 1)
 			item.setCount(count);
-
+		
 		if (Config.LOG_ITEMS)
 		{
 			final LogRecord record = new LogRecord(Level.INFO, "CREATE:" + process);
@@ -217,10 +217,10 @@ public class ItemTable
 			});
 			ITEM_LOG.log(record);
 		}
-
+		
 		return item;
 	}
-
+	
 	/**
 	 * Dummy item is created by setting the ID of the object in the world at null value
 	 * @param itemId : int designating the item
@@ -231,10 +231,10 @@ public class ItemTable
 		final Item item = getTemplate(itemId);
 		if (item == null)
 			return null;
-
+		
 		return new ItemInstance(0, item);
 	}
-
+	
 	/**
 	 * Destroys the ItemInstance.
 	 * @param process : String Identifier of process triggering this action
@@ -250,10 +250,10 @@ public class ItemTable
 			item.setOwnerId(0);
 			item.setLocation(ItemLocation.VOID);
 			item.setLastChange(ItemState.REMOVED);
-
+			
 			World.getInstance().removeObject(item);
 			IdFactory.getInstance().releaseId(item.getObjectId());
-
+			
 			if (Config.LOG_ITEMS)
 			{
 				final LogRecord record = new LogRecord(Level.INFO, "DELETE:" + process);
@@ -266,7 +266,7 @@ public class ItemTable
 				});
 				ITEM_LOG.log(record);
 			}
-
+			
 			// if it's a pet control item, delete the pet as well
 			if (item.getItemType() == EtcItemType.PET_COLLAR)
 			{
@@ -284,25 +284,25 @@ public class ItemTable
 			}
 		}
 	}
-
+	
 	public void reload()
 	{
 		_armors.clear();
 		_etcItems.clear();
 		_weapons.clear();
-
+		
 		load();
 	}
-
+	
 	protected static class ResetOwner implements Runnable
 	{
 		ItemInstance _item;
-
+		
 		public ResetOwner(ItemInstance item)
 		{
 			_item = item;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -310,12 +310,12 @@ public class ItemTable
 			_item.setItemLootShedule(null);
 		}
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final ItemTable _instance = new ItemTable();
 	}
-
+	
 	public Item[] getAllItems()
 	{
 		return _allTemplates;

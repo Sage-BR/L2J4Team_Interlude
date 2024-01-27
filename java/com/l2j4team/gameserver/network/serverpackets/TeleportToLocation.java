@@ -11,7 +11,7 @@ public class TeleportToLocation extends L2GameServerPacket
 	private final int _x;
 	private final int _y;
 	private final int _z;
-
+	
 	public TeleportToLocation(WorldObject obj, int x, int y, int z)
 	{
 		_targetObjId = obj.getObjectId();
@@ -19,7 +19,7 @@ public class TeleportToLocation extends L2GameServerPacket
 		_y = y;
 		_z = z;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

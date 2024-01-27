@@ -37,16 +37,16 @@ public class Auction
 	private String _sellerName = "";
 	private int _currentBid = 0;
 	private int _startingBid = 0;
-
+	
 	private final Map<Integer, Bidder> _bidders = new HashMap<>();
-
+	
 	public class Bidder
 	{
 		private final String _name;
 		private final String _clanName;
 		private int _bid;
 		private final Calendar _timeBid;
-
+		
 		public Bidder(String name, String clanName, int bid, long timeBid)
 		{
 			_name = name;
@@ -55,45 +55,45 @@ public class Auction
 			_timeBid = Calendar.getInstance();
 			_timeBid.setTimeInMillis(timeBid);
 		}
-
+		
 		public String getName()
 		{
 			return _name;
 		}
-
+		
 		public String getClanName()
 		{
 			return _clanName;
 		}
-
+		
 		public int getBid()
 		{
 			return _bid;
 		}
-
+		
 		public Calendar getTimeBid()
 		{
 			return _timeBid;
 		}
-
+		
 		public void setTimeBid(long timeBid)
 		{
 			_timeBid.setTimeInMillis(timeBid);
 		}
-
+		
 		public void setBid(int bid)
 		{
 			_bid = bid;
 		}
 	}
-
+	
 	/** Task Sheduler for endAuction */
 	public class AutoEndTask implements Runnable
 	{
 		public AutoEndTask()
 		{
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -107,7 +107,7 @@ public class Auction
 			}
 		}
 	}
-
+	
 	/**
 	 * Constructor
 	 * @param auctionId The id linked to that auction
@@ -118,7 +118,7 @@ public class Auction
 		load();
 		startAutoTask();
 	}
-
+	
 	public Auction(int itemId, Clan Clan, long delay, int bid, String name)
 	{
 		_id = itemId;
@@ -130,7 +130,7 @@ public class Auction
 		_sellerClanName = Clan.getName();
 		_startingBid = bid;
 	}
-
+	
 	/** Load auctions */
 	private void load()
 	{
@@ -139,7 +139,7 @@ public class Auction
 			PreparedStatement statement = con.prepareStatement("SELECT * FROM auction WHERE id = ?");
 			statement.setInt(1, getId());
 			ResultSet rs = statement.executeQuery();
-
+			
 			while (rs.next())
 			{
 				_currentBid = rs.getInt("currentBid");
@@ -160,20 +160,20 @@ public class Auction
 			_log.log(Level.WARNING, "Exception: Auction.load(): " + e.getMessage(), e);
 		}
 	}
-
+	
 	/** Load bidders **/
 	private void loadBid()
 	{
 		_highestBidderId = 0;
 		_highestBidderName = "";
 		_highestBidderMaxBid = 0;
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement = con.prepareStatement("SELECT bidderId, bidderName, maxBid, clan_name, time_bid FROM auction_bid WHERE auctionId = ? ORDER BY maxBid DESC");
 			statement.setInt(1, getId());
 			ResultSet rs = statement.executeQuery();
-
+			
 			while (rs.next())
 			{
 				if (rs.isFirst())
@@ -192,13 +192,13 @@ public class Auction
 			_log.log(Level.WARNING, "Exception: Auction.loadBid(): " + e.getMessage(), e);
 		}
 	}
-
+	
 	/** Task Manage */
 	private void startAutoTask()
 	{
 		long currentTime = System.currentTimeMillis();
 		long taskDelay = 0;
-
+		
 		if (_endDate <= currentTime)
 		{
 			_endDate = currentTime + 604800000; // 1 week
@@ -206,10 +206,10 @@ public class Auction
 		}
 		else
 			taskDelay = _endDate - currentTime;
-
+		
 		ThreadPool.schedule(new AutoEndTask(), taskDelay);
 	}
-
+	
 	/** Save Auction Data End */
 	private void saveAuctionDate()
 	{
@@ -226,7 +226,7 @@ public class Auction
 			_log.log(Level.SEVERE, "Exception: saveAuctionDate(): " + e.getMessage(), e);
 		}
 	}
-
+	
 	/**
 	 * Set a bid
 	 * @param bidder The bidder.
@@ -235,10 +235,10 @@ public class Auction
 	public synchronized void setBid(Player bidder, int bid)
 	{
 		int requiredAdena = bid;
-
+		
 		if (getHighestBidderName().equals(bidder.getClan().getLeaderName()))
 			requiredAdena = bid - getHighestBidderMaxBid();
-
+		
 		if ((getHighestBidderId() > 0 && bid > getHighestBidderMaxBid()) || (getHighestBidderId() == 0 && bid >= getStartingBid()))
 		{
 			if (takeItem(bidder, requiredAdena))
@@ -248,11 +248,11 @@ public class Auction
 				return;
 			}
 		}
-
+		
 		if ((bid < getStartingBid()) || (bid <= getHighestBidderMaxBid()))
 			bidder.sendPacket(SystemMessageId.BID_PRICE_MUST_BE_HIGHER);
 	}
-
+	
 	/**
 	 * Return Item in WHC
 	 * @param Clan The clan to make warehouse checks on.
@@ -263,14 +263,14 @@ public class Auction
 	{
 		if (penalty)
 			quantity *= 0.9; // Take 10% tax fee if needed
-
+			
 		// avoid overflow on return
 		final int limit = Integer.MAX_VALUE - ClanTable.getInstance().getClanByName(Clan).getWarehouse().getAdena();
 		quantity = Math.min(quantity, limit);
-
+		
 		ClanTable.getInstance().getClanByName(Clan).getWarehouse().addItem("Outbidded", Config.ITEM_ID_BUY_CLAN_HALL, quantity, null, null);
 	}
-
+	
 	/**
 	 * Take Item in WHC
 	 * @param bidder The bidder to make checks on.
@@ -284,13 +284,13 @@ public class Auction
 			bidder.getClan().getWarehouse().destroyItemByItemId("Buy", Config.ITEM_ID_BUY_CLAN_HALL, quantity, bidder, bidder);
 			return true;
 		}
-
+		
 		SystemMessageId msgId = Config.ITEM_ID_BUY_CLAN_HALL == 57 ? SystemMessageId.NOT_ENOUGH_ADENA_IN_CWH : SystemMessageId.NOT_ENOUGH_ITEMS;
 		bidder.sendPacket(msgId);
-
+		
 		return false;
 	}
-
+	
 	/**
 	 * Update auction in DB
 	 * @param bidder The bidder to make checks on.
@@ -301,7 +301,7 @@ public class Auction
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			PreparedStatement statement;
-
+			
 			if (getBidders().get(bidder.getClanId()) != null)
 			{
 				statement = con.prepareStatement("UPDATE auction_bid SET bidderId=?, bidderName=?, maxBid=?, time_bid=? WHERE auctionId=? AND bidderId=?");
@@ -327,11 +327,11 @@ public class Auction
 				statement.execute();
 				statement.close();
 			}
-
+			
 			_highestBidderId = bidder.getClanId();
 			_highestBidderMaxBid = bid;
 			_highestBidderName = bidder.getClan().getLeaderName();
-
+			
 			if (_bidders.get(_highestBidderId) == null)
 				_bidders.put(_highestBidderId, new Bidder(_highestBidderName, bidder.getClan().getName(), bid, Calendar.getInstance().getTimeInMillis()));
 			else
@@ -346,7 +346,7 @@ public class Auction
 			_log.log(Level.SEVERE, "Exception: Auction.updateInDB(Player bidder, int bid): " + e.getMessage(), e);
 		}
 	}
-
+	
 	/**
 	 * Remove bids.
 	 * @param newOwner The Clan object who won the bid.
@@ -364,21 +364,21 @@ public class Auction
 		{
 			_log.log(Level.SEVERE, "Exception: Auction.deleteFromDB(): " + e.getMessage(), e);
 		}
-
+		
 		Clan biddingClan;
 		for (Bidder b : _bidders.values())
 		{
 			biddingClan = ClanTable.getInstance().getClanByName(b.getClanName());
 			biddingClan.setAuctionBiddedAt(0);
-
+			
 			if (biddingClan != newOwner)
 				returnItem(b.getClanName(), b.getBid(), true); // 10 % tax
-
+				
 			biddingClan.broadcastToOnlineMembers(SystemMessage.getSystemMessage(SystemMessageId.CLANHALL_AWARDED_TO_CLAN_S1).addString(newOwner.getName()));
 		}
 		_bidders.clear();
 	}
-
+	
 	/** Remove auctions */
 	public void deleteAuctionFromDB()
 	{
@@ -395,7 +395,7 @@ public class Auction
 			_log.log(Level.SEVERE, "Exception: Auction.deleteFromDB(): " + e.getMessage(), e);
 		}
 	}
-
+	
 	/** End of auction */
 	public void endAuction()
 	{
@@ -406,28 +406,28 @@ public class Auction
 				startAutoTask();
 				return;
 			}
-
+			
 			// If seller hasn't sell clanHall, the auction is dropped. Money of seller is lost.
 			if (_highestBidderId == 0 && _sellerId > 0)
 			{
 				int aucId = AuctionManager.getInstance().getAuctionIndex(_id);
 				AuctionManager.getInstance().getAuctions().remove(aucId);
-
+				
 				// Retrieves the seller.
 				Clan owner = ClanTable.getInstance().getClanByName(_sellerClanName);
 				owner.broadcastToOnlineMembers(SystemMessage.getSystemMessage(SystemMessageId.CLANHALL_NOT_SOLD));
 				return;
 			}
-
+			
 			// Return intial lease of seller + highest bid amount.
 			if (_sellerId > 0)
 			{
 				returnItem(_sellerClanName, _highestBidderMaxBid, true);
 				returnItem(_sellerClanName, ClanHallManager.getInstance().getClanHallById(_itemId).getLease(), false);
 			}
-
+			
 			deleteAuctionFromDB();
-
+			
 			Clan newOwner = ClanTable.getInstance().getClanByName(_bidders.get(_highestBidderId).getClanName());
 			removeBids(newOwner);
 			ClanHallManager.getInstance().setOwner(_itemId, newOwner);
@@ -436,7 +436,7 @@ public class Auction
 		else
 			ThreadPool.schedule(new AutoEndTask(), 3000);
 	}
-
+	
 	/**
 	 * Cancel bid
 	 * @param bidder The bidder id.
@@ -455,20 +455,20 @@ public class Auction
 		{
 			_log.log(Level.SEVERE, "Exception: Auction.cancelBid(String bidder): " + e.getMessage(), e);
 		}
-
+		
 		returnItem(_bidders.get(bidder).getClanName(), _bidders.get(bidder).getBid(), true);
 		ClanTable.getInstance().getClanByName(_bidders.get(bidder).getClanName()).setAuctionBiddedAt(0);
 		_bidders.clear();
 		loadBid();
 	}
-
+	
 	/** Cancel auction */
 	public void cancelAuction()
 	{
 		deleteAuctionFromDB();
 		removeBids(ClanTable.getInstance().getClanByName(_sellerClanName));
 	}
-
+	
 	/** Confirm an auction */
 	public void confirmAuction()
 	{
@@ -494,7 +494,7 @@ public class Auction
 			_log.log(Level.SEVERE, "Exception: Auction.load(): " + e.getMessage(), e);
 		}
 	}
-
+	
 	/**
 	 * @return the auction id.
 	 */
@@ -502,62 +502,62 @@ public class Auction
 	{
 		return _id;
 	}
-
+	
 	public final int getCurrentBid()
 	{
 		return _currentBid;
 	}
-
+	
 	public final long getEndDate()
 	{
 		return _endDate;
 	}
-
+	
 	public final int getHighestBidderId()
 	{
 		return _highestBidderId;
 	}
-
+	
 	public final String getHighestBidderName()
 	{
 		return _highestBidderName;
 	}
-
+	
 	public final int getHighestBidderMaxBid()
 	{
 		return _highestBidderMaxBid;
 	}
-
+	
 	public final int getItemId()
 	{
 		return _itemId;
 	}
-
+	
 	public final String getItemName()
 	{
 		return _itemName;
 	}
-
+	
 	public final int getSellerId()
 	{
 		return _sellerId;
 	}
-
+	
 	public final String getSellerName()
 	{
 		return _sellerName;
 	}
-
+	
 	public final String getSellerClanName()
 	{
 		return _sellerClanName;
 	}
-
+	
 	public final int getStartingBid()
 	{
 		return _startingBid;
 	}
-
+	
 	public final Map<Integer, Bidder> getBidders()
 	{
 		return _bidders;

@@ -12,30 +12,30 @@ import com.l2j4team.gameserver.model.itemcontainer.Inventory;
 public class ArmorSetListener implements OnEquipListener
 {
 	private static ArmorSetListener instance = new ArmorSetListener();
-
+	
 	public static ArmorSetListener getInstance()
 	{
 		return instance;
 	}
-
+	
 	@Override
 	public void onEquip(int slot, ItemInstance item, Playable actor)
 	{
 		if (!item.isEquipable())
 			return;
-
+		
 		final Player player = (Player) actor;
-
+		
 		// Checks if player is wearing a chest item
 		final ItemInstance chestItem = player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
 		if (chestItem == null)
 			return;
-
+		
 		// checks if there is armorset for chest item that player worns
 		final ArmorSet armorSet = ArmorSetData.getInstance().getSet(chestItem.getItemId());
 		if (armorSet == null)
 			return;
-
+		
 		// checks if equipped item is part of set
 		if (armorSet.containItem(slot, item.getItemId()))
 		{
@@ -48,7 +48,7 @@ public class ArmorSetListener implements OnEquipListener
 					player.addSkill(skill, false);
 					player.sendSkillList();
 				}
-
+				
 				if (armorSet.containShield(player)) // has shield from set
 				{
 					L2Skill skills = SkillTable.getInstance().getInfo(armorSet.getShieldSkillId(), 1);
@@ -58,7 +58,7 @@ public class ArmorSetListener implements OnEquipListener
 						player.sendSkillList();
 					}
 				}
-
+				
 				if (armorSet.isEnchanted6(player)) // has all parts of set enchanted to 6 or more
 				{
 					int skillId = armorSet.getEnchant6skillId();
@@ -87,23 +87,23 @@ public class ArmorSetListener implements OnEquipListener
 			}
 		}
 	}
-
+	
 	@Override
 	public void onUnequip(int slot, ItemInstance item, Playable actor)
 	{
 		final Player player = (Player) actor;
-
+		
 		boolean remove = false;
 		int removeSkillId1 = 0; // set skill
 		int removeSkillId2 = 0; // shield skill
 		int removeSkillId3 = 0; // enchant +6 skill
-
+		
 		if (slot == Inventory.PAPERDOLL_CHEST)
 		{
 			final ArmorSet armorSet = ArmorSetData.getInstance().getSet(item.getItemId());
 			if (armorSet == null)
 				return;
-
+			
 			remove = true;
 			removeSkillId1 = armorSet.getSkillId();
 			removeSkillId2 = armorSet.getShieldSkillId();
@@ -114,11 +114,11 @@ public class ArmorSetListener implements OnEquipListener
 			final ItemInstance chestItem = player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
 			if (chestItem == null)
 				return;
-
+			
 			final ArmorSet armorSet = ArmorSetData.getInstance().getSet(chestItem.getItemId());
 			if (armorSet == null)
 				return;
-
+			
 			if (armorSet.containItem(slot, item.getItemId())) // removed part of set
 			{
 				remove = true;
@@ -132,7 +132,7 @@ public class ArmorSetListener implements OnEquipListener
 				removeSkillId2 = armorSet.getShieldSkillId();
 			}
 		}
-
+		
 		if (remove)
 		{
 			if (removeSkillId1 != 0)
@@ -144,14 +144,14 @@ public class ArmorSetListener implements OnEquipListener
 					player.removeSkill(skill);
 				}
 			}
-
+			
 			if (removeSkillId2 != 0)
 			{
 				L2Skill skill = SkillTable.getInstance().getInfo(removeSkillId2, 1);
 				if (skill != null)
 					player.removeSkill(skill);
 			}
-
+			
 			if (removeSkillId3 != 0)
 			{
 				L2Skill skill = SkillTable.getInstance().getInfo(removeSkillId3, 1);

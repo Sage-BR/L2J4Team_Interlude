@@ -16,7 +16,7 @@ import com.l2j4team.commons.util.ArraysUtil;
 public class Q227_TestOfTheReformer extends Quest
 {
 	private static final String qn = "Q227_TestOfTheReformer";
-
+	
 	// Items
 	private static final int BOOK_OF_REFORM = 2822;
 	private static final int LETTER_OF_INTRODUCTION = 2823;
@@ -37,11 +37,11 @@ public class Q227_TestOfTheReformer extends Quest
 	private static final int BONE_FRAGMENT_8 = 2838;
 	private static final int BONE_FRAGMENT_9 = 2839;
 	private static final int KAKAN_LETTER = 3037;
-
+	
 	// Rewards
 	private static final int MARK_OF_REFORMER = 2821;
 	private static final int DIMENSIONAL_DIAMOND = 7562;
-
+	
 	// NPCs
 	private static final int PUPINA = 30118;
 	private static final int SLA = 30666;
@@ -50,7 +50,7 @@ public class Q227_TestOfTheReformer extends Quest
 	private static final int KAKAN = 30669;
 	private static final int NYAKURI = 30670;
 	private static final int OL_MAHUM_PILGRIM = 30732;
-
+	
 	// Monsters
 	private static final int MISERY_SKELETON = 20022;
 	private static final int SKELETON_ARCHER = 20100;
@@ -63,17 +63,17 @@ public class Q227_TestOfTheReformer extends Quest
 	private static final int OL_MAHUM_BETRAYER = 27130;
 	private static final int CRIMSON_WEREWOLF = 27131;
 	private static final int KRUDEL_LIZARDMAN = 27132;
-
+	
 	// Checks & Instances
 	private static long _timer;
-
+	
 	private static Npc _olMahumInspector;
 	private static Npc _olMahumPilgrim;
 	private static Npc _olMahumBetrayer;
-
+	
 	private static boolean _crimsonWerewolf = false;
 	private static boolean _krudelLizardman = false;
-
+	
 	// Allowed skills when attacking Crimson Werewolf
 	private static final int[] ALLOWED_SKILLS =
 	{
@@ -87,20 +87,20 @@ public class Q227_TestOfTheReformer extends Quest
 		1201,
 		1206
 	};
-
+	
 	public Q227_TestOfTheReformer()
 	{
 		super(227, "Test Of The Reformer");
-
+		
 		setItemsIds(BOOK_OF_REFORM, LETTER_OF_INTRODUCTION, SLA_LETTER, GREETINGS, OL_MAHUM_MONEY, KATARI_LETTER, NYAKURI_LETTER, UNDEAD_LIST, RAMUS_LETTER, RIPPED_DIARY, HUGE_NAIL, LETTER_OF_BETRAYER, BONE_FRAGMENT_4, BONE_FRAGMENT_5, BONE_FRAGMENT_6, BONE_FRAGMENT_7, BONE_FRAGMENT_8, BONE_FRAGMENT_9, KAKAN_LETTER);
-
+		
 		addStartNpc(PUPINA);
 		addTalkId(PUPINA, SLA, RAMUS, KATARI, KAKAN, NYAKURI, OL_MAHUM_PILGRIM);
-
+		
 		addAttackId(NAMELESS_REVENANT, CRIMSON_WEREWOLF);
 		addKillId(MISERY_SKELETON, SKELETON_ARCHER, SKELETON_MARKSMAN, SKELETON_LORD, SILENT_HORROR, NAMELESS_REVENANT, ARURAUNE, OL_MAHUM_INSPECTOR, OL_MAHUM_BETRAYER, CRIMSON_WEREWOLF, KRUDEL_LIZARDMAN);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -108,7 +108,7 @@ public class Q227_TestOfTheReformer extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// PUPINA
 		if (event.equalsIgnoreCase("30118-04.htm"))
 		{
@@ -116,7 +116,7 @@ public class Q227_TestOfTheReformer extends Quest
 			st.set("cond", "1");
 			st.playSound(QuestState.SOUND_ACCEPT);
 			st.giveItems(BOOK_OF_REFORM, 1);
-
+			
 			if (!player.getMemos().getBool("secondClassChange39", false))
 			{
 				htmltext = "30118-04b.htm";
@@ -148,12 +148,12 @@ public class Q227_TestOfTheReformer extends Quest
 				st.set("cond", "12");
 				st.playSound(QuestState.SOUND_MIDDLE);
 			}
-
+			
 			if (!_crimsonWerewolf)
 			{
 				addSpawn(CRIMSON_WEREWOLF, -9382, -89852, -2333, 0, false, 299000, true);
 				_crimsonWerewolf = true;
-
+				
 				// Resets Crimson Werewolf
 				startQuestTimer("werewolf_cleanup", 300000, null, player, false);
 			}
@@ -167,7 +167,7 @@ public class Q227_TestOfTheReformer extends Quest
 			{
 				addSpawn(KRUDEL_LIZARDMAN, 126019, -179983, -1781, 0, false, 299000, true);
 				_krudelLizardman = true;
-
+				
 				// Resets Krudel Lizardman
 				startQuestTimer("lizardman_cleanup", 300000, null, player, false);
 			}
@@ -186,7 +186,7 @@ public class Q227_TestOfTheReformer extends Quest
 		else if (event.equalsIgnoreCase("ol_mahums_despawn"))
 		{
 			_timer++;
-
+			
 			if (st.getInt("cond") == 8 || _timer >= 60)
 			{
 				if (_olMahumPilgrim != null)
@@ -194,7 +194,7 @@ public class Q227_TestOfTheReformer extends Quest
 					_olMahumPilgrim.deleteMe();
 					_olMahumPilgrim = null;
 				}
-
+				
 				if (_olMahumInspector != null)
 				{
 					_olMahumInspector.deleteMe();
@@ -203,7 +203,7 @@ public class Q227_TestOfTheReformer extends Quest
 				cancelQuestTimer("ol_mahums_despawn", null, player);
 				_timer = 0;
 			}
-
+			
 			return null;
 		}
 		else if (event.equalsIgnoreCase("betrayer_despawn"))
@@ -213,7 +213,7 @@ public class Q227_TestOfTheReformer extends Quest
 				_olMahumBetrayer.deleteMe();
 				_olMahumBetrayer = null;
 			}
-
+			
 			return null;
 		}
 		// Clean ups
@@ -227,10 +227,10 @@ public class Q227_TestOfTheReformer extends Quest
 			_krudelLizardman = false;
 			return null;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -238,7 +238,7 @@ public class Q227_TestOfTheReformer extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -247,7 +247,7 @@ public class Q227_TestOfTheReformer extends Quest
 				else
 					htmltext = "30118-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -260,7 +260,7 @@ public class Q227_TestOfTheReformer extends Quest
 						else if (cond > 3)
 							htmltext = "30118-07.htm";
 						break;
-
+					
 					case SLA:
 						if (cond == 4)
 							htmltext = "30666-01.htm";
@@ -290,30 +290,30 @@ public class Q227_TestOfTheReformer extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case KATARI:
 						if (cond == 5 || cond == 6)
 						{
 							htmltext = "30668-01.htm";
-
+							
 							if (cond == 5)
 							{
 								st.set("cond", "6");
 								st.playSound(QuestState.SOUND_MIDDLE);
 								st.takeItems(SLA_LETTER, 1);
 							}
-
+							
 							if (_olMahumPilgrim == null && _olMahumInspector == null)
 							{
 								_olMahumPilgrim = addSpawn(OL_MAHUM_PILGRIM, -4015, 40141, -3664, 0, false, 0, true);
 								_olMahumInspector = addSpawn(OL_MAHUM_INSPECTOR, -4034, 40201, -3665, 0, false, 0, true);
-
+								
 								// Resets Ol Mahums' instances
 								startQuestTimer("ol_mahums_despawn", 5000, null, player, true);
-
+								
 								((Attackable) _olMahumInspector).addDamageHate(_olMahumPilgrim, 0, 99999);
 								_olMahumInspector.getAI().setIntention(CtrlIntention.ATTACK, _olMahumPilgrim);
-
+								
 								// TODO : make L2Npc be able to attack L2Attackable.
 								// ((L2Attackable) _olMahumPilgrim).addDamageHate(_olMahumInspector, 0, 99999);
 								// _olMahumPilgrim.getAI().setIntention(CtrlIntention.ATTACK, _olMahumInspector);
@@ -322,11 +322,11 @@ public class Q227_TestOfTheReformer extends Quest
 						else if (cond == 7)
 						{
 							htmltext = "30668-01.htm";
-
+							
 							if (_olMahumPilgrim == null)
 							{
 								_olMahumPilgrim = addSpawn(OL_MAHUM_PILGRIM, -4015, 40141, -3664, 0, false, 0, true);
-
+								
 								// Resets Ol Mahums' instances
 								startQuestTimer("ol_mahums_despawn", 5000, null, player, true);
 							}
@@ -334,13 +334,13 @@ public class Q227_TestOfTheReformer extends Quest
 						else if (cond == 8)
 						{
 							htmltext = "30668-02.htm";
-
+							
 							if (_olMahumBetrayer == null)
 							{
 								_olMahumBetrayer = addSpawn(OL_MAHUM_BETRAYER, -4106, 40174, -3660, 0, false, 0, true);
 								_olMahumBetrayer.setRunning();
 								_olMahumBetrayer.getAI().setIntention(CtrlIntention.MOVE_TO, new Location(-7732, 36787, -3709));
-
+								
 								// Resets Ol Mahum Betrayer's instance
 								startQuestTimer("betrayer_despawn", 40000, null, player, false);
 							}
@@ -356,7 +356,7 @@ public class Q227_TestOfTheReformer extends Quest
 						else if (cond > 9)
 							htmltext = "30668-04.htm";
 						break;
-
+					
 					case OL_MAHUM_PILGRIM:
 						if (cond == 7)
 						{
@@ -366,7 +366,7 @@ public class Q227_TestOfTheReformer extends Quest
 							st.giveItems(OL_MAHUM_MONEY, 1);
 						}
 						break;
-
+					
 					case KAKAN:
 						if (cond == 11 || cond == 12)
 							htmltext = "30669-01.htm";
@@ -381,7 +381,7 @@ public class Q227_TestOfTheReformer extends Quest
 						else if (cond > 13)
 							htmltext = "30669-04.htm";
 						break;
-
+					
 					case NYAKURI:
 						if (cond == 14 || cond == 15)
 							htmltext = "30670-01.htm";
@@ -396,7 +396,7 @@ public class Q227_TestOfTheReformer extends Quest
 						else if (cond > 16)
 							htmltext = "30670-04.htm";
 						break;
-
+					
 					case RAMUS:
 						if (cond == 17)
 						{
@@ -426,22 +426,22 @@ public class Q227_TestOfTheReformer extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
 		QuestState st = checkPlayerState(attacker, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int cond = st.getInt("cond");
 		switch (npc.getNpcId())
 		{
@@ -449,7 +449,7 @@ public class Q227_TestOfTheReformer extends Quest
 				if ((cond == 1 || cond == 2) && skill != null && skill.getId() == 1031)
 					npc.setScriptValue(1);
 				break;
-
+			
 			case CRIMSON_WEREWOLF:
 				if (cond == 12 && !npc.isScriptValue(1) && (skill == null || !ArraysUtil.contains(ALLOWED_SKILLS, skill.getId())))
 				{
@@ -458,17 +458,17 @@ public class Q227_TestOfTheReformer extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		int cond = st.getInt("cond");
 		switch (npc.getNpcId())
 		{
@@ -480,7 +480,7 @@ public class Q227_TestOfTheReformer extends Quest
 					addSpawn(ARURAUNE, npc, false, 300000, true);
 				}
 				break;
-
+			
 			case ARURAUNE:
 				if (cond == 2)
 				{
@@ -490,7 +490,7 @@ public class Q227_TestOfTheReformer extends Quest
 					npc.broadcastNpcSay("The concealed truth will always be revealed...!");
 				}
 				break;
-
+			
 			case OL_MAHUM_INSPECTOR:
 				if (cond == 6)
 				{
@@ -498,7 +498,7 @@ public class Q227_TestOfTheReformer extends Quest
 					st.playSound(QuestState.SOUND_MIDDLE);
 				}
 				break;
-
+			
 			case OL_MAHUM_BETRAYER:
 				if (cond == 8)
 				{
@@ -509,7 +509,7 @@ public class Q227_TestOfTheReformer extends Quest
 					_olMahumBetrayer = null;
 				}
 				break;
-
+			
 			case CRIMSON_WEREWOLF:
 				if (cond == 12)
 				{
@@ -519,7 +519,7 @@ public class Q227_TestOfTheReformer extends Quest
 					_crimsonWerewolf = false;
 				}
 				break;
-
+			
 			case KRUDEL_LIZARDMAN:
 				if (cond == 15)
 				{
@@ -529,7 +529,7 @@ public class Q227_TestOfTheReformer extends Quest
 					_krudelLizardman = false;
 				}
 				break;
-
+			
 			case SILENT_HORROR:
 				if (cond == 18 && !st.hasQuestItems(BONE_FRAGMENT_4))
 				{
@@ -543,7 +543,7 @@ public class Q227_TestOfTheReformer extends Quest
 						st.playSound(QuestState.SOUND_ITEMGET);
 				}
 				break;
-
+			
 			case SKELETON_LORD:
 				if (cond == 18 && !st.hasQuestItems(BONE_FRAGMENT_5))
 				{
@@ -557,7 +557,7 @@ public class Q227_TestOfTheReformer extends Quest
 						st.playSound(QuestState.SOUND_ITEMGET);
 				}
 				break;
-
+			
 			case SKELETON_MARKSMAN:
 				if (cond == 18 && !st.hasQuestItems(BONE_FRAGMENT_6))
 				{
@@ -571,7 +571,7 @@ public class Q227_TestOfTheReformer extends Quest
 						st.playSound(QuestState.SOUND_ITEMGET);
 				}
 				break;
-
+			
 			case MISERY_SKELETON:
 				if (cond == 18 && !st.hasQuestItems(BONE_FRAGMENT_7))
 				{
@@ -585,7 +585,7 @@ public class Q227_TestOfTheReformer extends Quest
 						st.playSound(QuestState.SOUND_ITEMGET);
 				}
 				break;
-
+			
 			case SKELETON_ARCHER:
 				if (cond == 18 && !st.hasQuestItems(BONE_FRAGMENT_8))
 				{
@@ -600,7 +600,7 @@ public class Q227_TestOfTheReformer extends Quest
 				}
 				break;
 		}
-
+		
 		return null;
 	}
 }

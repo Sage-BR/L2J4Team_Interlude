@@ -70,12 +70,12 @@ import java.util.Map;
 public class AdminCommandHandler
 {
 	private final Map<Integer, IAdminCommandHandler> _datatable = new HashMap<>();
-
+	
 	public static AdminCommandHandler getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected AdminCommandHandler()
 	{
 		registerAdminCommandHandler(new AdminVip());
@@ -125,7 +125,7 @@ public class AdminCommandHandler
 		registerAdminCommandHandler(new AdminTarget());
 		registerAdminCommandHandler(new AdminTeleport());
 		registerAdminCommandHandler(new AdminZone());
-
+		
 		// custom
 		registerAdminCommandHandler(new AdminZoneCreation());
 		registerAdminCommandHandler(new AdminInventory());
@@ -143,30 +143,30 @@ public class AdminCommandHandler
 		registerAdminCommandHandler(new AdminChatManager());
 		registerAdminCommandHandler(new AdminRecallAll());
 		registerAdminCommandHandler(new AdminSearch());
-
+		
 	}
-
+	
 	public void registerAdminCommandHandler(IAdminCommandHandler handler)
 	{
 		for (String id : handler.getAdminCommandList())
 			_datatable.put(id.hashCode(), handler);
 	}
-
+	
 	public IAdminCommandHandler getAdminCommandHandler(String adminCommand)
 	{
 		String command = adminCommand;
-
+		
 		if (adminCommand.indexOf(" ") != -1)
 			command = adminCommand.substring(0, adminCommand.indexOf(" "));
-
+		
 		return _datatable.get(command.hashCode());
 	}
-
+	
 	public int size()
 	{
 		return _datatable.size();
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final AdminCommandHandler _instance = new AdminCommandHandler();

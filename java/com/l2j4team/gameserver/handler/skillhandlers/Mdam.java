@@ -22,27 +22,27 @@ public class Mdam implements ISkillHandler
 		L2SkillType.MDAM,
 		L2SkillType.DEATHLINK
 	};
-
+	
 	@Override
 	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
 	{
 		if (activeChar.isAlikeDead())
 			return;
-
+		
 		final boolean sps = activeChar.isChargedShot(ShotType.SPIRITSHOT);
 		final boolean bsps = activeChar.isChargedShot(ShotType.BLESSED_SPIRITSHOT);
-
+		
 		for (WorldObject obj : targets)
 		{
 			if (!(obj instanceof Creature))
 				continue;
-
+			
 			final Creature target = ((Creature) obj);
 			if (activeChar instanceof Player && target instanceof Player && ((Player) target).isFakeDeath())
 				target.stopFakeDeath(true);
 			else if (target.isDead())
 				continue;
-
+			
 			boolean mcrit;
 			if (Config.OLY_ENABLE_CUSTOM_CRIT && activeChar instanceof Player && activeChar.isInOlympiadMode())
 			{
@@ -76,16 +76,16 @@ public class Mdam implements ISkillHandler
 			}
 			else
 				mcrit = Formulas.calcMCrit(activeChar.getMCriticalHit(target, skill));
-
+			
 			final byte shld = Formulas.calcShldUse(activeChar, target, skill);
 			final byte reflect = Formulas.calcSkillReflect(target, skill);
-
+			
 			int damage = (int) Formulas.calcMagicDam(activeChar, target, skill, shld, sps, bsps, mcrit);
 			if (damage > 0)
 			{
 				// Manage cast break of the target (calculating rate, sending message...)
 				Formulas.calcCastBreak(target, damage);
-
+				
 				// vengeance reflected damage
 				if ((reflect & Formulas.SKILL_REFLECT_VENGEANCE) != 0)
 					activeChar.reduceCurrentHp(damage, target, skill);
@@ -94,7 +94,7 @@ public class Mdam implements ISkillHandler
 					activeChar.sendDamageMessage(target, damage, mcrit, false, false);
 					target.reduceCurrentHp(damage, activeChar, skill);
 				}
-
+				
 				if (skill.hasEffects() && target.getFirstEffect(L2EffectType.BLOCK_DEBUFF) == null)
 				{
 					if ((reflect & Formulas.SKILL_REFLECT_SUCCEED) != 0) // reflect skill effects
@@ -115,22 +115,22 @@ public class Mdam implements ISkillHandler
 				}
 			}
 		}
-
+		
 		if (skill.hasSelfEffects())
 		{
 			final L2Effect effect = activeChar.getFirstEffect(skill.getId());
 			if (effect != null && effect.isSelfEffect())
 				effect.exit();
-
+			
 			skill.getEffectsSelf(activeChar);
 		}
-
+		
 		if (skill.isSuicideAttack())
 			activeChar.doDie(null);
-
+		
 		activeChar.setChargedShot(bsps ? ShotType.BLESSED_SPIRITSHOT : ShotType.SPIRITSHOT, skill.isStaticReuse());
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

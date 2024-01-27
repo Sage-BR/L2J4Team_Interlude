@@ -18,7 +18,7 @@ public abstract class Func
 	 * Statistics, that is affected by this function (See Creature.CALCULATOR_XXX constants)
 	 */
 	public final Stats stat;
-
+	
 	/**
 	 * Order of functions calculation.<br>
 	 * Functions with lower order are executed first.<br>
@@ -28,20 +28,20 @@ public abstract class Func
 	 * calculations (non-linear functions).
 	 */
 	public final int order;
-
+	
 	/**
 	 * Owner can be an armor, weapon, skill, system event, quest, etc.<br>
 	 * Used to remove all functions added by this owner.
 	 */
 	public final Object funcOwner;
-
+	
 	/**
 	 * Function may be disabled by attached condition.
 	 */
 	public Condition cond;
-
+	
 	public Lambda _lambda;
-
+	
 	/**
 	 * Constructor of Func.
 	 * @param pStat
@@ -56,7 +56,7 @@ public abstract class Func
 		funcOwner = owner;
 		_lambda = lambda;
 	}
-
+	
 	/**
 	 * Add a condition to the Func.
 	 * @param pCond
@@ -65,7 +65,7 @@ public abstract class Func
 	{
 		cond = pCond;
 	}
-
+	
 	/**
 	 * Run the mathematics function of the Func.
 	 * @param env

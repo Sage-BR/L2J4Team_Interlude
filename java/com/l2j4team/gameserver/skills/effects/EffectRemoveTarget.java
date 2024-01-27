@@ -14,13 +14,13 @@ public class EffectRemoveTarget extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.REMOVE_TARGET;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
@@ -33,12 +33,12 @@ public class EffectRemoveTarget extends L2Effect
 		}
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

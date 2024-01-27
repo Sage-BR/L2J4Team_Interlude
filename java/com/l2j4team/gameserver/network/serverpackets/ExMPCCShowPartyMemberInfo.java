@@ -24,18 +24,18 @@ import com.l2j4team.gameserver.model.actor.instance.Player;
 public class ExMPCCShowPartyMemberInfo extends L2GameServerPacket
 {
 	private final L2Party _party;
-
+	
 	public ExMPCCShowPartyMemberInfo(L2Party party)
 	{
 		_party = party;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
 		writeC(0xfe);
 		writeH(0x4a);
-
+		
 		writeD(_party.getMemberCount());
 		for (Player pc : _party.getPartyMembers())
 		{

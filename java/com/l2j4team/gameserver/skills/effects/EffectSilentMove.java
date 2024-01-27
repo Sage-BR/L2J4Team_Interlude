@@ -14,46 +14,46 @@ public class EffectSilentMove extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		super.onStart();
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		super.onExit();
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.SILENT_MOVE;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		// Only cont skills shouldn't end
 		if ((getSkill().getSkillType() != L2SkillType.CONT) || getEffected().isDead())
 			return false;
-
+		
 		double manaDam = calc();
-
+		
 		if (manaDam > getEffected().getCurrentMp())
 		{
 			SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.SKILL_REMOVED_DUE_LACK_MP);
 			getEffected().sendPacket(sm);
 			return false;
 		}
-
+		
 		getEffected().reduceCurrentMp(manaDam);
 		return true;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

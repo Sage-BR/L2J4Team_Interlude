@@ -24,11 +24,11 @@ public final class Broadcast
 		{
 			if (player.getTarget() != character)
 				continue;
-
+			
 			player.sendPacket(packet);
 		}
 	}
-
+	
 	/**
 	 * Send a packet to all known players of the Creature.
 	 * @param character : The character to make checks on.
@@ -39,7 +39,7 @@ public final class Broadcast
 		for (Player player : character.getKnownType(Player.class))
 			player.sendPacket(packet);
 	}
-
+	
 	/**
 	 * Send a packet to all known players, in a specified radius, of the Creature.
 	 * @param character : The character to make checks on.
@@ -50,11 +50,11 @@ public final class Broadcast
 	{
 		if (radius < 0)
 			radius = 1500;
-
+		
 		for (Player player : character.getKnownTypeInRadius(Player.class, radius))
 			player.sendPacket(packet);
 	}
-
+	
 	/**
 	 * Send a packet to all known players of the Creature and to the specified Creature.
 	 * @param character : The character to make checks on.
@@ -64,10 +64,10 @@ public final class Broadcast
 	{
 		if (character instanceof Player)
 			character.sendPacket(packet);
-
+		
 		toKnownPlayers(character, packet);
 	}
-
+	
 	/**
 	 * Send a packet to all known players, in a specified radius, of the Creature and to the specified Creature.
 	 * @param character : The character to make checks on.
@@ -78,14 +78,14 @@ public final class Broadcast
 	{
 		if (radius < 0)
 			radius = 600;
-
+		
 		if (character instanceof Player)
 			character.sendPacket(packet);
-
+		
 		for (Player player : character.getKnownTypeInRadius(Player.class, radius))
 			player.sendPacket(packet);
 	}
-
+	
 	/**
 	 * Send a packet to all players present in the world.
 	 * @param packet : The packet to send.
@@ -98,7 +98,7 @@ public final class Broadcast
 				player.sendPacket(packet);
 		}
 	}
-
+	
 	/**
 	 * Send a packet to all players in a specific region.
 	 * @param region : The region to send packets.
@@ -116,7 +116,7 @@ public final class Broadcast
 			}
 		}
 	}
-
+	
 	/**
 	 * Send a packet to all players in a specific zone type.
 	 * @param <T> L2ZoneType.
@@ -134,12 +134,12 @@ public final class Broadcast
 			}
 		}
 	}
-
+	
 	public static void announceToOnlinePlayers(String text)
 	{
 		toAllOnlinePlayers(new CreatureSay(0, Say2.ANNOUNCEMENT, "", text));
 	}
-
+	
 	public static void announceToOnlinePlayers(String text, int value)
 	{
 		if (value == 0)
@@ -161,7 +161,7 @@ public final class Broadcast
 		else if (value == 8)
 			toAllOnlinePlayers(new CreatureSay(0, Say2.ALLIANCE, "SYS", text));
 	}
-
+	
 	public static void toAllOnlineGMs(L2GameServerPacket mov)
 	{
 		for (Player player : World.getAllGMs())

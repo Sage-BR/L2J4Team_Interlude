@@ -10,34 +10,34 @@ import com.l2j4team.commons.random.Rnd;
 public class Q380_BringOutTheFlavorOfIngredients extends Quest
 {
 	private static final String qn = "Q380_BringOutTheFlavorOfIngredients";
-
+	
 	// Monsters
 	private static final int DIRE_WOLF = 20205;
 	private static final int KADIF_WEREWOLF = 20206;
 	private static final int GIANT_MIST_LEECH = 20225;
-
+	
 	// Items
 	private static final int RITRON_FRUIT = 5895;
 	private static final int MOON_FACE_FLOWER = 5896;
 	private static final int LEECH_FLUIDS = 5897;
 	private static final int ANTIDOTE = 1831;
-
+	
 	// Rewards
 	private static final int RITRON_JELLY = 5960;
 	private static final int JELLY_RECIPE = 5959;
-
+	
 	public Q380_BringOutTheFlavorOfIngredients()
 	{
 		super(380, "Bring Out the Flavor of Ingredients!");
-
+		
 		setItemsIds(RITRON_FRUIT, MOON_FACE_FLOWER, LEECH_FLUIDS);
-
+		
 		addStartNpc(30069); // Rollant
 		addTalkId(30069);
-
+		
 		addKillId(DIRE_WOLF, KADIF_WEREWOLF, GIANT_MIST_LEECH);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -45,7 +45,7 @@ public class Q380_BringOutTheFlavorOfIngredients extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30069-04.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -58,10 +58,10 @@ public class Q380_BringOutTheFlavorOfIngredients extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -69,13 +69,13 @@ public class Q380_BringOutTheFlavorOfIngredients extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 24) ? "30069-00.htm" : "30069-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				if (cond == 1)
@@ -127,17 +127,17 @@ public class Q380_BringOutTheFlavorOfIngredients extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "1");
 		if (st == null)
 			return null;
-
+		
 		switch (npc.getNpcId())
 		{
 			case DIRE_WOLF:
@@ -145,20 +145,20 @@ public class Q380_BringOutTheFlavorOfIngredients extends Quest
 					if (st.getQuestItemsCount(MOON_FACE_FLOWER) == 20 && st.getQuestItemsCount(LEECH_FLUIDS) == 10)
 						st.set("cond", "2");
 				break;
-
+			
 			case KADIF_WEREWOLF:
 				if (st.dropItems(MOON_FACE_FLOWER, 1, 20, 500000))
 					if (st.getQuestItemsCount(RITRON_FRUIT) == 4 && st.getQuestItemsCount(LEECH_FLUIDS) == 10)
 						st.set("cond", "2");
 				break;
-
+			
 			case GIANT_MIST_LEECH:
 				if (st.dropItems(LEECH_FLUIDS, 1, 10, 500000))
 					if (st.getQuestItemsCount(RITRON_FRUIT) == 4 && st.getQuestItemsCount(MOON_FACE_FLOWER) == 20)
 						st.set("cond", "2");
 				break;
 		}
-
+		
 		return null;
 	}
 }

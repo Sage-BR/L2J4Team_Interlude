@@ -14,7 +14,7 @@ public class MagicSkillLaunched extends L2GameServerPacket
 	private final int _numberOfTargets;
 	private WorldObject[] _targets;
 	private final int _singleTargetId;
-
+	
 	public MagicSkillLaunched(Creature cha, int skillId, int skillLevel, WorldObject[] targets)
 	{
 		_charObjId = cha.getObjectId();
@@ -24,7 +24,7 @@ public class MagicSkillLaunched extends L2GameServerPacket
 		_targets = targets;
 		_singleTargetId = 0;
 	}
-
+	
 	public MagicSkillLaunched(Creature cha, int skillId, int skillLevel)
 	{
 		_charObjId = cha.getObjectId();
@@ -33,7 +33,7 @@ public class MagicSkillLaunched extends L2GameServerPacket
 		_numberOfTargets = 1;
 		_singleTargetId = cha.getTargetId();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

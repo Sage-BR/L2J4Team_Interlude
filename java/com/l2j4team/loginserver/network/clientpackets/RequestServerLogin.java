@@ -12,22 +12,22 @@ public class RequestServerLogin extends L2LoginClientPacket
 	private int _skey1;
 	private int _skey2;
 	private int _serverId;
-
+	
 	public int getSessionKey1()
 	{
 		return _skey1;
 	}
-
+	
 	public int getSessionKey2()
 	{
 		return _skey2;
 	}
-
+	
 	public int getServerID()
 	{
 		return _serverId;
 	}
-
+	
 	@Override
 	public boolean readImpl()
 	{
@@ -40,7 +40,7 @@ public class RequestServerLogin extends L2LoginClientPacket
 		}
 		return false;
 	}
-
+	
 	@Override
 	public void run()
 	{

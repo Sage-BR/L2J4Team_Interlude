@@ -17,14 +17,14 @@ public class FriendStatus extends L2GameServerPacket
 	private final boolean _online;
 	private final int _objid;
 	private final String _name;
-
+	
 	public FriendStatus(int objId)
 	{
 		_objid = objId;
 		_name = PlayerNameTable.getInstance().getPlayerName(objId);
 		_online = World.getInstance().getPlayer(objId) != null;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

@@ -15,23 +15,23 @@ public class EffectIncreaseCharges extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.INCREASE_CHARGES;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		if ((getEffected() == null) || !(getEffected() instanceof Player))
 			return false;
-
+		
 		((Player) getEffected()).increaseCharges((int) calc(), getCount());
 		return true;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

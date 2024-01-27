@@ -28,45 +28,45 @@ public class L2SoloZone extends L2SpawnZone
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(Creature character)
 	{
 		character.setInsideZone(ZoneId.SOLO_CUSTOM, true);
-
+		
 		if (character instanceof Player)
 		{
 			Player activeChar = (Player) character;
-
+			
 			if (!activeChar.isPhantom())
 				SoloZoneManager.getInstance().checkPlayersArea_ip(activeChar, Integer.valueOf(2), World.getInstance().getPlayers(), Boolean.valueOf(true));
-
+			
 			if (Config.SOLOZONE_HWID_PROTECT && !activeChar.isPhantom())
 				MaxPlayersOnArea(activeChar);
 		}
 		character.sendMessage("You have entered a Solo Zone!");
 	}
-
+	
 	public boolean MaxPlayersOnArea(Player activeChar)
 	{
 		return SoloZoneManager.getInstance().checkPlayersArea(activeChar, Config.MAX_BOX_IN_SOLOZONE, true);
 	}
-
+	
 	@Override
 	protected void onExit(Creature character)
 	{
 		character.setInsideZone(ZoneId.SOLO_CUSTOM, false);
 		character.sendMessage("You have left a Solo Zone!");
 	}
-
+	
 	@Override
 	public void onDieInside(Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(Creature character)
 	{
 	}
-
+	
 }

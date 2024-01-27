@@ -8,7 +8,7 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q016_TheComingDarkness extends Quest
 {
 	private static final String qn = "Q016_TheComingDarkness";
-
+	
 	// NPCs
 	private static final int HIERARCH = 31517;
 	private static final int EVIL_ALTAR_1 = 31512;
@@ -16,20 +16,20 @@ public class Q016_TheComingDarkness extends Quest
 	private static final int EVIL_ALTAR_3 = 31514;
 	private static final int EVIL_ALTAR_4 = 31515;
 	private static final int EVIL_ALTAR_5 = 31516;
-
+	
 	// Item
 	private static final int CRYSTAL_OF_SEAL = 7167;
-
+	
 	public Q016_TheComingDarkness()
 	{
 		super(16, "The Coming Darkness");
-
+		
 		setItemsIds(CRYSTAL_OF_SEAL);
-
+		
 		addStartNpc(HIERARCH);
 		addTalkId(HIERARCH, EVIL_ALTAR_1, EVIL_ALTAR_2, EVIL_ALTAR_3, EVIL_ALTAR_4, EVIL_ALTAR_5);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -37,7 +37,7 @@ public class Q016_TheComingDarkness extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31517-2.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -75,10 +75,10 @@ public class Q016_TheComingDarkness extends Quest
 			st.playSound(QuestState.SOUND_MIDDLE);
 			st.takeItems(CRYSTAL_OF_SEAL, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -86,17 +86,17 @@ public class Q016_TheComingDarkness extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 62) ? "31517-0a.htm" : "31517-0.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				int npcId = npc.getNpcId();
-
+				
 				switch (npcId)
 				{
 					case HIERARCH:
@@ -118,14 +118,14 @@ public class Q016_TheComingDarkness extends Quest
 							}
 						}
 						break;
-
+					
 					case EVIL_ALTAR_1:
 					case EVIL_ALTAR_2:
 					case EVIL_ALTAR_3:
 					case EVIL_ALTAR_4:
 					case EVIL_ALTAR_5:
 						final int condAltar = npcId - 31511;
-
+						
 						if (cond == condAltar)
 						{
 							if (st.hasQuestItems(CRYSTAL_OF_SEAL))
@@ -138,12 +138,12 @@ public class Q016_TheComingDarkness extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

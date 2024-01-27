@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public final class FuncTemplate
 {
 	protected static final Logger _log = Logger.getLogger(FuncTemplate.class.getName());
-
+	
 	public Condition attachCond;
 	public Condition applayCond;
 	public final Class<?> func;
@@ -23,7 +23,7 @@ public final class FuncTemplate
 	public final Stats stat;
 	public final int order;
 	public final Lambda lambda;
-
+	
 	public FuncTemplate(Condition pAttachCond, Condition pApplayCond, String pFunc, Stats pStat, int pOrder, Lambda pLambda)
 	{
 		attachCond = pAttachCond;
@@ -31,7 +31,7 @@ public final class FuncTemplate
 		stat = pStat;
 		order = pOrder;
 		lambda = pLambda;
-
+		
 		try
 		{
 			func = Class.forName("com.l2j4team.gameserver.skills.basefuncs.Func" + pFunc);
@@ -40,7 +40,7 @@ public final class FuncTemplate
 		{
 			throw new RuntimeException(e);
 		}
-
+		
 		try
 		{
 			constructor = func.getConstructor(new Class[]
@@ -57,12 +57,12 @@ public final class FuncTemplate
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public Func getFunc(Env env, Object owner)
 	{
 		if (attachCond != null && !attachCond.test(env))
 			return null;
-
+		
 		try
 		{
 			Func f = (Func) constructor.newInstance(stat, order, owner, lambda);

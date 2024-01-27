@@ -15,13 +15,13 @@ public class Dummy implements ISkillHandler
 		L2SkillType.BEAST_FEED,
 		L2SkillType.DELUXE_KEY_UNLOCK
 	};
-
+	
 	@Override
 	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
 	{
 		if (!(activeChar instanceof Player))
 			return;
-
+		
 		if (skill.getSkillType() == L2SkillType.BEAST_FEED)
 		{
 			final WorldObject target = targets[0];
@@ -29,7 +29,7 @@ public class Dummy implements ISkillHandler
 				return;
 		}
 	}
-
+	
 	@Override
 	public L2SkillType[] getSkillIds()
 	{

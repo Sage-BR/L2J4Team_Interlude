@@ -16,14 +16,14 @@ import org.w3c.dom.Node;
 public class RaidSpawnTable
 {
 	private static Logger _log = Logger.getLogger(RaidSpawnTable.class.getName());
-
+	
 	private static final Map<Integer, List<String>> _map = new HashMap<>();
-
+	
 	public static RaidSpawnTable getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected RaidSpawnTable()
 	{
 		try
@@ -52,7 +52,7 @@ public class RaidSpawnTable
 			_log.warning("RaidBoss FIX SPAWN: Error while loading Raids table: " + e);
 		}
 	}
-
+	
 	public static final List<String> parseList(String line)
 	{
 		List<String> list = new ArrayList<>();
@@ -60,19 +60,19 @@ public class RaidSpawnTable
 			list.add(id);
 		return list;
 	}
-
+	
 	public List<String> getBossSpawn(int bossId)
 	{
 		return _map.get(Integer.valueOf(bossId));
 	}
-
+	
 	public boolean containsBoss(int bossId)
 	{
 		if (_map != null && _map.containsKey(Integer.valueOf(bossId)))
 			return true;
 		return false;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final RaidSpawnTable _instance = new RaidSpawnTable();

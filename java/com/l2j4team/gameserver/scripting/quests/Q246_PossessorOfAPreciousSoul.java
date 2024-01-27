@@ -11,12 +11,12 @@ import com.l2j4team.commons.random.Rnd;
 public class Q246_PossessorOfAPreciousSoul extends Quest
 {
 	private static final String qn = "Q246_PossessorOfAPreciousSoul";
-
+	
 	// NPCs
 	private static final int CARADINE = 31740;
 	private static final int OSSIAN = 31741;
 	private static final int LADD = 30721;
-
+	
 	// Items
 	private static final int WATERBINDER = 7591;
 	private static final int EVERGREEN = 7592;
@@ -24,24 +24,24 @@ public class Q246_PossessorOfAPreciousSoul extends Quest
 	private static final int RELIC_BOX = 7594;
 	private static final int CARADINE_LETTER_1 = 7678;
 	private static final int CARADINE_LETTER_2 = 7679;
-
+	
 	// Mobs
 	private static final int PILGRIM_OF_SPLENDOR = 21541;
 	private static final int JUDGE_OF_SPLENDOR = 21544;
 	private static final int BARAKIEL = 25325;
-
+	
 	public Q246_PossessorOfAPreciousSoul()
 	{
 		super(246, "Possessor of a Precious Soul - 3");
-
+		
 		setItemsIds(WATERBINDER, EVERGREEN, RAIN_SONG, RELIC_BOX);
-
+		
 		addStartNpc(CARADINE);
 		addTalkId(CARADINE, OSSIAN, LADD);
-
+		
 		addKillId(PILGRIM_OF_SPLENDOR, JUDGE_OF_SPLENDOR, BARAKIEL);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -49,7 +49,7 @@ public class Q246_PossessorOfAPreciousSoul extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		// Caradine
 		if (event.equalsIgnoreCase("31740-04.htm"))
 		{
@@ -103,10 +103,10 @@ public class Q246_PossessorOfAPreciousSoul extends Quest
 			else
 				htmltext = null;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -114,18 +114,18 @@ public class Q246_PossessorOfAPreciousSoul extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				if (st.hasQuestItems(CARADINE_LETTER_1))
 					htmltext = (!player.isSubClassActive() || player.getLevel() < 65) ? "31740-02.htm" : "31740-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				if (!player.isSubClassActive())
 					break;
-
+				
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
 				{
@@ -133,7 +133,7 @@ public class Q246_PossessorOfAPreciousSoul extends Quest
 						if (cond == 1)
 							htmltext = "31740-05.htm";
 						break;
-
+					
 					case OSSIAN:
 						if (cond == 1)
 							htmltext = "31741-01.htm";
@@ -154,21 +154,21 @@ public class Q246_PossessorOfAPreciousSoul extends Quest
 						else if (cond == 6)
 							htmltext = "31741-09.htm";
 						break;
-
+					
 					case LADD:
 						if (cond == 6 && st.hasQuestItems(RELIC_BOX))
 							htmltext = "30721-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
@@ -179,7 +179,7 @@ public class Q246_PossessorOfAPreciousSoul extends Quest
 			{
 				if (!plr.isSubClassActive())
 					continue;
-
+				
 				QuestState st = plr.getQuestState(qn);
 				if (!st.hasQuestItems(RAIN_SONG))
 				{
@@ -193,19 +193,19 @@ public class Q246_PossessorOfAPreciousSoul extends Quest
 		{
 			if (!player.isSubClassActive())
 				return null;
-
+			
 			QuestState st = checkPlayerCondition(player, npc, "cond", "2");
 			if (st == null)
 				return null;
-
+			
 			if (Rnd.get(10) < 2)
 			{
 				final int neklaceOrRing = (npcId == PILGRIM_OF_SPLENDOR) ? WATERBINDER : EVERGREEN;
-
+				
 				if (!st.hasQuestItems(neklaceOrRing))
 				{
 					st.giveItems(neklaceOrRing, 1);
-
+					
 					if (!st.hasQuestItems((npcId == PILGRIM_OF_SPLENDOR) ? EVERGREEN : WATERBINDER))
 						st.playSound(QuestState.SOUND_ITEMGET);
 					else

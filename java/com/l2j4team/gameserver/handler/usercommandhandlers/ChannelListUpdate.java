@@ -11,21 +11,21 @@ public class ChannelListUpdate implements IUserCommandHandler
 	{
 		97
 	};
-
+	
 	@Override
 	public boolean useUserCommand(int id, Player activeChar)
 	{
 		if (!activeChar.isInParty())
 			return false;
-
+		
 		final L2CommandChannel channel = activeChar.getParty().getCommandChannel();
 		if (channel == null)
 			return false;
-
+		
 		activeChar.sendPacket(new ExMultiPartyCommandChannelInfo(channel));
 		return true;
 	}
-
+	
 	@Override
 	public int[] getUserCommandList()
 	{

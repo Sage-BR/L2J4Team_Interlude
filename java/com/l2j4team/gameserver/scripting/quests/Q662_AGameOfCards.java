@@ -15,13 +15,13 @@ import com.l2j4team.commons.random.Rnd;
 public class Q662_AGameOfCards extends Quest
 {
 	private static final String qn = "Q662_AGameOfCards";
-
+	
 	// NPC
 	private static final int KLUMP = 30845;
-
+	
 	// Quest Item
 	private static final int RED_GEM = 8765;
-
+	
 	// Reward Items
 	private static final int EW_S = 959;
 	private static final int EW_A = 729;
@@ -30,7 +30,7 @@ public class Q662_AGameOfCards extends Quest
 	private static final int EW_D = 955;
 	private static final int EA_D = 956;
 	private static final int ZIGGO_GEMSTONE = 8868;
-
+	
 	// All cards
 	private static final Map<Integer, String> CARDS = new HashMap<>();
 	{
@@ -50,7 +50,7 @@ public class Q662_AGameOfCards extends Quest
 		CARDS.put(13, "I");
 		CARDS.put(14, "N");
 	}
-
+	
 	// Drop chances
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
@@ -95,20 +95,20 @@ public class Q662_AGameOfCards extends Quest
 		CHANCES.put(21530, 488000); // Victory of Splendor
 		CHANCES.put(21535, 573000); // Signet of Splendor
 	}
-
+	
 	public Q662_AGameOfCards()
 	{
 		super(662, "A Game Of Cards");
-
+		
 		setItemsIds(RED_GEM);
-
+		
 		addStartNpc(KLUMP);
 		addTalkId(KLUMP);
-
+		
 		for (int monster : CHANCES.keySet())
 			addKillId(monster);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -116,7 +116,7 @@ public class Q662_AGameOfCards extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30845-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -129,7 +129,7 @@ public class Q662_AGameOfCards extends Quest
 		{
 			int state = st.getInt("state");
 			int stateEx = st.getInt("stateEx");
-
+			
 			if (state == 0 && stateEx == 0 && st.getQuestItemsCount(RED_GEM) >= 50)
 				htmltext = "30845-05.htm";
 		}
@@ -142,7 +142,7 @@ public class Q662_AGameOfCards extends Quest
 		{
 			int state = st.getInt("state");
 			int stateEx = st.getInt("stateEx");
-
+			
 			if (state == 0 && stateEx == 0 && st.getQuestItemsCount(RED_GEM) >= 50)
 			{
 				int i1 = Rnd.get(70) + 1;
@@ -150,7 +150,7 @@ public class Q662_AGameOfCards extends Quest
 				int i3 = Rnd.get(70) + 1;
 				int i4 = Rnd.get(70) + 1;
 				int i5 = Rnd.get(70) + 1;
-
+				
 				if (i1 >= 57)
 					i1 = i1 - 56;
 				else if (i1 >= 43)
@@ -159,7 +159,7 @@ public class Q662_AGameOfCards extends Quest
 					i1 = i1 - 28;
 				else if (i1 >= 15)
 					i1 = i1 - 14;
-
+				
 				if (i2 >= 57)
 					i2 = i2 - 56;
 				else if (i2 >= 43)
@@ -168,7 +168,7 @@ public class Q662_AGameOfCards extends Quest
 					i2 = i2 - 28;
 				else if (i2 >= 15)
 					i2 = i2 - 14;
-
+				
 				if (i3 >= 57)
 					i3 = i3 - 56;
 				else if (i3 >= 43)
@@ -177,7 +177,7 @@ public class Q662_AGameOfCards extends Quest
 					i3 = i3 - 28;
 				else if (i3 >= 15)
 					i3 = i3 - 14;
-
+				
 				if (i4 >= 57)
 					i4 = i4 - 56;
 				else if (i4 >= 43)
@@ -186,7 +186,7 @@ public class Q662_AGameOfCards extends Quest
 					i4 = i4 - 28;
 				else if (i4 >= 15)
 					i4 = i4 - 14;
-
+				
 				if (i5 >= 57)
 					i5 = i5 - 56;
 				else if (i5 >= 43)
@@ -195,10 +195,10 @@ public class Q662_AGameOfCards extends Quest
 					i5 = i5 - 28;
 				else if (i5 >= 15)
 					i5 = i5 - 14;
-
+				
 				st.set("state", String.valueOf(i4 * 1000000 + i3 * 10000 + i2 * 100 + i1));
 				st.set("stateEx", String.valueOf(i5));
-
+				
 				st.takeItems(RED_GEM, 50);
 			}
 		}
@@ -206,9 +206,9 @@ public class Q662_AGameOfCards extends Quest
 		{
 			int state = st.getInt("state");
 			int stateEx = st.getInt("stateEx");
-
+			
 			int i0, i1, i2, i3, i4, i5, i6, i8, i9;
-
+			
 			i0 = state;
 			i1 = stateEx;
 			i5 = i1 % 100;
@@ -217,7 +217,7 @@ public class Q662_AGameOfCards extends Quest
 			i2 = i0 % 10000 / 100;
 			i3 = i0 % 1000000 / 10000;
 			i4 = i0 % 100000000 / 1000000;
-
+			
 			if (event.equals("First"))
 			{
 				if (i9 % 2 < 1)
@@ -243,7 +243,7 @@ public class Q662_AGameOfCards extends Quest
 				if (i9 % 32 < 16)
 					i9 = i9 + 16;
 			}
-
+			
 			if (i9 % 32 < 31)
 			{
 				st.set("stateEx", String.valueOf(i9 * 100 + i5));
@@ -253,7 +253,7 @@ public class Q662_AGameOfCards extends Quest
 			{
 				i6 = 0;
 				i8 = 0;
-
+				
 				if (i1 >= 1 && i1 <= 14 && i2 >= 1 && i2 <= 14 && i3 >= 1 && i3 <= 14 && i4 >= 1 && i4 <= 14 && i5 >= 1 && i5 <= 14)
 				{
 					if (i1 == i2)
@@ -261,25 +261,25 @@ public class Q662_AGameOfCards extends Quest
 						i6 = i6 + 10;
 						i8 = i8 + 8;
 					}
-
+					
 					if (i1 == i3)
 					{
 						i6 = i6 + 10;
 						i8 = i8 + 4;
 					}
-
+					
 					if (i1 == i4)
 					{
 						i6 = i6 + 10;
 						i8 = i8 + 2;
 					}
-
+					
 					if (i1 == i5)
 					{
 						i6 = i6 + 10;
 						i8 = i8 + 1;
 					}
-
+					
 					if (i6 % 100 < 10)
 					{
 						if (i8 % 16 < 8)
@@ -292,7 +292,7 @@ public class Q662_AGameOfCards extends Quest
 									i8 = i8 + 4;
 								}
 							}
-
+							
 							if (i8 % 4 < 2)
 							{
 								if (i2 == i4)
@@ -301,7 +301,7 @@ public class Q662_AGameOfCards extends Quest
 									i8 = i8 + 2;
 								}
 							}
-
+							
 							if (i8 % 2 < 1)
 							{
 								if (i2 == i5)
@@ -324,7 +324,7 @@ public class Q662_AGameOfCards extends Quest
 									i8 = i8 + 4;
 								}
 							}
-
+							
 							if (i8 % 4 < 2)
 							{
 								if (i2 == i4)
@@ -333,7 +333,7 @@ public class Q662_AGameOfCards extends Quest
 									i8 = i8 + 2;
 								}
 							}
-
+							
 							if (i8 % 2 < 1)
 							{
 								if (i2 == i5)
@@ -344,7 +344,7 @@ public class Q662_AGameOfCards extends Quest
 							}
 						}
 					}
-
+					
 					if (i6 % 100 < 10)
 					{
 						if (i8 % 8 < 4)
@@ -357,7 +357,7 @@ public class Q662_AGameOfCards extends Quest
 									i8 = i8 + 2;
 								}
 							}
-
+							
 							if (i8 % 2 < 1)
 							{
 								if (i3 == i5)
@@ -380,7 +380,7 @@ public class Q662_AGameOfCards extends Quest
 									i8 = i8 + 2;
 								}
 							}
-
+							
 							if (i8 % 2 < 1)
 							{
 								if (i3 == i5)
@@ -391,7 +391,7 @@ public class Q662_AGameOfCards extends Quest
 							}
 						}
 					}
-
+					
 					if (i6 % 100 < 10)
 					{
 						if (i8 % 4 < 2)
@@ -421,7 +421,7 @@ public class Q662_AGameOfCards extends Quest
 						}
 					}
 				}
-
+				
 				if (i6 == 40)
 				{
 					giveReward(st, ZIGGO_GEMSTONE, 43);
@@ -459,11 +459,11 @@ public class Q662_AGameOfCards extends Quest
 				}
 				else if (i6 == 0)
 					htmltext = getHtmlText("30845-19.htm");
-
+				
 				st.set("state", "0");
 				st.set("stateEx", "0");
 			}
-
+			
 			htmltext = htmltext.replace("%FontColor1%", (i9 % 2 < 1) ? "ffff00" : "ff6f6f").replace("%Cell1%", (i9 % 2 < 1) ? CARDS.get(0) : CARDS.get(i1));
 			htmltext = htmltext.replace("%FontColor2%", (i9 % 4 < 2) ? "ffff00" : "ff6f6f").replace("%Cell2%", (i9 % 4 < 2) ? CARDS.get(0) : CARDS.get(i2));
 			htmltext = htmltext.replace("%FontColor3%", (i9 % 8 < 4) ? "ffff00" : "ff6f6f").replace("%Cell3%", (i9 % 8 < 4) ? CARDS.get(0) : CARDS.get(i3));
@@ -475,10 +475,10 @@ public class Q662_AGameOfCards extends Quest
 			if (st.getQuestItemsCount(RED_GEM) < 50)
 				htmltext = "30845-21.htm";
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -486,23 +486,23 @@ public class Q662_AGameOfCards extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 61) ? "30845-02.htm" : "30845-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int state = st.getInt("state");
 				int stateEx = st.getInt("stateEx");
-
+				
 				if (state == 0 && stateEx == 0)
 					htmltext = (st.getQuestItemsCount(RED_GEM) < 50) ? "30845-04.htm" : "30845-05.htm";
 				else if (state != 0 && stateEx != 0)
 				{
 					int i0, i1, i2, i3, i4, i5, i9;
-
+					
 					i0 = state;
 					i1 = stateEx;
 					i5 = i1 % 100;
@@ -511,7 +511,7 @@ public class Q662_AGameOfCards extends Quest
 					i2 = i0 % 10000 / 100;
 					i3 = i0 % 1000000 / 10000;
 					i4 = i0 % 100000000 / 1000000;
-
+					
 					htmltext = getHtmlText("30845-11a.htm");
 					htmltext = htmltext.replace("%FontColor1%", (i9 % 2 < 1) ? "ffff00" : "ff6f6f").replace("%Cell1%", (i9 % 2 < 1) ? CARDS.get(0) : CARDS.get(i1));
 					htmltext = htmltext.replace("%FontColor2%", (i9 % 4 < 2) ? "ffff00" : "ff6f6f").replace("%Cell2%", (i9 % 4 < 2) ? CARDS.get(0) : CARDS.get(i2));
@@ -521,25 +521,25 @@ public class Q662_AGameOfCards extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		partyMember.getQuestState(qn).dropItems(RED_GEM, 1, 0, CHANCES.get(npc.getNpcId()));
 		return null;
 	}
-
+	
 	private static void giveReward(QuestState st, int item, int count)
 	{
 		final Item template = ItemTable.getInstance().getTemplate(item);
-
+		
 		if (template.isStackable())
 			st.giveItems(item, count);
 		else

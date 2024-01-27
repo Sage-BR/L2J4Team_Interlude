@@ -8,27 +8,27 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q356_DigUpTheSeaOfSpores extends Quest
 {
 	private static final String qn = "Q356_DigUpTheSeaOfSpores";
-
+	
 	// Items
 	private static final int HERB_SPORE = 5866;
 	private static final int CARN_SPORE = 5865;
-
+	
 	// Monsters
 	private static final int ROTTING_TREE = 20558;
 	private static final int SPORE_ZOMBIE = 20562;
-
+	
 	public Q356_DigUpTheSeaOfSpores()
 	{
 		super(356, "Dig Up the Sea of Spores!");
-
+		
 		setItemsIds(HERB_SPORE, CARN_SPORE);
-
+		
 		addStartNpc(30717); // Gauen
 		addTalkId(30717);
-
+		
 		addKillId(ROTTING_TREE, SPORE_ZOMBIE);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -36,7 +36,7 @@ public class Q356_DigUpTheSeaOfSpores extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("30717-06.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -69,10 +69,10 @@ public class Q356_DigUpTheSeaOfSpores extends Quest
 			st.takeItems(CARN_SPORE, -1);
 			st.rewardExpAndSp(0, 1820);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -80,13 +80,13 @@ public class Q356_DigUpTheSeaOfSpores extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 43) ? "30717-01.htm" : "30717-02.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				if (cond == 1)
@@ -104,17 +104,17 @@ public class Q356_DigUpTheSeaOfSpores extends Quest
 					htmltext = "30717-10.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		final int cond = st.getInt("cond");
 		if (cond < 3)
 		{
@@ -124,14 +124,14 @@ public class Q356_DigUpTheSeaOfSpores extends Quest
 					if (st.dropItems(HERB_SPORE, 1, 50, 630000))
 						st.set("cond", (cond == 2) ? "3" : "2");
 					break;
-
+				
 				case SPORE_ZOMBIE:
 					if (st.dropItems(CARN_SPORE, 1, 50, 760000))
 						st.set("cond", (cond == 2) ? "3" : "2");
 					break;
 			}
 		}
-
+		
 		return null;
 	}
 }

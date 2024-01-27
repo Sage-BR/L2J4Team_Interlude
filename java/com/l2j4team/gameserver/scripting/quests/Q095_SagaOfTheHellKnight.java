@@ -7,7 +7,7 @@ public class Q095_SagaOfTheHellKnight extends SagasSuperClass
 	public Q095_SagaOfTheHellKnight()
 	{
 		super(95, "Saga of the Hell Knight");
-
+		
 		NPC = new int[]
 		{
 			31582,
@@ -23,7 +23,7 @@ public class Q095_SagaOfTheHellKnight extends SagasSuperClass
 			31656,
 			31297
 		};
-
+		
 		Items = new int[]
 		{
 			7080,
@@ -39,38 +39,38 @@ public class Q095_SagaOfTheHellKnight extends SagasSuperClass
 			7086,
 			0
 		};
-
+		
 		Mob = new int[]
 		{
 			27258,
 			27244,
 			27263
 		};
-
+		
 		classid = 91;
 		prevclass = 0x06;
-
+		
 		X = new int[]
 		{
 			164650,
 			47391,
 			47429
 		};
-
+		
 		Y = new int[]
 		{
 			-74121,
 			-56929,
 			-56923
 		};
-
+		
 		Z = new int[]
 		{
 			-2871,
 			-2370,
 			-2383
 		};
-
+		
 		registerNPCs();
 	}
 }

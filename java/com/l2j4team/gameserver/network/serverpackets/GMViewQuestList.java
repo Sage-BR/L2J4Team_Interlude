@@ -13,20 +13,20 @@ import java.util.List;
 public class GMViewQuestList extends L2GameServerPacket
 {
 	private final Player _activeChar;
-
+	
 	public GMViewQuestList(Player cha)
 	{
 		_activeChar = cha;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x93);
 		writeS(_activeChar.getName());
-
+		
 		List<Quest> quests = _activeChar.getAllQuests(true);
-
+		
 		writeH(quests.size());
 		for (Quest q : quests)
 		{
@@ -37,7 +37,7 @@ public class GMViewQuestList extends L2GameServerPacket
 				writeD(0);
 				continue;
 			}
-
+			
 			int states = qs.getInt("__compltdStateFlags");
 			if (states != 0)
 				writeD(states);

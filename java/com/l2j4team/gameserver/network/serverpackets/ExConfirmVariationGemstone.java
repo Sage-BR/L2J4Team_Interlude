@@ -10,7 +10,7 @@ public class ExConfirmVariationGemstone extends L2GameServerPacket
 	private final int _gemstoneCount;
 	private final int _unk2;
 	private final int _unk3;
-
+	
 	public ExConfirmVariationGemstone(int gemstoneObjId, int count)
 	{
 		_gemstoneObjId = gemstoneObjId;
@@ -19,7 +19,7 @@ public class ExConfirmVariationGemstone extends L2GameServerPacket
 		_unk2 = 1;
 		_unk3 = 1;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

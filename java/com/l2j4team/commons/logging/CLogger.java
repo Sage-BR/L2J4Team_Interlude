@@ -20,39 +20,39 @@ import com.l2j4team.commons.lang.StringReplacer;
 public final class CLogger
 {
 	private final Logger _logger;
-
+	
 	public CLogger(String name)
 	{
 		_logger = Logger.getLogger(name);
 	}
-
+	
 	private void log0(Level level, StackTraceElement caller, Object message, Throwable exception)
 	{
 		if (!_logger.isLoggable(level))
 			return;
-
+		
 		if (caller == null)
 			caller = new Throwable().getStackTrace()[2];
-
+		
 		_logger.logp(level, caller.getClassName(), caller.getMethodName(), String.valueOf(message), exception);
 	}
-
+	
 	private void log0(Level level, StackTraceElement caller, Object message, Throwable exception, Object... args)
 	{
 		if (!_logger.isLoggable(level))
 			return;
-
+		
 		if (caller == null)
 			caller = new Throwable().getStackTrace()[2];
-
+		
 		_logger.logp(level, caller.getClassName(), caller.getMethodName(), format(String.valueOf(message), args), exception);
 	}
-
+	
 	public void log(LogRecord record)
 	{
 		_logger.log(record);
 	}
-
+	
 	/**
 	 * Logs a message with Level.FINE.
 	 * @param message : The object to log.
@@ -61,7 +61,7 @@ public final class CLogger
 	{
 		log0(Level.FINE, null, message, null);
 	}
-
+	
 	/**
 	 * Logs a message with Level.FINE.
 	 * @param message : The object to log.
@@ -71,7 +71,7 @@ public final class CLogger
 	{
 		log0(Level.FINE, null, message, null, args);
 	}
-
+	
 	/**
 	 * Logs a message with Level.FINE.
 	 * @param message : The object to log.
@@ -81,7 +81,7 @@ public final class CLogger
 	{
 		log0(Level.FINE, null, message, exception);
 	}
-
+	
 	/**
 	 * Logs a message with Level.FINE.
 	 * @param message : The object to log.
@@ -92,7 +92,7 @@ public final class CLogger
 	{
 		log0(Level.FINE, null, message, exception, args);
 	}
-
+	
 	/**
 	 * Logs a message with Level.INFO.
 	 * @param message : The object to log.
@@ -101,7 +101,7 @@ public final class CLogger
 	{
 		log0(Level.INFO, null, message, null);
 	}
-
+	
 	/**
 	 * Logs a message with Level.INFO.
 	 * @param message : The object to log.
@@ -111,7 +111,7 @@ public final class CLogger
 	{
 		log0(Level.INFO, null, message, null, args);
 	}
-
+	
 	/**
 	 * Logs a message with Level.INFO.
 	 * @param message : The object to log.
@@ -121,7 +121,7 @@ public final class CLogger
 	{
 		log0(Level.INFO, null, message, exception);
 	}
-
+	
 	/**
 	 * Logs a message with Level.INFO.
 	 * @param message : The object to log.
@@ -132,7 +132,7 @@ public final class CLogger
 	{
 		log0(Level.INFO, null, message, exception, args);
 	}
-
+	
 	/**
 	 * Logs a message with Level.WARNING.
 	 * @param message : The object to log.
@@ -141,7 +141,7 @@ public final class CLogger
 	{
 		log0(Level.WARNING, null, message, null);
 	}
-
+	
 	/**
 	 * Logs a message with Level.WARNING.
 	 * @param message : The object to log.
@@ -151,7 +151,7 @@ public final class CLogger
 	{
 		log0(Level.WARNING, null, message, null, args);
 	}
-
+	
 	/**
 	 * Logs a message with Level.WARNING.
 	 * @param message : The object to log.
@@ -161,7 +161,7 @@ public final class CLogger
 	{
 		log0(Level.WARNING, null, message, exception);
 	}
-
+	
 	/**
 	 * Logs a message with Level.WARNING.
 	 * @param message : The object to log.
@@ -172,7 +172,7 @@ public final class CLogger
 	{
 		log0(Level.WARNING, null, message, exception, args);
 	}
-
+	
 	/**
 	 * Logs a message with Level.SEVERE.
 	 * @param message : The object to log.
@@ -181,7 +181,7 @@ public final class CLogger
 	{
 		log0(Level.SEVERE, null, message, null);
 	}
-
+	
 	/**
 	 * Logs a message with Level.SEVERE.
 	 * @param message : The object to log.
@@ -191,7 +191,7 @@ public final class CLogger
 	{
 		log0(Level.SEVERE, null, message, null, args);
 	}
-
+	
 	/**
 	 * Logs a message with Level.SEVERE.
 	 * @param message : The object to log.
@@ -201,7 +201,7 @@ public final class CLogger
 	{
 		log0(Level.SEVERE, null, message, exception);
 	}
-
+	
 	/**
 	 * Logs a message with Level.SEVERE.
 	 * @param message : The object to log.
@@ -212,7 +212,7 @@ public final class CLogger
 	{
 		log0(Level.SEVERE, null, message, exception, args);
 	}
-
+	
 	/**
 	 * Format the message, allowing to use {} as parameter. Avoid to generate String concatenation.
 	 * @param message : the Object (String) message to format.
@@ -223,7 +223,7 @@ public final class CLogger
 	{
 		if (args == null || args.length == 0)
 			return message;
-
+		
 		final StringReplacer sr = new StringReplacer(message);
 		sr.replaceAll(args);
 		return sr.toString();

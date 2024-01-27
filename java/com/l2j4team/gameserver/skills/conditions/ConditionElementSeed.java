@@ -15,12 +15,12 @@ public class ConditionElementSeed extends Condition
 		1287
 	};
 	private final int[] _requiredSeeds;
-
+	
 	public ConditionElementSeed(int[] seeds)
 	{
 		_requiredSeeds = seeds;
 	}
-
+	
 	@Override
 	public boolean testImpl(Env env)
 	{
@@ -33,7 +33,7 @@ public class ConditionElementSeed extends Condition
 			else
 				return false;
 		}
-
+		
 		if (_requiredSeeds[3] > 0)
 		{
 			int count = 0;
@@ -48,7 +48,7 @@ public class ConditionElementSeed extends Condition
 			if (count < _requiredSeeds[3])
 				return false;
 		}
-
+		
 		if (_requiredSeeds[4] > 0)
 		{
 			int count = 0;
@@ -59,7 +59,7 @@ public class ConditionElementSeed extends Condition
 			if (count < _requiredSeeds[4])
 				return false;
 		}
-
+		
 		return true;
 	}
 }

@@ -8,34 +8,34 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q624_TheFinestIngredients_Part1 extends Quest
 {
 	private static final String qn = "Q624_TheFinestIngredients_Part1";
-
+	
 	// Mobs
 	private static final int NEPENTHES = 21319;
 	private static final int ATROX = 21321;
 	private static final int ATROXSPAWN = 21317;
 	private static final int BANDERSNATCH = 21314;
-
+	
 	// Items
 	private static final int TRUNK_OF_NEPENTHES = 7202;
 	private static final int FOOT_OF_BANDERSNATCHLING = 7203;
 	private static final int SECRET_SPICE = 7204;
-
+	
 	// Rewards
 	private static final int ICE_CRYSTAL = 7080;
 	private static final int SOY_SAUCE_JAR = 7205;
-
+	
 	public Q624_TheFinestIngredients_Part1()
 	{
 		super(624, "The Finest Ingredients - Part 1");
-
+		
 		setItemsIds(TRUNK_OF_NEPENTHES, FOOT_OF_BANDERSNATCHLING, SECRET_SPICE);
-
+		
 		addStartNpc(31521); // Jeremy
 		addTalkId(31521);
-
+		
 		addKillId(NEPENTHES, ATROX, ATROXSPAWN, BANDERSNATCH);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -43,7 +43,7 @@ public class Q624_TheFinestIngredients_Part1 extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31521-02.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -68,10 +68,10 @@ public class Q624_TheFinestIngredients_Part1 extends Quest
 				htmltext = "31521-07.htm";
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -79,13 +79,13 @@ public class Q624_TheFinestIngredients_Part1 extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 73) ? "31521-03.htm" : "31521-01.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				if (cond == 1)
@@ -99,38 +99,38 @@ public class Q624_TheFinestIngredients_Part1 extends Quest
 				}
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMember(player, npc, "1");
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		switch (npc.getNpcId())
 		{
 			case NEPENTHES:
 				if (st.dropItemsAlways(TRUNK_OF_NEPENTHES, 1, 50) && st.getQuestItemsCount(FOOT_OF_BANDERSNATCHLING) >= 50 && st.getQuestItemsCount(SECRET_SPICE) >= 50)
 					st.set("cond", "2");
 				break;
-
+			
 			case ATROX:
 			case ATROXSPAWN:
 				if (st.dropItemsAlways(SECRET_SPICE, 1, 50) && st.getQuestItemsCount(TRUNK_OF_NEPENTHES) >= 50 && st.getQuestItemsCount(FOOT_OF_BANDERSNATCHLING) >= 50)
 					st.set("cond", "2");
 				break;
-
+			
 			case BANDERSNATCH:
 				if (st.dropItemsAlways(FOOT_OF_BANDERSNATCHLING, 1, 50) && st.getQuestItemsCount(TRUNK_OF_NEPENTHES) >= 50 && st.getQuestItemsCount(SECRET_SPICE) >= 50)
 					st.set("cond", "2");
 				break;
 		}
-
+		
 		return null;
 	}
 }

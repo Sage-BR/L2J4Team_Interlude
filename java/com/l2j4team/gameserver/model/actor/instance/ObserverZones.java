@@ -14,7 +14,7 @@ public final class ObserverZones extends Folk
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
@@ -22,11 +22,11 @@ public final class ObserverZones extends Folk
 		{
 			StringTokenizer st = new StringTokenizer(command);
 			st.nextToken();
-
+			
 			final int x = Integer.parseInt(st.nextToken());
 			final int y = Integer.parseInt(st.nextToken());
 			final int z = Integer.parseInt(st.nextToken());
-
+			
 			if (player.destroyItemByItemId("zone", Config.ITEM_OBSERVER, Config.ITEM_BUY_QUANT_OBSERVER, player, true))
 			{
 				player.setZoneObserver(true);
@@ -36,7 +36,7 @@ public final class ObserverZones extends Folk
 		else
 			super.onBypassFeedback(player, command);
 	}
-
+	
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -45,7 +45,7 @@ public final class ObserverZones extends Folk
 			filename = "" + npcId;
 		else
 			filename = npcId + "-" + val;
-
+		
 		return "data/html/mods/observer/" + filename + ".htm";
 	}
 }

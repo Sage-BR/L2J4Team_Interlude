@@ -10,31 +10,31 @@ import com.l2j4team.gameserver.network.serverpackets.ActionFailed;
 public final class RequestPetGetItem extends L2GameClientPacket
 {
 	private int _objectId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_objectId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null || !activeChar.hasPet())
 			return;
-
+		
 		final WorldObject item = World.getInstance().getObject(_objectId);
 		if (item == null)
 			return;
-
+		
 		final Pet pet = (Pet) activeChar.getPet();
 		if (pet.isDead() || pet.isOutOfControl())
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		pet.getAI().setIntention(CtrlIntention.PICK_UP, item);
 	}
 }

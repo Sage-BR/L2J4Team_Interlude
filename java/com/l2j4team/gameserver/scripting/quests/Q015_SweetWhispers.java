@@ -8,20 +8,20 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q015_SweetWhispers extends Quest
 {
 	private static final String qn = "Q015_SweetWhispers";
-
+	
 	// NPCs
 	private static final int VLADIMIR = 31302;
 	private static final int HIERARCH = 31517;
 	private static final int MYSTERIOUS_NECRO = 31518;
-
+	
 	public Q015_SweetWhispers()
 	{
 		super(15, "Sweet Whispers");
-
+		
 		addStartNpc(VLADIMIR);
 		addTalkId(VLADIMIR, HIERARCH, MYSTERIOUS_NECRO);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -29,7 +29,7 @@ public class Q015_SweetWhispers extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31302-01.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -47,10 +47,10 @@ public class Q015_SweetWhispers extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -58,13 +58,13 @@ public class Q015_SweetWhispers extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 60) ? "31302-00a.htm" : "31302-00.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -72,26 +72,26 @@ public class Q015_SweetWhispers extends Quest
 					case VLADIMIR:
 						htmltext = "31302-01a.htm";
 						break;
-
+					
 					case MYSTERIOUS_NECRO:
 						if (cond == 1)
 							htmltext = "31518-00.htm";
 						else if (cond == 2)
 							htmltext = "31518-01a.htm";
 						break;
-
+					
 					case HIERARCH:
 						if (cond == 2)
 							htmltext = "31517-00.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
 }

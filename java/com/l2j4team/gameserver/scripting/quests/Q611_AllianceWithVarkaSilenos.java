@@ -17,7 +17,7 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 {
 	private static final String qn = "Q611_AllianceWithVarkaSilenos";
 	private static final String qn2 = "Q612_WarWithKetraOrcs";
-
+	
 	private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 	{
 		CHANCES.put(21324, 500000);
@@ -42,7 +42,7 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 		CHANCES.put(21348, 626000);
 		CHANCES.put(21349, 626000);
 	}
-
+	
 	private static final Map<Integer, Integer> CHANCES_MOLAR = new HashMap<>();
 	{
 		CHANCES_MOLAR.put(21324, 500000);
@@ -61,36 +61,36 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 		CHANCES_MOLAR.put(21345, 713000);
 		CHANCES_MOLAR.put(21347, 738000);
 	}
-
+	
 	// Quest Items
 	private static final int KETRA_BADGE_SOLDIER = 7226;
 	private static final int KETRA_BADGE_OFFICER = 7227;
 	private static final int KETRA_BADGE_CAPTAIN = 7228;
-
+	
 	private static final int VARKA_ALLIANCE_1 = 7221;
 	private static final int VARKA_ALLIANCE_2 = 7222;
 	private static final int VARKA_ALLIANCE_3 = 7223;
 	private static final int VARKA_ALLIANCE_4 = 7224;
 	private static final int VARKA_ALLIANCE_5 = 7225;
-
+	
 	private static final int VALOR_FEATHER = 7229;
 	private static final int WISDOM_FEATHER = 7230;
-
+	
 	private static final int MOLAR_OF_KETRA_ORC = 7234;
-
+	
 	public Q611_AllianceWithVarkaSilenos()
 	{
 		super(611, "Alliance with Varka Silenos");
-
+		
 		setItemsIds(KETRA_BADGE_SOLDIER, KETRA_BADGE_OFFICER, KETRA_BADGE_CAPTAIN);
-
+		
 		addStartNpc(31378); // Naran Ashanuk
 		addTalkId(31378);
-
+		
 		for (int mobs : CHANCES.keySet())
 			addKillId(mobs);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -98,7 +98,7 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31378-03a.htm"))
 		{
 			if (player.isAlliedWithKetra())
@@ -197,10 +197,10 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 			player.setAllianceWithVarkaKetra(0);
 			st.exitQuest(true);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -208,7 +208,7 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -221,7 +221,7 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 					player.setAllianceWithVarkaKetra(0);
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				if (cond == 1)
@@ -274,19 +274,19 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 					htmltext = "31378-08.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		final int npcId = npc.getNpcId();
-
+		
 		// Support for Q612.
 		QuestState st = partyMember.getQuestState(qn2);
 		if (st != null && Rnd.nextBoolean() && CHANCES_MOLAR.containsKey(npcId))
@@ -294,13 +294,13 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 			st.dropItems(MOLAR_OF_KETRA_ORC, 1, 0, CHANCES_MOLAR.get(npcId));
 			return null;
 		}
-
+		
 		st = partyMember.getQuestState(qn);
-
+		
 		int cond = st.getInt("cond");
 		if (cond == 6)
 			return null;
-
+		
 		switch (npcId)
 		{
 			case 21324:
@@ -317,7 +317,7 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 				else if (cond == 5)
 					st.dropItems(KETRA_BADGE_SOLDIER, 1, 400, CHANCES.get(npcId));
 				break;
-
+			
 			case 21331:
 			case 21332:
 			case 21334:
@@ -335,7 +335,7 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 				else if (cond == 5)
 					st.dropItems(KETRA_BADGE_OFFICER, 1, 400, CHANCES.get(npcId));
 				break;
-
+			
 			case 21339:
 			case 21340:
 			case 21342:
@@ -350,7 +350,7 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 					st.dropItems(KETRA_BADGE_CAPTAIN, 1, 200, CHANCES.get(npcId));
 				break;
 		}
-
+		
 		return null;
 	}
 }

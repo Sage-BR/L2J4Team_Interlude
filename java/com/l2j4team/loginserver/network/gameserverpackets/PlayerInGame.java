@@ -8,7 +8,7 @@ import java.util.List;
 public class PlayerInGame extends ClientBasePacket
 {
 	private final List<String> _accounts;
-
+	
 	public PlayerInGame(final byte[] decrypt)
 	{
 		super(decrypt);
@@ -16,7 +16,7 @@ public class PlayerInGame extends ClientBasePacket
 		for (int size = readH(), i = 0; i < size; ++i)
 			_accounts.add(readS());
 	}
-
+	
 	public List<String> getAccounts()
 	{
 		return _accounts;

@@ -19,7 +19,7 @@ public class PartyMatchRoom
 	private int _maxlvl;
 	private int _maxmem;
 	private final List<Player> _members = new ArrayList<>();
-
+	
 	public PartyMatchRoom(int id, String title, int loot, int minlvl, int maxlvl, int maxmem, Player owner)
 	{
 		_id = id;
@@ -31,17 +31,17 @@ public class PartyMatchRoom
 		_maxmem = maxmem;
 		_members.add(owner);
 	}
-
+	
 	public List<Player> getPartyMembers()
 	{
 		return _members;
 	}
-
+	
 	public void addMember(Player player)
 	{
 		_members.add(player);
 	}
-
+	
 	public void deleteMember(Player player)
 	{
 		if (player != getOwner())
@@ -59,7 +59,7 @@ public class PartyMatchRoom
 			deleteMember(player);
 		}
 	}
-
+	
 	public void notifyMembersAboutExit(Player player)
 	{
 		for (Player _member : getPartyMembers())
@@ -70,7 +70,7 @@ public class PartyMatchRoom
 			_member.sendPacket(new ExManagePartyRoomMember(player, this, 2));
 		}
 	}
-
+	
 	public void changeLeader(Player newLeader)
 	{
 		// Get current leader
@@ -89,77 +89,77 @@ public class PartyMatchRoom
 			member.sendPacket(SystemMessageId.PARTY_ROOM_LEADER_CHANGED);
 		}
 	}
-
+	
 	public int getId()
 	{
 		return _id;
 	}
-
+	
 	public Player getOwner()
 	{
 		return _members.get(0);
 	}
-
+	
 	public int getMembers()
 	{
 		return _members.size();
 	}
-
+	
 	public int getLootType()
 	{
 		return _loot;
 	}
-
+	
 	public void setLootType(int loot)
 	{
 		_loot = loot;
 	}
-
+	
 	public int getMinLvl()
 	{
 		return _minlvl;
 	}
-
+	
 	public void setMinLvl(int minlvl)
 	{
 		_minlvl = minlvl;
 	}
-
+	
 	public int getMaxLvl()
 	{
 		return _maxlvl;
 	}
-
+	
 	public void setMaxLvl(int maxlvl)
 	{
 		_maxlvl = maxlvl;
 	}
-
+	
 	public int getLocation()
 	{
 		return _location;
 	}
-
+	
 	public void setLocation(int loc)
 	{
 		_location = loc;
 	}
-
+	
 	public int getMaxMembers()
 	{
 		return _maxmem;
 	}
-
+	
 	public void setMaxMembers(int maxmem)
 	{
 		_maxmem = maxmem;
 	}
-
+	
 	public String getTitle()
 	{
 		return _title;
 	}
-
+	
 	public void setTitle(String title)
 	{
 		_title = title;

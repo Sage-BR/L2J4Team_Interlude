@@ -35,7 +35,7 @@ public class L2CommandChannel
 	private final List<L2Party> _partys = new CopyOnWriteArrayList<>();
 	private Player _commandLeader;
 	private int _channelLvl;
-
+	
 	/**
 	 * Creates a New Command Channel and Add the Leaders party to the CC
 	 * @param leader
@@ -45,12 +45,12 @@ public class L2CommandChannel
 		_commandLeader = leader;
 		_partys.add(leader.getParty());
 		_channelLvl = leader.getParty().getLevel();
-
+		
 		leader.getParty().setCommandChannel(this);
 		leader.getParty().broadcastToPartyMembers(SystemMessage.getSystemMessage(SystemMessageId.COMMAND_CHANNEL_FORMED));
 		leader.getParty().broadcastToPartyMembers(ExOpenMPCC.STATIC_PACKET);
 	}
-
+	
 	/**
 	 * Adds a Party to the Command Channel
 	 * @param party
@@ -59,17 +59,17 @@ public class L2CommandChannel
 	{
 		if (party == null)
 			return;
-
+		
 		_partys.add(party);
-
+		
 		if (party.getLevel() > _channelLvl)
 			_channelLvl = party.getLevel();
-
+		
 		party.setCommandChannel(this);
 		party.broadcastToPartyMembers(SystemMessage.getSystemMessage(SystemMessageId.JOINED_COMMAND_CHANNEL));
 		party.broadcastToPartyMembers(ExOpenMPCC.STATIC_PACKET);
 	}
-
+	
 	/**
 	 * Removes a Party from the Command Channel
 	 * @param party
@@ -78,26 +78,26 @@ public class L2CommandChannel
 	{
 		if (party == null)
 			return;
-
+		
 		_partys.remove(party);
 		_channelLvl = 0;
-
+		
 		for (L2Party pty : _partys)
 		{
 			if (pty.getLevel() > _channelLvl)
 				_channelLvl = pty.getLevel();
 		}
-
+		
 		party.setCommandChannel(null);
 		party.broadcastToPartyMembers(ExCloseMPCC.STATIC_PACKET);
-
+		
 		if (_partys.size() < 2)
 		{
 			broadcastToChannelMembers(SystemMessage.getSystemMessage(SystemMessageId.COMMAND_CHANNEL_DISBANDED));
 			disbandChannel();
 		}
 	}
-
+	
 	/**
 	 * disbands the whole Command Channel
 	 */
@@ -110,7 +110,7 @@ public class L2CommandChannel
 		}
 		_partys.clear();
 	}
-
+	
 	/**
 	 * @return overall membercount of the Command Channel
 	 */
@@ -124,7 +124,7 @@ public class L2CommandChannel
 		}
 		return count;
 	}
-
+	
 	/**
 	 * Broadcast packet to every channelmember
 	 * @param gsp The packet to send.
@@ -137,7 +137,7 @@ public class L2CommandChannel
 				party.broadcastToPartyMembers(gsp);
 		}
 	}
-
+	
 	public void broadcastCSToChannelMembers(CreatureSay gsp, Player broadcaster)
 	{
 		for (L2Party party : _partys)
@@ -146,7 +146,7 @@ public class L2CommandChannel
 				party.broadcastCSToPartyMembers(gsp, broadcaster);
 		}
 	}
-
+	
 	/**
 	 * @return list of Parties in Command Channel
 	 */
@@ -154,7 +154,7 @@ public class L2CommandChannel
 	{
 		return _partys;
 	}
-
+	
 	/**
 	 * @return list of all Members in Command Channel
 	 */
@@ -163,10 +163,10 @@ public class L2CommandChannel
 		List<Player> members = new ArrayList<>();
 		for (L2Party party : _partys)
 			members.addAll(party.getPartyMembers());
-
+		
 		return members;
 	}
-
+	
 	/**
 	 * Check if a given player is in this command channel.
 	 * @param player the player to check
@@ -181,7 +181,7 @@ public class L2CommandChannel
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return Level of CC
 	 */
@@ -189,7 +189,7 @@ public class L2CommandChannel
 	{
 		return _channelLvl;
 	}
-
+	
 	/**
 	 * @param leader sets the leader of the Command Channel
 	 */
@@ -197,7 +197,7 @@ public class L2CommandChannel
 	{
 		_commandLeader = leader;
 	}
-
+	
 	/**
 	 * @return the leader of the Command Channel
 	 */
@@ -205,7 +205,7 @@ public class L2CommandChannel
 	{
 		return _commandLeader;
 	}
-
+	
 	/**
 	 * Queen Ant, Core, Orfen, Zaken: MemberCount > 36<br>
 	 * Baium: MemberCount > 56<br>

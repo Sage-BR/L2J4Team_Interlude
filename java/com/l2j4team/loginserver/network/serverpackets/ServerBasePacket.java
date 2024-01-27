@@ -6,12 +6,12 @@ import java.io.IOException;
 public abstract class ServerBasePacket
 {
 	ByteArrayOutputStream _bao;
-
+	
 	protected ServerBasePacket()
 	{
 		_bao = new ByteArrayOutputStream();
 	}
-
+	
 	protected void writeD(final int value)
 	{
 		_bao.write(value & 0xFF);
@@ -19,18 +19,18 @@ public abstract class ServerBasePacket
 		_bao.write(value >> 16 & 0xFF);
 		_bao.write(value >> 24 & 0xFF);
 	}
-
+	
 	protected void writeH(final int value)
 	{
 		_bao.write(value & 0xFF);
 		_bao.write(value >> 8 & 0xFF);
 	}
-
+	
 	protected void writeC(final int value)
 	{
 		_bao.write(value & 0xFF);
 	}
-
+	
 	protected void writeF(final double org)
 	{
 		final long value = Double.doubleToRawLongBits(org);
@@ -43,7 +43,7 @@ public abstract class ServerBasePacket
 		_bao.write((int) (value >> 48 & 0xFFL));
 		_bao.write((int) (value >> 56 & 0xFFL));
 	}
-
+	
 	protected void writeS(final String text)
 	{
 		try
@@ -58,7 +58,7 @@ public abstract class ServerBasePacket
 		_bao.write(0);
 		_bao.write(0);
 	}
-
+	
 	protected void writeB(final byte[] array)
 	{
 		try
@@ -70,12 +70,12 @@ public abstract class ServerBasePacket
 			e.printStackTrace();
 		}
 	}
-
+	
 	public int getLength()
 	{
 		return _bao.size() + 2;
 	}
-
+	
 	public byte[] getBytes()
 	{
 		writeD(0);
@@ -85,6 +85,6 @@ public abstract class ServerBasePacket
 				writeC(0);
 		return _bao.toByteArray();
 	}
-
+	
 	public abstract byte[] getContent() throws IOException;
 }

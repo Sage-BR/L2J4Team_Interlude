@@ -17,11 +17,11 @@ public class SQLAccountManager
 	private static String _pass = "";
 	private static String _level = "";
 	private static String _mode = "";
-
+	
 	public static void main(String[] args)
 	{
 		Config.loadAccountManager();
-
+		
 		try (Scanner _scn = new Scanner(System.in))
 		{
 			while (true)
@@ -33,13 +33,13 @@ public class SQLAccountManager
 				System.out.println("3 - Delete existing account");
 				System.out.println("4 - List accounts and access levels");
 				System.out.println("5 - Exit");
-
+				
 				while (!(_mode.equals("1") || _mode.equals("2") || _mode.equals("3") || _mode.equals("4") || _mode.equals("5")))
 				{
 					System.out.print("Your choice: ");
 					_mode = _scn.next();
 				}
-
+				
 				if (_mode.equals("1") || _mode.equals("2") || _mode.equals("3"))
 				{
 					while (_uname.trim().length() == 0)
@@ -47,7 +47,7 @@ public class SQLAccountManager
 						System.out.print("Username: ");
 						_uname = _scn.next().toLowerCase();
 					}
-
+					
 					if (_mode.equals("1"))
 					{
 						while (_pass.trim().length() == 0)
@@ -56,7 +56,7 @@ public class SQLAccountManager
 							_pass = _scn.next();
 						}
 					}
-
+					
 					if (_mode.equals("1") || _mode.equals("2"))
 					{
 						while (_level.trim().length() == 0)
@@ -66,7 +66,7 @@ public class SQLAccountManager
 						}
 					}
 				}
-
+				
 				if (_mode.equals("1"))
 				{
 					// Add or Update
@@ -84,7 +84,7 @@ public class SQLAccountManager
 					System.out.print(" it will only delete the account login server data.");
 					System.out.println();
 					System.out.print("Do you really want to delete this account? Y/N: ");
-
+					
 					String yesno = _scn.next();
 					if ((yesno != null) && yesno.equalsIgnoreCase("Y"))
 					{
@@ -106,7 +106,7 @@ public class SQLAccountManager
 					System.out.println("2 - GM/privileged accounts (accessLevel > 0");
 					System.out.println("3 - Regular accounts only (accessLevel = 0)");
 					System.out.println("4 - List all");
-
+					
 					while (!(_mode.equals("1") || _mode.equals("2") || _mode.equals("3") || _mode.equals("4")))
 					{
 						System.out.print("Your choice: ");
@@ -119,7 +119,7 @@ public class SQLAccountManager
 				{
 					System.exit(0);
 				}
-
+				
 				_uname = "";
 				_pass = "";
 				_level = "";
@@ -128,7 +128,7 @@ public class SQLAccountManager
 			}
 		}
 	}
-
+	
 	private static void printAccInfo(String m)
 	{
 		int count = 0;
@@ -146,7 +146,7 @@ public class SQLAccountManager
 			q = q.concat("WHERE access_level = 0");
 		}
 		q = q.concat(" ORDER BY login ASC");
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection(); PreparedStatement ps = con.prepareStatement(q); ResultSet rset = ps.executeQuery())
 		{
 			while (rset.next())
@@ -154,7 +154,7 @@ public class SQLAccountManager
 				System.out.println(rset.getString("login") + " -> " + rset.getInt("access_level"));
 				count++;
 			}
-
+			
 			System.out.println("Displayed accounts: " + count);
 		}
 		catch (SQLException e)
@@ -163,13 +163,13 @@ public class SQLAccountManager
 			System.out.println(e.getMessage());
 		}
 	}
-
+	
 	private static void addOrUpdateAccount(String account, String password, String level)
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection(); PreparedStatement ps = con.prepareStatement("REPLACE accounts(login, password, access_level) VALUES (?, ?, ?)"))
 		{
 			byte[] newPassword = MessageDigest.getInstance("SHA").digest(password.getBytes("UTF-8"));
-
+			
 			ps.setString(1, account);
 			ps.setString(2, Base64.getEncoder().encodeToString(newPassword));
 			ps.setString(3, level);
@@ -188,7 +188,7 @@ public class SQLAccountManager
 			System.out.println(e.getMessage());
 		}
 	}
-
+	
 	private static void changeAccountLevel(String account, String level)
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection(); PreparedStatement ps = con.prepareStatement("UPDATE accounts SET access_level = ? WHERE login = ?"))
@@ -210,7 +210,7 @@ public class SQLAccountManager
 			System.out.println(e.getMessage());
 		}
 	}
-
+	
 	private static void deleteAccount(String account)
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection(); PreparedStatement ps = con.prepareStatement("DELETE FROM accounts WHERE login = ?"))

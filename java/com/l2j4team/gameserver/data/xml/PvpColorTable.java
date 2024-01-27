@@ -32,38 +32,38 @@ import org.w3c.dom.Node;
 public class PvpColorTable
 {
 	private static final Logger _log = Logger.getLogger(PvpColorTable.class.getName());
-
+	
 	private static List<PvpColor> _pvpColors;
-
+	
 	public static PvpColorTable getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final PvpColorTable _instance = new PvpColorTable();
 	}
-
+	
 	protected PvpColorTable()
 	{
 		_pvpColors = new ArrayList<>();
 		load();
 	}
-
+	
 	public void reload()
 	{
 		_pvpColors.clear();
 		load();
 	}
-
+	
 	private void load()
 	{
 		try
 		{
 			File f = new File("./data/xml/pvp_color.xml");
 			Document doc = XMLDocumentFactory.getInstance().loadDocument(f);
-
+			
 			Node n = doc.getFirstChild();
 			for (Node d = n.getFirstChild(); d != null; d = d.getNextSibling())
 			{
@@ -71,7 +71,7 @@ public class PvpColorTable
 				{
 					StatsSet pvpColorData = new StatsSet();
 					NamedNodeMap attrs = d.getAttributes();
-
+					
 					pvpColorData.set("pvpAmount", Integer.valueOf(attrs.getNamedItem("pvpAmount").getNodeValue()));
 					pvpColorData.set("nameColor", Integer.decode(attrs.getNamedItem("nameColor").getNodeValue()));
 					_pvpColors.add(new PvpColor(pvpColorData));
@@ -82,31 +82,31 @@ public class PvpColorTable
 		{
 			_log.warning("Exception: PvpColorTable load: " + e);
 		}
-
+		
 		_log.info("PvpColorTable: Loaded " + _pvpColors.size() + " template(s).");
 	}
-
+	
 	public List<PvpColor> getPvpColorTable()
 	{
 		return _pvpColors;
 	}
-
+	
 	public class PvpColor
 	{
 		private final int _pvpAmount;
 		private final int _nameColor;
-
+		
 		public PvpColor(StatsSet set)
 		{
 			_pvpAmount = set.getInteger("pvpAmount");
 			_nameColor = set.getInteger("nameColor");
 		}
-
+		
 		public int getPvpAmount()
 		{
 			return _pvpAmount;
 		}
-
+		
 		public int getNameColor()
 		{
 			return _nameColor;

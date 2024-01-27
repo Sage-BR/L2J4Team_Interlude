@@ -13,7 +13,7 @@ public final class EtcItem extends Item
 	private final int _sharedReuseGroup;
 	private EtcItemType _type;
 	private final int _reuseDelay;
-
+	
 	/**
 	 * Constructor for EtcItem.
 	 * @see Item constructor
@@ -23,7 +23,7 @@ public final class EtcItem extends Item
 	{
 		super(set);
 		_type = EtcItemType.valueOf(set.getString("etcitem_type", "none").toUpperCase());
-
+		
 		// l2j custom - L2EtcItemType.SHOT
 		switch (getDefaultAction())
 		{
@@ -36,20 +36,20 @@ public final class EtcItem extends Item
 				break;
 			}
 		}
-
+		
 		_type1 = Item.TYPE1_ITEM_QUESTITEM_ADENA;
 		_type2 = Item.TYPE2_OTHER; // default is other
-
+		
 		if (isQuestItem())
 			_type2 = Item.TYPE2_QUEST;
 		else if (getItemId() == PcInventory.ADENA_ID || getItemId() == PcInventory.ANCIENT_ADENA_ID)
 			_type2 = Item.TYPE2_MONEY;
-
+		
 		_handler = set.getString("handler", null); // ! null !
 		_sharedReuseGroup = set.getInteger("shared_reuse_group", -1);
 		_reuseDelay = set.getInteger("reuse_delay", 0);
 	}
-
+	
 	/**
 	 * Returns the type of Etc Item
 	 * @return L2EtcItemType
@@ -59,7 +59,7 @@ public final class EtcItem extends Item
 	{
 		return _type;
 	}
-
+	
 	/**
 	 * Returns if the item is consumable
 	 * @return boolean
@@ -69,7 +69,7 @@ public final class EtcItem extends Item
 	{
 		return ((getItemType() == EtcItemType.SHOT) || (getItemType() == EtcItemType.POTION));
 	}
-
+	
 	/**
 	 * Returns the ID of the Etc item after applying the mask.
 	 * @return int : ID of the EtcItem
@@ -79,7 +79,7 @@ public final class EtcItem extends Item
 	{
 		return getItemType().mask();
 	}
-
+	
 	/**
 	 * Return handler name. null if no handler for item
 	 * @return String
@@ -88,12 +88,12 @@ public final class EtcItem extends Item
 	{
 		return _handler;
 	}
-
+	
 	public int getSharedReuseGroup()
 	{
 		return _sharedReuseGroup;
 	}
-
+	
 	public int getReuseDelay()
 	{
 		return _reuseDelay;

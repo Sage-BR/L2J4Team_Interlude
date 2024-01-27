@@ -11,14 +11,14 @@ public class ExGetBossRecord extends L2GameServerPacket
 	private final Map<Integer, Integer> _bossRecordInfo;
 	private final int _ranking;
 	private final int _totalPoints;
-
+	
 	public ExGetBossRecord(int ranking, int totalScore, Map<Integer, Integer> list)
 	{
 		_ranking = ranking;
 		_totalPoints = totalScore;
 		_bossRecordInfo = list;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

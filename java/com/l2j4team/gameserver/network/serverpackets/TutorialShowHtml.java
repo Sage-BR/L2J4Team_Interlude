@@ -3,12 +3,12 @@ package com.l2j4team.gameserver.network.serverpackets;
 public final class TutorialShowHtml extends L2GameServerPacket
 {
 	private final String _html;
-
+	
 	public TutorialShowHtml(String html)
 	{
 		_html = html;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

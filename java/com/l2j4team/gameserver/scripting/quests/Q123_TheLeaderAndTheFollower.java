@@ -9,19 +9,19 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 {
 	private static final String qn = "Q123_TheLeaderAndTheFollower";
 	private static final String qn2 = "Q118_ToLeadAndBeLed";
-
+	
 	// NPC
 	private static final int NEWYEAR = 31961;
-
+	
 	// Mobs
 	private static final int BRUIN_LIZARDMAN = 27321;
 	private static final int PICOT_ARENEID = 27322;
-
+	
 	// Items
 	private static final int BRUIN_LIZARDMAN_BLOOD = 8549;
 	private static final int PICOT_ARANEID_LEG = 8550;
 	private static final int CRYSTAL_D = 1458;
-
+	
 	// Rewards
 	private static final int CLAN_OATH_HELM = 7850;
 	private static final int CLAN_OATH_ARMOR = 7851;
@@ -33,19 +33,19 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 	private static final int CLAN_OATH_AKETON = 7857;
 	private static final int CLAN_OATH_PADDED_GLOVES = 7858;
 	private static final int CLAN_OATH_SANDALS = 7859;
-
+	
 	public Q123_TheLeaderAndTheFollower()
 	{
 		super(123, "The Leader and the Follower");
-
+		
 		setItemsIds(BRUIN_LIZARDMAN_BLOOD, PICOT_ARANEID_LEG);
-
+		
 		addStartNpc(NEWYEAR);
 		addTalkId(NEWYEAR);
-
+		
 		addKillId(BRUIN_LIZARDMAN, PICOT_ARENEID);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -53,7 +53,7 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31961-03.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -130,10 +130,10 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 				}
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -141,7 +141,7 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -174,7 +174,7 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 						htmltext = "31961-09.htm";
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				final int state = st.getInt("state");
 				if (state == 1)
@@ -218,10 +218,10 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 					if (st.getQuestItemsCount(PICOT_ARANEID_LEG) > 7)
 					{
 						htmltext = "31961-17.htm";
-
+						
 						st.takeItems(PICOT_ARANEID_LEG, -1);
 						st.giveItems(CLAN_OATH_HELM, 1);
-
+						
 						switch (st.getInt("stateEx"))
 						{
 							case 1:
@@ -229,20 +229,20 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 								st.giveItems(CLAN_OATH_GAUNTLETS, 1);
 								st.giveItems(CLAN_OATH_SABATON, 1);
 								break;
-
+							
 							case 2:
 								st.giveItems(CLAN_OATH_BRIGANDINE, 1);
 								st.giveItems(CLAN_OATH_LEATHER_GLOVES, 1);
 								st.giveItems(CLAN_OATH_BOOTS, 1);
 								break;
-
+							
 							case 3:
 								st.giveItems(CLAN_OATH_AKETON, 1);
 								st.giveItems(CLAN_OATH_PADDED_GLOVES, 1);
 								st.giveItems(CLAN_OATH_SANDALS, 1);
 								break;
 						}
-
+						
 						st.playSound(QuestState.SOUND_FINISH);
 						st.exitQuest(false);
 					}
@@ -250,28 +250,28 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 						htmltext = "31961-16.htm";
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		if (player.getSponsor() == 0)
 		{
 			st.exitQuest(true);
 			return null;
 		}
-
+		
 		final int cond = st.getInt("cond");
 		switch (npc.getNpcId())
 		{
@@ -279,13 +279,13 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 				if (cond == 1 && st.dropItems(BRUIN_LIZARDMAN_BLOOD, 1, 10, 700000))
 					st.set("cond", "2");
 				break;
-
+			
 			case PICOT_ARENEID:
 				if (cond == 7 && getSponsor(player) && st.dropItems(PICOT_ARANEID_LEG, 1, 8, 700000))
 					st.set("cond", "8");
 				break;
 		}
-
+		
 		return null;
 	}
 }

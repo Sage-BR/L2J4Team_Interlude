@@ -8,7 +8,7 @@ public class ChangeAccessLevel extends GameServerBasePacket
 		writeD(access);
 		writeS(player);
 	}
-
+	
 	@Override
 	public byte[] getContent()
 	{

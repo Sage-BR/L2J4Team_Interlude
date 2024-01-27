@@ -8,12 +8,12 @@ import com.l2j4team.gameserver.model.pledge.Clan;
 public class PledgeStatusChanged extends L2GameServerPacket
 {
 	private final Clan _clan;
-
+	
 	public PledgeStatusChanged(Clan clan)
 	{
 		_clan = clan;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

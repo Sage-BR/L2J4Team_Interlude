@@ -9,26 +9,26 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public final class Q641_AttackSailren extends Quest
 {
 	private static final String qn = "Q641_AttackSailren";
-
+	
 	// NPCs
 	private static final int STATUE = 32109;
-
+	
 	// Quest Item
 	private static final int GAZKH_FRAGMENT = 8782;
 	private static final int GAZKH = 8784;
-
+	
 	public Q641_AttackSailren()
 	{
 		super(641, "Attack Sailren!");
-
+		
 		setItemsIds(GAZKH_FRAGMENT);
-
+		
 		addStartNpc(STATUE);
 		addTalkId(STATUE);
-
+		
 		addKillId(22196, 22197, 22198, 22199, 22218, 22223);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -36,7 +36,7 @@ public final class Q641_AttackSailren extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return null;
-
+		
 		if (event.equalsIgnoreCase("32109-5.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -59,10 +59,10 @@ public final class Q641_AttackSailren extends Quest
 				st.set("cond", "1");
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -70,7 +70,7 @@ public final class Q641_AttackSailren extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -82,7 +82,7 @@ public final class Q641_AttackSailren extends Quest
 					htmltext = (st2 != null && st2.isCompleted()) ? "32109-1.htm" : "32109-2.htm";
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				final int cond = st.getInt("cond");
 				if (cond == 1)
@@ -91,21 +91,21 @@ public final class Q641_AttackSailren extends Quest
 					htmltext = "32109-7.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMember(player, npc, "cond", "1");
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
 		if (st.dropItems(GAZKH_FRAGMENT, 1, 30, 50000))
 			st.set("cond", "2");
-
+		
 		return null;
 	}
 }

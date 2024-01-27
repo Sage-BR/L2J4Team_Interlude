@@ -8,13 +8,13 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q111_ElrokianHuntersProof extends Quest
 {
 	private static final String qn = "Q111_ElrokianHuntersProof";
-
+	
 	// NPCs
 	private static final int MARQUEZ = 32113;
 	private static final int MUSHIKA = 32114;
 	private static final int ASAMAH = 32115;
 	private static final int KIRIKASHIN = 32116;
-
+	
 	// Items
 	private static final int FRAGMENT = 8768;
 	private static final int EXPEDITION_LETTER = 8769;
@@ -22,19 +22,19 @@ public class Q111_ElrokianHuntersProof extends Quest
 	private static final int BONE = 8771;
 	private static final int SKIN = 8772;
 	private static final int PRACTICE_TRAP = 8773;
-
+	
 	public Q111_ElrokianHuntersProof()
 	{
 		super(111, "Elrokian Hunter's Proof");
-
+		
 		setItemsIds(FRAGMENT, EXPEDITION_LETTER, CLAW, BONE, SKIN, PRACTICE_TRAP);
-
+		
 		addStartNpc(MARQUEZ);
 		addTalkId(MARQUEZ, MUSHIKA, ASAMAH, KIRIKASHIN);
-
+		
 		addKillId(22196, 22197, 22198, 22218, 22200, 22201, 22202, 22219, 22208, 22209, 22210, 22221, 22203, 22204, 22205, 22220);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -42,7 +42,7 @@ public class Q111_ElrokianHuntersProof extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("32113-002.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -95,10 +95,10 @@ public class Q111_ElrokianHuntersProof extends Quest
 			st.playSound(QuestState.SOUND_FINISH);
 			st.exitQuest(false);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -106,13 +106,13 @@ public class Q111_ElrokianHuntersProof extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
 				htmltext = (player.getLevel() < 75) ? "32113-000.htm" : "32113-001.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -127,7 +127,7 @@ public class Q111_ElrokianHuntersProof extends Quest
 						else if (cond == 5)
 							htmltext = "32113-010.htm";
 						break;
-
+					
 					case MUSHIKA:
 						if (cond == 1)
 						{
@@ -136,7 +136,7 @@ public class Q111_ElrokianHuntersProof extends Quest
 						}
 						htmltext = "32114-001.htm";
 						break;
-
+					
 					case ASAMAH:
 						if (cond == 2)
 							htmltext = "32115-001.htm";
@@ -159,7 +159,7 @@ public class Q111_ElrokianHuntersProof extends Quest
 							st.giveItems(PRACTICE_TRAP, 1);
 						}
 						break;
-
+					
 					case KIRIKASHIN:
 						if (cond < 6)
 							htmltext = "32116-008.htm";
@@ -175,24 +175,24 @@ public class Q111_ElrokianHuntersProof extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		Player partyMember = getRandomPartyMemberState(player, npc, STATE_STARTED);
 		if (partyMember == null)
 			return null;
-
+		
 		QuestState st = partyMember.getQuestState(qn);
-
+		
 		switch (npc.getNpcId())
 		{
 			case 22196:
@@ -202,7 +202,7 @@ public class Q111_ElrokianHuntersProof extends Quest
 				if (st.getInt("cond") == 4 && st.dropItems(FRAGMENT, 1, 50, 250000))
 					st.set("cond", "5");
 				break;
-
+			
 			case 22200:
 			case 22201:
 			case 22202:
@@ -211,7 +211,7 @@ public class Q111_ElrokianHuntersProof extends Quest
 					if (st.getQuestItemsCount(BONE) >= 10 && st.getQuestItemsCount(SKIN) >= 10)
 						st.set("cond", "11");
 				break;
-
+			
 			case 22208:
 			case 22209:
 			case 22210:
@@ -220,7 +220,7 @@ public class Q111_ElrokianHuntersProof extends Quest
 					if (st.getQuestItemsCount(CLAW) >= 10 && st.getQuestItemsCount(BONE) >= 10)
 						st.set("cond", "11");
 				break;
-
+			
 			case 22203:
 			case 22204:
 			case 22205:
@@ -230,7 +230,7 @@ public class Q111_ElrokianHuntersProof extends Quest
 						st.set("cond", "11");
 				break;
 		}
-
+		
 		return null;
 	}
 }

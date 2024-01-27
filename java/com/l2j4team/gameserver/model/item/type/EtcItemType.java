@@ -26,12 +26,12 @@ public enum EtcItemType implements ItemType
 	BLESS_SCRL_ENCHANT_AM,
 	COUPON,
 	ELIXIR,
-
+	
 	// L2J CUSTOM, BACKWARD COMPATIBILITY
 	SHOT,
 	HERB,
 	QUEST;
-
+	
 	/**
 	 * Returns the ID of the item after applying the mask.
 	 * @return int : ID of the item

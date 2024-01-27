@@ -13,43 +13,43 @@ import com.l2j4team.gameserver.network.serverpackets.SystemMessage;
 public class RequestUnEquipItem extends L2GameClientPacket
 {
 	private int _slot;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_slot = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		if (activeChar._haveFlagCTF)
 		{
 			activeChar.sendMessage("You can't unequip a CTF flag.");
 			return;
 		}
-
+		
 		ItemInstance item = activeChar.getInventory().getPaperdollItemByL2ItemId(_slot);
 		// Prevent of unequiping a cursed weapon
 		if ((item == null) || (_slot == Item.SLOT_LR_HAND && activeChar.isCursedWeaponEquipped()))
 			return;
-
+		
 		// Prevent player from unequipping items in special conditions
 		if (activeChar.isStunned() || activeChar.isSleeping() || activeChar.isParalyzed() || activeChar.isAfraid() || activeChar.isAlikeDead())
 		{
 			activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_CANNOT_BE_USED).addItemName(item));
 			return;
 		}
-
+		
 		if (activeChar.isCastingNow() || activeChar.isCastingSimultaneouslyNow())
 			return;
-
+		
 		ItemInstance[] unequipped = activeChar.getInventory().unEquipItemInBodySlotAndRecord(_slot);
-
+		
 		// show the update in the inventory
 		InventoryUpdate iu = new InventoryUpdate();
 		for (ItemInstance itm : unequipped)
@@ -59,7 +59,7 @@ public class RequestUnEquipItem extends L2GameClientPacket
 		}
 		activeChar.sendPacket(iu);
 		activeChar.broadcastUserInfo();
-
+		
 		// this can be 0 if the user pressed the right mousebutton twice very fast
 		if (unequipped.length > 0)
 		{

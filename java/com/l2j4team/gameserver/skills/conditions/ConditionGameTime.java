@@ -9,12 +9,12 @@ import com.l2j4team.gameserver.taskmanager.GameTimeTaskManager;
 public class ConditionGameTime extends Condition
 {
 	private final boolean _night;
-
+	
 	public ConditionGameTime(boolean night)
 	{
 		_night = night;
 	}
-
+	
 	@Override
 	public boolean testImpl(Env env)
 	{

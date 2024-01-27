@@ -16,7 +16,7 @@ public interface IChatHandler
 	 * @param text
 	 */
 	public void handleChat(int type, Player activeChar, String target, String text);
-
+	
 	/**
 	 * Returns a list of all chat types registered to this handler
 	 * @return

@@ -10,20 +10,20 @@ import com.l2j4team.gameserver.network.SystemMessageId;
 public final class RequestHennaRemove extends L2GameClientPacket
 {
 	private int _symbolId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_symbolId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		for (int i = 1; i <= 3; i++)
 		{
 			Henna henna = activeChar.getHenna(i);

@@ -15,26 +15,26 @@ public class L2NoStoreZone extends L2ZoneType
 	{
 		super(id);
 	}
-
+	
 	@Override
 	protected void onEnter(final Creature character)
 	{
 		if (character instanceof Player)
 			character.setInsideZone(ZoneId.NO_STORE, true);
 	}
-
+	
 	@Override
 	protected void onExit(final Creature character)
 	{
 		if (character instanceof Player)
 			character.setInsideZone(ZoneId.NO_STORE, false);
 	}
-
+	
 	@Override
 	public void onDieInside(final Creature character)
 	{
 	}
-
+	
 	@Override
 	public void onReviveInside(final Creature character)
 	{

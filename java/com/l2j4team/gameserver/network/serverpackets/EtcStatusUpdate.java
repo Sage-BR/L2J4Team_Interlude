@@ -10,12 +10,12 @@ import com.l2j4team.gameserver.templates.skills.L2EffectFlag;
 public class EtcStatusUpdate extends L2GameServerPacket
 {
 	private final Player _activeChar;
-
+	
 	public EtcStatusUpdate(Player activeChar)
 	{
 		_activeChar = activeChar;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{

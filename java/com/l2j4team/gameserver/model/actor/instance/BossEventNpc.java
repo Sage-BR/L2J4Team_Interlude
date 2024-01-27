@@ -27,7 +27,7 @@ public class BossEventNpc extends Folk
 		super(objectId, template);
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
 	public void onAction(Player player)
 	{
@@ -45,28 +45,28 @@ public class BossEventNpc extends Folk
 			{
 				// Rotate the player to face the instance
 				player.sendPacket(new MoveToPawn(player, this, Npc.INTERACTION_DISTANCE));
-
+				
 				if (hasRandomAnimation())
 					onRandomAnimation(Rnd.get(8));
-
+				
 				showMainWindow(player);
-
+				
 				// Send ActionFailed to the player in order to avoid he stucks
 				player.sendPacket(ActionFailed.STATIC_PACKET);
 			}
 		}
 	}
-
+	
 	private void showMainWindow(Player player)
 	{
-
+		
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile("data/html/mods/BossEvent/BossEventJoin.htm");
 		html.replace("%objectId%", String.valueOf(getObjectId()));
 		html.replace("%npcname%", getName());
 		html.replace("%regCount%", String.valueOf(BossEvent.getInstance().eventPlayers.size()));
 		player.sendPacket(html);
-
+		
 		if (BossEvent.getInstance().isRegistered(player))
 		{
 			html.setFile("data/html/mods/BossEvent/BossEventCancel.htm");
@@ -76,11 +76,11 @@ public class BossEventNpc extends Folk
 			player.sendPacket(html);
 		}
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player activeChar, String command)
 	{
-
+		
 		super.onBypassFeedback(activeChar, command);
 		if (command.startsWith("register"))
 		{
@@ -95,7 +95,7 @@ public class BossEventNpc extends Folk
 				{
 					activeChar.sendMessage("You have been successfully registered in Boss Event!");
 				}
-
+				
 			}
 			else
 			{
@@ -106,5 +106,5 @@ public class BossEventNpc extends Folk
 			}
 		}
 	}
-
+	
 }

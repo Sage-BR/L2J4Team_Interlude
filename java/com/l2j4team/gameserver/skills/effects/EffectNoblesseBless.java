@@ -14,30 +14,30 @@ public class EffectNoblesseBless extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public L2EffectType getEffectType()
 	{
 		return L2EffectType.NOBLESSE_BLESSING;
 	}
-
+	
 	@Override
 	public boolean onStart()
 	{
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public int getEffectFlags()
 	{

@@ -27,7 +27,7 @@ public class WeddingManagerNpc extends Folk
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void onAction(Player player)
 	{
@@ -43,10 +43,10 @@ public class WeddingManagerNpc extends Folk
 			{
 				// Rotate the player to face the instance
 				player.sendPacket(new MoveToPawn(player, this, Npc.INTERACTION_DISTANCE));
-
+				
 				// Send ActionFailed to the player in order to avoid he stucks
 				player.sendPacket(ActionFailed.STATIC_PACKET);
-
+				
 				// Shouldn't be able to see wedding content if the mod isn't activated on configs
 				if (!Config.ALLOW_WEDDING)
 					sendHtmlMessage(player, "data/html/mods/wedding/disabled.htm");
@@ -65,7 +65,7 @@ public class WeddingManagerNpc extends Folk
 			}
 		}
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
@@ -73,7 +73,7 @@ public class WeddingManagerNpc extends Folk
 		{
 			StringTokenizer st = new StringTokenizer(command);
 			st.nextToken();
-
+			
 			if (st.hasMoreTokens())
 			{
 				final Player partner = World.getInstance().getPlayer(st.nextToken());
@@ -82,15 +82,15 @@ public class WeddingManagerNpc extends Folk
 					sendHtmlMessage(player, "data/html/mods/wedding/notfound.htm");
 					return;
 				}
-
+				
 				// check conditions
 				if (!weddingConditions(player, partner))
 					return;
-
+				
 				// block the wedding manager until an answer is given.
 				player.setUnderMarryRequest(true);
 				partner.setUnderMarryRequest(true);
-
+				
 				// memorize the requesterId for future use, and send a popup to the target
 				partner.setRequesterId(player.getObjectId());
 				partner.sendPacket(new ConfirmDlg(1983).addString(player.getName() + " asked you to marry. Do you want to start a new relationship ?"));
@@ -109,32 +109,32 @@ public class WeddingManagerNpc extends Folk
 				player.sendMessage("Your partner can't be found.");
 				return;
 			}
-
+			
 			final Player partner = World.getInstance().getPlayer(partnerId);
 			if (partner == null)
 			{
 				player.sendMessage("Your partner is not online.");
 				return;
 			}
-
+			
 			// Simple checks to avoid exploits
 			if (partner.isInJail() || partner.isInOlympiadMode() || partner.isInDuel() || partner.isFestivalParticipant() || (partner.isInParty() && partner.getParty().isInDimensionalRift()) || partner.isInObserverMode())
 			{
 				player.sendMessage("Due to the current partner's status, the teleportation failed.");
 				return;
 			}
-
+			
 			if (partner.getClan() != null && CastleManager.getInstance().getCastleByOwner(partner.getClan()) != null && CastleManager.getInstance().getCastleByOwner(partner.getClan()).getSiege().isInProgress())
 			{
 				player.sendMessage("As your partner is in siege, you can't go to him/her.");
 				return;
 			}
-
+			
 			// If all checks are successfully passed, teleport the player to the partner
 			player.teleToLocation(partner.getX(), partner.getY(), partner.getZ(), 20);
 		}
 	}
-
+	
 	/**
 	 * Are both partners wearing formal wear ? If Formal Wear check is disabled, returns True in any case.<BR>
 	 * @param p1 Player
@@ -146,14 +146,14 @@ public class WeddingManagerNpc extends Folk
 		ItemInstance fw1 = p1.getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
 		if (fw1 == null || fw1.getItemId() != 6408)
 			return false;
-
+		
 		ItemInstance fw2 = p2.getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
 		if (fw2 == null || fw2.getItemId() != 6408)
 			return false;
-
+		
 		return true;
 	}
-
+	
 	private boolean weddingConditions(Player requester, Player partner)
 	{
 		// Check if player target himself
@@ -162,70 +162,70 @@ public class WeddingManagerNpc extends Folk
 			sendHtmlMessage(requester, "data/html/mods/wedding/error_wrongtarget.htm");
 			return false;
 		}
-
+		
 		// Sex check
 		if (!Config.WEDDING_SAMESEX && partner.getAppearance().getSex() == requester.getAppearance().getSex())
 		{
 			sendHtmlMessage(requester, "data/html/mods/wedding/error_sex.htm");
 			return false;
 		}
-
+		
 		// Check if player has the target on friendlist
 		if (!requester.getFriendList().contains(partner.getObjectId()))
 		{
 			sendHtmlMessage(requester, "data/html/mods/wedding/error_friendlist.htm");
 			return false;
 		}
-
+		
 		// Target mustn't be already married
 		if (partner.getCoupleId() > 0)
 		{
 			sendHtmlMessage(requester, "data/html/mods/wedding/error_alreadymarried.htm");
 			return false;
 		}
-
+		
 		// Check for Formal Wear
 		if (Config.WEDDING_FORMALWEAR && !wearsFormalWear(requester, partner))
 		{
 			sendHtmlMessage(requester, "data/html/mods/wedding/error_noformal.htm");
 			return false;
 		}
-
+		
 		// Check and reduce wedding price
 		if (requester.getAdena() < Config.WEDDING_PRICE || partner.getAdena() < Config.WEDDING_PRICE)
 		{
 			sendHtmlMessage(requester, "data/html/mods/wedding/error_adena.htm");
 			return false;
 		}
-
+		
 		return true;
 	}
-
+	
 	public static void justMarried(Player requester, Player partner)
 	{
 		// Unlock the wedding manager for both users, and set them as married
 		requester.setUnderMarryRequest(false);
 		partner.setUnderMarryRequest(false);
-
+		
 		// reduce adenas amount according to configs
 		requester.reduceAdena("Wedding", Config.WEDDING_PRICE, requester.getCurrentFolkNPC(), true);
 		partner.reduceAdena("Wedding", Config.WEDDING_PRICE, requester.getCurrentFolkNPC(), true);
-
+		
 		// Messages to the couple
 		requester.sendMessage("Congratulations, you are now married with " + partner.getName() + " !");
 		partner.sendMessage("Congratulations, you are now married with " + requester.getName() + " !");
-
+		
 		// Wedding march
 		requester.broadcastPacket(new MagicSkillUse(requester, requester, 2230, 1, 1, 0));
 		partner.broadcastPacket(new MagicSkillUse(partner, partner, 2230, 1, 1, 0));
-
+		
 		// Fireworks
 		requester.doCast(FrequentSkill.LARGE_FIREWORK.getSkill());
 		partner.doCast(FrequentSkill.LARGE_FIREWORK.getSkill());
-
+		
 		Broadcast.announceToOnlinePlayers("Congratulations to " + requester.getName() + " and " + partner.getName() + "! They have been married.");
 	}
-
+	
 	private void sendHtmlMessage(Player player, String file)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());

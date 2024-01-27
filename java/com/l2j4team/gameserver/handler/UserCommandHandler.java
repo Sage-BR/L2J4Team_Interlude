@@ -20,12 +20,12 @@ import java.util.Map;
 public class UserCommandHandler
 {
 	private final Map<Integer, IUserCommandHandler> _datatable = new HashMap<>();
-
+	
 	public static UserCommandHandler getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	protected UserCommandHandler()
 	{
 		registerUserCommandHandler(new ChannelDelete());
@@ -42,23 +42,23 @@ public class UserCommandHandler
 		registerUserCommandHandler(new SiegeStatus());
 		registerUserCommandHandler(new Time());
 	}
-
+	
 	public void registerUserCommandHandler(IUserCommandHandler handler)
 	{
 		for (int id : handler.getUserCommandList())
 			_datatable.put(id, handler);
 	}
-
+	
 	public IUserCommandHandler getUserCommandHandler(int userCommand)
 	{
 		return _datatable.get(userCommand);
 	}
-
+	
 	public int size()
 	{
 		return _datatable.size();
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final UserCommandHandler _instance = new UserCommandHandler();

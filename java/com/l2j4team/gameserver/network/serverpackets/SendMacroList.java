@@ -10,24 +10,24 @@ public class SendMacroList extends L2GameServerPacket
 	private final int _rev;
 	private final int _count;
 	private final L2Macro _macro;
-
+	
 	public SendMacroList(int rev, int count, L2Macro macro)
 	{
 		_rev = rev;
 		_count = count;
 		_macro = macro;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0xE7);
-
+		
 		writeD(_rev); // macro change revision (changes after each macro edition)
 		writeC(0); // unknown
 		writeC(_count); // count of Macros
 		writeC(_macro != null ? 1 : 0); // unknown
-
+		
 		if (_macro != null)
 		{
 			writeD(_macro.id); // Macro ID
@@ -35,9 +35,9 @@ public class SendMacroList extends L2GameServerPacket
 			writeS(_macro.descr); // Desc
 			writeS(_macro.acronym); // acronym
 			writeC(_macro.icon); // icon
-
+			
 			writeC(_macro.commands.length); // count
-
+			
 			for (int i = 0; i < _macro.commands.length; i++)
 			{
 				L2Macro.L2MacroCmd cmd = _macro.commands[i];

@@ -39,30 +39,30 @@ import com.l2j4team.commons.random.Rnd;
 public class GrandBossTeleporters extends Quest
 {
 	private static final String qn = "GrandBossTeleporters";
-
+	
 	private static final Location BAIUM_IN = new Location(113100, 14500, 10077);
 	private static final Location[] BAIUM_OUT =
 	{
 		new Location(83400, 147943, -3404),
 	};
-
+	
 	private static final Location SAILREN_IN = new Location(27333, -6835, -1970);
 	private static final Location[] SAILREN_OUT =
 	{
 		new Location(83400, 147943, -3404),
 	};
-
+	
 	private static int _valakasPlayersCount = 0;
-
+	
 	public GrandBossTeleporters()
 	{
 		super(-1, "teleports");
-
+		
 		addFirstTalkId(29055, 31862);
 		addStartNpc(13001, 29055, 31859, 31384, 31385, 31540, 31686, 31687, 31759, 31862, 32107, 32109);
 		addTalkId(13001, 29055, 31859, 31384, 31385, 31540, 31686, 31687, 31759, 31862, 32107, 32109);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -70,9 +70,9 @@ public class GrandBossTeleporters extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			st = newQuestState(player);
-
+		
 		st.setState(STATE_STARTED);
-
+		
 		if (event.equalsIgnoreCase("baium"))
 		{
 			// Player is mounted on a wyvern, cancel it.
@@ -86,9 +86,9 @@ public class GrandBossTeleporters extends Quest
 			{
 				if (player.getMountType() != 0)
 					player.dismount();
-
+				
 				st.takeItems(Config.QUEST_BAIUM, 1);
-
+				
 				// allow entry for the player for the next 30 secs.
 				ZoneManager.getInstance().getZoneById(110002, L2BossZone.class).allowPlayerEntry(player, 30);
 				player.teleToLocation(BAIUM_IN, 0);
@@ -111,7 +111,7 @@ public class GrandBossTeleporters extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onFirstTalk(Npc npc, Player player)
 	{
@@ -119,15 +119,15 @@ public class GrandBossTeleporters extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			st = newQuestState(player);
-
+		
 		st.setState(STATE_STARTED);
-
+		
 		switch (npc.getNpcId())
 		{
 			case 29055:
 				htmltext = "29055-01.htm";
 				break;
-
+			
 			case 31862:
 				final int status = GrandBossManager.getInstance().getBossStatus(29020);
 				if (status == Baium.AWAKE)
@@ -138,10 +138,10 @@ public class GrandBossTeleporters extends Quest
 					htmltext = "31862-00.htm";
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -149,9 +149,9 @@ public class GrandBossTeleporters extends Quest
 		QuestState st = player.getQuestState(getName());
 		if (st == null)
 			return null;
-
+		
 		st.setState(STATE_STARTED);
-
+		
 		int status;
 		switch (npc.getNpcId())
 		{
@@ -167,12 +167,12 @@ public class GrandBossTeleporters extends Quest
 					{
 						if (player.getMountType() != 0)
 							player.dismount();
-
+						
 						st.takeItems(Config.QUEST_ANTHARAS, 1);
 						ZoneManager.getInstance().getZoneById(110001, L2BossZone.class).allowPlayerEntry(player, 30);
-
+						
 						player.teleToLocation(175300 + Rnd.get(-350, 350), 115180 + Rnd.get(-1000, 1000), -7709, 0);
-
+						
 						if (status == Antharas.DORMANT)
 						{
 							GrandBossManager.getInstance().setBossStatus(Antharas.ANTHARAS, Antharas.WAITING);
@@ -183,11 +183,11 @@ public class GrandBossTeleporters extends Quest
 						htmltext = "13001-03.htm";
 				}
 				break;
-
+			
 			case 31859:
 				player.teleToLocation(79800 + Rnd.get(600), 151200 + Rnd.get(1100), -3534, 0);
 				break;
-
+			
 			case 31385:
 				status = GrandBossManager.getInstance().getBossStatus(Valakas.VALAKAS);
 				if (status == 0 || status == 1)
@@ -198,14 +198,14 @@ public class GrandBossTeleporters extends Quest
 					{
 						st.unset("allowEnter");
 						ZoneManager.getInstance().getZoneById(110010, L2BossZone.class).allowPlayerEntry(player, 30);
-
+						
 						if (player.getMountType() != 0)
 							player.dismount();
-
+						
 						player.teleToLocation(204328, -111874, 70, 300);
-
+						
 						_valakasPlayersCount++;
-
+						
 						if (status == Valakas.DORMANT)
 						{
 							GrandBossManager.getInstance().setBossStatus(Valakas.VALAKAS, Valakas.WAITING);
@@ -220,19 +220,19 @@ public class GrandBossTeleporters extends Quest
 				else
 					htmltext = "31385-01.htm";
 				break;
-
+			
 			case 31384:
 				DoorTable.getInstance().getDoor(24210004).openMe();
 				break;
-
+			
 			case 31686:
 				DoorTable.getInstance().getDoor(24210006).openMe();
 				break;
-
+			
 			case 31687:
 				DoorTable.getInstance().getDoor(24210005).openMe();
 				break;
-
+			
 			case 31540:
 				if (_valakasPlayersCount < 50)
 					htmltext = "31540-01.htm";
@@ -245,15 +245,15 @@ public class GrandBossTeleporters extends Quest
 				else
 					htmltext = "31540-05.htm";
 				break;
-
+			
 			case 31759:
 				player.teleToLocation(83400, 147943, -3404, 0);
 				break;
-
+			
 			case 32107:
 				player.teleToLocation(Rnd.get(SAILREN_OUT), 100);
 				break;
-
+			
 			case 32109:
 				status = GrandBossManager.getInstance().getBossStatus(Sailren.SAILREN);
 				if (status == Sailren.FIGHTING)
@@ -266,11 +266,11 @@ public class GrandBossTeleporters extends Quest
 					{
 						if (player.getMountType() != 0)
 							player.dismount();
-
+						
 						st.takeItems(Config.QUEST_SAILREN, 1);
 						ZoneManager.getInstance().getZoneById(110015, L2BossZone.class).allowPlayerEntry(player, 30);
 						player.teleToLocation(SAILREN_IN, 100);
-
+						
 						if (status == Sailren.DORMANT)
 						{
 							GrandBossManager.getInstance().setBossStatus(Sailren.SAILREN, Sailren.WAITING);
@@ -279,23 +279,23 @@ public class GrandBossTeleporters extends Quest
 					}
 					else
 						htmltext = "32109-03.htm";
-
+					
 					break;
 				}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	public static void waiter(long interval)
 	{
 		long startWaiterTime = System.currentTimeMillis();
 		int seconds = (int) (interval / 1000);
-
+		
 		while (startWaiterTime + interval > System.currentTimeMillis() && GrandBossManager._announce)
 		{
 			seconds--; // Here because we don't want to see two time announce at the same time
-
+			
 			switch (seconds)
 			{
 				case 3600: // 1 hour left
@@ -310,7 +310,7 @@ public class GrandBossTeleporters extends Quest
 				case 299: // 10 minutes left
 					GrandBossManager.AnnounceGrandBoss("Spawn Antharas in 5 minute(s) !");
 					break;
-
+				
 				case 1500: // 25 minutes left
 				case 1200: // 20 minutes left
 				case 900: // 15 minutes left
@@ -328,7 +328,7 @@ public class GrandBossTeleporters extends Quest
 				case 15: // 15 seconds left
 					GrandBossManager.AnnounceGrandBoss("Spawn Antharas in " + seconds + " second(s) !");
 					break;
-
+				
 				case 6: // 3 seconds left
 				case 5: // 3 seconds left
 				case 4: // 3 seconds left
@@ -336,7 +336,7 @@ public class GrandBossTeleporters extends Quest
 				case 2: // 1 seconds left
 					GrandBossManager.AnnounceGrandBoss("Spawn Antharas in " + (seconds - 1) + " second(s) !");
 					break;
-
+				
 				case 1: // 1 seconds left
 				{
 					if (GrandBossManager._announce)
@@ -345,9 +345,9 @@ public class GrandBossTeleporters extends Quest
 				}
 					break;
 			}
-
+			
 			long startOneSecondWaiterStartTime = System.currentTimeMillis();
-
+			
 			// Only the try catch with Thread.sleep(1000) give bad countdown on high wait times
 			while (startOneSecondWaiterStartTime + 1000 > System.currentTimeMillis())
 			{

@@ -32,7 +32,7 @@ public class PartyFarm
 	{
 		openSpoilDoors();
 		closeSpoilDoors();
-
+		
 		int[] coord;
 		for (int i = 0; i < Config.MONSTER_LOCS_COUNT; i++)
 		{
@@ -40,7 +40,7 @@ public class PartyFarm
 			monsters.add(spawnNPC(coord[0], coord[1], coord[2], Config.monsterId));
 		}
 	}
-
+	
 	private static void closeSpoilDoors()
 	{
 		if (Config.CLOSE_DOORS_PARTY_FARM)
@@ -52,7 +52,7 @@ public class PartyFarm
 			}
 		}
 	}
-
+	
 	private static void openSpoilDoors()
 	{
 		if (Config.OPEN_DOORS_PARTY_FARM)
@@ -64,19 +64,19 @@ public class PartyFarm
 			}
 		}
 	}
-
+	
 	protected static L2Spawn spawnNPC(int xPos, int yPos, int zPos, int npcId)
 	{
 		final NpcTemplate template = NpcTable.getInstance().getTemplate(npcId);
-
+		
 		try
 		{
 			final L2Spawn spawn = new L2Spawn(template);
 			spawn.setLoc(xPos, yPos, zPos, 0);
 			spawn.setRespawnDelay(Config.PARTY_FARM_MONSTER_DALAY);
-
+			
 			SpawnTable.getInstance().addNewSpawn(spawn, false);
-
+			
 			spawn.setRespawnState(true);
 			spawn.doSpawn(false);
 			spawn.getNpc().isAggressive();
@@ -90,9 +90,9 @@ public class PartyFarm
 			return null;
 		}
 	}
-
+	
 	public static List<L2Spawn> monsters = new CopyOnWriteArrayList<>();
-
+	
 	protected static void unSpawnMonsters()
 	{
 		for (L2Spawn s : monsters)
@@ -102,7 +102,7 @@ public class PartyFarm
 				monsters.remove(s);
 				continue;
 			}
-
+			
 			s.getNpc().deleteMe();
 			s.setRespawnState(false);
 			SpawnTable.getInstance().deleteSpawn(s, true);

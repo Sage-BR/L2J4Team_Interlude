@@ -11,18 +11,18 @@ import com.l2j4team.commons.util.ArraysUtil;
 public final class Q125_TheNameOfEvil_1 extends Quest
 {
 	public static final String qn = "Q125_TheNameOfEvil_1";
-
+	
 	private static final int MUSHIKA = 32114;
 	private static final int KARAKAWEI = 32117;
 	private static final int ULU_KAIMU = 32119;
 	private static final int BALU_KAIMU = 32120;
 	private static final int CHUTA_KAIMU = 32121;
-
+	
 	private static final int ORNITHOMIMUS_CLAW = 8779;
 	private static final int DEINONYCHUS_BONE = 8780;
 	private static final int EPITAPH_OF_WISDOM = 8781;
 	private static final int GAZKH_FRAGMENT = 8782;
-
+	
 	private static final int[] ORNITHOMIMUS =
 	{
 		22200,
@@ -33,7 +33,7 @@ public final class Q125_TheNameOfEvil_1 extends Quest
 		22742,
 		22744
 	};
-
+	
 	private static final int[] DEINONYCHUS =
 	{
 		16067,
@@ -45,23 +45,23 @@ public final class Q125_TheNameOfEvil_1 extends Quest
 		22743,
 		22745
 	};
-
+	
 	public Q125_TheNameOfEvil_1()
 	{
 		super(125, "The Name of Evil - 1");
-
+		
 		setItemsIds(ORNITHOMIMUS_CLAW, DEINONYCHUS_BONE, EPITAPH_OF_WISDOM, GAZKH_FRAGMENT);
-
+		
 		addStartNpc(MUSHIKA);
 		addTalkId(MUSHIKA, KARAKAWEI, ULU_KAIMU, BALU_KAIMU, CHUTA_KAIMU);
-
+		
 		for (int i : ORNITHOMIMUS)
 			addKillId(i);
-
+		
 		for (int i : DEINONYCHUS)
 			addKillId(i);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -69,7 +69,7 @@ public final class Q125_TheNameOfEvil_1 extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("32114-05.htm"))
 		{
 			st.setState(STATE_STARTED);
@@ -109,10 +109,10 @@ public final class Q125_TheNameOfEvil_1 extends Quest
 			st.takeItems(GAZKH_FRAGMENT, -1);
 			st.giveItems(EPITAPH_OF_WISDOM, 1);
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -120,7 +120,7 @@ public final class Q125_TheNameOfEvil_1 extends Quest
 		String htmltext = getNoQuestMsg();
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -130,7 +130,7 @@ public final class Q125_TheNameOfEvil_1 extends Quest
 				else
 					htmltext = "32114-00.htm";
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -150,7 +150,7 @@ public final class Q125_TheNameOfEvil_1 extends Quest
 							st.exitQuest(false);
 						}
 						break;
-
+					
 					case KARAKAWEI:
 						if (cond == 2)
 							htmltext = "32117-01.htm";
@@ -178,7 +178,7 @@ public final class Q125_TheNameOfEvil_1 extends Quest
 						else if (cond == 8)
 							htmltext = "32117-17.htm";
 						break;
-
+					
 					case ULU_KAIMU:
 						if (cond == 5)
 						{
@@ -188,7 +188,7 @@ public final class Q125_TheNameOfEvil_1 extends Quest
 						else if (cond == 6)
 							htmltext = "32119-14.htm";
 						break;
-
+					
 					case BALU_KAIMU:
 						if (cond == 6)
 						{
@@ -198,7 +198,7 @@ public final class Q125_TheNameOfEvil_1 extends Quest
 						else if (cond == 7)
 							htmltext = "32120-16.htm";
 						break;
-
+					
 					case CHUTA_KAIMU:
 						if (cond == 7)
 						{
@@ -210,22 +210,22 @@ public final class Q125_TheNameOfEvil_1 extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public final String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerCondition(player, npc, "cond", "3");
 		if (st == null)
 			return null;
-
+		
 		final int npcId = npc.getNpcId();
 		if (ArraysUtil.contains(ORNITHOMIMUS, npcId))
 		{

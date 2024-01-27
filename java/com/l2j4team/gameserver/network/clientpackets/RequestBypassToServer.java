@@ -58,75 +58,75 @@ import com.l2j4team.commons.random.Rnd;
 public final class RequestBypassToServer extends L2GameClientPacket
 {
 	private static final Logger GMAUDIT_LOG = Logger.getLogger("gmaudit");
-
+	
 	private String _command;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_command = readS();
 	}
-
+	
 	static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-
+	
 	@Override
 	protected void runImpl()
 	{
 		if (!FloodProtectors.performAction(getClient(), Action.SERVER_BYPASS) && !_command.startsWith("voiced_getbuff"))
 			return;
-
+		
 		final Player activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-
+		
 		if (_command.isEmpty())
 		{
 			_log.info(activeChar.getName() + " sent an empty requestBypass packet.");
 			activeChar.logout();
 			return;
 		}
-
+		
 		try
 		{
 			if (_command.startsWith("admin_"))
 			{
 				String command = _command.split(" ")[0];
-
+				
 				IAdminCommandHandler ach = AdminCommandHandler.getInstance().getAdminCommandHandler(command);
 				if (ach == null)
 				{
 					if (activeChar.isGM())
 						activeChar.sendMessage("The command " + command.substring(6) + " doesn't exist.");
-
+					
 					_log.warning("No handler registered for admin command '" + command + "'");
 					return;
 				}
-
+				
 				if (!AdminData.getInstance().hasAccess(command, activeChar.getAccessLevel()))
 				{
 					activeChar.sendMessage("You don't have the access rights to use this command.");
 					_log.warning(activeChar.getName() + " tried to use admin command " + command + " without proper Access Level.");
 					return;
 				}
-
+				
 				if (Config.GMAUDIT)
 					GMAUDIT_LOG.info(activeChar.getName() + " [" + activeChar.getObjectId() + "] used '" + _command + "' command on: " + ((activeChar.getTarget() != null) ? activeChar.getTarget().getName() : "none"));
-
+				
 				ach.useAdminCommand(_command, activeChar);
 			}
 			else if (_command.startsWith("voiced_"))
 			{
 				String command = _command.split(" ")[0];
-
+				
 				IVoicedCommandHandler ach = VoicedCommandHandler.getInstance().getHandler(_command.substring(7));
-
+				
 				if (ach == null)
 				{
 					activeChar.sendMessage("The command " + command.substring(7) + " does not exist!");
 					_log.warning("No handler registered for command '" + _command + "'");
 					return;
 				}
-
+				
 				ach.useVoicedCommand(_command.substring(7), activeChar, null);
 			}
 			else if (_command.startsWith("player_help "))
@@ -140,7 +140,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 					activeChar.sendMessage("Are you participating in the Olympiad..");
 					return;
 				}
-
+				
 				for (Gatekeeper knownChar : activeChar.getKnownTypeInRadius(Gatekeeper.class, 300))
 				{
 					if (knownChar != null)
@@ -154,23 +154,23 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			{
 				if (!activeChar.validateBypass(_command))
 					return;
-
+				
 				activeChar.setIsUsingCMultisell(false);
-
+				
 				int endOfId = _command.indexOf('_', 5);
 				String id;
 				if (endOfId > 0)
 					id = _command.substring(4, endOfId);
 				else
 					id = _command.substring(4);
-
+				
 				try
 				{
 					final WorldObject object = World.getInstance().getObject(Integer.parseInt(id));
 					if (_command.substring(endOfId + 1).startsWith("tvt_player_join "))
 					{
 						final String teamName = _command.substring(endOfId + 1).substring(16);
-
+						
 						if (TvT.is_joining())
 							TvT.addPlayer(activeChar, teamName);
 						else
@@ -210,7 +210,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 					else if (_command.substring(endOfId + 1).startsWith("ctf_player_join "))
 					{
 						final String teamName = _command.substring(endOfId + 1).substring(16);
-
+						
 						if (CTF.is_joining())
 							CTF.addPlayer(activeChar, teamName);
 						else
@@ -223,10 +223,10 @@ public final class RequestBypassToServer extends L2GameClientPacket
 						else
 							activeChar.sendMessage("The event is already started. You can not leave now!");
 					}
-
+					
 					else if (object != null && object instanceof Npc && endOfId > 0 && ((Npc) object).canInteract(activeChar))
 						((Npc) object).onBypassFeedback(activeChar, _command.substring(endOfId + 1));
-
+					
 					activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 				}
 				catch (NumberFormatException nfe)
@@ -237,17 +237,17 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			{
 				StringTokenizer st = new StringTokenizer(_command, " ");
 				st.nextToken();
-
+				
 				int npcId = Integer.parseInt(st.nextToken());
 				int page = st.hasMoreTokens() ? Integer.parseInt(st.nextToken()) : 1;
-
+				
 				Npc.sendNpcDrop(activeChar, npcId, page);
 			}
 			else if (_command.startsWith("pvpzone"))
 			{
 				if (!activeChar.isGM())
 					return;
-
+				
 				if (VoteZone.is_zone_1())
 					activeChar.teleToLocation(Config.ZONE_1X + Rnd.get(-80, 80), Config.ZONE_1Y + Rnd.get(-80, 80), Config.ZONE_1Z, 0);
 				else if (VoteZone.is_zone_2())
@@ -274,42 +274,42 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			{
 				final String clientInfo = activeChar.getClient().toString();
 				final String ip = clientInfo.substring(clientInfo.indexOf(" - IP: ") + 7, clientInfo.lastIndexOf("]"));
-
+				
 				try
 				{
 					String name = _command.substring(12);
-
+					
 					if (name.length() > 16)
 					{
 						activeChar.sendMessage("The chosen name cannot exceed 16 characters in length.");
 						return;
 					}
-
+					
 					if (name.length() < 3)
 					{
 						activeChar.sendMessage("Your name can not be mention that 3 characters in length.");
 						return;
 					}
-
+					
 					if (!StringUtil.isValidPlayerName(name))
 					{
 						activeChar.sendMessage("The new name doesn't fit with the regex pattern.");
 						return;
 					}
-
+					
 					if (PlayerNameTable.getInstance().getPlayerObjectId(name) > 0)
 					{
 						activeChar.sendMessage("The chosen name already exists.");
 						return;
 					}
-
+					
 					if (activeChar.destroyItemByItemId("Name Change", activeChar.getNameChangeItemId(), 1, null, true))
 					{
 						ChangeNameLog.auditGMAction(activeChar.getObjectId(), activeChar.getName(), name, ip);
-
+						
 						for (Player gm : World.getAllGMs())
 							gm.sendPacket(new CreatureSay(0, Say2.SHOUT, "[Name]", activeChar.getName() + " mudou o nome para [" + name + "]"));
-
+						
 						activeChar.setName(name);
 						PlayerNameTable.getInstance().updatePlayerData(activeChar, false);
 						activeChar.sendPacket(new ExShowScreenMessage("Congratulations. Your name has been changed.", 6000, 0x02, true));
@@ -327,24 +327,24 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			{
 				final String clientInfo = activeChar.getClient().toString();
 				final String ip = clientInfo.substring(clientInfo.indexOf(" - IP: ") + 7, clientInfo.lastIndexOf("]"));
-
+				
 				try
 				{
-
+					
 					String name = _command.substring(12);
-
+					
 					if (name.length() < 2 || name.length() > 16)
 					{
 						activeChar.sendPacket(SystemMessageId.CLAN_NAME_LENGTH_INCORRECT);
 						return;
 					}
-
+					
 					if (!StringUtil.isAlphaNumeric(name))
 					{
 						activeChar.sendPacket(SystemMessageId.CLAN_NAME_INVALID);
 						return;
 					}
-
+					
 					if (ClanTable.getInstance().getClanByName(name) != null)
 					{
 						// clan name is already taken
@@ -352,19 +352,19 @@ public final class RequestBypassToServer extends L2GameClientPacket
 						return;
 					}
 					final Clan clanold = activeChar.getClan();
-
+					
 					if (activeChar.destroyItemByItemId("", activeChar.getClanNameChangeItemId(), 1, null, true))
 					{
 						ChangeClanNameLog.auditGMAction(activeChar.getObjectId(), clanold.getName(), name, ip);
-
+						
 						for (Player gm : World.getAllGMs())
 							gm.sendPacket(new CreatureSay(0, Say2.SHOUT, "[ClanName]", activeChar.getName() + " mudou o nome do clan para [" + name + "]"));
-
+						
 						for (Clan clan : ClanTable.getInstance().getClans())
 						{
 							clan.setClanName(name);
 							clan.updateClanInDB();
-
+							
 						}
 						activeChar.broadcastUserInfo();
 						activeChar.store();
@@ -381,43 +381,43 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			{
 				final String clientInfo = activeChar.getClient().toString();
 				final String ip = clientInfo.substring(clientInfo.indexOf(" - IP: ") + 7, clientInfo.lastIndexOf("]"));
-
+				
 				try
 				{
-
+					
 					String name = _command.substring(12);
-
+					
 					if (!StringUtil.isAlphaNumeric(name))
 					{
 						activeChar.sendPacket(SystemMessageId.INCORRECT_ALLIANCE_NAME);
 						return;
 					}
-
+					
 					if (name.length() > 16 || name.length() < 2)
 					{
 						activeChar.sendPacket(SystemMessageId.INCORRECT_ALLIANCE_NAME_LENGTH);
 						return;
 					}
-
+					
 					if (ClanTable.getInstance().isAllyExists(name))
 					{
 						activeChar.sendPacket(SystemMessageId.ALLIANCE_ALREADY_EXISTS);
 						return;
 					}
 					final Clan clanold = activeChar.getClan();
-
+					
 					if (activeChar.destroyItemByItemId("", activeChar.getAllyNameChangeItemId(), 1, null, true))
 					{
 						ChangeAllyNameLog.auditGMAction(activeChar.getObjectId(), clanold.getAllyName(), name, ip);
-
+						
 						for (Player gm : World.getAllGMs())
 							gm.sendPacket(new CreatureSay(0, Say2.SHOUT, "[AllyName]", activeChar.getName() + " mudou o nome da Ally para [" + name + "]"));
-
+						
 						for (Clan clan : ClanTable.getInstance().getClans())
 						{
 							clan.setAllyName(name);
 							clan.updateClanInDB();
-
+							
 						}
 						activeChar.broadcastUserInfo();
 						activeChar.store();
@@ -468,7 +468,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 				{
 					Sex male = Sex.MALE;
 					Sex female = Sex.FEMALE;
-
+					
 					if (activeChar.getAppearance().getSex() == male)
 					{
 						activeChar.getAppearance().setSex(female);
@@ -485,10 +485,10 @@ public final class RequestBypassToServer extends L2GameClientPacket
 						activeChar.decayMe();
 						activeChar.spawnMe();
 					}
-
+					
 					for (Player gm : World.getAllGMs())
 						gm.sendPacket(new CreatureSay(0, Say2.SHOUT, "SYS", activeChar.getName() + " acabou de trocar de Sexo."));
-
+					
 					ThreadPool.schedule(new Runnable()
 					{
 						@Override
@@ -498,7 +498,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 						}
 					}, 2000);
 				}
-
+				
 			}
 			// Navigate throught Manor windows
 			else if (_command.startsWith("manor_menu_select?"))
@@ -515,7 +515,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			{
 				if (!activeChar.validateBypass(_command))
 					return;
-
+				
 				String[] str = _command.substring(6).trim().split(" ", 2);
 				if (str.length == 1)
 					activeChar.processQuestEvent(str[0], "");
@@ -526,50 +526,50 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			{
 				String bp = _command.substring(11);
 				StringTokenizer st = new StringTokenizer(bp);
-
+				
 				if (st.countTokens() != 1)
 				{
 					return;
 				}
-
+				
 				int classId = Integer.parseInt(st.nextToken());
-
+				
 				AdminBalancer.sendBalanceWindow(classId, activeChar);
 			}
-
+			
 			else if (_command.startsWith("bp_add"))
 			{
 				String bp = _command.substring(7);
 				StringTokenizer st = new StringTokenizer(bp);
-
+				
 				if (st.countTokens() != 3)
 				{
 					return;
 				}
-
+				
 				String stat = st.nextToken();
 				int classId = Integer.parseInt(st.nextToken()), value = Integer.parseInt(st.nextToken());
-
+				
 				BalancerEdit.editStat(stat, classId, value, true);
-
+				
 				AdminBalancer.sendBalanceWindow(classId, activeChar);
 			}
-
+			
 			else if (_command.startsWith("bp_rem"))
 			{
 				String bp = _command.substring(7);
 				StringTokenizer st = new StringTokenizer(bp);
-
+				
 				if (st.countTokens() != 3)
 				{
 					return;
 				}
-
+				
 				String stat = st.nextToken();
 				int classId = Integer.parseInt(st.nextToken()), value = Integer.parseInt(st.nextToken());
-
+				
 				BalancerEdit.editStat(stat, classId, value, false);
-
+				
 				AdminBalancer.sendBalanceWindow(classId, activeChar);
 			}
 			else if (_command.startsWith("_match"))
@@ -601,13 +601,13 @@ public final class RequestBypassToServer extends L2GameClientPacket
 					if (!activeChar.isInObserverMode() || activeChar.isInOlympiadMode() || activeChar.getOlympiadGameId() < 0)
 						return;
 				}
-
+				
 				if (OlympiadManager.getInstance().isRegisteredInComp(activeChar))
 				{
 					activeChar.sendPacket(SystemMessageId.WHILE_YOU_ARE_ON_THE_WAITING_LIST_YOU_ARE_NOT_ALLOWED_TO_WATCH_THE_GAME);
 					return;
 				}
-
+				
 				final int arenaId = Integer.parseInt(_command.substring(12).trim());
 				activeChar.enterOlympiadObserverMode(arenaId);
 			}
@@ -618,10 +618,10 @@ public final class RequestBypassToServer extends L2GameClientPacket
 					activeChar.sendMessage("You already participated in the event tvt/ctf/pvp event!");
 					return;
 				}
-
+				
 				StringTokenizer st = new StringTokenizer(_command);
 				st.nextToken();
-
+				
 				final int x = Integer.parseInt(st.nextToken());
 				final int y = Integer.parseInt(st.nextToken());
 				final int z = Integer.parseInt(st.nextToken());
@@ -637,7 +637,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			_log.log(Level.WARNING, "Bad RequestBypassToServer: " + e, e);
 		}
 	}
-
+	
 	public static void Incorrect_item(Player activeChar)
 	{
 		activeChar.sendPacket(ActionFailed.STATIC_PACKET);
@@ -646,15 +646,15 @@ public final class RequestBypassToServer extends L2GameClientPacket
 		html.setFile(filename);
 		activeChar.sendPacket(html);
 	}
-
+	
 	private static void playerHelp(Player activeChar, String path)
 	{
 		if (path.indexOf("..") != -1)
 			return;
-
+		
 		final StringTokenizer st = new StringTokenizer(path);
 		final String[] cmd = st.nextToken().split("#");
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/help/" + cmd[0]);
 		if (cmd.length > 1)
@@ -662,7 +662,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 		html.disableValidation();
 		activeChar.sendPacket(html);
 	}
-
+	
 	private static void ClassChangeCoin(Player player, String command)
 	{
 		String nameclasse = player.getTemplate().getClassName();
@@ -1079,34 +1079,34 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			Finish(player);
 		}
 	}
-
+	
 	private static void RemoverSkills(Player activeChar)
 	{
-
+		
 		for (L2Skill s : activeChar.getSkills().values())
 			activeChar.removeSkill(s);
-
+		
 		activeChar.destroyItemByItemId("Classe Change", activeChar.getClassChangeItemId(), 1, null, true);
 	}
-
+	
 	public static void Finish(Player activeChar)
 	{
 		String newclass = activeChar.getTemplate().getClassName();
-
+		
 		activeChar.sendMessage(activeChar.getName() + " is now a " + newclass + ".");
 		activeChar.sendPacket(new ExShowScreenMessage("Congratulations. You is now a " + newclass + ".", 6000, 0x02, true));
-
+		
 		activeChar.refreshOverloaded();
 		activeChar.store();
 		activeChar.sendPacket(new HennaInfo(activeChar));
 		activeChar.sendSkillList();
 		activeChar.broadcastUserInfo();
-
+		
 		activeChar.sendPacket(new PlaySound("ItemSound.quest_finish"));
-
+		
 		for (Player gm : World.getAllGMs())
 			gm.sendPacket(new CreatureSay(0, Say2.SHOUT, "Chat Manager", activeChar.getName() + " acabou de trocar sua Classe Base."));
-
+		
 		if (activeChar.isNoble())
 		{
 			StatsSet playerStat = Olympiad.getNobleStats(activeChar.getObjectId());
@@ -1117,7 +1117,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 				activeChar.sendMessage("You now has " + Olympiad.getInstance().getNoblePoints(activeChar.getObjectId()) + " Olympiad points.");
 			}
 		}
-
+		
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
 		{
 			// Remove all henna info stored for this sub-class.
@@ -1126,14 +1126,14 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			statement.setInt(2, 0);
 			statement.execute();
 			statement.close();
-
+			
 		}
 		catch (Exception e)
 		{
 			_log.warning("Class Item: " + e);
 		}
-
+		
 		activeChar.logout(true);
-
+		
 	}
 }

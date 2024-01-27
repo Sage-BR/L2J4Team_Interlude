@@ -16,7 +16,7 @@ public class Chests extends L2AttackableAIScript
 {
 	private static final int SKILL_DELUXE_KEY = 2229;
 	private static final int SKILL_BOX_KEY = 2065;
-
+	
 	private static final int[] NPC_IDS =
 	{
 		18265,
@@ -82,18 +82,18 @@ public class Chests extends L2AttackableAIScript
 		21821,
 		21822
 	};
-
+	
 	public Chests()
 	{
 		super("ai/group");
 	}
-
+	
 	@Override
 	protected void registerNpcs()
 	{
 		addEventIds(NPC_IDS, EventType.ON_ATTACK, EventType.ON_SKILL_SEE);
 	}
-
+	
 	@Override
 	public String onSkillSee(Npc npc, Player caster, L2Skill skill, WorldObject[] targets, boolean isPet)
 	{
@@ -102,14 +102,14 @@ public class Chests extends L2AttackableAIScript
 			// This behavior is only run when the target of skill is the passed npc.
 			if (!ArraysUtil.contains(targets, npc))
 				return super.onSkillSee(npc, caster, skill, targets, isPet);
-
+			
 			final Chest chest = ((Chest) npc);
-
+			
 			// If this chest has already been interacted, no further AI decisions are needed.
 			if (!chest.isInteracted())
 			{
 				chest.setInteracted();
-
+				
 				// If it's the first interaction, check if this is a box or mimic.
 				if (Rnd.get(100) < 40)
 				{
@@ -121,10 +121,10 @@ public class Chests extends L2AttackableAIScript
 							int keyLevelNeeded = (chest.getLevel() / 10) - skill.getLevel();
 							if (keyLevelNeeded < 0)
 								keyLevelNeeded *= -1;
-
+							
 							// Regular keys got 60% to succeed.
 							final int chance = ((skill.getId() == SKILL_BOX_KEY) ? 60 : 100) - keyLevelNeeded * 40;
-
+							
 							// Success, die with rewards.
 							if (Rnd.get(100) < chance)
 							{
@@ -135,7 +135,7 @@ public class Chests extends L2AttackableAIScript
 							else
 								chest.deleteMe(); // TODO: replace for a better system (as chests attack once before decaying)
 							break;
-
+						
 						default:
 							chest.doCast(SkillTable.getInstance().getInfo(4143, Math.min(10, Math.round(npc.getLevel() / 10))));
 							break;
@@ -148,19 +148,19 @@ public class Chests extends L2AttackableAIScript
 		}
 		return super.onSkillSee(npc, caster, skill, targets, isPet);
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
 		if (npc instanceof Chest)
 		{
 			final Chest chest = ((Chest) npc);
-
+			
 			// If this has already been interacted, no further AI decisions are needed.
 			if (!chest.isInteracted())
 			{
 				chest.setInteracted();
-
+				
 				// If it was a box, cast a suicide type skill.
 				if (Rnd.get(100) < 40)
 					chest.doCast(SkillTable.getInstance().getInfo(4143, Math.min(10, Math.round(npc.getLevel() / 10))));

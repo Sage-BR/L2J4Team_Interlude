@@ -11,14 +11,14 @@ import com.l2j4team.gameserver.scripting.QuestState;
 public class Q022_TragedyInVonHellmannForest extends Quest
 {
 	private static final String qn = "Q022_TragedyInVonHellmannForest";
-
+	
 	// NPCs
 	private static final int WELL = 31527;
 	private static final int TIFAREN = 31334;
 	private static final int INNOCENTIN = 31328;
 	private static final int GHOST_OF_PRIEST = 31528;
 	private static final int GHOST_OF_ADVENTURER = 31529;
-
+	
 	// Items
 	private static final int CROSS_OF_EINHASAD = 7141;
 	private static final int LOST_SKULL_OF_ELF = 7142;
@@ -27,26 +27,26 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 	private static final int RED_JEWEL_OF_ADVENTURER = 7145;
 	private static final int SEALED_REPORT_BOX = 7146;
 	private static final int REPORT_BOX = 7147;
-
+	
 	// Monsters
 	private static final int SOUL_OF_WELL = 27217;
-
+	
 	private Npc _ghostOfPriestInstance = null;
 	private Npc _soulOfWellInstance = null;
-
+	
 	public Q022_TragedyInVonHellmannForest()
 	{
 		super(22, "Tragedy in von Hellmann Forest");
-
+		
 		setItemsIds(LOST_SKULL_OF_ELF, REPORT_BOX, SEALED_REPORT_BOX, LETTER_OF_INNOCENTIN, RED_JEWEL_OF_ADVENTURER, GREEN_JEWEL_OF_ADVENTURER);
-
+		
 		addStartNpc(TIFAREN, INNOCENTIN);
 		addTalkId(INNOCENTIN, TIFAREN, GHOST_OF_PRIEST, GHOST_OF_ADVENTURER, WELL);
-
+		
 		addAttackId(SOUL_OF_WELL);
 		addKillId(SOUL_OF_WELL, 21553, 21554, 21555, 21556, 21561);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
@@ -54,7 +54,7 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		if (event.equalsIgnoreCase("31334-03.htm"))
 		{
 			QuestState st2 = player.getQuestState("Q021_HiddenTruth");
@@ -100,7 +100,7 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 				st.set("cond", "7");
 				st.playSound(QuestState.SOUND_MIDDLE);
 				st.takeItems(LOST_SKULL_OF_ELF, 1);
-
+				
 				_ghostOfPriestInstance = addSpawn(GHOST_OF_PRIEST, 38418, -49894, -1104, 0, false, 120000, true);
 				_ghostOfPriestInstance.broadcastNpcSay("Did you call me, " + player.getName() + "?");
 				startQuestTimer("ghost_cleanup", 118000, null, player, false);
@@ -110,9 +110,9 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 		{
 			st.set("cond", "8");
 			st.playSound(QuestState.SOUND_MIDDLE);
-
+			
 			cancelQuestTimer("ghost_cleanup", null, player);
-
+			
 			if (_ghostOfPriestInstance != null)
 			{
 				_ghostOfPriestInstance.deleteMe();
@@ -137,7 +137,7 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 			if (_soulOfWellInstance == null)
 			{
 				_soulOfWellInstance = addSpawn(SOUL_OF_WELL, 34860, -54542, -2048, 0, false, 0, true);
-
+				
 				// Attack player.
 				((Attackable) _soulOfWellInstance).addDamageHate(player, 0, 99999);
 				_soulOfWellInstance.getAI().setIntention(CtrlIntention.ATTACK, player, true);
@@ -169,7 +169,7 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 		}
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
@@ -177,7 +177,7 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 		QuestState st = player.getQuestState(qn);
 		if (st == null)
 			return htmltext;
-
+		
 		switch (st.getState())
 		{
 			case STATE_CREATED:
@@ -197,13 +197,13 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 								htmltext = "31328-01b.htm";
 						}
 						break;
-
+					
 					case TIFAREN:
 						htmltext = "31334-01.htm";
 						break;
 				}
 				break;
-
+			
 			case STATE_STARTED:
 				int cond = st.getInt("cond");
 				switch (npc.getNpcId())
@@ -228,7 +228,7 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 						else if (cond > 7)
 							htmltext = "31334-18.htm";
 						break;
-
+					
 					case INNOCENTIN:
 						if (cond < 3)
 						{
@@ -264,14 +264,14 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 							st.playSound(QuestState.SOUND_FINISH);
 						}
 						break;
-
+					
 					case GHOST_OF_PRIEST:
 						if (cond == 7)
 							htmltext = "31528-01.htm";
 						else if (cond == 8)
 							htmltext = "31528-08.htm";
 						break;
-
+					
 					case GHOST_OF_ADVENTURER:
 						if (cond == 9)
 						{
@@ -321,7 +321,7 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 						else if (cond > 13)
 							htmltext = "31529-19.htm";
 						break;
-
+					
 					case WELL:
 						if (cond == 10)
 							htmltext = "31527-01.htm";
@@ -339,35 +339,35 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 						break;
 				}
 				break;
-
+			
 			case STATE_COMPLETED:
 				htmltext = getAlreadyCompletedMsg();
 				break;
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
 		QuestState st = attacker.getQuestState(qn);
 		if (st == null || !st.isStarted() || isPet || (getQuestTimer("attack_timer", null, attacker) != null))
 			return null;
-
+		
 		if (st.getInt("cond") == 10)
 			startQuestTimer("attack_timer", 20000, null, attacker, false);
-
+		
 		return null;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player player, boolean isPet)
 	{
 		QuestState st = checkPlayerState(player, npc, STATE_STARTED);
 		if (st == null)
 			return null;
-
+		
 		if (npc.getNpcId() != SOUL_OF_WELL)
 		{
 			if (st.getInt("cond") == 4 && st.dropItems(LOST_SKULL_OF_ELF, 1, 1, 100000))
@@ -376,10 +376,10 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 		else
 		{
 			cancelQuestTimer("attack_timer", null, player);
-
+			
 			_soulOfWellInstance = null;
 		}
-
+		
 		return null;
 	}
 }

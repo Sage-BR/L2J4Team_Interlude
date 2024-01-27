@@ -11,7 +11,7 @@ public interface IAdminCommandHandler
 	 * @return command success
 	 */
 	public boolean useAdminCommand(String command, Player activeChar);
-
+	
 	/**
 	 * this method is called at initialization to register all the item ids automatically
 	 * @return all known itemIds

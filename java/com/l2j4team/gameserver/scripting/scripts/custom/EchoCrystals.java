@@ -17,10 +17,10 @@ import com.l2j4team.commons.lang.StringUtil;
 public class EchoCrystals extends Quest
 {
 	private static final String qn = "EchoCrystals";
-
+	
 	private static final int ADENA = 57;
 	private static final int COST = 200;
-
+	
 	private static final Map<Integer, ScoreData> SCORES = new HashMap<>();
 	{
 		SCORES.put(4410, new ScoreData(4411, "01", "02", "03"));
@@ -31,21 +31,21 @@ public class EchoCrystals extends Quest
 		SCORES.put(4419, new ScoreData(4417, "16", "05", "06"));
 		SCORES.put(4418, new ScoreData(4416, "17", "05", "06"));
 	}
-
+	
 	public EchoCrystals()
 	{
 		super(-1, "custom");
-
+		
 		addStartNpc(31042, 31043);
 		addTalkId(31042, 31043);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
 		String htmltext = "";
 		QuestState st = player.getQuestState(qn);
-
+		
 		if (st != null && StringUtil.isDigit(event))
 		{
 			int score = Integer.parseInt(event);
@@ -55,7 +55,7 @@ public class EchoCrystals extends Quest
 				String ok = SCORES.get(score).getOkMsg();
 				String noadena = SCORES.get(score).getNoAdenaMsg();
 				String noscore = SCORES.get(score).getNoScoreMsg();
-
+				
 				if (st.getQuestItemsCount(score) == 0)
 					htmltext = npc.getNpcId() + "-" + noscore + ".htm";
 				else if (st.getQuestItemsCount(ADENA) < COST)
@@ -68,23 +68,23 @@ public class EchoCrystals extends Quest
 				}
 			}
 		}
-
+		
 		return htmltext;
 	}
-
+	
 	@Override
 	public String onTalk(Npc npc, Player player)
 	{
 		return "1.htm";
 	}
-
+	
 	private class ScoreData
 	{
 		private final int _crystalId;
 		private final String _okMsg;
 		private final String _noAdenaMsg;
 		private final String _noScoreMsg;
-
+		
 		public ScoreData(int crystalId, String okMsg, String noAdenaMsg, String noScoreMsg)
 		{
 			_crystalId = crystalId;
@@ -92,22 +92,22 @@ public class EchoCrystals extends Quest
 			_noAdenaMsg = noAdenaMsg;
 			_noScoreMsg = noScoreMsg;
 		}
-
+		
 		public int getCrystalId()
 		{
 			return _crystalId;
 		}
-
+		
 		public String getOkMsg()
 		{
 			return _okMsg;
 		}
-
+		
 		public String getNoAdenaMsg()
 		{
 			return _noAdenaMsg;
 		}
-
+		
 		public String getNoScoreMsg()
 		{
 			return _noScoreMsg;

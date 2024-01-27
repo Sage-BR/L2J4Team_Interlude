@@ -29,17 +29,17 @@ public class L2AttackableAIScript extends Quest
 	public L2AttackableAIScript()
 	{
 		super(-1, "ai");
-
+		
 		registerNpcs();
 	}
-
+	
 	public L2AttackableAIScript(String name)
 	{
 		super(-1, name);
-
+		
 		registerNpcs();
 	}
-
+	
 	protected void registerNpcs()
 	{
 		// register all mobs here...
@@ -63,34 +63,34 @@ public class L2AttackableAIScript extends Quest
 			}
 		}
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, Npc npc, Player player)
 	{
 		return null;
 	}
-
+	
 	@Override
 	public String onSpellFinished(Npc npc, Player player, L2Skill skill)
 	{
 		return null;
 	}
-
+	
 	@Override
 	public String onSkillSee(Npc npc, Player caster, L2Skill skill, WorldObject[] targets, boolean isPet)
 	{
 		if ((caster == null) || !(npc instanceof Attackable))
 			return null;
-
+		
 		Attackable attackable = (Attackable) npc;
 		int skillAggroPoints = skill.getAggroPoints();
-
+		
 		if (caster.getPet() != null)
 		{
 			if (targets.length == 1 && ArraysUtil.contains(targets, caster.getPet()))
 				skillAggroPoints = 0;
 		}
-
+		
 		if (skillAggroPoints > 0)
 		{
 			if (attackable.hasAI() && (attackable.getAI().getIntention() == CtrlIntention.ATTACK))
@@ -108,55 +108,55 @@ public class L2AttackableAIScript extends Quest
 		}
 		return null;
 	}
-
+	
 	@Override
 	public String onFactionCall(Npc npc, Npc caller, Player attacker, boolean isPet)
 	{
 		if (attacker == null)
 			return null;
-
+		
 		if (attacker.isInParty() && attacker.getParty().isInDimensionalRift())
 		{
 			byte riftType = attacker.getParty().getDimensionalRift().getType();
 			byte riftRoom = attacker.getParty().getDimensionalRift().getCurrentRoom();
-
+			
 			if (caller instanceof RiftInvader && !DimensionalRiftManager.getInstance().getRoom(riftType, riftRoom).checkIfInZone(npc.getX(), npc.getY(), npc.getZ()))
 				return null;
 		}
-
+		
 		final Attackable attackable = (Attackable) npc;
 		final Creature originalAttackTarget = (isPet ? attacker.getPet() : attacker);
-
+		
 		// Add the target to the actor _aggroList or update hate if already present
 		attackable.addDamageHate(originalAttackTarget, 0, 1);
-
+		
 		// Set the actor AI Intention to ATTACK
 		if (attackable.getAI().getIntention() != CtrlIntention.ATTACK)
 		{
 			// Set the Creature movement type to run and send Server->Client packet ChangeMoveType to all others Player
 			attackable.setRunning();
-
+			
 			attackable.getAI().setIntention(CtrlIntention.ATTACK, originalAttackTarget);
 		}
 		return null;
 	}
-
+	
 	@Override
 	public String onAggro(Npc npc, Player player, boolean isPet)
 	{
 		if (player == null)
 			return null;
-
+		
 		((Attackable) npc).addDamageHate(isPet ? player.getPet() : player, 0, 1);
 		return null;
 	}
-
+	
 	@Override
 	public String onSpawn(Npc npc)
 	{
 		return null;
 	}
-
+	
 	@Override
 	public String onAttack(Npc npc, Player attacker, int damage, boolean isPet, L2Skill skill)
 	{
@@ -164,13 +164,13 @@ public class L2AttackableAIScript extends Quest
 		{
 			Attackable attackable = (Attackable) npc;
 			Creature originalAttacker = isPet ? attacker.getPet() : attacker;
-
+			
 			attackable.getAI().notifyEvent(CtrlEvent.EVT_ATTACKED, originalAttacker);
 			attackable.addDamageHate(originalAttacker, damage, (damage * 100) / (attackable.getLevel() + 7));
 		}
 		return null;
 	}
-
+	
 	@Override
 	public String onKill(Npc npc, Player killer, boolean isPet)
 	{
@@ -179,15 +179,15 @@ public class L2AttackableAIScript extends Quest
 			final Monster mob = (Monster) npc;
 			if (mob.getLeader() != null)
 				mob.getLeader().getMinionList().onMinionDie(mob, -1);
-
+			
 			if (mob.hasMinions())
 				mob.getMinionList().onMasterDie(false);
 		}
 		return null;
 	}
-
+	
 	// TODO: MERGE SCRIPTS
-
+	
 	/**
 	 * This method selects a random player.<br>
 	 * Player can't be dead and isn't an hidden GM aswell.
@@ -197,18 +197,18 @@ public class L2AttackableAIScript extends Quest
 	public static Player getRandomPlayer(Npc npc)
 	{
 		List<Player> result = new ArrayList<>();
-
+		
 		for (Player player : npc.getKnownType(Player.class))
 		{
 			if (player.isDead() || (player.isGM() && player.getAppearance().getInvisible()))
 				continue;
-
+			
 			result.add(player);
 		}
-
+		
 		return (result.isEmpty()) ? null : Rnd.get(result);
 	}
-
+	
 	/**
 	 * Return the number of players in a defined radius.<br>
 	 * Dead players aren't counted, invisible ones is the boolean parameter.
@@ -224,12 +224,12 @@ public class L2AttackableAIScript extends Quest
 		{
 			if (player.isDead() || (!invisible && player.getAppearance().getInvisible()))
 				continue;
-
+			
 			count++;
 		}
 		return count;
 	}
-
+	
 	/**
 	 * Under that barbarian name, return the number of players in front, back and sides of the npc.<br>
 	 * Dead players aren't counted, invisible ones is the boolean parameter.
@@ -243,12 +243,12 @@ public class L2AttackableAIScript extends Quest
 		int frontCount = 0;
 		int backCount = 0;
 		int sideCount = 0;
-
+		
 		for (Player player : npc.getKnownType(Player.class))
 		{
 			if (player.isDead() || (!invisible && player.getAppearance().getInvisible()) || !MathUtil.checkIfInRange(range, npc, player, true))
 				continue;
-
+			
 			if (player.isInFrontOf(npc))
 				frontCount++;
 			else if (player.isBehind(npc))
@@ -256,7 +256,7 @@ public class L2AttackableAIScript extends Quest
 			else
 				sideCount++;
 		}
-
+		
 		int[] array =
 		{
 			frontCount,
@@ -265,7 +265,7 @@ public class L2AttackableAIScript extends Quest
 		};
 		return array;
 	}
-
+	
 	/**
 	 * Monster runs and attacks the playable.
 	 * @param npc The npc to use.
@@ -278,7 +278,7 @@ public class L2AttackableAIScript extends Quest
 		npc.addDamageHate(playable, 0, (aggro <= 0) ? 999 : aggro);
 		npc.getAI().setIntention(CtrlIntention.ATTACK, playable);
 	}
-
+	
 	public static void attack(Attackable npc, Playable playable)
 	{
 		attack(npc, playable, 0);

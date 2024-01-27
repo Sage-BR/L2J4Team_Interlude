@@ -16,18 +16,18 @@ public class CastleMagician extends Folk
 	protected static final int COND_ALL_FALSE = 0;
 	protected static final int COND_BUSY_BECAUSE_OF_SIEGE = 1;
 	protected static final int COND_OWNER = 2;
-
+	
 	public CastleMagician(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
 	public void showChatWindow(Player player, int val)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 		String filename = "data/html/castlemagician/magician-no.htm";
-
+		
 		int condition = validateCondition(player);
 		if (condition > COND_ALL_FALSE)
 		{
@@ -41,13 +41,13 @@ public class CastleMagician extends Folk
 					filename = "data/html/castlemagician/magician-" + val + ".htm";
 			}
 		}
-
+		
 		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", getObjectId());
 		player.sendPacket(html);
 	}
-
+	
 	@Override
 	public void onBypassFeedback(Player player, String command)
 	{
@@ -74,12 +74,12 @@ public class CastleMagician extends Folk
 				Player clanLeader = player.getClan().getLeader().getPlayerInstance();
 				if (clanLeader == null)
 					return;
-
+				
 				if (clanLeader.getFirstEffect(L2EffectType.CLAN_GATE) != null)
 				{
 					if (!validateGateCondition(clanLeader, player))
 						return;
-
+					
 					player.teleToLocation(clanLeader.getX(), clanLeader.getY(), clanLeader.getZ(), 0);
 					return;
 				}
@@ -91,20 +91,20 @@ public class CastleMagician extends Folk
 		else
 			super.onBypassFeedback(player, command);
 	}
-
+	
 	protected int validateCondition(Player player)
 	{
 		if (getCastle() != null && player.getClan() != null)
 		{
 			if (getCastle().getSiegeZone().isActive())
 				return COND_BUSY_BECAUSE_OF_SIEGE;
-
+			
 			if (getCastle().getOwnerId() == player.getClanId())
 				return COND_OWNER;
 		}
 		return COND_ALL_FALSE;
 	}
-
+	
 	private static final boolean validateGateCondition(Player clanLeader, Player player)
 	{
 		if (clanLeader.isAlikeDead() || clanLeader.isInStoreMode() || clanLeader.isRooted() || clanLeader.isInCombat() || clanLeader.isInOlympiadMode() || clanLeader.isFestivalParticipant() || clanLeader.isInObserverMode() || clanLeader.isInsideZone(ZoneId.NO_SUMMON_FRIEND))
@@ -112,7 +112,7 @@ public class CastleMagician extends Folk
 			player.sendMessage("Couldn't teleport to clan leader. The requirements was not meet.");
 			return false;
 		}
-
+		
 		if (player.isIn7sDungeon())
 		{
 			final CabalType targetCabal = SevenSigns.getInstance().getPlayerCabal(clanLeader.getObjectId());
@@ -133,7 +133,7 @@ public class CastleMagician extends Folk
 				}
 			}
 		}
-
+		
 		return true;
 	}
 }

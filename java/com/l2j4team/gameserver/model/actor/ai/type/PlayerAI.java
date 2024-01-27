@@ -15,29 +15,29 @@ public class PlayerAI extends PlayableAI
 {
 	private boolean _thinking; // to prevent recursive thinking
 	private Desire _nextIntention = null;
-
+	
 	public PlayerAI(Player player)
 	{
 		super(player);
 	}
-
+	
 	@Override
 	protected void clientActionFailed()
 	{
 		_actor.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	void setNextIntention(CtrlIntention intention, Object arg0, Object arg1)
 	{
 		_nextIntention = new Desire(intention, arg0, arg1);
 	}
-
+	
 	@Override
 	public Desire getNextIntention()
 	{
 		return _nextIntention;
 	}
-
+	
 	/**
 	 * Saves the current Intention for this L2PlayerAI if necessary and calls changeIntention in AbstractAI.<BR>
 	 * <BR>
@@ -56,19 +56,19 @@ public class PlayerAI extends PlayableAI
 			super.changeIntention(intention, arg0, arg1);
 			return;
 		}
-
+		
 		// do nothing if next intention is same as current one.
 		if (intention == _intention && arg0 == _intentionArg0 && arg1 == _intentionArg1)
 		{
 			super.changeIntention(intention, arg0, arg1);
 			return;
 		}
-
+		
 		// save current intention so it can be used after cast
 		setNextIntention(_intention, _intentionArg0, _intentionArg1);
 		super.changeIntention(intention, arg0, arg1);
 	}
-
+	
 	/**
 	 * Launch actions corresponding to the Event ReadyToAct.<BR>
 	 * <BR>
@@ -88,14 +88,14 @@ public class PlayerAI extends PlayableAI
 		}
 		super.onEvtReadyToAct();
 	}
-
+	
 	@Override
 	protected void onEvtCancel()
 	{
 		_nextIntention = null;
 		super.onEvtCancel();
 	}
-
+	
 	/**
 	 * Finalize the casting of a skill. Drop latest intention before the actual CAST.
 	 */
@@ -110,7 +110,7 @@ public class PlayerAI extends PlayableAI
 				setIntention(CtrlIntention.IDLE);
 		}
 	}
-
+	
 	@Override
 	protected void onIntentionRest()
 	{
@@ -121,13 +121,13 @@ public class PlayerAI extends PlayableAI
 			clientStopMoving(null);
 		}
 	}
-
+	
 	@Override
 	protected void onIntentionActive()
 	{
 		setIntention(CtrlIntention.IDLE);
 	}
-
+	
 	/**
 	 * Manage the Move To Intention : Stop current Attack and Launch a Move to Location Task.<BR>
 	 * <BR>
@@ -147,36 +147,36 @@ public class PlayerAI extends PlayableAI
 			clientActionFailed();
 			return;
 		}
-
+		
 		if (_actor.isAllSkillsDisabled() || _actor.isCastingNow() || _actor.isAttackingNow())
 		{
 			clientActionFailed();
 			setNextIntention(CtrlIntention.MOVE_TO, loc, null);
 			return;
 		}
-
+		
 		// Set the Intention of this AbstractAI to MOVE_TO
 		changeIntention(CtrlIntention.MOVE_TO, loc, null);
-
+		
 		// Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop (broadcast)
 		clientStopAutoAttack();
-
+		
 		// Abort the attack of the Creature and send Server->Client ActionFailed packet
 		_actor.abortAttack();
-
+		
 		// Move the actor to Location (x,y,z) server side AND client side by sending Server->Client packet MoveToLocation (broadcast)
 		moveTo(loc.getX(), loc.getY(), loc.getZ());
 	}
-
+	
 	@Override
 	protected void clientNotifyDead()
 	{
 		_clientMovingToPawnOffset = 0;
 		_clientMoving = false;
-
+		
 		super.clientNotifyDead();
 	}
-
+	
 	private void thinkAttack()
 	{
 		final Creature target = (Creature) getTarget();
@@ -186,10 +186,10 @@ public class PlayerAI extends PlayableAI
 			setIntention(CtrlIntention.ACTIVE);
 			return;
 		}
-
+		
 		if (maybeMoveToPawn(target, _actor.getPhysicalAttackRange()))
 			return;
-
+		
 		if (target.isAlikeDead())
 		{
 			if (target instanceof Player && ((Player) target).isFakeDeath())
@@ -200,15 +200,15 @@ public class PlayerAI extends PlayableAI
 				return;
 			}
 		}
-
+		
 		clientStopMoving(null);
 		_actor.doAttack(target);
 	}
-
+	
 	private void thinkCast()
 	{
 		Creature target = (Creature) getTarget();
-
+		
 		if (_skill.getTargetType() == SkillTargetType.TARGET_GROUND && _actor instanceof Player)
 		{
 			if (maybeMoveToPosition(((Player) _actor).getCurrentSkillWorldPosition(), _skill.getCastRange()))
@@ -224,62 +224,62 @@ public class PlayerAI extends PlayableAI
 				// Notify the target
 				if (_skill.isOffensive() && getTarget() != null)
 					setTarget(null);
-
+				
 				_actor.setIsCastingNow(false);
 				return;
 			}
-
+			
 			if (target != null && maybeMoveToPawn(target, _skill.getCastRange()))
 			{
 				_actor.setIsCastingNow(false);
 				return;
 			}
 		}
-
+		
 		if (_skill.getHitTime() > 50 && !_skill.isSimultaneousCast())
 			clientStopMoving(null);
-
+		
 		_actor.doCast(_skill);
 	}
-
+	
 	private void thinkPickUp()
 	{
 		if (_actor.isAllSkillsDisabled() || _actor.isCastingNow() || _actor.isAttackingNow())
 			return;
-
+		
 		final WorldObject target = getTarget();
 		if (checkTargetLost(target) || maybeMoveToPawn(target, 36))
 			return;
-
+		
 		setIntention(CtrlIntention.IDLE);
 		_actor.getActingPlayer().doPickupItem(target);
 	}
-
+	
 	private void thinkInteract()
 	{
 		if (_actor.isAllSkillsDisabled() || _actor.isCastingNow())
 			return;
-
+		
 		WorldObject target = getTarget();
 		if (checkTargetLost(target) || maybeMoveToPawn(target, 36))
 			return;
-
+		
 		if (!(target instanceof StaticObject))
 			_actor.getActingPlayer().doInteract((Creature) target);
-
+		
 		setIntention(CtrlIntention.IDLE);
 	}
-
+	
 	@Override
 	protected void onEvtThink()
 	{
 		// Check if the actor can't use skills and if a thinking action isn't already in progress
 		if (_thinking && getIntention() != CtrlIntention.CAST) // casting must always continue
 			return;
-
+		
 		// Start thinking action
 		_thinking = true;
-
+		
 		try
 		{
 			// Manage AI thoughts

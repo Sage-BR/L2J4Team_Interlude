@@ -14,19 +14,19 @@ public class LoginServerFail extends LoginServerBasePacket
 		"Reason: already logged in"
 	};
 	private final int _reason;
-
+	
 	public LoginServerFail(byte[] decrypt)
 	{
 		super(decrypt);
-
+		
 		_reason = readC();
 	}
-
+	
 	public String getReasonString()
 	{
 		return REASONS[_reason];
 	}
-
+	
 	public int getReason()
 	{
 		return _reason;

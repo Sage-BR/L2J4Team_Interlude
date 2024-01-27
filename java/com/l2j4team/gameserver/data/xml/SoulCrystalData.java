@@ -24,28 +24,28 @@ public class SoulCrystalData extends XMLDocument
 {
 	private final Map<Integer, SoulCrystal> _soulCrystals = new HashMap<>();
 	private final Map<Integer, LevelingInfo> _levelingInfos = new HashMap<>();
-
+	
 	protected SoulCrystalData()
 	{
 		load();
 	}
-
+	
 	@Override
 	protected void load()
 	{
 		loadDocument("./data/xml/soulCrystals.xml");
 		LOGGER.info("Loaded {} Soul Crystals data and {} NPCs data.", _soulCrystals.size(), _levelingInfos.size());
 	}
-
+	
 	@Override
 	protected void parseDocument(Document doc, File file)
 	{
 		// StatsSet used to feed informations. Cleaned on every entry.
 		final StatsSet set = new StatsSet();
-
+		
 		// First element is never read.
 		final Node n = doc.getFirstChild();
-
+		
 		for (Node o = n.getFirstChild(); o != null; o = o.getNextSibling())
 		{
 			if ("crystals".equalsIgnoreCase(o.getNodeName()))
@@ -54,13 +54,13 @@ public class SoulCrystalData extends XMLDocument
 				{
 					if (!"crystal".equalsIgnoreCase(d.getNodeName()))
 						continue;
-
+					
 					// Parse and feed content.
 					parseAndFeed(d.getAttributes(), set);
-
+					
 					// Feed the map with new data.
 					_soulCrystals.put(set.getInteger("initial"), new SoulCrystal(set));
-
+					
 					// Clear the StatsSet.
 					set.clear();
 				}
@@ -71,35 +71,35 @@ public class SoulCrystalData extends XMLDocument
 				{
 					if (!"npc".equalsIgnoreCase(d.getNodeName()))
 						continue;
-
+					
 					// Parse and feed content.
 					parseAndFeed(d.getAttributes(), set);
-
+					
 					// Feed the map with new data.
 					_levelingInfos.put(set.getInteger("id"), new LevelingInfo(set));
-
+					
 					// Clear the StatsSet.
 					set.clear();
 				}
 			}
 		}
 	}
-
+	
 	public final Map<Integer, SoulCrystal> getSoulCrystals()
 	{
 		return _soulCrystals;
 	}
-
+	
 	public final Map<Integer, LevelingInfo> getLevelingInfos()
 	{
 		return _levelingInfos;
 	}
-
+	
 	public static SoulCrystalData getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final SoulCrystalData INSTANCE = new SoulCrystalData();

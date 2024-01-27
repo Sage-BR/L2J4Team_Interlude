@@ -18,7 +18,7 @@ import java.util.StringTokenizer;
  */
 public class VoicedLuckyDice implements IVoicedCommandHandler
 {
-
+	
 	private static String[] VOICED_COMMANDS =
 	{
 		"luckydice",
@@ -27,7 +27,7 @@ public class VoicedLuckyDice implements IVoicedCommandHandler
 		"SilverCoin",
 		"TicketDonate"
 	};
-
+	
 	// Item Id
 	public static int _itemId;
 	private String itemname = "SYS";
@@ -35,12 +35,12 @@ public class VoicedLuckyDice implements IVoicedCommandHandler
 	public static int jackpot;
 	public static int jackpot2;
 	public static int jackpot3;
-
+	
 	@Override
 	public boolean useVoicedCommand(String command, Player player, String target)
 	{
 		int ammount = 0;
-
+		
 		if (command.equals("luckydice"))
 		{
 			showChatWindow(player);
@@ -52,7 +52,7 @@ public class VoicedLuckyDice implements IVoicedCommandHandler
 			try
 			{
 				String type = st.nextToken();
-
+				
 				if (type.startsWith("TvTEvent"))
 				{
 					_itemId = 9516;
@@ -80,7 +80,7 @@ public class VoicedLuckyDice implements IVoicedCommandHandler
 		}
 		return false;
 	}
-
+	
 	public void showChatWindow(Player player)
 	{
 		NpcHtmlMessage msg = new NpcHtmlMessage(1);
@@ -88,7 +88,7 @@ public class VoicedLuckyDice implements IVoicedCommandHandler
 		msg.replace("%luckydice%", casinoWindow(player));
 		player.sendPacket(msg);
 	}
-
+	
 	private static String casinoWindow(Player player)
 	{
 		StringBuilder tb = new StringBuilder();
@@ -130,7 +130,7 @@ public class VoicedLuckyDice implements IVoicedCommandHandler
 		tb.append("</body></html>");
 		return tb.toString();
 	}
-
+	
 	public void Dice(Player activeChar, int _ammount)
 	{
 		if (activeChar.getInventory().getInventoryItemCount(_itemId, 0) >= _ammount)
@@ -160,7 +160,7 @@ public class VoicedLuckyDice implements IVoicedCommandHandler
 						itemname = "Ticket Donate";
 						break;
 				}
-
+				
 				switch (Rnd.get(1, 20))
 				{
 					case 1:
@@ -300,21 +300,21 @@ public class VoicedLuckyDice implements IVoicedCommandHandler
 			activeChar.sendMessage("You do not have enough " + itemname + ".");
 		}
 	}
-
+	
 	public static int rollDice2()
 	{
 		return Rnd.get(1, 7);
 	}
-
+	
 	public static int rollDice()
 	{
 		return Rnd.get(1, 7);
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;
 	}
-
+	
 }

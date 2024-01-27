@@ -23,9 +23,9 @@ import java.util.logging.Logger;
 public class RaidBossPointsManager
 {
 	private static final Logger _log = Logger.getLogger(RaidBossPointsManager.class.getName());
-
+	
 	private final Map<Integer, Map<Integer, Integer>> _list = new ConcurrentHashMap<>();
-
+	
 	private final Comparator<Map.Entry<Integer, Integer>> _comparator = new Comparator<>()
 	{
 		@Override
@@ -34,12 +34,12 @@ public class RaidBossPointsManager
 			return entry.getValue().equals(entry1.getValue()) ? 0 : entry.getValue() < entry1.getValue() ? 1 : -1;
 		}
 	};
-
+	
 	public static final RaidBossPointsManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	public RaidBossPointsManager()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -54,7 +54,7 @@ public class RaidBossPointsManager
 				Map<Integer, Integer> values = _list.get(charId);
 				if (values == null)
 					values = new HashMap<>();
-
+				
 				values.put(bossId, points);
 				_list.put(charId, values);
 			}
@@ -67,7 +67,7 @@ public class RaidBossPointsManager
 			_log.log(Level.WARNING, "RaidPointsManager: Couldnt load Raid Points characters infos ", e);
 		}
 	}
-
+	
 	public static final void updatePointsInDB(Player player, int raidId, int points)
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -84,7 +84,7 @@ public class RaidBossPointsManager
 			_log.log(Level.WARNING, "could not update char raid points:", e);
 		}
 	}
-
+	
 	public final void addPoints(Player player, int bossId, int points)
 	{
 		int ownerId = player.getObjectId();
@@ -104,25 +104,25 @@ public class RaidBossPointsManager
 		}
 		_list.put(ownerId, tmpPoint);
 	}
-
+	
 	public final int getPointsByOwnerId(int ownerId)
 	{
 		Map<Integer, Integer> tmpPoint = _list.get(ownerId);
 		if (tmpPoint == null || tmpPoint.isEmpty())
 			return 0;
-
+		
 		int totalPoints = 0;
 		for (int points : tmpPoint.values())
 			totalPoints += points;
-
+		
 		return totalPoints;
 	}
-
+	
 	public final Map<Integer, Integer> getList(Player player)
 	{
 		return _list.get(player.getObjectId());
 	}
-
+	
 	public final void cleanUp()
 	{
 		try (Connection con = L2DatabaseFactory.getInstance().getConnection())
@@ -137,21 +137,21 @@ public class RaidBossPointsManager
 			_log.log(Level.WARNING, "could not clean raid points: ", e);
 		}
 	}
-
+	
 	public final int calculateRanking(int playerObjId)
 	{
 		Map<Integer, Integer> rank = getRankList();
 		if (rank.containsKey(playerObjId))
 			return rank.get(playerObjId);
-
+		
 		return 0;
 	}
-
+	
 	public Map<Integer, Integer> getRankList()
 	{
 		Map<Integer, Integer> tmpRanking = new HashMap<>();
 		Map<Integer, Integer> tmpPoints = new HashMap<>();
-
+		
 		for (int ownerId : _list.keySet())
 		{
 			int totalPoints = getPointsByOwnerId(ownerId);
@@ -159,16 +159,16 @@ public class RaidBossPointsManager
 				tmpPoints.put(ownerId, totalPoints);
 		}
 		ArrayList<Entry<Integer, Integer>> list = new ArrayList<>(tmpPoints.entrySet());
-
+		
 		Collections.sort(list, _comparator);
-
+		
 		int ranking = 1;
 		for (Map.Entry<Integer, Integer> entry : list)
 			tmpRanking.put(entry.getKey(), ranking++);
-
+		
 		return tmpRanking;
 	}
-
+	
 	private static class SingletonHolder
 	{
 		protected static final RaidBossPointsManager _instance = new RaidBossPointsManager();

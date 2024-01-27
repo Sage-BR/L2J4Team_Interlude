@@ -12,27 +12,27 @@ public class ChatAlliance implements IChatHandler
 	{
 		9
 	};
-
+	
 	@Override
 	public void handleChat(int type, Player activeChar, String target, String text)
 	{
 		if (activeChar.getClan() == null || activeChar.getClan().getAllyId() == 0)
 			return;
-
+		
 		if (activeChar.ChatProtection(activeChar.getHWID()) && activeChar.isChatBlocked() && ((activeChar.getChatBanTimer() - 1500) > System.currentTimeMillis()))
 		{
 			if (((activeChar.getChatBanTimer() - System.currentTimeMillis()) / 1000) >= 60)
 				activeChar.sendChatMessage(0, Say2.TELL, "SYS", "Your chat was suspended for " + (activeChar.getChatBanTimer() - System.currentTimeMillis()) / (1000 * 60) + " minute(s).");
 			else
 				activeChar.sendChatMessage(0, Say2.TELL, "SYS", "Your chat was suspended for " + (activeChar.getChatBanTimer() - System.currentTimeMillis()) / 1000 + " second(s).");
-
+			
 			activeChar.sendPacket(SystemMessageId.YOU_ARE_NOT_AUTHORIZED_TO_DO_THAT);
 			return;
 		}
-
+		
 		activeChar.getClan().broadcastToOnlineAllyMembers(new CreatureSay(activeChar.getObjectId(), type, activeChar.getName(), text));
 	}
-
+	
 	@Override
 	public int[] getChatTypeList()
 	{

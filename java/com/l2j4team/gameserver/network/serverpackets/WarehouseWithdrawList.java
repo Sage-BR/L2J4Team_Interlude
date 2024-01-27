@@ -12,21 +12,21 @@ public class WarehouseWithdrawList extends L2GameServerPacket
 	public static final int CLAN = 2;
 	public static final int CASTLE = 3; // not sure
 	public static final int FREIGHT = 4; // not sure
-
+	
 	private int _whType;
 	private int _playerAdena;
 	private Set<ItemInstance> _items;
-
+	
 	public WarehouseWithdrawList(Player player, int type)
 	{
 		if (player.getActiveWarehouse() == null)
 			return;
-
+		
 		_whType = type;
 		_playerAdena = player.getAdena();
 		_items = player.getActiveWarehouse().getItems();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -34,11 +34,11 @@ public class WarehouseWithdrawList extends L2GameServerPacket
 		writeH(_whType);
 		writeD(_playerAdena);
 		writeH(_items.size());
-
+		
 		for (ItemInstance temp : _items)
 		{
 			Item item = temp.getItem();
-
+			
 			writeH(item.getType1());
 			writeD(temp.getObjectId());
 			writeD(temp.getItemId());

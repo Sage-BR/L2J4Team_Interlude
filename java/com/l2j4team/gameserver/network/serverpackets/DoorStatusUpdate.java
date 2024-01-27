@@ -7,13 +7,13 @@ public class DoorStatusUpdate extends L2GameServerPacket
 {
 	private final Door _door;
 	private final Player _activeChar;
-
+	
 	public DoorStatusUpdate(Door door, Player activeChar)
 	{
 		_door = door;
 		_activeChar = activeChar;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

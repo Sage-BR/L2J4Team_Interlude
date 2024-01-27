@@ -3,11 +3,11 @@ package com.l2j4team.gameserver.network.serverpackets;
 public class NormalCamera extends L2GameServerPacket
 {
 	public static final NormalCamera STATIC_PACKET = new NormalCamera();
-
+	
 	private NormalCamera()
 	{
 	}
-
+	
 	@Override
 	public void writeImpl()
 	{
