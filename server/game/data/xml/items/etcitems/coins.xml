@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <list>
 
-		<item id="9500" type="EtcItem" name="Star Ornament">
+	<item id="9500" type="EtcItem" name="Star Ornament">
 		<set name="material" val="PAPER" />
 		<set name="price" val="1" />
 		<set name="is_stackable" val="true" />	
 	</item>
 	
-		<item id="9501" type="EtcItem" name="Event Coin Lv.1">
+	<item id="9501" type="EtcItem" name="Event Coin Lv.1">
 		<set name="material" val="PAPER" />
 		<set name="price" val="1" />
 		<set name="is_stackable" val="true" />	
 	</item>
 	
-		<item id="9502" type="EtcItem" name="Tournament Point's Lv.1">
+	<item id="9502" type="EtcItem" name="Tournament Point's Lv.1">
 		<set name="material" val="PAPER" />
 		<set name="price" val="1" />
 		<set name="is_stackable" val="true" />
@@ -595,7 +595,7 @@
 		<set name="is_stackable" val="true" />
 	</item>
 
-	<item id="6388" type="EtcItem" name="Fighter Pack">
+	<item id="6392" type="EtcItem" name="Fighter Pack">
 		<set name="handler" val="CapsuleBox_System" />
 		<set name="material" val="PAPER" />
 		<set name="price" val="1" />

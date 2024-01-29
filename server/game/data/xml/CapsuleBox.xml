@@ -11,7 +11,7 @@
 		<item itemId="877" min="1" max="1" enchantLevel="0" chance="100"/> 
 		<item itemId="3948" min="1" max="10" enchantLevel="0" chance="100"/> 
 	</capsuled_items>
-	<capsuled_items ID="6388"  PlayerLevel="20"> <!-- Fighter Starter Pack LVL 1-->
+	<capsuled_items ID="6392"  PlayerLevel="20"> <!-- Fighter Starter Pack LVL 1-->
 		<item itemId="68" min="1" max="1" enchantLevel="0" chance="100"/> 
 		<item itemId="711" min="1" max="1" enchantLevel="0" chance="100"/> 
 		<item itemId="715" min="1" max="1" enchantLevel="0" chance="100"/> 
