@@ -117,6 +117,7 @@ import com.l2j4team.gameserver.taskmanager.WaterTaskManager;
 import com.l2j4team.gameserver.xmlfactory.XMLDocumentFactory;
 import com.l2j4team.util.DeadLockDetector;
 import com.l2j4team.util.IPv4Filter;
+import Base.CapsuleBox.CapsuleBoxData;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -475,6 +476,9 @@ public class GameServer
 		}
 		StringUtil.printSection("DressMe Manager");
 		DressMeData.getInstance();
+		
+		StringUtil.printSection("CapsuleBox - 4Team");
+		CapsuleBoxData.getInstance();
 
 		StringUtil.printSection("VoteSystem");
 		VDSystemManager.getInstance();

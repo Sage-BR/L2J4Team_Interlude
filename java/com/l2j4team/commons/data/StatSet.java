@@ -18,7 +18,6 @@ import java.util.stream.Stream;
  * <li>The value is any type of {@link Object}. Complex {@link Object}s such as {@link List}, {@link Map}, arrays or even {@link IntIntHolder} can also be stored.</li>
  * </ul>
  */
-@SuppressWarnings("serial")
 public class StatSet extends HashMap<String, Object>
 {
 	/**

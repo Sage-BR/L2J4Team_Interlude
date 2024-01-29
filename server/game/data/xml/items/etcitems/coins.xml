@@ -588,4 +588,17 @@
 		<set name="is_stackable" val="true" />
 	</item>
 
+	<item id="6393" type="EtcItem" name="Mage Pack">
+		<set name="handler" val="CapsuleBox_System" />
+		<set name="material" val="PAPER" />
+		<set name="price" val="1" />
+		<set name="is_stackable" val="true" />
+	</item>
+
+	<item id="6388" type="EtcItem" name="Fighter Pack">
+		<set name="handler" val="CapsuleBox_System" />
+		<set name="material" val="PAPER" />
+		<set name="price" val="1" />
+		<set name="is_stackable" val="true" />
+	</item>
 </list>

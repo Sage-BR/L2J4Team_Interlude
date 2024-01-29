@@ -57,7 +57,6 @@ import hopzone.eu.util.VDSThreadPool;
  *         <p>
  *         Freemium Donate Panel V4: https://www.denart-designs.com/ Download: https://mega.nz/folder/6oxUyaIJ#qQDUXeoXlPvBjbPMDYzu-g Buy: https://shop.denart-designs.com/product/auto-donate-panel-v4/ Quick Guide: https://github.com/nightw0lv/VDSystem/tree/master/Guide
  */
-@SuppressWarnings("serial")
 public class Gui extends JFrame
 {
 	/**

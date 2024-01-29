@@ -80,6 +80,7 @@ import com.l2j4team.gameserver.handler.itemhandlers.vip.Vip30days;
 import com.l2j4team.gameserver.handler.itemhandlers.vip.Vip7days;
 import com.l2j4team.gameserver.handler.itemhandlers.vip.VipEterno;
 import com.l2j4team.gameserver.model.item.kind.EtcItem;
+import com.l2j4team.gameserver.handler.itemhandlers.custom.CapsuleBox_System;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -131,6 +132,7 @@ public class ItemHandler
 		registerItemHandler(new Aio30days());
 		registerItemHandler(new AioEterno());
 		registerItemHandler(new LuckBox());
+		registerItemHandler(new CapsuleBox_System());
 		registerItemHandler(new ClanFull());
 		registerItemHandler(new NoblesItem());
 		registerItemHandler(new Vip24h());

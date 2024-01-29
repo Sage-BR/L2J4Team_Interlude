@@ -26,6 +26,7 @@ import com.l2j4team.gameserver.model.WorldObject;
 import com.l2j4team.gameserver.model.actor.Creature;
 import com.l2j4team.gameserver.model.actor.instance.Player;
 import com.l2j4team.gameserver.network.SystemMessageId;
+import Base.CapsuleBox.CapsuleBoxData;
 
 import java.util.StringTokenizer;
 
@@ -201,6 +202,11 @@ public class AdminAdmin implements IAdminCommandHandler
 					{
 						DressMeData.getInstance().reload();
 						activeChar.sendMessage("Dress me have been reloaded.");
+					}
+					else if (type.startsWith("capsule")) 
+					{
+						CapsuleBoxData.getInstance().reload();
+						activeChar.sendMessage("Capsule Box have been reloaded.");
 					}
 					else if (type.startsWith("olly"))
 					{
