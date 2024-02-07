@@ -14,6 +14,7 @@
  */
 package com.l2j4team.gameserver.model.actor.instance;
 
+import com.l2j4team.Config;
 import com.l2j4team.L2DatabaseFactory;
 import com.l2j4team.gameserver.data.IconTable;
 import com.l2j4team.gameserver.data.ItemTable;
@@ -141,9 +142,9 @@ public class AuctionManager extends Npc
 				}
 				
 				int costId = 0;
-				if (costitemtype.equals("Adena"))
+				if (costitemtype.equals("Item"))
 				{
-					costId = 57;
+					costId = Config.AUCTION_ITEM_ID;
 				}
 				
 				AuctionTable.getInstance().addItem(new AuctionItem(AuctionTable.getInstance().getNextAuctionId(), player.getObjectId(), player.getInventory().getItemByObjectId(itemId).getItemId(), itemAmount, player.getInventory().getItemByObjectId(itemId).getEnchantLevel(), costId, costCount));
@@ -298,7 +299,7 @@ public class AuctionManager extends Npc
 		ArrayList<ItemInstance> temp = new ArrayList<>();
 		for (ItemInstance item : player.getInventory().getItems())
 		{
-			if (item.getItemId() != 57 && item.isTradable())
+			if (item.getItemId() != Config.AUCTION_ITEM_ID && item.isTradable())
 			{
 				temp.add(item);
 				

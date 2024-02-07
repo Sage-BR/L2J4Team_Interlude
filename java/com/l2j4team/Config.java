@@ -1086,6 +1086,8 @@ public final class Config
 	
 	public static boolean STATUS_CMD;
 	
+	public static int AUCTION_ITEM_ID;
+	
 	/** Luck Box */
 	public static int ITEM_1;
 	public static int CHANCE_ITEM_1;
@@ -4295,6 +4297,8 @@ public final class Config
 		NAME_CTF = l2j4team.getProperty("NameCTFEvent", "CTF:");
 		NAME_PVP = l2j4team.getProperty("NamePvPEvent", "PvPEvent:");
 		NAME_EVENT = l2j4team.getProperty("NamePartyZone", "PartyZone:");
+		
+		AUCTION_ITEM_ID = Integer.parseInt(l2j4team.getProperty("AuctionItemID", "57"));
 		
 		ANNOUNCE_ID_EVENT = Integer.parseInt(l2j4team.getProperty("AnnounceIdEvents", "3"));
 		BLOCK_AIOX_PVPZONE = Boolean.parseBoolean(l2j4team.getProperty("BlockAiox_inPvpZone", "false"));
