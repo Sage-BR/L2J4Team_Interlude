@@ -3,28 +3,16 @@
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- *
+ * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.l2j4team.gameserver.model.actor.instance;
-
-import com.l2j4team.Config;
-import com.l2j4team.L2DatabaseFactory;
-import com.l2j4team.gameserver.data.IconTable;
-import com.l2j4team.gameserver.data.ItemTable;
-import com.l2j4team.gameserver.idfactory.IdFactory;
-import com.l2j4team.gameserver.model.World;
-import com.l2j4team.gameserver.model.actor.Npc;
-import com.l2j4team.gameserver.model.actor.template.NpcTemplate;
-import com.l2j4team.gameserver.model.item.instance.ItemInstance;
-import com.l2j4team.gameserver.network.serverpackets.InventoryUpdate;
-import com.l2j4team.gameserver.network.serverpackets.NpcHtmlMessage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,11 +20,23 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.l2j4team.L2DatabaseFactory;
+import com.l2j4team.gameserver.data.ItemTable;
+import com.l2j4team.gameserver.idfactory.IdFactory;
 import Base.auction.AuctionItem;
 import Base.datatables.AuctionTable;
+import com.l2j4team.gameserver.data.IconTable;
+
+import com.l2j4team.gameserver.model.World;
+import com.l2j4team.gameserver.model.actor.Npc;
+import com.l2j4team.gameserver.model.actor.template.NpcTemplate;
+import com.l2j4team.gameserver.model.item.instance.ItemInstance;
+import com.l2j4team.gameserver.network.serverpackets.InventoryUpdate;
+import com.l2j4team.gameserver.network.serverpackets.NpcHtmlMessage;
 
 /**
  * @author Anarchy
+ *
  */
 public class AuctionManager extends Npc
 {
@@ -134,7 +134,19 @@ public class AuctionManager extends Npc
 				int costCount = Integer.parseInt(data[2]);
 				int itemAmount = Integer.parseInt(data[3]);
 				
-				if ((player.getInventory().getItemByObjectId(itemId) == null) || (player.getInventory().getItemByObjectId(itemId).getCount() < itemAmount) || !player.getInventory().getItemByObjectId(itemId).isTradable())
+				if (player.getInventory().getItemByObjectId(itemId) == null)
+				{
+					showChatWindow(player);
+					player.sendMessage("Invalid item. Please try again.");
+					return;
+				}
+				if (player.getInventory().getItemByObjectId(itemId).getCount() < itemAmount)
+				{
+					showChatWindow(player);
+					player.sendMessage("Invalid item. Please try again.");
+					return;
+				}
+				if (!player.getInventory().getItemByObjectId(itemId).isTradable())
 				{
 					showChatWindow(player);
 					player.sendMessage("Invalid item. Please try again.");
@@ -142,9 +154,9 @@ public class AuctionManager extends Npc
 				}
 				
 				int costId = 0;
-				if (costitemtype.equals("Item"))
+				if (costitemtype.equals("Adena"))
 				{
-					costId = Config.AUCTION_ITEM_ID;
+					costId = 57;
 				}
 				
 				AuctionTable.getInstance().addItem(new AuctionItem(AuctionTable.getInstance().getNextAuctionId(), player.getObjectId(), player.getInventory().getItemByObjectId(itemId).getItemId(), itemAmount, player.getInventory().getItemByObjectId(itemId).getEnchantLevel(), costId, costCount));
@@ -232,27 +244,26 @@ public class AuctionManager extends Npc
 		for (AuctionItem item : items.get(page))
 		{
 			html += "<tr>";
-			IconTable.getInstance();
 			html += "<td><img src=\"" + IconTable.getIcon(item.getItemId()) + "\" width=32 height=32 align=center></td>";
-			html += "<td>Item: " + (item.getEnchant() > 0 ? "+" + item.getEnchant() + " " + ItemTable.getInstance().getTemplate(item.getItemId()).getName() + " - " + item.getCount() : ItemTable.getInstance().getTemplate(item.getItemId()).getName() + " - " + item.getCount());
-			html += "<br1>Cost: " + item.getCostCount() + " " + ItemTable.getInstance().getTemplate(item.getCostId()).getName();
+			html += "<td>Item: "+(item.getEnchant() > 0 ? "+"+item.getEnchant()+" "+ItemTable.getInstance().getTemplate(item.getItemId()).getName()+" - "+item.getCount() : ItemTable.getInstance().getTemplate(item.getItemId()).getName()+" - "+item.getCount());
+			html += "<br1>Cost: "+item.getCostCount()+" "+ItemTable.getInstance().getTemplate(item.getCostId()).getName();
 			html += "</td>";
-			html += "<td fixwidth=71><button value=\"Remove\" action=\"bypass -h npc_" + getObjectId() + "_remove " + item.getAuctionId() + "\" width=70 height=21 back=\"L2UI_ch3.BigButton3_over\" fore=\"L2UI_ch3.BigButton3\">";
+			html += "<td fixwidth=71><button value=\"Remove\" action=\"bypass -h npc_"+getObjectId()+"_remove "+item.getAuctionId()+"\" width=70 height=21 back=\"L2UI.DefaultButton_click\" fore=\"L2UI.DefaultButton\">";
 			html += "</td></tr>";
 		}
 		html += "</table><br><br>";
 		
-		html += "Page: " + page;
+		html += "Page: "+page;
 		html += "<br><button value=\"Back\" action=\"bypass -h npc_" + getObjectId() + "_Chat 0" + "\" width=134 height=21 back=\"L2UI_ch3.BigButton3_over\" fore=\"L2UI_ch3.BigButton3\">";
 		html += "<br1>";
 		
 		if (items.keySet().size() > 1)
 		{
 			if (page > 1)
-				html += "<a action=\"bypass -h npc_" + getObjectId() + "_myitems " + (page - 1) + "\"><- Prev</a>";
+				html += "<a action=\"bypass -h npc_"+getObjectId()+"_myitems "+(page-1)+"\"><- Prev</a>";
 			
 			if (items.keySet().size() > page)
-				html += "<a action=\"bypass -h npc_" + getObjectId() + "_myitems " + (page + 1) + "\">Next -></a>";
+				html += "<a action=\"bypass -h npc_"+getObjectId()+"_myitems "+(page+1)+"\">Next -></a>";
 		}
 		
 		html += "</center></body></html>";
@@ -268,9 +279,8 @@ public class AuctionManager extends Npc
 		
 		String html = "";
 		html += "<html><title>Auction Shop</title><body><center><br1>";
-		IconTable.getInstance();
-		html += "<img src=\"" + IconTable.getIcon(item.getItemId()) + "\" width=32 height=32 align=center>";
-		html += "Item: " + (item.getEnchantLevel() > 0 ? "+" + item.getEnchantLevel() + " " + item.getName() : item.getName());
+		html += "<td><img src=\"" + IconTable.getIcon(item.getItemId()) + "\" width=32 height=32 align=center></td>";
+		html += "Item: "+(item.getEnchantLevel() > 0 ? "+"+item.getEnchantLevel()+" "+item.getName() : item.getName());
 		
 		if (item.isStackable())
 		{
@@ -281,7 +291,7 @@ public class AuctionManager extends Npc
 		html += "<br>Select price:";
 		html += "<br><combobox width=120 height=17 var=ebox list=Adena;>";
 		html += "<br><edit var=count type=number width=120 height=17>";
-		html += "<br><button value=\"Add item\" action=\"bypass -h npc_" + getObjectId() + "_addit2 " + itemId + " $ebox $count " + (item.isStackable() ? "$amm" : "1") + "\" width=70 height=21 back=\"L2UI_ch3.BigButton3_over\" fore=\"L2UI_ch3.BigButton3\">";
+		html += "<br><button value=\"Add item\" action=\"bypass -h npc_"+getObjectId()+"_addit2 "+itemId+" $ebox $count "+(item.isStackable() ? "$amm" : "1")+"\" width=70 height=21 back=\"L2UI.DefaultButton_click\" fore=\"L2UI.DefaultButton\">";
 		html += "<br><button value=\"Back\" action=\"bypass -h npc_" + getObjectId() + "_Chat 0" + "\" width=134 height=21 back=\"L2UI_ch3.BigButton3_over\" fore=\"L2UI_ch3.BigButton3\">";
 		html += "</center></body></html>";
 		
@@ -299,7 +309,7 @@ public class AuctionManager extends Npc
 		ArrayList<ItemInstance> temp = new ArrayList<>();
 		for (ItemInstance item : player.getInventory().getItems())
 		{
-			if (item.getItemId() != Config.AUCTION_ITEM_ID && item.isTradable())
+			if (item.getItemId() != 57 && item.isTradable())
 			{
 				temp.add(item);
 				
@@ -332,26 +342,25 @@ public class AuctionManager extends Npc
 		{
 			html += "<tr>";
 			html += "<td>";
-			IconTable.getInstance();
-			html += "<img src=\"" + IconTable.getIcon(item.getItemId()) + "\" width=32 height=32 align=center></td>";
-			html += "<td>" + (item.getEnchantLevel() > 0 ? "+" + item.getEnchantLevel() + " " + item.getName() : item.getName());
+			html += "<td><img src=\"" + IconTable.getIcon(item.getItemId()) + "\" width=32 height=32 align=center></td>";
+			html += "<td>"+(item.getEnchantLevel() > 0 ? "+"+item.getEnchantLevel()+" "+item.getName() : item.getName());
 			html += "</td>";
-			html += "<td><button value=\"Select\" action=\"bypass -h npc_" + getObjectId() + "_additem " + item.getObjectId() + "\" width=70 height=21 back=\"L2UI_ch3.BigButton3_over\" fore=\"L2UI_ch3.BigButton3\">";
+			html += "<td><button value=\"Select\" action=\"bypass -h npc_"+getObjectId()+"_additem "+item.getObjectId()+"\" width=70 height=21 back=\"L2UI.DefaultButton_click\" fore=\"L2UI.DefaultButton\">";
 			html += "</td>";
 			html += "</tr>";
 		}
 		html += "</table><br><br>";
 		
-		html += "Page: " + page;
+		html += "Page: "+page;
 		html += "<br1>";
 		
 		if (items.keySet().size() > 1)
 		{
 			if (page > 1)
-				html += "<a action=\"bypass -h npc_" + getObjectId() + "_addpanel " + (page - 1) + "\"><- Prev</a>";
+				html += "<a action=\"bypass -h npc_"+getObjectId()+"_addpanel "+(page-1)+"\"><- Prev</a>";
 			
 			if (items.keySet().size() > page)
-				html += "<a action=\"bypass -h npc_" + getObjectId() + "_addpanel " + (page + 1) + "\">Next -></a>";
+				html += "<a action=\"bypass -h npc_"+getObjectId()+"_addpanel "+(page+1)+"\">Next -></a>";
 		}
 		html += "<br><button value=\"Back\" action=\"bypass -h npc_" + getObjectId() + "_Chat 0" + "\" width=134 height=21 back=\"L2UI_ch3.BigButton3_over\" fore=\"L2UI_ch3.BigButton3\">";
 		html += "</center></body></html>";
@@ -459,50 +468,49 @@ public class AuctionManager extends Npc
 		
 		String html = "<html><title>Auction Shop</title><body><center><br1>";
 		html += "<multiedit var=srch width=150 height=20><br1>";
-		html += "<button value=\"Search\" action=\"bypass -h npc_" + getObjectId() + "_auction 1 - $srch\" width=70 height=21 back=\"L2UI_ch3.BigButton3_over\" fore=\"L2UI_ch3.BigButton3\">";
+		html += "<button value=\"Search\" action=\"bypass -h npc_"+getObjectId()+"_auction 1 - $srch\" width=70 height=21 back=\"L2UI.DefaultButton_click\" fore=\"L2UI.DefaultButton\">";
 		html += "<br><table width=310 bgcolor=000000 border=1>";
 		html += "<tr><td>Item</td><td>Cost</td><td></td></tr>";
 		for (AuctionItem item : items.get(page))
 		{
 			html += "<tr>";
-			IconTable.getInstance();
 			html += "<td><img src=\"" + IconTable.getIcon(item.getItemId()) + "\" width=32 height=32 align=center></td>";
-			html += "<td>Item: " + (item.getEnchant() > 0 ? "+" + item.getEnchant() + " " + ItemTable.getInstance().getTemplate(item.getItemId()).getName() + " - " + item.getCount() : ItemTable.getInstance().getTemplate(item.getItemId()).getName() + " - " + item.getCount());
-			html += "<br1>Cost: " + item.getCostCount() + " " + ItemTable.getInstance().getTemplate(item.getCostId()).getName();
+			html += "<td>Item: "+(item.getEnchant() > 0 ? "+"+item.getEnchant()+" "+ItemTable.getInstance().getTemplate(item.getItemId()).getName()+" - "+item.getCount() : ItemTable.getInstance().getTemplate(item.getItemId()).getName()+" - "+item.getCount());
+			html += "<br1>Cost: "+item.getCostCount()+" "+ItemTable.getInstance().getTemplate(item.getCostId()).getName();
 			html += "</td>";
-			html += "<td fixwidth=71><button value=\"Buy\" action=\"bypass -h npc_" + getObjectId() + "_buy " + item.getAuctionId() + "\" width=70 height=21 back=\"L2UI_ch3.BigButton3_over\" fore=\"L2UI_ch3.BigButton3\">";
+			html += "<td fixwidth=71><button value=\"Buy\" action=\"bypass -h npc_"+getObjectId()+"_buy "+item.getAuctionId()+"\" width=70 height=21 back=\"L2UI.DefaultButton_click\" fore=\"L2UI.DefaultButton\">";
 			html += "</td></tr>";
 		}
 		html += "</table><br><br>";
 		
-		html += "Page: " + page;
+		html += "Page: "+page;
 		html += "<br1>";
 		
 		if (items.keySet().size() > 1)
 		{
 			if (page > 1)
-				html += "<a action=\"bypass -h npc_" + getObjectId() + "_auction " + (page - 1) + " - " + search + "\"><- Prev</a>";
+				html += "<a action=\"bypass -h npc_"+getObjectId()+"_auction "+(page-1)+" - "+search+"\"><- Prev</a>";
 			
 			if (items.keySet().size() > page)
-				html += "<a action=\"bypass -h npc_" + getObjectId() + "_auction " + (page + 1) + " - " + search + "\">Next -></a>";
+				html += "<a action=\"bypass -h npc_"+getObjectId()+"_auction "+(page+1)+" - "+search+"\">Next -></a>";
 		}
-		html += "<br><button value=\"Back\" action=\"bypass -h npc_" + getObjectId() + "_Chat 0" + "\" width=134 height=21 back=\"L2UI_ch3.BigButton3_over\" fore=\"L2UI_ch3.BigButton3\">";
+		html += "<br><button value=\"Back\" action=\"bypass -h npc_" + getObjectId() + "_Chat 0" + "\" width=134 height=21 back=\"L2UI_ch3.BigButton3_over\" fore=\"L2UI_ch3.BigButton3\">";		
 		html += "</center></body></html>";
 		
 		NpcHtmlMessage htm = new NpcHtmlMessage(getObjectId());
 		htm.setHtml(html);
 		player.sendPacket(htm);
 	}
-
-	@Override
+	
+    @Override
 	public String getHtmlPath(int npcId, int val)
-	{
-		String pom = "";
-		if (val == 0)
-			pom = "" + npcId;
-		else
-			pom = npcId + "-" + val;
-
-		return "data/html/mods/auction/" + pom + ".htm";
-	}
+    {
+        String pom = "";
+        if (val == 0)
+            pom = "" + npcId;
+        else
+            pom = npcId + "-" + val;
+                
+        return "data/html/mods/auction/" + pom + ".htm";
+    }
 }
